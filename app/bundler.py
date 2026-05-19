@@ -27,6 +27,26 @@ def _bundle_arcname(paper: NormalizedPaper) -> str:
     )
 
 
+def _load_existing_entries_by_canonical(bundle_dir: Path) -> dict[str, dict[str, bytes]]:
+    existing_entries: dict[str, dict[str, bytes]] = {}
+    for archive_path in sorted(bundle_dir.glob("*.zip")):
+        try:
+            with zipfile.ZipFile(archive_path, "r") as archive:
+                if "bundle.json" not in archive.namelist():
+                    continue
+                manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
+                canonical_id = manifest.get("canonical_id")
+                if not canonical_id:
+                    continue
+                entries = existing_entries.setdefault(canonical_id, {})
+                for name in archive.namelist():
+                    if name != "bundle.json":
+                        entries[name] = archive.read(name)
+        except (OSError, ValueError, zipfile.BadZipFile):
+            continue
+    return existing_entries
+
+
 def build_bundles(
     bundle_dir: Path,
     mirror_dir: Path,
@@ -34,6 +54,7 @@ def build_bundles(
     bundle_base_url: str,
 ) -> BundleBuildResult:
     bundle_dir.mkdir(parents=True, exist_ok=True)
+    existing_entries_by_canonical = _load_existing_entries_by_canonical(bundle_dir)
     grouped: dict[str, list[NormalizedPaper]] = {}
     for paper in normalized.papers:
         grouped.setdefault(paper.canonical_id, []).append(paper)
@@ -52,17 +73,14 @@ def build_bundles(
             key=lambda item: (-item.year_roc, item.source_exam_id, item.category_code, item.subject_code, item.file_type),
         )
 
-        existing_entries: dict[str, bytes] = {}
-        if bundle_path.exists():
-            with zipfile.ZipFile(bundle_path, "r") as previous_archive:
-                for name in previous_archive.namelist():
-                    if name != "bundle.json":
-                        existing_entries[name] = previous_archive.read(name)
+        existing_entries = dict(existing_entries_by_canonical.get(canonical_id, {}))
 
         included_papers: list[NormalizedPaper] = []
         included_years: set[int] = set()
         file_count = 0
         download_url = f"{bundle_base_url.rstrip('/')}/{asset_name}" if bundle_base_url else ""
+        for paper in papers:
+            paper.download_url_bundle = ""
 
         with zipfile.ZipFile(bundle_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
             for paper in ordered:
@@ -121,7 +139,7 @@ def build_bundles(
             bundle_path.unlink(missing_ok=True)
             continue
 
-        for paper in papers:
+        for paper in included_papers:
             paper.download_url_bundle = download_url
 
         bundle_assets.append(

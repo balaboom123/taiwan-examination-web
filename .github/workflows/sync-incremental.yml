@@ -35,7 +35,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p bundles
-          gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles || true
+          gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
 
       - name: Run incremental sync
         run: >
