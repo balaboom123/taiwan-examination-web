@@ -3,37 +3,34 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from app.models import AliasRule, NormalizedCatalog, NormalizedPaper, SourceExamPage, to_plain_data
+from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 
 
-def write_data_files(data_dir: Path, raw_pages: list[SourceExamPage], normalized: NormalizedCatalog, aliases: list[AliasRule]) -> None:
+def write_data_files(
+    data_dir: Path,
+    raw_pages: list[SourceExamPage],
+    normalized: NormalizedCatalog,
+    aliases: list[AliasRule],
+    bundles: list[BundleAsset],
+    failures: list[SyncFailure],
+) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
     (data_dir / "exams.raw.json").write_text(json.dumps(to_plain_data(raw_pages), ensure_ascii=False, indent=2), encoding="utf-8")
     (data_dir / "papers.json").write_text(json.dumps(to_plain_data(normalized.papers), ensure_ascii=False, indent=2), encoding="utf-8")
+    (data_dir / "bundles.json").write_text(json.dumps(to_plain_data(bundles), ensure_ascii=False, indent=2), encoding="utf-8")
     (data_dir / "review-queue.json").write_text(
         json.dumps(to_plain_data(normalized.review_queue), ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    (data_dir / "aliases.json").write_text(json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2), encoding="utf-8")
-    (data_dir / "release-assets.json").write_text(
-        json.dumps(_collect_release_assets(raw_pages), ensure_ascii=False, indent=2),
+    (data_dir / "sync-failures.json").write_text(
+        json.dumps(to_plain_data(failures), ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-
-
-def _collect_release_assets(raw_pages: list[SourceExamPage]) -> list[dict[str, str]]:
-    assets: list[dict[str, str]] = []
-    for page in raw_pages:
-        for attachment in page.attachments:
-            if attachment.storage_key:
-                assets.append({"storage_key": attachment.storage_key, "asset_name": attachment.asset_name or attachment.storage_key.replace("/", "__")})
-        for paper in page.papers:
-            for file_meta in paper.mirror_files.values():
-                storage_key = file_meta.get("storage_key")
-                if storage_key:
-                    assets.append({"storage_key": storage_key, "asset_name": file_meta.get("asset_name", storage_key.replace("/", "__"))})
-    deduped = {(asset["storage_key"], asset["asset_name"]): asset for asset in assets}
-    return list(deduped.values())
+    (data_dir / "aliases.json").write_text(json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2), encoding="utf-8")
+    (data_dir / "release-assets.json").write_text(
+        json.dumps([{"storage_key": bundle.storage_key, "asset_name": bundle.asset_name} for bundle in bundles], ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
 
 def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]:
@@ -42,9 +39,10 @@ def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]
     return names, years
 
 
-def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
+def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[BundleAsset]) -> None:
     site_dir.mkdir(parents=True, exist_ok=True)
     papers_json = json.dumps(to_plain_data(normalized.papers), ensure_ascii=False)
+    bundles_json = json.dumps(to_plain_data(bundles), ensure_ascii=False)
     canonical_names, years = _group_options(normalized.papers)
     name_options = "".join(f'<option value="{name}">{name}</option>' for name in canonical_names)
     year_options = "".join(f'<option value="{year}">{year}</option>' for year in years)
@@ -53,7 +51,7 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>考選部考古題鏡像</title>
+  <title>考選部考古題整併下載</title>
   <style>
     :root {{ color-scheme: light; --bg: #f2ede4; --card: #fffdf8; --ink: #202020; --accent: #0f766e; --line: #d9d2c5; }}
     body {{ margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; background: radial-gradient(circle at top, #fff8e8, var(--bg)); color: var(--ink); }}
@@ -61,6 +59,8 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
     h1 {{ margin-bottom: 8px; font-size: 2rem; }}
     p {{ margin-top: 0; color: #555; }}
     .controls {{ display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 24px 0; }}
+    .bundle-grid {{ display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 24px; }}
+    .bundle-card {{ background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: 0 8px 24px rgba(32,32,32,0.06); }}
     select {{ width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: white; }}
     table {{ width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; box-shadow: 0 14px 40px rgba(32,32,32,0.08); }}
     th, td {{ text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }}
@@ -71,8 +71,9 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
 </head>
 <body>
   <main>
-    <h1>考選部考古題鏡像</h1>
-    <p>先以結構化索引和基本瀏覽為主，保留原始名稱並提供跨年 canonical 聚合。</p>
+    <h1>考古題整併下載</h1>
+    <p>每個 canonical 類別提供一個跨年度整併 zip，讓使用者可以直接下載同科目多年考古題。</p>
+    <section class="bundle-grid" id="bundleCards"></section>
     <div class="controls">
       <label>類別<select id="canonicalFilter"><option value="">全部</option>{name_options}</select></label>
       <label>年度<select id="yearFilter"><option value="">全部</option>{year_options}</select></label>
@@ -84,7 +85,7 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
           <th>年度</th>
           <th>科目</th>
           <th>原始類別</th>
-          <th>鏡像</th>
+          <th>整併下載</th>
           <th>官方來源</th>
         </tr>
       </thead>
@@ -93,9 +94,21 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
   </main>
   <script>
     const papers = {papers_json};
+    const bundles = {bundles_json};
     const rows = document.getElementById('rows');
+    const bundleCards = document.getElementById('bundleCards');
     const canonicalFilter = document.getElementById('canonicalFilter');
     const yearFilter = document.getElementById('yearFilter');
+    bundleCards.innerHTML = bundles.map((bundle) => `
+      <article class="bundle-card">
+        <strong>${{bundle.canonical_name}}</strong>
+        <div class="muted">年份：${{bundle.years.join(', ')}}</div>
+        <div class="muted">檔案數：${{bundle.file_count}}</div>
+        <div style="margin-top: 10px;">
+          ${{bundle.download_url ? `<a href="${{bundle.download_url}}">下載整併 zip</a>` : '<span class="muted">尚未發布</span>'}}
+        </div>
+      </article>
+    `).join('');
     function render() {{
       const canonical = canonicalFilter.value;
       const year = yearFilter.value;
@@ -106,7 +119,7 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog) -> None:
           <td>${{paper.year_roc}}</td>
           <td>${{paper.subject_name_raw}}<div class="muted">${{paper.file_type}}</div></td>
           <td>${{paper.category_raw || paper.exam_name_raw}}</td>
-          <td>${{paper.download_url_mirror ? `<a href="${{paper.download_url_mirror}}">鏡像檔案</a>` : '<span class="muted">未設定</span>'}}</td>
+          <td>${{paper.download_url_bundle ? `<a href="${{paper.download_url_bundle}}">下載整併 zip</a>` : '<span class="muted">尚未發布</span>'}}</td>
           <td><a href="${{paper.download_url_source}}">官方連結</a></td>
         </tr>
       `).join('');

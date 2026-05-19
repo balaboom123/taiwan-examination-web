@@ -23,12 +23,34 @@ class CliBuildSiteTests(unittest.TestCase):
                             "year_roc": 115,
                             "exam_name_raw": "115年第一次專門職業及技術人員高等考試護理師考試",
                             "category_raw": "高等考試_護理師",
+                            "category_code": "101",
+                            "source_exam_id": "115030",
+                            "subject_code": "0101",
                             "subject_name_raw": "基礎醫學",
                             "paper_code": "101-0101-question",
                             "file_type": "question",
                             "download_url_source": "https://source.example/question.pdf",
-                            "download_url_mirror": "https://mirror.example/question.pdf",
-                            "checksum": "abc123",
+                            "download_url_mirror": "",
+                            "download_url_bundle": "https://bundles.example/nurse.zip",
+                            "storage_key": "115/115030/101/0101/question.pdf",
+                            "checksum": "abc123"
+                        }
+                    ],
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "bundles.json").write_text(
+                json.dumps(
+                    [
+                        {
+                            "canonical_id": "nurse",
+                            "canonical_name": "護理師",
+                            "years": [115],
+                            "file_count": 1,
+                            "storage_key": "bundles/nurse.zip",
+                            "asset_name": "nurse.zip",
+                            "download_url": "https://bundles.example/nurse.zip",
                         }
                     ],
                     ensure_ascii=False,
@@ -41,7 +63,7 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             html = (site_dir / "index.html").read_text(encoding="utf-8")
             self.assertIn("護理師", html)
-            self.assertIn("https://mirror.example/question.pdf", html)
+            self.assertIn("https://bundles.example/nurse.zip", html)
 
     def test_sync_incremental_years_flag_is_a_window_size(self) -> None:
         parser = build_parser()

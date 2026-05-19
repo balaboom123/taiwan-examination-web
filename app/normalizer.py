@@ -96,6 +96,7 @@ def normalize_papers(
         else:
             canonical_name = candidate or normalize_text(raw_category or exam_name_raw)
             canonical_id = _canonical_id(canonical_name)
+
         if not alias and _is_ambiguous(canonical_name):
             canonical_name = normalize_text(raw_category or exam_name_raw)
             canonical_id = _canonical_id(canonical_name)
@@ -107,6 +108,7 @@ def normalize_papers(
                     year_roc=year_roc,
                 )
             )
+
         for file_type, download_url_source in paper.files.items():
             metadata = mirror_metadata.get((paper.category_code, paper.subject_code, file_type), {})
             storage_key = metadata.get("storage_key", "")
@@ -119,11 +121,15 @@ def normalize_papers(
                     year_roc=year_roc,
                     exam_name_raw=exam_name_raw,
                     category_raw=paper.category_raw,
+                    category_code=paper.category_code,
+                    source_exam_id=source_exam_id,
+                    subject_code=paper.subject_code,
                     subject_name_raw=paper.subject_name_raw,
                     paper_code=f"{paper.category_code}-{paper.subject_code}-{file_type}",
                     file_type=file_type,
                     download_url_source=download_url_source,
                     download_url_mirror=download_url_mirror,
+                    storage_key=storage_key,
                     checksum=metadata.get("checksum", ""),
                 )
             )

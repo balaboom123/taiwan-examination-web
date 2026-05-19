@@ -82,14 +82,50 @@ class NormalizedPaper:
     paper_code: str
     file_type: str
     download_url_source: str
-    download_url_mirror: str
-    checksum: str
+    category_code: str = ""
+    source_exam_id: str = ""
+    subject_code: str = ""
+    download_url_mirror: str = ""
+    download_url_bundle: str = ""
+    storage_key: str = ""
+    checksum: str = ""
 
 
 @dataclass
 class NormalizedCatalog:
     papers: list[NormalizedPaper]
     review_queue: list[ReviewItem]
+
+
+@dataclass
+class BundleAsset:
+    canonical_id: str
+    canonical_name: str
+    years: list[int]
+    file_count: int
+    storage_key: str
+    asset_name: str
+    download_url: str = ""
+
+
+@dataclass
+class SyncFailure:
+    stage: str
+    source_exam_id: str
+    year_roc: int
+    paper_code: str
+    file_type: str
+    url: str
+    message: str
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+
+@dataclass
+class BundleBuildResult:
+    bundles: list[BundleAsset]
+    failures: list[SyncFailure]
 
 
 @dataclass
