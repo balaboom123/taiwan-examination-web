@@ -35,7 +35,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p bundles
-          gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
+          asset_count=$(gh release view "$MOEX_RELEASE_TAG" --json assets --jq '.assets | map(select(.name | endswith(".zip"))) | length')
+          if [ "$asset_count" -gt 0 ]; then
+            gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
+          fi
 
       - name: Run incremental sync
         run: >
