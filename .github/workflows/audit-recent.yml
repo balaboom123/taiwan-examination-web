@@ -1,0 +1,74 @@
+name: audit-recent
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "45 3 1 * *"
+
+permissions:
+  contents: write
+
+env:
+  MOEX_RELEASE_TAG: moex-bundles
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Ensure release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$MOEX_RELEASE_TAG" >/dev/null 2>&1 || \
+          gh release create "$MOEX_RELEASE_TAG" --title "MOEX canonical bundles" --notes "Canonical multi-year exam bundles"
+
+      - name: Download existing bundles
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p bundles
+          asset_count=$(gh release view "$MOEX_RELEASE_TAG" --json assets --jq '.assets | map(select(.name | endswith(".zip"))) | length')
+          if [ "$asset_count" -gt 0 ]; then
+            gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
+          fi
+
+      - name: Run recent audit
+        run: >
+          python -m app sync-incremental --years 2
+          --write-manifest
+          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+
+      - name: Upload canonical bundles
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          tag = "moex-bundles"
+          assets = json.loads(Path("data/release-assets.json").read_text(encoding="utf-8"))
+          for asset in assets:
+              local_path = Path(asset["storage_key"])
+              if not local_path.exists():
+                  continue
+              spec = f"{local_path}#{asset['asset_name']}"
+              subprocess.run(["gh", "release", "upload", tag, spec, "--clobber"], check=True)
+          PY
+
+      - name: Commit audited data and site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data site
+          git diff --cached --quiet || git commit -m "chore: audit recent canonical bundles"
+          git push

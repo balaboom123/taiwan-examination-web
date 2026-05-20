@@ -1,7 +1,7 @@
 import unittest
 
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper, ReviewItem, SourceExamPage
-from app.state import merge_incremental_state
+from app.state import merge_incremental_state, merge_targeted_state
 
 
 class IncrementalStateTests(unittest.TestCase):
@@ -134,6 +134,59 @@ class IncrementalStateTests(unittest.TestCase):
         )
         self.assertEqual({bundle.canonical_id for bundle in preserved_bundles}, {"teacher"})
         self.assertEqual(affected_canonical_ids, {"nurse"})
+
+    def test_merge_targeted_state_removes_deleted_exam_and_marks_previous_canonical(self) -> None:
+        existing_raw_pages = [
+            SourceExamPage(source_exam_id="115040", year_ad=2026, year_roc=115, exam_name_raw="keep", attachments=[], papers=[]),
+            SourceExamPage(source_exam_id="115030", year_ad=2026, year_roc=115, exam_name_raw="remove", attachments=[], papers=[]),
+        ]
+        existing_catalog = NormalizedCatalog(
+            papers=[
+                NormalizedPaper(
+                    canonical_id="nurse",
+                    canonical_name="Nurse",
+                    year_roc=115,
+                    exam_name_raw="keep",
+                    category_raw="Nurse",
+                    subject_name_raw="Subject",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://source.example/keep.pdf",
+                    source_exam_id="115040",
+                ),
+                NormalizedPaper(
+                    canonical_id="doctor",
+                    canonical_name="Doctor",
+                    year_roc=115,
+                    exam_name_raw="remove",
+                    category_raw="Doctor",
+                    subject_name_raw="Subject",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://source.example/remove.pdf",
+                    source_exam_id="115030",
+                ),
+            ],
+            review_queue=[],
+        )
+        existing_bundles = [
+            BundleAsset(canonical_id="nurse", canonical_name="Nurse", years=[115], file_count=1, storage_key="bundles/nurse.zip", asset_name="nurse.zip"),
+            BundleAsset(canonical_id="doctor", canonical_name="Doctor", years=[115], file_count=1, storage_key="bundles/doctor.zip", asset_name="doctor.zip"),
+        ]
+
+        merged_raw_pages, merged_catalog, preserved_bundles, affected_canonical_ids = merge_targeted_state(
+            existing_raw_pages=existing_raw_pages,
+            existing_catalog=existing_catalog,
+            existing_bundles=existing_bundles,
+            refreshed_raw_pages=[],
+            refreshed_catalog=NormalizedCatalog(papers=[], review_queue=[]),
+            removed_exam_ids={"115030"},
+        )
+
+        self.assertEqual([page.source_exam_id for page in merged_raw_pages], ["115040"])
+        self.assertEqual([paper.source_exam_id for paper in merged_catalog.papers], ["115040"])
+        self.assertEqual({bundle.canonical_id for bundle in preserved_bundles}, {"nurse"})
+        self.assertEqual(affected_canonical_ids, {"doctor"})
 
 
 if __name__ == "__main__":

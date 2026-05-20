@@ -261,6 +261,16 @@ class DownloadedFile:
     file_name: str
 
 
+@dataclass
+class ResponseMetadata:
+    url: str
+    status: int
+    content_length: int | None = None
+    content_type: str = ""
+    content_disposition: str = ""
+    cache_control: str = ""
+
+
 class MoexClient:
     def __init__(self, user_agent: str = USER_AGENT, ssl_context: ssl.SSLContext | None = None) -> None:
         self.user_agent = user_agent
@@ -270,6 +280,19 @@ class MoexClient:
         request = Request(url, headers={"User-Agent": self.user_agent})
         with urlopen(request, timeout=60, context=self.ssl_context) as response:
             return response.read().decode("utf-8", "ignore")
+
+    def head(self, url: str) -> ResponseMetadata:
+        request = Request(url, headers={"User-Agent": self.user_agent}, method="HEAD")
+        with urlopen(request, timeout=60, context=self.ssl_context) as response:
+            content_length = response.headers.get("Content-Length")
+            return ResponseMetadata(
+                url=url,
+                status=response.status,
+                content_length=int(content_length) if content_length else None,
+                content_type=response.headers.get("Content-Type", ""),
+                content_disposition=response.headers.get("Content-Disposition", ""),
+                cache_control=response.headers.get("Cache-Control", ""),
+            )
 
     def discover_available_years(self) -> list[int]:
         return parse_search_page(self._fetch_text(urljoin(BASE_URL, SEARCH_PATH))).available_years
