@@ -56,6 +56,36 @@ def merge_incremental_state(
     )
 
 
+def merge_targeted_state(
+    existing_raw_pages: list[SourceExamPage],
+    existing_catalog: NormalizedCatalog,
+    existing_bundles: list[BundleAsset],
+    refreshed_raw_pages: list[SourceExamPage],
+    refreshed_catalog: NormalizedCatalog,
+    removed_exam_ids: set[str],
+) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str]]:
+    refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+    replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
+    merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in replaced_exam_ids] + refreshed_raw_pages
+    merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in replaced_exam_ids] + refreshed_catalog.papers
+    merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in replaced_exam_ids] + refreshed_catalog.review_queue
+
+    affected_canonical_ids = {paper.canonical_id for paper in existing_catalog.papers if paper.source_exam_id in replaced_exam_ids}
+    affected_canonical_ids.update(paper.canonical_id for paper in refreshed_catalog.papers)
+    active_canonical_ids = {paper.canonical_id for paper in merged_papers}
+    preserved_bundles = [
+        bundle
+        for bundle in existing_bundles
+        if bundle.canonical_id in active_canonical_ids and bundle.canonical_id not in affected_canonical_ids
+    ]
+    return (
+        merged_raw_pages,
+        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
+        preserved_bundles,
+        affected_canonical_ids,
+    )
+
+
 def filter_catalog_by_canonical_ids(catalog: NormalizedCatalog, canonical_ids: set[str]) -> NormalizedCatalog:
     return NormalizedCatalog(
         papers=[paper for paper in catalog.papers if paper.canonical_id in canonical_ids],

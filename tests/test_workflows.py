@@ -3,26 +3,34 @@ from pathlib import Path
 
 
 class WorkflowTests(unittest.TestCase):
-    def test_incremental_workflow_does_not_ignore_bundle_download_failures(self) -> None:
+    def test_incremental_workflow_probes_before_syncing(self) -> None:
         workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
-        self.assertIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles', workflow)
-        self.assertNotIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles || true', workflow)
+        self.assertIn("python -m app probe-latest --years 2", workflow)
+        self.assertIn("python -m app sync-targeted", workflow)
+        self.assertLess(workflow.index("python -m app probe-latest"), workflow.index("python -m app sync-targeted"))
 
-    def test_incremental_workflow_checks_for_existing_release_assets_before_download(self) -> None:
+    def test_incremental_workflow_can_exit_before_heavy_steps_when_unchanged(self) -> None:
         workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
-        self.assertIn('gh release view "$MOEX_RELEASE_TAG" --json assets', workflow)
-        self.assertIn('if [ "$asset_count" -gt 0 ]', workflow)
+        self.assertIn("steps.probe.outputs.should_sync == 'true'", workflow)
+        self.assertIn(".tmp/source-probe.json", workflow)
 
-    def test_incremental_workflow_runs_weekly_for_latest_year(self) -> None:
+    def test_incremental_workflow_does_not_download_release_bundles_before_probe(self) -> None:
         workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
-        self.assertIn('- cron: "15 3 * * 1"', workflow)
-        self.assertIn("python -m app sync-incremental --years 1", workflow)
+        self.assertNotIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles', workflow)
+        self.assertIn("--download-affected-bundles", workflow)
+
+    def test_monthly_audit_workflow_exists(self) -> None:
+        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "audit-recent.yml"
+        workflow = workflow_path.read_text(encoding="utf-8")
+
+        self.assertIn('- cron: "45 3 1 * *"', workflow)
+        self.assertIn("python -m app sync-incremental --years 2", workflow)
 
 
 if __name__ == "__main__":

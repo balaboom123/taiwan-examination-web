@@ -18,12 +18,19 @@
 
 ```bash
 python -m app discover
+python -m app probe-latest --years 2 --output .tmp/source-probe.json --write-manifest
+python -m app sync-targeted --probe .tmp/source-probe.json
 python -m app sync-full
 python -m app sync-incremental --years 1
 python -m app build-site
 ```
 
-`sync-incremental --years 1` 代表抓最新 1 個可用年度，並重新產生受影響 canonical 的 zip。排程 workflow 目前每週執行一次。
+- `probe-latest` 只做低成本檢查，輸出 `.tmp/source-probe.json`，並用 `data/source-manifest.json` 記錄穩定 fingerprint。
+- `sync-targeted` 讀取 probe 結果，只同步有變動的 exam；若 `should_sync=false`，會直接結束，不重建資料與 site。
+- `sync-incremental --years 1` 仍可手動使用，代表抓最新 1 個可用年度，並重新產生受影響 canonical 的 zip。
+- `sync-full` 是人工復原與完整重建路徑。
+
+排程 workflow 目前每週先跑 `probe-latest`。沒有變更時，不下載 PDF、不上傳 bundles、不 commit `data/` 或 `site/`。
 
 ## Bundle URL
 
@@ -66,6 +73,7 @@ zip 內部會再按年度與官方考試代碼分層，例如：
 
 - 主抓取入口使用穩定的 GET 結果頁：`wFrmExamQandASearch.aspx?e=<exam_code>&y=<year_ad>`
 - 目前下載型別支援 `Q`、`S`、`M`、`A`、`B`
+- `sync-full` 預設下載 exam-level attachments；`sync-incremental` 與 `sync-targeted` 預設不下載 attachments，可用 `--download-attachments` 顯式開啟
 - 無法安全合併的名稱會保留原始值並進入 review queue
 - GitHub workflow 只會上傳 `bundles/*.zip`，不再把每一份 PDF 當 release asset
-- incremental workflow 會先下載現有 release bundles，再只重建受影響的 canonical zip
+- incremental workflow 會先 probe；只有偵測到變更時才下載現有 release bundles 並執行 targeted sync

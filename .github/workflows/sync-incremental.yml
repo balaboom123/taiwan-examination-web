@@ -23,29 +23,40 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Probe latest source changes
+        id: probe
+        run: |
+          mkdir -p .tmp
+          python -m app probe-latest --years 2 --write-manifest --output .tmp/source-probe.json
+          should_sync=$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          print(str(json.loads(Path(".tmp/source-probe.json").read_text(encoding="utf-8")).get("should_sync", False)).lower())
+          PY
+          )
+          echo "should_sync=$should_sync" >> "$GITHUB_OUTPUT"
+
       - name: Ensure release exists
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view "$MOEX_RELEASE_TAG" >/dev/null 2>&1 || \
           gh release create "$MOEX_RELEASE_TAG" --title "MOEX canonical bundles" --notes "Canonical multi-year exam bundles"
 
-      - name: Download existing bundles
+      - name: Run targeted sync
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p bundles
-          asset_count=$(gh release view "$MOEX_RELEASE_TAG" --json assets --jq '.assets | map(select(.name | endswith(".zip"))) | length')
-          if [ "$asset_count" -gt 0 ]; then
-            gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
-          fi
-
-      - name: Run incremental sync
         run: >
-          python -m app sync-incremental --years 1
+          python -m app sync-targeted --probe .tmp/source-probe.json
+          --download-affected-bundles
+          --release-tag "${{ env.MOEX_RELEASE_TAG }}"
           --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
 
       - name: Upload canonical bundles
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -65,6 +76,7 @@ jobs:
           PY
 
       - name: Remove stale release assets
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -82,9 +94,10 @@ jobs:
           PY
 
       - name: Commit regenerated data and site
+        if: steps.probe.outputs.should_sync == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data site
-          git diff --cached --quiet || git commit -m "chore: refresh incremental canonical bundles"
+          git diff --cached --quiet || git commit -m "chore: refresh targeted canonical bundles"
           git push

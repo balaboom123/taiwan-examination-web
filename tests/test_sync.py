@@ -108,6 +108,25 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["answer", "question"])
         self.assertEqual(failures, [])
 
+    def test_sync_exam_pages_can_skip_attachment_downloads(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            client = ReuseExistingMirrorClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("115030", 2026)],
+                mirror_store=MirrorStore(Path(tmp_dir)),
+                alias_rules=[AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")],
+                mirror_base_url="",
+                download_attachments=False,
+            )
+
+        self.assertEqual(client.downloaded_urls, ["https://example.test/question.pdf", "https://example.test/answer.pdf"])
+        self.assertEqual(raw_pages[0].attachments[0].download_url_source, "https://example.test/all.pdf")
+        self.assertEqual(raw_pages[0].attachments[0].storage_key, "")
+        self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["answer", "question"])
+        self.assertEqual(failures, [])
+
 
 if __name__ == "__main__":
     unittest.main()

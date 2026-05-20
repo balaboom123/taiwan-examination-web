@@ -39,6 +39,7 @@ def sync_exam_pages(
     mirror_store: MirrorStore,
     alias_rules: list[AliasRule],
     mirror_base_url: str,
+    download_attachments: bool = True,
 ) -> tuple[list[SourceExamPage], NormalizedCatalog, list[SyncFailure]]:
     raw_pages: list[SourceExamPage] = []
     normalized_papers = []
@@ -49,29 +50,30 @@ def sync_exam_pages(
         page = client.fetch_exam_page(exam_code, year_ad)
         mirror_metadata: dict[tuple[str, str, str], dict[str, str]] = {}
 
-        for attachment in page.attachments:
-            try:
-                stored = mirror_store.find_existing(_mirror_prefix_for_attachment(page, attachment))
-                if stored is None:
-                    downloaded = client.download_file(attachment.download_url_source)
-                    storage_key = f"{_mirror_prefix_for_attachment(page, attachment)}{_extension_for(downloaded.content_type, downloaded.file_name)}"
-                    stored = mirror_store.write_bytes(storage_key, downloaded.data)
-                attachment.storage_key = stored.storage_key
-                attachment.asset_name = _asset_name_for(stored.storage_key)
-                attachment.checksum = stored.checksum
-                attachment.download_url_mirror = f"{mirror_base_url.rstrip('/')}/{attachment.asset_name}" if mirror_base_url else ""
-            except Exception as exc:
-                failures.append(
-                    SyncFailure(
-                        stage="download",
-                        source_exam_id=page.source_exam_id,
-                        year_roc=page.year_roc,
-                        paper_code=f"exam-{attachment.file_type}",
-                        file_type=attachment.file_type,
-                        url=attachment.download_url_source,
-                        message=str(exc),
+        if download_attachments:
+            for attachment in page.attachments:
+                try:
+                    stored = mirror_store.find_existing(_mirror_prefix_for_attachment(page, attachment))
+                    if stored is None:
+                        downloaded = client.download_file(attachment.download_url_source)
+                        storage_key = f"{_mirror_prefix_for_attachment(page, attachment)}{_extension_for(downloaded.content_type, downloaded.file_name)}"
+                        stored = mirror_store.write_bytes(storage_key, downloaded.data)
+                    attachment.storage_key = stored.storage_key
+                    attachment.asset_name = _asset_name_for(stored.storage_key)
+                    attachment.checksum = stored.checksum
+                    attachment.download_url_mirror = f"{mirror_base_url.rstrip('/')}/{attachment.asset_name}" if mirror_base_url else ""
+                except Exception as exc:
+                    failures.append(
+                        SyncFailure(
+                            stage="download",
+                            source_exam_id=page.source_exam_id,
+                            year_roc=page.year_roc,
+                            paper_code=f"exam-{attachment.file_type}",
+                            file_type=attachment.file_type,
+                            url=attachment.download_url_source,
+                            message=str(exc),
+                        )
                     )
-                )
 
         for paper in page.papers:
             for file_type, download_url in paper.files.items():
