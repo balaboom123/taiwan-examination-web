@@ -60,13 +60,10 @@ def write_data_files(
         encoding="utf-8",
     )
     (data_dir / "aliases.json").write_text(json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2), encoding="utf-8")
-    release_assets = []
-    for bundle in bundles:
-        release_assets.append({"storage_key": bundle.storage_key, "asset_name": bundle.asset_name, "checksum": bundle.checksum})
-        release_assets.extend(
-            {"storage_key": bundle.storage_key, "asset_name": asset_name, "checksum": bundle.checksum}
-            for asset_name in bundle.legacy_asset_names
-        )
+    release_assets = [
+        {"storage_key": bundle.storage_key, "asset_name": bundle.asset_name, "checksum": bundle.checksum}
+        for bundle in bundles
+    ]
     (data_dir / "release-assets.json").write_text(
         json.dumps(release_assets, ensure_ascii=False, indent=2),
         encoding="utf-8",

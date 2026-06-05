@@ -79,7 +79,6 @@ class PublisherTests(unittest.TestCase):
                 release_assets,
                 [
                     {"storage_key": "bundles/護理師__nurse.zip", "asset_name": "護理師__nurse.zip", "checksum": ""},
-                    {"storage_key": "bundles/護理師__nurse.zip", "asset_name": "nurse.zip", "checksum": ""},
                 ],
             )
 
