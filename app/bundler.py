@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from app.normalizer import hashed_fallback_canonical_id, legacy_fallback_canonical_id
-from app.models import BundleAsset, BundleBuildResult, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
+from app.models import BundleAsset, BundleBuildResult, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
 
 WINDOWS_RESERVED_NAMES = {
     "CON",
@@ -17,14 +17,6 @@ WINDOWS_RESERVED_NAMES = {
     "NUL",
     *(f"COM{index}" for index in range(1, 10)),
     *(f"LPT{index}" for index in range(1, 10)),
-}
-
-FILE_TYPE_LABELS = {
-    "question": "試題",
-    "answer": "答案",
-    "corrected_answer": "更正答案",
-    "all_answers": "全部答案",
-    "accessible_bundle": "無障礙題本",
 }
 
 

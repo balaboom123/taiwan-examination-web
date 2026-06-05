@@ -4,8 +4,8 @@ Mirror, normalize, and publish past exam papers from the MOEX exam search site.
 
 ## What This Repo Produces
 
-- `data/exams.raw.json`: parsed source exam pages
-- `data/papers.json`: normalized paper records
+- `data/exams/YYYY.json`: parsed source exam pages (split by year)
+- `data/papers/YYYY.json`: normalized paper records (split by year)
 - `data/bundles.json`: canonical bundle metadata
 - `data/review-queue.json`: category names that still need alias review
 - `data/sync-failures.json`: download or bundle failures

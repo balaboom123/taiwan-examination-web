@@ -155,6 +155,7 @@ jobs:
           else
             commit_message="chore: refresh targeted downloadable bundles"
           fi
-          git add data site
+          git add data
+          git add -f site
           git diff --cached --quiet || git commit -m "$commit_message"
           git push

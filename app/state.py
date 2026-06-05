@@ -5,7 +5,6 @@ from dataclasses import replace
 from pathlib import Path
 
 from app.models import (
-    AliasRule,
     BundleAsset,
     ExamAttachment,
     NormalizedCatalog,
@@ -178,38 +177,6 @@ def _load_json(path: Path) -> list[dict]:
     if not path.exists():
         return []
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _load_raw_pages(path: Path) -> list[SourceExamPage]:
-    pages = []
-    for item in _load_json(path):
-        pages.append(
-            SourceExamPage(
-                source_exam_id=item["source_exam_id"],
-                year_ad=item["year_ad"],
-                year_roc=item["year_roc"],
-                exam_name_raw=item["exam_name_raw"],
-                attachments=[ExamAttachment(**attachment) for attachment in item.get("attachments", [])],
-                papers=[
-                    ParsedPaper(
-                        category_raw=paper["category_raw"],
-                        category_code=paper["category_code"],
-                        subject_code=paper["subject_code"],
-                        subject_name_raw=paper["subject_name_raw"],
-                        files=paper.get("files", {}),
-                        mirror_files=paper.get("mirror_files", {}),
-                    )
-                    for paper in item.get("papers", [])
-                ],
-            )
-        )
-    return pages
-
-
-def _load_catalog(papers_path: Path, review_queue_path: Path) -> NormalizedCatalog:
-    papers = [NormalizedPaper(**paper) for paper in _load_json(papers_path)]
-    review_queue = [ReviewItem(**item) for item in _load_json(review_queue_path)]
-    return NormalizedCatalog(papers=papers, review_queue=review_queue)
 
 
 def _load_json_dir(directory: Path) -> list[dict]:

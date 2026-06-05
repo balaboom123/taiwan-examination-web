@@ -139,6 +139,7 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
         mirror_base_url="",
         download_attachments=args.download_attachments,
     )
+    # Abort on any failure: targeted sync only handles known-changed exams, partial writes are not safe
     if sync_failures:
         _print_failures(sync_failures)
         return 1
@@ -321,7 +322,7 @@ def build_parser() -> argparse.ArgumentParser:
             sync.add_argument("--years", dest="year_window", type=int, default=3)
         sync.set_defaults(handler=command_sync)
 
-    build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers.json.")
+    build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers/*.json.")
     build_site_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
     build_site_parser.add_argument("--site-dir", type=Path, default=repo_root / "site")
     build_site_parser.set_defaults(handler=command_build_site)

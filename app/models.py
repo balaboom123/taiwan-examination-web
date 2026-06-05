@@ -139,6 +139,15 @@ class StoredFile:
     size: int
 
 
+FILE_TYPE_LABELS = {
+    "question": "試題",
+    "answer": "答案",
+    "corrected_answer": "更正答案",
+    "all_answers": "全部答案",
+    "accessible_bundle": "無障礙題本",
+}
+
+
 def to_plain_data(value: Any) -> Any:
     if hasattr(value, "__dataclass_fields__"):
         return {key: to_plain_data(item) for key, item in asdict(value).items()}

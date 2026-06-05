@@ -1,17 +1,10 @@
 from __future__ import annotations
 
 import json
+from html import escape
 from pathlib import Path
 
-from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
-
-FILE_TYPE_LABELS = {
-    "question": "試題",
-    "answer": "答案",
-    "corrected_answer": "更正答案",
-    "all_answers": "全部答案",
-    "accessible_bundle": "無障礙題本",
-}
+from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 
 
 def _write_split_by_year(directory: Path, items: list, year_key: str) -> None:
@@ -98,13 +91,18 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
     for paper in normalized.papers:
         by_year.setdefault(paper.year_roc + 1911, []).append(paper)
     available_years = sorted(by_year.keys(), reverse=True)
+    existing_site_years = {int(f.stem) for f in papers_site_dir.glob("*.json") if f.stem.isdigit()}
+    written_site_years: set[int] = set()
     for year_ad, year_papers in by_year.items():
+        written_site_years.add(year_ad)
         (papers_site_dir / f"{year_ad}.json").write_text(
             json.dumps(to_plain_data(year_papers), ensure_ascii=False), encoding="utf-8"
         )
+    for stale_year in existing_site_years - written_site_years:
+        (papers_site_dir / f"{stale_year}.json").unlink(missing_ok=True)
     file_type_labels_json = json.dumps(FILE_TYPE_LABELS, ensure_ascii=False)
     canonical_names, years_roc = _group_options(normalized.papers)
-    name_options = "".join(f'<option value="{name}">{name}</option>' for name in canonical_names)
+    name_options = "".join(f'<option value="{escape(name, quote=True)}">{escape(name)}</option>' for name in canonical_names)
     year_options = "".join(f'<option value="{year}">{year}</option>' for year in years_roc)
     years_json = json.dumps(available_years)
     html = f"""<!DOCTYPE html>
@@ -166,7 +164,10 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
     const canonicalFilter = document.getElementById('canonicalFilter');
     const yearFilter = document.getElementById('yearFilter');
 
-    fetch('data/bundles.json').then(r => r.json()).then(bundles => {{
+    fetch('data/bundles.json').then(r => {{
+      if (!r.ok) throw new Error(`HTTP ${{r.status}}`);
+      return r.json();
+    }}).then(bundles => {{
       bundleCards.innerHTML = bundles.map(bundle => `
         <article class="bundle-card">
           <strong>${{bundle.canonical_name}}</strong>
@@ -177,11 +178,12 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
           </div>
         </article>
       `).join('');
-    }});
+    }}).catch(() => {{ bundleCards.innerHTML = '<p style="color:#c00">無法載入壓縮檔資料</p>'; }});
 
     async function loadYear(yearAd) {{
       if (paperCache[yearAd]) return paperCache[yearAd];
       const resp = await fetch(`data/papers/${{yearAd}}.json`);
+      if (!resp.ok) throw new Error(`HTTP ${{resp.status}}`);
       const data = await resp.json();
       paperCache[yearAd] = data;
       return data;
@@ -200,9 +202,18 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
         yearsToLoad = AVAILABLE_YEARS;
       }}
       const allPapers = [];
+      let loadFailed = false;
       for (const y of yearsToLoad) {{
-        allPapers.push(...await loadYear(y));
+        try {{ allPapers.push(...await loadYear(y)); }}
+        catch (e) {{
+          loading.textContent = `載入失敗：${{e.message}}`;
+          loading.style.display = '';
+          paperTable.style.display = 'none';
+          loadFailed = true;
+          break;
+        }}
       }}
+      if (loadFailed) return;
       const filtered = allPapers.filter(p => !canonical || p.canonical_name === canonical);
       loading.style.display = 'none';
       paperTable.style.display = '';
