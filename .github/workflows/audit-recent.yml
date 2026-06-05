@@ -23,14 +23,46 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Cache mirror directory
+        uses: actions/cache@v4
+        with:
+          path: mirror
+          key: moex-mirror-${{ hashFiles('data/source-manifest.json') }}
+          restore-keys: |
+            moex-mirror-
+
       - name: Ensure release exists
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view "$MOEX_RELEASE_TAG" >/dev/null 2>&1 || \
-          gh release create "$MOEX_RELEASE_TAG" --title "MOEX canonical bundles" --notes "Canonical multi-year exam bundles"
+          gh release create "$MOEX_RELEASE_TAG" --title "MOEX downloadable bundles" --notes "Human-friendly exam bundles with compatibility aliases"
+
+      - name: Inspect release coverage
+        id: release_state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          expected_zip_names=$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          assets = json.loads(Path("data/release-assets.json").read_text(encoding="utf-8"))
+          print(json.dumps(sorted(asset["asset_name"] for asset in assets if asset["asset_name"].endswith(".zip"))))
+          PY
+          )
+          current_release_zip_names=$(gh release view "$MOEX_RELEASE_TAG" --json assets --jq '.assets | map(select(.name | endswith(".zip")) | .name) | sort | @json')
+          if [ "$current_release_zip_names" != "$expected_zip_names" ]; then
+            bootstrap_required=true
+          else
+            bootstrap_required=false
+          fi
+          echo "expected_zip_names=$expected_zip_names" >> "$GITHUB_OUTPUT"
+          echo "current_release_zip_names=$current_release_zip_names" >> "$GITHUB_OUTPUT"
+          echo "bootstrap_required=$bootstrap_required" >> "$GITHUB_OUTPUT"
 
       - name: Download existing bundles
+        if: steps.release_state.outputs.bootstrap_required != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -40,13 +72,21 @@ jobs:
             gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
           fi
 
+      - name: Run bootstrap full sync
+        if: steps.release_state.outputs.bootstrap_required == 'true'
+        run: >
+          python -m app sync-full
+          --write-manifest
+          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+
       - name: Run recent audit
+        if: steps.release_state.outputs.bootstrap_required != 'true'
         run: >
           python -m app sync-incremental --years 2
           --write-manifest
           --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
 
-      - name: Upload canonical bundles
+      - name: Upload downloadable bundles
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -57,12 +97,33 @@ jobs:
 
           tag = "moex-bundles"
           assets = json.loads(Path("data/release-assets.json").read_text(encoding="utf-8"))
+          missing = []
           for asset in assets:
               local_path = Path(asset["storage_key"])
               if not local_path.exists():
+                  missing.append(str(local_path))
                   continue
               spec = f"{local_path}#{asset['asset_name']}"
               subprocess.run(["gh", "release", "upload", tag, spec, "--clobber"], check=True)
+          if missing:
+              raise SystemExit("Missing expected bundle files before upload:\n" + "\n".join(missing))
+          PY
+
+      - name: Remove stale release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          tag = "moex-bundles"
+          desired = {asset["asset_name"] for asset in json.loads(Path("data/release-assets.json").read_text(encoding="utf-8"))}
+          current = json.loads(subprocess.check_output(["gh", "release", "view", tag, "--json", "assets"], text=True))
+          for asset in current.get("assets", []):
+              if asset["name"].endswith(".zip") and asset["name"] not in desired:
+                  subprocess.run(["gh", "release", "delete-asset", tag, asset["name"], "--yes"], check=True)
           PY
 
       - name: Commit audited data and site
@@ -70,5 +131,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data site
-          git diff --cached --quiet || git commit -m "chore: audit recent canonical bundles"
+          git diff --cached --quiet || git commit -m "chore: audit recent downloadable bundles"
           git push

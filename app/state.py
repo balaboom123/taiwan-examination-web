@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 from app.models import (
@@ -20,8 +21,8 @@ def load_existing_state(data_dir: Path) -> tuple[list[SourceExamPage], Normalize
     if not data_dir.exists():
         return [], NormalizedCatalog(papers=[], review_queue=[]), [], []
     return (
-        _load_raw_pages(data_dir / "exams.raw.json"),
-        _load_catalog(data_dir / "papers.json", data_dir / "review-queue.json"),
+        _load_raw_pages_dir(data_dir / "exams"),
+        _load_catalog_dir(data_dir / "papers", data_dir / "review-queue.json"),
         _load_bundles(data_dir / "bundles.json"),
         _load_failures(data_dir / "sync-failures.json"),
     )
@@ -34,15 +35,22 @@ def merge_incremental_state(
     refreshed_raw_pages: list[SourceExamPage],
     refreshed_catalog: NormalizedCatalog,
     refreshed_year_rocs: set[int],
-) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str]]:
+) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
     merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in refreshed_exam_ids] + refreshed_raw_pages
     merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in refreshed_exam_ids] + refreshed_catalog.papers
     merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in refreshed_exam_ids] + refreshed_catalog.review_queue
+    migrations = _derive_canonical_migrations(existing_catalog, refreshed_catalog, refreshed_exam_ids)
+    merged_catalog = _apply_canonical_migrations(
+        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
+        migrations,
+    )
 
     affected_canonical_ids = {paper.canonical_id for paper in existing_catalog.papers if paper.source_exam_id in refreshed_exam_ids}
     affected_canonical_ids.update(paper.canonical_id for paper in refreshed_catalog.papers)
-    active_canonical_ids = {paper.canonical_id for paper in merged_papers}
+    affected_canonical_ids.update(migrations)
+    affected_canonical_ids.update(migration[0] for migration in migrations.values())
+    active_canonical_ids = {paper.canonical_id for paper in merged_catalog.papers}
     preserved_bundles = [
         bundle
         for bundle in existing_bundles
@@ -50,9 +58,10 @@ def merge_incremental_state(
     ]
     return (
         merged_raw_pages,
-        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
+        merged_catalog,
         preserved_bundles,
         affected_canonical_ids,
+        _canonical_aliases_from_migrations(migrations),
     )
 
 
@@ -63,16 +72,23 @@ def merge_targeted_state(
     refreshed_raw_pages: list[SourceExamPage],
     refreshed_catalog: NormalizedCatalog,
     removed_exam_ids: set[str],
-) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str]]:
+) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
     replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
     merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in replaced_exam_ids] + refreshed_raw_pages
     merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in replaced_exam_ids] + refreshed_catalog.papers
     merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in replaced_exam_ids] + refreshed_catalog.review_queue
+    migrations = _derive_canonical_migrations(existing_catalog, refreshed_catalog, replaced_exam_ids)
+    merged_catalog = _apply_canonical_migrations(
+        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
+        migrations,
+    )
 
     affected_canonical_ids = {paper.canonical_id for paper in existing_catalog.papers if paper.source_exam_id in replaced_exam_ids}
     affected_canonical_ids.update(paper.canonical_id for paper in refreshed_catalog.papers)
-    active_canonical_ids = {paper.canonical_id for paper in merged_papers}
+    affected_canonical_ids.update(migrations)
+    affected_canonical_ids.update(migration[0] for migration in migrations.values())
+    active_canonical_ids = {paper.canonical_id for paper in merged_catalog.papers}
     preserved_bundles = [
         bundle
         for bundle in existing_bundles
@@ -80,9 +96,10 @@ def merge_targeted_state(
     ]
     return (
         merged_raw_pages,
-        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
+        merged_catalog,
         preserved_bundles,
         affected_canonical_ids,
+        _canonical_aliases_from_migrations(migrations),
     )
 
 
@@ -91,6 +108,70 @@ def filter_catalog_by_canonical_ids(catalog: NormalizedCatalog, canonical_ids: s
         papers=[paper for paper in catalog.papers if paper.canonical_id in canonical_ids],
         review_queue=[item for item in catalog.review_queue if item.normalized_candidate in canonical_ids or item.raw_category in canonical_ids],
     )
+
+
+def _paper_family_key(paper: NormalizedPaper) -> tuple[str, str]:
+    family = paper.category_code or paper.category_raw or paper.canonical_name
+    return paper.source_exam_id, family
+
+
+def _derive_canonical_migrations(
+    existing_catalog: NormalizedCatalog,
+    refreshed_catalog: NormalizedCatalog,
+    replaced_exam_ids: set[str],
+) -> dict[str, tuple[str, str]]:
+    existing_by_family: dict[tuple[str, str], set[tuple[str, str]]] = {}
+    refreshed_by_family: dict[tuple[str, str], set[tuple[str, str]]] = {}
+    for paper in existing_catalog.papers:
+        if paper.source_exam_id in replaced_exam_ids:
+            existing_by_family.setdefault(_paper_family_key(paper), set()).add((paper.canonical_id, paper.canonical_name))
+    for paper in refreshed_catalog.papers:
+        if paper.source_exam_id in replaced_exam_ids:
+            refreshed_by_family.setdefault(_paper_family_key(paper), set()).add((paper.canonical_id, paper.canonical_name))
+
+    migrations: dict[str, tuple[str, str]] = {}
+    conflicts: set[str] = set()
+    for family_key, refreshed_targets in refreshed_by_family.items():
+        existing_targets = existing_by_family.get(family_key)
+        if not existing_targets or len(existing_targets) != 1 or len(refreshed_targets) != 1:
+            continue
+        old_id, _old_name = next(iter(existing_targets))
+        new_id, new_name = next(iter(refreshed_targets))
+        if old_id == new_id:
+            continue
+        previous = migrations.get(old_id)
+        if previous is None or previous == (new_id, new_name):
+            migrations[old_id] = (new_id, new_name)
+            continue
+        conflicts.add(old_id)
+    for old_id in conflicts:
+        migrations.pop(old_id, None)
+    return migrations
+
+
+def _apply_canonical_migrations(
+    catalog: NormalizedCatalog,
+    migrations: dict[str, tuple[str, str]],
+) -> NormalizedCatalog:
+    if not migrations:
+        return catalog
+    migrated_papers = []
+    for paper in catalog.papers:
+        migration = migrations.get(paper.canonical_id)
+        if migration is None:
+            migrated_papers.append(paper)
+            continue
+        migrated_papers.append(replace(paper, canonical_id=migration[0], canonical_name=migration[1]))
+    return NormalizedCatalog(papers=migrated_papers, review_queue=catalog.review_queue)
+
+
+def _canonical_aliases_from_migrations(migrations: dict[str, tuple[str, str]]) -> dict[str, list[str]]:
+    aliases: dict[str, list[str]] = {}
+    for old_id, (new_id, _new_name) in sorted(migrations.items()):
+        aliases.setdefault(new_id, []).append(old_id)
+    for alias_ids in aliases.values():
+        alias_ids.sort()
+    return aliases
 
 
 def _load_json(path: Path) -> list[dict]:
@@ -127,6 +208,47 @@ def _load_raw_pages(path: Path) -> list[SourceExamPage]:
 
 def _load_catalog(papers_path: Path, review_queue_path: Path) -> NormalizedCatalog:
     papers = [NormalizedPaper(**paper) for paper in _load_json(papers_path)]
+    review_queue = [ReviewItem(**item) for item in _load_json(review_queue_path)]
+    return NormalizedCatalog(papers=papers, review_queue=review_queue)
+
+
+def _load_json_dir(directory: Path) -> list[dict]:
+    if not directory.exists():
+        return []
+    items: list[dict] = []
+    for f in sorted(directory.glob("*.json")):
+        items.extend(json.loads(f.read_text(encoding="utf-8")))
+    return items
+
+
+def _load_raw_pages_dir(exams_dir: Path) -> list[SourceExamPage]:
+    pages = []
+    for item in _load_json_dir(exams_dir):
+        pages.append(
+            SourceExamPage(
+                source_exam_id=item["source_exam_id"],
+                year_ad=item["year_ad"],
+                year_roc=item["year_roc"],
+                exam_name_raw=item["exam_name_raw"],
+                attachments=[ExamAttachment(**attachment) for attachment in item.get("attachments", [])],
+                papers=[
+                    ParsedPaper(
+                        category_raw=paper["category_raw"],
+                        category_code=paper["category_code"],
+                        subject_code=paper["subject_code"],
+                        subject_name_raw=paper["subject_name_raw"],
+                        files=paper.get("files", {}),
+                        mirror_files=paper.get("mirror_files", {}),
+                    )
+                    for paper in item.get("papers", [])
+                ],
+            )
+        )
+    return pages
+
+
+def _load_catalog_dir(papers_dir: Path, review_queue_path: Path) -> NormalizedCatalog:
+    papers = [NormalizedPaper(**paper) for paper in _load_json_dir(papers_dir)]
     review_queue = [ReviewItem(**item) for item in _load_json(review_queue_path)]
     return NormalizedCatalog(papers=papers, review_queue=review_queue)
 

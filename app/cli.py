@@ -57,7 +57,11 @@ def command_discover(args: argparse.Namespace) -> int:
 
 
 def command_build_site(args: argparse.Namespace) -> int:
-    papers = json.loads((args.data_dir / "papers.json").read_text(encoding="utf-8"))
+    papers_dir = args.data_dir / "papers"
+    papers: list[dict] = []
+    if papers_dir.is_dir():
+        for f in sorted(papers_dir.glob("*.json")):
+            papers.extend(json.loads(f.read_text(encoding="utf-8")))
     bundles_path = args.data_dir / "bundles.json"
     bundles_data = json.loads(bundles_path.read_text(encoding="utf-8")) if bundles_path.exists() else []
     catalog = NormalizedCatalog(papers=[NormalizedPaper(**paper) for paper in papers], review_queue=[])
@@ -83,11 +87,11 @@ def command_probe_latest(args: argparse.Namespace) -> int:
 
 
 def _download_affected_bundles(bundle_dir: Path, existing_bundles: list[BundleAsset], affected_canonical_ids: set[str], release_tag: str) -> None:
-    asset_names = [
-        bundle.asset_name
-        for bundle in existing_bundles
-        if bundle.canonical_id in affected_canonical_ids and bundle.asset_name
-    ]
+    asset_names = []
+    for bundle in existing_bundles:
+        if bundle.canonical_id not in affected_canonical_ids:
+            continue
+        asset_names.extend([name for name in [bundle.asset_name, *bundle.legacy_asset_names] if name])
     if not asset_names:
         return
     bundle_dir.mkdir(parents=True, exist_ok=True)
@@ -101,6 +105,19 @@ def _write_probe_manifest_if_present(probe: dict[str, object], manifest_path: Pa
     updated_manifest = probe.get("updated_manifest")
     if isinstance(updated_manifest, dict):
         write_source_manifest(manifest_path, source_manifest_from_data(updated_manifest))
+
+
+def _print_failures(failures: list) -> None:
+    for failure in failures:
+        parts = [failure.stage, failure.source_exam_id]
+        if failure.paper_code:
+            parts.append(failure.paper_code)
+        if failure.file_type:
+            parts.append(failure.file_type)
+        detail = " ".join(parts)
+        print(f"{detail}: {failure.message}")
+        if failure.url:
+            print(f"  url: {failure.url}")
 
 
 def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None) -> int:
@@ -123,10 +140,11 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
         download_attachments=args.download_attachments,
     )
     if sync_failures:
+        _print_failures(sync_failures)
         return 1
     existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
-    raw_pages, normalized, preserved_bundles, affected_canonical_ids = merge_targeted_state(
+    raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_targeted_state(
         existing_raw_pages=existing_raw_pages,
         existing_catalog=existing_catalog,
         existing_bundles=existing_bundles,
@@ -141,8 +159,10 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
         mirror_dir=args.mirror_dir,
         normalized=filter_catalog_by_canonical_ids(normalized, affected_canonical_ids),
         bundle_base_url=args.bundle_base_url or args.mirror_base_url,
+        canonical_aliases=canonical_aliases,
     )
     if rebuild_result.failures:
+        _print_failures(rebuild_result.failures)
         return 1
     canonical_order = {bundle.canonical_id: bundle for bundle in preserved_bundles}
     for bundle in rebuild_result.bundles:
@@ -169,21 +189,44 @@ def command_sync(args: argparse.Namespace) -> int:
         years = _latest_years(client, args.year_window)
     else:
         years = _discover_years(client, args.years)
-    exam_codes = _collect_exam_codes(client, years)
     aliases = load_alias_rules(args.aliases)
-    refreshed_raw_pages, refreshed_catalog, sync_failures = sync_exam_pages(
-        client=client,
-        exam_codes=exam_codes,
-        mirror_store=MirrorStore(args.mirror_dir),
-        alias_rules=aliases,
-        mirror_base_url="",
-        download_attachments=args.download_attachments,
-    )
+    mirror_store = MirrorStore(args.mirror_dir)
+
+    all_raw_pages: list = []
+    all_papers: list = []
+    all_review_queue: list = []
+    all_sync_failures: list = []
+
+    for year in years:
+        exam_codes = [(exam.code, exam.year_ad) for exam in client.discover_exams(year)]
+        print(f"Syncing year {year} ({len(exam_codes)} exams)...")
+        try:
+            raw_pages_year, catalog_year, failures_year = sync_exam_pages(
+                client=client,
+                exam_codes=exam_codes,
+                mirror_store=mirror_store,
+                alias_rules=aliases,
+                mirror_base_url="",
+                download_attachments=args.download_attachments,
+            )
+        except Exception as exc:
+            print(f"Year {year}: failed with unexpected error: {exc}")
+            continue
+        all_raw_pages.extend(raw_pages_year)
+        all_papers.extend(catalog_year.papers)
+        all_review_queue.extend(catalog_year.review_queue)
+        all_sync_failures.extend(failures_year)
+        print(f"Year {year}: {len(raw_pages_year)} exams, {len(catalog_year.papers)} papers, {len(failures_year)} failures")
+
+    refreshed_raw_pages = all_raw_pages
+    refreshed_catalog = NormalizedCatalog(papers=all_papers, review_queue=all_review_queue)
+    sync_failures = all_sync_failures
+
     incremental_mode = getattr(args, "year_window", None) is not None
     if incremental_mode:
         existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
         refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
-        raw_pages, normalized, preserved_bundles, affected_canonical_ids = merge_incremental_state(
+        raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_incremental_state(
             existing_raw_pages=existing_raw_pages,
             existing_catalog=existing_catalog,
             existing_bundles=existing_bundles,
@@ -196,6 +239,7 @@ def command_sync(args: argparse.Namespace) -> int:
             mirror_dir=args.mirror_dir,
             normalized=filter_catalog_by_canonical_ids(normalized, affected_canonical_ids),
             bundle_base_url=args.bundle_base_url or args.mirror_base_url,
+            canonical_aliases=canonical_aliases,
         )
         canonical_order = {bundle.canonical_id: bundle for bundle in preserved_bundles}
         for bundle in rebuild_result.bundles:
@@ -222,6 +266,9 @@ def command_sync(args: argparse.Namespace) -> int:
         manifest = load_source_manifest(args.manifest)
         result = probe_latest(client=client, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
         write_source_manifest(args.manifest, result.updated_manifest)
+    if failures:
+        print(f"Completed with {len(failures)} failure(s). See data/sync-failures.json for details.")
+        return 1
     return 0
 
 
@@ -266,7 +313,7 @@ def build_parser() -> argparse.ArgumentParser:
         sync.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
         sync.add_argument("--bundle-base-url", default="")
         sync.add_argument("--mirror-base-url", default="")
-        sync.add_argument("--download-attachments", action="store_true", default=name == "sync-full")
+        sync.add_argument("--download-attachments", action="store_true", default=False)
         sync.add_argument("--write-manifest", action="store_true", default=False)
         if name == "sync-full":
             sync.add_argument("--years", nargs="*", type=int, default=None)

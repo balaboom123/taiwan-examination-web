@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import unicodedata
@@ -24,6 +25,16 @@ KNOWN_PREFIXES = [
     r"^普通考試",
     r"^特種考試",
 ]
+
+
+def legacy_fallback_canonical_id(candidate: str) -> str:
+    return "canonical-" + candidate.encode("utf-8").hex()[:16]
+
+
+def hashed_fallback_canonical_id(candidate: str) -> str:
+    normalized_candidate = normalize_text(candidate)
+    digest = hashlib.sha256(normalized_candidate.encode("utf-8")).hexdigest()[:16]
+    return f"canonical-{digest}"
 
 
 def load_alias_rules(path: Path) -> list[AliasRule]:
@@ -71,7 +82,7 @@ def _is_ambiguous(candidate: str) -> bool:
 def _canonical_id(candidate: str) -> str:
     if candidate in KNOWN_CANONICAL_IDS:
         return KNOWN_CANONICAL_IDS[candidate]
-    return "canonical-" + candidate.encode("utf-8").hex()[:16]
+    return hashed_fallback_canonical_id(candidate)
 
 
 def normalize_papers(

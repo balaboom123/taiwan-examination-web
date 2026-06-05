@@ -106,6 +106,8 @@ class BundleAsset:
     storage_key: str
     asset_name: str
     download_url: str = ""
+    checksum: str = ""
+    legacy_asset_names: list[str] = field(default_factory=list)
 
 
 @dataclass

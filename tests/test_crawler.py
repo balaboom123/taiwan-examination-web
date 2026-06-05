@@ -1,6 +1,7 @@
 import unittest
+from unittest.mock import patch
 
-from app.crawler import make_download_url, make_result_url, parse_result_page, parse_search_page
+from app.crawler import MoexClient, make_download_url, make_result_url, parse_result_page, parse_search_page
 
 
 SEARCH_HTML = """
@@ -11,9 +12,9 @@ SEARCH_HTML = """
     <option value="2024">113</option>
   </select>
   <select name="ctl00$holderContent$ddlExamCode" id="ctl00_holderContent_ddlExamCode">
-    <option value="">所有考試簡稱...</option>
-    <option value="114170">114年第三次專門職業及技術人員高等考試護理師考試</option>
-    <option value="114160">114年專門職業及技術人員高等考試心理師考試</option>
+    <option value="">請選擇考試...</option>
+    <option value="114170">114年專技高考護理師</option>
+    <option value="114160">114年專技高考藥師</option>
   </select>
 </body></html>
 """
@@ -24,12 +25,12 @@ RESULT_HTML = """
   <table id="ctl00_holderContent_tblExamQand">
     <tr>
       <td></td>
-      <td>115年第一次專門職業及技術人員高等考試營養師、護理師、社會工作師考試</td>
-      <td><a href="wHandExamQandA_File.ashx?t=B&amp;code=115030">盲用電腦專用試題</a></td>
-      <td><a href="wHandExamQandA_File.ashx?t=A&amp;code=115030">本考試所有測驗題標準答案</a></td>
+      <td>115年專技高考護理師</td>
+      <td><a href="wHandExamQandA_File.ashx?t=B&amp;code=115030">無障礙題本</a></td>
+      <td><a href="wHandExamQandA_File.ashx?t=A&amp;code=115030">全部答案</a></td>
     </tr>
     <tr>
-      <td></td><td></td><td></td><td>高等考試_護理師</td>
+      <td></td><td></td><td></td><td>護理師</td>
     </tr>
     <tr>
       <td></td><td></td><td></td>
@@ -65,14 +66,14 @@ class ParseResultPageTests(unittest.TestCase):
     def test_parse_result_page_extracts_attachments_and_subject_files(self) -> None:
         parsed = parse_result_page(RESULT_HTML, exam_code="115030", year_ad=2026)
 
-        self.assertEqual(parsed.exam_name_raw, "115年第一次專門職業及技術人員高等考試營養師、護理師、社會工作師考試")
+        self.assertEqual(parsed.exam_name_raw, "115年專技高考護理師")
         self.assertEqual(len(parsed.attachments), 2)
         self.assertEqual(parsed.attachments[0].file_type, "accessible_bundle")
         self.assertEqual(parsed.attachments[1].file_type, "all_answers")
         self.assertEqual(len(parsed.papers), 2)
 
         first_paper = parsed.papers[0]
-        self.assertEqual(first_paper.category_raw, "高等考試_護理師")
+        self.assertEqual(first_paper.category_raw, "護理師")
         self.assertEqual(first_paper.category_code, "101")
         self.assertEqual(first_paper.subject_code, "0101")
         self.assertEqual(first_paper.subject_name_raw, "基礎醫學")
@@ -91,6 +92,42 @@ class ParseResultPageTests(unittest.TestCase):
             make_download_url("wHandExamQandA_File.ashx?t=Q&code=115030&c=101&s=0101&q=1"),
             "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=Q&code=115030&c=101&s=0101&q=1",
         )
+
+
+class FakeTextResponse:
+    def __init__(self, body: bytes, content_type: str) -> None:
+        self._body = body
+        self.headers = {"Content-Type": content_type}
+
+    def read(self) -> bytes:
+        return self._body
+
+    def __enter__(self) -> "FakeTextResponse":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        return False
+
+
+class FetchTextDecodingTests(unittest.TestCase):
+    def test_fetch_text_falls_back_to_meta_charset(self) -> None:
+        html = '<html><head><meta charset="big5"></head><body>護理師</body></html>'
+        response = FakeTextResponse(body=html.encode("big5"), content_type="text/html")
+
+        with patch("app.crawler.urlopen", return_value=response):
+            client = MoexClient(ssl_context=object())
+            text = client._fetch_text("https://example.test")
+
+        self.assertIn("護理師", text)
+
+    def test_fetch_text_falls_back_to_cp950_when_headers_are_missing(self) -> None:
+        response = FakeTextResponse(body="藥師".encode("cp950"), content_type="text/html")
+
+        with patch("app.crawler.urlopen", return_value=response):
+            client = MoexClient(ssl_context=object())
+            text = client._fetch_text("https://example.test")
+
+        self.assertEqual(text, "藥師")
 
 
 if __name__ == "__main__":

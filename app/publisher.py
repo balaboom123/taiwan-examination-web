@@ -5,6 +5,31 @@ from pathlib import Path
 
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 
+FILE_TYPE_LABELS = {
+    "question": "試題",
+    "answer": "答案",
+    "corrected_answer": "更正答案",
+    "all_answers": "全部答案",
+    "accessible_bundle": "無障礙題本",
+}
+
+
+def _write_split_by_year(directory: Path, items: list, year_key: str) -> None:
+    directory.mkdir(parents=True, exist_ok=True)
+    by_year: dict[int, list] = {}
+    for item in items:
+        year = item[year_key] if isinstance(item, dict) else getattr(item, year_key)
+        by_year.setdefault(year, []).append(item)
+    existing = {int(f.stem) for f in directory.glob("*.json") if f.stem.isdigit()}
+    written = set()
+    for year_ad, year_items in sorted(by_year.items()):
+        written.add(year_ad)
+        (directory / f"{year_ad}.json").write_text(
+            json.dumps(to_plain_data(year_items), ensure_ascii=False), encoding="utf-8"
+        )
+    for stale_year in existing - written:
+        (directory / f"{stale_year}.json").unlink(missing_ok=True)
+
 
 def write_data_files(
     data_dir: Path,
@@ -15,8 +40,23 @@ def write_data_files(
     failures: list[SyncFailure],
 ) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
-    (data_dir / "exams.raw.json").write_text(json.dumps(to_plain_data(raw_pages), ensure_ascii=False, indent=2), encoding="utf-8")
-    (data_dir / "papers.json").write_text(json.dumps(to_plain_data(normalized.papers), ensure_ascii=False, indent=2), encoding="utf-8")
+    _write_split_by_year(data_dir / "exams", raw_pages, "year_ad")
+    papers_dir = data_dir / "papers"
+    papers_dir.mkdir(parents=True, exist_ok=True)
+    by_year: dict[int, list] = {}
+    for paper in normalized.papers:
+        by_year.setdefault(paper.year_roc + 1911, []).append(paper)
+    existing = {int(f.stem) for f in papers_dir.glob("*.json") if f.stem.isdigit()}
+    written = set()
+    for year_ad, year_papers in sorted(by_year.items()):
+        written.add(year_ad)
+        (papers_dir / f"{year_ad}.json").write_text(
+            json.dumps(to_plain_data(year_papers), ensure_ascii=False), encoding="utf-8"
+        )
+    for stale_year in existing - written:
+        (papers_dir / f"{stale_year}.json").unlink(missing_ok=True)
+    for legacy in ("exams.raw.json", "papers.json"):
+        (data_dir / legacy).unlink(missing_ok=True)
     (data_dir / "bundles.json").write_text(json.dumps(to_plain_data(bundles), ensure_ascii=False, indent=2), encoding="utf-8")
     (data_dir / "review-queue.json").write_text(
         json.dumps(to_plain_data(normalized.review_queue), ensure_ascii=False, indent=2),
@@ -27,8 +67,15 @@ def write_data_files(
         encoding="utf-8",
     )
     (data_dir / "aliases.json").write_text(json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2), encoding="utf-8")
+    release_assets = []
+    for bundle in bundles:
+        release_assets.append({"storage_key": bundle.storage_key, "asset_name": bundle.asset_name, "checksum": bundle.checksum})
+        release_assets.extend(
+            {"storage_key": bundle.storage_key, "asset_name": asset_name, "checksum": bundle.checksum}
+            for asset_name in bundle.legacy_asset_names
+        )
     (data_dir / "release-assets.json").write_text(
-        json.dumps([{"storage_key": bundle.storage_key, "asset_name": bundle.asset_name} for bundle in bundles], ensure_ascii=False, indent=2),
+        json.dumps(release_assets, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
@@ -41,17 +88,31 @@ def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]
 
 def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[BundleAsset]) -> None:
     site_dir.mkdir(parents=True, exist_ok=True)
-    papers_json = json.dumps(to_plain_data(normalized.papers), ensure_ascii=False)
-    bundles_json = json.dumps(to_plain_data(bundles), ensure_ascii=False)
-    canonical_names, years = _group_options(normalized.papers)
+    data_dir = site_dir / "data"
+    papers_site_dir = data_dir / "papers"
+    papers_site_dir.mkdir(parents=True, exist_ok=True)
+    (data_dir / "bundles.json").write_text(
+        json.dumps(to_plain_data(bundles), ensure_ascii=False), encoding="utf-8"
+    )
+    by_year: dict[int, list] = {}
+    for paper in normalized.papers:
+        by_year.setdefault(paper.year_roc + 1911, []).append(paper)
+    available_years = sorted(by_year.keys(), reverse=True)
+    for year_ad, year_papers in by_year.items():
+        (papers_site_dir / f"{year_ad}.json").write_text(
+            json.dumps(to_plain_data(year_papers), ensure_ascii=False), encoding="utf-8"
+        )
+    file_type_labels_json = json.dumps(FILE_TYPE_LABELS, ensure_ascii=False)
+    canonical_names, years_roc = _group_options(normalized.papers)
     name_options = "".join(f'<option value="{name}">{name}</option>' for name in canonical_names)
-    year_options = "".join(f'<option value="{year}">{year}</option>' for year in years)
+    year_options = "".join(f'<option value="{year}">{year}</option>' for year in years_roc)
+    years_json = json.dumps(available_years)
     html = f"""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>考選部考古題整併下載</title>
+  <title>考選部歷屆試題下載</title>
   <style>
     :root {{ color-scheme: light; --bg: #f2ede4; --card: #fffdf8; --ink: #202020; --accent: #0f766e; --line: #d9d2c5; }}
     body {{ margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; background: radial-gradient(circle at top, #fff8e8, var(--bg)); color: var(--ink); }}
@@ -67,66 +128,97 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
     th {{ background: #f4efe4; font-weight: 700; }}
     a {{ color: var(--accent); }}
     .muted {{ color: #666; font-size: 0.9rem; }}
+    #loading {{ text-align: center; padding: 24px; color: #888; }}
   </style>
 </head>
 <body>
   <main>
-    <h1>考古題整併下載</h1>
-    <p>每個 canonical 類別提供一個跨年度整併 zip，讓使用者可以直接下載同科目多年考古題。</p>
+    <h1>考選部歷屆試題下載</h1>
+    <p>依考試名稱與年度快速篩選，可直接下載整理好的中文壓縮檔，或回到原始來源頁面查看題目。</p>
     <section class="bundle-grid" id="bundleCards"></section>
     <div class="controls">
-      <label>類別<select id="canonicalFilter"><option value="">全部</option>{name_options}</select></label>
+      <label>考試名稱<select id="canonicalFilter"><option value="">全部</option>{name_options}</select></label>
       <label>年度<select id="yearFilter"><option value="">全部</option>{year_options}</select></label>
     </div>
-    <table>
+    <div id="loading">請選擇年度以顯示試題…</div>
+    <table style="display:none" id="paperTable">
       <thead>
         <tr>
-          <th>Canonical</th>
+          <th>考試名稱</th>
           <th>年度</th>
           <th>科目</th>
-          <th>原始類別</th>
-          <th>整併下載</th>
-          <th>官方來源</th>
+          <th>分類</th>
+          <th>下載整理包</th>
+          <th>原始來源</th>
         </tr>
       </thead>
       <tbody id="rows"></tbody>
     </table>
   </main>
   <script>
-    const papers = {papers_json};
-    const bundles = {bundles_json};
+    const AVAILABLE_YEARS = {years_json};
+    const FILE_TYPE_LABELS = {file_type_labels_json};
+    const paperCache = {{}};
     const rows = document.getElementById('rows');
     const bundleCards = document.getElementById('bundleCards');
+    const paperTable = document.getElementById('paperTable');
+    const loading = document.getElementById('loading');
     const canonicalFilter = document.getElementById('canonicalFilter');
     const yearFilter = document.getElementById('yearFilter');
-    bundleCards.innerHTML = bundles.map((bundle) => `
-      <article class="bundle-card">
-        <strong>${{bundle.canonical_name}}</strong>
-        <div class="muted">年份：${{bundle.years.join(', ')}}</div>
-        <div class="muted">檔案數：${{bundle.file_count}}</div>
-        <div style="margin-top: 10px;">
-          ${{bundle.download_url ? `<a href="${{bundle.download_url}}">下載整併 zip</a>` : '<span class="muted">尚未發布</span>'}}
-        </div>
-      </article>
-    `).join('');
-    function render() {{
+
+    fetch('data/bundles.json').then(r => r.json()).then(bundles => {{
+      bundleCards.innerHTML = bundles.map(bundle => `
+        <article class="bundle-card">
+          <strong>${{bundle.canonical_name}}</strong>
+          <div class="muted">年度：${{bundle.years.join(', ')}}</div>
+          <div class="muted">檔案數：${{bundle.file_count}}</div>
+          <div style="margin-top: 10px;">
+            ${{bundle.download_url ? `<a href="${{bundle.download_url}}">下載壓縮檔</a>` : '<span class="muted">尚未提供</span>'}}
+          </div>
+        </article>
+      `).join('');
+    }});
+
+    async function loadYear(yearAd) {{
+      if (paperCache[yearAd]) return paperCache[yearAd];
+      const resp = await fetch(`data/papers/${{yearAd}}.json`);
+      const data = await resp.json();
+      paperCache[yearAd] = data;
+      return data;
+    }}
+
+    async function render() {{
       const canonical = canonicalFilter.value;
-      const year = yearFilter.value;
-      const filtered = papers.filter((paper) => (!canonical || paper.canonical_name === canonical) && (!year || String(paper.year_roc) === year));
-      rows.innerHTML = filtered.map((paper) => `
+      const yearRoc = yearFilter.value;
+      let yearsToLoad;
+      if (yearRoc) {{
+        yearsToLoad = [parseInt(yearRoc) + 1911];
+      }} else {{
+        loading.textContent = '載入全部年度…';
+        loading.style.display = '';
+        paperTable.style.display = 'none';
+        yearsToLoad = AVAILABLE_YEARS;
+      }}
+      const allPapers = [];
+      for (const y of yearsToLoad) {{
+        allPapers.push(...await loadYear(y));
+      }}
+      const filtered = allPapers.filter(p => !canonical || p.canonical_name === canonical);
+      loading.style.display = 'none';
+      paperTable.style.display = '';
+      rows.innerHTML = filtered.map(paper => `
         <tr>
-          <td><strong>${{paper.canonical_name}}</strong><div class="muted">${{paper.canonical_id}}</div></td>
+          <td><strong>${{paper.canonical_name}}</strong></td>
           <td>${{paper.year_roc}}</td>
-          <td>${{paper.subject_name_raw}}<div class="muted">${{paper.file_type}}</div></td>
+          <td>${{paper.subject_name_raw}}<div class="muted">${{FILE_TYPE_LABELS[paper.file_type] || paper.file_type}}</div></td>
           <td>${{paper.category_raw || paper.exam_name_raw}}</td>
-          <td>${{paper.download_url_bundle ? `<a href="${{paper.download_url_bundle}}">下載整併 zip</a>` : '<span class="muted">尚未發布</span>'}}</td>
-          <td><a href="${{paper.download_url_source}}">官方連結</a></td>
+          <td>${{paper.download_url_bundle ? `<a href="${{paper.download_url_bundle}}">下載壓縮檔</a>` : '<span class="muted">尚未提供</span>'}}</td>
+          <td><a href="${{paper.download_url_source}}">查看來源</a></td>
         </tr>
       `).join('');
     }}
     canonicalFilter.addEventListener('change', render);
     yearFilter.addEventListener('change', render);
-    render();
   </script>
 </body>
 </html>

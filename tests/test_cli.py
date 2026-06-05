@@ -1,9 +1,13 @@
+import io
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
+from urllib.parse import quote
+from unittest.mock import patch
 
-from app.cli import build_parser, main, run_probe_latest, run_sync_targeted
+from app.cli import _download_affected_bundles, build_parser, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
 from app.publisher import write_data_files
@@ -17,15 +21,17 @@ class CliBuildSiteTests(unittest.TestCase):
             site_dir = root / "site"
             data_dir.mkdir()
             site_dir.mkdir()
-            (data_dir / "papers.json").write_text(
+            papers_dir = data_dir / "papers"
+            papers_dir.mkdir()
+            (papers_dir / "2026.json").write_text(
                 json.dumps(
                     [
                         {
                             "canonical_id": "nurse",
                             "canonical_name": "護理師",
                             "year_roc": 115,
-                            "exam_name_raw": "115年第一次專門職業及技術人員高等考試護理師考試",
-                            "category_raw": "高等考試_護理師",
+                            "exam_name_raw": "115年專技高考護理師",
+                            "category_raw": "護理師",
                             "category_code": "101",
                             "source_exam_id": "115030",
                             "subject_code": "0101",
@@ -34,9 +40,9 @@ class CliBuildSiteTests(unittest.TestCase):
                             "file_type": "question",
                             "download_url_source": "https://source.example/question.pdf",
                             "download_url_mirror": "",
-                            "download_url_bundle": "https://bundles.example/nurse.zip",
+                            "download_url_bundle": f"https://bundles.example/{quote('護理師__nurse.zip')}",
                             "storage_key": "115/115030/101/0101/question.pdf",
-                            "checksum": "abc123"
+                            "checksum": "abc123",
                         }
                     ],
                     ensure_ascii=False,
@@ -51,9 +57,10 @@ class CliBuildSiteTests(unittest.TestCase):
                             "canonical_name": "護理師",
                             "years": [115],
                             "file_count": 1,
-                            "storage_key": "bundles/nurse.zip",
-                            "asset_name": "nurse.zip",
-                            "download_url": "https://bundles.example/nurse.zip",
+                            "storage_key": "bundles/護理師__nurse.zip",
+                            "asset_name": "護理師__nurse.zip",
+                            "download_url": f"https://bundles.example/{quote('護理師__nurse.zip')}",
+                            "legacy_asset_names": ["nurse.zip"],
                         }
                     ],
                     ensure_ascii=False,
@@ -66,7 +73,12 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             html = (site_dir / "index.html").read_text(encoding="utf-8")
             self.assertIn("護理師", html)
-            self.assertIn("https://bundles.example/nurse.zip", html)
+            self.assertIn("考選部歷屆試題下載", html)
+            self.assertIn("下載整理好的中文壓縮檔", html)
+            self.assertIn("<th>考試名稱</th>", html)
+            self.assertIn("下載壓縮檔", html)
+            self.assertNotIn("${paper.canonical_id}", html)
+            self.assertNotIn("${paper.file_type}", html)
 
     def test_sync_incremental_years_flag_is_a_window_size(self) -> None:
         parser = build_parser()
@@ -79,29 +91,30 @@ class CliBuildSiteTests(unittest.TestCase):
         full_args = parser.parse_args(["sync-full"])
         incremental_args = parser.parse_args(["sync-incremental"])
 
-        self.assertTrue(full_args.download_attachments)
+        self.assertFalse(full_args.download_attachments)
         self.assertFalse(incremental_args.download_attachments)
+
+    def test_removed_pdf_optimization_flags_are_rejected(self) -> None:
+        parser = build_parser()
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["sync-full", "--optimize-pdfs"])
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["optimize-mirror-pdfs"])
 
     def test_sync_incremental_can_download_attachments_explicitly(self) -> None:
         parser = build_parser()
-
         args = parser.parse_args(["sync-incremental", "--download-attachments"])
-
         self.assertTrue(args.download_attachments)
 
     def test_sync_incremental_can_write_source_manifest_for_audits(self) -> None:
         parser = build_parser()
-
         args = parser.parse_args(["sync-incremental", "--write-manifest", "--manifest", "data/source-manifest.json"])
-
         self.assertTrue(args.write_manifest)
         self.assertEqual(args.manifest, Path("data/source-manifest.json"))
 
     def test_probe_latest_parser_accepts_manifest_and_output_paths(self) -> None:
         parser = build_parser()
-
         args = parser.parse_args(["probe-latest", "--years", "2", "--manifest", "data/source-manifest.json", "--output", ".tmp/source-probe.json"])
-
         self.assertEqual(args.years, 2)
         self.assertEqual(args.manifest, Path("data/source-manifest.json"))
         self.assertEqual(args.output, Path(".tmp/source-probe.json"))
@@ -169,7 +182,6 @@ class CliBuildSiteTests(unittest.TestCase):
 
     def test_sync_targeted_parser_accepts_probe_path(self) -> None:
         parser = build_parser()
-
         args = parser.parse_args(
             [
                 "sync-targeted",
@@ -185,6 +197,30 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertFalse(args.download_attachments)
         self.assertTrue(args.download_affected_bundles)
         self.assertEqual(args.release_tag, "moex-bundles")
+
+    @patch("app.cli.subprocess.run")
+    def test_download_affected_bundles_checks_primary_and_legacy_asset_names(self, run) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            bundle_dir = Path(tmp_dir) / "bundles"
+            _download_affected_bundles(
+                bundle_dir,
+                [
+                    BundleAsset(
+                        canonical_id="nurse",
+                        canonical_name="護理師",
+                        years=[115],
+                        file_count=1,
+                        storage_key="bundles/護理師__nurse.zip",
+                        asset_name="護理師__nurse.zip",
+                        legacy_asset_names=["nurse.zip"],
+                    )
+                ],
+                {"nurse"},
+                "moex-bundles",
+            )
+
+        patterns = [call.args[0][5] for call in run.call_args_list]
+        self.assertEqual(patterns, ["nurse.zip", "護理師__nurse.zip"])
 
     def test_run_sync_targeted_exits_without_writes_when_probe_has_no_changes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -291,7 +327,7 @@ class CliBuildSiteTests(unittest.TestCase):
                 ],
                 failures=[],
             )
-            original_papers = (data_dir / "papers.json").read_text(encoding="utf-8")
+            original_papers = (data_dir / "papers" / "2026.json").read_text(encoding="utf-8")
             probe_path = root / ".tmp" / "source-probe.json"
             probe_path.parent.mkdir()
             probe_path.write_text(
@@ -321,10 +357,15 @@ class CliBuildSiteTests(unittest.TestCase):
                 ]
             )
 
-            exit_code = run_sync_targeted(args, client=FailingTargetedClient())
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = run_sync_targeted(args, client=FailingTargetedClient())
 
             self.assertEqual(exit_code, 1)
-            self.assertEqual((data_dir / "papers.json").read_text(encoding="utf-8"), original_papers)
+            self.assertIn("115030", output.getvalue())
+            self.assertIn("101-0101-answer", output.getvalue())
+            self.assertIn("temporary download failure", output.getvalue())
+            self.assertEqual((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"), original_papers)
             self.assertFalse((root / "site").exists())
 
     def test_run_sync_targeted_writes_probe_manifest_after_successful_sync(self) -> None:

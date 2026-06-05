@@ -1,79 +1,81 @@
-# 考選部考古題整併平台
+# Taiwan Examination Web
 
-用 `Python` 抓取考選部考畢試題平台，先把原始檔下載到本地 `mirror/`，再依 canonical 類別重組成跨年度整併包。
+Mirror, normalize, and publish past exam papers from the MOEX exam search site.
 
-產物：
+## What This Repo Produces
 
-- `data/exams.raw.json`: 原始來源層
-- `data/papers.json`: 正規化後的題庫索引
-- `data/bundles.json`: 以 canonical 類別聚合後的整併下載索引
-- `data/review-queue.json`: 待人工確認的異名
-- `data/sync-failures.json`: 同步或打包時被跳過的失敗項目
-- `data/aliases.json`: 人工維護的 alias 規則
-- `data/release-assets.json`: GitHub Release 上傳清單
-- `bundles/<canonical_id>.zip`: 本地產生的整併下載包
-- `site/index.html`: 基本靜態瀏覽頁
+- `data/exams.raw.json`: parsed source exam pages
+- `data/papers.json`: normalized paper records
+- `data/bundles.json`: canonical bundle metadata
+- `data/review-queue.json`: category names that still need alias review
+- `data/sync-failures.json`: download or bundle failures
+- `data/aliases.json`: manual alias rules for cross-year name normalization
+- `data/release-assets.json`: expected GitHub Release bundle assets
+- `data/source-manifest.json`: probe fingerprints for cheap incremental checks
+- `site/index.html`: minimal searchable static site
+- `bundles/*.zip`: human-friendly multi-year bundle archives
 
-## 指令
+## Commands
 
 ```bash
 python -m app discover
 python -m app probe-latest --years 2 --output .tmp/source-probe.json --write-manifest
 python -m app sync-targeted --probe .tmp/source-probe.json
-python -m app sync-full
 python -m app sync-incremental --years 1
+python -m app sync-full --write-manifest
 python -m app build-site
 ```
 
-- `probe-latest` 只做低成本檢查，輸出 `.tmp/source-probe.json`，並用 `data/source-manifest.json` 記錄穩定 fingerprint。
-- `sync-targeted` 讀取 probe 結果，只同步有變動的 exam；若 `should_sync=false`，會直接結束，不重建資料與 site。
-- `sync-incremental --years 1` 仍可手動使用，代表抓最新 1 個可用年度，並重新產生受影響 canonical 的 zip。
-- `sync-full` 是人工復原與完整重建路徑。
+## Workflow Strategy
 
-排程 workflow 目前每週先跑 `probe-latest`。沒有變更時，不下載 PDF、不上傳 bundles、不 commit `data/` 或 `site/`。
+- `probe-latest` checks the newest years first and updates `data/source-manifest.json` only when `--write-manifest` is passed.
+- `sync-targeted` refreshes only exams reported by the probe result.
+- `sync-incremental` is the compatibility wrapper used by the audit workflow.
+- `sync-full` is the recovery and bootstrap path that rebuilds the full dataset.
+- Mirror validation rejects HTML placeholder downloads and repairs stale `.ashx` siblings when a valid `.pdf` or `.zip` is fetched again.
 
-## Bundle URL
+The scheduled `sync-incremental` GitHub Actions workflow behaves in two modes:
 
-若要讓 `papers.json` 與 `bundles.json` 帶出 GitHub Releases 下載連結，執行同步時請提供 bundle base URL：
+1. If the release already has the exact expected zip asset set, it runs probe-first targeted sync.
+2. If the release is empty or incomplete, it falls back to a full sync bootstrap so the release cannot get stuck with only a small subset of bundles.
 
-```bash
-python -m app sync-full --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
-```
+## Bundle Format
 
-目前公開下載單位是每個 canonical 類別一個 zip，例如：
+- `mirror/` stays code-based so crawl outputs remain stable and easy to diff.
+- Bundle filenames use Chinese display names plus canonical IDs.
+- Release assets can include legacy compatibility alias names during migration.
+- Archive entry paths stay human-readable while retaining the original source codes.
+- Machine-readable metadata stays in `bundle.json` inside each zip.
 
-- `bundles/nurse.zip`
-- `bundles/psychologist.zip`
+Example:
 
-zip 內部會再按年度與官方考試代碼分層，例如：
+- Bundle asset: `護理師__nurse.zip`
+- Legacy alias asset: `nurse.zip`
+- Archive entry: `115/115030_護理師/101_0101_基礎醫學_試題.pdf`
 
-- `115/115030/高等考試_護理師/0101_基礎醫學/question.pdf`
-- `114/114170/專門職業及技術人員高等考試護理師考試/0101_基礎醫學/question.pdf`
+## Alias Rules
 
-## Alias 規則
+Use `data/aliases.json` to merge cross-year naming variants into the same canonical bucket.
 
-`data/aliases.json` 格式：
+Example:
 
 ```json
 {
   "rules": [
     {
       "match_type": "exact",
-      "raw_pattern": "高等考試_護理師",
+      "raw_pattern": "some raw category",
       "canonical_id": "nurse",
-      "canonical_name": "護理師",
-      "year_from": null,
-      "year_to": null
+      "canonical_name": "Nurse"
     }
   ]
 }
 ```
 
-## 注意
+## Verification
 
-- 主抓取入口使用穩定的 GET 結果頁：`wFrmExamQandASearch.aspx?e=<exam_code>&y=<year_ad>`
-- 目前下載型別支援 `Q`、`S`、`M`、`A`、`B`
-- `sync-full` 預設下載 exam-level attachments；`sync-incremental` 與 `sync-targeted` 預設不下載 attachments，可用 `--download-attachments` 顯式開啟
-- 無法安全合併的名稱會保留原始值並進入 review queue
-- GitHub workflow 只會上傳 `bundles/*.zip`，不再把每一份 PDF 當 release asset
-- incremental workflow 會先 probe；只有偵測到變更時才下載現有 release bundles 並執行 targeted sync
+The full test suite runs with:
+
+```bash
+uv run python -m unittest discover -s tests -q
+```

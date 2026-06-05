@@ -5,6 +5,21 @@ from unittest.mock import MagicMock, patch
 import app.crawler as crawler
 
 
+class FakeTextResponse:
+    def __init__(self, body: bytes, content_type: str) -> None:
+        self._body = body
+        self.headers = {"Content-Type": content_type}
+
+    def read(self) -> bytes:
+        return self._body
+
+    def __enter__(self) -> "FakeTextResponse":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        return False
+
+
 class CrawlerTlsTests(unittest.TestCase):
     def test_build_ssl_context_loads_bundled_twca_chain(self) -> None:
         fake_context = MagicMock()
@@ -30,6 +45,18 @@ class CrawlerTlsTests(unittest.TestCase):
         self.assertEqual(text, "demo")
         _, kwargs = urlopen_mock.call_args
         self.assertIs(kwargs["context"], ssl_context)
+
+    def test_fetch_text_uses_http_charset_when_present(self) -> None:
+        response = FakeTextResponse(
+            body="護理行政".encode("big5"),
+            content_type="text/html; charset=big5",
+        )
+
+        with patch.object(crawler, "urlopen", return_value=response):
+            client = crawler.MoexClient(ssl_context=object())
+            text = client._fetch_text("https://example.test")
+
+        self.assertEqual(text, "護理行政")
 
 
 if __name__ == "__main__":

@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Iterable
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse
 from urllib.request import Request, urlopen
 
@@ -30,6 +29,9 @@ SUBJECT_LABEL_TO_TYPE = {
     "答案": "answer",
     "更正答案": "corrected_answer",
 }
+
+_HEADER_CHARSET_RE = re.compile(r"charset=['\"]?\s*([a-zA-Z0-9_-]+)", re.IGNORECASE)
+_HTML_CHARSET_RE = re.compile(br"<meta[^>]+charset=['\"]?\s*([a-zA-Z0-9_-]+)", re.IGNORECASE)
 
 
 def make_result_url(exam_code: str, year_ad: int) -> str:
@@ -199,11 +201,47 @@ def _extract_codes(url: str) -> tuple[str, str]:
     return query.get("c", [""])[0], query.get("s", [""])[0]
 
 
+def _charset_from_content_type(content_type: object) -> str | None:
+    if not isinstance(content_type, str):
+        return None
+    match = _HEADER_CHARSET_RE.search(content_type)
+    return match.group(1) if match else None
+
+
+def _charset_from_html(body: bytes) -> str | None:
+    match = _HTML_CHARSET_RE.search(body)
+    return match.group(1).decode("ascii", "ignore") if match else None
+
+
+def _decode_html_bytes(body: bytes, content_type: str) -> str:
+    encodings = [_charset_from_content_type(content_type), _charset_from_html(body), "cp950", "big5", "utf-8"]
+    seen: set[str] = set()
+    for encoding in encodings:
+        if not encoding:
+            continue
+        normalized = encoding.lower()
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        try:
+            return body.decode(encoding)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return body.decode("utf-8", "replace")
+
+
 def parse_result_page(html: str, exam_code: str, year_ad: int) -> SourceExamPage:
     parser = _ResultTableParser()
     parser.feed(html)
     if not parser.rows:
-        raise ValueError(f"No result table rows found for {exam_code}")
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="",
+            attachments=[],
+            papers=[],
+        )
 
     header = parser.rows[0]
     exam_name_raw = next((cell.text for cell in header if cell.text), "")
@@ -279,7 +317,8 @@ class MoexClient:
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": self.user_agent})
         with urlopen(request, timeout=60, context=self.ssl_context) as response:
-            return response.read().decode("utf-8", "ignore")
+            body = response.read()
+            return _decode_html_bytes(body, response.headers.get("Content-Type", ""))
 
     def head(self, url: str) -> ResponseMetadata:
         request = Request(url, headers={"User-Agent": self.user_agent}, method="HEAD")

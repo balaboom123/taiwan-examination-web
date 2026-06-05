@@ -97,5 +97,41 @@ class NormalizePapersTests(unittest.TestCase):
         self.assertEqual(normalized.review_queue[0]["raw_category"], "專門職業及技術人員高等考試護理師、心理師考試")
 
 
+    def test_fallback_canonical_ids_use_full_string_hashes_instead_of_prefixes(self) -> None:
+        papers = [
+            ParsedPaper(
+                category_raw="abcdefghX",
+                category_code="101",
+                subject_code="0101",
+                subject_name_raw="Subject A",
+                files={"question": "https://example.test/a.pdf"},
+            ),
+            ParsedPaper(
+                category_raw="abcdefghY",
+                category_code="102",
+                subject_code="0101",
+                subject_name_raw="Subject B",
+                files={"question": "https://example.test/b.pdf"},
+            ),
+        ]
+
+        normalized = normalize_papers(
+            source_exam_id="115999",
+            year_ad=2026,
+            exam_name_raw="115 demo exam",
+            papers=papers,
+            alias_rules=[],
+            mirror_base_url="",
+            mirror_metadata={
+                ("101", "0101", "question"): {"checksum": "aaa", "storage_key": "115/115999/101/0101/question.pdf"},
+                ("102", "0101", "question"): {"checksum": "bbb", "storage_key": "115/115999/102/0101/question.pdf"},
+            },
+        )
+
+        self.assertEqual(len(normalized.papers), 2)
+        self.assertTrue(all(paper.canonical_id.startswith("canonical-") for paper in normalized.papers))
+        self.assertNotEqual(normalized.papers[0].canonical_id, normalized.papers[1].canonical_id)
+
+
 if __name__ == "__main__":
     unittest.main()
