@@ -10,6 +10,9 @@ mirror/
 bundles/
 site/
 
+# Crash dumps
+*.stackdump
+
 # LLMs
 .claude/
 docs/superpowers/
