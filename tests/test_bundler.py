@@ -101,8 +101,8 @@ class BundlerTests(unittest.TestCase):
             self.assertTrue(bundle_zip.exists())
             with zipfile.ZipFile(bundle_zip) as archive:
                 names = archive.namelist()
-                self.assertIn("115/115030_護理師/101_0101_基礎醫學_試題.pdf", names)
-                self.assertIn("114/114030_護理師/101_0101_基礎醫學_試題.pdf", names)
+                self.assertIn("115/101_0101_基礎醫學_試題.pdf", names)
+                self.assertIn("114/101_0101_基礎醫學_試題.pdf", names)
                 manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
                 self.assertEqual(manifest["canonical_id"], "nurse")
                 self.assertEqual(manifest["years"], [115, 114])
@@ -173,9 +173,9 @@ class BundlerTests(unittest.TestCase):
             self.assertEqual(len(result.bundles), 1)
             with zipfile.ZipFile(bundles_dir / "護理師__nurse.zip") as archive:
                 names = archive.namelist()
-                self.assertIn("114/exam-old_護理師/101_0101_基礎醫學_試題.pdf", names)
-                self.assertIn("115/exam-new_護理師/101_0101_基礎醫學_試題.pdf", names)
-                self.assertNotIn("115/exam-new_護理師/101_0102_missing-subject_試題.pdf", names)
+                self.assertIn("114/101_0101_基礎醫學_試題.pdf", names)
+                self.assertIn("115/101_0101_基礎醫學_試題.pdf", names)
+                self.assertNotIn("115/101_0102_missing-subject_試題.pdf", names)
             self.assertEqual(len(result.failures), 1)
             self.assertEqual(result.failures[0]["paper_code"], "101-0102-question")
             self.assertEqual(
@@ -195,7 +195,7 @@ class BundlerTests(unittest.TestCase):
             bundles_dir.mkdir()
             old_canonical_id = "canonical-old-nurse"
             old_bundle = bundles_dir / f"{old_canonical_id}.zip"
-            archive_entry = "114/114030_護理師/101_0101_基礎醫學_試題.pdf"
+            archive_entry = "114/101_0101_基礎醫學_試題.pdf"
             with zipfile.ZipFile(old_bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr(archive_entry, b"%PDF-1.7 migrated-old")
                 archive.writestr(
@@ -346,8 +346,60 @@ class BundlerTests(unittest.TestCase):
 
             self.assertEqual(result.failures, [])
             with zipfile.ZipFile(bundles_dir / "Nurse__nurse.zip") as archive:
-                self.assertEqual(archive.read("114/exam-old_Nurse/101_0101_subject_試題.pdf"), b"%PDF-1.7 first")
-                self.assertEqual(archive.read("114/exam-old_Nurse/101_0102_subject_試題.pdf"), b"%PDF-1.7 second")
+                self.assertEqual(archive.read("114/101_0101_subject_試題.pdf"), b"%PDF-1.7 first")
+                self.assertEqual(archive.read("114/101_0102_subject_試題.pdf"), b"%PDF-1.7 second")
+
+
+    def test_build_bundles_disambiguates_duplicate_arcnames(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            bundles_dir = root / "bundles"
+            (mirror_dir / "86/086010/104/2001").mkdir(parents=True)
+            (mirror_dir / "86/086020/104/2001").mkdir(parents=True)
+            (mirror_dir / "86/086010/104/2001/question.pdf").write_bytes(b"%PDF exam1")
+            (mirror_dir / "86/086020/104/2001/question.pdf").write_bytes(b"%PDF exam2")
+
+            catalog = NormalizedCatalog(
+                papers=[
+                    make_paper(
+                        canonical_id="marine",
+                        canonical_name="航海人員",
+                        year_roc=86,
+                        source_exam_id="086010",
+                        subject_code="2001",
+                        subject_name_raw="貨物作業",
+                        storage_key="86/086010/104/2001/question.pdf",
+                    ),
+                    make_paper(
+                        canonical_id="marine",
+                        canonical_name="航海人員",
+                        year_roc=86,
+                        source_exam_id="086020",
+                        subject_code="2001",
+                        subject_name_raw="貨物作業",
+                        storage_key="86/086020/104/2001/question.pdf",
+                    ),
+                ],
+                review_queue=[],
+            )
+
+            result = build_bundles(
+                bundle_dir=bundles_dir,
+                mirror_dir=mirror_dir,
+                normalized=catalog,
+                bundle_base_url="https://bundles.example",
+            )
+
+            self.assertEqual(len(result.bundles), 1)
+            self.assertEqual(result.bundles[0].file_count, 2)
+            with zipfile.ZipFile(bundles_dir / "航海人員__marine.zip") as archive:
+                names = [n for n in archive.namelist() if n != "bundle.json"]
+                self.assertEqual(len(names), 2)
+                self.assertEqual(len(set(names)), 2, f"Duplicate arcnames found: {names}")
+                self.assertIn("86/101_2001_貨物作業_試題_086010.pdf", names)
+                self.assertIn("86/101_2001_貨物作業_試題_086020.pdf", names)
+            self.assertEqual(result.failures, [])
 
 
 if __name__ == "__main__":

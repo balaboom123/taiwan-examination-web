@@ -56,6 +56,31 @@ def command_discover(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_build_bundles(args: argparse.Namespace) -> int:
+    print("Loading existing data...", flush=True)
+    existing_raw_pages, existing_catalog, _, existing_failures = load_existing_state(args.data_dir)
+    aliases = load_alias_rules(args.aliases)
+    groups = len({p.canonical_id for p in existing_catalog.papers})
+    print(f"Found {len(existing_catalog.papers)} papers in {groups} exam groups", flush=True)
+    rebuild_result = build_bundles(
+        bundle_dir=args.bundle_dir,
+        mirror_dir=args.mirror_dir,
+        normalized=existing_catalog,
+        bundle_base_url=args.bundle_base_url,
+        on_progress=lambda i, total, name, count: print(f"  Building [{i}/{total}] {name} ({count} files)", flush=True),
+        on_load_progress=lambda i, total: print(f"  Scanning existing bundles... {i}/{total}", flush=True),
+    )
+    bundles = rebuild_result.bundles
+    failures = existing_failures + rebuild_result.failures
+    write_data_files(args.data_dir, existing_raw_pages, existing_catalog, aliases, bundles, failures)
+    build_site(args.site_dir, existing_catalog, bundles)
+    print(f"Built {len(bundles)} bundles, {len(rebuild_result.failures)} bundle failures", flush=True)
+    if failures:
+        print(f"{len(failures)} total failures (see data/sync-failures.json)", flush=True)
+        return 1
+    return 0
+
+
 def command_build_site(args: argparse.Namespace) -> int:
     papers_dir = args.data_dir / "papers"
     papers: list[dict] = []
@@ -321,6 +346,15 @@ def build_parser() -> argparse.ArgumentParser:
         else:
             sync.add_argument("--years", dest="year_window", type=int, default=3)
         sync.set_defaults(handler=command_sync)
+
+    build_bundles_parser = subparsers.add_parser("build-bundles", help="Rebuild ZIP bundles and site from existing local data (no network).")
+    build_bundles_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
+    build_bundles_parser.add_argument("--site-dir", type=Path, default=repo_root / "site")
+    build_bundles_parser.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
+    build_bundles_parser.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
+    build_bundles_parser.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
+    build_bundles_parser.add_argument("--bundle-base-url", default="")
+    build_bundles_parser.set_defaults(handler=command_build_bundles)
 
     build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers/*.json.")
     build_site_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")

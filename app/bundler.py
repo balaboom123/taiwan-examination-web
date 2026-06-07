@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import zipfile
+from collections.abc import Callable
 from pathlib import Path
 from urllib.parse import quote
 
@@ -45,13 +46,40 @@ def _bundle_arcname(paper: NormalizedPaper) -> str:
             _safe_segment(FILE_TYPE_LABELS.get(paper.file_type, paper.file_type or "file"), max_length=20),
         ]
     )
-    return "/".join(
-        [
-            str(paper.year_roc),
-            f"{_safe_segment(paper.source_exam_id or 'unknown-exam', max_length=40)}_{_safe_segment(paper.canonical_name, max_length=40)}",
-            f"{file_name}{suffix}",
-        ]
-    )
+    return f"{paper.year_roc}/{file_name}{suffix}"
+
+
+def _resolve_arcnames(ordered: list[NormalizedPaper]) -> list[str]:
+    base = [_bundle_arcname(p) for p in ordered]
+    counts: dict[str, int] = {}
+    for name in base:
+        counts[name] = counts.get(name, 0) + 1
+    resolved: list[str] = []
+    for i, paper in enumerate(ordered):
+        name = base[i]
+        if counts[name] > 1:
+            suffix = Path(paper.storage_key).suffix or ".bin"
+            stem = name[: -len(suffix)]
+            exam_tag = _safe_segment(paper.source_exam_id or "unknown", max_length=20)
+            name = f"{stem}_{exam_tag}{suffix}"
+        resolved.append(name)
+    used: set[str] = set()
+    final: list[str] = []
+    for name in resolved:
+        if name not in used:
+            used.add(name)
+            final.append(name)
+        else:
+            counter = 2
+            while True:
+                dot = name.rfind(".")
+                candidate = f"{name[:dot]}_{counter}{name[dot:]}" if dot > 0 else f"{name}_{counter}"
+                if candidate not in used:
+                    used.add(candidate)
+                    final.append(candidate)
+                    break
+                counter += 1
+    return final
 
 
 def _code_bundle_arcname(paper: NormalizedPaper) -> str:
@@ -132,10 +160,15 @@ def _legacy_asset_names(
 
 def _load_existing_entries_by_canonical(
     bundle_dir: Path,
+    on_progress: Callable | None = None,
 ) -> tuple[dict[str, dict[str, bytes]], dict[str, dict[tuple[str, str, str, str], bytes]]]:
     existing_entries_by_name: dict[str, dict[str, bytes]] = {}
     existing_entries_by_key: dict[str, dict[tuple[str, str, str, str], bytes]] = {}
-    for archive_path in sorted(bundle_dir.glob("*.zip")):
+    archives = sorted(bundle_dir.glob("*.zip"))
+    total = len(archives)
+    for idx, archive_path in enumerate(archives, 1):
+        if on_progress and (idx == 1 or idx % 500 == 0 or idx == total):
+            on_progress(idx, total)
         try:
             with zipfile.ZipFile(archive_path, "r") as archive:
                 if "bundle.json" not in archive.namelist():
@@ -168,16 +201,19 @@ def build_bundles(
     normalized: NormalizedCatalog,
     bundle_base_url: str,
     canonical_aliases: dict[str, list[str]] | None = None,
+    on_progress: Callable | None = None,
+    on_load_progress: Callable | None = None,
 ) -> BundleBuildResult:
     bundle_dir.mkdir(parents=True, exist_ok=True)
-    existing_entries_by_canonical, existing_entries_by_paper_key = _load_existing_entries_by_canonical(bundle_dir)
+    existing_entries_by_canonical, existing_entries_by_paper_key = _load_existing_entries_by_canonical(bundle_dir, on_progress=on_load_progress)
     grouped: dict[str, list[NormalizedPaper]] = {}
     for paper in normalized.papers:
         grouped.setdefault(paper.canonical_id, []).append(paper)
 
+    total_groups = len(grouped)
     bundle_assets: list[BundleAsset] = []
     failures: list[SyncFailure] = []
-    for canonical_id, papers in sorted(grouped.items()):
+    for group_index, (canonical_id, papers) in enumerate(sorted(grouped.items()), 1):
         canonical_name = papers[0].canonical_name
         asset_name = _bundle_asset_name(canonical_id, canonical_name)
         compatibility_ids = list(canonical_aliases.get(canonical_id, [])) if canonical_aliases else []
@@ -206,9 +242,9 @@ def build_bundles(
             papers,
             key=lambda item: (-item.year_roc, item.source_exam_id, item.category_code, item.subject_code, item.file_type),
         )
+        resolved_names = _resolve_arcnames(ordered)
         with zipfile.ZipFile(bundle_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-            for paper in ordered:
-                arcname = _bundle_arcname(paper)
+            for paper, arcname in zip(ordered, resolved_names):
                 source_path = mirror_dir / Path(paper.storage_key) if paper.storage_key else None
                 if source_path and source_path.exists():
                     archive.write(source_path, arcname=arcname)
@@ -219,6 +255,10 @@ def build_bundles(
                     continue
                 legacy_arcname = _legacy_bundle_arcname(paper)
                 existing_bytes = existing_entries.get(arcname)
+                if existing_bytes is None:
+                    base_arcname = _bundle_arcname(paper)
+                    if base_arcname != arcname:
+                        existing_bytes = existing_entries.get(base_arcname)
                 if existing_bytes is None:
                     existing_bytes = existing_entries.get(_code_bundle_arcname(paper))
                 if existing_bytes is None:
@@ -276,6 +316,8 @@ def build_bundles(
 
         if not included_papers:
             bundle_path.unlink(missing_ok=True)
+            if on_progress:
+                on_progress(group_index, total_groups, asset_name, 0)
             continue
 
         for paper in included_papers:
@@ -295,4 +337,6 @@ def build_bundles(
                 legacy_asset_names=legacy_asset_names,
             )
         )
+        if on_progress:
+            on_progress(group_index, total_groups, asset_name, file_count)
     return BundleBuildResult(bundles=bundle_assets, failures=failures)

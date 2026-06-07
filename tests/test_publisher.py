@@ -78,7 +78,7 @@ class PublisherTests(unittest.TestCase):
             self.assertEqual(
                 release_assets,
                 [
-                    {"storage_key": "bundles/護理師__nurse.zip", "asset_name": "護理師__nurse.zip", "checksum": ""},
+                    {"storage_key": "bundles/護理師__nurse.zip", "asset_name": "護理師__nurse.zip", "checksum": "", "legacy_asset_names": ["nurse.zip"]},
                 ],
             )
 

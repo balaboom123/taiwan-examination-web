@@ -61,7 +61,12 @@ def write_data_files(
     )
     (data_dir / "aliases.json").write_text(json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2), encoding="utf-8")
     release_assets = [
-        {"storage_key": bundle.storage_key, "asset_name": bundle.asset_name, "checksum": bundle.checksum}
+        {
+            "storage_key": bundle.storage_key,
+            "asset_name": bundle.asset_name,
+            "checksum": bundle.checksum,
+            "legacy_asset_names": bundle.legacy_asset_names,
+        }
         for bundle in bundles
     ]
     (data_dir / "release-assets.json").write_text(
