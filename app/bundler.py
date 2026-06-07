@@ -158,12 +158,24 @@ def _legacy_asset_names(
     return [name for name in dict.fromkeys(names) if name != asset_name]
 
 
+_EntryRef = tuple[Path, str]
+
+
+def _resolve_entry_ref(ref: _EntryRef) -> bytes | None:
+    archive_path, entry_name = ref
+    try:
+        with zipfile.ZipFile(archive_path, "r") as zf:
+            return zf.read(entry_name)
+    except (OSError, ValueError, zipfile.BadZipFile, KeyError):
+        return None
+
+
 def _load_existing_entries_by_canonical(
     bundle_dir: Path,
     on_progress: Callable | None = None,
-) -> tuple[dict[str, dict[str, bytes]], dict[str, dict[tuple[str, str, str, str], bytes]]]:
-    existing_entries_by_name: dict[str, dict[str, bytes]] = {}
-    existing_entries_by_key: dict[str, dict[tuple[str, str, str, str], bytes]] = {}
+) -> tuple[dict[str, dict[str, _EntryRef]], dict[str, dict[tuple[str, str, str, str], _EntryRef]]]:
+    existing_entries_by_name: dict[str, dict[str, _EntryRef]] = {}
+    existing_entries_by_key: dict[str, dict[tuple[str, str, str, str], _EntryRef]] = {}
     archives = sorted(bundle_dir.glob("*.zip"))
     total = len(archives)
     for idx, archive_path in enumerate(archives, 1):
@@ -180,7 +192,7 @@ def _load_existing_entries_by_canonical(
                 entries_by_name = existing_entries_by_name.setdefault(canonical_id, {})
                 for name in archive.namelist():
                     if name != "bundle.json":
-                        entries_by_name[name] = archive.read(name)
+                        entries_by_name[name] = (archive_path, name)
                 manifest_papers = manifest.get("papers", [])
                 if isinstance(manifest_papers, list):
                     entries_by_key = existing_entries_by_key.setdefault(canonical_id, {})
@@ -224,8 +236,8 @@ def build_bundles(
         storage_key = f"bundles/{asset_name}"
         bundle_path = bundle_dir / asset_name
 
-        existing_entries: dict[str, bytes] = {}
-        existing_entries_by_key: dict[tuple[str, str, str, str], bytes] = {}
+        existing_entries: dict[str, _EntryRef] = {}
+        existing_entries_by_key: dict[tuple[str, str, str, str], _EntryRef] = {}
         for lookup_id in _lookup_canonical_ids(canonical_id, canonical_name, compatibility_ids):
             existing_entries.update(existing_entries_by_canonical.get(lookup_id, {}))
             existing_entries_by_key.update(existing_entries_by_paper_key.get(lookup_id, {}))
@@ -254,17 +266,18 @@ def build_bundles(
                     file_count += 1
                     continue
                 legacy_arcname = _legacy_bundle_arcname(paper)
-                existing_bytes = existing_entries.get(arcname)
-                if existing_bytes is None:
+                existing_ref = existing_entries.get(arcname)
+                if existing_ref is None:
                     base_arcname = _bundle_arcname(paper)
                     if base_arcname != arcname:
-                        existing_bytes = existing_entries.get(base_arcname)
-                if existing_bytes is None:
-                    existing_bytes = existing_entries.get(_code_bundle_arcname(paper))
-                if existing_bytes is None:
-                    existing_bytes = existing_entries.get(legacy_arcname)
-                if existing_bytes is None:
-                    existing_bytes = existing_entries_by_key.get(_paper_bundle_key(paper))
+                        existing_ref = existing_entries.get(base_arcname)
+                if existing_ref is None:
+                    existing_ref = existing_entries.get(_code_bundle_arcname(paper))
+                if existing_ref is None:
+                    existing_ref = existing_entries.get(legacy_arcname)
+                if existing_ref is None:
+                    existing_ref = existing_entries_by_key.get(_paper_bundle_key(paper))
+                existing_bytes = _resolve_entry_ref(existing_ref) if existing_ref is not None else None
                 if existing_bytes is not None:
                     archive.writestr(arcname, existing_bytes)
                     included_papers.append(paper)
