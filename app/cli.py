@@ -10,7 +10,7 @@ from app.bundler import build_bundles
 from app.crawler import MoexClient, year_ad_from_code
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
-from app.normalizer import load_alias_rules
+from app.normalizer import load_alias_rules, renormalize_catalog
 from app.publisher import build_site, write_data_files
 from app.probe import probe_latest
 from app.state import filter_catalog_by_canonical_ids, load_existing_state, merge_incremental_state, merge_targeted_state
@@ -60,6 +60,7 @@ def command_build_bundles(args: argparse.Namespace) -> int:
     print("Loading existing data...", flush=True)
     existing_raw_pages, existing_catalog, _, existing_failures = load_existing_state(args.data_dir)
     aliases = load_alias_rules(args.aliases)
+    existing_catalog = renormalize_catalog(existing_catalog, aliases)
     groups = len({p.canonical_id for p in existing_catalog.papers})
     print(f"Found {len(existing_catalog.papers)} papers in {groups} exam groups", flush=True)
     rebuild_result = build_bundles(
@@ -69,6 +70,7 @@ def command_build_bundles(args: argparse.Namespace) -> int:
         bundle_base_url=args.bundle_base_url,
         on_progress=lambda i, total, name, count: print(f"  Building [{i}/{total}] {name} ({count} files)", flush=True),
         on_load_progress=lambda i, total: print(f"  Scanning existing bundles... {i}/{total}", flush=True),
+        min_years=args.min_years,
     )
     bundles = rebuild_result.bundles
     failures = existing_failures + rebuild_result.failures
@@ -354,6 +356,7 @@ def build_parser() -> argparse.ArgumentParser:
     build_bundles_parser.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
     build_bundles_parser.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
     build_bundles_parser.add_argument("--bundle-base-url", default="")
+    build_bundles_parser.add_argument("--min-years", type=int, default=2)
     build_bundles_parser.set_defaults(handler=command_build_bundles)
 
     build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers/*.json.")

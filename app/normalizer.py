@@ -63,6 +63,27 @@ def _match_alias(rule: AliasRule, raw_category: str, year_ad: int) -> bool:
     raise ValueError(f"Unsupported alias match type: {rule.match_type}")
 
 
+_VARIANT_LEVEL_SUFFIX = re.compile(
+    r"[（(](?:三等|四等|五等|高考|普考|一等|二等|二級|一級|簡任|薦任|委任|一般組|兩岸組[一二三])[）)]"
+)
+_VARIANT_MILITARY_SUFFIX = re.compile(
+    r"[（(](?:中將轉任考試|少將轉任考試|中將轉任|少將轉任|上校轉任|中將|少將)[）)]"
+)
+_VARIANT_DESTINATION_SUFFIX = re.compile(
+    r"[（(](?:退輔會|轉任退輔會|國防部|轉任國防部|轉任海委會|一般錄取分發區|蘭嶼錄取分發區)[）)]"
+)
+_VARIANT_MILITARY_PREFIX = re.compile(
+    r"^[（(](?:中將轉任|少將轉任|上校轉任)[）)]"
+)
+_VARIANT_EXAM_TYPE_PREFIX = re.compile(
+    r"^[（(](?:關務類|技術類)[）)]"
+)
+_VARIANT_LANGUAGE_SUFFIX = re.compile(
+    r"[（(]選試[^）)]+[）)]"
+)
+_VARIANT_TRAILING = re.compile(r"(?:類科|科別)$")
+
+
 def _strip_exam_family(text: str) -> str:
     value = normalize_text(text)
     value = re.sub(r"^\d+年", "", value)
@@ -72,6 +93,13 @@ def _strip_exam_family(text: str) -> str:
         value = re.sub(prefix, "", value)
     value = re.sub(r"^第[一二三四五六七八九十]+次", "", value)
     value = re.sub(r"考試$", "", value)
+    value = _VARIANT_TRAILING.sub("", value)
+    value = _VARIANT_LEVEL_SUFFIX.sub("", value)
+    value = _VARIANT_MILITARY_SUFFIX.sub("", value)
+    value = _VARIANT_DESTINATION_SUFFIX.sub("", value)
+    value = _VARIANT_LANGUAGE_SUFFIX.sub("", value)
+    value = _VARIANT_MILITARY_PREFIX.sub("", value)
+    value = _VARIANT_EXAM_TYPE_PREFIX.sub("", value)
     return value.strip(" -_")
 
 
@@ -145,3 +173,42 @@ def normalize_papers(
                 )
             )
     return NormalizedCatalog(papers=normalized_papers, review_queue=review_queue)
+
+
+def renormalize_catalog(catalog: NormalizedCatalog, alias_rules: list[AliasRule]) -> NormalizedCatalog:
+    papers: list[NormalizedPaper] = []
+    for paper in catalog.papers:
+        raw_category = paper.category_raw or paper.exam_name_raw
+        year_ad = paper.year_roc + 1911
+        alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
+        candidate = _strip_exam_family(raw_category or paper.exam_name_raw)
+        if alias:
+            canonical_id = alias.canonical_id
+            canonical_name = alias.canonical_name
+        else:
+            canonical_name = candidate or normalize_text(raw_category or paper.exam_name_raw)
+            canonical_id = _canonical_id(canonical_name)
+            if _is_ambiguous(canonical_name):
+                canonical_name = normalize_text(raw_category or paper.exam_name_raw)
+                canonical_id = _canonical_id(canonical_name)
+        if canonical_id != paper.canonical_id or canonical_name != paper.canonical_name:
+            paper = NormalizedPaper(
+                canonical_id=canonical_id,
+                canonical_name=canonical_name,
+                year_roc=paper.year_roc,
+                exam_name_raw=paper.exam_name_raw,
+                category_raw=paper.category_raw,
+                subject_name_raw=paper.subject_name_raw,
+                paper_code=paper.paper_code,
+                file_type=paper.file_type,
+                download_url_source=paper.download_url_source,
+                category_code=paper.category_code,
+                source_exam_id=paper.source_exam_id,
+                subject_code=paper.subject_code,
+                download_url_mirror=paper.download_url_mirror,
+                download_url_bundle=paper.download_url_bundle,
+                storage_key=paper.storage_key,
+                checksum=paper.checksum,
+            )
+        papers.append(paper)
+    return NormalizedCatalog(papers=papers, review_queue=catalog.review_queue)

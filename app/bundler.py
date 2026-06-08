@@ -215,6 +215,7 @@ def build_bundles(
     canonical_aliases: dict[str, list[str]] | None = None,
     on_progress: Callable | None = None,
     on_load_progress: Callable | None = None,
+    min_years: int = 1,
 ) -> BundleBuildResult:
     bundle_dir.mkdir(parents=True, exist_ok=True)
     existing_entries_by_canonical, existing_entries_by_paper_key = _load_existing_entries_by_canonical(bundle_dir, on_progress=on_load_progress)
@@ -227,6 +228,12 @@ def build_bundles(
     failures: list[SyncFailure] = []
     for group_index, (canonical_id, papers) in enumerate(sorted(grouped.items()), 1):
         canonical_name = papers[0].canonical_name
+        if min_years > 1:
+            distinct_years = {p.year_roc for p in papers}
+            if len(distinct_years) < min_years:
+                if on_progress:
+                    on_progress(group_index, total_groups, f"[skipped] {canonical_name}", 0)
+                continue
         asset_name = _bundle_asset_name(canonical_id, canonical_name)
         compatibility_ids = list(canonical_aliases.get(canonical_id, [])) if canonical_aliases else []
         for fallback_id in (legacy_fallback_canonical_id(canonical_name), hashed_fallback_canonical_id(canonical_name)):
