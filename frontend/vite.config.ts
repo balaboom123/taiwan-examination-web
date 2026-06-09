@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite"
 import path from "path"
 
 export default defineConfig({
+  base: "/taiwan_examination_web/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
