@@ -115,10 +115,7 @@ def _paper_bundle_key(paper: NormalizedPaper | dict[str, object]) -> tuple[str, 
 
 def _bundle_asset_name(canonical_id: str, canonical_name: str) -> str:
     stable = _safe_segment(canonical_id, max_length=80)
-    friendly = _safe_segment(canonical_name, max_length=80)
-    if friendly == "unknown":
-        return f"{stable}.zip"
-    return f"{friendly}__{stable}.zip"
+    return f"{stable}.zip"
 
 
 def _bundle_download_url(bundle_base_url: str, asset_name: str) -> str:
@@ -148,13 +145,18 @@ def _legacy_asset_names(
     asset_name: str,
     canonical_alias_ids: list[str] | None = None,
 ) -> list[str]:
+    names: list[str] = []
+    friendly = _safe_segment(canonical_name, max_length=80)
+    stable = _safe_segment(canonical_id, max_length=80)
+    if friendly != "unknown":
+        names.append(f"{friendly}__{stable}.zip")
     public_ids: list[str] = []
     public_ids.extend(canonical_alias_ids or [])
     hashed_fallback = hashed_fallback_canonical_id(canonical_name)
     if canonical_id == hashed_fallback:
         public_ids.append(legacy_fallback_canonical_id(canonical_name))
     public_ids.append(canonical_id)
-    names = [f"{_safe_segment(public_id, max_length=80)}.zip" for public_id in public_ids]
+    names.extend(f"{_safe_segment(public_id, max_length=80)}.zip" for public_id in public_ids)
     return [name for name in dict.fromkeys(names) if name != asset_name]
 
 
