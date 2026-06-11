@@ -28,29 +28,36 @@ export function Pagination({ current, total, onChange }: PaginationProps) {
   }
 
   return (
-    <nav className="flex items-center justify-center gap-1 pt-8 pb-4" aria-label="分頁">
+    <nav
+      className="flex items-center justify-center gap-1 pb-4 pt-8"
+      aria-label="分頁"
+    >
       <button
         onClick={() => onChange(current - 1)}
         disabled={current === 1}
-        className="size-9 rounded-lg flex items-center justify-center text-stone-500 hover:bg-stone-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        className="flex size-10 items-center justify-center rounded-[3px] border border-line text-ink-600 transition-colors hover:bg-cream hover:text-ink-950 disabled:pointer-events-none disabled:opacity-30"
         aria-label="上一頁"
       >
         <ChevronLeft className="size-4" strokeWidth={2} />
       </button>
       {pages.map((p, i) =>
         p === "..." ? (
-          <span key={`dots-${i}`} className="size-9 flex items-center justify-center text-stone-400 text-sm">
-            ...
+          <span
+            key={`dots-${i}`}
+            className="flex size-10 items-center justify-center font-mono text-sm text-ink-400"
+          >
+            …
           </span>
         ) : (
           <button
             key={p}
             onClick={() => onChange(p)}
+            aria-current={p === current ? "page" : undefined}
             className={cn(
-              "size-9 rounded-lg text-sm font-mono transition-all",
+              "size-10 rounded-[3px] font-mono text-sm transition-colors",
               p === current
-                ? "bg-teal-600 text-white"
-                : "text-stone-600 hover:bg-stone-100"
+                ? "bg-ink-950 text-cream"
+                : "text-ink-600 hover:bg-paper-deep hover:text-ink-950"
             )}
           >
             {p}
@@ -60,7 +67,7 @@ export function Pagination({ current, total, onChange }: PaginationProps) {
       <button
         onClick={() => onChange(current + 1)}
         disabled={current === total}
-        className="size-9 rounded-lg flex items-center justify-center text-stone-500 hover:bg-stone-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        className="flex size-10 items-center justify-center rounded-[3px] border border-line text-ink-600 transition-colors hover:bg-cream hover:text-ink-950 disabled:pointer-events-none disabled:opacity-30"
         aria-label="下一頁"
       >
         <ChevronRight className="size-4" strokeWidth={2} />

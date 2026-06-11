@@ -9,20 +9,21 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <div className="relative">
       <Search
-        className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-stone-300 pointer-events-none"
+        className="pointer-events-none absolute left-4 top-1/2 size-[18px] -translate-y-1/2 text-ink-400"
         strokeWidth={1.8}
       />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="搜尋考試類科 ..."
-        className="w-full h-12 pl-12 pr-12 text-base bg-white border border-stone-200 rounded-xl text-stone-900 placeholder:text-stone-300 transition-colors focus:border-teal-500 focus:outline-none"
+        placeholder="搜尋考試類科，例如：護理師、律師"
+        aria-label="搜尋考試類科"
+        className="h-12 w-full rounded-sm border border-line bg-cream pl-12 pr-12 text-base text-ink-950 transition-colors placeholder:text-ink-400 focus:border-ink-800 focus:outline-none focus:ring-[3px] focus:ring-seal-600/15"
       />
       {value && (
         <button
           onClick={() => onChange("")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 size-7 rounded-md flex items-center justify-center text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-colors"
+          className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-sm text-ink-500 transition-colors hover:bg-paper-deep hover:text-ink-950"
           aria-label="清除搜尋"
         >
           <X className="size-4" strokeWidth={2} />

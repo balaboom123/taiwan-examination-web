@@ -8,15 +8,15 @@ interface YearFilterProps {
 
 export function YearFilter({ years, selected, onSelect }: YearFilterProps) {
   return (
-    <div className="relative">
-    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide mask-fade-x">
+    <div className="mask-fade-x flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
       <button
         onClick={() => onSelect(null)}
+        aria-pressed={selected === null}
         className={cn(
-          "shrink-0 h-8 px-3.5 rounded-lg text-sm font-medium transition-all",
+          "h-9 shrink-0 rounded-[3px] border px-3.5 text-sm font-medium transition-colors",
           selected === null
-            ? "bg-teal-600 text-white"
-            : "bg-stone-100 text-stone-500 hover:bg-stone-200 hover:text-stone-700"
+            ? "border-ink-950 bg-ink-950 text-cream"
+            : "border-line bg-cream text-ink-600 hover:border-line-strong hover:text-ink-950"
         )}
       >
         全部年度
@@ -25,20 +25,18 @@ export function YearFilter({ years, selected, onSelect }: YearFilterProps) {
         <button
           key={year}
           onClick={() => onSelect(year === selected ? null : year)}
+          aria-pressed={year === selected}
           className={cn(
-            "shrink-0 h-8 px-3 rounded-lg text-sm font-mono transition-all",
+            "h-9 shrink-0 rounded-[3px] border px-3 font-mono text-sm transition-colors",
             year === selected
-              ? "bg-teal-600 text-white"
-              : "bg-stone-100 text-stone-500 hover:bg-stone-200 hover:text-stone-700"
+              ? "border-ink-950 bg-ink-950 text-cream"
+              : "border-line bg-cream text-ink-600 hover:border-line-strong hover:text-ink-950"
           )}
         >
           {year}
-          <span className="text-[10px] ml-0.5 opacity-60">
-            ({rocToAd(year)})
-          </span>
+          <span className="ml-1 text-[10px] opacity-60">{rocToAd(year)}</span>
         </button>
       ))}
-    </div>
     </div>
   )
 }

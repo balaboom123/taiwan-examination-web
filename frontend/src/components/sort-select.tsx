@@ -1,4 +1,3 @@
-import { ArrowUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export type SortKey = "name" | "files-desc" | "years-desc"
@@ -16,18 +15,25 @@ const options: { value: SortKey; label: string }[] = [
 
 export function SortSelect({ value, onChange }: SortSelectProps) {
   return (
-    <div className="flex items-center gap-1.5">
-      <ArrowUpDown className="size-4 text-stone-400" strokeWidth={1.8} />
-      <div className="flex items-center gap-0.5 bg-stone-100 rounded-lg p-0.5">
+    <div className="flex shrink-0 items-center gap-2">
+      <span id="sort-label" className="text-xs text-ink-500">
+        排序
+      </span>
+      <div
+        role="group"
+        aria-labelledby="sort-label"
+        className="flex rounded-sm border border-line bg-paper-deep p-0.5"
+      >
         {options.map((opt) => (
           <button
             key={opt.value}
             onClick={() => onChange(opt.value)}
+            aria-pressed={value === opt.value}
             className={cn(
-              "h-7 px-2.5 rounded-md text-sm transition-all",
+              "h-8 rounded-[3px] px-3 text-sm transition-colors",
               value === opt.value
-                ? "bg-white text-stone-900 shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
+                ? "bg-cream text-ink-950 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+                : "text-ink-500 hover:text-ink-950"
             )}
           >
             {opt.label}

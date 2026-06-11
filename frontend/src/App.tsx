@@ -6,15 +6,42 @@ import { Header } from "@/components/header"
 import { SearchBar } from "@/components/search-bar"
 import { YearFilter } from "@/components/year-filter"
 import { SortSelect, type SortKey } from "@/components/sort-select"
-import { BundleCard } from "@/components/bundle-card"
+import { BundleRow } from "@/components/bundle-row"
 import { StatsBar } from "@/components/stats-bar"
 import { EmptyState } from "@/components/empty-state"
 import { LoadingSkeleton } from "@/components/loading-skeleton"
 import { Pagination } from "@/components/pagination"
-import { AlertTriangle } from "lucide-react"
+import { Stamp } from "@/components/stamp"
 import type { Bundle } from "@/types"
 
 const PAGE_SIZE = 30
+
+function PaperGrain() {
+  return (
+    <div
+      aria-hidden="true"
+      className="texture-paper pointer-events-none fixed inset-0 z-50 opacity-[0.035] mix-blend-multiply"
+    />
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-4xl flex-col gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+        <span>資料來源：考選部歷屆試題查詢 · 本站為非官方整理</span>
+        <a
+          href="https://github.com/balaboom123/taiwan_examination_web"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono transition-colors hover:text-ink-950"
+        >
+          GitHub
+        </a>
+      </div>
+    </footer>
+  )
+}
 
 function App() {
   const { bundles, loading, error } = useBundles()
@@ -97,45 +124,53 @@ function App() {
 
   if (error) {
     return (
-      <div className="min-h-[100dvh] flex flex-col">
+      <div className="flex min-h-[100dvh] flex-col">
+        <PaperGrain />
         <Header totalBundles={0} />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="size-14 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-4">
-              <AlertTriangle className="size-7 text-red-400" strokeWidth={1.5} />
-            </div>
-            <p className="text-base font-medium text-stone-900">
-              資料載入失敗
-            </p>
-            <p className="mt-1 text-sm text-stone-500">{error}</p>
+        <div className="flex flex-1 items-center justify-center px-6">
+          <div className="flex flex-col items-center text-center">
+            <Stamp>載入失敗</Stamp>
+            <p className="mt-7 font-medium text-ink-950">資料載入失敗</p>
+            <p className="mt-1.5 text-sm text-ink-500">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-4 h-9 px-4 rounded-lg text-sm font-medium bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors"
+              className="mt-5 h-10 rounded-sm border border-line-strong px-4 text-sm font-medium text-ink-800 transition-colors hover:bg-cream"
             >
               重新載入
             </button>
           </div>
         </div>
+        <Footer />
       </div>
     )
   }
 
   return (
-    <div className="min-h-[100dvh] flex flex-col">
+    <div className="flex min-h-[100dvh] flex-col">
+      <PaperGrain />
       <Header totalBundles={bundles.length} />
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-8">
-        <div className="mb-8 animate-fade-up">
-          <h2 className="text-2xl md:text-3xl font-bold font-[Outfit] tracking-tight text-stone-900 leading-tight">
-            歷屆考試試題下載
-          </h2>
-          <p className="mt-2 text-sm text-stone-500 max-w-[65ch]">
-            收錄考選部歷年各類國家考試試題，依類科分類打包為 ZIP 檔案，可直接下載。
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-4xl flex-1 px-6 pb-10 pt-10">
+        <section className="flex items-start justify-between gap-8">
+          <div>
+            <h2 className="font-serif text-3xl font-black tracking-tight text-ink-950 md:text-[2.5rem] md:leading-[1.15]">
+              歷屆試題下載
+            </h2>
+            <p className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-ink-600">
+              收錄考選部歷年國家考試試題，依類科彙整為多年度 ZIP
+              檔，可直接下載。
+            </p>
+          </div>
+          <span
+            aria-hidden="true"
+            className="hidden shrink-0 select-none border-l border-line pl-4 pt-1 font-serif text-sm tracking-[0.3em] text-ink-400 [writing-mode:vertical-rl] md:block"
+          >
+            國家考試試題檔案庫
+          </span>
+        </section>
 
         {!loading && (
-          <div className="mb-6 animate-fade-up" style={{ animationDelay: "60ms" }}>
+          <div className="mt-8">
             <StatsBar
               total={bundles.length}
               totalFiles={totalFiles}
@@ -144,10 +179,7 @@ function App() {
           </div>
         )}
 
-        <div
-          className="flex flex-col gap-4 mb-6 animate-fade-up"
-          style={{ animationDelay: "120ms" }}
-        >
+        <div className="mt-6 flex flex-col gap-4">
           <SearchBar value={query} onChange={handleQueryChange} />
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -160,52 +192,40 @@ function App() {
           </div>
         </div>
 
-        {loading ? (
-          <LoadingSkeleton />
-        ) : filtered.length === 0 ? (
-          <EmptyState onReset={handleReset} />
-        ) : (
-          <>
-            <div className="mb-3 text-sm text-stone-400" aria-live="polite">
-              顯示 {(safePage - 1) * PAGE_SIZE + 1}–
-              {Math.min(safePage * PAGE_SIZE, filtered.length)} / 共{" "}
-              <span className="font-mono">{filtered.length}</span> 筆
+        <div className="mt-8">
+          {loading ? (
+            <LoadingSkeleton />
+          ) : filtered.length === 0 ? (
+            <EmptyState onReset={handleReset} />
+          ) : (
+            <div className="animate-fade-in">
+              <p
+                className="mb-2 font-mono text-xs text-ink-500"
+                aria-live="polite"
+              >
+                第 {(safePage - 1) * PAGE_SIZE + 1}–
+                {Math.min(safePage * PAGE_SIZE, filtered.length)} 筆 · 共{" "}
+                {filtered.length.toLocaleString()} 筆
+              </p>
+              <ul
+                role="list"
+                className="-mx-4 divide-y divide-line border-y border-line"
+              >
+                {paginated.map((bundle: Bundle) => (
+                  <BundleRow key={bundle.id} bundle={bundle} />
+                ))}
+              </ul>
+              <Pagination
+                current={safePage}
+                total={totalPages}
+                onChange={setPage}
+              />
             </div>
-            <div className="flex flex-col gap-3">
-              {paginated.map((bundle: Bundle, index: number) => (
-                <div
-                  key={bundle.id}
-                  className="animate-fade-up"
-                  style={{ animationDelay: `${index * 30}ms` }}
-                >
-                  <BundleCard bundle={bundle} />
-                </div>
-              ))}
-            </div>
-            <Pagination
-              current={safePage}
-              total={totalPages}
-              onChange={setPage}
-            />
-          </>
-        )}
+          )}
+        </div>
       </main>
 
-      <footer className="border-t border-stone-200 mt-auto">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-stone-400">
-          <span>
-            資料來源：考選部歷屆試題查詢
-          </span>
-          <a
-            href="https://github.com/balaboom123/taiwan_examination_web"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-stone-600 transition-colors"
-          >
-            GitHub
-          </a>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

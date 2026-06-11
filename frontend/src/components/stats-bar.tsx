@@ -1,5 +1,3 @@
-import { Database, Files, CalendarRange } from "lucide-react"
-
 interface StatsBarProps {
   total: number
   totalFiles: number
@@ -8,19 +6,21 @@ interface StatsBarProps {
 
 export function StatsBar({ total, totalFiles, yearRange }: StatsBarProps) {
   return (
-    <div className="flex flex-wrap items-center gap-6 text-sm text-stone-500">
-      <span className="flex items-center gap-1.5">
-        <Database className="size-4" strokeWidth={1.6} />
-        <span className="font-mono">{total.toLocaleString()}</span> 類科
-      </span>
-      <span className="flex items-center gap-1.5">
-        <Files className="size-4" strokeWidth={1.6} />
-        <span className="font-mono">{totalFiles.toLocaleString()}</span> 份檔案
-      </span>
-      <span className="flex items-center gap-1.5">
-        <CalendarRange className="size-4" strokeWidth={1.6} />
-        {yearRange}
-      </span>
-    </div>
+    <dl className="flex flex-wrap items-baseline gap-x-8 gap-y-1.5 border-y border-line py-3 font-mono text-xs text-ink-600">
+      <div className="flex items-baseline gap-1.5">
+        <dt>收錄類科</dt>
+        <dd className="font-medium text-ink-950">{total.toLocaleString()}</dd>
+      </div>
+      <div className="flex items-baseline gap-1.5">
+        <dt>試題檔案</dt>
+        <dd className="font-medium text-ink-950">
+          {totalFiles.toLocaleString()}
+        </dd>
+      </div>
+      <div className="flex items-baseline gap-1.5">
+        <dt>民國年度</dt>
+        <dd className="font-medium text-ink-950">{yearRange}</dd>
+      </div>
+    </dl>
   )
 }
