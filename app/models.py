@@ -150,7 +150,7 @@ FILE_TYPE_LABELS = {
 
 def to_plain_data(value: Any) -> Any:
     if hasattr(value, "__dataclass_fields__"):
-        return {key: to_plain_data(item) for key, item in asdict(value).items()}
+        return asdict(value)
     if isinstance(value, dict):
         return {key: to_plain_data(item) for key, item in value.items()}
     if isinstance(value, list):

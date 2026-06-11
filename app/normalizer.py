@@ -114,6 +114,24 @@ def _canonical_id(candidate: str) -> str:
     return hashed_fallback_canonical_id(candidate)
 
 
+def _derive_canonical(
+    raw_category: str,
+    exam_name_raw: str,
+    year_ad: int,
+    alias_rules: list[AliasRule],
+) -> tuple[str, str, str, bool]:
+    """Return (canonical_id, canonical_name, stripped_candidate, needs_review)."""
+    alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
+    candidate = _strip_exam_family(raw_category or exam_name_raw)
+    if alias:
+        return alias.canonical_id, alias.canonical_name, candidate, False
+    canonical_name = candidate or normalize_text(raw_category or exam_name_raw)
+    if _is_ambiguous(canonical_name):
+        canonical_name = normalize_text(raw_category or exam_name_raw)
+        return _canonical_id(canonical_name), canonical_name, candidate, True
+    return _canonical_id(canonical_name), canonical_name, candidate, False
+
+
 def normalize_papers(
     source_exam_id: str,
     year_ad: int,
@@ -128,18 +146,8 @@ def normalize_papers(
     review_queue: list[ReviewItem] = []
     for paper in papers:
         raw_category = paper.category_raw or exam_name_raw
-        alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
-        candidate = _strip_exam_family(raw_category or exam_name_raw)
-        if alias:
-            canonical_id = alias.canonical_id
-            canonical_name = alias.canonical_name
-        else:
-            canonical_name = candidate or normalize_text(raw_category or exam_name_raw)
-            canonical_id = _canonical_id(canonical_name)
-
-        if not alias and _is_ambiguous(canonical_name):
-            canonical_name = normalize_text(raw_category or exam_name_raw)
-            canonical_id = _canonical_id(canonical_name)
+        canonical_id, canonical_name, candidate, needs_review = _derive_canonical(raw_category, exam_name_raw, year_ad, alias_rules)
+        if needs_review:
             review_queue.append(
                 ReviewItem(
                     raw_category=raw_category,
@@ -180,18 +188,7 @@ def renormalize_catalog(catalog: NormalizedCatalog, alias_rules: list[AliasRule]
     papers: list[NormalizedPaper] = []
     for paper in catalog.papers:
         raw_category = paper.category_raw or paper.exam_name_raw
-        year_ad = paper.year_roc + 1911
-        alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
-        candidate = _strip_exam_family(raw_category or paper.exam_name_raw)
-        if alias:
-            canonical_id = alias.canonical_id
-            canonical_name = alias.canonical_name
-        else:
-            canonical_name = candidate or normalize_text(raw_category or paper.exam_name_raw)
-            canonical_id = _canonical_id(canonical_name)
-            if _is_ambiguous(canonical_name):
-                canonical_name = normalize_text(raw_category or paper.exam_name_raw)
-                canonical_id = _canonical_id(canonical_name)
+        canonical_id, canonical_name, _, _ = _derive_canonical(raw_category, paper.exam_name_raw, paper.year_roc + 1911, alias_rules)
         if canonical_id != paper.canonical_id or canonical_name != paper.canonical_name:
             paper = replace(paper, canonical_id=canonical_id, canonical_name=canonical_name)
         papers.append(paper)

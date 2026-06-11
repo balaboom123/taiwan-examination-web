@@ -1,27 +1,29 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from html import escape
 from pathlib import Path
+from typing import TypeVar
 
 from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 
+T = TypeVar("T")
 
-def _write_split_by_year(directory: Path, items: list, year_key: str) -> None:
+
+def _write_split_by_year(directory: Path, items: list[T], year_of: Callable[[T], int]) -> dict[int, list[T]]:
     directory.mkdir(parents=True, exist_ok=True)
-    by_year: dict[int, list] = {}
+    by_year: dict[int, list[T]] = {}
     for item in items:
-        year = item[year_key] if isinstance(item, dict) else getattr(item, year_key)
-        by_year.setdefault(year, []).append(item)
+        by_year.setdefault(year_of(item), []).append(item)
     existing = {int(f.stem) for f in directory.glob("*.json") if f.stem.isdigit()}
-    written = set()
     for year_ad, year_items in sorted(by_year.items()):
-        written.add(year_ad)
         (directory / f"{year_ad}.json").write_text(
             json.dumps(to_plain_data(year_items), ensure_ascii=False), encoding="utf-8"
         )
-    for stale_year in existing - written:
+    for stale_year in existing - by_year.keys():
         (directory / f"{stale_year}.json").unlink(missing_ok=True)
+    return by_year
 
 
 def write_data_files(
@@ -33,21 +35,8 @@ def write_data_files(
     failures: list[SyncFailure],
 ) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
-    _write_split_by_year(data_dir / "exams", raw_pages, "year_ad")
-    papers_dir = data_dir / "papers"
-    papers_dir.mkdir(parents=True, exist_ok=True)
-    by_year: dict[int, list] = {}
-    for paper in normalized.papers:
-        by_year.setdefault(paper.year_roc + 1911, []).append(paper)
-    existing = {int(f.stem) for f in papers_dir.glob("*.json") if f.stem.isdigit()}
-    written = set()
-    for year_ad, year_papers in sorted(by_year.items()):
-        written.add(year_ad)
-        (papers_dir / f"{year_ad}.json").write_text(
-            json.dumps(to_plain_data(year_papers), ensure_ascii=False), encoding="utf-8"
-        )
-    for stale_year in existing - written:
-        (papers_dir / f"{stale_year}.json").unlink(missing_ok=True)
+    _write_split_by_year(data_dir / "exams", raw_pages, lambda page: page.year_ad)
+    _write_split_by_year(data_dir / "papers", normalized.papers, lambda paper: paper.year_roc + 1911)
     for legacy in ("exams.raw.json", "papers.json"):
         (data_dir / legacy).unlink(missing_ok=True)
     (data_dir / "bundles.json").write_text(json.dumps(to_plain_data(bundles), ensure_ascii=False, indent=2), encoding="utf-8")
@@ -89,19 +78,8 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
     (data_dir / "bundles.json").write_text(
         json.dumps(to_plain_data(bundles), ensure_ascii=False), encoding="utf-8"
     )
-    by_year: dict[int, list] = {}
-    for paper in normalized.papers:
-        by_year.setdefault(paper.year_roc + 1911, []).append(paper)
+    by_year = _write_split_by_year(papers_site_dir, normalized.papers, lambda paper: paper.year_roc + 1911)
     available_years = sorted(by_year.keys(), reverse=True)
-    existing_site_years = {int(f.stem) for f in papers_site_dir.glob("*.json") if f.stem.isdigit()}
-    written_site_years: set[int] = set()
-    for year_ad, year_papers in by_year.items():
-        written_site_years.add(year_ad)
-        (papers_site_dir / f"{year_ad}.json").write_text(
-            json.dumps(to_plain_data(year_papers), ensure_ascii=False), encoding="utf-8"
-        )
-    for stale_year in existing_site_years - written_site_years:
-        (papers_site_dir / f"{stale_year}.json").unlink(missing_ok=True)
     file_type_labels_json = json.dumps(FILE_TYPE_LABELS, ensure_ascii=False)
     canonical_names, years_roc = _group_options(normalized.papers)
     name_options = "".join(f'<option value="{escape(name, quote=True)}">{escape(name)}</option>' for name in canonical_names)

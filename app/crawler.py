@@ -37,6 +37,10 @@ def make_result_url(exam_code: str, year_ad: int) -> str:
     return f"{urljoin(BASE_URL, SEARCH_PATH)}?{urlencode({'e': exam_code, 'y': str(year_ad)})}"
 
 
+def make_year_search_url(year_ad: int) -> str:
+    return f"{urljoin(BASE_URL, SEARCH_PATH)}?{urlencode({'y': str(year_ad)})}"
+
+
 def make_download_url(href: str) -> str:
     return urljoin(BASE_URL, href)
 
@@ -236,7 +240,7 @@ def parse_result_page(html: str, exam_code: str, year_ad: int) -> SourceExamPage
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,
-            year_roc=year_ad - 1911,
+            year_roc=_year_roc(year_ad),
             exam_name_raw="",
             attachments=[],
             papers=[],
@@ -336,8 +340,7 @@ class MoexClient:
         return parse_search_page(self._fetch_text(urljoin(BASE_URL, SEARCH_PATH))).available_years
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        url = f"{urljoin(BASE_URL, SEARCH_PATH)}?{urlencode({'y': str(year_ad)})}"
-        return parse_search_page(self._fetch_text(url)).exams
+        return parse_search_page(self._fetch_text(make_year_search_url(year_ad))).exams
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         return parse_result_page(self._fetch_text(make_result_url(exam_code, year_ad)), exam_code=exam_code, year_ad=year_ad)

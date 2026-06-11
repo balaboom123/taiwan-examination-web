@@ -4,7 +4,7 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from app.crawler import MoexClient
-from app.models import AliasRule, ExamAttachment, NormalizedCatalog, ParsedPaper, SourceExamPage, SyncFailure
+from app.models import AliasRule, ExamAttachment, NormalizedCatalog, ParsedPaper, SourceExamPage, StoredFile, SyncFailure
 from app.normalizer import normalize_papers
 from app.storage import MirrorStore
 
@@ -77,6 +77,18 @@ def _is_valid_stored_file(path: Path, file_type: str) -> bool:
     return _matches_expected_binary(path.read_bytes()[:8], expected_extension)
 
 
+def _ensure_mirrored(client: MoexClient, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
+    stored = mirror_store.find_existing(prefix)
+    if stored is not None and not _is_valid_stored_file(stored.path, file_type):
+        stored = None
+    if stored is None:
+        downloaded = client.download_file(download_url)
+        extension = _validated_extension(file_type, downloaded.data, downloaded.content_type, downloaded.file_name)
+        stored = mirror_store.write_bytes(f"{prefix}{extension}", downloaded.data, overwrite=True)
+        mirror_store.delete_matching_except(prefix, stored.storage_key)
+    return stored
+
+
 def sync_exam_pages(
     client: MoexClient,
     exam_codes: list[tuple[str, int]],
@@ -111,20 +123,13 @@ def sync_exam_pages(
         if download_attachments:
             for attachment in page.attachments:
                 try:
-                    stored = mirror_store.find_existing(_mirror_prefix_for_attachment(page, attachment))
-                    if stored is not None and not _is_valid_stored_file(stored.path, attachment.file_type):
-                        stored = None
-                    if stored is None:
-                        downloaded = client.download_file(attachment.download_url_source)
-                        extension = _validated_extension(
-                            attachment.file_type,
-                            downloaded.data,
-                            downloaded.content_type,
-                            downloaded.file_name,
-                        )
-                        storage_key = f"{_mirror_prefix_for_attachment(page, attachment)}{extension}"
-                        stored = mirror_store.write_bytes(storage_key, downloaded.data, overwrite=True)
-                        mirror_store.delete_matching_except(_mirror_prefix_for_attachment(page, attachment), stored.storage_key)
+                    stored = _ensure_mirrored(
+                        client,
+                        mirror_store,
+                        _mirror_prefix_for_attachment(page, attachment),
+                        attachment.file_type,
+                        attachment.download_url_source,
+                    )
                     attachment.storage_key = stored.storage_key
                     attachment.asset_name = _asset_name_for(stored.storage_key)
                     attachment.checksum = stored.checksum
@@ -145,15 +150,7 @@ def sync_exam_pages(
         for paper in page.papers:
             for file_type, download_url in paper.files.items():
                 try:
-                    stored = mirror_store.find_existing(_mirror_prefix_for_paper(page, paper, file_type))
-                    if stored is not None and not _is_valid_stored_file(stored.path, file_type):
-                        stored = None
-                    if stored is None:
-                        downloaded = client.download_file(download_url)
-                        extension = _validated_extension(file_type, downloaded.data, downloaded.content_type, downloaded.file_name)
-                        storage_key = f"{_mirror_prefix_for_paper(page, paper, file_type)}{extension}"
-                        stored = mirror_store.write_bytes(storage_key, downloaded.data, overwrite=True)
-                        mirror_store.delete_matching_except(_mirror_prefix_for_paper(page, paper, file_type), stored.storage_key)
+                    stored = _ensure_mirrored(client, mirror_store, _mirror_prefix_for_paper(page, paper, file_type), file_type, download_url)
                     paper.mirror_files[file_type] = {
                         "storage_key": stored.storage_key,
                         "asset_name": _asset_name_for(stored.storage_key),

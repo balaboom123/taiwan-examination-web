@@ -4,9 +4,8 @@ import copy
 import hashlib
 import json
 from dataclasses import asdict, dataclass, field
-from urllib.parse import urlencode, urljoin
 
-from app.crawler import BASE_URL, SEARCH_PATH, MoexClient, make_result_url
+from app.crawler import MoexClient, make_result_url, make_year_search_url
 from app.manifest import SourceManifest
 from app.models import SourceExamPage
 
@@ -36,13 +35,8 @@ def hash_paper_urls(page: SourceExamPage) -> str:
     return _stable_hash(records)
 
 
-def make_year_search_url(year_ad: int) -> str:
-    return f"{urljoin(BASE_URL, SEARCH_PATH)}?{urlencode({'y': str(year_ad)})}"
-
-
 @dataclass
 class ProbeResult:
-    schema_version: int = 1
     generated_at: str = ""
     changed_years: list[int] = field(default_factory=list)
     changed_exam_codes: list[str] = field(default_factory=list)

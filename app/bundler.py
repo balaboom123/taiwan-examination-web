@@ -113,7 +113,7 @@ def _paper_bundle_key(paper: NormalizedPaper | dict[str, object]) -> tuple[str, 
     return (paper.source_exam_id, paper.category_code, paper.subject_code, paper.file_type)
 
 
-def _bundle_asset_name(canonical_id: str, canonical_name: str) -> str:
+def _bundle_asset_name(canonical_id: str) -> str:
     stable = _safe_segment(canonical_id, max_length=80)
     return f"{stable}.zip"
 
@@ -185,14 +185,15 @@ def _load_existing_entries_by_canonical(
             on_progress(idx, total)
         try:
             with zipfile.ZipFile(archive_path, "r") as archive:
-                if "bundle.json" not in archive.namelist():
+                names = archive.namelist()
+                if "bundle.json" not in names:
                     continue
                 manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
                 canonical_id = manifest.get("canonical_id")
                 if not canonical_id:
                     continue
                 entries_by_name = existing_entries_by_name.setdefault(canonical_id, {})
-                for name in archive.namelist():
+                for name in names:
                     if name != "bundle.json":
                         entries_by_name[name] = (archive_path, name)
                 manifest_papers = manifest.get("papers", [])
@@ -236,7 +237,7 @@ def build_bundles(
                 if on_progress:
                     on_progress(group_index, total_groups, f"[skipped] {canonical_name}", 0)
                 continue
-        asset_name = _bundle_asset_name(canonical_id, canonical_name)
+        asset_name = _bundle_asset_name(canonical_id)
         compatibility_ids = list(canonical_aliases.get(canonical_id, [])) if canonical_aliases else []
         for fallback_id in (legacy_fallback_canonical_id(canonical_name), hashed_fallback_canonical_id(canonical_name)):
             if fallback_id != canonical_id and fallback_id in existing_entries_by_canonical and fallback_id not in compatibility_ids:

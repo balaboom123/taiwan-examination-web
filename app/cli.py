@@ -29,8 +29,7 @@ def _discover_years(client: MoexClient, years: list[int] | None) -> list[int]:
 
 
 def _latest_years(client: MoexClient, count: int) -> list[int]:
-    years = sorted(client.discover_available_years(), reverse=True)
-    return sorted(years[:count], reverse=True)
+    return sorted(client.discover_available_years(), reverse=True)[:count]
 
 
 def command_discover(args: argparse.Namespace) -> int:

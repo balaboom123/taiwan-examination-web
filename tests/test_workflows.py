@@ -1,5 +1,19 @@
+import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+RELEASE_SCRIPT_PATH = REPO_ROOT / ".github" / "scripts" / "release_assets.py"
+
+
+def _load_release_script():
+    spec = importlib.util.spec_from_file_location("release_assets", RELEASE_SCRIPT_PATH)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 class WorkflowTests(unittest.TestCase):
@@ -7,8 +21,7 @@ class WorkflowTests(unittest.TestCase):
         workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
-        self.assertIn("expected_zip_names", workflow)
-        self.assertIn("current_release_zip_names", workflow)
+        self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
         self.assertIn("python -m app sync-full", workflow)
         self.assertIn("steps.release_state.outputs.bootstrap_required == 'true'", workflow)
@@ -42,25 +55,99 @@ class WorkflowTests(unittest.TestCase):
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn('- cron: "45 3 1 * *"', workflow)
-        self.assertIn("expected_zip_names", workflow)
+        self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
         self.assertIn("python -m app sync-full", workflow)
         self.assertIn("python -m app sync-incremental --years 2", workflow)
         self.assertIn("--write-manifest", workflow)
-        self.assertIn('asset["name"].endswith(".zip")', workflow)
-        self.assertIn('"delete-asset"', workflow)
+        self.assertIn("release_assets.py prune", workflow)
 
-    def test_incremental_workflow_only_deletes_stale_zip_assets(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
-        workflow = workflow_path.read_text(encoding="utf-8")
+    def test_workflows_prune_stale_assets_via_shared_script(self) -> None:
+        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("release_assets.py upload", workflow)
+            self.assertIn("release_assets.py prune", workflow)
 
-        self.assertIn('asset["name"].endswith(".zip")', workflow)
+    def test_release_script_only_deletes_stale_zip_assets(self) -> None:
+        module = _load_release_script()
+        release_payload = json.dumps(
+            {"assets": [{"name": "keep.zip"}, {"name": "stale.zip"}, {"name": "notes.txt"}]}
+        )
+        with mock.patch.object(module, "_local_assets", return_value=[{"asset_name": "keep.zip"}]), \
+                mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            exit_code = module.prune()
 
-    def test_full_workflow_only_deletes_stale_zip_assets(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-full.yml"
-        workflow = workflow_path.read_text(encoding="utf-8")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(
+            [call.args[0] for call in run_mock.call_args_list],
+            [["gh", "release", "delete-asset", module.RELEASE_TAG, "stale.zip", "--yes"]],
+        )
 
-        self.assertIn('asset["name"].endswith(".zip")', workflow)
+    def test_release_script_never_prunes_legacy_alias_assets(self) -> None:
+        module = _load_release_script()
+        local_assets = [{"asset_name": "nurse-id.zip", "legacy_asset_names": ["護理師__nurse.zip", "nurse.zip"]}]
+        release_payload = json.dumps(
+            {"assets": [{"name": "nurse-id.zip"}, {"name": "護理師__nurse.zip"}, {"name": "nurse.zip"}, {"name": "stale.zip"}]}
+        )
+        with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            self.assertEqual(module.prune(), 0)
+
+        self.assertEqual(
+            [call.args[0] for call in run_mock.call_args_list],
+            [["gh", "release", "delete-asset", module.RELEASE_TAG, "stale.zip", "--yes"]],
+        )
+
+    def test_release_script_coverage_compares_expected_and_current_zip_names(self) -> None:
+        module = _load_release_script()
+        local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"]}]
+        cases = [
+            ([], "bootstrap_required=true"),
+            (["a.zip"], "bootstrap_required=true"),
+            (["a-alias.zip", "a.zip"], "bootstrap_required=false"),
+        ]
+        for release_names, expected_line in cases:
+            with self.subTest(release_names=release_names):
+                with tempfile.TemporaryDirectory() as tmp:
+                    output_path = Path(tmp) / "github-output"
+                    with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                            mock.patch.object(module, "_release_zip_names", return_value=release_names), \
+                            mock.patch.dict(module.os.environ, {"GITHUB_OUTPUT": str(output_path)}):
+                        self.assertEqual(module.coverage(), 0)
+                    self.assertIn(expected_line, output_path.read_text(encoding="utf-8"))
+
+    def test_release_script_uploads_primary_and_legacy_asset_names(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(b"PK\x05\x06")
+            local_assets = [
+                {"storage_key": str(bundle_path), "asset_name": "nurse-id.zip", "legacy_asset_names": ["nurse.zip"]}
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
+        self.assertEqual(
+            [call.args[0] for call in run_mock.call_args_list],
+            [
+                ["gh", "release", "upload", module.RELEASE_TAG, f"{bundle_path}#nurse-id.zip", "--clobber"],
+                ["gh", "release", "upload", module.RELEASE_TAG, f"{bundle_path}#nurse.zip", "--clobber"],
+            ],
+        )
+
+    def test_release_script_upload_fails_when_local_bundle_files_missing(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            absent = str(Path(tmp) / "absent.zip")
+            local_assets = [{"storage_key": absent, "asset_name": "absent.zip"}]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 1)
+        run_mock.assert_not_called()
 
     def test_workflows_no_longer_install_or_use_ghostscript(self) -> None:
         workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
@@ -83,8 +170,15 @@ class WorkflowTests(unittest.TestCase):
         workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
-            self.assertIn('gh release create "$MOEX_RELEASE_TAG" --title "MOEX downloadable bundles"', workflow)
-            self.assertIn('Human-friendly exam bundles with compatibility aliases', workflow)
+            self.assertIn("release_assets.py ensure", workflow)
+
+        module = _load_release_script()
+        with mock.patch.object(module.subprocess, "run") as run_mock:
+            run_mock.side_effect = [mock.Mock(returncode=1), mock.Mock(returncode=0)]
+            self.assertEqual(module.ensure(), 0)
+        create_command = run_mock.call_args_list[1].args[0]
+        self.assertIn("MOEX downloadable bundles", create_command)
+        self.assertIn("Human-friendly exam bundles with compatibility aliases", create_command)
 
     def test_readme_documents_human_friendly_bundle_assets(self) -> None:
         readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
