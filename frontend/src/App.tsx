@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { useBundles } from "@/hooks/use-bundles"
 import { useDebouncedValue } from "@/hooks/use-debounce"
-import { rocToAd } from "@/lib/utils"
+import { formatYearRange } from "@/lib/utils"
 import { Header } from "@/components/header"
 import { SearchBar } from "@/components/search-bar"
 import { YearFilter } from "@/components/year-filter"
@@ -72,12 +72,7 @@ function App() {
     [bundles]
   )
 
-  const yearRange = useMemo(() => {
-    if (allYears.length === 0) return ""
-    const newest = allYears[0]
-    const oldest = allYears[allYears.length - 1]
-    return `${oldest}–${newest} (${rocToAd(oldest)}–${rocToAd(newest)})`
-  }, [allYears])
+  const yearRange = useMemo(() => formatYearRange(allYears), [allYears])
 
   function handleQueryChange(value: string) {
     setQuery(value)

@@ -20,14 +20,17 @@ class MirrorStore:
             size=len(data),
         )
 
-    def find_existing(self, storage_key_prefix: str) -> StoredFile | None:
+    def _candidate_paths(self, storage_key_prefix: str) -> list[Path]:
         path_prefix = self.root / Path(storage_key_prefix)
-        matches: list[Path] = []
+        candidates: list[Path] = []
         if path_prefix.is_file():
-            matches.append(path_prefix)
+            candidates.append(path_prefix)
         if path_prefix.parent.exists():
-            matches.extend(candidate for candidate in sorted(path_prefix.parent.glob(f"{path_prefix.name}.*")) if candidate.is_file())
-        unique_matches = list(dict.fromkeys(matches))
+            candidates.extend(candidate for candidate in sorted(path_prefix.parent.glob(f"{path_prefix.name}.*")) if candidate.is_file())
+        return candidates
+
+    def find_existing(self, storage_key_prefix: str) -> StoredFile | None:
+        unique_matches = list(dict.fromkeys(self._candidate_paths(storage_key_prefix)))
         if len(unique_matches) > 1:
             preferred_matches = [candidate for candidate in unique_matches if candidate.suffix.lower() in {".pdf", ".zip"}]
             if len(preferred_matches) == 1:
@@ -37,14 +40,8 @@ class MirrorStore:
         return self._stored_file_for_path(unique_matches[0], created=False)
 
     def delete_matching_except(self, storage_key_prefix: str, keep_storage_key: str) -> None:
-        path_prefix = self.root / Path(storage_key_prefix)
         keep_path = self.root / Path(keep_storage_key)
-        candidates: list[Path] = []
-        if path_prefix.is_file():
-            candidates.append(path_prefix)
-        if path_prefix.parent.exists():
-            candidates.extend(candidate for candidate in sorted(path_prefix.parent.glob(f"{path_prefix.name}.*")) if candidate.is_file())
-        for candidate in dict.fromkeys(candidates):
+        for candidate in dict.fromkeys(self._candidate_paths(storage_key_prefix)):
             if candidate != keep_path:
                 candidate.unlink(missing_ok=True)
 

@@ -13,7 +13,6 @@ from app.models import ExamAttachment, ExamOption, ParsedPaper, SearchPageData, 
 
 BASE_URL = "https://wwwq.moex.gov.tw/exam/"
 SEARCH_PATH = "wFrmExamQandASearch.aspx"
-DOWNLOAD_PATH = "wHandExamQandA_File.ashx"
 USER_AGENT = "Mozilla/5.0 (compatible; moex-mirror/1.0)"
 TWCA_CA_BUNDLE_PATH = Path(__file__).with_name("twca-ca-bundle.pem")
 

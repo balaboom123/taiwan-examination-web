@@ -27,53 +27,14 @@ def load_existing_state(data_dir: Path) -> tuple[list[SourceExamPage], Normalize
     )
 
 
-def merge_incremental_state(
+def _merge_state(
     existing_raw_pages: list[SourceExamPage],
     existing_catalog: NormalizedCatalog,
     existing_bundles: list[BundleAsset],
     refreshed_raw_pages: list[SourceExamPage],
     refreshed_catalog: NormalizedCatalog,
-    refreshed_year_rocs: set[int],
+    replaced_exam_ids: set[str],
 ) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
-    refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
-    merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in refreshed_exam_ids] + refreshed_raw_pages
-    merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in refreshed_exam_ids] + refreshed_catalog.papers
-    merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in refreshed_exam_ids] + refreshed_catalog.review_queue
-    migrations = _derive_canonical_migrations(existing_catalog, refreshed_catalog, refreshed_exam_ids)
-    merged_catalog = _apply_canonical_migrations(
-        NormalizedCatalog(papers=merged_papers, review_queue=merged_review_queue),
-        migrations,
-    )
-
-    affected_canonical_ids = {paper.canonical_id for paper in existing_catalog.papers if paper.source_exam_id in refreshed_exam_ids}
-    affected_canonical_ids.update(paper.canonical_id for paper in refreshed_catalog.papers)
-    affected_canonical_ids.update(migrations)
-    affected_canonical_ids.update(migration[0] for migration in migrations.values())
-    active_canonical_ids = {paper.canonical_id for paper in merged_catalog.papers}
-    preserved_bundles = [
-        bundle
-        for bundle in existing_bundles
-        if bundle.canonical_id in active_canonical_ids and bundle.canonical_id not in affected_canonical_ids
-    ]
-    return (
-        merged_raw_pages,
-        merged_catalog,
-        preserved_bundles,
-        affected_canonical_ids,
-        _canonical_aliases_from_migrations(migrations),
-    )
-
-
-def merge_targeted_state(
-    existing_raw_pages: list[SourceExamPage],
-    existing_catalog: NormalizedCatalog,
-    existing_bundles: list[BundleAsset],
-    refreshed_raw_pages: list[SourceExamPage],
-    refreshed_catalog: NormalizedCatalog,
-    removed_exam_ids: set[str],
-) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
-    refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
-    replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
     merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in replaced_exam_ids] + refreshed_raw_pages
     merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in replaced_exam_ids] + refreshed_catalog.papers
     merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in replaced_exam_ids] + refreshed_catalog.review_queue
@@ -100,6 +61,30 @@ def merge_targeted_state(
         affected_canonical_ids,
         _canonical_aliases_from_migrations(migrations),
     )
+
+
+def merge_incremental_state(
+    existing_raw_pages: list[SourceExamPage],
+    existing_catalog: NormalizedCatalog,
+    existing_bundles: list[BundleAsset],
+    refreshed_raw_pages: list[SourceExamPage],
+    refreshed_catalog: NormalizedCatalog,
+) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
+    replaced_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+    return _merge_state(existing_raw_pages, existing_catalog, existing_bundles, refreshed_raw_pages, refreshed_catalog, replaced_exam_ids)
+
+
+def merge_targeted_state(
+    existing_raw_pages: list[SourceExamPage],
+    existing_catalog: NormalizedCatalog,
+    existing_bundles: list[BundleAsset],
+    refreshed_raw_pages: list[SourceExamPage],
+    refreshed_catalog: NormalizedCatalog,
+    removed_exam_ids: set[str],
+) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
+    refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+    replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
+    return _merge_state(existing_raw_pages, existing_catalog, existing_bundles, refreshed_raw_pages, refreshed_catalog, replaced_exam_ids)
 
 
 def filter_catalog_by_canonical_ids(catalog: NormalizedCatalog, canonical_ids: set[str]) -> NormalizedCatalog:

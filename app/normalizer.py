@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import unicodedata
+from dataclasses import replace
 from pathlib import Path
 from typing import Iterable
 
@@ -192,23 +193,6 @@ def renormalize_catalog(catalog: NormalizedCatalog, alias_rules: list[AliasRule]
                 canonical_name = normalize_text(raw_category or paper.exam_name_raw)
                 canonical_id = _canonical_id(canonical_name)
         if canonical_id != paper.canonical_id or canonical_name != paper.canonical_name:
-            paper = NormalizedPaper(
-                canonical_id=canonical_id,
-                canonical_name=canonical_name,
-                year_roc=paper.year_roc,
-                exam_name_raw=paper.exam_name_raw,
-                category_raw=paper.category_raw,
-                subject_name_raw=paper.subject_name_raw,
-                paper_code=paper.paper_code,
-                file_type=paper.file_type,
-                download_url_source=paper.download_url_source,
-                category_code=paper.category_code,
-                source_exam_id=paper.source_exam_id,
-                subject_code=paper.subject_code,
-                download_url_mirror=paper.download_url_mirror,
-                download_url_bundle=paper.download_url_bundle,
-                storage_key=paper.storage_key,
-                checksum=paper.checksum,
-            )
+            paper = replace(paper, canonical_id=canonical_id, canonical_name=canonical_name)
         papers.append(paper)
     return NormalizedCatalog(papers=papers, review_queue=catalog.review_queue)

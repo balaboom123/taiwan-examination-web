@@ -33,13 +33,6 @@ def _latest_years(client: MoexClient, count: int) -> list[int]:
     return sorted(years[:count], reverse=True)
 
 
-def _collect_exam_codes(client: MoexClient, years: list[int]) -> list[tuple[str, int]]:
-    exam_codes: list[tuple[str, int]] = []
-    for year in years:
-        exam_codes.extend((exam.code, exam.year_ad) for exam in client.discover_exams(year))
-    return exam_codes
-
-
 def command_discover(args: argparse.Namespace) -> int:
     client = MoexClient()
     years = _discover_years(client, args.years)
@@ -109,10 +102,6 @@ def run_probe_latest(args: argparse.Namespace, client: MoexClient | None = None,
     return 0
 
 
-def command_probe_latest(args: argparse.Namespace) -> int:
-    return run_probe_latest(args)
-
-
 def _download_affected_bundles(bundle_dir: Path, existing_bundles: list[BundleAsset], affected_canonical_ids: set[str], release_tag: str) -> None:
     asset_names = []
     for bundle in existing_bundles:
@@ -132,6 +121,13 @@ def _write_probe_manifest_if_present(probe: dict[str, object], manifest_path: Pa
     updated_manifest = probe.get("updated_manifest")
     if isinstance(updated_manifest, dict):
         write_source_manifest(manifest_path, source_manifest_from_data(updated_manifest))
+
+
+def _merge_bundle_lists(preserved: list[BundleAsset], rebuilt: list[BundleAsset]) -> list[BundleAsset]:
+    canonical_order = {bundle.canonical_id: bundle for bundle in preserved}
+    for bundle in rebuilt:
+        canonical_order[bundle.canonical_id] = bundle
+    return sorted(canonical_order.values(), key=lambda bundle: bundle.canonical_id)
 
 
 def _print_failures(failures: list) -> None:
@@ -192,10 +188,7 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
     if rebuild_result.failures:
         _print_failures(rebuild_result.failures)
         return 1
-    canonical_order = {bundle.canonical_id: bundle for bundle in preserved_bundles}
-    for bundle in rebuild_result.bundles:
-        canonical_order[bundle.canonical_id] = bundle
-    bundles = sorted(canonical_order.values(), key=lambda bundle: bundle.canonical_id)
+    bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
     replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
     failures = [failure for failure in existing_failures if failure.source_exam_id not in replaced_exam_ids]
     failures.extend(sync_failures)
@@ -207,12 +200,8 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
     return 0
 
 
-def command_sync_targeted(args: argparse.Namespace) -> int:
-    return run_sync_targeted(args)
-
-
-def command_sync(args: argparse.Namespace) -> int:
-    client = MoexClient()
+def command_sync(args: argparse.Namespace, client: MoexClient | None = None) -> int:
+    client = client or MoexClient()
     if getattr(args, "year_window", None):
         years = _latest_years(client, args.year_window)
     else:
@@ -253,14 +242,18 @@ def command_sync(args: argparse.Namespace) -> int:
     incremental_mode = getattr(args, "year_window", None) is not None
     if incremental_mode:
         existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
-        refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+        failed_exam_ids = {failure.source_exam_id for failure in sync_failures}
+        safe_raw_pages = [page for page in refreshed_raw_pages if page.source_exam_id not in failed_exam_ids]
+        safe_catalog = NormalizedCatalog(
+            papers=[p for p in refreshed_catalog.papers if p.source_exam_id not in failed_exam_ids],
+            review_queue=[r for r in refreshed_catalog.review_queue if r.source_exam_id not in failed_exam_ids],
+        )
         raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_incremental_state(
             existing_raw_pages=existing_raw_pages,
             existing_catalog=existing_catalog,
             existing_bundles=existing_bundles,
-            refreshed_raw_pages=refreshed_raw_pages,
-            refreshed_catalog=refreshed_catalog,
-            refreshed_year_rocs={year - 1911 for year in years},
+            refreshed_raw_pages=safe_raw_pages,
+            refreshed_catalog=safe_catalog,
         )
         rebuild_result = build_bundles(
             bundle_dir=args.bundle_dir,
@@ -269,10 +262,11 @@ def command_sync(args: argparse.Namespace) -> int:
             bundle_base_url=args.bundle_base_url or args.mirror_base_url,
             canonical_aliases=canonical_aliases,
         )
-        canonical_order = {bundle.canonical_id: bundle for bundle in preserved_bundles}
-        for bundle in rebuild_result.bundles:
-            canonical_order[bundle.canonical_id] = bundle
-        bundles = sorted(canonical_order.values(), key=lambda bundle: bundle.canonical_id)
+        if rebuild_result.failures:
+            _print_failures(rebuild_result.failures)
+            return 1
+        bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
+        refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
         failures = [failure for failure in existing_failures if failure.source_exam_id not in refreshed_exam_ids]
         failures.extend(sync_failures)
         failures.extend(rebuild_result.failures)
@@ -314,7 +308,7 @@ def build_parser() -> argparse.ArgumentParser:
     probe_parser.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
     probe_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "source-probe.json")
     probe_parser.add_argument("--write-manifest", action="store_true")
-    probe_parser.set_defaults(handler=command_probe_latest)
+    probe_parser.set_defaults(handler=run_probe_latest)
 
     targeted = subparsers.add_parser("sync-targeted", help="Sync only changed exams from a probe output file.")
     targeted.add_argument("--probe", type=Path, default=repo_root / ".tmp" / "source-probe.json")
@@ -329,7 +323,7 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--download-attachments", action="store_true", default=False)
     targeted.add_argument("--download-affected-bundles", action="store_true", default=False)
     targeted.add_argument("--release-tag", default="moex-bundles")
-    targeted.set_defaults(handler=command_sync_targeted)
+    targeted.set_defaults(handler=run_sync_targeted)
 
     for name in ("sync-full", "sync-incremental"):
         sync = subparsers.add_parser(name, help=f"{name} against the live MOEX site.")

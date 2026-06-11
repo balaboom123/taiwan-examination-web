@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.parse import quote
 from unittest.mock import patch
 
-from app.cli import _download_affected_bundles, build_parser, main, run_probe_latest, run_sync_targeted
+from app.cli import _download_affected_bundles, build_parser, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
 from app.publisher import write_data_files
@@ -454,6 +454,121 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest, manifest_payload)
+
+
+    def test_command_sync_incremental_preserves_existing_data_on_download_failure(self) -> None:
+        class PartialFailureClient:
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [ExamOption(code="115030", year_ad=2026, year_roc=115, label="Exam")]
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                return SourceExamPage(
+                    source_exam_id="115030",
+                    year_ad=2026,
+                    year_roc=115,
+                    exam_name_raw="115年護理師考試",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="護理師",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="基礎醫學",
+                            files={
+                                "question": "https://example.test/question.pdf",
+                                "answer": "https://example.test/answer.pdf",
+                            },
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                if url.endswith("answer.pdf"):
+                    raise RuntimeError("transient network failure")
+                return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            aliases = [AliasRule(match_type="exact", raw_pattern="護理師", canonical_id="nurse", canonical_name="護理師")]
+            existing_papers = [
+                NormalizedPaper(
+                    canonical_id="nurse",
+                    canonical_name="護理師",
+                    year_roc=115,
+                    exam_name_raw="115年護理師考試",
+                    category_raw="護理師",
+                    category_code="101",
+                    source_exam_id="115030",
+                    subject_code="0101",
+                    subject_name_raw="基礎醫學",
+                    paper_code=f"101-0101-{file_type}",
+                    file_type=file_type,
+                    download_url_source=f"https://example.test/old-{file_type}.pdf",
+                    storage_key=f"115/115030/101/0101/{file_type}.pdf",
+                    checksum=f"old-{file_type}",
+                )
+                for file_type in ("question", "answer")
+            ]
+            write_data_files(
+                data_dir=data_dir,
+                raw_pages=[
+                    SourceExamPage(
+                        source_exam_id="115030",
+                        year_ad=2026,
+                        year_roc=115,
+                        exam_name_raw="115年護理師考試",
+                        attachments=[],
+                        papers=[],
+                    )
+                ],
+                normalized=NormalizedCatalog(papers=existing_papers, review_queue=[]),
+                aliases=aliases,
+                bundles=[
+                    BundleAsset(
+                        canonical_id="nurse",
+                        canonical_name="護理師",
+                        years=[115],
+                        file_count=2,
+                        storage_key="bundles/nurse.zip",
+                        asset_name="nurse.zip",
+                    )
+                ],
+                failures=[],
+            )
+            original_papers = json.loads((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"))
+            args = build_parser().parse_args(
+                [
+                    "sync-incremental",
+                    "--years",
+                    "1",
+                    "--data-dir",
+                    str(data_dir),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = command_sync(args, client=PartialFailureClient())
+
+            self.assertEqual(exit_code, 1)
+            self.assertIn("failure", output.getvalue().lower())
+            papers = json.loads((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"))
+            nurse_papers = [p for p in papers if p["source_exam_id"] == "115030"]
+            self.assertEqual(len(nurse_papers), 2)
+            self.assertEqual({p["file_type"] for p in nurse_papers}, {"question", "answer"})
+            self.assertEqual({p["checksum"] for p in nurse_papers}, {"old-question", "old-answer"})
 
 
 if __name__ == "__main__":

@@ -123,7 +123,6 @@ class IncrementalStateTests(unittest.TestCase):
             existing_bundles=existing_bundles,
             refreshed_raw_pages=refreshed_raw_pages,
             refreshed_catalog=refreshed_catalog,
-            refreshed_year_rocs={115},
         )
 
         self.assertEqual({page.year_roc for page in merged_raw_pages}, {113, 115})
@@ -225,7 +224,6 @@ class IncrementalStateTests(unittest.TestCase):
             existing_bundles=existing_bundles,
             refreshed_raw_pages=refreshed_raw_pages,
             refreshed_catalog=refreshed_catalog,
-            refreshed_year_rocs={115},
         )
 
         self.assertEqual(
