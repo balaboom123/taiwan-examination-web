@@ -1,0 +1,38 @@
+import assert from "node:assert/strict"
+import test from "node:test"
+
+import { resolvePagesBase, toFrontendBundles } from "./bundles-data.mjs"
+
+test("resolvePagesBase uses the renamed GitHub repository path", () => {
+  assert.equal(
+    resolvePagesBase({ githubRepository: "balaboom123/taiwan-examination-web" }),
+    "/taiwan-examination-web/",
+  )
+})
+
+test("resolvePagesBase falls back to the site root outside GitHub Pages builds", () => {
+  assert.equal(resolvePagesBase({}), "/")
+})
+
+test("toFrontendBundles converts generated bundle records into the frontend schema", () => {
+  assert.deepEqual(
+    toFrontendBundles([
+      {
+        canonical_id: "nurse",
+        canonical_name: "Nurse",
+        years: [115, 113],
+        file_count: 607,
+        download_url: "https://example.com/nurse.zip",
+      },
+    ]),
+    [
+      {
+        id: "nurse",
+        name: "Nurse",
+        years: [115, 113],
+        fileCount: 607,
+        url: "https://example.com/nurse.zip",
+      },
+    ],
+  )
+})
