@@ -31,7 +31,7 @@ function Footer() {
       <div className="mx-auto flex max-w-4xl flex-col gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
         <span>資料來源：考選部歷屆試題查詢 · 本站為非官方整理</span>
         <a
-          href="https://github.com/balaboom123/taiwan_examination_web"
+          href="https://github.com/balaboom123/taiwan-examination-web"
           target="_blank"
           rel="noopener noreferrer"
           className="font-mono transition-colors hover:text-ink-950"
