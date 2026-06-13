@@ -23,6 +23,36 @@ export function resolvePagesBase({ githubRepository, explicitBase } = {}) {
   return repoName ? normalizeBasePath(repoName) : "/"
 }
 
+function normalizeBooleanFlag(value) {
+  if (value === undefined || value === null || value === "") {
+    return undefined
+  }
+
+  const normalized = String(value).trim().toLowerCase()
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true
+  }
+
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false
+  }
+
+  throw new TypeError(`Boolean flag must be one of true/false, 1/0, yes/no, or on/off. Received: ${value}`)
+}
+
+export function resolveAdsenseEnabled({ githubRepository, explicitBase, explicitEnabled, isBuild = true } = {}) {
+  const enabledOverride = normalizeBooleanFlag(explicitEnabled)
+  if (enabledOverride !== undefined) {
+    return enabledOverride
+  }
+
+  if (!isBuild) {
+    return false
+  }
+
+  return resolvePagesBase({ githubRepository, explicitBase }) === "/"
+}
+
 function toFrontendBundle(bundle, index) {
   if (typeof bundle !== "object" || bundle === null) {
     throw new TypeError(`Bundle at index ${index} must be an object`)
