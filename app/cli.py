@@ -8,6 +8,7 @@ from pathlib import Path
 
 from app.bundler import build_bundles
 from app.crawler import MoexClient, year_ad_from_code
+from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
 from app.normalizer import load_alias_rules, renormalize_catalog
@@ -86,6 +87,24 @@ def command_build_site(args: argparse.Namespace) -> int:
     catalog = NormalizedCatalog(papers=[NormalizedPaper(**paper) for paper in papers], review_queue=[])
     bundles = [BundleAsset(**bundle) for bundle in bundles_data]
     build_site(args.site_dir, catalog, bundles)
+    return 0
+
+
+def command_sync_lootlabs(args: argparse.Namespace) -> int:
+    bundles_path = args.data_dir / "bundles.json"
+    bundles_data = json.loads(bundles_path.read_text(encoding="utf-8")) if bundles_path.exists() else []
+    bundles = [BundleAsset(**bundle) for bundle in bundles_data]
+    try:
+        api_key, settings = load_lootlabs_settings_from_env()
+        sync_lootlabs_manifest(
+            bundles=bundles,
+            manifest_path=args.manifest,
+            api_key=api_key,
+            settings=settings,
+        )
+    except LootLabsError as exc:
+        print(str(exc), flush=True)
+        return 1
     return 0
 
 
@@ -351,6 +370,14 @@ def build_parser() -> argparse.ArgumentParser:
     build_bundles_parser.add_argument("--bundle-base-url", default="")
     build_bundles_parser.add_argument("--min-years", type=int, default=2)
     build_bundles_parser.set_defaults(handler=command_build_bundles)
+
+    lootlabs_parser = subparsers.add_parser(
+        "sync-lootlabs",
+        help="Create or refresh LootLabs content-locker links for generated bundle downloads.",
+    )
+    lootlabs_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
+    lootlabs_parser.add_argument("--manifest", type=Path, default=repo_root / "data" / "lootlabs-links.json")
+    lootlabs_parser.set_defaults(handler=command_sync_lootlabs)
 
     build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers/*.json.")
     build_site_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")

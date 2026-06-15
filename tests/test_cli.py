@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from app.cli import _download_affected_bundles, build_parser, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
+from app.lootlabs import LootLabsError, LootLabsSettings
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
 from app.publisher import write_data_files
 
@@ -569,6 +570,45 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(len(nurse_papers), 2)
             self.assertEqual({p["file_type"] for p in nurse_papers}, {"question", "answer"})
             self.assertEqual({p["checksum"] for p in nurse_papers}, {"old-question", "old-answer"})
+
+    def test_sync_lootlabs_parser_accepts_data_and_manifest_paths(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(
+            [
+                "sync-lootlabs",
+                "--data-dir",
+                "data",
+                "--manifest",
+                "data/lootlabs-links.json",
+            ]
+        )
+
+        self.assertEqual(args.data_dir, Path("data"))
+        self.assertEqual(args.manifest, Path("data/lootlabs-links.json"))
+
+    @patch("app.cli.sync_lootlabs_manifest", side_effect=LootLabsError("provider down"))
+    @patch(
+        "app.cli.load_lootlabs_settings_from_env",
+        return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
+    )
+    def test_sync_lootlabs_returns_non_zero_when_provider_fails(self, _settings, _sync) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "bundles.json").write_text("[]", encoding="utf-8")
+
+            exit_code = main(
+                [
+                    "sync-lootlabs",
+                    "--data-dir",
+                    str(data_dir),
+                    "--manifest",
+                    str(data_dir / "lootlabs-links.json"),
+                ]
+            )
+
+        self.assertEqual(exit_code, 1)
 
 
 if __name__ == "__main__":

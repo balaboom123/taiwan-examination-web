@@ -1,0 +1,133 @@
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+from app.lootlabs import (
+    LootLabsError,
+    LootLabsManifestEntry,
+    LootLabsSettings,
+    should_refresh_lootlabs_entry,
+    sync_lootlabs_manifest,
+)
+from app.models import BundleAsset
+
+
+class _FakeResponse:
+    def __init__(self, payload: dict) -> None:
+        self._payload = payload
+
+    def read(self) -> bytes:
+        return json.dumps(self._payload).encode("utf-8")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        return False
+
+
+def _bundle(
+    download_url: str = "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+    checksum: str = "sha-1",
+) -> BundleAsset:
+    return BundleAsset(
+        canonical_id="nurse",
+        canonical_name="Nurse",
+        years=[115],
+        file_count=1,
+        storage_key="bundles/nurse.zip",
+        asset_name="nurse.zip",
+        download_url=download_url,
+        checksum=checksum,
+    )
+
+
+class LootLabsTests(unittest.TestCase):
+    def test_should_refresh_lootlabs_entry_for_target_checksum_and_settings_changes(self) -> None:
+        bundle = _bundle()
+        entry = LootLabsManifestEntry(
+            canonical_id="nurse",
+            asset_name="nurse.zip",
+            loot_url="https://loot-link.com/s?ok",
+            target_download_url=bundle.download_url,
+            target_checksum=bundle.checksum,
+            updated_at="2026-06-15T00:00:00+08:00",
+        )
+        settings = LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)
+
+        self.assertFalse(should_refresh_lootlabs_entry(bundle, entry, settings, settings))
+        self.assertTrue(should_refresh_lootlabs_entry(_bundle(checksum="sha-2"), entry, settings, settings))
+        self.assertTrue(
+            should_refresh_lootlabs_entry(
+                _bundle(download_url="https://example.com/other.zip"),
+                entry,
+                settings,
+                settings,
+            )
+        )
+        self.assertTrue(
+            should_refresh_lootlabs_entry(
+                bundle,
+                entry,
+                settings,
+                LootLabsSettings(tier_id=2, number_of_tasks=1, theme=1),
+            )
+        )
+
+    def test_sync_lootlabs_manifest_reuses_existing_link_without_http(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "provider": "lootlabs",
+                        "settings": {"tier_id": 1, "number_of_tasks": 1, "theme": 1},
+                        "bundles": {
+                            "nurse": {
+                                "canonical_id": "nurse",
+                                "asset_name": "nurse.zip",
+                                "loot_url": "https://loot-link.com/s?cached",
+                                "target_download_url": "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                                "target_checksum": "sha-1",
+                                "updated_at": "2026-06-15T00:00:00+08:00",
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            opener = mock.Mock()
+
+            manifest = sync_lootlabs_manifest(
+                bundles=[_bundle()],
+                manifest_path=manifest_path,
+                api_key="token",
+                settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                opener=opener,
+                now=lambda: "2026-06-15T08:00:00+08:00",
+            )
+
+        self.assertEqual(manifest.bundles["nurse"].loot_url, "https://loot-link.com/s?cached")
+        opener.assert_not_called()
+
+    def test_sync_lootlabs_manifest_raises_when_provider_response_has_no_loot_url(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            with self.assertRaises(LootLabsError):
+                sync_lootlabs_manifest(
+                    bundles=[_bundle()],
+                    manifest_path=manifest_path,
+                    api_key="token",
+                    settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                    opener=mock.Mock(
+                        return_value=_FakeResponse({"type": "error", "message": "Internal Server Error"})
+                    ),
+                    now=lambda: "2026-06-15T08:00:00+08:00",
+                )
+
+
+if __name__ == "__main__":
+    unittest.main()
