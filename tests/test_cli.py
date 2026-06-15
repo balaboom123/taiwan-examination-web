@@ -642,6 +642,65 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertIn("LOOTLABS_TIER_ID", output.getvalue())
         sync_mock.assert_not_called()
 
+    @patch("app.cli.sync_lootlabs_manifest")
+    @patch("app.cli.load_lootlabs_settings_from_env")
+    def test_sync_lootlabs_returns_non_zero_when_bundles_file_is_missing(self, settings_mock, sync_mock) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = main(
+                    [
+                        "sync-lootlabs",
+                        "--data-dir",
+                        str(data_dir),
+                        "--manifest",
+                        str(data_dir / "lootlabs-links.json"),
+                    ]
+                )
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("bundles.json", output.getvalue())
+        settings_mock.assert_not_called()
+        sync_mock.assert_not_called()
+
+    @patch("app.cli.sync_lootlabs_manifest")
+    @patch("app.cli.load_lootlabs_settings_from_env")
+    def test_sync_lootlabs_returns_non_zero_when_bundles_file_is_malformed(self, settings_mock, sync_mock) -> None:
+        test_cases = [
+            "{not-json",
+            json.dumps({"not": "a-list"}),
+        ]
+
+        for payload in test_cases:
+            with self.subTest(payload=payload):
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    root = Path(tmp_dir)
+                    data_dir = root / "data"
+                    data_dir.mkdir()
+                    (data_dir / "bundles.json").write_text(payload, encoding="utf-8")
+                    output = io.StringIO()
+
+                    with redirect_stdout(output):
+                        exit_code = main(
+                            [
+                                "sync-lootlabs",
+                                "--data-dir",
+                                str(data_dir),
+                                "--manifest",
+                                str(data_dir / "lootlabs-links.json"),
+                            ]
+                        )
+
+                self.assertEqual(exit_code, 1)
+                self.assertIn("bundles.json", output.getvalue())
+
+        settings_mock.assert_not_called()
+        sync_mock.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

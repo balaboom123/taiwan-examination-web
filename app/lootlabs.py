@@ -14,6 +14,7 @@ from app.models import BundleAsset
 API_ENDPOINT = "https://creators.lootlabs.gg/api/public/content_locker"
 MANIFEST_VERSION = 1
 PROVIDER_NAME = "lootlabs"
+HTTP_TIMEOUT_SECONDS = 30
 
 
 class LootLabsError(RuntimeError):
@@ -75,16 +76,38 @@ def load_lootlabs_settings_from_env(env: Mapping[str, str] | None = None) -> tup
 def load_lootlabs_manifest(path: Path) -> LootLabsManifest | None:
     if not path.exists():
         return None
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    return LootLabsManifest(
-        version=payload["version"],
-        provider=payload["provider"],
-        settings=LootLabsSettings(**payload["settings"]),
-        bundles={
-            canonical_id: LootLabsManifestEntry(**entry)
-            for canonical_id, entry in payload.get("bundles", {}).items()
-        },
-    )
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise LootLabsError(f"Failed to load LootLabs manifest from {path}: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise LootLabsError(f"LootLabs manifest at {path} must be a JSON object")
+    if payload.get("provider") != PROVIDER_NAME:
+        raise LootLabsError(
+            f"LootLabs manifest provider mismatch at {path}: expected {PROVIDER_NAME!r}, got {payload.get('provider')!r}"
+        )
+    if payload.get("version") != MANIFEST_VERSION:
+        raise LootLabsError(
+            f"LootLabs manifest version mismatch at {path}: expected {MANIFEST_VERSION}, got {payload.get('version')!r}"
+        )
+    settings_payload = payload.get("settings")
+    bundles_payload = payload.get("bundles", {})
+    if not isinstance(settings_payload, dict):
+        raise LootLabsError(f"LootLabs manifest settings at {path} must be a JSON object")
+    if not isinstance(bundles_payload, dict):
+        raise LootLabsError(f"LootLabs manifest bundles at {path} must be a JSON object")
+    try:
+        return LootLabsManifest(
+            version=payload["version"],
+            provider=payload["provider"],
+            settings=LootLabsSettings(**settings_payload),
+            bundles={
+                canonical_id: LootLabsManifestEntry(**entry)
+                for canonical_id, entry in bundles_payload.items()
+            },
+        )
+    except (KeyError, TypeError) as exc:
+        raise LootLabsError(f"Invalid LootLabs manifest format at {path}") from exc
 
 
 def should_refresh_lootlabs_entry(
@@ -129,8 +152,19 @@ def _create_lootlabs_entry(
         },
         method="POST",
     )
-    with opener(request) as response:
-        result = json.loads(response.read().decode("utf-8"))
+    try:
+        with opener(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
+            response_body = response.read()
+    except OSError as exc:
+        raise LootLabsError(f"LootLabs request failed: {exc}") from exc
+    if not isinstance(response_body, (bytes, bytearray)):
+        raise LootLabsError("LootLabs response body had an unexpected type")
+    try:
+        result = json.loads(response_body.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise LootLabsError(f"LootLabs response was not valid JSON: {exc}") from exc
+    if not isinstance(result, dict):
+        raise LootLabsError(f"LootLabs response had unexpected format: {result!r}")
     message = result.get("message", {})
     loot_url = message.get("loot_url") if isinstance(message, dict) else None
     if result.get("type") not in {"created", "fetch"} or not loot_url:

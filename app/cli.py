@@ -90,11 +90,25 @@ def command_build_site(args: argparse.Namespace) -> int:
     return 0
 
 
-def command_sync_lootlabs(args: argparse.Namespace) -> int:
-    bundles_path = args.data_dir / "bundles.json"
-    bundles_data = json.loads(bundles_path.read_text(encoding="utf-8")) if bundles_path.exists() else []
-    bundles = [BundleAsset(**bundle) for bundle in bundles_data]
+def _load_lootlabs_bundles(data_dir: Path) -> list[BundleAsset]:
+    bundles_path = data_dir / "bundles.json"
+    if not bundles_path.exists():
+        raise LootLabsError(f"{bundles_path} is required")
     try:
+        bundles_data = json.loads(bundles_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise LootLabsError(f"Failed to read {bundles_path}: {exc}") from exc
+    if not isinstance(bundles_data, list):
+        raise LootLabsError(f"{bundles_path} must contain a JSON list of bundles")
+    try:
+        return [BundleAsset(**bundle) for bundle in bundles_data]
+    except TypeError as exc:
+        raise LootLabsError(f"Invalid bundle entry in {bundles_path}") from exc
+
+
+def command_sync_lootlabs(args: argparse.Namespace) -> int:
+    try:
+        bundles = _load_lootlabs_bundles(args.data_dir)
         api_key, settings = load_lootlabs_settings_from_env()
         sync_lootlabs_manifest(
             bundles=bundles,

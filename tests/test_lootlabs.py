@@ -16,11 +16,25 @@ from app.models import BundleAsset
 
 
 class _FakeResponse:
-    def __init__(self, payload: dict) -> None:
+    def __init__(self, payload: object) -> None:
         self._payload = payload
 
     def read(self) -> bytes:
         return json.dumps(self._payload).encode("utf-8")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        return False
+
+
+class _FakeBytesResponse:
+    def __init__(self, payload: bytes) -> None:
+        self._payload = payload
+
+    def read(self) -> bytes:
+        return self._payload
 
     def __enter__(self):
         return self
@@ -142,6 +156,67 @@ class LootLabsTests(unittest.TestCase):
                     ),
                     now=lambda: "2026-06-15T08:00:00+08:00",
                 )
+
+    def test_sync_lootlabs_manifest_raises_when_provider_request_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            with self.assertRaises(LootLabsError):
+                sync_lootlabs_manifest(
+                    bundles=[_bundle()],
+                    manifest_path=manifest_path,
+                    api_key="token",
+                    settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                    opener=mock.Mock(side_effect=OSError("network down")),
+                    now=lambda: "2026-06-15T08:00:00+08:00",
+                )
+
+    def test_sync_lootlabs_manifest_raises_when_provider_response_is_invalid_json(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            with self.assertRaises(LootLabsError):
+                sync_lootlabs_manifest(
+                    bundles=[_bundle()],
+                    manifest_path=manifest_path,
+                    api_key="token",
+                    settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                    opener=mock.Mock(return_value=_FakeBytesResponse(b"{not-json")),
+                    now=lambda: "2026-06-15T08:00:00+08:00",
+                )
+
+    def test_sync_lootlabs_manifest_raises_for_manifest_provider_or_version_mismatch(self) -> None:
+        test_cases = [
+            {"provider": "other-provider", "version": 1},
+            {"provider": "lootlabs", "version": 999},
+        ]
+
+        for payload_override in test_cases:
+            with self.subTest(payload_override=payload_override):
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+                    manifest_path.write_text(
+                        json.dumps(
+                            {
+                                "version": payload_override["version"],
+                                "provider": payload_override["provider"],
+                                "settings": {"tier_id": 1, "number_of_tasks": 1, "theme": 1},
+                                "bundles": {},
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
+                    opener = mock.Mock()
+
+                    with self.assertRaises(LootLabsError):
+                        sync_lootlabs_manifest(
+                            bundles=[_bundle()],
+                            manifest_path=manifest_path,
+                            api_key="token",
+                            settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                            opener=opener,
+                            now=lambda: "2026-06-15T08:00:00+08:00",
+                        )
+
+                opener.assert_not_called()
 
 
 if __name__ == "__main__":
