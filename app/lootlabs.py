@@ -45,15 +45,23 @@ class LootLabsManifest:
     bundles: dict[str, LootLabsManifestEntry]
 
 
+def _load_int_setting(source: Mapping[str, str], key: str, default: str) -> int:
+    value = source.get(key, default)
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise LootLabsError(f"{key} must be an integer") from exc
+
+
 def load_lootlabs_settings_from_env(env: Mapping[str, str] | None = None) -> tuple[str, LootLabsSettings]:
     source = dict(os.environ if env is None else env)
     api_key = source.get("LOOTLABS_API_KEY", "").strip()
     if not api_key:
         raise LootLabsError("LOOTLABS_API_KEY is required")
     settings = LootLabsSettings(
-        tier_id=int(source.get("LOOTLABS_TIER_ID", "1")),
-        number_of_tasks=int(source.get("LOOTLABS_NUMBER_OF_TASKS", "1")),
-        theme=int(source.get("LOOTLABS_THEME", "1")),
+        tier_id=_load_int_setting(source, "LOOTLABS_TIER_ID", "1"),
+        number_of_tasks=_load_int_setting(source, "LOOTLABS_NUMBER_OF_TASKS", "1"),
+        theme=_load_int_setting(source, "LOOTLABS_THEME", "1"),
     )
     if settings.tier_id not in (1, 2, 3):
         raise LootLabsError("LOOTLABS_TIER_ID must be 1, 2, or 3")

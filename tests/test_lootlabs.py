@@ -8,6 +8,7 @@ from app.lootlabs import (
     LootLabsError,
     LootLabsManifestEntry,
     LootLabsSettings,
+    load_lootlabs_settings_from_env,
     should_refresh_lootlabs_entry,
     sync_lootlabs_manifest,
 )
@@ -45,6 +46,20 @@ def _bundle(
 
 
 class LootLabsTests(unittest.TestCase):
+    def test_load_lootlabs_settings_from_env_raises_for_non_numeric_values(self) -> None:
+        for field_name in ("LOOTLABS_TIER_ID", "LOOTLABS_NUMBER_OF_TASKS", "LOOTLABS_THEME"):
+            env = {
+                "LOOTLABS_API_KEY": "token",
+                "LOOTLABS_TIER_ID": "1",
+                "LOOTLABS_NUMBER_OF_TASKS": "1",
+                "LOOTLABS_THEME": "1",
+                field_name: "abc",
+            }
+
+            with self.subTest(field_name=field_name):
+                with self.assertRaises(LootLabsError):
+                    load_lootlabs_settings_from_env(env)
+
     def test_should_refresh_lootlabs_entry_for_target_checksum_and_settings_changes(self) -> None:
         bundle = _bundle()
         entry = LootLabsManifestEntry(

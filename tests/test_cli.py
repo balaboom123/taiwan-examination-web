@@ -610,6 +610,38 @@ class CliBuildSiteTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 1)
 
+    @patch("app.cli.sync_lootlabs_manifest")
+    def test_sync_lootlabs_returns_non_zero_when_env_numbers_are_invalid(self, sync_mock) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "bundles.json").write_text("[]", encoding="utf-8")
+            output = io.StringIO()
+
+            with patch.dict(
+                "os.environ",
+                {
+                    "LOOTLABS_API_KEY": "token",
+                    "LOOTLABS_TIER_ID": "abc",
+                },
+                clear=False,
+            ):
+                with redirect_stdout(output):
+                    exit_code = main(
+                        [
+                            "sync-lootlabs",
+                            "--data-dir",
+                            str(data_dir),
+                            "--manifest",
+                            str(data_dir / "lootlabs-links.json"),
+                        ]
+                    )
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("LOOTLABS_TIER_ID", output.getvalue())
+        sync_mock.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
