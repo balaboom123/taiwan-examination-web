@@ -20,6 +20,7 @@ All homepage bundle ZIP downloads will route through one pre-created LootLabs `l
 - Adding login, credits, sessions, or a user wallet.
 - Adding runtime Netlify Functions or another server redirect layer for the first version.
 - Supporting partial rollout. This version gates all homepage bundles.
+- Using LootLabs' separate rewarded-button website integration based on `manualTasks`, `runTask()`, and `taskCompleted()`.
 
 ## Confirmed Product Decisions
 
@@ -108,6 +109,19 @@ Schema rules:
 - `settings` captures the effective LootLabs configuration used to create the stored links.
 - Each stored bundle record must be self-sufficient for rebuild decisions.
 
+## LootLabs Integration Mode
+
+This design uses the LootLabs `content_locker` link-shortener API and normal HTML links.
+
+It does not use LootLabs' separate "Website + React.js" rewarded-button integration. That documented integration is designed around:
+
+- `window.postbackValue`
+- `window.manualTasks`
+- `window.runTask(index)`
+- `window.taskCompleted(index)`
+
+That rewarded-button flow is suitable when the website itself renders LootLabs ad-task buttons and awards an in-app reward afterward. This project instead needs pre-created monetized destination links that can be assigned to ordinary bundle download anchors.
+
 ## LootLabs Sync Step
 
 A new Python command will maintain `data/lootlabs-links.json`.
@@ -120,6 +134,7 @@ A new Python command will maintain `data/lootlabs-links.json`.
 
 - root `data/bundles.json`
 - existing `data/lootlabs-links.json` if present
+- a LootLabs account with mandatory creator details already filled in, because the provider rejects API creation requests when required creator details are incomplete
 - environment variables:
   - `LOOTLABS_API_KEY`
   - `LOOTLABS_TIER_ID`
@@ -149,6 +164,7 @@ For each bundle in root `data/bundles.json`:
 The sync step will call the LootLabs content locker API using:
 
 - endpoint: `POST https://creators.lootlabs.gg/api/public/content_locker`
+- integration mode: `content_locker` link creation, not website rewarded tasks
 - bearer auth via `Authorization: Bearer <token>`
 - request fields:
   - `title`
@@ -156,6 +172,10 @@ The sync step will call the LootLabs content locker API using:
   - `tier_id`
   - `number_of_tasks`
   - `theme`
+- optional request field:
+  - `thumbnail`
+
+The provider documents both `POST` and `GET` support for this endpoint. This implementation will standardize on `POST` only so the API token stays in the request header instead of the URL.
 
 The title should be derived from bundle metadata and truncated to the provider limit.
 
@@ -200,6 +220,15 @@ That applies to:
 - dev server output from `frontend/vite.config.ts`
 - production output under `frontend/dist/data/bundles.json`
 
+### Deploy Trigger Requirement
+
+The GitHub Pages deploy workflow must rebuild the frontend when either of these files changes:
+
+- `data/bundles.json`
+- `data/lootlabs-links.json`
+
+Otherwise the public site can serve stale links after the LootLabs manifest changes.
+
 ## Failure Handling
 
 This feature fails closed.
@@ -234,9 +263,14 @@ Because links are pre-created, end users should never wait for on-click LootLabs
 The first-version workflow is:
 
 1. run the existing sync/build command that regenerates root `data/bundles.json`
-2. run `python -m app sync-lootlabs`
-3. run the frontend build
-4. deploy the frontend output
+2. ensure the GitHub release exists if the workflow depends on release-hosted bundle URLs
+3. upload and prune release assets so the final bundle target URLs are published
+4. run `python -m app sync-lootlabs`
+5. commit and push `data/bundles.json` together with `data/lootlabs-links.json`
+6. run the frontend build in the GitHub Pages deploy workflow
+7. deploy the frontend output
+
+This ordering matters because the bundle `download_url` values point at GitHub release assets. The Pages build must not publish frontend output from a commit that lacks the matching LootLabs manifest, and the LootLabs manifest must not be omitted from the push trigger that causes the Pages rebuild.
 
 Expected command families:
 
@@ -303,12 +337,14 @@ Version 1 rollout is all-or-nothing for React homepage bundles.
 
 Release checklist:
 
-1. configure LootLabs environment variables in the deploy environment
-2. generate raw bundle data
-3. sync LootLabs manifest
-4. build frontend output
-5. verify no raw bundle ZIP URLs remain in the React-served bundle data
-6. deploy
+1. fill in LootLabs mandatory creator details in the provider panel
+2. configure LootLabs environment variables in the deploy environment
+3. generate raw bundle data
+4. publish or refresh the GitHub release assets referenced by the bundle URLs
+5. sync the LootLabs manifest
+6. build frontend output
+7. verify no raw bundle ZIP URLs remain in the React-served bundle data
+8. deploy
 
 ## Risks and Mitigations
 
