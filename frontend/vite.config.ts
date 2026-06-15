@@ -8,6 +8,7 @@ import { readFrontendBundlesSource, resolveAdsenseEnabled, resolvePagesBase } fr
 
 const repoRoot = path.resolve(__dirname, "..")
 const generatedBundlesPath = path.resolve(repoRoot, "data", "bundles.json")
+const lootlabsManifestPath = path.resolve(repoRoot, "data", "lootlabs-links.json")
 const adsensePublisherId = "ca-pub-9524747112096155"
 const adsenseAuthorizedSeller = "google.com, pub-9524747112096155, DIRECT, f08c47fec0942fa0"
 
@@ -16,12 +17,15 @@ function servedBundlesPlugin(): Plugin {
     name: "served-bundles",
     buildStart() {
       this.addWatchFile(generatedBundlesPath)
+      this.addWatchFile(lootlabsManifestPath)
     },
     configureServer(server) {
       const servedPath = `${server.config.base}data/bundles.json`.replace(/\/{2,}/g, "/")
       server.watcher.add(generatedBundlesPath)
+      server.watcher.add(lootlabsManifestPath)
       server.watcher.on("change", (file) => {
-        if (path.resolve(file) === generatedBundlesPath) {
+        const resolved = path.resolve(file)
+        if (resolved === generatedBundlesPath || resolved === lootlabsManifestPath) {
           server.ws.send({ type: "full-reload" })
         }
       })
@@ -34,17 +38,15 @@ function servedBundlesPlugin(): Plugin {
         }
 
         try {
-          const source = await readFrontendBundlesSource(generatedBundlesPath)
+          const source = await readFrontendBundlesSource(generatedBundlesPath, {
+            lootlabsManifestPath,
+          })
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(source)
         } catch (error) {
           res.statusCode = 500
           res.setHeader("Content-Type", "application/json; charset=utf-8")
-          res.end(
-            JSON.stringify({
-              error: error instanceof Error ? error.message : "Failed to load generated bundles data",
-            }),
-          )
+          res.end(JSON.stringify({ error: error instanceof Error ? error.message : "Failed to load bundle data" }))
         }
       })
     },
@@ -52,7 +54,9 @@ function servedBundlesPlugin(): Plugin {
       this.emitFile({
         type: "asset",
         fileName: "data/bundles.json",
-        source: await readFrontendBundlesSource(generatedBundlesPath),
+        source: await readFrontendBundlesSource(generatedBundlesPath, {
+          lootlabsManifestPath,
+        }),
       })
     },
   }

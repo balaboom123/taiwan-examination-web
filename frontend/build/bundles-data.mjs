@@ -40,6 +40,18 @@ function normalizeBooleanFlag(value) {
   throw new TypeError(`Boolean flag must be one of true/false, 1/0, yes/no, or on/off. Received: ${value}`)
 }
 
+function normalizeLootlabsManifest(manifest) {
+  if (!manifest || typeof manifest !== "object") {
+    throw new TypeError("LootLabs manifest is required")
+  }
+
+  if (manifest.provider !== "lootlabs" || typeof manifest.bundles !== "object" || manifest.bundles === null) {
+    throw new TypeError("LootLabs manifest does not match the expected schema")
+  }
+
+  return manifest
+}
+
 export function resolveAdsenseEnabled({ githubRepository, explicitBase, explicitEnabled, isBuild = true } = {}) {
   const enabledOverride = normalizeBooleanFlag(explicitEnabled)
   if (enabledOverride !== undefined) {
@@ -53,7 +65,7 @@ export function resolveAdsenseEnabled({ githubRepository, explicitBase, explicit
   return resolvePagesBase({ githubRepository, explicitBase }) === "/"
 }
 
-function toFrontendBundle(bundle, index) {
+function toFrontendBundle(bundle, index, lootlabsEntries) {
   if (typeof bundle !== "object" || bundle === null) {
     throw new TypeError(`Bundle at index ${index} must be an object`)
   }
@@ -63,11 +75,22 @@ function toFrontendBundle(bundle, index) {
     canonical_name: name,
     years,
     file_count: fileCount,
-    download_url: url,
+    download_url: rawUrl,
   } = bundle
 
-  if (typeof id !== "string" || typeof name !== "string" || !Array.isArray(years) || typeof fileCount !== "number" || typeof url !== "string") {
+  if (typeof id !== "string" || typeof name !== "string" || !Array.isArray(years) || typeof fileCount !== "number" || typeof rawUrl !== "string") {
     throw new TypeError(`Bundle at index ${index} does not match the generated data schema`)
+  }
+
+  const entry = lootlabsEntries?.[id]
+  if (lootlabsEntries) {
+    if (!entry) {
+      throw new TypeError(`Missing LootLabs link for bundle ${id}`)
+    }
+
+    if (typeof entry.loot_url !== "string" || !entry.loot_url) {
+      throw new TypeError(`Invalid LootLabs entry for bundle ${id}`)
+    }
   }
 
   return {
@@ -75,19 +98,27 @@ function toFrontendBundle(bundle, index) {
     name,
     years,
     fileCount,
-    url,
+    url: entry ? entry.loot_url : rawUrl,
   }
 }
 
-export function toFrontendBundles(bundles) {
+export function toFrontendBundles(bundles, { lootlabsManifest } = {}) {
   if (!Array.isArray(bundles)) {
     throw new TypeError("Generated bundles data must be an array")
   }
 
-  return bundles.map((bundle, index) => toFrontendBundle(bundle, index))
+  const manifest = lootlabsManifest ? normalizeLootlabsManifest(lootlabsManifest) : null
+  const lootlabsEntries = manifest?.bundles
+  return bundles.map((bundle, index) => toFrontendBundle(bundle, index, lootlabsEntries))
 }
 
-export async function readFrontendBundlesSource(sourcePath) {
+export async function readFrontendBundlesSource(sourcePath, { lootlabsManifestPath } = {}) {
   const sourceText = await readFile(sourcePath, "utf8")
-  return JSON.stringify(toFrontendBundles(JSON.parse(sourceText)))
+  let lootlabsManifest
+  if (lootlabsManifestPath) {
+    const manifestText = await readFile(lootlabsManifestPath, "utf8")
+    lootlabsManifest = JSON.parse(manifestText)
+  }
+
+  return JSON.stringify(toFrontendBundles(JSON.parse(sourceText), { lootlabsManifest }))
 }

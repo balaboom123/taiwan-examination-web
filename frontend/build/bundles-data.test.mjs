@@ -52,3 +52,106 @@ test("toFrontendBundles converts generated bundle records into the frontend sche
     ],
   )
 })
+
+test("toFrontendBundles replaces raw bundle urls with LootLabs urls", () => {
+  assert.deepEqual(
+    toFrontendBundles(
+      [
+        {
+          canonical_id: "nurse",
+          canonical_name: "Nurse",
+          years: [115],
+          file_count: 1,
+          download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+        },
+      ],
+      {
+        lootlabsManifest: {
+          version: 1,
+          provider: "lootlabs",
+          settings: { tier_id: 1, number_of_tasks: 1, theme: 1 },
+          bundles: {
+            nurse: {
+              canonical_id: "nurse",
+              asset_name: "nurse.zip",
+              loot_url: "https://loot-link.com/s?cached",
+              target_download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+              target_checksum: "sha-1",
+              updated_at: "2026-06-15T08:00:00+08:00",
+            },
+          },
+        },
+      },
+    ),
+    [
+      {
+        id: "nurse",
+        name: "Nurse",
+        years: [115],
+        fileCount: 1,
+        url: "https://loot-link.com/s?cached",
+      },
+    ],
+  )
+})
+
+test("toFrontendBundles throws when a bundle has no LootLabs manifest entry", () => {
+  assert.throws(
+    () =>
+      toFrontendBundles(
+        [
+          {
+            canonical_id: "nurse",
+            canonical_name: "Nurse",
+            years: [115],
+            file_count: 1,
+            download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+          },
+        ],
+        {
+          lootlabsManifest: {
+            version: 1,
+            provider: "lootlabs",
+            settings: { tier_id: 1, number_of_tasks: 1, theme: 1 },
+            bundles: {},
+          },
+        },
+      ),
+    /Missing LootLabs link for bundle nurse/,
+  )
+})
+
+test("toFrontendBundles throws when a LootLabs manifest entry has no loot_url", () => {
+  assert.throws(
+    () =>
+      toFrontendBundles(
+        [
+          {
+            canonical_id: "nurse",
+            canonical_name: "Nurse",
+            years: [115],
+            file_count: 1,
+            download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+          },
+        ],
+        {
+          lootlabsManifest: {
+            version: 1,
+            provider: "lootlabs",
+            settings: { tier_id: 1, number_of_tasks: 1, theme: 1 },
+            bundles: {
+              nurse: {
+                canonical_id: "nurse",
+                asset_name: "nurse.zip",
+                loot_url: "",
+                target_download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                target_checksum: "sha-1",
+                updated_at: "2026-06-15T08:00:00+08:00",
+              },
+            },
+          },
+        },
+      ),
+    /Invalid LootLabs entry for bundle nurse/,
+  )
+})
