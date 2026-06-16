@@ -69,6 +69,20 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn("release_assets.py upload", workflow)
             self.assertIn("release_assets.py prune", workflow)
 
+    def test_workflows_sync_lootlabs_after_release_asset_updates(self) -> None:
+        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("python -m app sync-lootlabs", workflow)
+            self.assertLess(workflow.index("release_assets.py upload"), workflow.index("python -m app sync-lootlabs"))
+            self.assertLess(workflow.index("release_assets.py prune"), workflow.index("python -m app sync-lootlabs"))
+
+    def test_pages_deploy_rebuilds_when_lootlabs_manifest_changes(self) -> None:
+        workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("data/lootlabs-links.json", workflow)
+
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
         release_payload = json.dumps(

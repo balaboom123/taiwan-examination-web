@@ -50,6 +50,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py prune
 
+      - name: Sync LootLabs links
+        env:
+          LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}
+          LOOTLABS_TIER_ID: "1"
+          LOOTLABS_NUMBER_OF_TASKS: "1"
+          LOOTLABS_THEME: "1"
+        run: python -m app sync-lootlabs
+
       - name: Commit regenerated data and site
         run: |
           git config user.name "github-actions[bot]"

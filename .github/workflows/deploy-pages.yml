@@ -6,6 +6,7 @@ on:
     paths:
       - frontend/**
       - data/bundles.json
+      - data/lootlabs-links.json
       - .github/workflows/deploy-pages.yml
   workflow_dispatch:
 
