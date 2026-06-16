@@ -76,9 +76,17 @@ function toFrontendBundle(bundle, index, lootlabsEntries) {
     years,
     file_count: fileCount,
     download_url: rawUrl,
+    checksum,
   } = bundle
 
-  if (typeof id !== "string" || typeof name !== "string" || !Array.isArray(years) || typeof fileCount !== "number" || typeof rawUrl !== "string") {
+  if (
+    typeof id !== "string" ||
+    typeof name !== "string" ||
+    !Array.isArray(years) ||
+    typeof fileCount !== "number" ||
+    typeof rawUrl !== "string" ||
+    typeof checksum !== "string"
+  ) {
     throw new TypeError(`Bundle at index ${index} does not match the generated data schema`)
   }
 
@@ -89,6 +97,10 @@ function toFrontendBundle(bundle, index, lootlabsEntries) {
     }
 
     if (typeof entry.loot_url !== "string" || !entry.loot_url) {
+      throw new TypeError(`Invalid LootLabs entry for bundle ${id}`)
+    }
+
+    if (entry.target_download_url !== rawUrl || entry.target_checksum !== checksum) {
       throw new TypeError(`Invalid LootLabs entry for bundle ${id}`)
     }
   }

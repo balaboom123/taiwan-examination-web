@@ -21,14 +21,18 @@ function servedBundlesPlugin(): Plugin {
     },
     configureServer(server) {
       const servedPath = `${server.config.base}data/bundles.json`.replace(/\/{2,}/g, "/")
-      server.watcher.add(generatedBundlesPath)
-      server.watcher.add(lootlabsManifestPath)
-      server.watcher.on("change", (file) => {
-        const resolved = path.resolve(file)
-        if (resolved === generatedBundlesPath || resolved === lootlabsManifestPath) {
+      const watchedPaths = new Set([generatedBundlesPath, lootlabsManifestPath])
+      const reloadServedBundles = (file: string) => {
+        if (watchedPaths.has(path.resolve(file))) {
           server.ws.send({ type: "full-reload" })
         }
-      })
+      }
+
+      server.watcher.add(generatedBundlesPath)
+      server.watcher.add(lootlabsManifestPath)
+      server.watcher.on("add", reloadServedBundles)
+      server.watcher.on("change", reloadServedBundles)
+      server.watcher.on("unlink", reloadServedBundles)
 
       server.middlewares.use(async (req, res, next) => {
         const requestPath = req.url?.split("?")[0] ?? ""
