@@ -16,6 +16,41 @@ def _load_release_script():
     return module
 
 
+def _workflow_push_paths(workflow: str) -> list[str]:
+    paths: list[str] = []
+    inside_push = False
+    inside_paths = False
+
+    for line in workflow.splitlines():
+        stripped = line.lstrip()
+        indent = len(line) - len(stripped)
+
+        if stripped == "push:" and indent == 2:
+            inside_push = True
+            inside_paths = False
+            continue
+
+        if inside_push and stripped and indent <= 2:
+            inside_push = False
+            inside_paths = False
+
+        if not inside_push:
+            continue
+
+        if stripped == "paths:" and indent == 4:
+            inside_paths = True
+            continue
+
+        if inside_paths and stripped.startswith("- ") and indent == 6:
+            paths.append(stripped[2:])
+            continue
+
+        if inside_paths and stripped and indent <= 4:
+            inside_paths = False
+
+    return paths
+
+
 class WorkflowTests(unittest.TestCase):
     def test_incremental_workflow_bootstraps_with_full_sync_when_release_is_incomplete(self) -> None:
         workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
@@ -88,7 +123,25 @@ class WorkflowTests(unittest.TestCase):
         workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
             encoding="utf-8"
         )
-        self.assertIn("data/lootlabs-links.json", workflow)
+        self.assertIn("data/lootlabs-links.json", _workflow_push_paths(workflow))
+
+    def test_pages_deploy_path_check_ignores_occurrences_outside_push_paths(self) -> None:
+        workflow = """name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - frontend/**
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    steps:
+      - run: echo data/lootlabs-links.json
+"""
+
+        self.assertNotIn("data/lootlabs-links.json", _workflow_push_paths(workflow))
 
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
