@@ -1,7 +1,12 @@
 import assert from "node:assert/strict"
 import test from "node:test"
 
-import { resolveAdsenseEnabled, resolvePagesBase, toFrontendBundles } from "./bundles-data.mjs"
+import {
+  resolveAdsenseEnabled,
+  resolveLootlabsEnabled,
+  resolvePagesBase,
+  toFrontendBundles,
+} from "./bundles-data.mjs"
 
 test("resolvePagesBase uses the renamed GitHub repository path", () => {
   assert.equal(
@@ -28,6 +33,16 @@ test("resolveAdsenseEnabled enables AdSense for root-hosted production builds", 
 test("resolveAdsenseEnabled stays off during non-build runs unless explicitly enabled", () => {
   assert.equal(resolveAdsenseEnabled({ isBuild: false }), false)
   assert.equal(resolveAdsenseEnabled({ isBuild: false, explicitEnabled: "true" }), true)
+})
+
+test("resolveLootlabsEnabled stays off by default for plain builds", () => {
+  assert.equal(resolveLootlabsEnabled({}), false)
+})
+
+test("resolveLootlabsEnabled only turns on when explicitly requested", () => {
+  assert.equal(resolveLootlabsEnabled({ explicitEnabled: "true" }), true)
+  assert.equal(resolveLootlabsEnabled({ explicitEnabled: "false" }), false)
+  assert.equal(resolveLootlabsEnabled({ isBuild: false, explicitEnabled: "true" }), true)
 })
 
 test("toFrontendBundles converts generated bundle records into the frontend schema", () => {

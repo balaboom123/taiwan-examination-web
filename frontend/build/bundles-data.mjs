@@ -65,6 +65,10 @@ export function resolveAdsenseEnabled({ githubRepository, explicitBase, explicit
   return resolvePagesBase({ githubRepository, explicitBase }) === "/"
 }
 
+export function resolveLootlabsEnabled({ explicitEnabled } = {}) {
+  return normalizeBooleanFlag(explicitEnabled) ?? false
+}
+
 function toFrontendBundle(bundle, index, lootlabsEntries) {
   if (typeof bundle !== "object" || bundle === null) {
     throw new TypeError(`Bundle at index ${index} must be an object`)
@@ -125,12 +129,14 @@ export function toFrontendBundles(bundles, { lootlabsManifest } = {}) {
 }
 
 export async function readFrontendBundlesSource(sourcePath, { lootlabsManifestPath } = {}) {
-  const sourceText = await readFile(sourcePath, "utf8")
-  let lootlabsManifest
-  if (lootlabsManifestPath) {
-    const manifestText = await readFile(lootlabsManifestPath, "utf8")
-    lootlabsManifest = JSON.parse(manifestText)
-  }
+  const [sourceText, manifestText] = await Promise.all([
+    readFile(sourcePath, "utf8"),
+    lootlabsManifestPath ? readFile(lootlabsManifestPath, "utf8") : Promise.resolve(undefined),
+  ])
 
-  return JSON.stringify(toFrontendBundles(JSON.parse(sourceText), { lootlabsManifest }))
+  return JSON.stringify(
+    toFrontendBundles(JSON.parse(sourceText), {
+      lootlabsManifest: manifestText ? JSON.parse(manifestText) : undefined,
+    }),
+  )
 }

@@ -134,6 +134,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn('python-version: "3.12"', workflow)
         self.assertIn("python -m app sync-lootlabs", workflow)
         self.assertIn("LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}", workflow)
+        self.assertIn('VITE_ENABLE_LOOTLABS_GATING: "true"', workflow)
         self.assertLess(workflow.index("actions/setup-python@v5"), workflow.index("python -m app sync-lootlabs"))
         self.assertLess(workflow.index("python -m app sync-lootlabs"), workflow.index("npm run build"))
 

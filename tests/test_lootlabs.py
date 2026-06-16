@@ -6,11 +6,13 @@ from unittest import mock
 
 from app.lootlabs import (
     LootLabsError,
+    LootLabsManifest,
     LootLabsManifestEntry,
     LootLabsSettings,
     load_lootlabs_settings_from_env,
     should_refresh_lootlabs_entry,
     sync_lootlabs_manifest,
+    write_lootlabs_manifest,
 )
 from app.models import BundleAsset
 
@@ -217,6 +219,31 @@ class LootLabsTests(unittest.TestCase):
                         )
 
                 opener.assert_not_called()
+
+    def test_write_lootlabs_manifest_removes_temp_file_when_dump_fails(self) -> None:
+        manifest = LootLabsManifest(
+            version=1,
+            provider="lootlabs",
+            settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+            bundles={
+                "nurse": LootLabsManifestEntry(
+                    canonical_id="nurse",
+                    asset_name="nurse.zip",
+                    loot_url="https://loot-link.com/s?cached",
+                    target_download_url="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                    target_checksum="sha-1",
+                    updated_at="2026-06-15T08:00:00+08:00",
+                )
+            },
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            with mock.patch("app.lootlabs.json.dump", side_effect=OSError("disk full")):
+                with self.assertRaises(OSError):
+                    write_lootlabs_manifest(manifest_path, manifest)
+
+            self.assertEqual(list(Path(tmp_dir).iterdir()), [])
 
 
 if __name__ == "__main__":

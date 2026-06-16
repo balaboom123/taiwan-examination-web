@@ -8,6 +8,10 @@ export interface ResolveAdsenseEnabledOptions extends ResolvePagesBaseOptions {
   isBuild?: boolean
 }
 
+export interface ResolveLootlabsEnabledOptions {
+  explicitEnabled?: string | boolean
+}
+
 export interface FrontendBundle {
   id: string
   name: string
@@ -38,6 +42,7 @@ export interface LootLabsManifest {
 
 export function resolvePagesBase(options?: ResolvePagesBaseOptions): string
 export function resolveAdsenseEnabled(options?: ResolveAdsenseEnabledOptions): boolean
+export function resolveLootlabsEnabled(options?: ResolveLootlabsEnabledOptions): boolean
 export function toFrontendBundles(
   bundles: unknown,
   options?: { lootlabsManifest?: LootLabsManifest },

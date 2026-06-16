@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import path from "path"
 // @ts-expect-error Vite can load the ESM build helper directly; runtime behavior is covered by tests.
-import { readFrontendBundlesSource, resolveAdsenseEnabled, resolvePagesBase } from "./build/bundles-data.mjs"
+import { readFrontendBundlesSource, resolveAdsenseEnabled, resolveLootlabsEnabled, resolvePagesBase } from "./build/bundles-data.mjs"
 
 const repoRoot = path.resolve(__dirname, "..")
 const generatedBundlesPath = path.resolve(repoRoot, "data", "bundles.json")
@@ -12,16 +12,22 @@ const lootlabsManifestPath = path.resolve(repoRoot, "data", "lootlabs-links.json
 const adsensePublisherId = "ca-pub-9524747112096155"
 const adsenseAuthorizedSeller = "google.com, pub-9524747112096155, DIRECT, f08c47fec0942fa0"
 
-function servedBundlesPlugin(): Plugin {
+function servedBundlesPlugin({ lootlabsEnabled }: { lootlabsEnabled: boolean }): Plugin {
   return {
     name: "served-bundles",
     buildStart() {
       this.addWatchFile(generatedBundlesPath)
-      this.addWatchFile(lootlabsManifestPath)
+      if (lootlabsEnabled) {
+        this.addWatchFile(lootlabsManifestPath)
+      }
     },
     configureServer(server) {
       const servedPath = `${server.config.base}data/bundles.json`.replace(/\/{2,}/g, "/")
-      const watchedPaths = new Set([generatedBundlesPath, lootlabsManifestPath])
+      const watchedPaths = new Set([generatedBundlesPath])
+      const lootlabsOptions = lootlabsEnabled ? { lootlabsManifestPath } : undefined
+      if (lootlabsEnabled) {
+        watchedPaths.add(lootlabsManifestPath)
+      }
       const reloadServedBundles = (file: string) => {
         if (watchedPaths.has(path.resolve(file))) {
           server.ws.send({ type: "full-reload" })
@@ -29,7 +35,9 @@ function servedBundlesPlugin(): Plugin {
       }
 
       server.watcher.add(generatedBundlesPath)
-      server.watcher.add(lootlabsManifestPath)
+      if (lootlabsEnabled) {
+        server.watcher.add(lootlabsManifestPath)
+      }
       server.watcher.on("add", reloadServedBundles)
       server.watcher.on("change", reloadServedBundles)
       server.watcher.on("unlink", reloadServedBundles)
@@ -42,9 +50,7 @@ function servedBundlesPlugin(): Plugin {
         }
 
         try {
-          const source = await readFrontendBundlesSource(generatedBundlesPath, {
-            lootlabsManifestPath,
-          })
+          const source = await readFrontendBundlesSource(generatedBundlesPath, lootlabsOptions)
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(source)
         } catch (error) {
@@ -58,9 +64,10 @@ function servedBundlesPlugin(): Plugin {
       this.emitFile({
         type: "asset",
         fileName: "data/bundles.json",
-        source: await readFrontendBundlesSource(generatedBundlesPath, {
-          lootlabsManifestPath,
-        }),
+        source: await readFrontendBundlesSource(
+          generatedBundlesPath,
+          lootlabsEnabled ? { lootlabsManifestPath } : undefined,
+        ),
       })
     },
   }
@@ -123,10 +130,18 @@ export default defineConfig(({ command }) => {
     explicitEnabled: process.env.VITE_ENABLE_ADSENSE,
     isBuild: command === "build",
   })
+  const lootlabsEnabled = resolveLootlabsEnabled({
+    explicitEnabled: process.env.VITE_ENABLE_LOOTLABS_GATING,
+  })
 
   return {
     base,
-    plugins: [servedBundlesPlugin(), adsenseAssetsPlugin({ enabled: adsenseEnabled }), react(), tailwindcss()],
+    plugins: [
+      servedBundlesPlugin({ lootlabsEnabled }),
+      adsenseAssetsPlugin({ enabled: adsenseEnabled }),
+      react(),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

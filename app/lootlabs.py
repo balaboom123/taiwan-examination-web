@@ -157,8 +157,6 @@ def _create_lootlabs_entry(
             response_body = response.read()
     except OSError as exc:
         raise LootLabsError(f"LootLabs request failed: {exc}") from exc
-    if not isinstance(response_body, (bytes, bytearray)):
-        raise LootLabsError("LootLabs response body had an unexpected type")
     try:
         result = json.loads(response_body.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -188,11 +186,20 @@ def write_lootlabs_manifest(path: Path, manifest: LootLabsManifest) -> None:
         "settings": asdict(manifest.settings),
         "bundles": {canonical_id: asdict(entry) for canonical_id, entry in manifest.bundles.items()},
     }
-    with NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-        temp_path = Path(handle.name)
-    temp_path.replace(path)
+    temp_path: Path | None = None
+    try:
+        with NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as handle:
+            temp_path = Path(handle.name)
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+        temp_path.replace(path)
+    except Exception:
+        if temp_path is not None:
+            try:
+                temp_path.unlink(missing_ok=True)
+            except OSError:
+                pass
+        raise
 
 
 def sync_lootlabs_manifest(
