@@ -144,6 +144,33 @@ class LootLabsTests(unittest.TestCase):
         self.assertEqual(manifest.bundles["nurse"].loot_url, "https://loot-link.com/s?cached")
         opener.assert_not_called()
 
+    def test_sync_lootlabs_manifest_accepts_list_message_from_provider(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest_path = Path(tmp_dir) / "lootlabs-links.json"
+            manifest = sync_lootlabs_manifest(
+                bundles=[_bundle()],
+                manifest_path=manifest_path,
+                api_key="token",
+                settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
+                opener=mock.Mock(
+                    return_value=_FakeResponse(
+                        {
+                            "type": "created",
+                            "message": [
+                                {
+                                    "short": "kYKMxBrz",
+                                    "loot_url": "https://lootdest.org/s?kYKMxBrz",
+                                    "destination_url": "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                                }
+                            ],
+                        }
+                    )
+                ),
+                now=lambda: "2026-06-15T08:00:00+08:00",
+            )
+
+        self.assertEqual(manifest.bundles["nurse"].loot_url, "https://lootdest.org/s?kYKMxBrz")
+
     def test_sync_lootlabs_manifest_raises_when_provider_response_has_no_loot_url(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             manifest_path = Path(tmp_dir) / "lootlabs-links.json"

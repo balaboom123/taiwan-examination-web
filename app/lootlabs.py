@@ -165,6 +165,10 @@ def _create_lootlabs_entry(
         raise LootLabsError(f"LootLabs response had unexpected format: {result!r}")
     message = result.get("message", {})
     loot_url = message.get("loot_url") if isinstance(message, dict) else None
+    if loot_url is None and isinstance(message, list) and message:
+        first_message = message[0]
+        if isinstance(first_message, dict):
+            loot_url = first_message.get("loot_url")
     if result.get("type") not in {"created", "fetch"} or not loot_url:
         raise LootLabsError(f"LootLabs link creation failed: {result}")
     timestamp = now() if now is not None else datetime.now().astimezone().isoformat()
