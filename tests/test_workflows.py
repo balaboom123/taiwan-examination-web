@@ -71,11 +71,18 @@ class WorkflowTests(unittest.TestCase):
 
     def test_workflows_sync_lootlabs_after_release_asset_updates(self) -> None:
         workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
-        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+        commit_steps = {
+            "sync-full.yml": "Commit regenerated data and site",
+            "sync-incremental.yml": "Commit regenerated data and site",
+            "audit-recent.yml": "Commit audited data and site",
+        }
+        for workflow_name, commit_step in commit_steps.items():
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            sync_lootlabs_index = workflow.index("python -m app sync-lootlabs")
             self.assertIn("python -m app sync-lootlabs", workflow)
-            self.assertLess(workflow.index("release_assets.py upload"), workflow.index("python -m app sync-lootlabs"))
-            self.assertLess(workflow.index("release_assets.py prune"), workflow.index("python -m app sync-lootlabs"))
+            self.assertLess(workflow.index("release_assets.py upload"), sync_lootlabs_index)
+            self.assertLess(workflow.index("release_assets.py prune"), sync_lootlabs_index)
+            self.assertLess(sync_lootlabs_index, workflow.index(commit_step))
 
     def test_pages_deploy_rebuilds_when_lootlabs_manifest_changes(self) -> None:
         workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
