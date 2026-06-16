@@ -125,6 +125,18 @@ class WorkflowTests(unittest.TestCase):
         )
         self.assertIn("data/lootlabs-links.json", _workflow_push_paths(workflow))
 
+    def test_pages_deploy_syncs_lootlabs_manifest_before_frontend_build(self) -> None:
+        workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("actions/setup-python@v5", workflow)
+        self.assertIn('python-version: "3.12"', workflow)
+        self.assertIn("python -m app sync-lootlabs", workflow)
+        self.assertIn("LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}", workflow)
+        self.assertLess(workflow.index("actions/setup-python@v5"), workflow.index("python -m app sync-lootlabs"))
+        self.assertLess(workflow.index("python -m app sync-lootlabs"), workflow.index("npm run build"))
+
     def test_pages_deploy_path_check_ignores_occurrences_outside_push_paths(self) -> None:
         workflow = """name: Deploy to GitHub Pages
 
