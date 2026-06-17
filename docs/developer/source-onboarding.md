@@ -13,6 +13,8 @@ Answer these questions first:
 - What file types are expected?
 - How often does the source change?
 - Will one site or multiple sites consume this provider?
+- Will this provider contribute one canonical bundle or many?
+- Will this provider force an existing site to add or rebalance release shards?
 - Does the provider need site-specific canonicalization or only provider-local aliasing?
 
 If these answers are unclear, do not start implementation.
@@ -63,7 +65,9 @@ Before coding, the provider design SHOULD define:
 
 - decide which site consumes the provider
 - define bundle selection rules
+- define whether the provider contributes one bundle or many
 - define release tag ownership
+- define release tag sharding impact on the consuming site
 - define gating behavior, if any
 - define frontend/public feed implications
 
@@ -97,6 +101,7 @@ A new provider is not done until:
 - recovery steps are documented
 - tests exist for source-specific logic
 - site consumption rules are documented
+- release sharding impact is documented
 - no new global root-level generated state was introduced without a transition plan
 
 ## Review Questions

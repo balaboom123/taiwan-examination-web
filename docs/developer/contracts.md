@@ -196,6 +196,7 @@ Required fields:
 - `file_count`
 - `storage_key`
 - `asset_name`
+- `release_tag`
 - `download_url`
 - `checksum`
 - `legacy_asset_names`
@@ -203,8 +204,10 @@ Required fields:
 Rules:
 
 - Bundle metadata is site-owned publication state.
+- Bundle metadata MUST identify the GitHub release tag that owns the final asset.
 - `download_url` MUST point to the ungated final artifact target.
 - `legacy_asset_names` MAY be used for compatibility but MUST remain site-owned, not provider-owned.
+- Consumers MUST NOT assume that all bundles for a site live under one release tag.
 
 Recommended future wrapped shape:
 
@@ -220,6 +223,7 @@ Recommended future wrapped shape:
 
 Required fields:
 
+- `release_tag`
 - `storage_key`
 - `asset_name`
 - `checksum`
@@ -229,6 +233,10 @@ Rules:
 
 - The release asset inventory is the source of truth for what ZIP assets a site expects on its release.
 - Release publication logic MUST derive upload and prune behavior from this contract.
+- Release asset inventory entries MUST be site-owned even when multiple providers contribute bundle content.
+- Release tag assignment MUST be deterministic.
+- Site publication MUST support multiple release tags.
+- The default operational ceiling is to shard before any one release exceeds 900 assets.
 
 ## Site Contract: Gating Manifest
 
@@ -299,6 +307,7 @@ Rules:
 - The frontend feed MUST be site-owned.
 - The frontend feed MUST NOT expose raw provider-specific crawl fields.
 - The frontend feed MUST be derivable entirely from site publication outputs.
+- Frontend consumers MUST NOT need to know which release tag stores a given asset.
 
 ## Compatibility Policy
 
@@ -314,3 +323,5 @@ Before adding the second provider, the repo SHOULD implement:
 2. `site_id` support on site-owned persisted contracts.
 3. Site-scoped frontend feed generation.
 4. Explicit schema wrappers for bundle metadata and gating manifests.
+5. Site-owned `release_tag` assignment on published bundle and release asset contracts.
+6. A deterministic multi-tag publication policy that avoids the GitHub per-release asset cap.

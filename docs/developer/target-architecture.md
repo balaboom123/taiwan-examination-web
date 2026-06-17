@@ -18,6 +18,7 @@ The target architecture MUST allow the repo to support:
 - `site`: public-facing deployment with its own branding, frontend config, release tag, and download behavior
 - `normalized catalog`: provider data converted into a shared paper schema
 - `publication`: transformation from normalized data to bundles, release assets, gating links, and frontend outputs
+- `release shard`: a site-owned GitHub release tag that stores a subset of the site's published bundle assets
 - `operator profile`: secrets, workflow permissions, and manual procedures required to run a provider or site
 
 Providers and sites are intentionally separate concepts. A single provider MAY feed multiple sites. A site MAY aggregate multiple providers if the UX and business rules require it.
@@ -104,10 +105,28 @@ Shared core modules SHOULD own:
 Sites MUST own:
 
 - bundle selection rules
-- release tag and asset naming policy
+- release tag topology, deterministic sharding policy, and asset naming policy
 - gating or monetization wrapper selection
 - frontend feed contract
 - branding and deployment target
+
+## Release Publication Topology
+
+Public releases are site-owned publication outputs, not provider-owned ingestion state.
+
+This means:
+
+- providers MUST NOT own public GitHub release tags when they feed an existing site
+- a site MAY publish through one release tag or many release tags
+- the frontend and LootLabs integration MUST consume one site publication feed regardless of how many release tags back the assets
+- asset-to-tag assignment MUST be deterministic so assets do not move between tags unpredictably
+
+The default strategy for this repository is:
+
+- one public site: `default`
+- multiple providers MAY feed that site
+- the site publication layer MUST support multiple GitHub release tags before the repository approaches the GitHub per-release asset cap
+- the operational target is to start sharding before any single release reaches 900 assets
 
 ## Target Contracts
 
@@ -130,7 +149,7 @@ Every site MUST define:
 - `site_id`
 - input provider set
 - bundle-building rules
-- release tag and compatibility alias policy
+- release tag topology, deterministic sharding rules, and compatibility alias policy
 - frontend/public feed schema
 - monetization behavior, if any
 - deployment target and workflow owner
@@ -167,6 +186,7 @@ The migration SHOULD happen in phases:
 - provider data owned under `data/providers/<provider_id>/`
 - site publication data owned under `data/sites/<site_id>/`
 - workflows parameterized by provider or site
+- site publication MAY span multiple release shards without changing the public site feed contract
 
 ## Compatibility Rules During Transition
 

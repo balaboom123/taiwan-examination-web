@@ -15,6 +15,7 @@ It answers four questions:
 - create provider-scoped and site-scoped ownership boundaries
 - make source #2 possible without introducing more root-level global state
 - make workflows parameterizable by provider or site
+- keep one logical site publication feed even if public assets must be sharded across multiple GitHub release tags
 
 ## Current-To-Target Path Mapping
 
@@ -45,6 +46,7 @@ Required work:
 
 - add `provider_id` and `site_id` concepts to command orchestration
 - introduce provider-aware and site-aware path builders
+- introduce a site-owned release-tag resolver so publication does not assume one tag forever
 - create registry docs for current MOEX/default site ownership
 
 Deliverables:
@@ -92,12 +94,14 @@ Required work:
 - dual-write gating manifest
 - dual-write frontend bundle feed
 - move local ZIP storage into site-aware paths or add a compatibility shim
+- add deterministic release-tag assignment to site-owned publication data
 
 Acceptance criteria:
 
 - release publication can run using site-scoped metadata
 - frontend build can consume site-scoped feed inputs
 - current public downloads remain unchanged
+- site-owned publication metadata can represent one or more release tags without frontend changes
 
 ### Phase 4: Parameterize workflows
 
@@ -111,6 +115,7 @@ Required work:
 - define site-scoped publish workflows
 - define site-scoped deploy workflows
 - move environment variable names toward provider/site scoping
+- make publish and prune steps iterate over the site's release tag set instead of assuming a single tag
 
 Acceptance criteria:
 
@@ -160,9 +165,10 @@ To get ready for source #2, this is the recommended order:
 2. implement provider-aware path helpers
 3. dual-write provider outputs for MOEX
 4. dual-write site outputs for the current site
-5. switch frontend build to site-scoped feed input
-6. parameterize workflows by provider/site
-7. onboard source #2
+5. add site-owned release-tag assignment and sharding policy
+6. switch frontend build to site-scoped feed input
+7. parameterize workflows by provider/site and release shard
+8. onboard source #2
 
 ## Dual-Write Rules
 
@@ -170,6 +176,15 @@ To get ready for source #2, this is the recommended order:
 - During dual-write, one path MUST be documented as authoritative.
 - Parity verification MUST be explicit, not assumed.
 - New providers MUST write scoped outputs even if legacy compatibility outputs are still emitted for MOEX.
+
+## Release Tag Sharding Policy
+
+- Public GitHub releases are site-owned publication artifacts, not provider-owned ingestion outputs.
+- A site MAY use one release tag or many release tags.
+- The site publication layer MUST support multiple release tags before the repository approaches the GitHub per-release asset cap.
+- The operational target is to shard before any single release exceeds 900 assets.
+- Release tag assignment MUST be deterministic so unchanged assets do not move between tags unnecessarily.
+- Frontend and gating consumers MUST read one site publication view and MUST NOT need to coordinate per-provider release tags.
 
 ## Cutover Criteria
 
@@ -190,5 +205,6 @@ A legacy path can be removed only when:
 - accidentally keeping root-level outputs authoritative forever
 - frontend still depending on global `data/bundles.json`
 - release script still assuming one release tag
+- allowing one release to drift too close to the GitHub per-release asset cap
 - gating logic remaining global instead of site-owned
 - source #2 reusing MOEX paths "just temporarily" and making migration harder

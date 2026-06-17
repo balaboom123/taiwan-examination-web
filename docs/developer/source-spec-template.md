@@ -86,8 +86,11 @@ Do not start implementation until the template is filled out well enough that an
 
 - consuming site_id(s):
 - bundle selection rules:
+- expected bundle cardinality: one canonical bundle / multiple bundles
 - bundle inclusion/exclusion rules:
 - release tag ownership:
+- release tag sharding impact:
+- release tag assignment policy:
 - compatibility alias asset policy:
 - gating behavior:
 - frontend/public feed implications:
@@ -130,6 +133,7 @@ Do not start implementation until the template is filled out well enough that an
 - does it force any contract changes?
 - does it require frontend changes?
 - does it require release script changes?
+- does it change the consuming site's release shard count or balancing policy?
 
 ## 15. Open Questions
 

@@ -36,6 +36,22 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 
 Add planned providers here before implementation starts.
 
+### Provider: `ceec_gsat`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `ceec_gsat` |
+| status | planned |
+| source name | College Entrance Examination Center GSAT archive |
+| source type | public web source |
+| current implementation scope | planned same-site provider feeding the existing public catalog |
+| target scoped ownership | `data/providers/ceec_gsat/` |
+| target mirror ownership | `mirror/providers/ceec_gsat/` |
+| planned sync workflows | provider-scoped CEEC sync workflow to be added during migration |
+| planned CLI entrypoints | provider-aware sync entrypoint targeting `ceec_gsat` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes exactly one canonical bundle asset for `學科能力測驗`; public publication remains site-owned |
+
 Recommended entry format:
 
 ### Provider: `<provider_id>`
@@ -64,17 +80,19 @@ Recommended entry format:
 | status | active |
 | purpose | current public exam bundle catalog |
 | current input providers | `moex` |
+| target input providers | `moex`, `ceec_gsat` |
 | current publication ownership | root-level `data/bundles.json`, `data/release-assets.json`, `data/lootlabs-links.json` |
 | target scoped ownership | `data/sites/default/` |
 | current bundle storage | `bundles/` |
 | target bundle storage | `bundles/sites/default/` |
 | current release tag | `moex-bundles` |
+| target release strategy | site-owned publication; one or more release tags; shard before 900 assets |
 | current deploy workflows | `deploy-pages.yml` |
 | current publish ownership | sync workflows plus `.github/scripts/release_assets.py` |
 | current frontend surface | `frontend/` |
 | legacy output surface | `site/` |
 | gating provider | LootLabs, optional by build/deploy path |
-| notes | current site still uses MOEX-shaped naming and needs site-scoped cutover |
+| notes | current site still uses MOEX-shaped naming, needs site-scoped cutover, and will eventually absorb one CEEC bundle asset without splitting the public site |
 
 ## Planned Sites
 
