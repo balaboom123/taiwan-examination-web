@@ -3,10 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import shutil
 import zipfile
 from collections.abc import Callable
 from pathlib import Path
-from urllib.parse import quote
 
 from app.normalizer import hashed_fallback_canonical_id, legacy_fallback_canonical_id
 from app.models import BundleAsset, BundleBuildResult, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
@@ -119,9 +119,7 @@ def _bundle_asset_name(canonical_id: str) -> str:
 
 
 def _bundle_download_url(bundle_base_url: str, asset_name: str) -> str:
-    if not bundle_base_url:
-        return ""
-    return f"{bundle_base_url.rstrip('/')}/{quote(asset_name)}"
+    return ""
 
 
 def _lookup_canonical_ids(canonical_id: str, canonical_name: str, canonical_alias_ids: list[str] | None = None) -> list[str]:
@@ -210,6 +208,31 @@ def _load_existing_entries_by_canonical(
     return existing_entries_by_name, existing_entries_by_key
 
 
+def _preserve_rewrite_sources(
+    bundle_path: Path,
+    existing_entries: dict[str, _EntryRef],
+    existing_entries_by_key: dict[tuple[str, str, str, str], _EntryRef],
+) -> tuple[dict[str, _EntryRef], dict[tuple[str, str, str, str], _EntryRef], Path | None]:
+    refs = [*existing_entries.values(), *existing_entries_by_key.values()]
+    if not any(archive_path == bundle_path for archive_path, _entry_name in refs):
+        return existing_entries, existing_entries_by_key, None
+
+    preserved_path = bundle_path.with_name(f".{bundle_path.name}.preserve")
+    shutil.copyfile(bundle_path, preserved_path)
+
+    def rewrite(ref: _EntryRef) -> _EntryRef:
+        archive_path, entry_name = ref
+        if archive_path == bundle_path:
+            return preserved_path, entry_name
+        return ref
+
+    return (
+        {name: rewrite(ref) for name, ref in existing_entries.items()},
+        {key: rewrite(ref) for key, ref in existing_entries_by_key.items()},
+        preserved_path,
+    )
+
+
 def build_bundles(
     bundle_dir: Path,
     mirror_dir: Path,
@@ -265,77 +288,86 @@ def build_bundles(
             key=lambda item: (-item.year_roc, item.source_exam_id, item.category_code, item.subject_code, item.file_type),
         )
         resolved_names = _resolve_arcnames(ordered)
-        with zipfile.ZipFile(bundle_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-            for paper, arcname in zip(ordered, resolved_names):
-                source_path = mirror_dir / Path(paper.storage_key) if paper.storage_key else None
-                if source_path and source_path.exists():
-                    archive.write(source_path, arcname=arcname)
-                    included_papers.append(paper)
-                    bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
-                    included_years.add(paper.year_roc)
-                    file_count += 1
-                    continue
-                legacy_arcname = _legacy_bundle_arcname(paper)
-                existing_ref = existing_entries.get(arcname)
-                if existing_ref is None:
-                    base_arcname = _bundle_arcname(paper)
-                    if base_arcname != arcname:
-                        existing_ref = existing_entries.get(base_arcname)
-                if existing_ref is None:
-                    existing_ref = existing_entries.get(_code_bundle_arcname(paper))
-                if existing_ref is None:
-                    existing_ref = existing_entries.get(legacy_arcname)
-                if existing_ref is None:
-                    existing_ref = existing_entries_by_key.get(_paper_bundle_key(paper))
-                existing_bytes = _resolve_entry_ref(existing_ref) if existing_ref is not None else None
-                if existing_bytes is not None:
-                    archive.writestr(arcname, existing_bytes)
-                    included_papers.append(paper)
-                    bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
-                    included_years.add(paper.year_roc)
-                    file_count += 1
-                    continue
-                failures.append(
-                    SyncFailure(
-                        stage="bundle",
-                        source_exam_id=paper.source_exam_id,
-                        year_roc=paper.year_roc,
-                        paper_code=paper.paper_code,
-                        file_type=paper.file_type,
-                        url=paper.download_url_source,
-                        message=f"Missing mirrored file for bundle entry: {paper.storage_key}",
+        existing_entries, existing_entries_by_key, preserved_archive = _preserve_rewrite_sources(
+            bundle_path,
+            existing_entries,
+            existing_entries_by_key,
+        )
+        try:
+            with zipfile.ZipFile(bundle_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                for paper, arcname in zip(ordered, resolved_names):
+                    source_path = mirror_dir / Path(paper.storage_key) if paper.storage_key else None
+                    if source_path and source_path.exists():
+                        archive.write(source_path, arcname=arcname)
+                        included_papers.append(paper)
+                        bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
+                        included_years.add(paper.year_roc)
+                        file_count += 1
+                        continue
+                    legacy_arcname = _legacy_bundle_arcname(paper)
+                    existing_ref = existing_entries.get(arcname)
+                    if existing_ref is None:
+                        base_arcname = _bundle_arcname(paper)
+                        if base_arcname != arcname:
+                            existing_ref = existing_entries.get(base_arcname)
+                    if existing_ref is None:
+                        existing_ref = existing_entries.get(_code_bundle_arcname(paper))
+                    if existing_ref is None:
+                        existing_ref = existing_entries.get(legacy_arcname)
+                    if existing_ref is None:
+                        existing_ref = existing_entries_by_key.get(_paper_bundle_key(paper))
+                    existing_bytes = _resolve_entry_ref(existing_ref) if existing_ref is not None else None
+                    if existing_bytes is not None:
+                        archive.writestr(arcname, existing_bytes)
+                        included_papers.append(paper)
+                        bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
+                        included_years.add(paper.year_roc)
+                        file_count += 1
+                        continue
+                    failures.append(
+                        SyncFailure(
+                            stage="bundle",
+                            source_exam_id=paper.source_exam_id,
+                            year_roc=paper.year_roc,
+                            paper_code=paper.paper_code,
+                            file_type=paper.file_type,
+                            url=paper.download_url_source,
+                            message=f"Missing mirrored file for bundle entry: {paper.storage_key}",
+                        )
                     )
-                )
 
-            if not included_papers:
-                archive.writestr(
-                    "bundle.json",
-                    json.dumps(
-                        {
-                            "canonical_id": canonical_id,
-                            "canonical_name": canonical_name,
-                            "years": [],
-                            "file_count": 0,
-                            "papers": [],
-                        },
-                        ensure_ascii=False,
-                        indent=2,
-                    ),
-                )
-            else:
-                manifest_papers = []
-                for paper in included_papers:
-                    paper_data = to_plain_data(paper)
-                    paper_data["bundle_entry"] = bundle_entries_by_paper_key[_paper_bundle_key(paper)]
-                    manifest_papers.append(paper_data)
-                manifest = {
-                    "canonical_id": canonical_id,
-                    "canonical_name": canonical_name,
-                    "years": sorted(included_years, reverse=True),
-                    "file_count": file_count,
-                    "papers": manifest_papers,
-                }
-                archive.writestr("bundle.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+                if not included_papers:
+                    archive.writestr(
+                        "bundle.json",
+                        json.dumps(
+                            {
+                                "canonical_id": canonical_id,
+                                "canonical_name": canonical_name,
+                                "years": [],
+                                "file_count": 0,
+                                "papers": [],
+                            },
+                            ensure_ascii=False,
+                            indent=2,
+                        ),
+                    )
+                else:
+                    manifest_papers = []
+                    for paper in included_papers:
+                        paper_data = to_plain_data(paper)
+                        paper_data["bundle_entry"] = bundle_entries_by_paper_key[_paper_bundle_key(paper)]
+                        manifest_papers.append(paper_data)
+                    manifest = {
+                        "canonical_id": canonical_id,
+                        "canonical_name": canonical_name,
+                        "years": sorted(included_years, reverse=True),
+                        "file_count": file_count,
+                        "papers": manifest_papers,
+                    }
+                    archive.writestr("bundle.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+        finally:
+            if preserved_archive is not None:
+                preserved_archive.unlink(missing_ok=True)
 
         if not included_papers:
             bundle_path.unlink(missing_ok=True)
@@ -355,6 +387,7 @@ def build_bundles(
                 file_count=file_count,
                 storage_key=storage_key,
                 asset_name=asset_name,
+                release_tag="",
                 download_url=download_url,
                 checksum=digest,
                 legacy_asset_names=legacy_asset_names,

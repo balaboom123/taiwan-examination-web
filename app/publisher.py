@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import json
 from collections.abc import Callable
+from dataclasses import replace
 from html import escape
 from pathlib import Path
 from typing import TypeVar
+from urllib.parse import quote
 
 from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
@@ -166,6 +168,49 @@ def write_site_state(
                 json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2),
                 encoding="utf-8",
             )
+
+
+def apply_bundle_download_urls(
+    normalized: NormalizedCatalog,
+    bundles: list[BundleAsset],
+    *,
+    repository: str,
+) -> tuple[NormalizedCatalog, list[BundleAsset], list[dict]]:
+    updated_bundles: list[BundleAsset] = []
+    bundle_index: dict[str, BundleAsset] = {}
+    for bundle in bundles:
+        download_url = ""
+        if repository and bundle.release_tag:
+            download_url = f"https://github.com/{repository}/releases/download/{bundle.release_tag}/{quote(bundle.asset_name)}"
+        updated_bundle = replace(bundle, download_url=download_url)
+        updated_bundles.append(updated_bundle)
+        bundle_index[updated_bundle.canonical_id] = updated_bundle
+
+    updated_papers = [
+        replace(
+            paper,
+            download_url_bundle=bundle_index.get(paper.canonical_id).download_url
+            if paper.canonical_id in bundle_index
+            else "",
+        )
+        for paper in normalized.papers
+    ]
+
+    frontend_bundles = [
+        {
+            "id": bundle.canonical_id,
+            "name": bundle.canonical_name,
+            "years": bundle.years,
+            "fileCount": bundle.file_count,
+            "url": bundle.download_url,
+        }
+        for bundle in updated_bundles
+    ]
+    return (
+        NormalizedCatalog(papers=updated_papers, review_queue=normalized.review_queue),
+        updated_bundles,
+        frontend_bundles,
+    )
 
 
 def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]:

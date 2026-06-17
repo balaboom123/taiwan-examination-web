@@ -3,7 +3,6 @@ import tempfile
 import unittest
 import zipfile
 from pathlib import Path
-from urllib.parse import quote
 
 from app.bundler import build_bundles
 from app.models import NormalizedCatalog, NormalizedPaper
@@ -16,8 +15,8 @@ def make_paper(
     year_roc: int,
     source_exam_id: str,
     subject_code: str,
-    file_type: str = "question",
     storage_key: str,
+    file_type: str = "question",
     subject_name_raw: str = "subject",
     category_raw: str = "category",
 ) -> NormalizedPaper:
@@ -42,7 +41,7 @@ def make_paper(
 
 
 class BundlerTests(unittest.TestCase):
-    def test_build_bundles_groups_multiple_years_under_one_canonical_zip(self) -> None:
+    def test_build_bundles_groups_multiple_years_under_one_stable_zip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
             mirror_dir = root / "mirror"
@@ -56,20 +55,20 @@ class BundlerTests(unittest.TestCase):
                 papers=[
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=115,
                         source_exam_id="115030",
                         subject_code="0101",
-                        subject_name_raw="基礎醫學",
+                        subject_name_raw="Anatomy",
                         storage_key="115/115030/101/0101/question.pdf",
                     ),
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=114,
                         source_exam_id="114030",
                         subject_code="0101",
-                        subject_name_raw="基礎醫學",
+                        subject_name_raw="Anatomy",
                         storage_key="114/114030/101/0101/question.pdf",
                     ),
                 ],
@@ -80,40 +79,32 @@ class BundlerTests(unittest.TestCase):
                 bundle_dir=bundles_dir,
                 mirror_dir=mirror_dir,
                 normalized=catalog,
-                bundle_base_url="https://github.com/example/repo/releases/download/moex-bundles",
+                bundle_base_url="https://ignored.example",
             )
 
             self.assertEqual(len(result.bundles), 1)
             actual = result.bundles[0]
             self.assertEqual(actual.canonical_id, "nurse")
-            self.assertEqual(actual.canonical_name, "護理師")
+            self.assertEqual(actual.canonical_name, "Nurse")
             self.assertEqual(actual.years, [115, 114])
             self.assertEqual(actual.file_count, 2)
-            self.assertEqual(actual.storage_key, "bundles/護理師__nurse.zip")
-            self.assertEqual(actual.asset_name, "護理師__nurse.zip")
-            self.assertEqual(actual.legacy_asset_names, ["nurse.zip"])
-            self.assertEqual(
-                actual.download_url,
-                f"https://github.com/example/repo/releases/download/moex-bundles/{quote('護理師__nurse.zip')}",
-            )
+            self.assertEqual(actual.storage_key, "bundles/nurse.zip")
+            self.assertEqual(actual.asset_name, "nurse.zip")
+            self.assertEqual(actual.release_tag, "")
+            self.assertEqual(actual.download_url, "")
+            self.assertEqual(actual.legacy_asset_names, ["Nurse__nurse.zip"])
 
-            bundle_zip = bundles_dir / "護理師__nurse.zip"
+            bundle_zip = bundles_dir / "nurse.zip"
             self.assertTrue(bundle_zip.exists())
             with zipfile.ZipFile(bundle_zip) as archive:
                 names = archive.namelist()
-                self.assertIn("115/101_0101_基礎醫學_試題.pdf", names)
-                self.assertIn("114/101_0101_基礎醫學_試題.pdf", names)
+                self.assertIn("115/101_0101_Anatomy_試題.pdf", names)
+                self.assertIn("114/101_0101_Anatomy_試題.pdf", names)
                 manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
                 self.assertEqual(manifest["canonical_id"], "nurse")
                 self.assertEqual(manifest["years"], [115, 114])
 
-            self.assertTrue(
-                all(
-                    paper.download_url_bundle
-                    == f"https://github.com/example/repo/releases/download/moex-bundles/{quote('護理師__nurse.zip')}"
-                    for paper in catalog.papers
-                )
-            )
+            self.assertTrue(all(paper.download_url_bundle == "" for paper in catalog.papers))
             self.assertEqual(result.failures, [])
 
     def test_build_bundles_reuses_existing_bundle_entries_and_skips_missing_files(self) -> None:
@@ -124,7 +115,7 @@ class BundlerTests(unittest.TestCase):
             bundles_dir.mkdir()
             existing_bundle = bundles_dir / "nurse.zip"
             with zipfile.ZipFile(existing_bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-                archive.writestr("114/exam-old/category/0101_基礎醫學/question.pdf", b"%PDF-1.7 old")
+                archive.writestr("114/exam-old/category/0101_Anatomy/question.pdf", b"%PDF-1.7 old")
                 archive.writestr("bundle.json", json.dumps({"canonical_id": "nurse"}, ensure_ascii=False))
 
             (mirror_dir / "115/exam-new/101/0101").mkdir(parents=True)
@@ -134,25 +125,25 @@ class BundlerTests(unittest.TestCase):
                 papers=[
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=114,
                         source_exam_id="exam-old",
                         subject_code="0101",
-                        subject_name_raw="基礎醫學",
+                        subject_name_raw="Anatomy",
                         storage_key="114/exam-old/101/0101/question.pdf",
                     ),
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=115,
                         source_exam_id="exam-new",
                         subject_code="0101",
-                        subject_name_raw="基礎醫學",
+                        subject_name_raw="Anatomy",
                         storage_key="115/exam-new/101/0101/question.pdf",
                     ),
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=115,
                         source_exam_id="exam-new",
                         subject_code="0102",
@@ -167,25 +158,19 @@ class BundlerTests(unittest.TestCase):
                 bundle_dir=bundles_dir,
                 mirror_dir=mirror_dir,
                 normalized=catalog,
-                bundle_base_url="https://bundles.example",
+                bundle_base_url="https://ignored.example",
             )
 
             self.assertEqual(len(result.bundles), 1)
-            with zipfile.ZipFile(bundles_dir / "護理師__nurse.zip") as archive:
+            with zipfile.ZipFile(bundles_dir / "nurse.zip") as archive:
                 names = archive.namelist()
-                self.assertIn("114/101_0101_基礎醫學_試題.pdf", names)
-                self.assertIn("115/101_0101_基礎醫學_試題.pdf", names)
+                self.assertIn("114/101_0101_Anatomy_試題.pdf", names)
+                self.assertIn("115/101_0101_Anatomy_試題.pdf", names)
                 self.assertNotIn("115/101_0102_missing-subject_試題.pdf", names)
             self.assertEqual(len(result.failures), 1)
             self.assertEqual(result.failures[0]["paper_code"], "101-0102-question")
-            self.assertEqual(
-                catalog.papers[0].download_url_bundle,
-                f"https://bundles.example/{quote('護理師__nurse.zip')}",
-            )
-            self.assertEqual(
-                catalog.papers[1].download_url_bundle,
-                f"https://bundles.example/{quote('護理師__nurse.zip')}",
-            )
+            self.assertEqual(catalog.papers[0].download_url_bundle, "")
+            self.assertEqual(catalog.papers[1].download_url_bundle, "")
             self.assertEqual(catalog.papers[2].download_url_bundle, "")
 
     def test_build_bundles_preserves_migrated_canonical_alias_asset_names(self) -> None:
@@ -195,7 +180,7 @@ class BundlerTests(unittest.TestCase):
             bundles_dir.mkdir()
             old_canonical_id = "canonical-old-nurse"
             old_bundle = bundles_dir / f"{old_canonical_id}.zip"
-            archive_entry = "114/101_0101_基礎醫學_試題.pdf"
+            archive_entry = "114/101_0101_Anatomy_試題.pdf"
             with zipfile.ZipFile(old_bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr(archive_entry, b"%PDF-1.7 migrated-old")
                 archive.writestr(
@@ -216,11 +201,11 @@ class BundlerTests(unittest.TestCase):
                 papers=[
                     make_paper(
                         canonical_id="nurse",
-                        canonical_name="護理師",
+                        canonical_name="Nurse",
                         year_roc=114,
                         source_exam_id="114030",
                         subject_code="0101",
-                        subject_name_raw="基礎醫學",
+                        subject_name_raw="Anatomy",
                         storage_key="114/114030/101/0101/question.pdf",
                     ),
                 ],
@@ -231,51 +216,17 @@ class BundlerTests(unittest.TestCase):
                 bundle_dir=bundles_dir,
                 mirror_dir=root / "mirror",
                 normalized=catalog,
-                bundle_base_url="https://bundles.example",
+                bundle_base_url="https://ignored.example",
                 canonical_aliases={"nurse": [old_canonical_id]},
             )
 
             self.assertEqual(result.failures, [])
             self.assertEqual(
                 result.bundles[0].legacy_asset_names,
-                [old_canonical_id + ".zip", "nurse.zip"],
+                ["Nurse__nurse.zip", f"{old_canonical_id}.zip"],
             )
-            with zipfile.ZipFile(bundles_dir / "護理師__nurse.zip") as archive:
+            with zipfile.ZipFile(bundles_dir / "nurse.zip") as archive:
                 self.assertEqual(archive.read(archive_entry), b"%PDF-1.7 migrated-old")
-
-    def test_build_bundles_url_encodes_download_url_for_human_friendly_asset_name(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            mirror_dir = root / "mirror"
-            bundles_dir = root / "bundles"
-            (mirror_dir / "115/115031/101/0101").mkdir(parents=True)
-            (mirror_dir / "115/115031/101/0101/question.pdf").write_bytes(b"%PDF-1.7 latest")
-
-            catalog = NormalizedCatalog(
-                papers=[
-                    make_paper(
-                        canonical_id="canonical-space",
-                        canonical_name="職能 治療師",
-                        year_roc=115,
-                        source_exam_id="115031",
-                        subject_code="0101",
-                        subject_name_raw="職能治療",
-                        storage_key="115/115031/101/0101/question.pdf",
-                    )
-                ],
-                review_queue=[],
-            )
-
-            result = build_bundles(
-                bundle_dir=bundles_dir,
-                mirror_dir=mirror_dir,
-                normalized=catalog,
-                bundle_base_url="https://bundles.example",
-            )
-
-            asset_name = "職能 治療師__canonical-space.zip"
-            self.assertEqual(result.bundles[0].asset_name, asset_name)
-            self.assertEqual(result.bundles[0].download_url, f"https://bundles.example/{quote(asset_name)}")
 
     def test_build_bundles_uses_explicit_bundle_entry_instead_of_manifest_order(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -341,14 +292,13 @@ class BundlerTests(unittest.TestCase):
                 bundle_dir=bundles_dir,
                 mirror_dir=root / "mirror",
                 normalized=catalog,
-                bundle_base_url="https://bundles.example",
+                bundle_base_url="https://ignored.example",
             )
 
             self.assertEqual(result.failures, [])
-            with zipfile.ZipFile(bundles_dir / "Nurse__nurse.zip") as archive:
+            with zipfile.ZipFile(bundles_dir / "nurse.zip") as archive:
                 self.assertEqual(archive.read("114/101_0101_subject_試題.pdf"), b"%PDF-1.7 first")
                 self.assertEqual(archive.read("114/101_0102_subject_試題.pdf"), b"%PDF-1.7 second")
-
 
     def test_build_bundles_disambiguates_duplicate_arcnames(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -364,20 +314,20 @@ class BundlerTests(unittest.TestCase):
                 papers=[
                     make_paper(
                         canonical_id="marine",
-                        canonical_name="航海人員",
+                        canonical_name="Marine",
                         year_roc=86,
                         source_exam_id="086010",
                         subject_code="2001",
-                        subject_name_raw="貨物作業",
+                        subject_name_raw="Navigation",
                         storage_key="86/086010/104/2001/question.pdf",
                     ),
                     make_paper(
                         canonical_id="marine",
-                        canonical_name="航海人員",
+                        canonical_name="Marine",
                         year_roc=86,
                         source_exam_id="086020",
                         subject_code="2001",
-                        subject_name_raw="貨物作業",
+                        subject_name_raw="Navigation",
                         storage_key="86/086020/104/2001/question.pdf",
                     ),
                 ],
@@ -388,17 +338,17 @@ class BundlerTests(unittest.TestCase):
                 bundle_dir=bundles_dir,
                 mirror_dir=mirror_dir,
                 normalized=catalog,
-                bundle_base_url="https://bundles.example",
+                bundle_base_url="https://ignored.example",
             )
 
             self.assertEqual(len(result.bundles), 1)
             self.assertEqual(result.bundles[0].file_count, 2)
-            with zipfile.ZipFile(bundles_dir / "航海人員__marine.zip") as archive:
-                names = [n for n in archive.namelist() if n != "bundle.json"]
+            with zipfile.ZipFile(bundles_dir / "marine.zip") as archive:
+                names = [name for name in archive.namelist() if name != "bundle.json"]
                 self.assertEqual(len(names), 2)
                 self.assertEqual(len(set(names)), 2, f"Duplicate arcnames found: {names}")
-                self.assertIn("86/101_2001_貨物作業_試題_086010.pdf", names)
-                self.assertIn("86/101_2001_貨物作業_試題_086020.pdf", names)
+                self.assertIn("86/101_2001_Navigation_試題_086010.pdf", names)
+                self.assertIn("86/101_2001_Navigation_試題_086020.pdf", names)
             self.assertEqual(result.failures, [])
 
 

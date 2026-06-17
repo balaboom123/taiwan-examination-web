@@ -46,16 +46,21 @@ class _FakeBytesResponse:
 
 
 def _bundle(
+    *,
+    canonical_id: str = "nurse",
+    asset_name: str = "nurse.zip",
+    release_tag: str = "",
     download_url: str = "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
     checksum: str = "sha-1",
 ) -> BundleAsset:
     return BundleAsset(
-        canonical_id="nurse",
-        canonical_name="Nurse",
+        canonical_id=canonical_id,
+        canonical_name=canonical_id.title(),
         years=[115],
         file_count=1,
-        storage_key="bundles/nurse.zip",
-        asset_name="nurse.zip",
+        storage_key=f"bundles/{asset_name}",
+        asset_name=asset_name,
+        release_tag=release_tag,
         download_url=download_url,
         checksum=checksum,
     )
@@ -106,6 +111,25 @@ class LootLabsTests(unittest.TestCase):
                 LootLabsSettings(tier_id=2, number_of_tasks=1, theme=1),
             )
         )
+
+    def test_should_refresh_lootlabs_entry_uses_bundle_release_tag_resolved_url(self) -> None:
+        bundle = _bundle(
+            canonical_id="nurse",
+            asset_name="nurse.zip",
+            release_tag="default-bundles-001",
+            download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+        )
+        entry = LootLabsManifestEntry(
+            canonical_id="nurse",
+            asset_name="nurse.zip",
+            loot_url="https://loot-link.test/nurse",
+            target_download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+            target_checksum=bundle.checksum,
+            updated_at="2026-06-17T09:00:00+08:00",
+        )
+        settings = LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)
+
+        self.assertFalse(should_refresh_lootlabs_entry(bundle, entry, settings, settings))
 
     def test_sync_lootlabs_manifest_reuses_existing_link_without_http(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
