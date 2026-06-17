@@ -11,6 +11,8 @@ from app.sync import sync_exam_pages
 
 
 class FakeClient:
+    provider_id = "moex"
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         return SourceExamPage(
             source_exam_id=exam_code,
@@ -39,6 +41,8 @@ class FakeClient:
 
 
 class ReuseExistingMirrorClient:
+    provider_id = "moex"
+
     def __init__(self) -> None:
         self.downloaded_urls: list[str] = []
 
@@ -69,6 +73,8 @@ class ReuseExistingMirrorClient:
 
 
 class QuestionOnlyClient:
+    provider_id = "moex"
+
     def __init__(self) -> None:
         self.downloaded_urls: list[str] = []
 
@@ -96,6 +102,8 @@ class QuestionOnlyClient:
 
 
 class HtmlPlaceholderClient:
+    provider_id = "moex"
+
     def __init__(self) -> None:
         self.downloaded_urls: list[str] = []
 
@@ -149,10 +157,10 @@ class SyncExamPagesTests(unittest.TestCase):
     def test_sync_exam_pages_reuses_existing_mirror_files_before_downloading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             mirror_root = Path(tmp_dir)
-            attachment_path = mirror_root / "115" / "115030" / "exam" / "all_answers.pdf"
+            attachment_path = mirror_root / "providers" / "moex" / "115" / "115030" / "exam" / "all_answers.pdf"
             attachment_path.parent.mkdir(parents=True, exist_ok=True)
             attachment_path.write_bytes(b"%PDF-1.7 cached attachment")
-            question_path = mirror_root / "115" / "115030" / "101" / "0101" / "question.pdf"
+            question_path = mirror_root / "providers" / "moex" / "115" / "115030" / "101" / "0101" / "question.pdf"
             question_path.parent.mkdir(parents=True, exist_ok=True)
             question_path.write_bytes(b"%PDF-1.7 cached question")
             client = ReuseExistingMirrorClient()
@@ -166,8 +174,11 @@ class SyncExamPagesTests(unittest.TestCase):
             )
 
         self.assertEqual(client.downloaded_urls, ["https://example.test/answer.pdf"])
-        self.assertEqual(raw_pages[0].attachments[0].storage_key, "115/115030/exam/all_answers.pdf")
-        self.assertEqual(raw_pages[0].papers[0].mirror_files["question"]["storage_key"], "115/115030/101/0101/question.pdf")
+        self.assertEqual(raw_pages[0].attachments[0].storage_key, "providers/moex/115/115030/exam/all_answers.pdf")
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+            "providers/moex/115/115030/101/0101/question.pdf",
+        )
         self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["answer", "question"])
         self.assertEqual(failures, [])
 
@@ -214,7 +225,7 @@ class SyncExamPagesTests(unittest.TestCase):
     def test_sync_exam_pages_replaces_invalid_existing_ashx_with_valid_pdf(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             mirror_root = Path(tmp_dir)
-            file_dir = mirror_root / "115" / "115030" / "101" / "0101"
+            file_dir = mirror_root / "providers" / "moex" / "115" / "115030" / "101" / "0101"
             file_dir.mkdir(parents=True, exist_ok=True)
             (file_dir / "question.ashx").write_bytes(b"\xef\xbb\xbf<!DOCTYPE html><html>error</html>")
             client = QuestionOnlyClient()
@@ -231,7 +242,10 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(client.downloaded_urls, ["https://example.test/question.pdf"])
         self.assertEqual(stored_bytes, b"%PDF-1.7 original payload")
         self.assertFalse((file_dir / "question.ashx").exists())
-        self.assertEqual(raw_pages[0].papers[0].mirror_files["question"]["storage_key"], "115/115030/101/0101/question.pdf")
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+            "providers/moex/115/115030/101/0101/question.pdf",
+        )
         self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
         self.assertEqual(failures, [])
 

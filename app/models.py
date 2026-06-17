@@ -143,6 +143,8 @@ class StoredFile:
 
 
 FILE_TYPE_LABELS = {
+    "question_alt": "\u8a66\u984c\uff08\u4e8c\uff09",
+    "answer_sheet": "\u7b54\u984c\u5377",
     "question": "試題",
     "answer": "答案",
     "corrected_answer": "更正答案",

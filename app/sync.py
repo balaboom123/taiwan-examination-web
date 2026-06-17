@@ -14,7 +14,9 @@ EXTENSION_OVERRIDES = {
 }
 EXPECTED_EXTENSIONS = {
     "question": ".pdf",
+    "question_alt": ".pdf",
     "answer": ".pdf",
+    "answer_sheet": ".pdf",
     "corrected_answer": ".pdf",
     "all_answers": ".pdf",
     "accessible_bundle": ".zip",
@@ -33,12 +35,16 @@ def _asset_name_for(storage_key: str) -> str:
     return storage_key.replace("/", "__")
 
 
+def _provider_storage_prefix(page: SourceExamPage) -> str:
+    return f"providers/{page.provider_id}/" if page.provider_id else ""
+
+
 def _mirror_prefix_for_attachment(page: SourceExamPage, attachment: ExamAttachment) -> str:
-    return f"{page.year_roc}/{page.source_exam_id}/exam/{attachment.file_type}"
+    return f"{_provider_storage_prefix(page)}{page.year_roc}/{page.source_exam_id}/exam/{attachment.file_type}"
 
 
 def _mirror_prefix_for_paper(page: SourceExamPage, paper: ParsedPaper, file_type: str) -> str:
-    return f"{page.year_roc}/{page.source_exam_id}/{paper.category_code}/{paper.subject_code}/{file_type}"
+    return f"{_provider_storage_prefix(page)}{page.year_roc}/{page.source_exam_id}/{paper.category_code}/{paper.subject_code}/{file_type}"
 
 
 def _strip_bom_prefix(data: bytes) -> bytes:
