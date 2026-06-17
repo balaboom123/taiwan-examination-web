@@ -63,6 +63,26 @@ class SourceManifestTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 load_source_manifest(path)
 
+    def test_source_manifest_rejects_empty_provider_id(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "provider_id": "",
+                        "probe_policy": {},
+                        "years": {},
+                        "exams": {},
+                        "files": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "Invalid source manifest provider_id"):
+                load_source_manifest(path)
+
     def test_source_manifest_round_trips_provider_id(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             path = Path(tmp_dir) / "source-manifest.json"
@@ -80,6 +100,33 @@ class SourceManifestTests(unittest.TestCase):
 
             manifest = load_source_manifest(path)
             self.assertEqual(manifest.provider_id, "moex")
+
+    def test_source_manifest_rejects_provider_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            write_source_manifest(
+                path,
+                SourceManifest(
+                    schema_version=1,
+                    provider_id="moex",
+                    probe_policy={},
+                    years={},
+                    exams={},
+                    files={},
+                ),
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "Source manifest provider mismatch: expected other, got moex",
+            ):
+                load_source_manifest(path, provider_id="other")
+
+    def test_missing_manifest_uses_requested_provider_id(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            manifest = load_source_manifest(Path(tmp_dir) / "source-manifest.json", provider_id="moex")
+
+        self.assertEqual(manifest.provider_id, "moex")
 
     def test_write_source_manifest_uses_stable_sorted_json(self) -> None:
         manifest = SourceManifest(

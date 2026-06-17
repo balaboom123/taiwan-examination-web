@@ -14,6 +14,8 @@ class PathLayoutTests(unittest.TestCase):
         self.assertEqual(paths.exams_dir, root / "data" / "providers" / "ceec_gsat" / "exams")
         self.assertEqual(paths.papers_dir, root / "data" / "providers" / "ceec_gsat" / "papers")
         self.assertEqual(paths.review_queue_path, root / "data" / "providers" / "ceec_gsat" / "review-queue.json")
+        self.assertEqual(paths.sync_failures_path, root / "data" / "providers" / "ceec_gsat" / "sync-failures.json")
+        self.assertEqual(paths.aliases_path, root / "data" / "providers" / "ceec_gsat" / "aliases.json")
         self.assertEqual(paths.source_manifest_path, root / "data" / "providers" / "ceec_gsat" / "source-manifest.json")
         self.assertEqual(paths.mirror_dir, root / "mirror" / "providers" / "ceec_gsat")
 
@@ -26,6 +28,7 @@ class PathLayoutTests(unittest.TestCase):
         self.assertEqual(paths.bundles_path, root / "data" / "sites" / "default" / "bundles.json")
         self.assertEqual(paths.release_assets_path, root / "data" / "sites" / "default" / "release-assets.json")
         self.assertEqual(paths.lootlabs_manifest_path, root / "data" / "sites" / "default" / "lootlabs-links.json")
+        self.assertEqual(paths.frontend_bundles_path, root / "data" / "sites" / "default" / "frontend-bundles.json")
         self.assertEqual(paths.bundle_dir, root / "bundles" / "sites" / "default")
 
     def test_legacy_paths_keep_current_root_layout(self) -> None:
