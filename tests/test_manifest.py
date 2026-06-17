@@ -28,7 +28,7 @@ class SourceManifestTests(unittest.TestCase):
     def test_invalid_top_level_sections_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             path = Path(tmp_dir) / "source-manifest.json"
-            path.write_text(json.dumps({"schema_version": 1, "years": []}), encoding="utf-8")
+            path.write_text(json.dumps({"schema_version": 1, "provider_id": "moex", "years": []}), encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "Invalid source manifest years"):
                 load_source_manifest(path)
@@ -36,13 +36,54 @@ class SourceManifestTests(unittest.TestCase):
     def test_invalid_manifest_entries_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             path = Path(tmp_dir) / "source-manifest.json"
-            path.write_text(json.dumps({"schema_version": 1, "exams": {"115030": []}}), encoding="utf-8")
+            path.write_text(
+                json.dumps({"schema_version": 1, "provider_id": "moex", "exams": {"115030": []}}),
+                encoding="utf-8",
+            )
 
             with self.assertRaisesRegex(ValueError, "Invalid source manifest exams.115030"):
                 load_source_manifest(path)
 
+    def test_source_manifest_rejects_missing_provider_id_once_present(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "probe_policy": {},
+                        "years": {},
+                        "exams": {},
+                        "files": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(ValueError):
+                load_source_manifest(path)
+
+    def test_source_manifest_round_trips_provider_id(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            write_source_manifest(
+                path,
+                SourceManifest(
+                    schema_version=1,
+                    provider_id="moex",
+                    probe_policy={},
+                    years={},
+                    exams={},
+                    files={},
+                ),
+            )
+
+            manifest = load_source_manifest(path)
+            self.assertEqual(manifest.provider_id, "moex")
+
     def test_write_source_manifest_uses_stable_sorted_json(self) -> None:
         manifest = SourceManifest(
+            provider_id="moex",
             probe_policy={"year_window": 2, "download_attachments_by_default": False},
             years={
                 "2026": {
