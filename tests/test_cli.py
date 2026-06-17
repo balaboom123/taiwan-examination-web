@@ -86,6 +86,19 @@ class CliBuildSiteTests(unittest.TestCase):
         args = parser.parse_args(["sync-incremental", "--years", "3"])
         self.assertEqual(args.year_window, 3)
 
+    def test_parser_accepts_provider_and_site_for_sync_commands(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(["sync-full", "--provider", "moex", "--site-id", "default"])
+
+        self.assertEqual(args.provider, "moex")
+        self.assertEqual(args.site_id, "default")
+
+    def test_parser_accepts_publish_site_command(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(["publish-site", "--site-id", "default"])
+
+        self.assertEqual(args.site_id, "default")
+
     def test_sync_attachment_defaults_match_command_risk(self) -> None:
         parser = build_parser()
 
@@ -413,6 +426,7 @@ class CliBuildSiteTests(unittest.TestCase):
             )
             manifest_payload = {
                 "schema_version": 1,
+                "provider_id": "moex",
                 "probe_policy": {},
                 "years": {"2026": {"year_ad": 2026, "exam_codes": ["115040"]}},
                 "exams": {"115040": {"source_exam_id": "115040", "head_content_length": 500}},

@@ -5,9 +5,10 @@ import hashlib
 import json
 from dataclasses import asdict, dataclass, field
 
-from app.crawler import MoexClient, make_result_url, make_year_search_url
+from app.crawler import make_result_url, make_year_search_url
 from app.manifest import SourceManifest
 from app.models import SourceExamPage
+from app.providers.base import SourceProvider
 
 
 def _stable_hash(value: object) -> str:
@@ -82,8 +83,11 @@ def _exam_entry_from_page(page: SourceExamPage, *, result_url: str, head_content
     }
 
 
-def probe_latest(client: MoexClient, manifest: SourceManifest, year_window: int, now: str) -> ProbeResult:
+def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: int, now: str) -> ProbeResult:
     updated = copy.deepcopy(manifest)
+    provider_id = manifest.provider_id or getattr(client, "provider_id", "")
+    if provider_id and not updated.provider_id:
+        updated.provider_id = provider_id
     counts = _initial_counts()
     changed_years: list[int] = []
     changed_exam_codes: list[str] = []

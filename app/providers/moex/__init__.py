@@ -1,4 +1,3 @@
-from app.providers.moex import client as _client
 from app.providers.moex.client import (
     BASE_URL,
     FILE_TYPE_MAP,
@@ -6,9 +5,7 @@ from app.providers.moex.client import (
     SUBJECT_LABEL_TO_TYPE,
     TWCA_CA_BUNDLE_PATH,
     USER_AGENT,
-    DownloadedFile,
     MoexClient,
-    ResponseMetadata,
     make_download_url,
     make_result_url,
     make_year_search_url,
@@ -17,29 +14,22 @@ from app.providers.moex.client import (
     roc_year_from_code,
     year_ad_from_code,
 )
-
-ssl = _client.ssl
-urlopen = _client.urlopen
-_build_ssl_context = _client._build_ssl_context
+from app.providers.moex.provider import MoexProvider
 
 __all__ = [
     "BASE_URL",
-    "DownloadedFile",
     "FILE_TYPE_MAP",
     "MoexClient",
-    "ResponseMetadata",
+    "MoexProvider",
     "SEARCH_PATH",
     "SUBJECT_LABEL_TO_TYPE",
     "TWCA_CA_BUNDLE_PATH",
     "USER_AGENT",
-    "_build_ssl_context",
     "make_download_url",
     "make_result_url",
     "make_year_search_url",
     "parse_result_page",
     "parse_search_page",
     "roc_year_from_code",
-    "ssl",
-    "urlopen",
     "year_ad_from_code",
 ]

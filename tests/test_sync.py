@@ -4,6 +4,8 @@ from pathlib import Path
 
 from app.crawler import DownloadedFile
 from app.models import AliasRule, ExamAttachment, ParsedPaper, SourceExamPage
+from app.providers.base import SourceProvider
+from app.providers.moex.provider import MoexProvider
 from app.storage import MirrorStore
 from app.sync import sync_exam_pages
 
@@ -125,6 +127,9 @@ class HtmlPlaceholderClient:
 
 
 class SyncExamPagesTests(unittest.TestCase):
+    def test_moex_provider_implements_source_provider_contract(self) -> None:
+        self.assertIsInstance(MoexProvider(), SourceProvider)
+
     def test_sync_exam_pages_keeps_partial_success_and_records_failures(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             raw_pages, normalized, failures = sync_exam_pages(

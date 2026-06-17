@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from app.crawler import MoexClient, make_download_url, make_result_url, parse_result_page, parse_search_page
+from app.providers.moex.client import MoexClient as PackageMoexClient
 
 
 SEARCH_HTML = """
@@ -114,7 +115,7 @@ class FetchTextDecodingTests(unittest.TestCase):
         html = '<html><head><meta charset="big5"></head><body>護理師</body></html>'
         response = FakeTextResponse(body=html.encode("big5"), content_type="text/html")
 
-        with patch("app.crawler.urlopen", return_value=response):
+        with patch("app.providers.moex.client.urlopen", return_value=response):
             client = MoexClient(ssl_context=object())
             text = client._fetch_text("https://example.test")
 
@@ -123,11 +124,16 @@ class FetchTextDecodingTests(unittest.TestCase):
     def test_fetch_text_falls_back_to_cp950_when_headers_are_missing(self) -> None:
         response = FakeTextResponse(body="藥師".encode("cp950"), content_type="text/html")
 
-        with patch("app.crawler.urlopen", return_value=response):
+        with patch("app.providers.moex.client.urlopen", return_value=response):
             client = MoexClient(ssl_context=object())
             text = client._fetch_text("https://example.test")
 
         self.assertEqual(text, "藥師")
+
+
+class CrawlerCompatibilityTests(unittest.TestCase):
+    def test_crawler_module_reexports_moex_client(self) -> None:
+        self.assertIs(MoexClient, PackageMoexClient)
 
 
 if __name__ == "__main__":

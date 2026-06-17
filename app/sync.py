@@ -3,9 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from urllib.parse import unquote
 
-from app.crawler import MoexClient
 from app.models import AliasRule, ExamAttachment, NormalizedCatalog, ParsedPaper, SourceExamPage, StoredFile, SyncFailure
 from app.normalizer import normalize_papers
+from app.providers.base import SourceProvider
 from app.storage import MirrorStore
 
 EXTENSION_OVERRIDES = {
@@ -77,7 +77,7 @@ def _is_valid_stored_file(path: Path, file_type: str) -> bool:
     return _matches_expected_binary(path.read_bytes()[:8], expected_extension)
 
 
-def _ensure_mirrored(client: MoexClient, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
+def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
     stored = mirror_store.find_existing(prefix)
     if stored is not None and not _is_valid_stored_file(stored.path, file_type):
         stored = None
@@ -90,7 +90,7 @@ def _ensure_mirrored(client: MoexClient, mirror_store: MirrorStore, prefix: str,
 
 
 def sync_exam_pages(
-    client: MoexClient,
+    client: SourceProvider,
     exam_codes: list[tuple[str, int]],
     mirror_store: MirrorStore,
     alias_rules: list[AliasRule],
@@ -118,6 +118,9 @@ def sync_exam_pages(
                 )
             )
             continue
+        provider_id = page.provider_id or getattr(client, "provider_id", "")
+        if provider_id and not page.provider_id:
+            page.provider_id = provider_id
         mirror_metadata: dict[tuple[str, str, str], dict[str, str]] = {}
 
         if download_attachments:
@@ -192,6 +195,9 @@ def sync_exam_pages(
             mirror_base_url=mirror_base_url,
             mirror_metadata=mirror_metadata,
         )
+        if provider_id:
+            for normalized_paper in normalized.papers:
+                normalized_paper.provider_id = provider_id
         raw_pages.append(page)
         normalized_papers.extend(normalized.papers)
         review_queue.extend(normalized.review_queue)

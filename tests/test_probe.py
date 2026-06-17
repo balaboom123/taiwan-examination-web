@@ -4,6 +4,7 @@ from app.crawler import ResponseMetadata, make_result_url
 from app.manifest import SourceManifest
 from app.models import ExamOption, ParsedPaper, SourceExamPage
 from app.probe import hash_exam_codes, hash_paper_urls, probe_latest
+from app.providers.registry import get_provider
 
 
 class FakeProbeClient:
@@ -161,6 +162,14 @@ class ProbeTests(unittest.TestCase):
         self.assertEqual(result.unchanged_exam_codes, ["115040"])
         self.assertEqual(client.discovered_exam_years, [2026])
         self.assertEqual(client.fetched_exam_codes, ["115010"])
+
+
+class ProviderRegistryTests(unittest.TestCase):
+    def test_get_provider_returns_moex_provider(self) -> None:
+        provider = get_provider("moex")
+
+        self.assertEqual(provider.provider_id, "moex")
+        self.assertTrue(hasattr(provider, "discover_available_years"))
 
 
 if __name__ == "__main__":

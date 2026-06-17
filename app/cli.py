@@ -7,13 +7,15 @@ from datetime import datetime
 from pathlib import Path
 
 from app.bundler import build_bundles
-from app.crawler import MoexClient, year_ad_from_code
+from app.crawler import year_ad_from_code
 from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.publisher import build_site, write_data_files
 from app.probe import probe_latest
+from app.providers.base import SourceProvider
+from app.providers.registry import get_provider
 from app.state import filter_catalog_by_canonical_ids, load_existing_state, merge_incremental_state, merge_targeted_state
 from app.sync import sync_exam_pages
 from app.storage import MirrorStore
@@ -23,18 +25,26 @@ def _default_repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
-def _discover_years(client: MoexClient, years: list[int] | None) -> list[int]:
+def _discover_years(client: SourceProvider, years: list[int] | None) -> list[int]:
     if years:
         return years
     return client.discover_available_years()
 
 
-def _latest_years(client: MoexClient, count: int) -> list[int]:
+def _latest_years(client: SourceProvider, count: int) -> list[int]:
     return sorted(client.discover_available_years(), reverse=True)[:count]
 
 
+def _provider_for_args(args: argparse.Namespace, client: SourceProvider | None = None) -> SourceProvider:
+    return client or get_provider(getattr(args, "provider", "moex"))
+
+
+def _provider_id_for_args(args: argparse.Namespace, client: SourceProvider) -> str:
+    return getattr(client, "provider_id", getattr(args, "provider", "moex"))
+
+
 def command_discover(args: argparse.Namespace) -> int:
-    client = MoexClient()
+    client = _provider_for_args(args)
     years = _discover_years(client, args.years)
     payload = []
     for year in years:
@@ -122,10 +132,10 @@ def command_sync_lootlabs(args: argparse.Namespace) -> int:
     return 0
 
 
-def run_probe_latest(args: argparse.Namespace, client: MoexClient | None = None, now: str | None = None) -> int:
-    probe_client = client or MoexClient()
+def run_probe_latest(args: argparse.Namespace, client: SourceProvider | None = None, now: str | None = None) -> int:
+    probe_client = _provider_for_args(args, client)
     generated_at = now or datetime.now().astimezone().isoformat()
-    manifest = load_source_manifest(args.manifest)
+    manifest = load_source_manifest(args.manifest, provider_id=_provider_id_for_args(args, probe_client))
     result = probe_latest(client=probe_client, manifest=manifest, year_window=args.years, now=generated_at)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result.to_output_data(), ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -175,7 +185,7 @@ def _print_failures(failures: list) -> None:
             print(f"  url: {failure.url}")
 
 
-def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None) -> int:
+def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
     probe = json.loads(args.probe.read_text(encoding="utf-8"))
     if not probe.get("should_sync", False):
         return 0
@@ -185,7 +195,7 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
     exam_years = {code: int(year) for code, year in probe.get("exam_years", {}).items()}
     exam_codes = [(code, exam_years.get(code, year_ad_from_code(code))) for code in changed_exam_codes]
     aliases = load_alias_rules(args.aliases)
-    sync_client = client or MoexClient()
+    sync_client = _provider_for_args(args, client)
     refreshed_raw_pages, refreshed_catalog, sync_failures = sync_exam_pages(
         client=sync_client,
         exam_codes=exam_codes,
@@ -232,12 +242,13 @@ def run_sync_targeted(args: argparse.Namespace, client: MoexClient | None = None
     return 0
 
 
-def command_sync(args: argparse.Namespace, client: MoexClient | None = None) -> int:
-    client = client or MoexClient()
+def command_sync(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
+    provider = _provider_for_args(args, client)
+    provider_id = _provider_id_for_args(args, provider)
     if getattr(args, "year_window", None):
-        years = _latest_years(client, args.year_window)
+        years = _latest_years(provider, args.year_window)
     else:
-        years = _discover_years(client, args.years)
+        years = _discover_years(provider, args.years)
     aliases = load_alias_rules(args.aliases)
     mirror_store = MirrorStore(args.mirror_dir)
 
@@ -247,11 +258,11 @@ def command_sync(args: argparse.Namespace, client: MoexClient | None = None) -> 
     all_sync_failures: list = []
 
     for year in years:
-        exam_codes = [(exam.code, exam.year_ad) for exam in client.discover_exams(year)]
+        exam_codes = [(exam.code, exam.year_ad) for exam in provider.discover_exams(year)]
         print(f"Syncing year {year} ({len(exam_codes)} exams)...")
         try:
             raw_pages_year, catalog_year, failures_year = sync_exam_pages(
-                client=client,
+                client=provider,
                 exam_codes=exam_codes,
                 mirror_store=mirror_store,
                 alias_rules=aliases,
@@ -317,12 +328,16 @@ def command_sync(args: argparse.Namespace, client: MoexClient | None = None) -> 
     write_data_files(args.data_dir, raw_pages, normalized, aliases, bundles, failures)
     build_site(args.site_dir, normalized, bundles)
     if getattr(args, "write_manifest", False) and not failures:
-        manifest = load_source_manifest(args.manifest)
-        result = probe_latest(client=client, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
+        manifest = load_source_manifest(args.manifest, provider_id=provider_id)
+        result = probe_latest(client=provider, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
         write_source_manifest(args.manifest, result.updated_manifest)
     if failures:
         print(f"Completed with {len(failures)} failure(s). See data/sync-failures.json for details.")
         return 1
+    return 0
+
+
+def command_publish_site(args: argparse.Namespace) -> int:
     return 0
 
 
@@ -332,10 +347,12 @@ def build_parser() -> argparse.ArgumentParser:
     repo_root = _default_repo_root()
 
     discover = subparsers.add_parser("discover", help="Discover available exams grouped by year.")
+    discover.add_argument("--provider", default="moex")
     discover.add_argument("--years", nargs="*", type=int, default=None)
     discover.set_defaults(handler=command_discover)
 
     probe_parser = subparsers.add_parser("probe-latest", help="Probe recent MOEX source changes without downloading files.")
+    probe_parser.add_argument("--provider", default="moex")
     probe_parser.add_argument("--years", type=int, default=2)
     probe_parser.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
     probe_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "source-probe.json")
@@ -354,11 +371,13 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--mirror-base-url", default="")
     targeted.add_argument("--download-attachments", action="store_true", default=False)
     targeted.add_argument("--download-affected-bundles", action="store_true", default=False)
+    targeted.add_argument("--provider", default="moex")
+    targeted.add_argument("--site-id", default="default")
     targeted.add_argument("--release-tag", default="moex-bundles")
     targeted.set_defaults(handler=run_sync_targeted)
 
     for name in ("sync-full", "sync-incremental"):
-        sync = subparsers.add_parser(name, help=f"{name} against the live MOEX site.")
+        sync = subparsers.add_parser(name, help=f"{name} against the selected provider.")
         sync.add_argument("--data-dir", type=Path, default=repo_root / "data")
         sync.add_argument("--site-dir", type=Path, default=repo_root / "site")
         sync.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
@@ -368,6 +387,8 @@ def build_parser() -> argparse.ArgumentParser:
         sync.add_argument("--bundle-base-url", default="")
         sync.add_argument("--mirror-base-url", default="")
         sync.add_argument("--download-attachments", action="store_true", default=False)
+        sync.add_argument("--provider", default="moex")
+        sync.add_argument("--site-id", default="default")
         sync.add_argument("--write-manifest", action="store_true", default=False)
         if name == "sync-full":
             sync.add_argument("--years", nargs="*", type=int, default=None)
@@ -397,6 +418,10 @@ def build_parser() -> argparse.ArgumentParser:
     build_site_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
     build_site_parser.add_argument("--site-dir", type=Path, default=repo_root / "site")
     build_site_parser.set_defaults(handler=command_build_site)
+
+    publish_site_parser = subparsers.add_parser("publish-site", help="Aggregate provider outputs and publish one site.")
+    publish_site_parser.add_argument("--site-id", default="default")
+    publish_site_parser.set_defaults(handler=command_publish_site)
     return parser
 
 
