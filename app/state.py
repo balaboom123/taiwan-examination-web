@@ -41,6 +41,13 @@ def load_site_bundles(site) -> list[BundleAsset]:
     if not site.bundles_path.exists():
         return []
     payload = json.loads(site.bundles_path.read_text(encoding="utf-8"))
+    if isinstance(payload, dict):
+        schema_version = payload.get("schema_version")
+        if schema_version is not None and schema_version != 1:
+            raise ValueError(f"Unsupported site bundles schema_version: {schema_version}")
+        payload_site_id = payload.get("site_id")
+        if payload_site_id is not None and payload_site_id != site.site_id:
+            raise ValueError(f"Site bundles site_id mismatch: expected {site.site_id}, got {payload_site_id}")
     bundles = payload.get("bundles", payload)
     return [BundleAsset(**bundle) for bundle in bundles]
 

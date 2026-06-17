@@ -158,9 +158,14 @@ def write_site_state(
                 ],
                 ensure_ascii=False,
                 indent=2,
-            ),
+                ),
             encoding="utf-8",
         )
+        if lootlabs_manifest is not None:
+            legacy_paths.lootlabs_manifest_path.write_text(
+                json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
 
 
 def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]:

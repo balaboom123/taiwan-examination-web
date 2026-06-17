@@ -153,6 +153,12 @@ class PublisherTests(unittest.TestCase):
             provider = provider_paths(root, "moex")
             site = site_paths(root, "default")
             legacy = legacy_paths(root)
+            lootlabs_manifest = {
+                "schema_version": 1,
+                "provider": "lootlabs",
+                "site_id": "default",
+                "links": [{"bundle_id": "nurse", "url": "https://lootlabs.gg/example"}],
+            }
 
             write_provider_state(
                 provider,
@@ -166,7 +172,7 @@ class PublisherTests(unittest.TestCase):
                 site,
                 bundles=bundles,
                 frontend_bundles=[{"id": "nurse", "name": "Nurse", "years": [115], "fileCount": 1, "url": bundles[0].download_url}],
-                lootlabs_manifest=None,
+                lootlabs_manifest=lootlabs_manifest,
                 legacy_paths=legacy,
                 write_legacy=True,
             )
@@ -176,6 +182,14 @@ class PublisherTests(unittest.TestCase):
             self.assertTrue(legacy.bundles_path.exists())
             self.assertTrue(provider.aliases_path.exists())
             self.assertTrue(site.release_assets_path.exists())
+            self.assertEqual(
+                json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8")),
+                lootlabs_manifest,
+            )
+            self.assertEqual(
+                json.loads(legacy.lootlabs_manifest_path.read_text(encoding="utf-8")),
+                lootlabs_manifest,
+            )
 
 
 if __name__ == "__main__":

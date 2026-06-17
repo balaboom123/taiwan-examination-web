@@ -42,13 +42,13 @@ class ParsedPaper:
 
 @dataclass
 class SourceExamPage:
-    provider_id: str
     source_exam_id: str
     year_ad: int
     year_roc: int
     exam_name_raw: str
     attachments: list[ExamAttachment]
     papers: list[ParsedPaper]
+    provider_id: str = ""
 
 
 @dataclass
@@ -74,7 +74,6 @@ class ReviewItem:
 
 @dataclass
 class NormalizedPaper:
-    provider_id: str
     canonical_id: str
     canonical_name: str
     year_roc: int
@@ -91,6 +90,7 @@ class NormalizedPaper:
     download_url_bundle: str = ""
     storage_key: str = ""
     checksum: str = ""
+    provider_id: str = ""
 
 
 @dataclass
