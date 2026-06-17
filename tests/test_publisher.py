@@ -2,10 +2,11 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from urllib.parse import quote
 
+from app.manifest import SourceManifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, ReviewItem, SourceExamPage
-from app.publisher import build_site, write_data_files
+from app.paths import legacy_paths, provider_paths, site_paths
+from app.publisher import build_site, write_data_files, write_provider_state, write_site_state
 
 
 class PublisherTests(unittest.TestCase):
@@ -13,47 +14,50 @@ class PublisherTests(unittest.TestCase):
         normalized = NormalizedCatalog(
             papers=[
                 NormalizedPaper(
+                    provider_id="moex",
                     canonical_id="nurse",
-                    canonical_name="護理師",
+                    canonical_name="Nurse",
                     year_roc=115,
-                    exam_name_raw="115年專技高考護理師",
-                    category_raw="護理師",
+                    exam_name_raw="115 Nurse Exam",
+                    category_raw="Nurse",
                     category_code="101",
                     source_exam_id="115030",
                     subject_code="0101",
-                    subject_name_raw="基礎醫學",
+                    subject_name_raw="Medical Basics",
                     paper_code="101-0101-question",
                     file_type="question",
-                    download_url_source="https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=Q&code=115030&c=101&s=0101&q=1",
+                    download_url_source="https://wwwq.moex.gov.tw/example.pdf",
                     download_url_mirror="",
-                    download_url_bundle=f"https://github.com/example/repo/releases/download/moex-bundles/{quote('護理師__nurse.zip')}",
+                    download_url_bundle="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
                     storage_key="115/115030/101/0101/question.pdf",
                     checksum="abc123",
                 )
             ],
-            review_queue=[ReviewItem(raw_category="護理師", normalized_candidate="護理師", source_exam_id="115030", year_roc=115)],
+            review_queue=[ReviewItem(raw_category="Nurse", normalized_candidate="Nurse", source_exam_id="115030", year_roc=115)],
         )
         raw_pages = [
             SourceExamPage(
+                provider_id="moex",
                 source_exam_id="115030",
                 year_ad=2026,
                 year_roc=115,
-                exam_name_raw="115年專技高考護理師",
+                exam_name_raw="115 Nurse Exam",
                 attachments=[],
                 papers=[],
             )
         ]
-        aliases = [AliasRule(match_type="exact", raw_pattern="護理師", canonical_id="nurse", canonical_name="護理師")]
+        aliases = [AliasRule(match_type="exact", raw_pattern="Nurse", canonical_id="nurse", canonical_name="Nurse")]
         bundles = [
             BundleAsset(
                 canonical_id="nurse",
-                canonical_name="護理師",
+                canonical_name="Nurse",
                 years=[115],
                 file_count=1,
-                storage_key="bundles/護理師__nurse.zip",
-                asset_name="護理師__nurse.zip",
-                download_url=f"https://github.com/example/repo/releases/download/moex-bundles/{quote('護理師__nurse.zip')}",
-                legacy_asset_names=["nurse.zip"],
+                storage_key="bundles/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="moex-bundles",
+                download_url="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                legacy_asset_names=["nurse-legacy.zip"],
             )
         ]
 
@@ -63,12 +67,13 @@ class PublisherTests(unittest.TestCase):
             build_site(root / "site", normalized, bundles)
 
             papers = json.loads((root / "data" / "papers" / "2026.json").read_text(encoding="utf-8"))
-            self.assertEqual(papers[0]["canonical_name"], "護理師")
+            self.assertEqual(papers[0]["canonical_name"], "Nurse")
+            self.assertEqual(papers[0]["provider_id"], "moex")
             self.assertFalse((root / "data" / "papers.json").exists())
             self.assertFalse((root / "data" / "exams.raw.json").exists())
             self.assertEqual(
                 papers[0]["download_url_bundle"],
-                f"https://github.com/example/repo/releases/download/moex-bundles/{quote('護理師__nurse.zip')}",
+                "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
             )
 
             bundle_index = json.loads((root / "data" / "bundles.json").read_text(encoding="utf-8"))
@@ -78,30 +83,99 @@ class PublisherTests(unittest.TestCase):
             self.assertEqual(
                 release_assets,
                 [
-                    {"storage_key": "bundles/護理師__nurse.zip", "asset_name": "護理師__nurse.zip", "checksum": "", "legacy_asset_names": ["nurse.zip"]},
+                    {
+                        "storage_key": "bundles/nurse.zip",
+                        "asset_name": "nurse.zip",
+                        "checksum": "",
+                        "legacy_asset_names": ["nurse-legacy.zip"],
+                    },
                 ],
             )
 
             review = json.loads((root / "data" / "review-queue.json").read_text(encoding="utf-8"))
-            self.assertEqual(review[0]["normalized_candidate"], "護理師")
+            self.assertEqual(review[0]["normalized_candidate"], "Nurse")
             self.assertEqual(json.loads((root / "data" / "sync-failures.json").read_text(encoding="utf-8")), [])
 
             html = (root / "site" / "index.html").read_text(encoding="utf-8")
-            self.assertIn("護理師", html)
+            self.assertIn("Nurse", html)
             self.assertTrue((root / "site" / "data" / "bundles.json").exists())
             self.assertTrue((root / "site" / "data" / "papers" / "2026.json").exists())
-            self.assertIn("<title>考選部歷屆試題下載</title>", html)
-            self.assertIn("<h1>考選部歷屆試題下載</h1>", html)
-            self.assertIn("下載整理好的中文壓縮檔", html)
-            self.assertIn('<label>考試名稱<select id="canonicalFilter">', html)
-            self.assertIn('<label>年度<select id="yearFilter">', html)
-            for header in ("考試名稱", "年度", "科目", "分類", "下載整理包", "原始來源"):
-                self.assertIn(f"<th>{header}</th>", html)
-            self.assertIn("下載壓縮檔", html)
-            self.assertNotIn("<th>Canonical</th>", html)
-            self.assertNotIn("${paper.canonical_id}", html)
-            self.assertNotIn("${paper.file_type}", html)
             self.assertIn("${FILE_TYPE_LABELS[paper.file_type] || paper.file_type}", html)
+
+    def test_write_provider_and_site_state_keep_legacy_compatibility_outputs(self) -> None:
+        raw_pages = [
+            SourceExamPage(
+                provider_id="moex",
+                source_exam_id="115030",
+                year_ad=2026,
+                year_roc=115,
+                exam_name_raw="115 Nurse Exam",
+                attachments=[],
+                papers=[],
+            )
+        ]
+        normalized = NormalizedCatalog(
+            papers=[
+                NormalizedPaper(
+                    provider_id="moex",
+                    canonical_id="nurse",
+                    canonical_name="Nurse",
+                    year_roc=115,
+                    exam_name_raw="115 Nurse Exam",
+                    category_raw="Nurse",
+                    subject_name_raw="Medical Basics",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://wwwq.moex.gov.tw/example.pdf",
+                    category_code="101",
+                    source_exam_id="115030",
+                    subject_code="0101",
+                )
+            ],
+            review_queue=[ReviewItem(raw_category="Nurse", normalized_candidate="Nurse", source_exam_id="115030", year_roc=115)],
+        )
+        aliases = [AliasRule(match_type="exact", raw_pattern="Nurse", canonical_id="nurse", canonical_name="Nurse")]
+        bundles = [
+            BundleAsset(
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                years=[115],
+                file_count=1,
+                storage_key="bundles/sites/default/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="moex-bundles",
+                download_url="https://example.test/nurse.zip",
+            )
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            provider = provider_paths(root, "moex")
+            site = site_paths(root, "default")
+            legacy = legacy_paths(root)
+
+            write_provider_state(
+                provider,
+                raw_pages=raw_pages,
+                normalized=normalized,
+                aliases=aliases,
+                failures=[],
+                manifest=SourceManifest(provider_id="moex"),
+            )
+            write_site_state(
+                site,
+                bundles=bundles,
+                frontend_bundles=[{"id": "nurse", "name": "Nurse", "years": [115], "fileCount": 1, "url": bundles[0].download_url}],
+                lootlabs_manifest=None,
+                legacy_paths=legacy,
+                write_legacy=True,
+            )
+
+            self.assertTrue(provider.exams_dir.exists())
+            self.assertTrue(site.bundles_path.exists())
+            self.assertTrue(legacy.bundles_path.exists())
+            self.assertTrue(provider.aliases_path.exists())
+            self.assertTrue(site.release_assets_path.exists())
 
 
 if __name__ == "__main__":

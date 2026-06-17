@@ -6,6 +6,7 @@ from html import escape
 from pathlib import Path
 from typing import TypeVar
 
+from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 
 T = TypeVar("T")
@@ -62,6 +63,104 @@ def write_data_files(
         json.dumps(release_assets, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+
+
+def write_provider_state(
+    provider,
+    raw_pages: list[SourceExamPage],
+    normalized: NormalizedCatalog,
+    aliases: list[AliasRule],
+    failures: list[SyncFailure],
+    manifest: SourceManifest | None,
+) -> None:
+    provider.data_dir.mkdir(parents=True, exist_ok=True)
+    _write_split_by_year(provider.exams_dir, raw_pages, lambda page: page.year_ad)
+    _write_split_by_year(provider.papers_dir, normalized.papers, lambda paper: paper.year_roc + 1911)
+    provider.review_queue_path.write_text(
+        json.dumps(to_plain_data(normalized.review_queue), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    provider.sync_failures_path.write_text(
+        json.dumps(to_plain_data(failures), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    provider.aliases_path.write_text(
+        json.dumps({"rules": to_plain_data(aliases)}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    if manifest is not None:
+        write_source_manifest(provider.source_manifest_path, manifest)
+
+
+def write_site_state(
+    site,
+    bundles: list[BundleAsset],
+    frontend_bundles: list[dict],
+    lootlabs_manifest: dict | None,
+    *,
+    legacy_paths=None,
+    write_legacy: bool = False,
+) -> None:
+    site.data_dir.mkdir(parents=True, exist_ok=True)
+    site.bundles_path.write_text(
+        json.dumps(
+            {"schema_version": 1, "site_id": site.site_id, "bundles": to_plain_data(bundles)},
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    site.release_assets_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "site_id": site.site_id,
+                "assets": [
+                    {
+                        "release_tag": bundle.release_tag,
+                        "storage_key": bundle.storage_key,
+                        "asset_name": bundle.asset_name,
+                        "checksum": bundle.checksum,
+                        "legacy_asset_names": bundle.legacy_asset_names,
+                    }
+                    for bundle in bundles
+                ],
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    site.frontend_bundles_path.write_text(
+        json.dumps(
+            {"schema_version": 1, "site_id": site.site_id, "bundles": frontend_bundles},
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    if lootlabs_manifest is not None:
+        site.lootlabs_manifest_path.write_text(json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    if write_legacy and legacy_paths is not None:
+        legacy_paths.data_dir.mkdir(parents=True, exist_ok=True)
+        legacy_paths.bundles_path.write_text(json.dumps(to_plain_data(bundles), ensure_ascii=False, indent=2), encoding="utf-8")
+        legacy_paths.release_assets_path.write_text(
+            json.dumps(
+                [
+                    {
+                        "release_tag": bundle.release_tag,
+                        "storage_key": bundle.storage_key,
+                        "asset_name": bundle.asset_name,
+                        "checksum": bundle.checksum,
+                        "legacy_asset_names": bundle.legacy_asset_names,
+                    }
+                    for bundle in bundles
+                ],
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
 
 def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]:

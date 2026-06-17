@@ -42,6 +42,7 @@ class ParsedPaper:
 
 @dataclass
 class SourceExamPage:
+    provider_id: str
     source_exam_id: str
     year_ad: int
     year_roc: int
@@ -73,6 +74,7 @@ class ReviewItem:
 
 @dataclass
 class NormalizedPaper:
+    provider_id: str
     canonical_id: str
     canonical_name: str
     year_roc: int
@@ -105,6 +107,7 @@ class BundleAsset:
     file_count: int
     storage_key: str
     asset_name: str
+    release_tag: str = ""
     download_url: str = ""
     checksum: str = ""
     legacy_asset_names: list[str] = field(default_factory=list)

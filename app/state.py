@@ -27,6 +27,24 @@ def load_existing_state(data_dir: Path) -> tuple[list[SourceExamPage], Normalize
     )
 
 
+def load_provider_state(provider) -> tuple[list[SourceExamPage], NormalizedCatalog, list[SyncFailure]]:
+    if not provider.data_dir.exists():
+        return [], NormalizedCatalog(papers=[], review_queue=[]), []
+    return (
+        _load_raw_pages_dir(provider.exams_dir, provider_id=provider.provider_id),
+        _load_catalog_dir(provider.papers_dir, provider.review_queue_path, provider_id=provider.provider_id),
+        _load_failures(provider.sync_failures_path),
+    )
+
+
+def load_site_bundles(site) -> list[BundleAsset]:
+    if not site.bundles_path.exists():
+        return []
+    payload = json.loads(site.bundles_path.read_text(encoding="utf-8"))
+    bundles = payload.get("bundles", payload)
+    return [BundleAsset(**bundle) for bundle in bundles]
+
+
 def _merge_state(
     existing_raw_pages: list[SourceExamPage],
     existing_catalog: NormalizedCatalog,
@@ -173,11 +191,12 @@ def _load_json_dir(directory: Path) -> list[dict]:
     return items
 
 
-def _load_raw_pages_dir(exams_dir: Path) -> list[SourceExamPage]:
+def _load_raw_pages_dir(exams_dir: Path, provider_id: str = "") -> list[SourceExamPage]:
     pages = []
     for item in _load_json_dir(exams_dir):
         pages.append(
             SourceExamPage(
+                provider_id=item.get("provider_id", provider_id),
                 source_exam_id=item["source_exam_id"],
                 year_ad=item["year_ad"],
                 year_roc=item["year_roc"],
@@ -199,14 +218,16 @@ def _load_raw_pages_dir(exams_dir: Path) -> list[SourceExamPage]:
     return pages
 
 
-def _load_catalog_dir(papers_dir: Path, review_queue_path: Path) -> NormalizedCatalog:
-    papers = [NormalizedPaper(**paper) for paper in _load_json_dir(papers_dir)]
+def _load_catalog_dir(papers_dir: Path, review_queue_path: Path, provider_id: str = "") -> NormalizedCatalog:
+    papers = [NormalizedPaper(provider_id=paper.get("provider_id", provider_id), **{k: v for k, v in paper.items() if k != "provider_id"}) for paper in _load_json_dir(papers_dir)]
     review_queue = [ReviewItem(**item) for item in _load_json(review_queue_path)]
     return NormalizedCatalog(papers=papers, review_queue=review_queue)
 
 
 def _load_bundles(path: Path) -> list[BundleAsset]:
-    return [BundleAsset(**bundle) for bundle in _load_json(path)]
+    payload = _load_json(path)
+    bundles = payload.get("bundles", payload) if isinstance(payload, dict) else payload
+    return [BundleAsset(**bundle) for bundle in bundles]
 
 
 def _load_failures(path: Path) -> list[SyncFailure]:
