@@ -405,7 +405,11 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
 
 
 def command_publish_site(args: argparse.Namespace) -> int:
-    publish_site(args.repo_root, site_id=args.site_id, repository=args.repository)
+    try:
+        publish_site(args.repo_root, site_id=args.site_id, repository=args.repository)
+    except ValueError as exc:
+        print(str(exc), flush=True)
+        return 1
     return 0
 
 

@@ -172,6 +172,53 @@ class CliBuildSiteTests(unittest.TestCase):
                 {bundle["canonical_id"] for bundle in bundles_payload["bundles"]},
                 {"nurse", "ceec-gsat"},
             )
+            self.assertEqual(
+                {bundle["storage_key"] for bundle in bundles_payload["bundles"]},
+                {
+                    "bundles/sites/default/nurse.zip",
+                    "bundles/sites/default/ceec-gsat.zip",
+                },
+            )
+
+    def test_publish_site_command_returns_non_zero_when_bundle_build_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            broken_paper = _paper("moex", "nurse")
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[broken_paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_provider_state(
+                provider_paths(root, "ceec_gsat"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = main(
+                    [
+                        "publish-site",
+                        "--repo-root",
+                        str(root),
+                        "--site-id",
+                        "default",
+                        "--repository",
+                        "example/repo",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 1)
+            self.assertIn("Missing mirrored file for bundle entry", output.getvalue())
+            self.assertFalse(site_paths(root, "default").bundles_path.exists())
+            self.assertFalse((root / "site" / "index.html").exists())
 
     def test_sync_attachment_defaults_match_command_risk(self) -> None:
         parser = build_parser()

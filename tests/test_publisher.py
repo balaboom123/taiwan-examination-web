@@ -253,9 +253,72 @@ class PublisherTests(unittest.TestCase):
 
             self.assertEqual({paper.canonical_id for paper in normalized.papers}, {"nurse", "ceec-gsat"})
             self.assertEqual({bundle.canonical_id for bundle in bundles}, {"nurse", "ceec-gsat"})
+            self.assertEqual(
+                {bundle.storage_key for bundle in bundles},
+                {
+                    "bundles/sites/default/nurse.zip",
+                    "bundles/sites/default/ceec-gsat.zip",
+                },
+            )
             self.assertTrue(site_paths(root, "default").bundles_path.exists())
             self.assertTrue(legacy_paths(root).bundles_path.exists())
             self.assertTrue((root / "site" / "index.html").exists())
+            self.assertTrue((site_paths(root, "default").bundle_dir / "nurse.zip").exists())
+            self.assertTrue((site_paths(root, "default").bundle_dir / "ceec-gsat.zip").exists())
+
+            release_assets = json.loads(site_paths(root, "default").release_assets_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                {asset["storage_key"] for asset in release_assets["assets"]},
+                {
+                    "bundles/sites/default/nurse.zip",
+                    "bundles/sites/default/ceec-gsat.zip",
+                },
+            )
+
+    def test_publish_site_fails_closed_when_bundle_build_has_failures(self) -> None:
+        broken_paper = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="nurse",
+            canonical_name="Nurse",
+            year_roc=115,
+            exam_name_raw="115 Nurse Exam",
+            category_raw="Nurse",
+            subject_name_raw="Medical Basics",
+            paper_code="101-0101-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/nurse.pdf",
+            category_code="101",
+            source_exam_id="115030",
+            subject_code="0101",
+            storage_key="providers/moex/115/115030/101/0101/question.pdf",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[broken_paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_provider_state(
+                provider_paths(root, "ceec_gsat"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            with self.assertRaises(ValueError):
+                publish_site(root, site_id="default", repository="example/repo")
+
+            self.assertFalse(site_paths(root, "default").bundles_path.exists())
+            self.assertFalse(site_paths(root, "default").release_assets_path.exists())
+            self.assertFalse(legacy_paths(root).bundles_path.exists())
+            self.assertFalse((root / "site" / "index.html").exists())
 
 
 if __name__ == "__main__":

@@ -218,6 +218,26 @@ def apply_bundle_download_urls(
     )
 
 
+def _site_bundle_storage_key(site_id: str, asset_name: str) -> str:
+    return f"bundles/sites/{site_id}/{asset_name}"
+
+
+def _site_scoped_bundles(site_id: str, bundles: list[BundleAsset]) -> list[BundleAsset]:
+    return [replace(bundle, storage_key=_site_bundle_storage_key(site_id, bundle.asset_name)) for bundle in bundles]
+
+
+def _format_bundle_failures(failures: list[SyncFailure]) -> str:
+    details = []
+    for failure in failures:
+        parts = [failure.stage, failure.source_exam_id]
+        if failure.paper_code:
+            parts.append(failure.paper_code)
+        if failure.file_type:
+            parts.append(failure.file_type)
+        details.append(f"{' '.join(parts)}: {failure.message}")
+    return "\n".join(details)
+
+
 def publish_site(
     repo_root: Path,
     *,
@@ -242,10 +262,13 @@ def publish_site(
         bundle_base_url="",
         min_years=1,
     )
+    if bundle_result.failures:
+        raise ValueError(_format_bundle_failures(bundle_result.failures))
+    site_scoped_bundles = _site_scoped_bundles(site_id, bundle_result.bundles)
     tagged_bundles = assign_release_tags(
         release_tag_prefix=site_config.release_tag_prefix,
         existing_bundles=existing_bundles,
-        bundles=bundle_result.bundles,
+        bundles=site_scoped_bundles,
         max_assets_per_release=site_config.release_shard_size,
     )
     normalized_with_urls, bundles_with_urls, frontend_bundles = apply_bundle_download_urls(
