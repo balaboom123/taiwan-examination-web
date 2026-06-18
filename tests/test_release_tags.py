@@ -54,6 +54,19 @@ class ReleaseTagAssignmentTests(unittest.TestCase):
         self.assertEqual(updated[0].release_tag, "default-bundles-001")
         self.assertEqual(updated[1].release_tag, "default-bundles-001")
 
+    def test_assign_release_tags_ignores_existing_tags_with_different_prefix(self) -> None:
+        existing = [_bundle("a.zip")]
+        existing[0].release_tag = "moex-bundles"
+
+        updated = assign_release_tags(
+            release_tag_prefix="default-bundles",
+            existing_bundles=existing,
+            bundles=[_bundle("a.zip")],
+            max_assets_per_release=2,
+        )
+
+        self.assertEqual(updated[0].release_tag, "default-bundles-001")
+
     def test_assign_release_tags_opens_new_shard_after_capacity(self) -> None:
         bundles = [_bundle("a.zip"), _bundle("b.zip"), _bundle("c.zip")]
         updated = assign_release_tags(

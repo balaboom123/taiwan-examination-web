@@ -6,6 +6,10 @@ from dataclasses import replace
 from app.models import BundleAsset
 
 
+def _is_active_release_tag(release_tag_prefix: str, release_tag: str) -> bool:
+    return release_tag.startswith(f"{release_tag_prefix}-")
+
+
 def assign_release_tags(
     *,
     release_tag_prefix: str,
@@ -16,7 +20,11 @@ def assign_release_tags(
     if max_assets_per_release < 1:
         raise ValueError("max_assets_per_release must be at least 1")
 
-    preserved = {bundle.asset_name: bundle.release_tag for bundle in existing_bundles if bundle.release_tag}
+    preserved = {
+        bundle.asset_name: bundle.release_tag
+        for bundle in existing_bundles
+        if bundle.release_tag and _is_active_release_tag(release_tag_prefix, bundle.release_tag)
+    }
     ordered = sorted(bundles, key=lambda item: item.asset_name)
     counts: dict[str, int] = defaultdict(int)
 
