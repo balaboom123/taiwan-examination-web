@@ -14,8 +14,8 @@ class SiteConfig:
 _SITES = {
     "default": SiteConfig(
         site_id="default",
-        provider_ids=("moex",),
-        release_tag_prefix="moex-bundles",
+        provider_ids=("moex", "ceec_gsat"),
+        release_tag_prefix="default-bundles",
         release_shard_size=900,
     )
 }

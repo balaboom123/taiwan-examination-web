@@ -8,8 +8,13 @@ from pathlib import Path
 from typing import TypeVar
 from urllib.parse import quote
 
+from app.bundler import build_bundles
 from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
+from app.paths import legacy_paths, provider_paths, site_paths
+from app.release_tags import assign_release_tags
+from app.site_registry import get_site_config
+from app.state import load_provider_state, load_site_bundles
 
 T = TypeVar("T")
 
@@ -211,6 +216,53 @@ def apply_bundle_download_urls(
         updated_bundles,
         frontend_bundles,
     )
+
+
+def publish_site(
+    repo_root: Path,
+    *,
+    site_id: str,
+    repository: str,
+) -> tuple[NormalizedCatalog, list[BundleAsset]]:
+    site_config = get_site_config(site_id)
+    aggregated_papers: list[NormalizedPaper] = []
+    aggregated_review_queue = []
+    for provider_id in site_config.provider_ids:
+        _raw_pages, provider_catalog, _failures = load_provider_state(provider_paths(repo_root, provider_id))
+        aggregated_papers.extend(provider_catalog.papers)
+        aggregated_review_queue.extend(provider_catalog.review_queue)
+
+    normalized = NormalizedCatalog(papers=aggregated_papers, review_queue=aggregated_review_queue)
+    site = site_paths(repo_root, site_id)
+    existing_bundles = load_site_bundles(site)
+    bundle_result = build_bundles(
+        bundle_dir=site.bundle_dir,
+        mirror_dir=repo_root / "mirror",
+        normalized=normalized,
+        bundle_base_url="",
+        min_years=1,
+    )
+    tagged_bundles = assign_release_tags(
+        release_tag_prefix=site_config.release_tag_prefix,
+        existing_bundles=existing_bundles,
+        bundles=bundle_result.bundles,
+        max_assets_per_release=site_config.release_shard_size,
+    )
+    normalized_with_urls, bundles_with_urls, frontend_bundles = apply_bundle_download_urls(
+        normalized,
+        tagged_bundles,
+        repository=repository,
+    )
+    write_site_state(
+        site,
+        bundles_with_urls,
+        frontend_bundles,
+        lootlabs_manifest=None,
+        legacy_paths=legacy_paths(repo_root) if site_id == "default" else None,
+        write_legacy=site_id == "default",
+    )
+    build_site(repo_root / "site", normalized_with_urls, bundles_with_urls)
+    return normalized_with_urls, bundles_with_urls
 
 
 def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]:

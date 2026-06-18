@@ -11,7 +11,31 @@ from app.cli import _download_affected_bundles, build_parser, command_sync, main
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.lootlabs import LootLabsError, LootLabsSettings
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
-from app.publisher import write_data_files
+from app.paths import provider_paths, site_paths
+from app.publisher import write_data_files, write_provider_state
+
+
+def _paper(provider_id: str, canonical_id: str) -> NormalizedPaper:
+    canonical_name = "Nurse" if canonical_id == "nurse" else "CEEC GSAT"
+    source_exam_id = "115030" if canonical_id == "nurse" else "gsat-115-guozong"
+    category_raw = "Nurse" if canonical_id == "nurse" else "GSAT"
+    return NormalizedPaper(
+        provider_id=provider_id,
+        canonical_id=canonical_id,
+        canonical_name=canonical_name,
+        year_roc=115,
+        exam_name_raw=f"115 {canonical_name} Exam",
+        category_raw=category_raw,
+        subject_name_raw="Subject",
+        paper_code="101-0101-question",
+        file_type="question",
+        download_url_source=f"https://example.test/{provider_id}/{canonical_id}.pdf",
+        category_code="101",
+        source_exam_id=source_exam_id,
+        subject_code="0101",
+        storage_key=f"providers/{provider_id}/115/{source_exam_id}/101/0101/question.pdf",
+        checksum=f"{provider_id}-{canonical_id}",
+    )
 
 
 class CliBuildSiteTests(unittest.TestCase):
@@ -98,6 +122,56 @@ class CliBuildSiteTests(unittest.TestCase):
         args = parser.parse_args(["publish-site", "--site-id", "default"])
 
         self.assertEqual(args.site_id, "default")
+        self.assertEqual(args.repository, "example/repo")
+
+    def test_publish_site_command_aggregates_provider_outputs_for_default_site(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            moex_provider = provider_paths(root, "moex")
+            ceec_provider = provider_paths(root, "ceec_gsat")
+            moex_paper = _paper("moex", "nurse")
+            ceec_paper = _paper("ceec_gsat", "ceec-gsat")
+
+            for paper in (moex_paper, ceec_paper):
+                mirror_path = root / "mirror" / paper.storage_key
+                mirror_path.parent.mkdir(parents=True, exist_ok=True)
+                mirror_path.write_bytes(b"%PDF-1.7 demo")
+
+            write_provider_state(
+                moex_provider,
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[moex_paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_provider_state(
+                ceec_provider,
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[ceec_paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            exit_code = main(
+                [
+                    "publish-site",
+                    "--repo-root",
+                    str(root),
+                    "--site-id",
+                    "default",
+                    "--repository",
+                    "example/repo",
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            bundles_payload = json.loads(site_paths(root, "default").bundles_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                {bundle["canonical_id"] for bundle in bundles_payload["bundles"]},
+                {"nurse", "ceec-gsat"},
+            )
 
     def test_sync_attachment_defaults_match_command_risk(self) -> None:
         parser = build_parser()

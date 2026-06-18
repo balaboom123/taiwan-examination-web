@@ -12,7 +12,7 @@ from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lo
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
 from app.normalizer import load_alias_rules, renormalize_catalog
-from app.publisher import build_site, write_data_files
+from app.publisher import build_site, publish_site, write_data_files
 from app.probe import probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
@@ -405,6 +405,7 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
 
 
 def command_publish_site(args: argparse.Namespace) -> int:
+    publish_site(args.repo_root, site_id=args.site_id, repository=args.repository)
     return 0
 
 
@@ -487,7 +488,9 @@ def build_parser() -> argparse.ArgumentParser:
     build_site_parser.set_defaults(handler=command_build_site)
 
     publish_site_parser = subparsers.add_parser("publish-site", help="Aggregate provider outputs and publish one site.")
+    publish_site_parser.add_argument("--repo-root", type=Path, default=repo_root)
     publish_site_parser.add_argument("--site-id", default="default")
+    publish_site_parser.add_argument("--repository", default="example/repo")
     publish_site_parser.set_defaults(handler=command_publish_site)
     return parser
 
