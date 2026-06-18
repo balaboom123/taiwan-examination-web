@@ -277,6 +277,36 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
         self.assertEqual(failures, [])
 
+    def test_sync_exam_pages_reuses_valid_legacy_file_when_scoped_placeholder_is_invalid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            scoped_dir = mirror_root / "providers" / "moex" / "115" / "115030" / "101" / "0101"
+            scoped_dir.mkdir(parents=True, exist_ok=True)
+            (scoped_dir / "question.ashx").write_bytes(b"\xef\xbb\xbf<!DOCTYPE html><html>error</html>")
+            legacy_dir = mirror_root / "115" / "115030" / "101" / "0101"
+            legacy_dir.mkdir(parents=True, exist_ok=True)
+            (legacy_dir / "question.pdf").write_bytes(b"%PDF-1.7 cached legacy payload")
+            client = QuestionOnlyClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("115030", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")],
+                mirror_base_url="",
+            )
+
+            promoted_path = scoped_dir / "question.pdf"
+            self.assertEqual(client.downloaded_urls, [])
+            self.assertTrue(promoted_path.exists())
+            self.assertEqual(promoted_path.read_bytes(), b"%PDF-1.7 cached legacy payload")
+            self.assertEqual(
+                raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+                "providers/moex/115/115030/101/0101/question.pdf",
+            )
+            self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
+            self.assertEqual(failures, [])
+
 
 if __name__ == "__main__":
     unittest.main()

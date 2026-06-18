@@ -43,6 +43,32 @@ def _provider_id_for_args(args: argparse.Namespace, client: SourceProvider) -> s
     return getattr(client, "provider_id", getattr(args, "provider", "moex"))
 
 
+def _provider_for_targeted_probe(
+    args: argparse.Namespace,
+    probe: dict[str, object],
+    client: SourceProvider | None = None,
+) -> tuple[SourceProvider, str]:
+    probe_provider_id = str(probe.get("provider_id") or "")
+    if client is not None:
+        client_provider_id = _provider_id_for_args(args, client)
+        if probe_provider_id and client_provider_id != probe_provider_id:
+            raise ValueError(
+                f"Probe provider mismatch: probe declares {probe_provider_id}, but targeted sync client is {client_provider_id}"
+            )
+        return client, probe_provider_id or client_provider_id
+
+    if probe_provider_id:
+        arg_provider_id = getattr(args, "provider", "moex")
+        if arg_provider_id != "moex" and arg_provider_id != probe_provider_id:
+            raise ValueError(
+                f"Probe provider mismatch: probe declares {probe_provider_id}, but --provider is {arg_provider_id}"
+            )
+        return get_provider(probe_provider_id), probe_provider_id
+
+    resolved_client = _provider_for_args(args, client)
+    return resolved_client, _provider_id_for_args(args, resolved_client)
+
+
 def _supports_probe_manifest(provider_id: str, client: SourceProvider) -> bool:
     return provider_id == "moex" or (
         callable(getattr(client, "build_probe_year_url", None))
@@ -221,8 +247,11 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     if not probe.get("should_sync", False):
         return 0
 
-    sync_client = _provider_for_args(args, client)
-    provider_id = str(probe.get("provider_id") or _provider_id_for_args(args, sync_client))
+    try:
+        sync_client, provider_id = _provider_for_targeted_probe(args, probe, client)
+    except ValueError as exc:
+        print(str(exc), flush=True)
+        return 1
     changed_exam_codes = list(probe.get("changed_exam_codes", []))
     removed_exam_ids = set(probe.get("removed_exam_codes", []))
     try:
@@ -389,7 +418,7 @@ def build_parser() -> argparse.ArgumentParser:
     discover.add_argument("--years", nargs="*", type=int, default=None)
     discover.set_defaults(handler=command_discover)
 
-    probe_parser = subparsers.add_parser("probe-latest", help="Probe recent MOEX source changes without downloading files.")
+    probe_parser = subparsers.add_parser("probe-latest", help="Probe recent source changes without downloading files.")
     probe_parser.add_argument("--provider", default="moex")
     probe_parser.add_argument("--years", type=int, default=2)
     probe_parser.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")

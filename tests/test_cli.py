@@ -575,6 +575,84 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertIn("exam_years", output.getvalue())
         self.assertIn("ceec_gsat", output.getvalue())
 
+    @patch("app.cli.build_site")
+    @patch("app.cli.write_data_files")
+    @patch("app.cli.build_bundles")
+    @patch("app.cli.merge_targeted_state")
+    @patch("app.cli.load_existing_state")
+    @patch("app.cli.sync_exam_pages")
+    @patch("app.cli.get_provider")
+    def test_run_sync_targeted_uses_probe_provider_when_args_default_to_moex(
+        self,
+        get_provider_mock,
+        sync_exam_pages_mock,
+        load_existing_state_mock,
+        merge_targeted_state_mock,
+        build_bundles_mock,
+        _write_data_files_mock,
+        _build_site_mock,
+    ) -> None:
+        class CeecProvider:
+            provider_id = "ceec_gsat"
+
+        class WrongProvider:
+            provider_id = "moex"
+
+        def provider_factory(provider_id: str):
+            if provider_id == "ceec_gsat":
+                return CeecProvider()
+            if provider_id == "moex":
+                return WrongProvider()
+            raise AssertionError(provider_id)
+
+        def sync_side_effect(*, client, exam_codes, **_kwargs):
+            self.assertEqual(client.provider_id, "ceec_gsat")
+            self.assertEqual(exam_codes, [("gsat-115-guozong", 2026)])
+            return [], NormalizedCatalog(papers=[], review_queue=[]), []
+
+        get_provider_mock.side_effect = provider_factory
+        sync_exam_pages_mock.side_effect = sync_side_effect
+        load_existing_state_mock.return_value = ([], NormalizedCatalog(papers=[], review_queue=[]), [], [])
+        merge_targeted_state_mock.return_value = ([], NormalizedCatalog(papers=[], review_queue=[]), [], set(), {})
+        build_bundles_mock.return_value = type("BuildResult", (), {"bundles": [], "failures": []})()
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir()
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "ceec_gsat",
+                        "changed_exam_codes": ["gsat-115-guozong"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"gsat-115-guozong": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                ]
+            )
+
+            exit_code = run_sync_targeted(args, client=None)
+
+        self.assertEqual(exit_code, 0)
+        get_provider_mock.assert_called_with("ceec_gsat")
+
 
     def test_command_sync_incremental_preserves_existing_data_on_download_failure(self) -> None:
         class PartialFailureClient:

@@ -85,10 +85,15 @@ def _is_valid_stored_file(path: Path, file_type: str) -> bool:
 
 
 def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
-    stored = mirror_store.find_existing(prefix)
     legacy_prefix = prefix
-    if stored is None and prefix.startswith("providers/"):
+    stored = mirror_store.find_existing(prefix)
+    if prefix.startswith("providers/"):
         _, _, legacy_prefix = prefix.split("/", 2)
+    if stored is not None and not _is_valid_stored_file(stored.path, file_type):
+        stored = None
+        if legacy_prefix != prefix:
+            stored = mirror_store.find_existing(legacy_prefix)
+    if stored is None and legacy_prefix != prefix:
         stored = mirror_store.find_existing(legacy_prefix)
     if stored is not None and not _is_valid_stored_file(stored.path, file_type):
         stored = None
