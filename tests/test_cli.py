@@ -269,6 +269,7 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(args.probe, Path(".tmp/source-probe.json"))
         self.assertFalse(args.download_attachments)
         self.assertTrue(args.download_affected_bundles)
+        self.assertIsNone(args.provider)
         self.assertEqual(args.release_tag, "moex-bundles")
 
     @patch("app.cli.subprocess.run")
@@ -652,6 +653,58 @@ class CliBuildSiteTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 0)
         get_provider_mock.assert_called_with("ceec_gsat")
+
+    @patch("app.cli.sync_exam_pages")
+    @patch("app.cli.get_provider")
+    def test_run_sync_targeted_fails_when_explicit_provider_mismatches_probe(
+        self,
+        get_provider_mock,
+        sync_exam_pages_mock,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir()
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "ceec_gsat",
+                        "changed_exam_codes": ["gsat-115-guozong"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"gsat-115-guozong": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "moex",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = run_sync_targeted(args, client=None)
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Probe provider mismatch", output.getvalue())
+        self.assertIn("ceec_gsat", output.getvalue())
+        self.assertIn("moex", output.getvalue())
+        get_provider_mock.assert_not_called()
+        sync_exam_pages_mock.assert_not_called()
 
 
     def test_command_sync_incremental_preserves_existing_data_on_download_failure(self) -> None:

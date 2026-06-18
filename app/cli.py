@@ -36,11 +36,11 @@ def _latest_years(client: SourceProvider, count: int) -> list[int]:
 
 
 def _provider_for_args(args: argparse.Namespace, client: SourceProvider | None = None) -> SourceProvider:
-    return client or get_provider(getattr(args, "provider", "moex"))
+    return client or get_provider(getattr(args, "provider", None) or "moex")
 
 
 def _provider_id_for_args(args: argparse.Namespace, client: SourceProvider) -> str:
-    return getattr(client, "provider_id", getattr(args, "provider", "moex"))
+    return getattr(client, "provider_id", getattr(args, "provider", None) or "moex")
 
 
 def _provider_for_targeted_probe(
@@ -58,8 +58,8 @@ def _provider_for_targeted_probe(
         return client, probe_provider_id or client_provider_id
 
     if probe_provider_id:
-        arg_provider_id = getattr(args, "provider", "moex")
-        if arg_provider_id != "moex" and arg_provider_id != probe_provider_id:
+        arg_provider_id = getattr(args, "provider", None)
+        if arg_provider_id is not None and arg_provider_id != probe_provider_id:
             raise ValueError(
                 f"Probe provider mismatch: probe declares {probe_provider_id}, but --provider is {arg_provider_id}"
             )
@@ -438,7 +438,7 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--mirror-base-url", default="")
     targeted.add_argument("--download-attachments", action="store_true", default=False)
     targeted.add_argument("--download-affected-bundles", action="store_true", default=False)
-    targeted.add_argument("--provider", default="moex")
+    targeted.add_argument("--provider", default=None)
     targeted.add_argument("--site-id", default="default")
     targeted.add_argument("--release-tag", default="moex-bundles")
     targeted.set_defaults(handler=run_sync_targeted)
