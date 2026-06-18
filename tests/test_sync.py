@@ -182,6 +182,34 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["answer", "question"])
         self.assertEqual(failures, [])
 
+    def test_sync_exam_pages_reuses_legacy_unscoped_mirror_files_and_promotes_storage_keys(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            legacy_question_path = mirror_root / "115" / "115030" / "101" / "0101" / "question.pdf"
+            legacy_question_path.parent.mkdir(parents=True, exist_ok=True)
+            legacy_question_path.write_bytes(b"%PDF-1.7 cached legacy question")
+            client = ReuseExistingMirrorClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("115030", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")],
+                mirror_base_url="",
+            )
+
+            promoted_path = mirror_root / "providers" / "moex" / "115" / "115030" / "101" / "0101" / "question.pdf"
+            self.assertEqual(sorted(client.downloaded_urls), ["https://example.test/all.pdf", "https://example.test/answer.pdf"])
+            self.assertTrue(promoted_path.exists())
+            self.assertEqual(promoted_path.read_bytes(), b"%PDF-1.7 cached legacy question")
+            self.assertEqual(
+                raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+                "providers/moex/115/115030/101/0101/question.pdf",
+            )
+            question_paper = next(paper for paper in normalized.papers if paper.file_type == "question")
+            self.assertEqual(question_paper.storage_key, "providers/moex/115/115030/101/0101/question.pdf")
+            self.assertEqual(failures, [])
+
     def test_sync_exam_pages_can_skip_attachment_downloads(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             client = ReuseExistingMirrorClient()

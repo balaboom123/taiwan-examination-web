@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 from dataclasses import asdict, dataclass, field
+from typing import Callable
 
 from app.crawler import make_result_url, make_year_search_url
 from app.manifest import SourceManifest
@@ -38,6 +39,7 @@ def hash_paper_urls(page: SourceExamPage) -> str:
 
 @dataclass
 class ProbeResult:
+    provider_id: str = ""
     generated_at: str = ""
     changed_years: list[int] = field(default_factory=list)
     changed_exam_codes: list[str] = field(default_factory=list)
@@ -67,6 +69,15 @@ def _paper_file_count(page: SourceExamPage) -> int:
     return sum(len(paper.files) for paper in page.papers)
 
 
+def _probe_url_builder(client: SourceProvider, provider_id: str, attr_name: str, fallback: Callable[..., str]) -> Callable[..., str]:
+    builder = getattr(client, attr_name, None)
+    if callable(builder):
+        return builder
+    if provider_id == "moex":
+        return fallback
+    raise NotImplementedError(f"probe_latest is not supported for provider {provider_id}: missing probe URL model")
+
+
 def _exam_entry_from_page(page: SourceExamPage, *, result_url: str, head_content_length: int | None, now: str) -> dict[str, object]:
     return {
         "source_exam_id": page.source_exam_id,
@@ -85,7 +96,7 @@ def _exam_entry_from_page(page: SourceExamPage, *, result_url: str, head_content
 
 def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: int, now: str) -> ProbeResult:
     updated = copy.deepcopy(manifest)
-    provider_id = manifest.provider_id or getattr(client, "provider_id", "")
+    provider_id = manifest.provider_id or getattr(client, "provider_id", "") or "moex"
     if provider_id and not updated.provider_id:
         updated.provider_id = provider_id
     counts = _initial_counts()
@@ -94,12 +105,14 @@ def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: 
     removed_exam_codes: list[str] = []
     unchanged_exam_codes: list[str] = []
     exam_years: dict[str, int] = {}
+    year_url_builder = _probe_url_builder(client, provider_id, "build_probe_year_url", make_year_search_url)
+    exam_url_builder = _probe_url_builder(client, provider_id, "build_probe_exam_url", make_result_url)
 
     latest_years = sorted(client.discover_available_years(), reverse=True)[:year_window]
     for year_ad in latest_years:
         year_key = str(year_ad)
         year_roc = year_ad - 1911
-        search_url = make_year_search_url(year_ad)
+        search_url = year_url_builder(year_ad)
         year_head = client.head(search_url)
         counts["year_head_count"] += 1
         existing_year = manifest.years.get(year_key)
@@ -132,7 +145,7 @@ def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: 
 
         for exam_code in current_codes:
             exam_years[exam_code] = year_ad
-            result_url = make_result_url(exam_code, year_ad)
+            result_url = exam_url_builder(exam_code, year_ad)
             exam_head = client.head(result_url)
             counts["exam_head_count"] += 1
             existing_exam = manifest.exams.get(exam_code)
@@ -151,6 +164,7 @@ def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: 
                 unchanged_exam_codes.append(exam_code)
 
     return ProbeResult(
+        provider_id=provider_id,
         generated_at=now,
         changed_years=changed_years,
         changed_exam_codes=changed_exam_codes,

@@ -43,6 +43,33 @@ def _provider_id_for_args(args: argparse.Namespace, client: SourceProvider) -> s
     return getattr(client, "provider_id", getattr(args, "provider", "moex"))
 
 
+def _supports_probe_manifest(provider_id: str, client: SourceProvider) -> bool:
+    return provider_id == "moex" or (
+        callable(getattr(client, "build_probe_year_url", None))
+        and callable(getattr(client, "build_probe_exam_url", None))
+    )
+
+
+def _targeted_exam_codes_from_probe(probe: dict[str, object], provider_id: str) -> list[tuple[str, int]]:
+    changed_exam_codes = list(probe.get("changed_exam_codes", []))
+    exam_years = {code: int(year) for code, year in probe.get("exam_years", {}).items()}
+    resolved_exam_codes: list[tuple[str, int]] = []
+    missing_years: list[str] = []
+    for code in changed_exam_codes:
+        year_ad = exam_years.get(code)
+        if year_ad is None:
+            if provider_id == "moex":
+                year_ad = year_ad_from_code(code)
+            else:
+                missing_years.append(code)
+                continue
+        resolved_exam_codes.append((code, year_ad))
+    if missing_years:
+        joined_codes = ", ".join(sorted(missing_years))
+        raise ValueError(f"Probe exam_years is required for provider {provider_id}: {joined_codes}")
+    return resolved_exam_codes
+
+
 def command_discover(args: argparse.Namespace) -> int:
     client = _provider_for_args(args)
     years = _discover_years(client, args.years)
@@ -135,6 +162,10 @@ def command_sync_lootlabs(args: argparse.Namespace) -> int:
 def run_probe_latest(args: argparse.Namespace, client: SourceProvider | None = None, now: str | None = None) -> int:
     probe_client = _provider_for_args(args, client)
     generated_at = now or datetime.now().astimezone().isoformat()
+    provider_id = _provider_id_for_args(args, probe_client)
+    if not _supports_probe_manifest(provider_id, probe_client):
+        print(f"probe-latest is not supported for provider {provider_id}: missing probe URL model", flush=True)
+        return 1
     manifest = load_source_manifest(args.manifest, provider_id=_provider_id_for_args(args, probe_client))
     result = probe_latest(client=probe_client, manifest=manifest, year_window=args.years, now=generated_at)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -190,12 +221,16 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     if not probe.get("should_sync", False):
         return 0
 
+    sync_client = _provider_for_args(args, client)
+    provider_id = str(probe.get("provider_id") or _provider_id_for_args(args, sync_client))
     changed_exam_codes = list(probe.get("changed_exam_codes", []))
     removed_exam_ids = set(probe.get("removed_exam_codes", []))
-    exam_years = {code: int(year) for code, year in probe.get("exam_years", {}).items()}
-    exam_codes = [(code, exam_years.get(code, year_ad_from_code(code))) for code in changed_exam_codes]
+    try:
+        exam_codes = _targeted_exam_codes_from_probe(probe, provider_id)
+    except ValueError as exc:
+        print(str(exc), flush=True)
+        return 1
     aliases = load_alias_rules(args.aliases)
-    sync_client = _provider_for_args(args, client)
     refreshed_raw_pages, refreshed_catalog, sync_failures = sync_exam_pages(
         client=sync_client,
         exam_codes=exam_codes,
@@ -245,6 +280,9 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
 def command_sync(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
     provider = _provider_for_args(args, client)
     provider_id = _provider_id_for_args(args, provider)
+    if getattr(args, "write_manifest", False) and not _supports_probe_manifest(provider_id, provider):
+        print(f"--write-manifest is not supported for provider {provider_id}: missing probe URL model", flush=True)
+        return 1
     if getattr(args, "year_window", None):
         years = _latest_years(provider, args.year_window)
     else:

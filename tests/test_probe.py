@@ -163,6 +163,16 @@ class ProbeTests(unittest.TestCase):
         self.assertEqual(client.discovered_exam_years, [2026])
         self.assertEqual(client.fetched_exam_codes, ["115010"])
 
+    def test_probe_latest_fails_clearly_for_provider_without_probe_url_model(self) -> None:
+        class CeecLikeProbeClient(FakeProbeClient):
+            provider_id = "ceec_gsat"
+
+        client = CeecLikeProbeClient()
+        manifest = SourceManifest(provider_id="ceec_gsat")
+
+        with self.assertRaisesRegex(NotImplementedError, "ceec_gsat"):
+            probe_latest(client=client, manifest=manifest, year_window=1, now="2026-05-20T00:00:00+08:00")
+
 
 class ProviderRegistryTests(unittest.TestCase):
     def test_get_provider_returns_moex_provider(self) -> None:

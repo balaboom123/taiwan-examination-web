@@ -26,6 +26,8 @@ KNOWN_PREFIXES = [
     r"^普通考試",
     r"^特種考試",
 ]
+_CEEC_GSAT_CANONICAL_ID = "ceec-gsat"
+_CEEC_GSAT_CANONICAL_NAME = "學科能力測驗"
 
 
 def legacy_fallback_canonical_id(candidate: str) -> str:
@@ -115,12 +117,15 @@ def _canonical_id(candidate: str) -> str:
 
 
 def _derive_canonical(
+    source_exam_id: str,
     raw_category: str,
     exam_name_raw: str,
     year_ad: int,
     alias_rules: list[AliasRule],
 ) -> tuple[str, str, str, bool]:
     """Return (canonical_id, canonical_name, stripped_candidate, needs_review)."""
+    if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
+        return _CEEC_GSAT_CANONICAL_ID, _CEEC_GSAT_CANONICAL_NAME, _CEEC_GSAT_CANONICAL_NAME, False
     alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
     candidate = _strip_exam_family(raw_category or exam_name_raw)
     if alias:
@@ -146,7 +151,7 @@ def normalize_papers(
     review_queue: list[ReviewItem] = []
     for paper in papers:
         raw_category = paper.category_raw or exam_name_raw
-        canonical_id, canonical_name, candidate, needs_review = _derive_canonical(raw_category, exam_name_raw, year_ad, alias_rules)
+        canonical_id, canonical_name, candidate, needs_review = _derive_canonical(source_exam_id, raw_category, exam_name_raw, year_ad, alias_rules)
         if needs_review:
             review_queue.append(
                 ReviewItem(
@@ -188,7 +193,7 @@ def renormalize_catalog(catalog: NormalizedCatalog, alias_rules: list[AliasRule]
     papers: list[NormalizedPaper] = []
     for paper in catalog.papers:
         raw_category = paper.category_raw or paper.exam_name_raw
-        canonical_id, canonical_name, _, _ = _derive_canonical(raw_category, paper.exam_name_raw, paper.year_roc + 1911, alias_rules)
+        canonical_id, canonical_name, _, _ = _derive_canonical(paper.source_exam_id, raw_category, paper.exam_name_raw, paper.year_roc + 1911, alias_rules)
         if canonical_id != paper.canonical_id or canonical_name != paper.canonical_name:
             paper = replace(paper, canonical_id=canonical_id, canonical_name=canonical_name)
         papers.append(paper)

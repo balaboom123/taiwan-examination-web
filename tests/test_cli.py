@@ -126,6 +126,37 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertTrue(args.write_manifest)
         self.assertEqual(args.manifest, Path("data/source-manifest.json"))
 
+    def test_command_sync_rejects_write_manifest_for_provider_without_probe_support(self) -> None:
+        class UnsupportedManifestClient:
+            provider_id = "ceec_gsat"
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            args = build_parser().parse_args(
+                [
+                    "sync-incremental",
+                    "--provider",
+                    "ceec_gsat",
+                    "--write-manifest",
+                    "--data-dir",
+                    str(root / "data"),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = command_sync(args, client=UnsupportedManifestClient())
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("--write-manifest", output.getvalue())
+        self.assertIn("ceec_gsat", output.getvalue())
+
     def test_probe_latest_parser_accepts_manifest_and_output_paths(self) -> None:
         parser = build_parser()
         args = parser.parse_args(["probe-latest", "--years", "2", "--manifest", "data/source-manifest.json", "--output", ".tmp/source-probe.json"])
@@ -193,6 +224,34 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(probe["exam_years"], {"115040": 2026})
         self.assertEqual(probe["updated_manifest"]["years"]["2026"]["exam_codes"], ["115040"])
         self.assertEqual(manifest["years"]["2026"]["exam_codes"], ["115040"])
+
+    def test_run_probe_latest_returns_non_zero_for_provider_without_probe_support(self) -> None:
+        class UnsupportedProbeClient:
+            provider_id = "ceec_gsat"
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            args = build_parser().parse_args(
+                [
+                    "probe-latest",
+                    "--provider",
+                    "ceec_gsat",
+                    "--manifest",
+                    str(root / "source-manifest.json"),
+                    "--output",
+                    str(root / ".tmp" / "source-probe.json"),
+                    "--write-manifest",
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = run_probe_latest(args, client=UnsupportedProbeClient(), now="2026-05-20T00:00:00+08:00")
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("ceec_gsat", output.getvalue())
+        self.assertFalse((root / ".tmp" / "source-probe.json").exists())
+        self.assertFalse((root / "source-manifest.json").exists())
 
     def test_sync_targeted_parser_accepts_probe_path(self) -> None:
         parser = build_parser()
@@ -469,6 +528,52 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest, manifest_payload)
+
+    def test_run_sync_targeted_requires_explicit_exam_years_for_non_moex_probe(self) -> None:
+        class CeecTargetedClient:
+            provider_id = "ceec_gsat"
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir()
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "ceec_gsat",
+                        "changed_exam_codes": ["gsat-115-guozong"],
+                        "removed_exam_codes": [],
+                        "exam_years": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "ceec_gsat",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = run_sync_targeted(args, client=CeecTargetedClient())
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("exam_years", output.getvalue())
+        self.assertIn("ceec_gsat", output.getvalue())
 
 
     def test_command_sync_incremental_preserves_existing_data_on_download_failure(self) -> None:

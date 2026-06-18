@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch
 
+from app.models import NormalizedCatalog
+from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
@@ -60,6 +62,34 @@ class CeecParserTests(unittest.TestCase):
 
         self.assertIsInstance(provider, SourceProvider)
         self.assertEqual(provider.provider_id, "ceec_gsat")
+
+    def test_ceec_normalization_uses_stable_canonical_bundle_identity(self) -> None:
+        with patch.object(CeecGsatClient, "_fetch_text", return_value=LISTING_HTML):
+            client = CeecGsatClient()
+            page = client.fetch_exam_page("gsat-115-guozong", 2026)
+
+        mirror_metadata = {}
+        for paper in page.papers:
+            for file_type in paper.files:
+                mirror_metadata[(paper.category_code, paper.subject_code, file_type)] = {
+                    "checksum": f"{paper.subject_code}-{file_type}",
+                    "storage_key": f"providers/ceec_gsat/115/{page.source_exam_id}/{paper.category_code}/{paper.subject_code}/{file_type}.pdf",
+                }
+
+        normalized = normalize_papers(
+            source_exam_id=page.source_exam_id,
+            year_ad=page.year_ad,
+            exam_name_raw=page.exam_name_raw,
+            papers=page.papers,
+            alias_rules=[],
+            mirror_base_url="",
+            mirror_metadata=mirror_metadata,
+        )
+
+        self.assertIsInstance(normalized, NormalizedCatalog)
+        self.assertEqual({paper.canonical_id for paper in normalized.papers}, {"ceec-gsat"})
+        self.assertEqual({paper.canonical_name for paper in normalized.papers}, {"學科能力測驗"})
+        self.assertEqual(normalized.review_queue, [])
 
 
 if __name__ == "__main__":

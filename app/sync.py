@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -85,6 +86,10 @@ def _is_valid_stored_file(path: Path, file_type: str) -> bool:
 
 def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
     stored = mirror_store.find_existing(prefix)
+    legacy_prefix = prefix
+    if stored is None and prefix.startswith("providers/"):
+        _, _, legacy_prefix = prefix.split("/", 2)
+        stored = mirror_store.find_existing(legacy_prefix)
     if stored is not None and not _is_valid_stored_file(stored.path, file_type):
         stored = None
     if stored is None:
@@ -92,6 +97,16 @@ def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: 
         extension = _validated_extension(file_type, downloaded.data, downloaded.content_type, downloaded.file_name)
         stored = mirror_store.write_bytes(f"{prefix}{extension}", downloaded.data, overwrite=True)
         mirror_store.delete_matching_except(prefix, stored.storage_key)
+    elif legacy_prefix != prefix and stored.storage_key.startswith(legacy_prefix):
+        promoted_storage_key = f"{prefix}{stored.path.suffix.lower()}"
+        promoted = mirror_store.write_bytes(promoted_storage_key, stored.path.read_bytes(), overwrite=False)
+        stored = StoredFile(
+            storage_key=promoted.storage_key,
+            path=promoted.path,
+            checksum=hashlib.sha256(stored.path.read_bytes()).hexdigest(),
+            created=promoted.created,
+            size=promoted.size,
+        )
     return stored
 
 
