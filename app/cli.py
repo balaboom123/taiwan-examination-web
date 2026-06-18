@@ -12,11 +12,12 @@ from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lo
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
 from app.normalizer import load_alias_rules, renormalize_catalog
-from app.publisher import build_site, publish_site, write_data_files
+from app.paths import ProviderPaths
+from app.publisher import build_site, publish_site, write_data_files, write_provider_state
 from app.probe import probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
-from app.state import filter_catalog_by_canonical_ids, load_existing_state, merge_incremental_state, merge_targeted_state
+from app.state import filter_catalog_by_canonical_ids, load_existing_state, load_provider_state, merge_incremental_state, merge_targeted_state
 from app.sync import sync_exam_pages
 from app.storage import MirrorStore
 
@@ -67,6 +68,28 @@ def _provider_for_targeted_probe(
 
     resolved_client = _provider_for_args(args, client)
     return resolved_client, _provider_id_for_args(args, resolved_client)
+
+
+def _provider_state_paths(data_dir: Path, mirror_dir: Path, provider_id: str) -> ProviderPaths:
+    provider_data_dir = data_dir / "providers" / provider_id
+    return ProviderPaths(
+        provider_id=provider_id,
+        data_dir=provider_data_dir,
+        exams_dir=provider_data_dir / "exams",
+        papers_dir=provider_data_dir / "papers",
+        review_queue_path=provider_data_dir / "review-queue.json",
+        sync_failures_path=provider_data_dir / "sync-failures.json",
+        aliases_path=provider_data_dir / "aliases.json",
+        source_manifest_path=provider_data_dir / "source-manifest.json",
+        mirror_dir=mirror_dir / "providers" / provider_id,
+    )
+
+
+def _provider_manifest_from_probe(probe: dict[str, object]):
+    updated_manifest = probe.get("updated_manifest")
+    if isinstance(updated_manifest, dict):
+        return source_manifest_from_data(updated_manifest)
+    return None
 
 
 def _supports_probe_manifest(provider_id: str, client: SourceProvider) -> bool:
@@ -272,8 +295,18 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     if sync_failures:
         _print_failures(sync_failures)
         return 1
+    provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
+    existing_provider_raw_pages, existing_provider_catalog, existing_provider_failures = load_provider_state(provider_state)
     existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+    provider_raw_pages, provider_normalized, _, _, _ = merge_targeted_state(
+        existing_raw_pages=existing_provider_raw_pages,
+        existing_catalog=existing_provider_catalog,
+        existing_bundles=[],
+        refreshed_raw_pages=refreshed_raw_pages,
+        refreshed_catalog=refreshed_catalog,
+        removed_exam_ids=removed_exam_ids,
+    )
     raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_targeted_state(
         existing_raw_pages=existing_raw_pages,
         existing_catalog=existing_catalog,
@@ -296,12 +329,22 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         return 1
     bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
     replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
+    provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in replaced_exam_ids]
+    provider_failures.extend(sync_failures)
     failures = [failure for failure in existing_failures if failure.source_exam_id not in replaced_exam_ids]
     failures.extend(sync_failures)
     failures.extend(rebuild_result.failures)
 
     write_data_files(args.data_dir, raw_pages, normalized, aliases, bundles, failures)
     build_site(args.site_dir, normalized, bundles)
+    write_provider_state(
+        provider_state,
+        raw_pages=provider_raw_pages,
+        normalized=provider_normalized,
+        aliases=aliases,
+        failures=provider_failures,
+        manifest=_provider_manifest_from_probe(probe),
+    )
     _write_probe_manifest_if_present(probe, args.manifest)
     return 0
 
@@ -309,6 +352,7 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
 def command_sync(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
     provider = _provider_for_args(args, client)
     provider_id = _provider_id_for_args(args, provider)
+    provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
     if getattr(args, "write_manifest", False) and not _supports_probe_manifest(provider_id, provider):
         print(f"--write-manifest is not supported for provider {provider_id}: missing probe URL model", flush=True)
         return 1
@@ -351,12 +395,20 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
 
     incremental_mode = getattr(args, "year_window", None) is not None
     if incremental_mode:
+        existing_provider_raw_pages, existing_provider_catalog, existing_provider_failures = load_provider_state(provider_state)
         existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
         failed_exam_ids = {failure.source_exam_id for failure in sync_failures}
         safe_raw_pages = [page for page in refreshed_raw_pages if page.source_exam_id not in failed_exam_ids]
         safe_catalog = NormalizedCatalog(
             papers=[p for p in refreshed_catalog.papers if p.source_exam_id not in failed_exam_ids],
             review_queue=[r for r in refreshed_catalog.review_queue if r.source_exam_id not in failed_exam_ids],
+        )
+        provider_raw_pages, provider_normalized, _, _, _ = merge_incremental_state(
+            existing_raw_pages=existing_provider_raw_pages,
+            existing_catalog=existing_provider_catalog,
+            existing_bundles=[],
+            refreshed_raw_pages=safe_raw_pages,
+            refreshed_catalog=safe_catalog,
         )
         raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_incremental_state(
             existing_raw_pages=existing_raw_pages,
@@ -377,12 +429,16 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
             return 1
         bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
         refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+        provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in refreshed_exam_ids]
+        provider_failures.extend(sync_failures)
         failures = [failure for failure in existing_failures if failure.source_exam_id not in refreshed_exam_ids]
         failures.extend(sync_failures)
         failures.extend(rebuild_result.failures)
     else:
         raw_pages = refreshed_raw_pages
         normalized = refreshed_catalog
+        provider_raw_pages = refreshed_raw_pages
+        provider_normalized = refreshed_catalog
         rebuild_result = build_bundles(
             bundle_dir=args.bundle_dir,
             mirror_dir=args.mirror_dir,
@@ -390,14 +446,25 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
             bundle_base_url=args.bundle_base_url or args.mirror_base_url,
         )
         bundles = rebuild_result.bundles
+        provider_failures = sync_failures
         failures = sync_failures + rebuild_result.failures
 
     write_data_files(args.data_dir, raw_pages, normalized, aliases, bundles, failures)
     build_site(args.site_dir, normalized, bundles)
+    provider_manifest = None
     if getattr(args, "write_manifest", False) and not failures:
         manifest = load_source_manifest(args.manifest, provider_id=provider_id)
         result = probe_latest(client=provider, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
-        write_source_manifest(args.manifest, result.updated_manifest)
+        provider_manifest = result.updated_manifest
+        write_source_manifest(args.manifest, provider_manifest)
+    write_provider_state(
+        provider_state,
+        raw_pages=provider_raw_pages,
+        normalized=provider_normalized,
+        aliases=aliases,
+        failures=provider_failures,
+        manifest=provider_manifest,
+    )
     if failures:
         print(f"Completed with {len(failures)} failure(s). See data/sync-failures.json for details.")
         return 1

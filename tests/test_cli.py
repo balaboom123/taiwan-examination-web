@@ -7,12 +7,14 @@ from pathlib import Path
 from urllib.parse import quote
 from unittest.mock import patch
 
+from app.manifest import SourceManifest
 from app.cli import _download_affected_bundles, build_parser, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.lootlabs import LootLabsError, LootLabsSettings
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
 from app.paths import provider_paths, site_paths
 from app.publisher import write_data_files, write_provider_state
+from app.state import load_provider_state
 
 
 def _paper(provider_id: str, canonical_id: str) -> NormalizedPaper:
@@ -277,6 +279,108 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
         self.assertIn("--write-manifest", output.getvalue())
         self.assertIn("ceec_gsat", output.getvalue())
+
+    def test_command_sync_incremental_merges_and_writes_provider_scoped_state(self) -> None:
+        class SuccessfulIncrementalClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [ExamOption(code="115040", year_ad=year_ad, year_roc=115, label="Exam 115040")]
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                return SourceExamPage(
+                    provider_id="moex",
+                    source_exam_id=exam_code,
+                    year_ad=year_ad,
+                    year_roc=115,
+                    exam_name_raw="Exam 115040",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="nurse raw",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="Subject",
+                            files={"question": "https://example.test/question.pdf"},
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+            def head(self, url: str) -> ResponseMetadata:
+                lengths = {
+                    "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?y=2026": 800,
+                    make_result_url("115040", 2026): 500,
+                }
+                return ResponseMetadata(url=url, status=200, content_length=lengths[url])
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            alias_rule = AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")
+            (data_dir / "aliases.json").write_text(
+                json.dumps({"rules": [alias_rule.__dict__]}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            provider = provider_paths(root, "moex")
+            old_paper = _paper("moex", "nurse")
+            write_provider_state(
+                provider,
+                raw_pages=[
+                    SourceExamPage(
+                        provider_id="moex",
+                        source_exam_id="115030",
+                        year_ad=2026,
+                        year_roc=115,
+                        exam_name_raw="Exam 115030",
+                        attachments=[],
+                        papers=[],
+                    )
+                ],
+                normalized=NormalizedCatalog(papers=[old_paper], review_queue=[]),
+                aliases=[alias_rule],
+                failures=[],
+                manifest=SourceManifest(provider_id="moex"),
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-incremental",
+                    "--years",
+                    "1",
+                    "--provider",
+                    "moex",
+                    "--write-manifest",
+                    "--data-dir",
+                    str(data_dir),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                    "--manifest",
+                    str(data_dir / "source-manifest.json"),
+                ]
+            )
+
+            exit_code = command_sync(args, client=SuccessfulIncrementalClient())
+
+            self.assertEqual(exit_code, 0)
+            provider_raw_pages, provider_catalog, provider_failures = load_provider_state(provider)
+            self.assertEqual({page.source_exam_id for page in provider_raw_pages}, {"115030", "115040"})
+            self.assertEqual({paper.source_exam_id for paper in provider_catalog.papers}, {"115030", "115040"})
+            self.assertEqual(provider_failures, [])
+            provider_manifest = json.loads(provider.source_manifest_path.read_text(encoding="utf-8"))
+            legacy_manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(provider_manifest, legacy_manifest)
 
     def test_probe_latest_parser_accepts_manifest_and_output_paths(self) -> None:
         parser = build_parser()
@@ -590,20 +694,29 @@ class CliBuildSiteTests(unittest.TestCase):
             root = Path(tmp_dir)
             data_dir = root / "data"
             data_dir.mkdir()
+            alias_rule = AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")
             (data_dir / "aliases.json").write_text(
-                json.dumps(
-                    {
-                        "rules": [
-                            {
-                                "match_type": "exact",
-                                "raw_pattern": "nurse raw",
-                                "canonical_id": "nurse",
-                                "canonical_name": "Nurse",
-                            }
-                        ]
-                    }
-                ),
+                json.dumps({"rules": [alias_rule.__dict__]}),
                 encoding="utf-8",
+            )
+            provider = provider_paths(root, "moex")
+            write_provider_state(
+                provider,
+                raw_pages=[
+                    SourceExamPage(
+                        provider_id="moex",
+                        source_exam_id="115030",
+                        year_ad=2026,
+                        year_roc=115,
+                        exam_name_raw="Exam 115030",
+                        attachments=[],
+                        papers=[],
+                    )
+                ],
+                normalized=NormalizedCatalog(papers=[_paper("moex", "nurse")], review_queue=[]),
+                aliases=[alias_rule],
+                failures=[],
+                manifest=SourceManifest(provider_id="moex"),
             )
             manifest_payload = {
                 "schema_version": 1,
@@ -650,6 +763,12 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest, manifest_payload)
+            provider_raw_pages, provider_catalog, provider_failures = load_provider_state(provider)
+            self.assertEqual({page.source_exam_id for page in provider_raw_pages}, {"115030", "115040"})
+            self.assertEqual({paper.source_exam_id for paper in provider_catalog.papers}, {"115030", "115040"})
+            self.assertEqual(provider_failures, [])
+            provider_manifest = json.loads(provider.source_manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(provider_manifest, manifest_payload)
 
     def test_run_sync_targeted_requires_explicit_exam_years_for_non_moex_probe(self) -> None:
         class CeecTargetedClient:
