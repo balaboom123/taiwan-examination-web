@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import shutil
+import tempfile
 from collections.abc import Callable
 from dataclasses import replace
 from html import escape
@@ -267,7 +269,7 @@ def _group_options(papers: list[NormalizedPaper]) -> tuple[list[str], list[int]]
     return names, years
 
 
-def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[BundleAsset]) -> None:
+def _render_site_tree(site_dir: Path, normalized: NormalizedCatalog, bundles: list[BundleAsset]) -> None:
     site_dir.mkdir(parents=True, exist_ok=True)
     data_dir = site_dir / "data"
     papers_site_dir = data_dir / "papers"
@@ -412,3 +414,48 @@ def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[Bund
 </html>
 """
     (site_dir / "index.html").write_text(html, encoding="utf-8")
+
+
+def _sync_site_tree(staged_site_dir: Path, site_dir: Path) -> None:
+    if not site_dir.exists():
+        staged_site_dir.replace(site_dir)
+        return
+
+    staged_files = {path.relative_to(staged_site_dir) for path in staged_site_dir.rglob("*") if path.is_file()}
+    staged_dirs = {path.relative_to(staged_site_dir) for path in staged_site_dir.rglob("*") if path.is_dir()}
+    for relative_path in sorted(staged_dirs, key=lambda path: len(path.parts)):
+        (site_dir / relative_path).mkdir(parents=True, exist_ok=True)
+    for relative_path in sorted(staged_files):
+        source_path = staged_site_dir / relative_path
+        target_path = site_dir / relative_path
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_bytes(source_path.read_bytes())
+
+    for existing_file in sorted((path for path in site_dir.rglob("*") if path.is_file()), reverse=True):
+        relative_path = existing_file.relative_to(site_dir)
+        if relative_path not in staged_files:
+            try:
+                existing_file.unlink()
+            except OSError:
+                continue
+
+    for existing_dir in sorted((path for path in site_dir.rglob("*") if path.is_dir()), key=lambda path: len(path.parts), reverse=True):
+        relative_path = existing_dir.relative_to(site_dir)
+        if relative_path not in staged_dirs:
+            try:
+                existing_dir.rmdir()
+            except OSError:
+                continue
+
+
+def build_site(site_dir: Path, normalized: NormalizedCatalog, bundles: list[BundleAsset]) -> None:
+    site_dir = site_dir.resolve()
+    parent_dir = site_dir.parent
+    parent_dir.mkdir(parents=True, exist_ok=True)
+    staging_root = Path(tempfile.mkdtemp(prefix=f".{site_dir.name}-staging-", dir=parent_dir))
+    staged_site_dir = staging_root / site_dir.name
+    try:
+        _render_site_tree(staged_site_dir, normalized, bundles)
+        _sync_site_tree(staged_site_dir, site_dir)
+    finally:
+        shutil.rmtree(staging_root, ignore_errors=True)

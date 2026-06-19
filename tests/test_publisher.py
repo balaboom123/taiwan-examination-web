@@ -1,7 +1,9 @@
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from app.manifest import SourceManifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, ReviewItem, SourceExamPage
@@ -201,7 +203,7 @@ class PublisherTests(unittest.TestCase):
             category_code="101",
             source_exam_id="115030",
             subject_code="0101",
-            storage_key="providers/moex/115/115030/101/0101/question.pdf",
+            storage_key="115/115030/101/0101/question.pdf",
         )
         ceec_paper = NormalizedPaper(
             provider_id="ceec_gsat",
@@ -217,13 +219,13 @@ class PublisherTests(unittest.TestCase):
             category_code="101",
             source_exam_id="gsat-115-guozong",
             subject_code="0101",
-            storage_key="providers/ceec_gsat/115/gsat-115-guozong/101/0101/question.pdf",
+            storage_key="115/gsat-115-guozong/101/0101/question.pdf",
         )
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
-            for paper in (moex_paper, ceec_paper):
-                mirror_path = root / "mirror" / paper.storage_key
+            for provider_id, paper in (("moex", moex_paper), ("ceec_gsat", ceec_paper)):
+                mirror_path = provider_paths(root, provider_id).mirror_dir / paper.storage_key
                 mirror_path.parent.mkdir(parents=True, exist_ok=True)
                 mirror_path.write_bytes(b"%PDF-1.7 demo")
 
@@ -285,7 +287,7 @@ class PublisherTests(unittest.TestCase):
             category_code="101",
             source_exam_id="115030",
             subject_code="0101",
-            storage_key="providers/moex/115/115030/101/0101/question.pdf",
+            storage_key="115/115030/101/0101/question.pdf",
         )
 
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -314,6 +316,166 @@ class PublisherTests(unittest.TestCase):
             self.assertFalse(site_paths(root, "default").release_assets_path.exists())
             self.assertFalse((root / "data" / "bundles.json").exists())
             self.assertFalse((root / "site" / "index.html").exists())
+
+    def test_build_site_preserves_existing_outputs_when_year_write_fails(self) -> None:
+        normalized = NormalizedCatalog(
+            papers=[
+                NormalizedPaper(
+                    provider_id="moex",
+                    canonical_id="nurse",
+                    canonical_name="Nurse",
+                    year_roc=115,
+                    exam_name_raw="115 Nurse Exam",
+                    category_raw="Nurse",
+                    category_code="101",
+                    source_exam_id="115030",
+                    subject_code="0101",
+                    subject_name_raw="Medical Basics",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://wwwq.moex.gov.tw/example.pdf",
+                    download_url_mirror="",
+                    download_url_bundle="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                    storage_key="115/115030/101/0101/question.pdf",
+                    checksum="abc123",
+                )
+            ],
+            review_queue=[],
+        )
+        bundles = [
+            BundleAsset(
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                years=[115],
+                file_count=1,
+                storage_key="bundles/sites/default/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="default-bundles-001",
+                download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+            )
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            site_dir = Path(tmp_dir) / "site"
+            (site_dir / "data").mkdir(parents=True)
+            (site_dir / "index.html").write_text("old-site", encoding="utf-8")
+            (site_dir / "data" / "bundles.json").write_text('["old-bundles"]', encoding="utf-8")
+
+            with patch("app.publisher._write_split_by_year", side_effect=OSError(22, "Invalid argument")):
+                with self.assertRaises(OSError):
+                    build_site(site_dir, normalized, bundles)
+
+            self.assertEqual((site_dir / "index.html").read_text(encoding="utf-8"), "old-site")
+            self.assertEqual((site_dir / "data" / "bundles.json").read_text(encoding="utf-8"), '["old-bundles"]')
+
+    def test_build_site_updates_existing_site_when_target_directory_is_in_use(self) -> None:
+        normalized = NormalizedCatalog(
+            papers=[
+                NormalizedPaper(
+                    provider_id="moex",
+                    canonical_id="nurse",
+                    canonical_name="Nurse",
+                    year_roc=115,
+                    exam_name_raw="115 Nurse Exam",
+                    category_raw="Nurse",
+                    category_code="101",
+                    source_exam_id="115030",
+                    subject_code="0101",
+                    subject_name_raw="Medical Basics",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://wwwq.moex.gov.tw/example.pdf",
+                    download_url_mirror="",
+                    download_url_bundle="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                    storage_key="115/115030/101/0101/question.pdf",
+                    checksum="abc123",
+                )
+            ],
+            review_queue=[],
+        )
+        bundles = [
+            BundleAsset(
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                years=[115],
+                file_count=1,
+                storage_key="bundles/sites/default/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="default-bundles-001",
+                download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+            )
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            site_dir = Path(tmp_dir) / "site"
+            (site_dir / "data" / "papers").mkdir(parents=True)
+            (site_dir / "index.html").write_text("old-site", encoding="utf-8")
+            (site_dir / "data" / "bundles.json").write_text('["old-bundles"]', encoding="utf-8")
+            (site_dir / "data" / "papers" / "1993.json").write_text("[]", encoding="utf-8")
+
+            real_rmtree = shutil.rmtree
+
+            def guarded_rmtree(path, *args, **kwargs):
+                if Path(path) == site_dir:
+                    raise PermissionError(32, "in use", str(path))
+                return real_rmtree(path, *args, **kwargs)
+
+            with patch("app.publisher.shutil.rmtree", side_effect=guarded_rmtree):
+                build_site(site_dir, normalized, bundles)
+
+            self.assertIn("Nurse", (site_dir / "index.html").read_text(encoding="utf-8"))
+            self.assertIn("nurse.zip", (site_dir / "data" / "bundles.json").read_text(encoding="utf-8"))
+            self.assertTrue((site_dir / "data" / "papers" / "2026.json").exists())
+
+    def test_build_site_updates_existing_site_without_bulk_copytree_replace(self) -> None:
+        normalized = NormalizedCatalog(
+            papers=[
+                NormalizedPaper(
+                    provider_id="moex",
+                    canonical_id="nurse",
+                    canonical_name="Nurse",
+                    year_roc=115,
+                    exam_name_raw="115 Nurse Exam",
+                    category_raw="Nurse",
+                    category_code="101",
+                    source_exam_id="115030",
+                    subject_code="0101",
+                    subject_name_raw="Medical Basics",
+                    paper_code="101-0101-question",
+                    file_type="question",
+                    download_url_source="https://wwwq.moex.gov.tw/example.pdf",
+                    download_url_mirror="",
+                    download_url_bundle="https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+                    storage_key="115/115030/101/0101/question.pdf",
+                    checksum="abc123",
+                )
+            ],
+            review_queue=[],
+        )
+        bundles = [
+            BundleAsset(
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                years=[115],
+                file_count=1,
+                storage_key="bundles/sites/default/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="default-bundles-001",
+                download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+            )
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            site_dir = Path(tmp_dir) / "site"
+            (site_dir / "data" / "papers").mkdir(parents=True)
+            (site_dir / "index.html").write_text("old-site", encoding="utf-8")
+            (site_dir / "data" / "bundles.json").write_text('["old-bundles"]', encoding="utf-8")
+
+            with patch("app.publisher.shutil.copytree", side_effect=AssertionError("copytree should not be used for existing site sync")):
+                build_site(site_dir, normalized, bundles)
+
+            self.assertIn("Nurse", (site_dir / "index.html").read_text(encoding="utf-8"))
+            self.assertIn("nurse.zip", (site_dir / "data" / "bundles.json").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

@@ -170,6 +170,23 @@ def _resolve_entry_ref(ref: _EntryRef) -> bytes | None:
         return None
 
 
+def _resolve_mirror_source_path(mirror_dir: Path, paper: NormalizedPaper) -> Path | None:
+    if not paper.storage_key:
+        return None
+
+    storage_path = Path(paper.storage_key)
+    direct_path = mirror_dir / storage_path
+    if direct_path.exists():
+        return direct_path
+
+    if paper.provider_id:
+        provider_scoped_path = mirror_dir / "providers" / paper.provider_id / storage_path
+        if provider_scoped_path.exists():
+            return provider_scoped_path
+
+    return None
+
+
 def _load_existing_entries_by_canonical(
     bundle_dir: Path,
     on_progress: Callable | None = None,
@@ -296,8 +313,8 @@ def build_bundles(
         try:
             with zipfile.ZipFile(bundle_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
                 for paper, arcname in zip(ordered, resolved_names):
-                    source_path = mirror_dir / Path(paper.storage_key) if paper.storage_key else None
-                    if source_path and source_path.exists():
+                    source_path = _resolve_mirror_source_path(mirror_dir, paper)
+                    if source_path is not None:
                         archive.write(source_path, arcname=arcname)
                         included_papers.append(paper)
                         bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
