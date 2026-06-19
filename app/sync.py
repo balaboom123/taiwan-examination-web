@@ -12,15 +12,16 @@ from app.storage import MirrorStore
 EXTENSION_OVERRIDES = {
     "application/pdf": ".pdf",
     "application/zip": ".zip",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
 }
 EXPECTED_EXTENSIONS = {
-    "question": ".pdf",
-    "question_alt": ".pdf",
-    "answer": ".pdf",
-    "answer_sheet": ".pdf",
-    "corrected_answer": ".pdf",
-    "all_answers": ".pdf",
-    "accessible_bundle": ".zip",
+    "question": (".pdf",),
+    "question_alt": (".pdf", ".docx"),
+    "answer": (".pdf",),
+    "answer_sheet": (".pdf",),
+    "corrected_answer": (".pdf",),
+    "all_answers": (".pdf",),
+    "accessible_bundle": (".zip",),
 }
 ZIP_SIGNATURES = (b"PK\x03\x04", b"PK\x05\x06", b"PK\x07\x08")
 
@@ -61,27 +62,34 @@ def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
     head = _strip_bom_prefix(data[:8])
     if expected_extension == ".pdf":
         return head.startswith(b"%PDF")
-    if expected_extension == ".zip":
+    if expected_extension in {".zip", ".docx"}:
         return any(head.startswith(signature) for signature in ZIP_SIGNATURES)
     return False
 
 
 def _validated_extension(file_type: str, data: bytes, content_type: str, file_name: str) -> str:
-    expected_extension = EXPECTED_EXTENSIONS.get(file_type)
-    if expected_extension and _matches_expected_binary(data, expected_extension):
-        return expected_extension
-    if expected_extension:
-        if _looks_like_html(data):
-            raise RuntimeError(f"Downloaded HTML placeholder instead of {expected_extension} for {file_type}")
-        raise RuntimeError(f"Downloaded file does not match expected {expected_extension} payload for {file_type}")
-    return _extension_for(content_type, file_name)
+    expected_extensions = EXPECTED_EXTENSIONS.get(file_type, ())
+    resolved_extension = _extension_for(content_type, file_name).lower()
+    if _looks_like_html(data):
+        joined_extensions = " or ".join(expected_extensions) if expected_extensions else resolved_extension
+        raise RuntimeError(f"Downloaded HTML placeholder instead of {joined_extensions} for {file_type}")
+    if expected_extensions:
+        if resolved_extension in expected_extensions and _matches_expected_binary(data, resolved_extension):
+            return resolved_extension
+        for expected_extension in expected_extensions:
+            if _matches_expected_binary(data, expected_extension):
+                return expected_extension
+        joined_extensions = " or ".join(expected_extensions)
+        raise RuntimeError(f"Downloaded file does not match expected {joined_extensions} payload for {file_type}")
+    return resolved_extension
 
 
 def _is_valid_stored_file(path: Path, file_type: str) -> bool:
-    expected_extension = EXPECTED_EXTENSIONS.get(file_type)
-    if expected_extension is None or path.suffix.lower() != expected_extension:
+    expected_extensions = EXPECTED_EXTENSIONS.get(file_type, ())
+    actual_extension = path.suffix.lower()
+    if not expected_extensions or actual_extension not in expected_extensions:
         return False
-    return _matches_expected_binary(path.read_bytes()[:8], expected_extension)
+    return _matches_expected_binary(path.read_bytes()[:8], actual_extension)
 
 
 def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:

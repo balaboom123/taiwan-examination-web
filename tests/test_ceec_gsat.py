@@ -24,12 +24,52 @@ LISTING_HTML = """
 </body></html>
 """
 
+LISTING_HTML_SPLIT_ROW = """
+<html><body>
+<h2>\u4e00\u822c\u8a66\u984c</h2>
+<div>\u5171 19 \u9801 / 189 \u7b46</div>
+<table>
+  <tr><th>\u767c\u4f48\u65e5\u671f</th><th>\u6a19\u984c</th><th>\u4e0b\u8f09</th></tr>
+  <tr>
+    <td>115-02-23</td>
+    <td>115\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57\uff0d\u570b\u7d9c</td>
+    <td>
+      <a href="/files/a-question.pdf">\u8a66\u984c\u5167\u5bb9</a>
+      <a href="/files/a-question-2.docx">\u8a66\u984c\u5167\u5bb9</a>
+      <a href="/files/a-sheet.pdf">\u7b54\u984c\u5377</a>
+      <a href="/files/a-answer.pdf">\u9078\u64c7\u984c\u7b54\u6848</a>
+      <a href="/files/a-guideline.pdf">\u975e\u9078\u64c7\u984c\u8a55\u5206\u539f\u5247</a>
+    </td>
+  </tr>
+</table>
+</body></html>
+"""
+
 
 class CeecParserTests(unittest.TestCase):
     def test_parse_listing_page_extracts_total_pages_and_exam_row(self) -> None:
         page = parse_listing_page(LISTING_HTML)
 
         self.assertEqual(page.total_pages, 19)
+        self.assertEqual(page.entries[0].year_ad, 2026)
+        self.assertEqual(page.entries[0].source_exam_id, "gsat-115-guozong")
+        self.assertEqual(page.entries[0].title, "115\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57\uff0d\u570b\u7d9c")
+        self.assertEqual(
+            [item.label for item in page.entries[0].downloads],
+            [
+                "\u8a66\u984c\u5167\u5bb9",
+                "\u8a66\u984c\u5167\u5bb9",
+                "\u7b54\u984c\u5377",
+                "\u9078\u64c7\u984c\u7b54\u6848",
+                "\u975e\u9078\u64c7\u984c\u8a55\u5206\u539f\u5247",
+            ],
+        )
+
+    def test_parse_listing_page_extracts_exam_row_when_date_and_title_are_split(self) -> None:
+        page = parse_listing_page(LISTING_HTML_SPLIT_ROW)
+
+        self.assertEqual(page.total_pages, 19)
+        self.assertEqual(len(page.entries), 1)
         self.assertEqual(page.entries[0].year_ad, 2026)
         self.assertEqual(page.entries[0].source_exam_id, "gsat-115-guozong")
         self.assertEqual(page.entries[0].title, "115\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57\uff0d\u570b\u7d9c")

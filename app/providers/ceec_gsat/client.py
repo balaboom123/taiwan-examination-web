@@ -18,6 +18,8 @@ _TOTAL_PAGES_RE = re.compile("\u5171\\s*(\\d+)\\s*\u9801")
 _ENTRY_HEADER_RE = re.compile(
     "(?P<roc_year>\\d{3})-\\d{2}-\\d{2}\\s+(?P<title>\\d{3}\\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)"
 )
+_ENTRY_DATE_RE = re.compile(r"(?P<roc_year>\d{3})-\d{2}-\d{2}$")
+_ENTRY_TITLE_RE = re.compile(r"(?P<title>(?P<roc_year>\d{3})\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)$")
 _YEAR_BLOCK_RE = re.compile(
     "\u9078\u64c7\u5e74\u5ea6(?P<body>.*?)(?:\u203b\u672c\u8a66\u984c\u70baPDF|\u767c\u4f48\u65e5\u671f)",
     re.S,
@@ -115,6 +117,16 @@ def _slug_from_title(title: str) -> str:
     return "subject-" + subject.encode("utf-8").hex()[:16]
 
 
+def _entry_from_title(roc_year: int, title: str) -> CeecEntry:
+    normalized_title = _normalize_text(title)
+    return CeecEntry(
+        source_exam_id=f"gsat-{roc_year}-{_slug_from_title(normalized_title)}",
+        year_ad=roc_year + 1911,
+        title=normalized_title,
+        downloads=[],
+    )
+
+
 def _available_years_from_text(text: str) -> list[int]:
     block = _YEAR_BLOCK_RE.search(text)
     if block is None:
@@ -136,23 +148,32 @@ def parse_listing_page(html: str) -> CeecListingPage:
     parser.feed(normalized_html)
     entries: list[CeecEntry] = []
     current_entry: CeecEntry | None = None
+    pending_roc_year: int | None = None
     for token_type, token_text, token_href in parser.tokens:
         if token_type == "text":
             match = _ENTRY_HEADER_RE.match(token_text)
-            if match is None:
+            if match is not None:
+                if current_entry is not None and current_entry.downloads:
+                    entries.append(current_entry)
+                pending_roc_year = None
+                current_entry = _entry_from_title(int(match.group("roc_year")), match.group("title"))
                 continue
-            if current_entry is not None and current_entry.downloads:
-                entries.append(current_entry)
-            roc_year = int(match.group("roc_year"))
-            title = _normalize_text(match.group("title"))
-            current_entry = CeecEntry(
-                source_exam_id=f"gsat-{roc_year}-{_slug_from_title(title)}",
-                year_ad=roc_year + 1911,
-                title=title,
-                downloads=[],
-            )
+            date_match = _ENTRY_DATE_RE.match(token_text)
+            if date_match is not None:
+                if current_entry is not None and current_entry.downloads:
+                    entries.append(current_entry)
+                    current_entry = None
+                pending_roc_year = int(date_match.group("roc_year"))
+                continue
+            title_match = _ENTRY_TITLE_RE.match(token_text)
+            if pending_roc_year is not None and title_match is not None:
+                current_entry = _entry_from_title(pending_roc_year, title_match.group("title"))
+                pending_roc_year = None
+                continue
+            pending_roc_year = None
             continue
         if current_entry is None:
+            pending_roc_year = None
             continue
         if token_text in _PAGINATION_LABELS or token_text.isdigit():
             if current_entry.downloads:

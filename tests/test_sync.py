@@ -134,6 +134,49 @@ class HtmlPlaceholderClient:
         )
 
 
+class QuestionAltDocxClient:
+    provider_id = "ceec_gsat"
+
+    def __init__(self) -> None:
+        self.downloaded_urls: list[str] = []
+
+    def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="115學年度學科能力測驗－國綜",
+            attachments=[],
+            papers=[
+                ParsedPaper(
+                    category_raw="摮貊測驗",
+                    category_code="115",
+                    subject_code="guozong-01",
+                    subject_name_raw="國綜 試題內容",
+                    files={"question": "https://example.test/question.pdf"},
+                ),
+                ParsedPaper(
+                    category_raw="摮貊測驗",
+                    category_code="115",
+                    subject_code="guozong-02",
+                    subject_name_raw="國綜 試題內容",
+                    files={"question_alt": "https://example.test/question-alt.docx"},
+                ),
+            ],
+            provider_id=self.provider_id,
+        )
+
+    def download_file(self, url: str) -> DownloadedFile:
+        self.downloaded_urls.append(url)
+        if url.endswith(".docx"):
+            return DownloadedFile(
+                data=b"PK\x03\x04docx payload",
+                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                file_name=Path(url).name,
+            )
+        return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+
 class SyncExamPagesTests(unittest.TestCase):
     def test_moex_provider_implements_source_provider_contract(self) -> None:
         self.assertIsInstance(MoexProvider(), SourceProvider)
@@ -306,6 +349,31 @@ class SyncExamPagesTests(unittest.TestCase):
             )
             self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
             self.assertEqual(failures, [])
+
+    def test_sync_exam_pages_accepts_question_alt_docx_payloads(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            client = QuestionAltDocxClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("gsat-115-guozong", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(
+            client.downloaded_urls,
+            ["https://example.test/question.pdf", "https://example.test/question-alt.docx"],
+        )
+        self.assertEqual(len(raw_pages), 1)
+        self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["question", "question_alt"])
+        self.assertEqual(
+            raw_pages[0].papers[1].mirror_files["question_alt"]["storage_key"],
+            "providers/ceec_gsat/115/gsat-115-guozong/115/guozong-02/question_alt.docx",
+        )
+        self.assertEqual(failures, [])
 
 
 if __name__ == "__main__":
