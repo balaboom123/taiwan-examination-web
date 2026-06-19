@@ -248,7 +248,10 @@ def publish_site(
     aggregated_papers: list[NormalizedPaper] = []
     aggregated_review_queue = []
     for provider_id in site_config.provider_ids:
-        _raw_pages, provider_catalog, _failures = load_provider_state(provider_paths(repo_root, provider_id))
+        provider = provider_paths(repo_root, provider_id)
+        if not provider.data_dir.exists():
+            raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
+        _raw_pages, provider_catalog, _failures = load_provider_state(provider)
         aggregated_papers.extend(provider_catalog.papers)
         aggregated_review_queue.extend(provider_catalog.review_queue)
 

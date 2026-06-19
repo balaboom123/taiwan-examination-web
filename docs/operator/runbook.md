@@ -1,6 +1,6 @@
 # Operator Runbook
 
-This runbook covers manual operation of the repository in its current state and notes the rules that must remain true as the project expands.
+This runbook covers the provider-scoped sync flow and the site-scoped publication flow used by the current branch.
 
 ## Prerequisites
 
@@ -18,12 +18,26 @@ Required credentials for release and gating operations:
 
 ## Generated State You Should Know
 
-Current generated operational paths:
+Provider-owned generated paths:
 
-- `mirror/`: mirrored downloaded files
-- `bundles/`: locally built ZIP bundles
-- `data/`: generated metadata and manifests
-- `site/`: generated legacy static output
+- `data/providers/moex/`
+- `data/providers/ceec_gsat/`
+- `mirror/providers/moex/`
+- `mirror/providers/ceec_gsat/`
+
+Site-owned generated paths:
+
+- `data/sites/default/bundles.json`
+- `data/sites/default/release-assets.json`
+- `data/sites/default/lootlabs-links.json`
+- `bundles/sites/default/`
+
+Compatibility outputs still refreshed for the `default` site:
+
+- `data/bundles.json`
+- `data/release-assets.json`
+- `data/lootlabs-links.json`
+- `site/`
 
 Manual input:
 
@@ -35,119 +49,99 @@ Run from the repo root.
 
 | Command | Use it when | Main outputs |
 | --- | --- | --- |
-| `python -m app discover` | you want to inspect current source inventory | stdout JSON |
-| `python -m app probe-latest --years 2 --output .tmp/source-probe.json --write-manifest` | you want to check if a recent sync is needed | `.tmp/source-probe.json`, manifest update |
-| `python -m app sync-targeted --probe .tmp/source-probe.json --download-affected-bundles --release-tag moex-bundles --bundle-base-url "<url>"` | the probe found changes and you want the minimal refresh path | updated affected bundles and generated data |
-| `python -m app sync-incremental --years 2 --write-manifest --bundle-base-url "<url>"` | you want a recent-year refresh without starting from scratch | updated generated state |
-| `python -m app sync-full --write-manifest --bundle-base-url "<url>"` | you need a full rebuild or bootstrap | fully regenerated state |
-| `python -m app build-bundles --bundle-base-url "<url>"` | raw data is already present and you only need bundle rebuild | rebuilt bundles and release metadata |
-| `python -m app build-site` | you only need the legacy site rebuilt | `site/` |
-| `python -m app sync-lootlabs` | bundle URLs or bundle checksums changed | `data/lootlabs-links.json` |
-
-Replace `<url>` with the release download base, for example:
-
-```text
-https://github.com/<owner>/<repo>/releases/download/moex-bundles
-```
+| `python -m app discover --provider moex` | you want to inspect MOEX source inventory | stdout JSON |
+| `python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest` | you want to check if recent MOEX data changed | `.tmp/source-probe.json`, `data/providers/moex/source-manifest.json` |
+| `python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --download-affected-bundles` | the MOEX probe found changes and you want the smallest repair path | refreshed MOEX provider state plus compatibility outputs |
+| `python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json` | you want a broader recent-year MOEX refresh | refreshed MOEX provider state plus compatibility outputs |
+| `python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json` | you need a full MOEX rebuild | full MOEX provider refresh plus compatibility outputs |
+| `python -m app sync-full --provider ceec_gsat --site-id default` | you want the CEEC GSAT provider refreshed | refreshed CEEC provider state only |
+| `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need site bundles, release metadata, and site output rebuilt | `data/sites/default/*`, `bundles/sites/default/`, compatibility site outputs |
+| `python -m app sync-lootlabs --site-id default` | site bundle URLs or checksums changed | `data/sites/default/lootlabs-links.json` plus compatibility copy |
+| `python .github/scripts/release_assets.py ensure` | site publication wrote new release metadata and tags may need bootstrapping | GitHub Releases only |
+| `python .github/scripts/release_assets.py upload` | local bundle ZIPs need to be uploaded to their assigned release tags | GitHub Releases only |
+| `python .github/scripts/release_assets.py prune` | stale ZIP assets may remain on one or more release tags | GitHub Releases only |
 
 ## Standard Operating Procedures
 
-### 1. Inspect source inventory
+### 1. Probe recent MOEX changes
 
 Use:
 
 ```bash
-python -m app discover
-```
-
-Use this before large maintenance changes or when validating source availability.
-
-### 2. Probe recent changes
-
-Use:
-
-```bash
-python -m app probe-latest --years 2 --output .tmp/source-probe.json --write-manifest
+python -m app probe-latest --provider moex --years 2 ^
+  --manifest data/providers/moex/source-manifest.json ^
+  --output .tmp/source-probe.json ^
+  --write-manifest
 ```
 
 Then inspect `.tmp/source-probe.json`:
 
-- if `should_sync` is `false`, no targeted sync is needed
+- if `should_sync` is `false`, stop
 - if `should_sync` is `true`, continue to targeted sync
 
-### 3. Run targeted sync after a positive probe
+### 2. Run targeted MOEX sync after a positive probe
 
 Use:
 
 ```bash
 python -m app sync-targeted ^
+  --provider moex ^
   --probe .tmp/source-probe.json ^
-  --download-affected-bundles ^
-  --release-tag moex-bundles ^
-  --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
+  --download-affected-bundles
 ```
 
-Use this when only a known set of exam IDs changed.
+Use this when only a known MOEX subset changed.
 
-### 4. Run incremental maintenance
+### 3. Refresh CEEC GSAT provider data
 
 Use:
 
 ```bash
-python -m app sync-incremental --years 2 --write-manifest ^
-  --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
+python -m app sync-full --provider ceec_gsat --site-id default
 ```
 
-Use this for a broader recent-year refresh when you do not already have a probe result or when you want the audit path manually.
+This command does not publish the aggregated `default` site or update release assets by itself.
 
-### 5. Run a full rebuild
+Expected provider outputs:
+
+- `data/providers/ceec_gsat/exams/*.json`
+- `data/providers/ceec_gsat/papers/*.json`
+- `data/providers/ceec_gsat/review-queue.json`
+- `mirror/providers/ceec_gsat/**`
+
+### 4. Publish the default site
 
 Use:
 
 ```bash
-python -m app sync-full --write-manifest ^
-  --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
+python -m app publish-site --site-id default --repository <owner>/<repo>
 ```
 
-Use this for bootstrap, large repair work, or when incremental state is no longer trusted.
+Expected site outputs:
 
-### 6. Rebuild bundles only
+- `data/sites/default/bundles.json`
+- `data/sites/default/release-assets.json`
+- `data/sites/default/lootlabs-links.json` after a LootLabs sync
+- `bundles/sites/default/*.zip`
+
+### 5. Sync LootLabs links
 
 Use:
 
 ```bash
-python -m app build-bundles ^
-  --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
+python -m app sync-lootlabs --site-id default
 ```
 
-Use this when normalized data is correct but bundle ZIPs or release metadata must be rebuilt.
-
-### 7. Rebuild legacy site only
-
-Use:
-
-```bash
-python -m app build-site
-```
-
-### 8. Refresh LootLabs links
-
-Use:
-
-```bash
-python -m app sync-lootlabs
-```
-
-Run this after bundle URLs or bundle checksums change.
+Run this after `publish-site` when site bundle URLs or checksums changed.
 
 ## Manual Verification Checklist
 
 After a sync or publication run, check:
 
-1. `data/sync-failures.json`
-2. `data/review-queue.json`
-3. `data/release-assets.json`
-4. `data/lootlabs-links.json` if gating is enabled
+1. `data/providers/<provider_id>/sync-failures.json`
+2. `data/providers/<provider_id>/review-queue.json`
+3. `data/sites/default/release-assets.json`
+4. `data/sites/default/lootlabs-links.json` if gating is enabled
 5. GitHub release asset coverage if you published bundles
 6. `site/` output if legacy site consumers matter
 7. frontend build if public deployment behavior changed
@@ -155,21 +149,13 @@ After a sync or publication run, check:
 Recommended verification commands:
 
 ```bash
-uv run python -m unittest discover -s tests -q
+uv run pytest -q
 ```
 
 ```bash
-cd frontend
-npm test
-npm run build
+node --test frontend/build/bundles-data.test.mjs
 ```
 
-## Expansion Guidance For Operators
-
-As the repo expands:
-
-- provider sync commands SHOULD become provider-scoped
-- site publication commands SHOULD become site-scoped
-- runbooks MUST explain which provider or site each command owns
-
-Do not rely on MOEX-only names when documenting a new provider or site.
+```bash
+cmd /c "cd /d frontend && npm run build"
+```

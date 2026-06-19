@@ -8,9 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  MOEX_RELEASE_TAG: moex-bundles
-
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -31,41 +28,27 @@ jobs:
           restore-keys: |
             moex-mirror-
 
-      - name: Ensure release exists
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python .github/scripts/release_assets.py ensure
-
       - name: Inspect release coverage
         id: release_state
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py coverage
 
-      - name: Download existing bundles
-        if: steps.release_state.outputs.bootstrap_required != 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p bundles
-          asset_count=$(gh release view "$MOEX_RELEASE_TAG" --json assets --jq '.assets | map(select(.name | endswith(".zip"))) | length')
-          if [ "$asset_count" -gt 0 ]; then
-            gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles
-          fi
-
       - name: Run bootstrap full sync
         if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: >
-          python -m app sync-full
-          --write-manifest
-          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+        run: python -m app sync-full --write-manifest
 
       - name: Run recent audit
         if: steps.release_state.outputs.bootstrap_required != 'true'
-        run: >
-          python -m app sync-incremental --years 2
-          --write-manifest
-          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+        run: python -m app sync-incremental --years 2 --write-manifest
+
+      - name: Publish default site
+        run: python -m app publish-site --site-id default --repository "${{ github.repository }}"
+
+      - name: Ensure release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python .github/scripts/release_assets.py ensure
 
       - name: Upload downloadable bundles
         env:
@@ -83,7 +66,7 @@ jobs:
           LOOTLABS_TIER_ID: "1"
           LOOTLABS_NUMBER_OF_TASKS: "1"
           LOOTLABS_THEME: "1"
-        run: python -m app sync-lootlabs
+        run: python -m app sync-lootlabs --site-id default
 
       - name: Commit audited data and site
         run: |

@@ -1,43 +1,60 @@
 # Taiwan Examination Web
 
-Mirror, normalize, and publish past exam papers from the MOEX exam search site.
+Mirror, normalize, and publish past exam papers into one public `default` site fed by provider-scoped sync pipelines.
 
 ## What This Repo Produces
 
-- `data/exams/YYYY.json`: parsed source exam pages (split by year)
-- `data/papers/YYYY.json`: normalized paper records (split by year)
-- `data/bundles.json`: canonical bundle metadata
-- `data/review-queue.json`: category names that still need alias review
-- `data/sync-failures.json`: download or bundle failures
-- `data/aliases.json`: manual alias rules for cross-year name normalization
-- `data/release-assets.json`: expected GitHub Release bundle assets
-- `data/source-manifest.json`: probe fingerprints for cheap incremental checks
-- `site/index.html`: minimal searchable static site
-- `bundles/*.zip`: human-friendly multi-year bundle archives
+Provider-owned state:
+
+- `data/providers/moex/`: parsed MOEX exams, normalized papers, failures, and manifest state
+- `data/providers/ceec_gsat/`: parsed CEEC GSAT exams, normalized papers, failures, and manifest state
+- `mirror/providers/<provider_id>/`: mirrored source files per provider
+
+Site-owned publication state:
+
+- `data/sites/default/bundles.json`: canonical bundle metadata for the public site
+- `data/sites/default/release-assets.json`: expected GitHub Release assets grouped by site-owned release tag
+- `data/sites/default/lootlabs-links.json`: gated public download links for the site
+- `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
+
+Compatibility outputs kept during migration:
+
+- `data/bundles.json`
+- `data/release-assets.json`
+- `data/lootlabs-links.json`
+- `site/index.html`
+
+Manual input:
+
+- `data/aliases.json`
 
 ## Commands
 
 ```bash
-python -m app discover
-python -m app probe-latest --years 2 --output .tmp/source-probe.json --write-manifest
-python -m app sync-targeted --probe .tmp/source-probe.json
-python -m app sync-incremental --years 1
-python -m app sync-full --write-manifest
-python -m app build-site
+python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest
+python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --download-affected-bundles
+python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
+python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
+python -m app sync-full --provider ceec_gsat --site-id default
+python -m app publish-site --site-id default --repository <owner>/<repo>
+python -m app sync-lootlabs --site-id default
 ```
 
 ## Workflow Strategy
 
-- `probe-latest` checks the newest years first and updates `data/source-manifest.json` only when `--write-manifest` is passed.
-- `sync-targeted` refreshes only exams reported by the probe result.
+- Provider sync owns discovery, source parsing, mirrored files, normalized papers, manifests, and sync failures.
+- Site publication owns bundle ZIPs, release asset manifests, LootLabs link manifests, and the public site output.
+- `probe-latest` checks the newest MOEX years first and updates the provider manifest only when `--write-manifest` is passed.
+- `sync-targeted` refreshes only exams reported by the MOEX probe result.
 - `sync-incremental` is the compatibility wrapper used by the audit workflow.
-- `sync-full` is the recovery and bootstrap path that rebuilds the full dataset.
+- `sync-full` is the recovery and bootstrap path for a selected provider.
+- `publish-site` aggregates all providers assigned to the `default` site and assigns deterministic site-owned release tags.
 - Mirror validation rejects HTML placeholder downloads and repairs stale `.ashx` siblings when a valid `.pdf` or `.zip` is fetched again.
 
 The scheduled `sync-incremental` GitHub Actions workflow behaves in two modes:
 
-1. If the release already has the exact expected zip asset set, it runs probe-first targeted sync.
-2. If the release is empty or incomplete, it falls back to a full sync bootstrap so the release cannot get stuck with only a small subset of bundles.
+1. If the default site's assigned release tags already have the exact expected zip asset set, it runs probe-first targeted sync.
+2. If the assigned releases are empty or incomplete, it falls back to a full sync bootstrap so publication cannot get stuck with only a small subset of bundles.
 
 ## Bundle Format
 
@@ -74,8 +91,14 @@ Example:
 
 ## Verification
 
-The full test suite runs with:
+Python:
 
 ```bash
-uv run python -m unittest discover -s tests -q
+uv run pytest -q
+```
+
+Frontend bundle-data tests:
+
+```bash
+node --test frontend/build/bundles-data.test.mjs
 ```

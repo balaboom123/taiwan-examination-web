@@ -53,24 +53,27 @@ def _workflow_push_paths(workflow: str) -> list[str]:
 
 class WorkflowTests(unittest.TestCase):
     def test_incremental_workflow_bootstraps_with_full_sync_when_release_is_incomplete(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
+        workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
         self.assertIn("python -m app sync-full", workflow)
+        self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertIn("steps.release_state.outputs.bootstrap_required == 'true'", workflow)
 
     def test_incremental_workflow_probes_before_syncing(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
+        workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn("python -m app probe-latest --years 2", workflow)
         self.assertIn("python -m app sync-targeted", workflow)
+        self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertLess(workflow.index("python -m app probe-latest"), workflow.index("python -m app sync-targeted"))
+        self.assertLess(workflow.index("python -m app sync-targeted"), workflow.index("python -m app publish-site"))
 
     def test_incremental_workflow_can_exit_before_heavy_steps_when_unchanged(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
+        workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn("steps.probe.outputs.should_sync == 'true'", workflow)
@@ -79,14 +82,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("git add data/source-manifest.json", workflow)
 
     def test_incremental_workflow_does_not_download_release_bundles_before_probe(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "sync-incremental.yml"
+        workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertNotIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles', workflow)
         self.assertIn("--download-affected-bundles", workflow)
 
     def test_monthly_audit_workflow_exists(self) -> None:
-        workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "audit-recent.yml"
+        workflow_path = REPO_ROOT / ".github" / "workflows" / "audit-recent.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn('- cron: "45 3 1 * *"', workflow)
@@ -94,18 +97,19 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("bootstrap_required", workflow)
         self.assertIn("python -m app sync-full", workflow)
         self.assertIn("python -m app sync-incremental --years 2", workflow)
+        self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertIn("--write-manifest", workflow)
         self.assertIn("release_assets.py prune", workflow)
 
     def test_workflows_prune_stale_assets_via_shared_script(self) -> None:
-        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
             self.assertIn("release_assets.py upload", workflow)
             self.assertIn("release_assets.py prune", workflow)
 
     def test_workflows_sync_lootlabs_after_release_asset_updates(self) -> None:
-        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
         commit_steps = {
             "sync-full.yml": "Commit regenerated data and site",
             "sync-incremental.yml": "Commit regenerated data and site",
@@ -113,30 +117,29 @@ class WorkflowTests(unittest.TestCase):
         }
         for workflow_name, commit_step in commit_steps.items():
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
-            sync_lootlabs_index = workflow.index("python -m app sync-lootlabs")
-            self.assertIn("python -m app sync-lootlabs", workflow)
+            sync_lootlabs_index = workflow.index("python -m app sync-lootlabs --site-id default")
+            self.assertIn("python -m app sync-lootlabs --site-id default", workflow)
             self.assertLess(workflow.index("release_assets.py upload"), sync_lootlabs_index)
             self.assertLess(workflow.index("release_assets.py prune"), sync_lootlabs_index)
             self.assertLess(sync_lootlabs_index, workflow.index(commit_step))
 
-    def test_pages_deploy_rebuilds_when_lootlabs_manifest_changes(self) -> None:
-        workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn("data/lootlabs-links.json", _workflow_push_paths(workflow))
+    def test_pages_deploy_rebuilds_when_site_scoped_bundle_inputs_change(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
+        push_paths = _workflow_push_paths(workflow)
+
+        self.assertIn("data/sites/default/bundles.json", push_paths)
+        self.assertIn("data/sites/default/lootlabs-links.json", push_paths)
 
     def test_pages_deploy_syncs_lootlabs_manifest_before_frontend_build(self) -> None:
-        workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "deploy-pages.yml").read_text(
-            encoding="utf-8"
-        )
+        workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
 
         self.assertIn("actions/setup-python@v5", workflow)
         self.assertIn('python-version: "3.12"', workflow)
-        self.assertIn("python -m app sync-lootlabs", workflow)
+        self.assertIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertIn("LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}", workflow)
         self.assertIn('VITE_ENABLE_LOOTLABS_GATING: "true"', workflow)
-        self.assertLess(workflow.index("actions/setup-python@v5"), workflow.index("python -m app sync-lootlabs"))
-        self.assertLess(workflow.index("python -m app sync-lootlabs"), workflow.index("npm run build"))
+        self.assertLess(workflow.index("actions/setup-python@v5"), workflow.index("python -m app sync-lootlabs --site-id default"))
+        self.assertLess(workflow.index("python -m app sync-lootlabs --site-id default"), workflow.index("npm run build"))
 
     def test_pages_deploy_path_check_ignores_occurrences_outside_push_paths(self) -> None:
         workflow = """name: Deploy to GitHub Pages
@@ -151,17 +154,17 @@ on:
 jobs:
   deploy:
     steps:
-      - run: echo data/lootlabs-links.json
+      - run: echo data/sites/default/lootlabs-links.json
 """
 
-        self.assertNotIn("data/lootlabs-links.json", _workflow_push_paths(workflow))
+        self.assertNotIn("data/sites/default/lootlabs-links.json", _workflow_push_paths(workflow))
 
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
         release_payload = json.dumps(
             {"assets": [{"name": "keep.zip"}, {"name": "stale.zip"}, {"name": "notes.txt"}]}
         )
-        with mock.patch.object(module, "_local_assets", return_value=[{"asset_name": "keep.zip"}]), \
+        with mock.patch.object(module, "_local_assets", return_value=[{"asset_name": "keep.zip", "release_tag": "default-bundles-001"}]), \
                 mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
                 mock.patch.object(module.subprocess, "run") as run_mock:
             exit_code = module.prune()
@@ -169,14 +172,20 @@ jobs:
         self.assertEqual(exit_code, 0)
         self.assertEqual(
             [call.args[0] for call in run_mock.call_args_list],
-            [["gh", "release", "delete-asset", module.RELEASE_TAG, "stale.zip", "--yes"]],
+            [["gh", "release", "delete-asset", "default-bundles-001", "stale.zip", "--yes"]],
         )
 
     def test_release_script_never_prunes_legacy_alias_assets(self) -> None:
         module = _load_release_script()
-        local_assets = [{"asset_name": "nurse-id.zip", "legacy_asset_names": ["護理師__nurse.zip", "nurse.zip"]}]
+        local_assets = [
+            {
+                "asset_name": "nurse-id.zip",
+                "legacy_asset_names": ["nurse-display.zip", "nurse.zip"],
+                "release_tag": "default-bundles-001",
+            }
+        ]
         release_payload = json.dumps(
-            {"assets": [{"name": "nurse-id.zip"}, {"name": "護理師__nurse.zip"}, {"name": "nurse.zip"}, {"name": "stale.zip"}]}
+            {"assets": [{"name": "nurse-id.zip"}, {"name": "nurse-display.zip"}, {"name": "nurse.zip"}, {"name": "stale.zip"}]}
         )
         with mock.patch.object(module, "_local_assets", return_value=local_assets), \
                 mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
@@ -185,12 +194,29 @@ jobs:
 
         self.assertEqual(
             [call.args[0] for call in run_mock.call_args_list],
-            [["gh", "release", "delete-asset", module.RELEASE_TAG, "stale.zip", "--yes"]],
+            [["gh", "release", "delete-asset", "default-bundles-001", "stale.zip", "--yes"]],
         )
+
+    def test_release_script_reads_wrapped_site_release_assets_schema(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            release_assets_path = Path(tmp) / "release-assets.json"
+            release_assets_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "site_id": "default",
+                        "assets": [{"asset_name": "nurse.zip", "release_tag": "default-bundles-001"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with mock.patch.object(module, "RELEASE_ASSETS_PATH", release_assets_path):
+                self.assertEqual(module._local_assets(), [{"asset_name": "nurse.zip", "release_tag": "default-bundles-001"}])
 
     def test_release_script_coverage_compares_expected_and_current_zip_names(self) -> None:
         module = _load_release_script()
-        local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"]}]
+        local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"], "release_tag": "default-bundles-001"}]
         cases = [
             ([], "bootstrap_required=true"),
             (["a.zip"], "bootstrap_required=true"),
@@ -212,7 +238,12 @@ jobs:
             bundle_path = Path(tmp) / "bundle.zip"
             bundle_path.write_bytes(b"PK\x05\x06")
             local_assets = [
-                {"storage_key": str(bundle_path), "asset_name": "nurse-id.zip", "legacy_asset_names": ["nurse.zip"]}
+                {
+                    "storage_key": str(bundle_path),
+                    "asset_name": "nurse-id.zip",
+                    "legacy_asset_names": ["nurse.zip"],
+                    "release_tag": "default-bundles-001",
+                }
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
@@ -221,8 +252,31 @@ jobs:
         self.assertEqual(
             [call.args[0] for call in run_mock.call_args_list],
             [
-                ["gh", "release", "upload", module.RELEASE_TAG, f"{bundle_path}#nurse-id.zip", "--clobber"],
-                ["gh", "release", "upload", module.RELEASE_TAG, f"{bundle_path}#nurse.zip", "--clobber"],
+                ["gh", "release", "upload", "default-bundles-001", f"{bundle_path}#nurse-id.zip", "--clobber"],
+                ["gh", "release", "upload", "default-bundles-001", f"{bundle_path}#nurse.zip", "--clobber"],
+            ],
+        )
+
+    def test_release_script_upload_groups_assets_by_release_tag(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            first_path = Path(tmp) / "first.zip"
+            second_path = Path(tmp) / "second.zip"
+            first_path.write_bytes(b"PK\x05\x06")
+            second_path.write_bytes(b"PK\x05\x06")
+            local_assets = [
+                {"storage_key": str(first_path), "asset_name": "first.zip", "release_tag": "default-bundles-001"},
+                {"storage_key": str(second_path), "asset_name": "second.zip", "release_tag": "default-bundles-002"},
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
+        self.assertEqual(
+            [call.args[0] for call in run_mock.call_args_list],
+            [
+                ["gh", "release", "upload", "default-bundles-001", f"{first_path}#first.zip", "--clobber"],
+                ["gh", "release", "upload", "default-bundles-002", f"{second_path}#second.zip", "--clobber"],
             ],
         )
 
@@ -230,15 +284,15 @@ jobs:
         module = _load_release_script()
         with tempfile.TemporaryDirectory() as tmp:
             absent = str(Path(tmp) / "absent.zip")
-            local_assets = [{"storage_key": absent, "asset_name": "absent.zip"}]
+            local_assets = [{"storage_key": absent, "asset_name": "absent.zip", "release_tag": "default-bundles-001"}]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 1)
         run_mock.assert_not_called()
 
     def test_workflows_no_longer_install_or_use_ghostscript(self) -> None:
-        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
-        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml", "sync-ceec-gsat.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
             self.assertNotIn("ghostscript", workflow.lower())
             self.assertNotIn("--optimize-pdfs", workflow)
@@ -246,7 +300,7 @@ jobs:
             self.assertNotIn("--rewrite-existing-pdfs", workflow)
 
     def test_workflows_use_plain_manifest_based_mirror_cache(self) -> None:
-        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
             self.assertIn("moex-mirror-${{ hashFiles('data/source-manifest.json') }}", workflow)
@@ -254,26 +308,44 @@ jobs:
             self.assertNotIn("PDF_QUALITY_PROFILE", workflow)
 
     def test_workflows_describe_downloadable_bundle_release(self) -> None:
-        workflows_dir = Path(__file__).resolve().parents[1] / ".github" / "workflows"
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("python -m app publish-site --site-id default", workflow)
             self.assertIn("release_assets.py ensure", workflow)
 
         module = _load_release_script()
-        with mock.patch.object(module.subprocess, "run") as run_mock:
+        local_assets = [{"asset_name": "nurse.zip", "release_tag": "default-bundles-001"}]
+        with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
             run_mock.side_effect = [mock.Mock(returncode=1), mock.Mock(returncode=0)]
             self.assertEqual(module.ensure(), 0)
         create_command = run_mock.call_args_list[1].args[0]
-        self.assertIn("MOEX downloadable bundles", create_command)
-        self.assertIn("Human-friendly exam bundles with compatibility aliases", create_command)
+        self.assertIn("default-bundles-001", create_command)
+        self.assertTrue(any("Downloadable exam bundles" in part for part in create_command))
+        self.assertTrue(any("Human-friendly exam bundles with compatibility aliases" in part for part in create_command))
+
+    def test_sync_ceec_gsat_workflow_is_provider_only_until_default_site_publication_is_safe(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-ceec-gsat.yml").read_text(encoding="utf-8")
+
+        self.assertIn('- cron: "20 3 * * 6"', workflow)
+        self.assertIn("python -m app sync-full --provider ceec_gsat --site-id default", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py ensure", workflow)
+        self.assertNotIn("release_assets.py upload", workflow)
+        self.assertNotIn("release_assets.py prune", workflow)
 
     def test_readme_documents_human_friendly_bundle_assets(self) -> None:
-        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 
         self.assertIn("Bundle filenames use Chinese display names plus canonical IDs.", readme)
         self.assertIn("Release assets can include legacy compatibility alias names during migration.", readme)
-        self.assertIn("Bundle asset: `護理師__nurse.zip`", readme)
-        self.assertIn("Archive entry: `115/115030_護理師/101_0101_基礎醫學_試題.pdf`", readme)
+        self.assertIn("Bundle asset: `\u8b77\u7406\u5e2b__nurse.zip`", readme)
+        self.assertIn(
+            "Archive entry: `115/115030_\u8b77\u7406\u5e2b/101_0101_\u57fa\u790e\u91ab\u5b78_\u8a66\u984c.pdf`",
+            readme,
+        )
         self.assertNotIn("optimize-mirror-pdfs", readme)
 
 

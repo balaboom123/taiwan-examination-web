@@ -1,7 +1,11 @@
 import assert from "node:assert/strict"
+import { mkdtemp, writeFile } from "node:fs/promises"
+import os from "node:os"
+import path from "node:path"
 import test from "node:test"
 
 import {
+  readFrontendBundlesSource,
   resolveAdsenseEnabled,
   resolveLootlabsEnabled,
   resolvePagesBase,
@@ -67,6 +71,68 @@ test("toFrontendBundles converts generated bundle records into the frontend sche
       },
     ],
   )
+})
+
+test("toFrontendBundles accepts wrapped site bundles schema", () => {
+  assert.deepEqual(
+    toFrontendBundles({
+      schema_version: 1,
+      site_id: "default",
+      bundles: [
+        {
+          canonical_id: "nurse",
+          canonical_name: "Nurse",
+          years: [115, 113],
+          file_count: 607,
+          download_url: "https://example.com/nurse.zip",
+          checksum: "sha-1",
+        },
+      ],
+    }),
+    [
+      {
+        id: "nurse",
+        name: "Nurse",
+        years: [115, 113],
+        fileCount: 607,
+        url: "https://example.com/nurse.zip",
+      },
+    ],
+  )
+})
+
+test("readFrontendBundlesSource falls back to a legacy bundles file when the site-scoped file is missing", async () => {
+  const tempDir = await mkdtemp(path.join(os.tmpdir(), "bundles-data-"))
+  const missingSitePath = path.join(tempDir, "sites", "default", "bundles.json")
+  const legacyPath = path.join(tempDir, "bundles.json")
+
+  await writeFile(
+    legacyPath,
+    JSON.stringify([
+      {
+        canonical_id: "nurse",
+        canonical_name: "Nurse",
+        years: [115],
+        file_count: 1,
+        download_url: "https://example.com/nurse.zip",
+        checksum: "sha-1",
+      },
+    ]),
+    "utf8",
+  )
+
+  await assert.doesNotReject(async () => {
+    const payload = await readFrontendBundlesSource([missingSitePath, legacyPath])
+    assert.deepEqual(JSON.parse(payload), [
+      {
+        id: "nurse",
+        name: "Nurse",
+        years: [115],
+        fileCount: 1,
+        url: "https://example.com/nurse.zip",
+      },
+    ])
+  })
 })
 
 test("toFrontendBundles replaces raw bundle urls with LootLabs urls", () => {

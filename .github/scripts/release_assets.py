@@ -1,7 +1,7 @@
-"""Manage assets on the MOEX bundle GitHub release.
+"""Manage downloadable bundle assets on GitHub releases.
 
-Shared by the sync-full, sync-incremental, and audit-recent workflows so the
-release logic lives in one place. Requires the gh CLI with GH_TOKEN set.
+Shared by the publication workflows so the release logic lives in one place.
+Requires the gh CLI with GH_TOKEN set.
 """
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import json
 import os
 import subprocess
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 RELEASE_TAG = os.environ.get("MOEX_RELEASE_TAG", "moex-bundles")
@@ -16,7 +17,21 @@ RELEASE_ASSETS_PATH = Path("data/release-assets.json")
 
 
 def _local_assets() -> list[dict]:
-    return json.loads(RELEASE_ASSETS_PATH.read_text(encoding="utf-8"))
+    payload = json.loads(RELEASE_ASSETS_PATH.read_text(encoding="utf-8"))
+    if isinstance(payload, dict):
+        return payload.get("assets", payload)
+    return payload
+
+
+def _asset_release_tag(asset: dict) -> str:
+    return str(asset.get("release_tag") or RELEASE_TAG)
+
+
+def _group_assets_by_release_tag(assets: list[dict] | None = None) -> dict[str, list[dict]]:
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for asset in assets or _local_assets():
+        grouped[_asset_release_tag(asset)].append(asset)
+    return dict(grouped)
 
 
 def _asset_zip_names(asset: dict) -> list[str]:
@@ -25,50 +40,67 @@ def _asset_zip_names(asset: dict) -> list[str]:
     return [name for name in dict.fromkeys(names) if name and name.endswith(".zip")]
 
 
-def _desired_zip_names() -> set[str]:
-    return {name for asset in _local_assets() for name in _asset_zip_names(asset)}
+def _desired_zip_names(release_tag: str | None = None) -> set[str]:
+    if release_tag is None:
+        return {name for asset in _local_assets() for name in _asset_zip_names(asset)}
+    return {
+        name
+        for asset in _group_assets_by_release_tag().get(release_tag, [])
+        for name in _asset_zip_names(asset)
+    }
 
 
-def _release_zip_names() -> list[str]:
-    payload = json.loads(
-        subprocess.check_output(["gh", "release", "view", RELEASE_TAG, "--json", "assets"], text=True)
-    )
+def _release_zip_names(release_tag: str, *, allow_missing: bool = False) -> list[str]:
+    try:
+        raw_payload = subprocess.check_output(["gh", "release", "view", release_tag, "--json", "assets"], text=True)
+    except subprocess.CalledProcessError:
+        if allow_missing:
+            return []
+        raise
+    payload = json.loads(raw_payload)
     return sorted(asset["name"] for asset in payload.get("assets", []) if asset["name"].endswith(".zip"))
 
 
 def ensure() -> int:
-    view = subprocess.run(
-        ["gh", "release", "view", RELEASE_TAG],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-    if view.returncode != 0:
-        subprocess.run(
-            [
-                "gh", "release", "create", RELEASE_TAG,
-                "--title", "MOEX downloadable bundles",
-                "--notes", "Human-friendly exam bundles with compatibility aliases",
-            ],
-            check=True,
+    for release_tag in sorted(_group_assets_by_release_tag()):
+        view = subprocess.run(
+            ["gh", "release", "view", release_tag],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
         )
+        if view.returncode != 0:
+            subprocess.run(
+                [
+                    "gh", "release", "create", release_tag,
+                    "--title", f"Downloadable exam bundles ({release_tag})",
+                    "--notes", "Human-friendly exam bundles with compatibility aliases",
+                ],
+                check=True,
+            )
     return 0
 
 
 def coverage() -> int:
-    expected_zip_names = sorted(_desired_zip_names())
-    current_release_zip_names = _release_zip_names()
-    bootstrap_required = current_release_zip_names != expected_zip_names
-    print(
-        f"expected zips: {len(expected_zip_names)}, release zips: {len(current_release_zip_names)}, "
-        f"bootstrap_required: {bootstrap_required}"
-    )
-    if bootstrap_required:
-        expected = set(expected_zip_names)
-        current = set(current_release_zip_names)
-        for name in sorted(expected - current):
-            print(f"missing from release: {name}")
-        for name in sorted(current - expected):
-            print(f"unexpected in release: {name}")
+    bootstrap_required = False
+    total_expected = 0
+    total_release = 0
+    for release_tag in sorted(_group_assets_by_release_tag()):
+        expected = _desired_zip_names(release_tag)
+        current = set(_release_zip_names(release_tag, allow_missing=True))
+        total_expected += len(expected)
+        total_release += len(current)
+        release_bootstrap_required = current != expected
+        bootstrap_required = bootstrap_required or release_bootstrap_required
+        print(
+            f"release_tag: {release_tag}, expected zips: {len(expected)}, release zips: {len(current)}, "
+            f"bootstrap_required: {release_bootstrap_required}"
+        )
+        if release_bootstrap_required:
+            for name in sorted(expected - current):
+                print(f"missing from release {release_tag}: {name}")
+            for name in sorted(current - expected):
+                print(f"unexpected in release {release_tag}: {name}")
+    print(f"total expected zips: {total_expected}, total release zips: {total_release}, bootstrap_required: {bootstrap_required}")
     github_output = os.environ.get("GITHUB_OUTPUT")
     if github_output:
         with open(github_output, "a", encoding="utf-8") as handle:
@@ -78,14 +110,15 @@ def coverage() -> int:
 
 def upload() -> int:
     missing = []
-    for asset in _local_assets():
-        local_path = Path(asset["storage_key"])
-        if not local_path.exists():
-            missing.append(str(local_path))
-            continue
-        for name in _asset_zip_names(asset):
-            spec = f"{local_path}#{name}"
-            subprocess.run(["gh", "release", "upload", RELEASE_TAG, spec, "--clobber"], check=True)
+    for release_tag, assets in sorted(_group_assets_by_release_tag().items()):
+        for asset in assets:
+            local_path = Path(asset["storage_key"])
+            if not local_path.exists():
+                missing.append(str(local_path))
+                continue
+            for name in _asset_zip_names(asset):
+                spec = f"{local_path}#{name}"
+                subprocess.run(["gh", "release", "upload", release_tag, spec, "--clobber"], check=True)
     if missing:
         print("Missing expected bundle files before upload:\n" + "\n".join(missing), file=sys.stderr)
         return 1
@@ -93,10 +126,11 @@ def upload() -> int:
 
 
 def prune() -> int:
-    desired = _desired_zip_names()
-    for name in _release_zip_names():
-        if name not in desired:
-            subprocess.run(["gh", "release", "delete-asset", RELEASE_TAG, name, "--yes"], check=True)
+    for release_tag in sorted(_group_assets_by_release_tag()):
+        desired = _desired_zip_names(release_tag)
+        for name in _release_zip_names(release_tag, allow_missing=True):
+            if name not in desired:
+                subprocess.run(["gh", "release", "delete-asset", release_tag, name, "--yes"], check=True)
     return 0
 
 

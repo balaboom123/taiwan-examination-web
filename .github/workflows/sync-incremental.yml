@@ -8,9 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  MOEX_RELEASE_TAG: moex-bundles
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -30,11 +27,6 @@ jobs:
           key: moex-mirror-${{ hashFiles('data/source-manifest.json') }}
           restore-keys: |
             moex-mirror-
-
-      - name: Ensure release exists
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python .github/scripts/release_assets.py ensure
 
       - name: Inspect release coverage
         id: release_state
@@ -60,20 +52,21 @@ jobs:
 
       - name: Run bootstrap full sync
         if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: >
-          python -m app sync-full
-          --write-manifest
-          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+        run: python -m app sync-full --write-manifest
 
       - name: Run targeted sync
         if: steps.release_state.outputs.bootstrap_required != 'true' && steps.probe.outputs.should_sync == 'true'
+        run: python -m app sync-targeted --probe .tmp/source-probe.json --download-affected-bundles
+
+      - name: Publish default site
+        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        run: python -m app publish-site --site-id default --repository "${{ github.repository }}"
+
+      - name: Ensure release exists
+        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >
-          python -m app sync-targeted --probe .tmp/source-probe.json
-          --download-affected-bundles
-          --release-tag "${{ env.MOEX_RELEASE_TAG }}"
-          --bundle-base-url "https://github.com/${{ github.repository }}/releases/download/${{ env.MOEX_RELEASE_TAG }}"
+        run: python .github/scripts/release_assets.py ensure
 
       - name: Upload downloadable bundles
         if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
@@ -94,7 +87,7 @@ jobs:
           LOOTLABS_TIER_ID: "1"
           LOOTLABS_NUMBER_OF_TASKS: "1"
           LOOTLABS_THEME: "1"
-        run: python -m app sync-lootlabs
+        run: python -m app sync-lootlabs --site-id default
 
       - name: Commit regenerated data and site
         if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'

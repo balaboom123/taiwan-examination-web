@@ -7,8 +7,14 @@ import path from "path"
 import { readFrontendBundlesSource, resolveAdsenseEnabled, resolveLootlabsEnabled, resolvePagesBase } from "./build/bundles-data.mjs"
 
 const repoRoot = path.resolve(__dirname, "..")
-const generatedBundlesPath = path.resolve(repoRoot, "data", "bundles.json")
-const lootlabsManifestPath = path.resolve(repoRoot, "data", "lootlabs-links.json")
+const generatedBundlesPaths = [
+  path.resolve(repoRoot, "data", "sites", "default", "bundles.json"),
+  path.resolve(repoRoot, "data", "bundles.json"),
+]
+const lootlabsManifestPaths = [
+  path.resolve(repoRoot, "data", "sites", "default", "lootlabs-links.json"),
+  path.resolve(repoRoot, "data", "lootlabs-links.json"),
+]
 const adsensePublisherId = "ca-pub-9524747112096155"
 const adsenseAuthorizedSeller = "google.com, pub-9524747112096155, DIRECT, f08c47fec0942fa0"
 
@@ -16,17 +22,23 @@ function servedBundlesPlugin({ lootlabsEnabled }: { lootlabsEnabled: boolean }):
   return {
     name: "served-bundles",
     buildStart() {
-      this.addWatchFile(generatedBundlesPath)
+      for (const generatedBundlesPath of generatedBundlesPaths) {
+        this.addWatchFile(generatedBundlesPath)
+      }
       if (lootlabsEnabled) {
-        this.addWatchFile(lootlabsManifestPath)
+        for (const lootlabsManifestPath of lootlabsManifestPaths) {
+          this.addWatchFile(lootlabsManifestPath)
+        }
       }
     },
     configureServer(server) {
       const servedPath = `${server.config.base}data/bundles.json`.replace(/\/{2,}/g, "/")
-      const watchedPaths = new Set([generatedBundlesPath])
-      const lootlabsOptions = lootlabsEnabled ? { lootlabsManifestPath } : undefined
+      const watchedPaths = new Set(generatedBundlesPaths)
+      const lootlabsOptions = lootlabsEnabled ? { lootlabsManifestPath: lootlabsManifestPaths } : undefined
       if (lootlabsEnabled) {
-        watchedPaths.add(lootlabsManifestPath)
+        for (const lootlabsManifestPath of lootlabsManifestPaths) {
+          watchedPaths.add(lootlabsManifestPath)
+        }
       }
       const reloadServedBundles = (file: string) => {
         if (watchedPaths.has(path.resolve(file))) {
@@ -34,9 +46,13 @@ function servedBundlesPlugin({ lootlabsEnabled }: { lootlabsEnabled: boolean }):
         }
       }
 
-      server.watcher.add(generatedBundlesPath)
+      for (const generatedBundlesPath of generatedBundlesPaths) {
+        server.watcher.add(generatedBundlesPath)
+      }
       if (lootlabsEnabled) {
-        server.watcher.add(lootlabsManifestPath)
+        for (const lootlabsManifestPath of lootlabsManifestPaths) {
+          server.watcher.add(lootlabsManifestPath)
+        }
       }
       server.watcher.on("add", reloadServedBundles)
       server.watcher.on("change", reloadServedBundles)
@@ -50,7 +66,7 @@ function servedBundlesPlugin({ lootlabsEnabled }: { lootlabsEnabled: boolean }):
         }
 
         try {
-          const source = await readFrontendBundlesSource(generatedBundlesPath, lootlabsOptions)
+          const source = await readFrontendBundlesSource(generatedBundlesPaths, lootlabsOptions)
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(source)
         } catch (error) {
@@ -65,8 +81,8 @@ function servedBundlesPlugin({ lootlabsEnabled }: { lootlabsEnabled: boolean }):
         type: "asset",
         fileName: "data/bundles.json",
         source: await readFrontendBundlesSource(
-          generatedBundlesPath,
-          lootlabsEnabled ? { lootlabsManifestPath } : undefined,
+          generatedBundlesPaths,
+          lootlabsEnabled ? { lootlabsManifestPath: lootlabsManifestPaths } : undefined,
         ),
       })
     },

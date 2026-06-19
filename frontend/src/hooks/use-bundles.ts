@@ -19,6 +19,19 @@ function isValidBundle(item: unknown): item is Bundle {
   )
 }
 
+function normalizeBundlesPayload(data: unknown): unknown[] {
+  if (Array.isArray(data)) return data
+  if (typeof data !== "object" || data === null) {
+    throw new Error("Invalid data format")
+  }
+
+  const bundles = (data as { bundles?: unknown }).bundles
+  if (!Array.isArray(bundles)) {
+    throw new Error("Invalid data format")
+  }
+  return bundles
+}
+
 export function useBundles(): UseBundlesResult {
   const [bundles, setBundles] = useState<Bundle[]>([])
   const [loading, setLoading] = useState(true)
@@ -34,9 +47,9 @@ export function useBundles(): UseBundlesResult {
         return res.json() as Promise<unknown>
       })
       .then((data) => {
-        if (!Array.isArray(data)) throw new Error("Invalid data format")
-        const valid = data.filter(isValidBundle)
-        if (valid.length === 0 && data.length > 0) {
+        const bundlesData = normalizeBundlesPayload(data)
+        const valid = bundlesData.filter(isValidBundle)
+        if (valid.length === 0 && bundlesData.length > 0) {
           throw new Error("Data schema mismatch")
         }
         setBundles(valid)

@@ -13,10 +13,10 @@ Use this guide when sync, publication, release, or deploy behavior fails.
 
 When something fails, answer these questions first:
 
-1. Did the failure happen during source fetch, bundle build, release publication, gating, or deploy?
+1. Did the failure happen during provider fetch, site publication, release publication, gating, or deploy?
 2. Did any generated files change before the failure?
-3. Is the problem limited to recent exams or does it affect the whole dataset?
-4. Is the release asset set still complete?
+3. Is the problem limited to one provider or does it affect the whole `default` site?
+4. Is the site release asset set still complete?
 5. Are public download links broken, stale, or merely delayed?
 
 ## Scenario 1: Targeted Sync Aborts
@@ -42,7 +42,7 @@ Recovery:
 Symptoms:
 
 - command exits non-zero
-- `data/sync-failures.json` contains entries
+- `data/providers/<provider_id>/sync-failures.json` contains entries
 
 Meaning:
 
@@ -51,10 +51,10 @@ Meaning:
 
 Recovery:
 
-1. inspect `data/sync-failures.json`
+1. inspect `data/providers/<provider_id>/sync-failures.json`
 2. determine whether failures are transient download issues, source placeholders, or schema drift
-3. rerun incremental sync if limited to recent years
-4. rerun full sync if state trust is broadly reduced
+3. rerun incremental sync for MOEX if limited to recent years
+4. rerun full sync for the affected provider if state trust is broadly reduced
 5. if the source format changed, fix code before rerunning
 
 ## Scenario 3: Release Coverage Mismatch
@@ -66,14 +66,16 @@ Symptoms:
 
 Meaning:
 
-- release assets no longer match generated `data/release-assets.json`
+- release assets no longer match generated `data/sites/default/release-assets.json`
 
 Recovery:
 
-1. ensure bundles were built locally or by workflow
-2. run or rerun release asset publication
-3. if using automation, prefer `sync-full.yml` for a clean rebuild
-4. verify the release after upload and prune complete
+1. ensure `python -m app publish-site --site-id default --repository <owner>/<repo>` completed successfully
+2. verify `data/sites/default/release-assets.json`
+3. run or rerun `python .github/scripts/release_assets.py ensure`
+4. run or rerun `python .github/scripts/release_assets.py upload`
+5. run `python .github/scripts/release_assets.py prune`
+6. verify each site-owned release tag after upload and prune complete
 
 ## Scenario 4: LootLabs Links Are Missing Or Stale
 
@@ -86,18 +88,18 @@ Symptoms:
 Recovery:
 
 1. verify `LOOTLABS_API_KEY`
-2. verify `data/bundles.json` exists and reflects the current bundles
+2. verify `data/sites/default/bundles.json` exists and reflects the current bundles
 3. rerun:
 
 ```bash
-python -m app sync-lootlabs
+python -m app sync-lootlabs --site-id default
 ```
 
 4. if link creation still fails, inspect provider response behavior and check whether the upstream API changed
 
 Important:
 
-- do not edit `data/lootlabs-links.json` by hand as a permanent fix
+- do not edit `data/sites/default/lootlabs-links.json` by hand as a permanent fix
 - refresh from generated bundle metadata instead
 
 ## Scenario 5: Frontend Deploy Fails
@@ -109,14 +111,13 @@ Symptoms:
 
 Recovery:
 
-1. verify generated `data/bundles.json`
-2. verify `data/lootlabs-links.json` if gating is enabled
+1. verify generated `data/sites/default/bundles.json`
+2. verify `data/sites/default/lootlabs-links.json` if gating is enabled
 3. run locally:
 
 ```bash
-cd frontend
-npm test
-npm run build
+node --test frontend/build/bundles-data.test.mjs
+cmd /c "cd /d frontend && npm run build"
 ```
 
 4. rerun deploy workflow after fixing data or build issues
@@ -130,16 +131,16 @@ Symptoms:
 
 Recovery:
 
-1. verify the `--bundle-base-url` used for the last generation
-2. verify `data/bundles.json`
-3. rebuild bundles if normalized data is correct:
+1. verify the assigned `release_tag` in `data/sites/default/bundles.json`
+2. verify the generated entries in `data/sites/default/release-assets.json`
+3. rerun site publication if provider state is correct:
 
 ```bash
-python -m app build-bundles --bundle-base-url "https://github.com/<owner>/<repo>/releases/download/moex-bundles"
+python -m app publish-site --site-id default --repository <owner>/<repo>
 ```
 
-4. republish release assets
-5. rerun `sync-lootlabs` if gating is enabled
+4. republish release assets with `release_assets.py upload`
+5. rerun `python -m app sync-lootlabs --site-id default` if gating is enabled
 
 ## Scenario 7: Alias Or Normalization Drift
 
@@ -150,11 +151,27 @@ Symptoms:
 
 Recovery:
 
-1. inspect `data/review-queue.json`
+1. inspect `data/providers/<provider_id>/review-queue.json`
 2. update `data/aliases.json` if a manual alias rule is appropriate
 3. rerun bundle or sync generation so the new alias rules are applied
 
-## Scenario 8: New Provider Work Started Without Proper Scoping
+## Scenario 8: CEEC GSAT Sync Or Publication Fails
+
+Symptoms:
+
+- `sync-ceec-gsat.yml` fails
+- `python -m app sync-full --provider ceec_gsat --site-id default` exits non-zero
+- CEEC records are missing from `data/sites/default/bundles.json`
+
+Recovery:
+
+1. inspect `data/providers/ceec_gsat/sync-failures.json`
+2. verify `mirror/providers/ceec_gsat/` contains the expected downloads
+3. rerun the CEEC provider sync
+4. rerun `python -m app publish-site --site-id default --repository <owner>/<repo>` only after every required provider state and mirror input for `default` is present
+5. rerun release publication and LootLabs sync if the site bundle metadata changed
+
+## Scenario 9: New Provider Work Started Without Proper Scoping
 
 Symptoms:
 

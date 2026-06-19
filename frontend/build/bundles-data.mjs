@@ -52,6 +52,18 @@ function normalizeLootlabsManifest(manifest) {
   return manifest
 }
 
+export function normalizeBundlesSource(source) {
+  if (Array.isArray(source)) {
+    return source
+  }
+
+  if (source && typeof source === "object" && Array.isArray(source.bundles)) {
+    return source.bundles
+  }
+
+  throw new TypeError("Generated bundles data must be an array or wrapped site bundles object")
+}
+
 export function resolveAdsenseEnabled({ githubRepository, explicitBase, explicitEnabled, isBuild = true } = {}) {
   const enabledOverride = normalizeBooleanFlag(explicitEnabled)
   if (enabledOverride !== undefined) {
@@ -119,19 +131,38 @@ function toFrontendBundle(bundle, index, lootlabsEntries) {
 }
 
 export function toFrontendBundles(bundles, { lootlabsManifest } = {}) {
-  if (!Array.isArray(bundles)) {
-    throw new TypeError("Generated bundles data must be an array")
-  }
-
+  const normalizedBundles = normalizeBundlesSource(bundles)
   const manifest = lootlabsManifest ? normalizeLootlabsManifest(lootlabsManifest) : null
   const lootlabsEntries = manifest?.bundles
-  return bundles.map((bundle, index) => toFrontendBundle(bundle, index, lootlabsEntries))
+  return normalizedBundles.map((bundle, index) => toFrontendBundle(bundle, index, lootlabsEntries))
+}
+
+function normalizePathCandidates(pathOrPaths) {
+  return Array.isArray(pathOrPaths) ? pathOrPaths : [pathOrPaths]
+}
+
+async function readFirstAvailableText(pathOrPaths) {
+  let lastMissingError
+
+  for (const candidatePath of normalizePathCandidates(pathOrPaths)) {
+    try {
+      return await readFile(candidatePath, "utf8")
+    } catch (error) {
+      if (error && typeof error === "object" && error.code === "ENOENT") {
+        lastMissingError = error
+        continue
+      }
+      throw error
+    }
+  }
+
+  throw lastMissingError ?? new Error("No readable input path was provided")
 }
 
 export async function readFrontendBundlesSource(sourcePath, { lootlabsManifestPath } = {}) {
   const [sourceText, manifestText] = await Promise.all([
-    readFile(sourcePath, "utf8"),
-    lootlabsManifestPath ? readFile(lootlabsManifestPath, "utf8") : Promise.resolve(undefined),
+    readFirstAvailableText(sourcePath),
+    lootlabsManifestPath ? readFirstAvailableText(lootlabsManifestPath) : Promise.resolve(undefined),
   ])
 
   return JSON.stringify(

@@ -5,8 +5,8 @@ on:
     branches: [main]
     paths:
       - frontend/**
-      - data/bundles.json
-      - data/lootlabs-links.json
+      - data/sites/default/bundles.json
+      - data/sites/default/lootlabs-links.json
       - .github/workflows/deploy-pages.yml
   workflow_dispatch:
 
@@ -38,7 +38,7 @@ jobs:
           LOOTLABS_TIER_ID: "1"
           LOOTLABS_NUMBER_OF_TASKS: "1"
           LOOTLABS_THEME: "1"
-        run: python -m app sync-lootlabs
+        run: python -m app sync-lootlabs --site-id default
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
