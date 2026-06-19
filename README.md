@@ -17,11 +17,8 @@ Site-owned publication state:
 - `data/sites/default/lootlabs-links.json`: gated public download links for the site
 - `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
 
-Compatibility outputs kept during migration:
+Public site output:
 
-- `data/bundles.json`
-- `data/release-assets.json`
-- `data/lootlabs-links.json`
 - `site/index.html`
 
 Manual input:
@@ -32,7 +29,7 @@ Manual input:
 
 ```bash
 python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest
-python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --download-affected-bundles
+python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json
 python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
 python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 python -m app sync-full --provider ceec_gsat --site-id default
@@ -46,7 +43,7 @@ python -m app sync-lootlabs --site-id default
 - Site publication owns bundle ZIPs, release asset manifests, LootLabs link manifests, and the public site output.
 - `probe-latest` checks the newest MOEX years first and updates the provider manifest only when `--write-manifest` is passed.
 - `sync-targeted` refreshes only exams reported by the MOEX probe result.
-- `sync-incremental` is the compatibility wrapper used by the audit workflow.
+- `sync-incremental` is the recent-year maintenance path used by the audit workflow.
 - `sync-full` is the recovery and bootstrap path for a selected provider.
 - `publish-site` aggregates all providers assigned to the `default` site and assigns deterministic site-owned release tags.
 - Mirror validation rejects HTML placeholder downloads and repairs stale `.ashx` siblings when a valid `.pdf` or `.zip` is fetched again.

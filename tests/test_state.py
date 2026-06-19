@@ -72,7 +72,6 @@ class ScopedStateTests(unittest.TestCase):
                 ],
                 frontend_bundles=[{"id": "nurse", "name": "Nurse", "years": [115], "fileCount": 1, "url": "https://example.test/nurse.zip"}],
                 lootlabs_manifest=None,
-                write_legacy=False,
             )
 
             bundles = load_site_bundles(site)

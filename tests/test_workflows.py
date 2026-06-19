@@ -66,8 +66,8 @@ class WorkflowTests(unittest.TestCase):
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
-        self.assertIn("python -m app probe-latest --years 2", workflow)
-        self.assertIn("python -m app sync-targeted", workflow)
+        self.assertIn("python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json", workflow)
+        self.assertIn("python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json", workflow)
         self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertLess(workflow.index("python -m app probe-latest"), workflow.index("python -m app sync-targeted"))
         self.assertLess(workflow.index("python -m app sync-targeted"), workflow.index("python -m app publish-site"))
@@ -79,14 +79,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("steps.probe.outputs.should_sync == 'true'", workflow)
         self.assertIn(".tmp/source-probe.json", workflow)
         self.assertIn("steps.probe.outputs.should_sync != 'true'", workflow)
-        self.assertIn("git add data/source-manifest.json", workflow)
+        self.assertIn("git add data/providers/moex/source-manifest.json", workflow)
 
     def test_incremental_workflow_does_not_download_release_bundles_before_probe(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertNotIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles', workflow)
-        self.assertIn("--download-affected-bundles", workflow)
+        self.assertNotIn("--download-affected-bundles", workflow)
 
     def test_monthly_audit_workflow_exists(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "audit-recent.yml"
@@ -95,8 +95,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn('- cron: "45 3 1 * *"', workflow)
         self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
-        self.assertIn("python -m app sync-full", workflow)
-        self.assertIn("python -m app sync-incremental --years 2", workflow)
+        self.assertIn("python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
+        self.assertIn("python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
         self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertIn("--write-manifest", workflow)
         self.assertIn("release_assets.py prune", workflow)
@@ -214,6 +214,11 @@ jobs:
             with mock.patch.object(module, "RELEASE_ASSETS_PATH", release_assets_path):
                 self.assertEqual(module._local_assets(), [{"asset_name": "nurse.zip", "release_tag": "default-bundles-001"}])
 
+    def test_release_script_defaults_to_scoped_site_release_assets_path(self) -> None:
+        module = _load_release_script()
+
+        self.assertEqual(module.RELEASE_ASSETS_PATH, Path("data") / "sites" / "default" / "release-assets.json")
+
     def test_release_script_coverage_compares_expected_and_current_zip_names(self) -> None:
         module = _load_release_script()
         local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"], "release_tag": "default-bundles-001"}]
@@ -303,7 +308,7 @@ jobs:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
-            self.assertIn("moex-mirror-${{ hashFiles('data/source-manifest.json') }}", workflow)
+            self.assertIn("moex-mirror-${{ hashFiles('data/providers/moex/source-manifest.json') }}", workflow)
             self.assertNotIn("PDF_CACHE_VERSION", workflow)
             self.assertNotIn("PDF_QUALITY_PROFILE", workflow)
 

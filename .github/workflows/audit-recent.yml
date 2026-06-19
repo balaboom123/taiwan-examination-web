@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: mirror
-          key: moex-mirror-${{ hashFiles('data/source-manifest.json') }}
+          key: moex-mirror-${{ hashFiles('data/providers/moex/source-manifest.json') }}
           restore-keys: |
             moex-mirror-
 
@@ -36,11 +36,11 @@ jobs:
 
       - name: Run bootstrap full sync
         if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: python -m app sync-full --write-manifest
+        run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 
       - name: Run recent audit
         if: steps.release_state.outputs.bootstrap_required != 'true'
-        run: python -m app sync-incremental --years 2 --write-manifest
+        run: python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
 
       - name: Publish default site
         run: python -m app publish-site --site-id default --repository "${{ github.repository }}"

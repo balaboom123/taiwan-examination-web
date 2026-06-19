@@ -142,21 +142,15 @@ function normalizePathCandidates(pathOrPaths) {
 }
 
 async function readFirstAvailableText(pathOrPaths) {
-  let lastMissingError
-
-  for (const candidatePath of normalizePathCandidates(pathOrPaths)) {
-    try {
-      return await readFile(candidatePath, "utf8")
-    } catch (error) {
-      if (error && typeof error === "object" && error.code === "ENOENT") {
-        lastMissingError = error
-        continue
-      }
+  const [candidatePath] = normalizePathCandidates(pathOrPaths)
+  try {
+    return await readFile(candidatePath, "utf8")
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
       throw error
     }
+    throw error
   }
-
-  throw lastMissingError ?? new Error("No readable input path was provided")
 }
 
 export async function readFrontendBundlesSource(sourcePath, { lootlabsManifestPath } = {}) {

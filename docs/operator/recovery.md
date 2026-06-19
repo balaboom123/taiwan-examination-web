@@ -171,7 +171,32 @@ Recovery:
 4. rerun `python -m app publish-site --site-id default --repository <owner>/<repo>` only after every required provider state and mirror input for `default` is present
 5. rerun release publication and LootLabs sync if the site bundle metadata changed
 
-## Scenario 9: New Provider Work Started Without Proper Scoping
+## Scenario 9: Legacy State Migration Verify Fails
+
+Symptoms:
+
+- `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` exits non-zero
+- output reports `Conflict` lines or `Pending promotion` lines
+
+Meaning:
+
+- the final scoped-path cutover is incomplete, or a scoped target already differs from the root legacy source
+
+Recovery:
+
+1. run `python -m app migrate-legacy-state --provider moex --site-id default --mode dry-run`
+2. if verify reported only pending promotion, rerun:
+
+```bash
+python -m app migrate-legacy-state --provider moex --site-id default --mode move
+python -m app migrate-legacy-state --provider moex --site-id default --mode verify
+```
+
+3. if verify reported conflicts, inspect both paths before deleting anything
+4. do not redownload MOEX mirror or bundle artifacts unless the local data is actually missing or corrupted
+5. do not delete the old root files until verify passes
+
+## Scenario 10: New Provider Work Started Without Proper Scoping
 
 Symptoms:
 

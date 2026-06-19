@@ -101,7 +101,7 @@ test("toFrontendBundles accepts wrapped site bundles schema", () => {
   )
 })
 
-test("readFrontendBundlesSource falls back to a legacy bundles file when the site-scoped file is missing", async () => {
+test("readFrontendBundlesSource rejects when the site-scoped bundles file is missing", async () => {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "bundles-data-"))
   const missingSitePath = path.join(tempDir, "sites", "default", "bundles.json")
   const legacyPath = path.join(tempDir, "bundles.json")
@@ -121,18 +121,10 @@ test("readFrontendBundlesSource falls back to a legacy bundles file when the sit
     "utf8",
   )
 
-  await assert.doesNotReject(async () => {
-    const payload = await readFrontendBundlesSource([missingSitePath, legacyPath])
-    assert.deepEqual(JSON.parse(payload), [
-      {
-        id: "nurse",
-        name: "Nurse",
-        years: [115],
-        fileCount: 1,
-        url: "https://example.com/nurse.zip",
-      },
-    ])
-  })
+  await assert.rejects(
+    () => readFrontendBundlesSource([missingSitePath, legacyPath]),
+    /ENOENT/,
+  )
 })
 
 test("toFrontendBundles replaces raw bundle urls with LootLabs urls", () => {

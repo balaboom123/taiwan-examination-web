@@ -1,10 +1,12 @@
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 tag = "moex-bundles"
-assets = json.loads(Path("data/release-assets.json").read_text(encoding="utf-8"))
+site_id = os.environ.get("SITE_ID", "default")
+assets = json.loads((Path("data") / "sites" / site_id / "release-assets.json").read_text(encoding="utf-8"))
 total = len(assets)
 missing = []
 failed = []

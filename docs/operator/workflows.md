@@ -99,14 +99,14 @@ For sync and publication workflows:
 For deploy workflows:
 
 1. Check that the frontend build completed.
-2. Check that `data/bundles.json` was emitted into the build artifact.
+2. Check that the emitted frontend `data/bundles.json` came from `data/sites/default/bundles.json`.
 3. Check the deployed site if bundle links or gating behavior changed.
 
 ## Current Workflow Ownership Model
 
-Today the ownership model is still global and MOEX-centric.
+The current ownership model is provider-scoped for sync and site-scoped for publication/deploy.
 
-As the repo expands, the workflow model MUST become:
+As the repo expands, keep this boundary:
 
 - provider-scoped sync or audit workflows
 - site-scoped publication workflows

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from app.manifest import SourceManifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, ReviewItem, SourceExamPage
-from app.paths import legacy_paths, provider_paths, site_paths
+from app.paths import provider_paths, site_paths
 from app.publisher import build_site, publish_site, write_data_files, write_provider_state, write_site_state
 
 
@@ -102,7 +102,7 @@ class PublisherTests(unittest.TestCase):
             self.assertTrue((root / "site" / "data" / "papers" / "2026.json").exists())
             self.assertIn("${FILE_TYPE_LABELS[paper.file_type] || paper.file_type}", html)
 
-    def test_write_provider_and_site_state_keep_legacy_compatibility_outputs(self) -> None:
+    def test_write_provider_and_site_state_keep_outputs_scoped_only(self) -> None:
         raw_pages = [
             SourceExamPage(
                 provider_id="moex",
@@ -152,7 +152,6 @@ class PublisherTests(unittest.TestCase):
             root = Path(tmp_dir)
             provider = provider_paths(root, "moex")
             site = site_paths(root, "default")
-            legacy = legacy_paths(root)
             lootlabs_manifest = {
                 "schema_version": 1,
                 "provider": "lootlabs",
@@ -173,23 +172,19 @@ class PublisherTests(unittest.TestCase):
                 bundles=bundles,
                 frontend_bundles=[{"id": "nurse", "name": "Nurse", "years": [115], "fileCount": 1, "url": bundles[0].download_url}],
                 lootlabs_manifest=lootlabs_manifest,
-                legacy_paths=legacy,
-                write_legacy=True,
             )
 
             self.assertTrue(provider.exams_dir.exists())
             self.assertTrue(site.bundles_path.exists())
-            self.assertTrue(legacy.bundles_path.exists())
             self.assertTrue(provider.aliases_path.exists())
             self.assertTrue(site.release_assets_path.exists())
             self.assertEqual(
                 json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8")),
                 lootlabs_manifest,
             )
-            self.assertEqual(
-                json.loads(legacy.lootlabs_manifest_path.read_text(encoding="utf-8")),
-                lootlabs_manifest,
-            )
+            self.assertFalse((root / "data" / "bundles.json").exists())
+            self.assertFalse((root / "data" / "release-assets.json").exists())
+            self.assertFalse((root / "data" / "lootlabs-links.json").exists())
 
     def test_publish_site_aggregates_provider_catalogs_into_default_site(self) -> None:
         moex_paper = NormalizedPaper(
@@ -261,7 +256,7 @@ class PublisherTests(unittest.TestCase):
                 },
             )
             self.assertTrue(site_paths(root, "default").bundles_path.exists())
-            self.assertTrue(legacy_paths(root).bundles_path.exists())
+            self.assertFalse((root / "data" / "bundles.json").exists())
             self.assertTrue((root / "site" / "index.html").exists())
             self.assertTrue((site_paths(root, "default").bundle_dir / "nurse.zip").exists())
             self.assertTrue((site_paths(root, "default").bundle_dir / "ceec-gsat.zip").exists())
@@ -317,7 +312,7 @@ class PublisherTests(unittest.TestCase):
 
             self.assertFalse(site_paths(root, "default").bundles_path.exists())
             self.assertFalse(site_paths(root, "default").release_assets_path.exists())
-            self.assertFalse(legacy_paths(root).bundles_path.exists())
+            self.assertFalse((root / "data" / "bundles.json").exists())
             self.assertFalse((root / "site" / "index.html").exists())
 
 

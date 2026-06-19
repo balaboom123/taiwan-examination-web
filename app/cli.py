@@ -8,16 +8,17 @@ from pathlib import Path
 
 from app.bundler import build_bundles
 from app.crawler import year_ad_from_code
-from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest, write_lootlabs_manifest
+from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
+from app.migration import migrate_legacy_state
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
 from app.normalizer import load_alias_rules, renormalize_catalog
-from app.paths import ProviderPaths, legacy_paths, site_paths
+from app.paths import ProviderPaths, site_paths
 from app.publisher import build_site, publish_site, write_data_files, write_provider_state
 from app.probe import probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
-from app.state import filter_catalog_by_canonical_ids, load_existing_state, load_provider_state, load_site_bundles, merge_incremental_state, merge_targeted_state
+from app.state import load_existing_state, load_provider_state, load_site_bundles, merge_incremental_state, merge_targeted_state
 from app.sync import sync_exam_pages
 from app.storage import MirrorStore
 
@@ -92,8 +93,16 @@ def _provider_manifest_from_probe(probe: dict[str, object]):
     return None
 
 
-def _writes_legacy_publication(provider_id: str, site_id: str) -> bool:
-    return provider_id == "moex" and site_id == "default"
+def _resolve_probe_manifest_path(args: argparse.Namespace, provider_id: str) -> Path:
+    if args.manifest is not None:
+        return args.manifest
+    return args.output.parent.parent / "data" / "providers" / provider_id / "source-manifest.json"
+
+
+def _resolve_sync_manifest_path(args: argparse.Namespace, provider_id: str) -> Path:
+    if args.manifest is not None:
+        return args.manifest
+    return _provider_state_paths(args.data_dir, args.mirror_dir, provider_id).source_manifest_path
 
 
 def _supports_probe_manifest(provider_id: str, client: SourceProvider) -> bool:
@@ -180,15 +189,11 @@ def command_build_site(args: argparse.Namespace) -> int:
     return 0
 
 
-def _load_lootlabs_bundles(repo_root: Path, site) -> list[BundleAsset]:
+def _load_lootlabs_bundles(site) -> list[BundleAsset]:
     bundles_path = site.bundles_path
     try:
         if bundles_path.exists():
             return load_site_bundles(site)
-        if site.site_id == "default":
-            legacy = legacy_paths(repo_root)
-            if legacy.bundles_path.exists():
-                return load_existing_state(legacy.data_dir)[2]
         raise LootLabsError(f"{bundles_path} is required")
     except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
         raise LootLabsError(f"Failed to read {bundles_path}: {exc}") from exc
@@ -199,16 +204,14 @@ def _load_lootlabs_bundles(repo_root: Path, site) -> list[BundleAsset]:
 def command_sync_lootlabs(args: argparse.Namespace) -> int:
     try:
         site = site_paths(args.repo_root, args.site_id)
-        bundles = _load_lootlabs_bundles(args.repo_root, site)
+        bundles = _load_lootlabs_bundles(site)
         api_key, settings = load_lootlabs_settings_from_env()
-        manifest = sync_lootlabs_manifest(
+        sync_lootlabs_manifest(
             bundles=bundles,
             manifest_path=site.lootlabs_manifest_path,
             api_key=api_key,
             settings=settings,
         )
-        if args.site_id == "default":
-            write_lootlabs_manifest(legacy_paths(args.repo_root).lootlabs_manifest_path, manifest)
     except LootLabsError as exc:
         print(str(exc), flush=True)
         return 1
@@ -222,12 +225,13 @@ def run_probe_latest(args: argparse.Namespace, client: SourceProvider | None = N
     if not _supports_probe_manifest(provider_id, probe_client):
         print(f"probe-latest is not supported for provider {provider_id}: missing probe URL model", flush=True)
         return 1
-    manifest = load_source_manifest(args.manifest, provider_id=_provider_id_for_args(args, probe_client))
+    manifest_path = _resolve_probe_manifest_path(args, provider_id)
+    manifest = load_source_manifest(manifest_path, provider_id=provider_id)
     result = probe_latest(client=probe_client, manifest=manifest, year_window=args.years, now=generated_at)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result.to_output_data(), ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if args.write_manifest:
-        write_source_manifest(args.manifest, result.updated_manifest)
+        write_source_manifest(manifest_path, result.updated_manifest)
     return 0
 
 
@@ -318,7 +322,6 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         _print_failures(sync_failures)
         return 1
     provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
-    writes_legacy_publication = _writes_legacy_publication(provider_id, args.site_id)
     existing_provider_raw_pages, existing_provider_catalog, existing_provider_failures = load_provider_state(provider_state)
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
     provider_raw_pages, provider_normalized, _, _, _ = merge_targeted_state(
@@ -332,34 +335,6 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
     provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in replaced_exam_ids]
     provider_failures.extend(sync_failures)
-    if writes_legacy_publication:
-        existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
-        raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_targeted_state(
-            existing_raw_pages=existing_raw_pages,
-            existing_catalog=existing_catalog,
-            existing_bundles=existing_bundles,
-            refreshed_raw_pages=refreshed_raw_pages,
-            refreshed_catalog=refreshed_catalog,
-            removed_exam_ids=removed_exam_ids,
-        )
-        if args.download_affected_bundles:
-            _download_affected_bundles(args.bundle_dir, existing_bundles, affected_canonical_ids, args.release_tag)
-        rebuild_result = build_bundles(
-            bundle_dir=args.bundle_dir,
-            mirror_dir=args.mirror_dir,
-            normalized=filter_catalog_by_canonical_ids(normalized, affected_canonical_ids),
-            bundle_base_url=args.bundle_base_url or args.mirror_base_url,
-            canonical_aliases=canonical_aliases,
-        )
-        if rebuild_result.failures:
-            _print_failures(rebuild_result.failures)
-            return 1
-        bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
-        failures = [failure for failure in existing_failures if failure.source_exam_id not in replaced_exam_ids]
-        failures.extend(sync_failures)
-        failures.extend(rebuild_result.failures)
-        write_data_files(args.data_dir, raw_pages, normalized, aliases, bundles, failures)
-        build_site(args.site_dir, normalized, bundles)
     write_provider_state(
         provider_state,
         raw_pages=provider_raw_pages,
@@ -368,7 +343,7 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         failures=provider_failures,
         manifest=_provider_manifest_from_probe(probe),
     )
-    _write_probe_manifest_if_present(probe, args.manifest)
+    _write_probe_manifest_if_present(probe, _resolve_sync_manifest_path(args, provider_id))
     return 0
 
 
@@ -376,7 +351,6 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
     provider = _provider_for_args(args, client)
     provider_id = _provider_id_for_args(args, provider)
     provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
-    writes_legacy_publication = _writes_legacy_publication(provider_id, args.site_id)
     if getattr(args, "write_manifest", False) and not _supports_probe_manifest(provider_id, provider):
         print(f"--write-manifest is not supported for provider {provider_id}: missing probe URL model", flush=True)
         return 1
@@ -436,58 +410,19 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
         provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in refreshed_exam_ids]
         provider_failures.extend(sync_failures)
-        if writes_legacy_publication:
-            existing_raw_pages, existing_catalog, existing_bundles, existing_failures = load_existing_state(args.data_dir)
-            raw_pages, normalized, preserved_bundles, affected_canonical_ids, canonical_aliases = merge_incremental_state(
-                existing_raw_pages=existing_raw_pages,
-                existing_catalog=existing_catalog,
-                existing_bundles=existing_bundles,
-                refreshed_raw_pages=safe_raw_pages,
-                refreshed_catalog=safe_catalog,
-            )
-            rebuild_result = build_bundles(
-                bundle_dir=args.bundle_dir,
-                mirror_dir=args.mirror_dir,
-                normalized=filter_catalog_by_canonical_ids(normalized, affected_canonical_ids),
-                bundle_base_url=args.bundle_base_url or args.mirror_base_url,
-                canonical_aliases=canonical_aliases,
-            )
-            if rebuild_result.failures:
-                _print_failures(rebuild_result.failures)
-                return 1
-            bundles = _merge_bundle_lists(preserved_bundles, rebuild_result.bundles)
-            failures = [failure for failure in existing_failures if failure.source_exam_id not in refreshed_exam_ids]
-            failures.extend(sync_failures)
-            failures.extend(rebuild_result.failures)
-        else:
-            failures = provider_failures
+        failures = provider_failures
     else:
         provider_raw_pages = refreshed_raw_pages
         provider_normalized = refreshed_catalog
         provider_failures = sync_failures
-        if writes_legacy_publication:
-            raw_pages = refreshed_raw_pages
-            normalized = refreshed_catalog
-            rebuild_result = build_bundles(
-                bundle_dir=args.bundle_dir,
-                mirror_dir=args.mirror_dir,
-                normalized=normalized,
-                bundle_base_url=args.bundle_base_url or args.mirror_base_url,
-            )
-            bundles = rebuild_result.bundles
-            failures = sync_failures + rebuild_result.failures
-        else:
-            failures = sync_failures
-
-    if writes_legacy_publication:
-        write_data_files(args.data_dir, raw_pages, normalized, aliases, bundles, failures)
-        build_site(args.site_dir, normalized, bundles)
+        failures = sync_failures
     provider_manifest = None
     if getattr(args, "write_manifest", False) and not failures:
-        manifest = load_source_manifest(args.manifest, provider_id=provider_id)
+        manifest_path = _resolve_sync_manifest_path(args, provider_id)
+        manifest = load_source_manifest(manifest_path, provider_id=provider_id)
         result = probe_latest(client=provider, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
         provider_manifest = result.updated_manifest
-        write_source_manifest(args.manifest, provider_manifest)
+        write_source_manifest(manifest_path, provider_manifest)
     write_provider_state(
         provider_state,
         raw_pages=provider_raw_pages,
@@ -511,6 +446,17 @@ def command_publish_site(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_migrate_legacy_state(args: argparse.Namespace) -> int:
+    report = migrate_legacy_state(
+        args.repo_root,
+        provider_id=args.provider,
+        site_id=args.site_id,
+        mode=args.mode,
+    )
+    print(report.output, flush=True)
+    return report.exit_code
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m app")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -524,7 +470,7 @@ def build_parser() -> argparse.ArgumentParser:
     probe_parser = subparsers.add_parser("probe-latest", help="Probe recent source changes without downloading files.")
     probe_parser.add_argument("--provider", default="moex")
     probe_parser.add_argument("--years", type=int, default=2)
-    probe_parser.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
+    probe_parser.add_argument("--manifest", type=Path, default=None)
     probe_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "source-probe.json")
     probe_parser.add_argument("--write-manifest", action="store_true")
     probe_parser.set_defaults(handler=run_probe_latest)
@@ -536,7 +482,7 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
     targeted.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
     targeted.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
-    targeted.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
+    targeted.add_argument("--manifest", type=Path, default=None)
     targeted.add_argument("--bundle-base-url", default="")
     targeted.add_argument("--mirror-base-url", default="")
     targeted.add_argument("--download-attachments", action="store_true", default=False)
@@ -553,7 +499,7 @@ def build_parser() -> argparse.ArgumentParser:
         sync.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
         sync.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
         sync.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
-        sync.add_argument("--manifest", type=Path, default=repo_root / "data" / "source-manifest.json")
+        sync.add_argument("--manifest", type=Path, default=None)
         sync.add_argument("--bundle-base-url", default="")
         sync.add_argument("--mirror-base-url", default="")
         sync.add_argument("--download-attachments", action="store_true", default=False)
@@ -594,6 +540,16 @@ def build_parser() -> argparse.ArgumentParser:
     publish_site_parser.add_argument("--site-id", default="default")
     publish_site_parser.add_argument("--repository", default="example/repo")
     publish_site_parser.set_defaults(handler=command_publish_site)
+
+    migrate_parser = subparsers.add_parser(
+        "migrate-legacy-state",
+        help="Promote legacy root-level provider/site state into scoped paths without network access.",
+    )
+    migrate_parser.add_argument("--repo-root", type=Path, default=repo_root)
+    migrate_parser.add_argument("--provider", default="moex")
+    migrate_parser.add_argument("--site-id", default="default")
+    migrate_parser.add_argument("--mode", choices=("dry-run", "move", "verify"), default="dry-run")
+    migrate_parser.set_defaults(handler=command_migrate_legacy_state)
     return parser
 
 

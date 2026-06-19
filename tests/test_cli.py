@@ -285,6 +285,13 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertTrue(args.write_manifest)
         self.assertEqual(args.manifest, Path("data/source-manifest.json"))
 
+    def test_sync_incremental_defaults_manifest_to_provider_scope_when_not_explicitly_set(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(["sync-incremental", "--write-manifest"])
+
+        self.assertTrue(args.write_manifest)
+        self.assertIsNone(args.manifest)
+
     def test_command_sync_rejects_write_manifest_for_provider_without_probe_support(self) -> None:
         class UnsupportedManifestClient:
             provider_id = "ceec_gsat"
@@ -417,6 +424,80 @@ class CliBuildSiteTests(unittest.TestCase):
             provider_manifest = json.loads(provider.source_manifest_path.read_text(encoding="utf-8"))
             legacy_manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(provider_manifest, legacy_manifest)
+            self.assertFalse((data_dir / "bundles.json").exists())
+            self.assertFalse((data_dir / "release-assets.json").exists())
+            self.assertFalse((root / "site" / "index.html").exists())
+
+    @patch("app.cli.build_site")
+    @patch("app.cli.write_data_files")
+    @patch("app.cli.build_bundles")
+    @patch("app.cli.sync_exam_pages")
+    def test_command_sync_full_for_moex_does_not_write_legacy_publication_outputs(
+        self,
+        sync_exam_pages_mock,
+        build_bundles_mock,
+        write_data_files_mock,
+        build_site_mock,
+    ) -> None:
+        class MoexClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [ExamOption(code="115030", year_ad=year_ad, year_roc=115, label="MOEX 115")]
+
+        page = SourceExamPage(
+            provider_id="moex",
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="MOEX 115",
+            attachments=[],
+            papers=[],
+        )
+        catalog = NormalizedCatalog(papers=[_paper("moex", "nurse")], review_queue=[])
+        sync_exam_pages_mock.return_value = ([page], catalog, [])
+        build_bundles_mock.return_value = type("BuildResult", (), {"bundles": [], "failures": []})()
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "aliases.json").write_text('{"rules": []}', encoding="utf-8")
+            args = build_parser().parse_args(
+                [
+                    "sync-full",
+                    "--provider",
+                    "moex",
+                    "--data-dir",
+                    str(data_dir),
+                    "--site-dir",
+                    str(root / "site"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+
+            exit_code = command_sync(args, client=MoexClient())
+
+            provider_raw_pages, provider_catalog, provider_failures = load_provider_state(provider_paths(root, "moex"))
+            self.assertEqual([page.source_exam_id for page in provider_raw_pages], ["115030"])
+            self.assertEqual([paper.canonical_id for paper in provider_catalog.papers], ["nurse"])
+            self.assertEqual(provider_failures, [])
+            self.assertFalse((data_dir / "bundles.json").exists())
+            self.assertFalse((data_dir / "release-assets.json").exists())
+            self.assertFalse((root / "site" / "index.html").exists())
+
+        self.assertEqual(exit_code, 0)
+        build_bundles_mock.assert_not_called()
+        write_data_files_mock.assert_not_called()
+        build_site_mock.assert_not_called()
 
     @patch("app.cli.build_site")
     @patch("app.cli.write_data_files")
@@ -497,6 +578,14 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(args.output, Path(".tmp/source-probe.json"))
         self.assertFalse(args.write_manifest)
 
+    def test_probe_latest_defaults_manifest_to_provider_scope_when_not_explicitly_set(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(["probe-latest", "--years", "2", "--write-manifest"])
+
+        self.assertEqual(args.years, 2)
+        self.assertIsNone(args.manifest)
+        self.assertTrue(args.write_manifest)
+
     def test_run_probe_latest_writes_probe_output_and_manifest_when_requested(self) -> None:
         class ProbeClient:
             def discover_available_years(self) -> list[int]:
@@ -537,8 +626,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "probe-latest",
                     "--years",
                     "1",
-                    "--manifest",
-                    str(root / "source-manifest.json"),
                     "--output",
                     str(root / ".tmp" / "source-probe.json"),
                     "--write-manifest",
@@ -548,7 +635,7 @@ class CliBuildSiteTests(unittest.TestCase):
             exit_code = run_probe_latest(args, client=ProbeClient(), now="2026-05-20T00:00:00+08:00")
 
             probe = json.loads((root / ".tmp" / "source-probe.json").read_text(encoding="utf-8"))
-            manifest = json.loads((root / "source-manifest.json").read_text(encoding="utf-8"))
+            manifest = json.loads((root / "data" / "providers" / "moex" / "source-manifest.json").read_text(encoding="utf-8"))
 
         self.assertEqual(exit_code, 0)
         self.assertTrue(probe["should_sync"])
@@ -556,6 +643,7 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(probe["exam_years"], {"115040": 2026})
         self.assertEqual(probe["updated_manifest"]["years"]["2026"]["exam_codes"], ["115040"])
         self.assertEqual(manifest["years"]["2026"]["exam_codes"], ["115040"])
+        self.assertFalse((root / "data" / "source-manifest.json").exists())
 
     def test_run_probe_latest_returns_non_zero_for_provider_without_probe_support(self) -> None:
         class UnsupportedProbeClient:
@@ -899,22 +987,21 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(root / "mirror"),
                     "--bundle-dir",
                     str(root / "bundles"),
-                    "--manifest",
-                    str(root / "data" / "source-manifest.json"),
                 ]
             )
 
             exit_code = run_sync_targeted(args, client=SuccessfulTargetedClient())
 
             self.assertEqual(exit_code, 0)
-            manifest = json.loads((data_dir / "source-manifest.json").read_text(encoding="utf-8"))
-            self.assertEqual(manifest, manifest_payload)
             provider_raw_pages, provider_catalog, provider_failures = load_provider_state(provider)
             self.assertEqual({page.source_exam_id for page in provider_raw_pages}, {"115030", "115040"})
             self.assertEqual({paper.source_exam_id for paper in provider_catalog.papers}, {"115030", "115040"})
             self.assertEqual(provider_failures, [])
             provider_manifest = json.loads(provider.source_manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(provider_manifest, manifest_payload)
+            self.assertFalse((data_dir / "source-manifest.json").exists())
+            self.assertFalse((data_dir / "bundles.json").exists())
+            self.assertFalse((root / "site" / "index.html").exists())
 
     def test_run_sync_targeted_requires_explicit_exam_years_for_non_moex_probe(self) -> None:
         class CeecTargetedClient:
@@ -1226,7 +1313,7 @@ class CliBuildSiteTests(unittest.TestCase):
         "app.cli.load_lootlabs_settings_from_env",
         return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
     )
-    def test_sync_lootlabs_reads_site_owned_bundles_and_writes_default_legacy_copy(self, _settings) -> None:
+    def test_sync_lootlabs_reads_site_owned_bundles_and_writes_only_site_manifest(self, _settings) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
             site = site_paths(root, "default")
@@ -1282,18 +1369,17 @@ class CliBuildSiteTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             site_manifest = json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8"))
-            legacy_manifest = json.loads(legacy_paths(root).lootlabs_manifest_path.read_text(encoding="utf-8"))
-            self.assertEqual(site_manifest, legacy_manifest)
+            self.assertEqual(site_manifest["provider"], "lootlabs")
+            self.assertFalse(legacy_paths(root).lootlabs_manifest_path.exists())
 
     @patch(
         "app.cli.load_lootlabs_settings_from_env",
         return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
     )
-    def test_sync_lootlabs_falls_back_to_default_legacy_bundles_when_site_bundles_are_missing(self, _settings) -> None:
+    def test_sync_lootlabs_returns_non_zero_when_site_bundles_are_missing_even_if_legacy_bundles_exist(self, _settings) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
             legacy = legacy_paths(root)
-            site = site_paths(root, "default")
             legacy.data_dir.mkdir(parents=True, exist_ok=True)
             legacy.bundles_path.write_text(
                 json.dumps(
@@ -1313,37 +1399,14 @@ class CliBuildSiteTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            output = io.StringIO()
 
-            def sync_side_effect(*, bundles, manifest_path, api_key, settings, **_kwargs):
-                self.assertEqual(api_key, "token")
-                self.assertEqual(settings, LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1))
-                self.assertEqual(manifest_path, site.lootlabs_manifest_path)
-                self.assertEqual([bundle.canonical_id for bundle in bundles], ["nurse"])
-                manifest = LootLabsManifest(
-                    version=1,
-                    provider="lootlabs",
-                    settings=settings,
-                    bundles={
-                        "nurse": LootLabsManifestEntry(
-                            canonical_id="nurse",
-                            asset_name="nurse.zip",
-                            loot_url="https://loot.example/nurse",
-                            target_download_url=bundles[0].download_url,
-                            target_checksum=bundles[0].checksum,
-                            updated_at="2026-06-18T00:00:00+08:00",
-                        )
-                    },
-                )
-                write_lootlabs_manifest(manifest_path, manifest)
-                return manifest
-
-            with patch("app.cli.sync_lootlabs_manifest", side_effect=sync_side_effect):
+            with redirect_stdout(output):
                 exit_code = main(["sync-lootlabs", "--repo-root", str(root), "--site-id", "default"])
 
-            self.assertEqual(exit_code, 0)
-            site_manifest = json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8"))
-            legacy_manifest = json.loads(legacy.lootlabs_manifest_path.read_text(encoding="utf-8"))
-            self.assertEqual(site_manifest, legacy_manifest)
+            self.assertEqual(exit_code, 1)
+            self.assertIn("bundles.json", output.getvalue())
+            self.assertFalse(legacy.lootlabs_manifest_path.exists())
 
     @patch("app.cli.sync_lootlabs_manifest", side_effect=LootLabsError("provider down"))
     @patch(

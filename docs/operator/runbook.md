@@ -32,11 +32,8 @@ Site-owned generated paths:
 - `data/sites/default/lootlabs-links.json`
 - `bundles/sites/default/`
 
-Compatibility outputs still refreshed for the `default` site:
+Public site output:
 
-- `data/bundles.json`
-- `data/release-assets.json`
-- `data/lootlabs-links.json`
 - `site/`
 
 Manual input:
@@ -51,12 +48,15 @@ Run from the repo root.
 | --- | --- | --- |
 | `python -m app discover --provider moex` | you want to inspect MOEX source inventory | stdout JSON |
 | `python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest` | you want to check if recent MOEX data changed | `.tmp/source-probe.json`, `data/providers/moex/source-manifest.json` |
-| `python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --download-affected-bundles` | the MOEX probe found changes and you want the smallest repair path | refreshed MOEX provider state plus compatibility outputs |
-| `python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json` | you want a broader recent-year MOEX refresh | refreshed MOEX provider state plus compatibility outputs |
-| `python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json` | you need a full MOEX rebuild | full MOEX provider refresh plus compatibility outputs |
+| `python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json` | the MOEX probe found changes and you want the smallest repair path | refreshed MOEX provider state |
+| `python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json` | you want a broader recent-year MOEX refresh | refreshed MOEX provider state |
+| `python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json` | you need a full MOEX rebuild | full MOEX provider refresh |
 | `python -m app sync-full --provider ceec_gsat --site-id default` | you want the CEEC GSAT provider refreshed | refreshed CEEC provider state only |
-| `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need site bundles, release metadata, and site output rebuilt | `data/sites/default/*`, `bundles/sites/default/`, compatibility site outputs |
-| `python -m app sync-lootlabs --site-id default` | site bundle URLs or checksums changed | `data/sites/default/lootlabs-links.json` plus compatibility copy |
+| `python -m app migrate-legacy-state --provider moex --site-id default --mode dry-run` | you are preparing the final root-to-scoped cutover and want a non-mutating inventory first | stdout migration plan only |
+| `python -m app migrate-legacy-state --provider moex --site-id default --mode move` | reader and workflow cutover is ready and you want to promote existing root state in place without re-downloading | `data/providers/moex/*`, `data/sites/default/*`, `mirror/providers/moex/*`, `bundles/sites/default/*` |
+| `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` | you already promoted legacy state and need a pass/fail safety check before deleting the old root files | stdout verification report |
+| `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need site bundles, release metadata, and site output rebuilt | `data/sites/default/*`, `bundles/sites/default/`, `site/` |
+| `python -m app sync-lootlabs --site-id default` | site bundle URLs or checksums changed | `data/sites/default/lootlabs-links.json` |
 | `python .github/scripts/release_assets.py ensure` | site publication wrote new release metadata and tags may need bootstrapping | GitHub Releases only |
 | `python .github/scripts/release_assets.py upload` | local bundle ZIPs need to be uploaded to their assigned release tags | GitHub Releases only |
 | `python .github/scripts/release_assets.py prune` | stale ZIP assets may remain on one or more release tags | GitHub Releases only |
@@ -87,7 +87,7 @@ Use:
 python -m app sync-targeted ^
   --provider moex ^
   --probe .tmp/source-probe.json ^
-  --download-affected-bundles
+  --manifest data/providers/moex/source-manifest.json
 ```
 
 Use this when only a known MOEX subset changed.
@@ -124,7 +124,31 @@ Expected site outputs:
 - `data/sites/default/lootlabs-links.json` after a LootLabs sync
 - `bundles/sites/default/*.zip`
 
-### 5. Sync LootLabs links
+### 5. Promote legacy root state during the final cutover
+
+Use this only for the scoped-path migration window. It is not part of the normal daily sync pipeline.
+
+Run in this order:
+
+```bash
+python -m app migrate-legacy-state --provider moex --site-id default --mode dry-run
+python -m app migrate-legacy-state --provider moex --site-id default --mode move
+python -m app migrate-legacy-state --provider moex --site-id default --mode verify
+```
+
+Interpretation:
+
+- `dry-run` is non-mutating and lists every legacy file that would move or copy
+- `move` promotes existing root state into provider/site scope without redownloading mirror or bundle artifacts
+- `verify` must pass before deleting the old root files
+
+Important:
+
+- `data/aliases.json` is copied into provider scope in this phase because it is still treated as manual input
+- the command rewrites site bundle metadata from `bundles/<asset>` to `bundles/sites/default/<asset>`
+- the reader and workflow cutover is already complete on this branch, so `move` is now the last preparation step before root-file cleanup
+
+### 6. Sync LootLabs links
 
 Use:
 
@@ -142,9 +166,10 @@ After a sync or publication run, check:
 2. `data/providers/<provider_id>/review-queue.json`
 3. `data/sites/default/release-assets.json`
 4. `data/sites/default/lootlabs-links.json` if gating is enabled
-5. GitHub release asset coverage if you published bundles
-6. `site/` output if legacy site consumers matter
-7. frontend build if public deployment behavior changed
+5. `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` during the final cutover window
+6. GitHub release asset coverage if you published bundles
+7. `site/` output if legacy site consumers matter
+8. frontend build if public deployment behavior changed
 
 Recommended verification commands:
 

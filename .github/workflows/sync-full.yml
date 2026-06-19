@@ -22,12 +22,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: mirror
-          key: moex-mirror-${{ hashFiles('data/source-manifest.json') }}
+          key: moex-mirror-${{ hashFiles('data/providers/moex/source-manifest.json') }}
           restore-keys: |
             moex-mirror-
 
       - name: Run full sync
-        run: python -m app sync-full --write-manifest
+        run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 
       - name: Publish default site
         run: python -m app publish-site --site-id default --repository "${{ github.repository }}"

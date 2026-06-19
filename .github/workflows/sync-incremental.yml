@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: mirror
-          key: moex-mirror-${{ hashFiles('data/source-manifest.json') }}
+          key: moex-mirror-${{ hashFiles('data/providers/moex/source-manifest.json') }}
           restore-keys: |
             moex-mirror-
 
@@ -38,7 +38,7 @@ jobs:
         id: probe
         if: steps.release_state.outputs.bootstrap_required != 'true'
         run: |
-          python -m app probe-latest --years 2 --write-manifest --output .tmp/source-probe.json
+          python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --write-manifest --output .tmp/source-probe.json
           echo "should_sync=$(jq -r '.should_sync' .tmp/source-probe.json)" >> "$GITHUB_OUTPUT"
 
       - name: Commit source manifest
@@ -46,17 +46,17 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/source-manifest.json
+          git add data/providers/moex/source-manifest.json
           git diff --cached --quiet || git commit -m "chore: refresh source manifest"
           git push
 
       - name: Run bootstrap full sync
         if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: python -m app sync-full --write-manifest
+        run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 
       - name: Run targeted sync
         if: steps.release_state.outputs.bootstrap_required != 'true' && steps.probe.outputs.should_sync == 'true'
-        run: python -m app sync-targeted --probe .tmp/source-probe.json --download-affected-bundles
+        run: python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json
 
       - name: Publish default site
         if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'

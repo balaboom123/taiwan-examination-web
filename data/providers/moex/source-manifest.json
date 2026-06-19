@@ -1,0 +1,20 @@
+{
+  "exams": {
+    "115040": {
+      "head_content_length": 500,
+      "source_exam_id": "115040"
+    }
+  },
+  "files": {},
+  "probe_policy": {},
+  "provider_id": "moex",
+  "schema_version": 1,
+  "years": {
+    "2026": {
+      "exam_codes": [
+        "115040"
+      ],
+      "year_ad": 2026
+    }
+  }
+}

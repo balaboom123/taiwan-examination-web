@@ -11,7 +11,7 @@ from urllib.parse import quote
 from app.bundler import build_bundles
 from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
-from app.paths import legacy_paths, provider_paths, site_paths
+from app.paths import provider_paths, site_paths
 from app.release_tags import assign_release_tags
 from app.site_registry import get_site_config
 from app.state import load_provider_state, load_site_bundles
@@ -104,9 +104,6 @@ def write_site_state(
     bundles: list[BundleAsset],
     frontend_bundles: list[dict],
     lootlabs_manifest: dict | None,
-    *,
-    legacy_paths=None,
-    write_legacy: bool = False,
 ) -> None:
     site.data_dir.mkdir(parents=True, exist_ok=True)
     site.bundles_path.write_text(
@@ -148,31 +145,6 @@ def write_site_state(
     )
     if lootlabs_manifest is not None:
         site.lootlabs_manifest_path.write_text(json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    if write_legacy and legacy_paths is not None:
-        legacy_paths.data_dir.mkdir(parents=True, exist_ok=True)
-        legacy_paths.bundles_path.write_text(json.dumps(to_plain_data(bundles), ensure_ascii=False, indent=2), encoding="utf-8")
-        legacy_paths.release_assets_path.write_text(
-            json.dumps(
-                [
-                    {
-                        "release_tag": bundle.release_tag,
-                        "storage_key": bundle.storage_key,
-                        "asset_name": bundle.asset_name,
-                        "checksum": bundle.checksum,
-                        "legacy_asset_names": bundle.legacy_asset_names,
-                    }
-                    for bundle in bundles
-                ],
-                ensure_ascii=False,
-                indent=2,
-                ),
-            encoding="utf-8",
-        )
-        if lootlabs_manifest is not None:
-            legacy_paths.lootlabs_manifest_path.write_text(
-                json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
 
 
 def apply_bundle_download_urls(
@@ -284,8 +256,6 @@ def publish_site(
         bundles_with_urls,
         frontend_bundles,
         lootlabs_manifest=None,
-        legacy_paths=legacy_paths(repo_root) if site_id == "default" else None,
-        write_legacy=site_id == "default",
     )
     build_site(repo_root / "site", normalized_with_urls, bundles_with_urls)
     return normalized_with_urls, bundles_with_urls

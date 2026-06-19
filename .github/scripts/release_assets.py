@@ -13,7 +13,8 @@ from collections import defaultdict
 from pathlib import Path
 
 RELEASE_TAG = os.environ.get("MOEX_RELEASE_TAG", "moex-bundles")
-RELEASE_ASSETS_PATH = Path("data/release-assets.json")
+SITE_ID = os.environ.get("SITE_ID", "default")
+RELEASE_ASSETS_PATH = Path("data") / "sites" / SITE_ID / "release-assets.json"
 
 
 def _local_assets() -> list[dict]:

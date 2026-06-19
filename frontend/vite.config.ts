@@ -7,14 +7,8 @@ import path from "path"
 import { readFrontendBundlesSource, resolveAdsenseEnabled, resolveLootlabsEnabled, resolvePagesBase } from "./build/bundles-data.mjs"
 
 const repoRoot = path.resolve(__dirname, "..")
-const generatedBundlesPaths = [
-  path.resolve(repoRoot, "data", "sites", "default", "bundles.json"),
-  path.resolve(repoRoot, "data", "bundles.json"),
-]
-const lootlabsManifestPaths = [
-  path.resolve(repoRoot, "data", "sites", "default", "lootlabs-links.json"),
-  path.resolve(repoRoot, "data", "lootlabs-links.json"),
-]
+const generatedBundlesPaths = [path.resolve(repoRoot, "data", "sites", "default", "bundles.json")]
+const lootlabsManifestPaths = [path.resolve(repoRoot, "data", "sites", "default", "lootlabs-links.json")]
 const adsensePublisherId = "ca-pub-9524747112096155"
 const adsenseAuthorizedSeller = "google.com, pub-9524747112096155, DIRECT, f08c47fec0942fa0"
 
