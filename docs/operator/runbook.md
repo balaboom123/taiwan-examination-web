@@ -68,7 +68,23 @@ Run from the repo root.
 
 ## Standard Operating Procedures
 
-### 1. Probe recent MOEX changes
+### 1. Normal hosted pipeline
+
+On GitHub-hosted Actions, the normal MOEX path is:
+
+1. `probe-latest`
+2. `sync-targeted --download-affected-bundles`
+3. `publish-site --publish-plan .tmp/site-publish-plan.json`
+4. `release_assets.py ensure/upload/prune`
+5. `sync-lootlabs`
+
+Important:
+
+- hosted CI is expected to repair only targeted changes
+- hosted CI is not expected to bootstrap the full MOEX mirror or rebuild every bundle from scratch
+- if release coverage is already incomplete, the hosted workflows now fail fast instead of attempting a 6-hour bootstrap path
+
+### 2. Probe recent MOEX changes
 
 Use:
 
@@ -84,7 +100,7 @@ Then inspect `.tmp/source-probe.json`:
 - if `should_sync` is `false`, stop
 - if `should_sync` is `true`, continue to targeted sync
 
-### 2. Run targeted MOEX sync after a positive probe
+### 3. Run targeted MOEX sync after a positive probe
 
 Use:
 
@@ -92,12 +108,15 @@ Use:
 python -m app sync-targeted ^
   --provider moex ^
   --probe .tmp/source-probe.json ^
-  --manifest data/providers/moex/source-manifest.json
+  --manifest data/providers/moex/source-manifest.json ^
+  --download-affected-bundles ^
+  --publish-plan-output .tmp/site-publish-plan.json ^
+  --bundle-dir bundles/sites/default
 ```
 
 Use this when only a known MOEX subset changed.
 
-### 3. Refresh CEEC GSAT provider data
+### 4. Refresh CEEC GSAT provider data
 
 Use:
 
@@ -114,12 +133,12 @@ Expected provider outputs:
 - `data/providers/ceec_gsat/review-queue.json`
 - `mirror/providers/ceec_gsat/**`
 
-### 4. Publish the default site
+### 5. Publish the default site
 
 Use:
 
 ```bash
-python -m app publish-site --site-id default --repository <owner>/<repo>
+python -m app publish-site --site-id default --repository <owner>/<repo> --publish-plan .tmp/site-publish-plan.json
 ```
 
 Expected site outputs:
@@ -129,7 +148,9 @@ Expected site outputs:
 - `data/sites/default/lootlabs-links.json` after a LootLabs sync
 - `bundles/sites/default/*.zip`
 
-### 5. Promote legacy root state during the final cutover
+If you omit `--publish-plan`, the command rebuilds the entire public site bundle set. Keep that for manual bootstrap/recovery work, not the normal hosted path.
+
+### 6. Promote legacy root state during the final cutover
 
 Use this only for the scoped-path migration window. It is not part of the normal daily sync pipeline.
 
@@ -153,7 +174,7 @@ Important:
 - the command rewrites site bundle metadata from `bundles/<asset>` to `bundles/sites/default/<asset>`
 - the reader and workflow cutover is already complete on this branch, so `move` is now the last preparation step before root-file cleanup
 
-### 6. Sync LootLabs links
+### 7. Sync LootLabs links
 
 Use:
 
@@ -175,6 +196,14 @@ After a sync or publication run, check:
 6. GitHub release asset coverage if you published bundles
 7. `site/` output if legacy site consumers matter
 8. frontend build if public deployment behavior changed
+
+If a hosted workflow fails with:
+
+```text
+Hosted bootstrap is unsupported on GitHub-hosted runners.
+```
+
+that means release coverage or bundle state is incomplete enough that the hosted targeted path cannot recover it safely. Treat that as a manual bootstrap/recovery event, not a retry-until-it-works event.
 
 Recommended verification commands:
 

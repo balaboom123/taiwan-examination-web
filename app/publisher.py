@@ -16,7 +16,7 @@ from app.models import AliasRule, BundleAsset, FILE_TYPE_LABELS, NormalizedCatal
 from app.paths import provider_paths, site_paths
 from app.release_tags import assign_release_tags
 from app.site_registry import get_site_config
-from app.state import load_provider_state, load_site_bundles
+from app.state import filter_catalog_by_canonical_ids, load_provider_state, load_site_bundles
 
 T = TypeVar("T")
 
@@ -217,6 +217,8 @@ def publish_site(
     *,
     site_id: str,
     repository: str,
+    affected_canonical_ids: set[str] | None = None,
+    canonical_aliases: dict[str, list[str]] | None = None,
 ) -> tuple[NormalizedCatalog, list[BundleAsset]]:
     site_config = get_site_config(site_id)
     aggregated_papers: list[NormalizedPaper] = []
@@ -231,17 +233,35 @@ def publish_site(
 
     normalized = NormalizedCatalog(papers=aggregated_papers, review_queue=aggregated_review_queue)
     site = site_paths(repo_root, site_id)
+    if affected_canonical_ids is not None and not site.bundles_path.exists():
+        raise ValueError(f"Partial publish requires existing site bundle metadata: expected {site.bundles_path}")
     existing_bundles = load_site_bundles(site)
+    if affected_canonical_ids is None:
+        preserved_bundles: list[BundleAsset] = []
+        rebuild_catalog = normalized
+    else:
+        active_canonical_ids = {paper.canonical_id for paper in normalized.papers}
+        preserved_bundles = [
+            bundle
+            for bundle in existing_bundles
+            if bundle.canonical_id in active_canonical_ids and bundle.canonical_id not in affected_canonical_ids
+        ]
+        rebuild_catalog = filter_catalog_by_canonical_ids(normalized, affected_canonical_ids)
+
     bundle_result = build_bundles(
         bundle_dir=site.bundle_dir,
         mirror_dir=repo_root / "mirror",
-        normalized=normalized,
+        normalized=rebuild_catalog,
         bundle_base_url="",
+        canonical_aliases=canonical_aliases,
         min_years=site_config.public_min_years,
     )
     if bundle_result.failures:
         raise ValueError(_format_bundle_failures(bundle_result.failures))
-    site_scoped_bundles = _site_scoped_bundles(site_id, bundle_result.bundles)
+    site_scoped_bundles = sorted(
+        [*preserved_bundles, *_site_scoped_bundles(site_id, bundle_result.bundles)],
+        key=lambda bundle: bundle.canonical_id,
+    )
     tagged_bundles = assign_release_tags(
         release_tag_prefix=site_config.release_tag_prefix,
         existing_bundles=existing_bundles,

@@ -8,9 +8,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: sync-incremental-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,15 +39,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py coverage
 
+      - name: Fail unsupported hosted bootstrap
+        if: steps.release_state.outputs.bootstrap_required == 'true'
+        run: |
+          echo "Hosted bootstrap is unsupported on GitHub-hosted runners."
+          echo "Repair the release from a machine with persistent MOEX state, then rerun this workflow."
+          exit 1
+
       - name: Probe latest source changes
         id: probe
-        if: steps.release_state.outputs.bootstrap_required != 'true'
         run: |
           python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --write-manifest --output .tmp/source-probe.json
           echo "should_sync=$(jq -r '.should_sync' .tmp/source-probe.json)" >> "$GITHUB_OUTPUT"
 
       - name: Commit source manifest
-        if: steps.release_state.outputs.bootstrap_required != 'true' && steps.probe.outputs.should_sync != 'true'
+        if: steps.probe.outputs.should_sync != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -50,38 +61,34 @@ jobs:
           git diff --cached --quiet || git commit -m "chore: refresh source manifest"
           git push
 
-      - name: Run bootstrap full sync
-        if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
-
       - name: Run targeted sync
-        if: steps.release_state.outputs.bootstrap_required != 'true' && steps.probe.outputs.should_sync == 'true'
-        run: python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json
+        if: steps.probe.outputs.should_sync == 'true'
+        run: python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json --download-affected-bundles --publish-plan-output .tmp/site-publish-plan.json --bundle-dir bundles/sites/default
 
       - name: Publish default site
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
-        run: python -m app publish-site --site-id default --repository "${{ github.repository }}"
+        if: steps.probe.outputs.should_sync == 'true'
+        run: python -m app publish-site --site-id default --repository "${{ github.repository }}" --publish-plan .tmp/site-publish-plan.json
 
       - name: Ensure release exists
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py ensure
 
       - name: Upload downloadable bundles
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py upload
 
       - name: Remove stale release assets
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py prune
 
       - name: Sync LootLabs links
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true'
         env:
           LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}
           LOOTLABS_TIER_ID: "1"
@@ -90,16 +97,11 @@ jobs:
         run: python -m app sync-lootlabs --site-id default
 
       - name: Commit regenerated data and site
-        if: steps.release_state.outputs.bootstrap_required == 'true' || steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ "${{ steps.release_state.outputs.bootstrap_required }}" = "true" ]; then
-            commit_message="chore: bootstrap downloadable bundles"
-          else
-            commit_message="chore: refresh targeted downloadable bundles"
-          fi
           git add data
           git add -f site
-          git diff --cached --quiet || git commit -m "$commit_message"
+          git diff --cached --quiet || git commit -m "chore: refresh targeted downloadable bundles"
           git push

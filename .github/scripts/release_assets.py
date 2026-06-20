@@ -115,12 +115,15 @@ def coverage() -> int:
 def upload() -> int:
     missing = []
     for release_tag, assets in sorted(_group_assets_by_release_tag().items()):
+        remote_names = set(_release_zip_names(release_tag, allow_missing=True))
         for asset in assets:
             local_path = Path(asset["storage_key"])
+            zip_names = _asset_zip_names(asset)
             if not local_path.exists():
-                missing.append(str(local_path))
+                if any(name not in remote_names for name in zip_names):
+                    missing.append(str(local_path))
                 continue
-            for name in _asset_zip_names(asset):
+            for name in zip_names:
                 spec = f"{local_path}#{name}"
                 subprocess.run(["gh", "release", "upload", release_tag, spec, "--clobber"], check=True)
     if missing:

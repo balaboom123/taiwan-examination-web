@@ -271,6 +271,50 @@ def _write_probe_manifest_if_present(probe: dict[str, object], manifest_path: Pa
         write_source_manifest(manifest_path, source_manifest_from_data(updated_manifest))
 
 
+def _repo_root_from_data_dir(data_dir: Path) -> Path:
+    return data_dir.parent
+
+
+def _resolve_sync_bundle_dir(args: argparse.Namespace) -> Path:
+    bundle_dir = getattr(args, "bundle_dir", None)
+    if bundle_dir is not None:
+        return bundle_dir
+    return site_paths(_repo_root_from_data_dir(args.data_dir), args.site_id).bundle_dir
+
+
+def _write_publish_plan(
+    path: Path,
+    *,
+    site_id: str,
+    affected_canonical_ids: set[str],
+    canonical_aliases: dict[str, list[str]],
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "site_id": site_id,
+        "affected_canonical_ids": sorted(affected_canonical_ids),
+        "canonical_aliases": {canonical_id: sorted(alias_ids) for canonical_id, alias_ids in sorted(canonical_aliases.items())},
+    }
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _load_publish_plan(path: Path | None, site_id: str) -> tuple[set[str] | None, dict[str, list[str]]]:
+    if path is None:
+        return None, {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload_site_id = str(payload.get("site_id") or site_id)
+    if payload_site_id != site_id:
+        raise ValueError(f"Publish plan site_id mismatch: expected {site_id}, got {payload_site_id}")
+    affected = {str(canonical_id) for canonical_id in payload.get("affected_canonical_ids", []) if canonical_id}
+    raw_aliases = payload.get("canonical_aliases", {})
+    canonical_aliases = {
+        str(canonical_id): [str(alias_id) for alias_id in alias_ids if alias_id]
+        for canonical_id, alias_ids in raw_aliases.items()
+        if alias_ids
+    } if isinstance(raw_aliases, dict) else {}
+    return affected, canonical_aliases
+
+
 def _merge_bundle_lists(preserved: list[BundleAsset], rebuilt: list[BundleAsset]) -> list[BundleAsset]:
     canonical_order = {bundle.canonical_id: bundle for bundle in preserved}
     for bundle in rebuilt:
@@ -324,7 +368,7 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
     existing_provider_raw_pages, existing_provider_catalog, existing_provider_failures = load_provider_state(provider_state)
     refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
-    provider_raw_pages, provider_normalized, _, _, _ = merge_targeted_state(
+    provider_raw_pages, provider_normalized, _, affected_canonical_ids, canonical_aliases = merge_targeted_state(
         existing_raw_pages=existing_provider_raw_pages,
         existing_catalog=existing_provider_catalog,
         existing_bundles=[],
@@ -332,6 +376,21 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         refreshed_catalog=refreshed_catalog,
         removed_exam_ids=removed_exam_ids,
     )
+    if getattr(args, "download_affected_bundles", False) and affected_canonical_ids:
+        site = site_paths(_repo_root_from_data_dir(args.data_dir), args.site_id)
+        _download_affected_bundles(
+            _resolve_sync_bundle_dir(args),
+            load_site_bundles(site),
+            affected_canonical_ids,
+            args.release_tag,
+        )
+    if args.publish_plan_output is not None:
+        _write_publish_plan(
+            args.publish_plan_output,
+            site_id=args.site_id,
+            affected_canonical_ids=affected_canonical_ids,
+            canonical_aliases=canonical_aliases,
+        )
     replaced_exam_ids = refreshed_exam_ids | removed_exam_ids
     provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in replaced_exam_ids]
     provider_failures.extend(sync_failures)
@@ -400,13 +459,21 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
             papers=[p for p in refreshed_catalog.papers if p.source_exam_id not in failed_exam_ids],
             review_queue=[r for r in refreshed_catalog.review_queue if r.source_exam_id not in failed_exam_ids],
         )
-        provider_raw_pages, provider_normalized, _, _, _ = merge_incremental_state(
+        provider_raw_pages, provider_normalized, _, affected_canonical_ids, canonical_aliases = merge_incremental_state(
             existing_raw_pages=existing_provider_raw_pages,
             existing_catalog=existing_provider_catalog,
             existing_bundles=[],
             refreshed_raw_pages=safe_raw_pages,
             refreshed_catalog=safe_catalog,
         )
+        if getattr(args, "download_affected_bundles", False) and affected_canonical_ids:
+            site = site_paths(_repo_root_from_data_dir(args.data_dir), args.site_id)
+            _download_affected_bundles(
+                _resolve_sync_bundle_dir(args),
+                load_site_bundles(site),
+                affected_canonical_ids,
+                args.release_tag,
+            )
         refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
         provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in refreshed_exam_ids]
         provider_failures.extend(sync_failures)
@@ -415,7 +482,16 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         provider_raw_pages = refreshed_raw_pages
         provider_normalized = refreshed_catalog
         provider_failures = sync_failures
+        affected_canonical_ids = {paper.canonical_id for paper in provider_normalized.papers}
+        canonical_aliases = {}
         failures = sync_failures
+    if args.publish_plan_output is not None:
+        _write_publish_plan(
+            args.publish_plan_output,
+            site_id=args.site_id,
+            affected_canonical_ids=affected_canonical_ids,
+            canonical_aliases=canonical_aliases,
+        )
     provider_manifest = None
     if getattr(args, "write_manifest", False) and not failures:
         manifest_path = _resolve_sync_manifest_path(args, provider_id)
@@ -439,7 +515,14 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
 
 def command_publish_site(args: argparse.Namespace) -> int:
     try:
-        publish_site(args.repo_root, site_id=args.site_id, repository=args.repository)
+        affected_canonical_ids, canonical_aliases = _load_publish_plan(args.publish_plan, args.site_id)
+        publish_site(
+            args.repo_root,
+            site_id=args.site_id,
+            repository=args.repository,
+            affected_canonical_ids=affected_canonical_ids,
+            canonical_aliases=canonical_aliases,
+        )
     except ValueError as exc:
         print(str(exc), flush=True)
         return 1
@@ -480,13 +563,14 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--data-dir", type=Path, default=repo_root / "data")
     targeted.add_argument("--site-dir", type=Path, default=repo_root / "site")
     targeted.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
-    targeted.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
+    targeted.add_argument("--bundle-dir", type=Path, default=None)
     targeted.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
     targeted.add_argument("--manifest", type=Path, default=None)
     targeted.add_argument("--bundle-base-url", default="")
     targeted.add_argument("--mirror-base-url", default="")
     targeted.add_argument("--download-attachments", action="store_true", default=False)
     targeted.add_argument("--download-affected-bundles", action="store_true", default=False)
+    targeted.add_argument("--publish-plan-output", type=Path, default=None)
     targeted.add_argument("--provider", default=None)
     targeted.add_argument("--site-id", default="default")
     targeted.add_argument("--release-tag", default="moex-bundles")
@@ -497,14 +581,17 @@ def build_parser() -> argparse.ArgumentParser:
         sync.add_argument("--data-dir", type=Path, default=repo_root / "data")
         sync.add_argument("--site-dir", type=Path, default=repo_root / "site")
         sync.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
-        sync.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
+        sync.add_argument("--bundle-dir", type=Path, default=None)
         sync.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
         sync.add_argument("--manifest", type=Path, default=None)
         sync.add_argument("--bundle-base-url", default="")
         sync.add_argument("--mirror-base-url", default="")
         sync.add_argument("--download-attachments", action="store_true", default=False)
+        sync.add_argument("--download-affected-bundles", action="store_true", default=False)
+        sync.add_argument("--publish-plan-output", type=Path, default=None)
         sync.add_argument("--provider", default="moex")
         sync.add_argument("--site-id", default="default")
+        sync.add_argument("--release-tag", default="moex-bundles")
         sync.add_argument("--write-manifest", action="store_true", default=False)
         if name == "sync-full":
             sync.add_argument("--years", nargs="*", type=int, default=None)
@@ -539,6 +626,7 @@ def build_parser() -> argparse.ArgumentParser:
     publish_site_parser.add_argument("--repo-root", type=Path, default=repo_root)
     publish_site_parser.add_argument("--site-id", default="default")
     publish_site_parser.add_argument("--repository", default="example/repo")
+    publish_site_parser.add_argument("--publish-plan", type=Path, default=None)
     publish_site_parser.set_defaults(handler=command_publish_site)
 
     migrate_parser = subparsers.add_parser(

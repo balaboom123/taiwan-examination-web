@@ -8,9 +8,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: audit-recent-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,16 +39,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py coverage
 
-      - name: Run bootstrap full sync
+      - name: Fail unsupported hosted bootstrap
         if: steps.release_state.outputs.bootstrap_required == 'true'
-        run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
+        run: |
+          echo "Hosted bootstrap is unsupported on GitHub-hosted runners."
+          echo "Repair the release from a machine with persistent MOEX state, then rerun this workflow."
+          exit 1
 
       - name: Run recent audit
-        if: steps.release_state.outputs.bootstrap_required != 'true'
-        run: python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
+        run: python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json --download-affected-bundles --publish-plan-output .tmp/site-publish-plan.json --bundle-dir bundles/sites/default
 
       - name: Publish default site
-        run: python -m app publish-site --site-id default --repository "${{ github.repository }}"
+        run: python -m app publish-site --site-id default --repository "${{ github.repository }}" --publish-plan .tmp/site-publish-plan.json
 
       - name: Ensure release exists
         env:

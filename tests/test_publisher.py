@@ -405,6 +405,207 @@ class PublisherTests(unittest.TestCase):
             rendered_bundles = json.loads((root / "site" / "data" / "bundles.json").read_text(encoding="utf-8"))
             self.assertEqual([bundle["canonical_id"] for bundle in rendered_bundles], ["nurse"])
 
+    def test_publish_site_preserves_unaffected_existing_site_bundles_when_affected_ids_are_provided(self) -> None:
+        nurse_latest = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="nurse",
+            canonical_name="Nurse",
+            year_roc=115,
+            exam_name_raw="115 Nurse Exam",
+            category_raw="Nurse",
+            subject_name_raw="Medical Basics",
+            paper_code="101-0101-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/nurse-115.pdf",
+            category_code="101",
+            source_exam_id="115030",
+            subject_code="0101",
+            storage_key="115/115030/101/0101/question.pdf",
+        )
+        nurse_prior = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="nurse",
+            canonical_name="Nurse",
+            year_roc=114,
+            exam_name_raw="114 Nurse Exam",
+            category_raw="Nurse",
+            subject_name_raw="Medical Basics",
+            paper_code="101-0101-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/nurse-114.pdf",
+            category_code="101",
+            source_exam_id="114030",
+            subject_code="0101",
+            storage_key="114/114030/101/0101/question.pdf",
+        )
+        doctor_latest = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="doctor",
+            canonical_name="Doctor",
+            year_roc=115,
+            exam_name_raw="115 Doctor Exam",
+            category_raw="Doctor",
+            subject_name_raw="Clinical Basics",
+            paper_code="201-0201-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/doctor-115.pdf",
+            category_code="201",
+            source_exam_id="115040",
+            subject_code="0201",
+            storage_key="115/115040/201/0201/question.pdf",
+        )
+        doctor_prior = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="doctor",
+            canonical_name="Doctor",
+            year_roc=114,
+            exam_name_raw="114 Doctor Exam",
+            category_raw="Doctor",
+            subject_name_raw="Clinical Basics",
+            paper_code="201-0201-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/doctor-114.pdf",
+            category_code="201",
+            source_exam_id="114040",
+            subject_code="0201",
+            storage_key="114/114040/201/0201/question.pdf",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            for paper in (doctor_latest, doctor_prior):
+                mirror_path = provider_paths(root, "moex").mirror_dir / paper.storage_key
+                mirror_path.parent.mkdir(parents=True, exist_ok=True)
+                mirror_path.write_bytes(b"%PDF-1.7 demo")
+
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(
+                    papers=[nurse_latest, nurse_prior, doctor_latest, doctor_prior],
+                    review_queue=[],
+                ),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_provider_state(
+                provider_paths(root, "ceec_gsat"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            nurse_bundle = BundleAsset(
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                years=[115, 114],
+                file_count=2,
+                storage_key="bundles/sites/default/nurse.zip",
+                asset_name="nurse.zip",
+                release_tag="default-bundles-001",
+                download_url="https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
+                checksum="nurse-existing",
+            )
+            write_site_state(
+                site_paths(root, "default"),
+                bundles=[nurse_bundle],
+                frontend_bundles=[
+                    {
+                        "id": "nurse",
+                        "name": "Nurse",
+                        "years": [115, 114],
+                        "fileCount": 2,
+                        "url": nurse_bundle.download_url,
+                    }
+                ],
+                lootlabs_manifest=None,
+            )
+
+            normalized, bundles = publish_site(
+                root,
+                site_id="default",
+                repository="example/repo",
+                affected_canonical_ids={"doctor"},
+            )
+
+            self.assertEqual({paper.canonical_id for paper in normalized.papers}, {"nurse", "doctor"})
+            self.assertEqual({bundle.canonical_id for bundle in bundles}, {"nurse", "doctor"})
+            preserved_nurse = next(bundle for bundle in bundles if bundle.canonical_id == "nurse")
+            self.assertEqual(preserved_nurse.checksum, "nurse-existing")
+            self.assertEqual(preserved_nurse.storage_key, "bundles/sites/default/nurse.zip")
+            self.assertFalse((site_paths(root, "default").bundle_dir / "nurse.zip").exists())
+            self.assertTrue((site_paths(root, "default").bundle_dir / "doctor.zip").exists())
+
+    def test_publish_site_rejects_partial_publish_without_existing_site_bundle_metadata(self) -> None:
+        doctor_latest = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="doctor",
+            canonical_name="Doctor",
+            year_roc=115,
+            exam_name_raw="115 Doctor Exam",
+            category_raw="Doctor",
+            subject_name_raw="Clinical Basics",
+            paper_code="201-0201-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/doctor-115.pdf",
+            category_code="201",
+            source_exam_id="115040",
+            subject_code="0201",
+            storage_key="115/115040/201/0201/question.pdf",
+        )
+        doctor_prior = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="doctor",
+            canonical_name="Doctor",
+            year_roc=114,
+            exam_name_raw="114 Doctor Exam",
+            category_raw="Doctor",
+            subject_name_raw="Clinical Basics",
+            paper_code="201-0201-question",
+            file_type="question",
+            download_url_source="https://example.test/moex/doctor-114.pdf",
+            category_code="201",
+            source_exam_id="114040",
+            subject_code="0201",
+            storage_key="114/114040/201/0201/question.pdf",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            for paper in (doctor_latest, doctor_prior):
+                mirror_path = provider_paths(root, "moex").mirror_dir / paper.storage_key
+                mirror_path.parent.mkdir(parents=True, exist_ok=True)
+                mirror_path.write_bytes(b"%PDF-1.7 demo")
+
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[doctor_latest, doctor_prior], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_provider_state(
+                provider_paths(root, "ceec_gsat"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            with self.assertRaisesRegex(ValueError, "Partial publish requires existing site bundle metadata"):
+                publish_site(
+                    root,
+                    site_id="default",
+                    repository="example/repo",
+                    affected_canonical_ids={"doctor"},
+                )
+
+            self.assertFalse(site_paths(root, "default").bundles_path.exists())
+
     def test_publish_site_fails_closed_when_bundle_build_has_failures(self) -> None:
         broken_latest = NormalizedPaper(
             provider_id="moex",

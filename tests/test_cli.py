@@ -128,10 +128,11 @@ class CliBuildSiteTests(unittest.TestCase):
 
     def test_parser_accepts_publish_site_command(self) -> None:
         parser = build_parser()
-        args = parser.parse_args(["publish-site", "--site-id", "default"])
+        args = parser.parse_args(["publish-site", "--site-id", "default", "--publish-plan", ".tmp/site-publish-plan.json"])
 
         self.assertEqual(args.site_id, "default")
         self.assertEqual(args.repository, "example/repo")
+        self.assertEqual(args.publish_plan, Path(".tmp/site-publish-plan.json"))
 
     def test_publish_site_command_aggregates_provider_outputs_for_default_site(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -697,6 +698,8 @@ class CliBuildSiteTests(unittest.TestCase):
                 "--probe",
                 ".tmp/source-probe.json",
                 "--download-affected-bundles",
+                "--publish-plan-output",
+                ".tmp/site-publish-plan.json",
                 "--release-tag",
                 "moex-bundles",
             ]
@@ -705,8 +708,23 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertEqual(args.probe, Path(".tmp/source-probe.json"))
         self.assertFalse(args.download_attachments)
         self.assertTrue(args.download_affected_bundles)
+        self.assertEqual(args.publish_plan_output, Path(".tmp/site-publish-plan.json"))
         self.assertIsNone(args.provider)
         self.assertEqual(args.release_tag, "moex-bundles")
+
+    def test_sync_incremental_parser_accepts_publish_plan_output_and_bundle_downloads(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args(
+            [
+                "sync-incremental",
+                "--download-affected-bundles",
+                "--publish-plan-output",
+                ".tmp/site-publish-plan.json",
+            ]
+        )
+
+        self.assertTrue(args.download_affected_bundles)
+        self.assertEqual(args.publish_plan_output, Path(".tmp/site-publish-plan.json"))
 
     @patch("app.cli.subprocess.run")
     def test_download_affected_bundles_checks_primary_and_legacy_asset_names(self, run) -> None:
@@ -770,6 +788,219 @@ class CliBuildSiteTests(unittest.TestCase):
                 ["gh", "release", "download", "default-bundles-002", "--pattern", "doctor.zip", "--dir", str(bundle_dir)],
             ],
         )
+
+    @patch("app.cli._download_affected_bundles")
+    @patch("app.cli.write_provider_state")
+    @patch("app.cli.load_provider_state")
+    @patch("app.cli.merge_targeted_state")
+    @patch("app.cli.sync_exam_pages")
+    def test_run_sync_targeted_writes_publish_plan_and_downloads_affected_bundles(
+        self,
+        sync_exam_pages_mock,
+        merge_targeted_state_mock,
+        load_provider_state_mock,
+        write_provider_state_mock,
+        download_affected_bundles_mock,
+    ) -> None:
+        class TargetedProvider:
+            provider_id = "moex"
+
+        refreshed_page = SourceExamPage(
+            provider_id="moex",
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="Exam 115030",
+            attachments=[],
+            papers=[],
+        )
+        refreshed_catalog = NormalizedCatalog(papers=[_paper("moex", "nurse")], review_queue=[])
+        sync_exam_pages_mock.return_value = ([refreshed_page], refreshed_catalog, [])
+        merge_targeted_state_mock.return_value = (
+            [refreshed_page],
+            refreshed_catalog,
+            [],
+            {"nurse"},
+            {"nurse": ["legacy-nurse"]},
+        )
+        load_provider_state_mock.return_value = ([], NormalizedCatalog(papers=[], review_queue=[]), [])
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir()
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "moex",
+                        "changed_exam_codes": ["115030"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"115030": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            aliases_path = root / "data" / "aliases.json"
+            aliases_path.parent.mkdir(parents=True, exist_ok=True)
+            aliases_path.write_text(json.dumps({"rules": []}), encoding="utf-8")
+            site = site_paths(root, "default")
+            site.data_dir.mkdir(parents=True, exist_ok=True)
+            site.bundles_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "site_id": "default",
+                        "bundles": [
+                            {
+                                "canonical_id": "nurse",
+                                "canonical_name": "Nurse",
+                                "years": [115, 114],
+                                "file_count": 2,
+                                "storage_key": "bundles/sites/default/nurse.zip",
+                                "asset_name": "nurse.zip",
+                                "release_tag": "default-bundles-001",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            publish_plan_path = root / ".tmp" / "site-publish-plan.json"
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "moex",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles" / "sites" / "default"),
+                    "--aliases",
+                    str(aliases_path),
+                    "--download-affected-bundles",
+                    "--publish-plan-output",
+                    str(publish_plan_path),
+                ]
+            )
+
+            exit_code = run_sync_targeted(args, client=TargetedProvider())
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(publish_plan_path.read_text(encoding="utf-8"))
+            self.assertEqual(payload["site_id"], "default")
+            self.assertEqual(payload["affected_canonical_ids"], ["nurse"])
+            self.assertEqual(payload["canonical_aliases"], {"nurse": ["legacy-nurse"]})
+            download_affected_bundles_mock.assert_called_once()
+            self.assertEqual(download_affected_bundles_mock.call_args.args[0], root / "bundles" / "sites" / "default")
+            self.assertEqual(download_affected_bundles_mock.call_args.args[2], {"nurse"})
+            write_provider_state_mock.assert_called_once()
+
+    @patch("app.cli._download_affected_bundles")
+    @patch("app.cli.write_provider_state")
+    @patch("app.cli.load_provider_state")
+    @patch("app.cli.merge_targeted_state")
+    @patch("app.cli.sync_exam_pages")
+    def test_run_sync_targeted_resolves_default_bundle_dir_to_site_scope(
+        self,
+        sync_exam_pages_mock,
+        merge_targeted_state_mock,
+        load_provider_state_mock,
+        write_provider_state_mock,
+        download_affected_bundles_mock,
+    ) -> None:
+        class TargetedProvider:
+            provider_id = "moex"
+
+        refreshed_page = SourceExamPage(
+            provider_id="moex",
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="Exam 115030",
+            attachments=[],
+            papers=[],
+        )
+        refreshed_catalog = NormalizedCatalog(papers=[_paper("moex", "nurse")], review_queue=[])
+        sync_exam_pages_mock.return_value = ([refreshed_page], refreshed_catalog, [])
+        merge_targeted_state_mock.return_value = (
+            [refreshed_page],
+            refreshed_catalog,
+            [],
+            {"nurse"},
+            {"nurse": ["legacy-nurse"]},
+        )
+        load_provider_state_mock.return_value = ([], NormalizedCatalog(papers=[], review_queue=[]), [])
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir()
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "moex",
+                        "changed_exam_codes": ["115030"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"115030": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            aliases_path = root / "data" / "aliases.json"
+            aliases_path.parent.mkdir(parents=True, exist_ok=True)
+            aliases_path.write_text(json.dumps({"rules": []}), encoding="utf-8")
+            site = site_paths(root, "default")
+            site.data_dir.mkdir(parents=True, exist_ok=True)
+            site.bundles_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "site_id": "default",
+                        "bundles": [
+                            {
+                                "canonical_id": "nurse",
+                                "canonical_name": "Nurse",
+                                "years": [115, 114],
+                                "file_count": 2,
+                                "storage_key": "bundles/sites/default/nurse.zip",
+                                "asset_name": "nurse.zip",
+                                "release_tag": "default-bundles-001",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "moex",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(aliases_path),
+                    "--download-affected-bundles",
+                ]
+            )
+
+            exit_code = run_sync_targeted(args, client=TargetedProvider())
+
+            self.assertEqual(exit_code, 0)
+            download_affected_bundles_mock.assert_called_once()
+            self.assertEqual(download_affected_bundles_mock.call_args.args[0], site.bundle_dir)
+            self.assertEqual(download_affected_bundles_mock.call_args.args[2], {"nurse"})
+            write_provider_state_mock.assert_called_once()
 
     def test_run_sync_targeted_exits_without_writes_when_probe_has_no_changes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

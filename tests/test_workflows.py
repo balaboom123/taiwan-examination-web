@@ -52,23 +52,30 @@ def _workflow_push_paths(workflow: str) -> list[str]:
 
 
 class WorkflowTests(unittest.TestCase):
-    def test_incremental_workflow_bootstraps_with_full_sync_when_release_is_incomplete(self) -> None:
+    def test_incremental_workflow_fails_fast_when_release_is_incomplete_on_hosted_ci(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
-        self.assertIn("python -m app sync-full", workflow)
+        self.assertNotIn("python -m app sync-full", workflow)
         self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertIn("steps.release_state.outputs.bootstrap_required == 'true'", workflow)
+        self.assertIn("Hosted bootstrap is unsupported on GitHub-hosted runners.", workflow)
 
     def test_incremental_workflow_probes_before_syncing(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertIn("python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json", workflow)
-        self.assertIn("python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json", workflow)
-        self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertIn(
+            "python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json --download-affected-bundles --publish-plan-output .tmp/site-publish-plan.json",
+            workflow,
+        )
+        self.assertIn(
+            'python -m app publish-site --site-id default --repository "${{ github.repository }}" --publish-plan .tmp/site-publish-plan.json',
+            workflow,
+        )
         self.assertLess(workflow.index("python -m app probe-latest"), workflow.index("python -m app sync-targeted"))
         self.assertLess(workflow.index("python -m app sync-targeted"), workflow.index("python -m app publish-site"))
 
@@ -81,12 +88,13 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("steps.probe.outputs.should_sync != 'true'", workflow)
         self.assertIn("git add data/providers/moex/source-manifest.json", workflow)
 
-    def test_incremental_workflow_does_not_download_release_bundles_before_probe(self) -> None:
+    def test_incremental_workflow_downloads_only_affected_release_bundles_via_targeted_sync(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
 
         self.assertNotIn('gh release download "$MOEX_RELEASE_TAG" --pattern "*.zip" --dir bundles', workflow)
-        self.assertNotIn("--download-affected-bundles", workflow)
+        self.assertIn("--download-affected-bundles", workflow)
+        self.assertIn("--publish-plan-output .tmp/site-publish-plan.json", workflow)
 
     def test_monthly_audit_workflow_exists(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "audit-recent.yml"
@@ -95,9 +103,16 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn('- cron: "45 3 1 * *"', workflow)
         self.assertIn("release_assets.py coverage", workflow)
         self.assertIn("bootstrap_required", workflow)
-        self.assertIn("python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
-        self.assertIn("python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
-        self.assertIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
+        self.assertIn("Hosted bootstrap is unsupported on GitHub-hosted runners.", workflow)
+        self.assertIn(
+            "python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json --download-affected-bundles --publish-plan-output .tmp/site-publish-plan.json",
+            workflow,
+        )
+        self.assertIn(
+            'python -m app publish-site --site-id default --repository "${{ github.repository }}" --publish-plan .tmp/site-publish-plan.json',
+            workflow,
+        )
         self.assertIn("--write-manifest", workflow)
         self.assertIn("release_assets.py prune", workflow)
 
@@ -258,6 +273,7 @@ jobs:
                 }
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
@@ -281,6 +297,7 @@ jobs:
                 {"storage_key": str(second_path), "asset_name": "second.zip", "release_tag": "default-bundles-002"},
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
@@ -298,8 +315,21 @@ jobs:
             absent = str(Path(tmp) / "absent.zip")
             local_assets = [{"storage_key": absent, "asset_name": "absent.zip", "release_tag": "default-bundles-001"}]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 1)
+        run_mock.assert_not_called()
+
+    def test_release_script_upload_skips_missing_local_bundle_when_remote_asset_already_exists(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            absent = str(Path(tmp) / "nurse.zip")
+            local_assets = [{"storage_key": absent, "asset_name": "nurse.zip", "release_tag": "default-bundles-001"}]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=["nurse.zip"]), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
         run_mock.assert_not_called()
 
     def test_workflows_no_longer_install_or_use_ghostscript(self) -> None:
@@ -319,6 +349,13 @@ jobs:
             self.assertNotIn("PDF_CACHE_VERSION", workflow)
             self.assertNotIn("PDF_QUALITY_PROFILE", workflow)
 
+    def test_workflows_define_timeout_and_concurrency_controls(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("concurrency:", workflow)
+            self.assertIn("timeout-minutes:", workflow)
+
     def test_workflows_describe_downloadable_bundle_release(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
@@ -336,6 +373,13 @@ jobs:
         self.assertIn("default-bundles-001", create_command)
         self.assertTrue(any("Downloadable exam bundles" in part for part in create_command))
         self.assertTrue(any("Human-friendly exam bundles with compatibility aliases" in part for part in create_command))
+
+    def test_sync_full_workflow_requires_explicit_override_before_running_unsupported_hosted_bootstrap(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-full.yml").read_text(encoding="utf-8")
+
+        self.assertIn("allow_unsupported_hosted_bootstrap", workflow)
+        self.assertIn("Hosted bootstrap is unsupported on GitHub-hosted runners.", workflow)
+        self.assertIn("python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json", workflow)
 
     def test_sync_ceec_gsat_workflow_is_provider_only_until_default_site_publication_is_safe(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "sync-ceec-gsat.yml").read_text(encoding="utf-8")

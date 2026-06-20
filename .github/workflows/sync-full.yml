@@ -2,13 +2,23 @@ name: sync-full
 
 on:
   workflow_dispatch:
+    inputs:
+      allow_unsupported_hosted_bootstrap:
+        description: "Set to true to bypass the hosted bootstrap guard and attempt a full bootstrap anyway."
+        required: false
+        default: "false"
 
 permissions:
   contents: write
 
+concurrency:
+  group: sync-full-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,28 +36,41 @@ jobs:
           restore-keys: |
             moex-mirror-
 
+      - name: Fail unsupported hosted bootstrap
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap != 'true' }}
+        run: |
+          echo "Hosted bootstrap is unsupported on GitHub-hosted runners."
+          echo "Use sync-incremental for normal operation and perform full bootstrap on a machine with persistent MOEX state."
+          exit 1
+
       - name: Run full sync
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         run: python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 
       - name: Publish default site
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         run: python -m app publish-site --site-id default --repository "${{ github.repository }}"
 
       - name: Ensure release exists
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py ensure
 
       - name: Upload downloadable bundles
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py upload
 
       - name: Remove stale release assets
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py prune
 
       - name: Sync LootLabs links
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         env:
           LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}
           LOOTLABS_TIER_ID: "1"
@@ -56,6 +79,7 @@ jobs:
         run: python -m app sync-lootlabs --site-id default
 
       - name: Commit regenerated data and site
+        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
