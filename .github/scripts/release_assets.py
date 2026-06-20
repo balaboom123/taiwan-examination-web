@@ -12,7 +12,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-RELEASE_TAG = os.environ.get("MOEX_RELEASE_TAG", "moex-bundles")
+RELEASE_TAG = os.environ.get("RELEASE_TAG") or os.environ.get("MOEX_RELEASE_TAG") or ""
 SITE_ID = os.environ.get("SITE_ID", "default")
 RELEASE_ASSETS_PATH = Path("data") / "sites" / SITE_ID / "release-assets.json"
 
@@ -25,7 +25,10 @@ def _local_assets() -> list[dict]:
 
 
 def _asset_release_tag(asset: dict) -> str:
-    return str(asset.get("release_tag") or RELEASE_TAG)
+    release_tag = str(asset.get("release_tag") or RELEASE_TAG).strip()
+    if not release_tag:
+        raise ValueError("release asset entry is missing release_tag and no fallback release tag is configured")
+    return release_tag
 
 
 def _group_assets_by_release_tag(assets: list[dict] | None = None) -> dict[str, list[dict]]:

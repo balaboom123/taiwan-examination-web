@@ -219,6 +219,13 @@ jobs:
 
         self.assertEqual(module.RELEASE_ASSETS_PATH, Path("data") / "sites" / "default" / "release-assets.json")
 
+    def test_release_script_fails_closed_when_release_tag_metadata_is_missing(self) -> None:
+        module = _load_release_script()
+
+        with mock.patch.object(module, "RELEASE_TAG", ""):
+            with self.assertRaisesRegex(ValueError, "missing release_tag"):
+                module._group_assets_by_release_tag([{"asset_name": "nurse.zip"}])
+
     def test_release_script_coverage_compares_expected_and_current_zip_names(self) -> None:
         module = _load_release_script()
         local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"], "release_tag": "default-bundles-001"}]

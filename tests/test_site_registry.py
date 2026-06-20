@@ -10,3 +10,4 @@ class SiteRegistryTests(unittest.TestCase):
         self.assertEqual(site.provider_ids, ("moex", "ceec_gsat"))
         self.assertEqual(site.release_tag_prefix, "default-bundles")
         self.assertEqual(site.release_shard_size, 900)
+        self.assertEqual(site.public_min_years, 2)

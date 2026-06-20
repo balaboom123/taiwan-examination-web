@@ -237,7 +237,7 @@ def publish_site(
         mirror_dir=repo_root / "mirror",
         normalized=normalized,
         bundle_base_url="",
-        min_years=1,
+        min_years=site_config.public_min_years,
     )
     if bundle_result.failures:
         raise ValueError(_format_bundle_failures(bundle_result.failures))

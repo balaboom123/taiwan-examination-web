@@ -9,6 +9,7 @@ class SiteConfig:
     provider_ids: tuple[str, ...]
     release_tag_prefix: str
     release_shard_size: int = 900
+    public_min_years: int = 1
 
 
 _SITES = {
@@ -17,6 +18,7 @@ _SITES = {
         provider_ids=("moex", "ceec_gsat"),
         release_tag_prefix="default-bundles",
         release_shard_size=900,
+        public_min_years=2,
     )
 }
 

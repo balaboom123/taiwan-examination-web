@@ -12,8 +12,8 @@ Provider-owned state:
 
 Site-owned publication state:
 
-- `data/sites/default/bundles.json`: canonical bundle metadata for the public site
-- `data/sites/default/release-assets.json`: expected GitHub Release assets grouped by site-owned release tag
+- `data/sites/default/bundles.json`: canonical bundle metadata for the public site after site publication policy filters (the default site currently publishes multi-year bundles only)
+- `data/sites/default/release-assets.json`: expected GitHub Release assets for that public bundle set, grouped by explicit site-owned release tag
 - `data/sites/default/lootlabs-links.json`: gated public download links for the site
 - `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
 

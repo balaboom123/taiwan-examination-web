@@ -69,6 +69,15 @@ Rules:
 
 - A manifest MUST belong to exactly one provider.
 - A manifest MUST NOT describe release or site state.
+
+## Site Contract: Public Bundle Inventory
+
+Rules:
+
+- `data/sites/<site_id>/bundles.json` is the public publication inventory for that site, not a dump of every provider-owned canonical bundle.
+- Site policy is allowed to filter bundles before publication. For the current `default` site, the public inventory contains multi-year bundles only.
+- `data/sites/<site_id>/release-assets.json` MUST describe the same published bundle set as `data/sites/<site_id>/bundles.json`.
+- Every release asset entry MUST carry an explicit `release_tag`. Missing tags are treated as a contract error.
 - Probe consumers MUST reject manifests that do not match the expected provider.
 
 ## Provider Contract: Raw Exam Page Record

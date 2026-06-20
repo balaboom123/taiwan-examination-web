@@ -17,16 +17,23 @@ from app.publisher import write_data_files, write_provider_state
 from app.state import load_provider_state
 
 
-def _paper(provider_id: str, canonical_id: str) -> NormalizedPaper:
+def _paper(
+    provider_id: str,
+    canonical_id: str,
+    *,
+    year_roc: int = 115,
+    source_exam_id: str | None = None,
+) -> NormalizedPaper:
     canonical_name = "Nurse" if canonical_id == "nurse" else "CEEC GSAT"
-    source_exam_id = "115030" if canonical_id == "nurse" else "gsat-115-guozong"
+    if source_exam_id is None:
+        source_exam_id = f"{year_roc}030" if canonical_id == "nurse" else f"gsat-{year_roc}-guozong"
     category_raw = "Nurse" if canonical_id == "nurse" else "GSAT"
     return NormalizedPaper(
         provider_id=provider_id,
         canonical_id=canonical_id,
         canonical_name=canonical_name,
-        year_roc=115,
-        exam_name_raw=f"115 {canonical_name} Exam",
+        year_roc=year_roc,
+        exam_name_raw=f"{year_roc} {canonical_name} Exam",
         category_raw=category_raw,
         subject_name_raw="Subject",
         paper_code="101-0101-question",
@@ -35,8 +42,8 @@ def _paper(provider_id: str, canonical_id: str) -> NormalizedPaper:
         category_code="101",
         source_exam_id=source_exam_id,
         subject_code="0101",
-        storage_key=f"providers/{provider_id}/115/{source_exam_id}/101/0101/question.pdf",
-        checksum=f"{provider_id}-{canonical_id}",
+        storage_key=f"providers/{provider_id}/{year_roc}/{source_exam_id}/101/0101/question.pdf",
+        checksum=f"{provider_id}-{canonical_id}-{year_roc}",
     )
 
 
@@ -131,10 +138,16 @@ class CliBuildSiteTests(unittest.TestCase):
             root = Path(tmp_dir)
             moex_provider = provider_paths(root, "moex")
             ceec_provider = provider_paths(root, "ceec_gsat")
-            moex_paper = _paper("moex", "nurse")
-            ceec_paper = _paper("ceec_gsat", "ceec-gsat")
+            moex_papers = [
+                _paper("moex", "nurse", year_roc=115),
+                _paper("moex", "nurse", year_roc=114),
+            ]
+            ceec_papers = [
+                _paper("ceec_gsat", "ceec-gsat", year_roc=115),
+                _paper("ceec_gsat", "ceec-gsat", year_roc=114),
+            ]
 
-            for paper in (moex_paper, ceec_paper):
+            for paper in [*moex_papers, *ceec_papers]:
                 mirror_path = root / "mirror" / paper.storage_key
                 mirror_path.parent.mkdir(parents=True, exist_ok=True)
                 mirror_path.write_bytes(b"%PDF-1.7 demo")
@@ -142,7 +155,7 @@ class CliBuildSiteTests(unittest.TestCase):
             write_provider_state(
                 moex_provider,
                 raw_pages=[],
-                normalized=NormalizedCatalog(papers=[moex_paper], review_queue=[]),
+                normalized=NormalizedCatalog(papers=moex_papers, review_queue=[]),
                 aliases=[],
                 failures=[],
                 manifest=None,
@@ -150,7 +163,7 @@ class CliBuildSiteTests(unittest.TestCase):
             write_provider_state(
                 ceec_provider,
                 raw_pages=[],
-                normalized=NormalizedCatalog(papers=[ceec_paper], review_queue=[]),
+                normalized=NormalizedCatalog(papers=ceec_papers, review_queue=[]),
                 aliases=[],
                 failures=[],
                 manifest=None,
@@ -185,11 +198,14 @@ class CliBuildSiteTests(unittest.TestCase):
     def test_publish_site_command_returns_non_zero_when_bundle_build_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
-            broken_paper = _paper("moex", "nurse")
+            broken_papers = [
+                _paper("moex", "nurse", year_roc=115),
+                _paper("moex", "nurse", year_roc=114),
+            ]
             write_provider_state(
                 provider_paths(root, "moex"),
                 raw_pages=[],
-                normalized=NormalizedCatalog(papers=[broken_paper], review_queue=[]),
+                normalized=NormalizedCatalog(papers=broken_papers, review_queue=[]),
                 aliases=[],
                 failures=[],
                 manifest=None,
