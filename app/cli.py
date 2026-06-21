@@ -241,28 +241,36 @@ def _download_affected_bundles(
     affected_canonical_ids: set[str],
     release_tag: str,
 ) -> None:
-    assets_by_release_tag: dict[str, set[str]] = {}
+    bundle_dir.mkdir(parents=True, exist_ok=True)
     for bundle in existing_bundles:
         if bundle.canonical_id not in affected_canonical_ids:
             continue
         resolved_release_tag = bundle.release_tag or release_tag
         if not resolved_release_tag:
             continue
-        for asset_name in [bundle.asset_name, *bundle.legacy_asset_names]:
-            if not asset_name:
+        candidate_names = [
+            asset_name
+            for asset_name in dict.fromkeys([bundle.asset_name, *bundle.legacy_asset_names])
+            if asset_name
+        ]
+        if not candidate_names:
+            continue
+        if any((bundle_dir / asset_name).exists() for asset_name in candidate_names):
+            continue
+        last_error: subprocess.CalledProcessError | None = None
+        for asset_name in candidate_names:
+            try:
+                subprocess.run(
+                    ["gh", "release", "download", resolved_release_tag, "--pattern", asset_name, "--dir", str(bundle_dir)],
+                    check=True,
+                )
+            except subprocess.CalledProcessError as exc:
+                last_error = exc
                 continue
-            assets_by_release_tag.setdefault(resolved_release_tag, set()).add(asset_name)
-    if not assets_by_release_tag:
-        return
-    bundle_dir.mkdir(parents=True, exist_ok=True)
-    for resolved_release_tag, asset_names in sorted(assets_by_release_tag.items()):
-        for asset_name in sorted(asset_names):
-            if (bundle_dir / asset_name).exists():
-                continue
-            subprocess.run(
-                ["gh", "release", "download", resolved_release_tag, "--pattern", asset_name, "--dir", str(bundle_dir)],
-                check=True,
-            )
+            break
+        else:
+            if last_error is not None:
+                raise last_error
 
 
 def _write_probe_manifest_if_present(probe: dict[str, object], manifest_path: Path) -> None:

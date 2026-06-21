@@ -246,7 +246,8 @@ jobs:
         local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"], "release_tag": "default-bundles-001"}]
         cases = [
             ([], "bootstrap_required=true"),
-            (["a.zip"], "bootstrap_required=true"),
+            (["a-alias.zip"], "bootstrap_required=true"),
+            (["a.zip"], "bootstrap_required=false"),
             (["a-alias.zip", "a.zip"], "bootstrap_required=false"),
         ]
         for release_names, expected_line in cases:
@@ -259,7 +260,23 @@ jobs:
                         self.assertEqual(module.coverage(), 0)
                     self.assertIn(expected_line, output_path.read_text(encoding="utf-8"))
 
-    def test_release_script_uploads_primary_and_legacy_asset_names(self) -> None:
+    def test_release_script_reads_release_metadata_as_utf8(self) -> None:
+        module = _load_release_script()
+        payload = json.dumps({"assets": [{"name": "學科能力測驗__ceec-gsat.zip"}]}, ensure_ascii=False)
+
+        with mock.patch.object(module.subprocess, "check_output", return_value=payload) as check_output_mock:
+            self.assertEqual(module._release_zip_names("default-bundles-002"), ["學科能力測驗__ceec-gsat.zip"])
+
+        self.assertEqual(
+            check_output_mock.call_args,
+            mock.call(
+                ["gh", "release", "view", "default-bundles-002", "--json", "assets"],
+                text=True,
+                encoding="utf-8",
+            ),
+        )
+
+    def test_release_script_uploads_primary_asset_name_only(self) -> None:
         module = _load_release_script()
         with tempfile.TemporaryDirectory() as tmp:
             bundle_path = Path(tmp) / "bundle.zip"
@@ -280,10 +297,36 @@ jobs:
         self.assertEqual(
             [call.args[0] for call in run_mock.call_args_list],
             [
-                ["gh", "release", "upload", "default-bundles-001", f"{bundle_path}#nurse-id.zip", "--clobber"],
-                ["gh", "release", "upload", "default-bundles-001", f"{bundle_path}#nurse.zip", "--clobber"],
+                [
+                    "gh",
+                    "release",
+                    "upload",
+                    "default-bundles-001",
+                    f"{bundle_path}#nurse-id.zip",
+                    "--clobber",
+                ],
             ],
         )
+
+    def test_release_script_upload_skips_remote_zip_names_that_already_exist(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(b"PK\x05\x06")
+            local_assets = [
+                {
+                    "storage_key": str(bundle_path),
+                    "asset_name": "nurse-id.zip",
+                    "legacy_asset_names": ["nurse.zip"],
+                    "release_tag": "default-bundles-001",
+                }
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=["nurse-id.zip"]), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
+        run_mock.assert_not_called()
 
     def test_release_script_upload_groups_assets_by_release_tag(self) -> None:
         module = _load_release_script()

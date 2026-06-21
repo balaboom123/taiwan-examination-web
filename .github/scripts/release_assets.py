@@ -15,6 +15,7 @@ from pathlib import Path
 RELEASE_TAG = os.environ.get("RELEASE_TAG") or os.environ.get("MOEX_RELEASE_TAG") or ""
 SITE_ID = os.environ.get("SITE_ID", "default")
 RELEASE_ASSETS_PATH = Path("data") / "sites" / SITE_ID / "release-assets.json"
+UPLOAD_BATCH_SIZE = 50
 
 
 def _local_assets() -> list[dict]:
@@ -38,25 +39,31 @@ def _group_assets_by_release_tag(assets: list[dict] | None = None) -> dict[str, 
     return dict(grouped)
 
 
-def _asset_zip_names(asset: dict) -> list[str]:
-    # Legacy alias names stay published on the release so old download URLs keep working.
-    names = [asset["asset_name"], *asset.get("legacy_asset_names", [])]
+def _asset_zip_names(asset: dict, *, include_legacy: bool = True) -> list[str]:
+    names = [asset["asset_name"]]
+    if include_legacy:
+        # Legacy alias names stay published on the release when already present so old download URLs keep working.
+        names.extend(asset.get("legacy_asset_names", []))
     return [name for name in dict.fromkeys(names) if name and name.endswith(".zip")]
 
 
 def _desired_zip_names(release_tag: str | None = None) -> set[str]:
     if release_tag is None:
-        return {name for asset in _local_assets() for name in _asset_zip_names(asset)}
+        return {name for asset in _local_assets() for name in _asset_zip_names(asset, include_legacy=False)}
     return {
         name
         for asset in _group_assets_by_release_tag().get(release_tag, [])
-        for name in _asset_zip_names(asset)
+        for name in _asset_zip_names(asset, include_legacy=False)
     }
 
 
 def _release_zip_names(release_tag: str, *, allow_missing: bool = False) -> list[str]:
     try:
-        raw_payload = subprocess.check_output(["gh", "release", "view", release_tag, "--json", "assets"], text=True)
+        raw_payload = subprocess.check_output(
+            ["gh", "release", "view", release_tag, "--json", "assets"],
+            text=True,
+            encoding="utf-8",
+        )
     except subprocess.CalledProcessError:
         if allow_missing:
             return []
@@ -91,18 +98,25 @@ def coverage() -> int:
     for release_tag in sorted(_group_assets_by_release_tag()):
         expected = _desired_zip_names(release_tag)
         current = set(_release_zip_names(release_tag, allow_missing=True))
+        published = {
+            name
+            for asset in _group_assets_by_release_tag().get(release_tag, [])
+            for name in _asset_zip_names(asset, include_legacy=True)
+        }
         total_expected += len(expected)
         total_release += len(current)
-        release_bootstrap_required = current != expected
+        missing = expected - current
+        unexpected = current - published
+        release_bootstrap_required = bool(missing or unexpected)
         bootstrap_required = bootstrap_required or release_bootstrap_required
         print(
             f"release_tag: {release_tag}, expected zips: {len(expected)}, release zips: {len(current)}, "
             f"bootstrap_required: {release_bootstrap_required}"
         )
         if release_bootstrap_required:
-            for name in sorted(expected - current):
+            for name in sorted(missing):
                 print(f"missing from release {release_tag}: {name}")
-            for name in sorted(current - expected):
+            for name in sorted(unexpected):
                 print(f"unexpected in release {release_tag}: {name}")
     print(f"total expected zips: {total_expected}, total release zips: {total_release}, bootstrap_required: {bootstrap_required}")
     github_output = os.environ.get("GITHUB_OUTPUT")
@@ -116,16 +130,23 @@ def upload() -> int:
     missing = []
     for release_tag, assets in sorted(_group_assets_by_release_tag().items()):
         remote_names = set(_release_zip_names(release_tag, allow_missing=True))
+        upload_specs: list[str] = []
         for asset in assets:
             local_path = Path(asset["storage_key"])
-            zip_names = _asset_zip_names(asset)
+            zip_names = _asset_zip_names(asset, include_legacy=False)
             if not local_path.exists():
                 if any(name not in remote_names for name in zip_names):
                     missing.append(str(local_path))
                 continue
             for name in zip_names:
+                if name in remote_names:
+                    continue
                 spec = f"{local_path}#{name}"
-                subprocess.run(["gh", "release", "upload", release_tag, spec, "--clobber"], check=True)
+                upload_specs.append(spec)
+                remote_names.add(name)
+        for start in range(0, len(upload_specs), UPLOAD_BATCH_SIZE):
+            batch = upload_specs[start:start + UPLOAD_BATCH_SIZE]
+            subprocess.run(["gh", "release", "upload", release_tag, *batch, "--clobber"], check=True)
     if missing:
         print("Missing expected bundle files before upload:\n" + "\n".join(missing), file=sys.stderr)
         return 1
@@ -134,7 +155,11 @@ def upload() -> int:
 
 def prune() -> int:
     for release_tag in sorted(_group_assets_by_release_tag()):
-        desired = _desired_zip_names(release_tag)
+        desired = {
+            name
+            for asset in _group_assets_by_release_tag().get(release_tag, [])
+            for name in _asset_zip_names(asset, include_legacy=True)
+        }
         for name in _release_zip_names(release_tag, allow_missing=True):
             if name not in desired:
                 subprocess.run(["gh", "release", "delete-asset", release_tag, name, "--yes"], check=True)
