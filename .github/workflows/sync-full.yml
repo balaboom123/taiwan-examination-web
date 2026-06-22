@@ -78,12 +78,11 @@ jobs:
           LOOTLABS_THEME: "1"
         run: python -m app sync-lootlabs --site-id default
 
-      - name: Commit regenerated data and site
+      - name: Commit regenerated data
         if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git add -f site
           git diff --cached --quiet || git commit -m "chore: refresh downloadable exam bundles"
           git push

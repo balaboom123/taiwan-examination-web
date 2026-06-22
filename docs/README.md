@@ -65,8 +65,7 @@ If you are new to the repo:
 The current repository is still single-provider and mostly single-site:
 
 - provider: MOEX
-- legacy static output: `site/`
 - modern frontend app: `frontend/`
-- generated data mostly stored in root-level `data/`
+- site-scoped publication data under `data/sites/default/`
 
 The target model is multi-provider and site-scoped. The docs in this directory define the migration path and the guardrails for getting there.

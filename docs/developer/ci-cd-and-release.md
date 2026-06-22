@@ -24,11 +24,12 @@ Current behavior:
 - ensures the release exists
 - checks release coverage
 - runs `probe-latest` when bootstrap is not required
+- fails fast when hosted bootstrap would be required
 - commits refreshed source manifest when probe finds no changes
 - runs `sync-targeted` when probe reports changes
 - uploads and prunes release assets
 - refreshes LootLabs links
-- commits regenerated `data/` and `site/`
+- commits regenerated `data/`
 
 ### `sync-full.yml`
 
@@ -42,7 +43,7 @@ Current behavior:
 - ensures the release exists
 - uploads and prunes release assets
 - refreshes LootLabs links
-- commits regenerated `data/` and `site/`
+- commits regenerated `data/`
 
 ### `audit-recent.yml`
 
@@ -55,10 +56,10 @@ Current behavior:
 - ensures the release exists
 - checks release coverage
 - downloads current release bundles when possible
-- runs either bootstrap full sync or recent-year incremental sync
+- runs recent-year incremental sync only when hosted coverage is already complete
 - uploads and prunes release assets
 - refreshes LootLabs links
-- commits audited `data/` and `site/`
+- commits audited `data/`
 
 ### `discover.yml`
 

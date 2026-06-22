@@ -37,9 +37,10 @@ Default-site publication policy:
 - `publish-site --site-id default` publishes the public multi-year bundle set only.
 - Single-year catalogs can still exist in provider state, but they are excluded from `data/sites/default/bundles.json`, `data/sites/default/release-assets.json`, and the rendered public bundle list.
 
-Public site output:
+Public deploy inputs:
 
-- `site/`
+- `data/sites/default/*`
+- `frontend/`
 
 Manual input:
 
@@ -60,7 +61,7 @@ Run from the repo root.
 | `python -m app migrate-legacy-state --provider moex --site-id default --mode dry-run` | you are preparing the final root-to-scoped cutover and want a non-mutating inventory first | stdout migration plan only |
 | `python -m app migrate-legacy-state --provider moex --site-id default --mode move` | reader and workflow cutover is ready and you want to promote existing root state in place without re-downloading | `data/providers/moex/*`, `data/sites/default/*`, `mirror/providers/moex/*`, `bundles/sites/default/*` |
 | `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` | you already promoted legacy state and need a pass/fail safety check before deleting the old root files | stdout verification report |
-| `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need the filtered public bundle set, release metadata, and site output rebuilt | `data/sites/default/*`, `bundles/sites/default/`, `site/` |
+| `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need the filtered public bundle set and release metadata rebuilt | `data/sites/default/*`, `bundles/sites/default/` |
 | `python -m app sync-lootlabs --site-id default` | site bundle URLs or checksums changed | `data/sites/default/lootlabs-links.json` |
 | `python .github/scripts/release_assets.py ensure` | site publication wrote new release metadata and tags may need bootstrapping | GitHub Releases only |
 | `python .github/scripts/release_assets.py upload` | local bundle ZIPs need to be uploaded to their assigned release tags | GitHub Releases only |
@@ -194,8 +195,7 @@ After a sync or publication run, check:
 4. `data/sites/default/lootlabs-links.json` if gating is enabled
 5. `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` during the final cutover window
 6. GitHub release asset coverage if you published bundles
-7. `site/` output if legacy site consumers matter
-8. frontend build if public deployment behavior changed
+7. frontend build if public deployment behavior changed
 
 If a hosted workflow fails with:
 

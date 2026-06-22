@@ -126,9 +126,9 @@ class WorkflowTests(unittest.TestCase):
     def test_workflows_sync_lootlabs_after_release_asset_updates(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         commit_steps = {
-            "sync-full.yml": "Commit regenerated data and site",
-            "sync-incremental.yml": "Commit regenerated data and site",
-            "audit-recent.yml": "Commit audited data and site",
+            "sync-full.yml": "Commit regenerated data",
+            "sync-incremental.yml": "Commit regenerated data",
+            "audit-recent.yml": "Commit audited data",
         }
         for workflow_name, commit_step in commit_steps.items():
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
@@ -137,6 +137,12 @@ class WorkflowTests(unittest.TestCase):
             self.assertLess(workflow.index("release_assets.py upload"), sync_lootlabs_index)
             self.assertLess(workflow.index("release_assets.py prune"), sync_lootlabs_index)
             self.assertLess(sync_lootlabs_index, workflow.index(commit_step))
+
+    def test_sync_workflows_do_not_stage_legacy_site_output(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
+            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertNotIn("git add -f site", workflow)
 
     def test_pages_deploy_rebuilds_when_site_scoped_bundle_inputs_change(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")

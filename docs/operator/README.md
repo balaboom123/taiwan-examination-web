@@ -6,7 +6,7 @@ Use these docs if you:
 
 - run syncs manually
 - trigger or inspect GitHub Actions workflows
-- rebuild bundles or site outputs
+- rebuild bundles or publication outputs
 - refresh LootLabs links
 - investigate publication failures
 
@@ -21,7 +21,7 @@ These docs assume you are operating the repository, not browsing the public webs
 ## Safety Rules
 
 - Prefer probe or targeted refresh before a full rebuild.
-- Treat `data/`, `site/`, `bundles/`, and `mirror/` as operational state.
+- Treat `data/`, `bundles/`, and `mirror/` as operational state.
 - Do not manually edit generated files unless the recovery doc explicitly calls for it.
 - Remember that `data/aliases.json` is a manual input; most other `data/` files are generated outputs.
 
@@ -32,7 +32,7 @@ Current operating model:
 - one active provider: MOEX
 - one primary release tag for bundles
 - one current gating provider: LootLabs
-- legacy `site/` output plus modern `frontend/` deploy
+- modern `frontend/` deploy fed by site-scoped publication data
 
 Future operating model:
 

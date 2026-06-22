@@ -20,18 +20,18 @@ Use case:
 
 - regular maintenance
 - probe-first refresh
-- automatic bootstrap when release coverage is incomplete
+- fail-fast protection when release coverage is incomplete
 
 Operator expectations:
 
 - release coverage is checked before targeted sync
-- if release coverage is incomplete, the workflow runs a full bootstrap instead of targeted sync
+- if release coverage is incomplete, the workflow stops and requires manual recovery on a machine with persistent MOEX state
 - if probe sees no source change, only the manifest may be committed
 
 Trigger manually when:
 
 - you want the standard maintenance path outside the schedule
-- you want automation to decide between probe-targeted refresh and bootstrap
+- you want automation to decide whether probe-targeted refresh is safe
 
 ### `sync-full.yml`
 
@@ -92,7 +92,7 @@ Trigger manually when:
 For sync and publication workflows:
 
 1. Check workflow logs for non-zero Python command exits.
-2. Check whether `data/` and `site/` commits were pushed.
+2. Check whether `data/` commits were pushed.
 3. Check release asset coverage and uploaded ZIP names.
 4. Check LootLabs refresh step if enabled.
 

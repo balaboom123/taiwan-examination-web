@@ -17,9 +17,9 @@ Site-owned publication state:
 - `data/sites/default/lootlabs-links.json`: gated public download links for the site
 - `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
 
-Public site output:
+Public deployment output:
 
-- `site/index.html`
+- `frontend/dist/` built from `frontend/` plus `data/sites/default/*`
 
 Manual input:
 
@@ -40,7 +40,7 @@ python -m app sync-lootlabs --site-id default
 ## Workflow Strategy
 
 - Provider sync owns discovery, source parsing, mirrored files, normalized papers, manifests, and sync failures.
-- Site publication owns bundle ZIPs, release asset manifests, LootLabs link manifests, and the public site output.
+- Site publication owns bundle ZIPs, release asset manifests, LootLabs link manifests, and frontend-consumable site data.
 - `probe-latest` checks the newest MOEX years first and updates the provider manifest only when `--write-manifest` is passed.
 - `sync-targeted` refreshes only exams reported by the MOEX probe result.
 - `sync-incremental` is the recent-year maintenance path used by the audit workflow.
@@ -51,7 +51,7 @@ python -m app sync-lootlabs --site-id default
 The scheduled `sync-incremental` GitHub Actions workflow behaves in two modes:
 
 1. If the default site's assigned release tags already have the exact expected zip asset set, it runs probe-first targeted sync.
-2. If the assigned releases are empty or incomplete, it falls back to a full sync bootstrap so publication cannot get stuck with only a small subset of bundles.
+2. If the assigned releases are empty or incomplete, it fails fast and requires manual recovery from a machine with persistent MOEX state.
 
 ## Bundle Format
 

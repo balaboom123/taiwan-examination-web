@@ -11,10 +11,10 @@ from app.crawler import year_ad_from_code
 from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.migration import migrate_legacy_state
-from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper
+from app.models import BundleAsset, NormalizedCatalog
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import ProviderPaths, site_paths
-from app.publisher import build_site, publish_site, write_data_files, write_provider_state
+from app.publisher import publish_site, write_data_files, write_provider_state
 from app.probe import probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
@@ -167,25 +167,10 @@ def command_build_bundles(args: argparse.Namespace) -> int:
     bundles = rebuild_result.bundles
     failures = existing_failures + rebuild_result.failures
     write_data_files(args.data_dir, existing_raw_pages, existing_catalog, aliases, bundles, failures)
-    build_site(args.site_dir, existing_catalog, bundles)
     print(f"Built {len(bundles)} bundles, {len(rebuild_result.failures)} bundle failures", flush=True)
     if failures:
         print(f"{len(failures)} total failures (see data/sync-failures.json)", flush=True)
         return 1
-    return 0
-
-
-def command_build_site(args: argparse.Namespace) -> int:
-    papers_dir = args.data_dir / "papers"
-    papers: list[dict] = []
-    if papers_dir.is_dir():
-        for f in sorted(papers_dir.glob("*.json")):
-            papers.extend(json.loads(f.read_text(encoding="utf-8")))
-    bundles_path = args.data_dir / "bundles.json"
-    bundles_data = json.loads(bundles_path.read_text(encoding="utf-8")) if bundles_path.exists() else []
-    catalog = NormalizedCatalog(papers=[NormalizedPaper(**paper) for paper in papers], review_queue=[])
-    bundles = [BundleAsset(**bundle) for bundle in bundles_data]
-    build_site(args.site_dir, catalog, bundles)
     return 0
 
 
@@ -569,7 +554,6 @@ def build_parser() -> argparse.ArgumentParser:
     targeted = subparsers.add_parser("sync-targeted", help="Sync only changed exams from a probe output file.")
     targeted.add_argument("--probe", type=Path, default=repo_root / ".tmp" / "source-probe.json")
     targeted.add_argument("--data-dir", type=Path, default=repo_root / "data")
-    targeted.add_argument("--site-dir", type=Path, default=repo_root / "site")
     targeted.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
     targeted.add_argument("--bundle-dir", type=Path, default=None)
     targeted.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
@@ -587,7 +571,6 @@ def build_parser() -> argparse.ArgumentParser:
     for name in ("sync-full", "sync-incremental"):
         sync = subparsers.add_parser(name, help=f"{name} against the selected provider.")
         sync.add_argument("--data-dir", type=Path, default=repo_root / "data")
-        sync.add_argument("--site-dir", type=Path, default=repo_root / "site")
         sync.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
         sync.add_argument("--bundle-dir", type=Path, default=None)
         sync.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
@@ -607,9 +590,8 @@ def build_parser() -> argparse.ArgumentParser:
             sync.add_argument("--years", dest="year_window", type=int, default=3)
         sync.set_defaults(handler=command_sync)
 
-    build_bundles_parser = subparsers.add_parser("build-bundles", help="Rebuild ZIP bundles and site from existing local data (no network).")
+    build_bundles_parser = subparsers.add_parser("build-bundles", help="Rebuild ZIP bundles from existing local data (no network).")
     build_bundles_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
-    build_bundles_parser.add_argument("--site-dir", type=Path, default=repo_root / "site")
     build_bundles_parser.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
     build_bundles_parser.add_argument("--bundle-dir", type=Path, default=repo_root / "bundles")
     build_bundles_parser.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
@@ -624,11 +606,6 @@ def build_parser() -> argparse.ArgumentParser:
     lootlabs_parser.add_argument("--repo-root", type=Path, default=repo_root)
     lootlabs_parser.add_argument("--site-id", default="default")
     lootlabs_parser.set_defaults(handler=command_sync_lootlabs)
-
-    build_site_parser = subparsers.add_parser("build-site", help="Build static HTML from data/papers/*.json.")
-    build_site_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
-    build_site_parser.add_argument("--site-dir", type=Path, default=repo_root / "site")
-    build_site_parser.set_defaults(handler=command_build_site)
 
     publish_site_parser = subparsers.add_parser("publish-site", help="Aggregate provider outputs and publish one site.")
     publish_site_parser.add_argument("--repo-root", type=Path, default=repo_root)

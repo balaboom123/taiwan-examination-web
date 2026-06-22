@@ -90,7 +90,7 @@ Recommended entry format:
 | current deploy workflows | `deploy-pages.yml` |
 | current publish ownership | sync workflows plus `.github/scripts/release_assets.py` |
 | current frontend surface | `frontend/` |
-| legacy output surface | `site/` |
+| legacy output surface | none |
 | gating provider | LootLabs, optional by build/deploy path |
 | notes | current site still uses MOEX-shaped naming, needs site-scoped cutover, and will eventually absorb one CEEC bundle asset without splitting the public site |
 

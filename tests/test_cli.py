@@ -5,7 +5,6 @@ import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
-from urllib.parse import quote
 from unittest.mock import patch
 
 from app.manifest import SourceManifest
@@ -48,72 +47,21 @@ def _paper(
     )
 
 
-class CliBuildSiteTests(unittest.TestCase):
-    def test_build_site_command_renders_existing_catalog(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            data_dir = root / "data"
-            site_dir = root / "site"
-            data_dir.mkdir()
-            site_dir.mkdir()
-            papers_dir = data_dir / "papers"
-            papers_dir.mkdir()
-            (papers_dir / "2026.json").write_text(
-                json.dumps(
-                    [
-                        {
-                            "canonical_id": "nurse",
-                            "canonical_name": "護理師",
-                            "year_roc": 115,
-                            "exam_name_raw": "115年專技高考護理師",
-                            "category_raw": "護理師",
-                            "category_code": "101",
-                            "source_exam_id": "115030",
-                            "subject_code": "0101",
-                            "subject_name_raw": "基礎醫學",
-                            "paper_code": "101-0101-question",
-                            "file_type": "question",
-                            "download_url_source": "https://source.example/question.pdf",
-                            "download_url_mirror": "",
-                            "download_url_bundle": f"https://bundles.example/{quote('護理師__nurse.zip')}",
-                            "storage_key": "115/115030/101/0101/question.pdf",
-                            "checksum": "abc123",
-                        }
-                    ],
-                    ensure_ascii=False,
-                ),
-                encoding="utf-8",
-            )
-            (data_dir / "bundles.json").write_text(
-                json.dumps(
-                    [
-                        {
-                            "canonical_id": "nurse",
-                            "canonical_name": "護理師",
-                            "years": [115],
-                            "file_count": 1,
-                            "storage_key": "bundles/護理師__nurse.zip",
-                            "asset_name": "護理師__nurse.zip",
-                            "download_url": f"https://bundles.example/{quote('護理師__nurse.zip')}",
-                            "legacy_asset_names": ["nurse.zip"],
-                        }
-                    ],
-                    ensure_ascii=False,
-                ),
-                encoding="utf-8",
-            )
+class CliParserCleanupTests(unittest.TestCase):
+    def test_removed_build_site_command_is_rejected(self) -> None:
+        parser = build_parser()
 
-            exit_code = main(["build-site", "--data-dir", str(data_dir), "--site-dir", str(site_dir)])
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["build-site"])
 
-            self.assertEqual(exit_code, 0)
-            html = (site_dir / "index.html").read_text(encoding="utf-8")
-            self.assertIn("護理師", html)
-            self.assertIn("考選部歷屆試題下載", html)
-            self.assertIn("下載整理好的中文壓縮檔", html)
-            self.assertIn("<th>考試名稱</th>", html)
-            self.assertIn("下載壓縮檔", html)
-            self.assertNotIn("${paper.canonical_id}", html)
-            self.assertNotIn("${paper.file_type}", html)
+    def test_sync_incremental_parser_rejects_legacy_site_dir_flag(self) -> None:
+        parser = build_parser()
+
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["sync-incremental", "--site-dir", "site"])
+
+
+class CliCommandTests(unittest.TestCase):
 
     def test_sync_incremental_years_flag_is_a_window_size(self) -> None:
         parser = build_parser()
@@ -238,7 +186,6 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertIn("Missing mirrored file for bundle entry", output.getvalue())
             self.assertFalse(site_paths(root, "default").bundles_path.exists())
-            self.assertFalse((root / "site" / "index.html").exists())
 
     def test_publish_site_command_returns_non_zero_when_a_required_provider_state_is_missing(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -324,8 +271,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "--write-manifest",
                     "--data-dir",
                     str(root / "data"),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -419,8 +364,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "--write-manifest",
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -444,9 +387,7 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(provider_manifest, legacy_manifest)
             self.assertFalse((data_dir / "bundles.json").exists())
             self.assertFalse((data_dir / "release-assets.json").exists())
-            self.assertFalse((root / "site" / "index.html").exists())
 
-    @patch("app.cli.build_site")
     @patch("app.cli.write_data_files")
     @patch("app.cli.build_bundles")
     @patch("app.cli.sync_exam_pages")
@@ -455,7 +396,6 @@ class CliBuildSiteTests(unittest.TestCase):
         sync_exam_pages_mock,
         build_bundles_mock,
         write_data_files_mock,
-        build_site_mock,
     ) -> None:
         class MoexClient:
             provider_id = "moex"
@@ -491,8 +431,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "moex",
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -510,14 +448,11 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(provider_failures, [])
             self.assertFalse((data_dir / "bundles.json").exists())
             self.assertFalse((data_dir / "release-assets.json").exists())
-            self.assertFalse((root / "site" / "index.html").exists())
 
         self.assertEqual(exit_code, 0)
         build_bundles_mock.assert_not_called()
         write_data_files_mock.assert_not_called()
-        build_site_mock.assert_not_called()
 
-    @patch("app.cli.build_site")
     @patch("app.cli.write_data_files")
     @patch("app.cli.build_bundles")
     @patch("app.cli.sync_exam_pages")
@@ -526,7 +461,6 @@ class CliBuildSiteTests(unittest.TestCase):
         sync_exam_pages_mock,
         build_bundles_mock,
         write_data_files_mock,
-        build_site_mock,
     ) -> None:
         class CeecClient:
             provider_id = "ceec_gsat"
@@ -562,8 +496,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "ceec_gsat",
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -582,11 +514,9 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(provider_failures, [])
             self.assertFalse((data_dir / "bundles.json").exists())
             self.assertFalse((data_dir / "release-assets.json").exists())
-            self.assertFalse((root / "site" / "index.html").exists())
 
         build_bundles_mock.assert_not_called()
         write_data_files_mock.assert_not_called()
-        build_site_mock.assert_not_called()
 
     def test_probe_latest_parser_accepts_manifest_and_output_paths(self) -> None:
         parser = build_parser()
@@ -1068,8 +998,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(root / "data"),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1081,7 +1009,6 @@ class CliBuildSiteTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             self.assertFalse((root / "data").exists())
-            self.assertFalse((root / "site").exists())
 
     def test_run_sync_targeted_fails_closed_when_refreshed_exam_has_download_failure(self) -> None:
         class FailingTargetedClient:
@@ -1181,8 +1108,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1199,7 +1124,6 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertIn("101-0101-answer", output.getvalue())
             self.assertIn("temporary download failure", output.getvalue())
             self.assertEqual((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"), original_papers)
-            self.assertFalse((root / "site").exists())
 
     def test_run_sync_targeted_writes_probe_manifest_after_successful_sync(self) -> None:
         class SuccessfulTargetedClient:
@@ -1281,8 +1205,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1301,7 +1223,6 @@ class CliBuildSiteTests(unittest.TestCase):
             self.assertEqual(provider_manifest, manifest_payload)
             self.assertFalse((data_dir / "source-manifest.json").exists())
             self.assertFalse((data_dir / "bundles.json").exists())
-            self.assertFalse((root / "site" / "index.html").exists())
 
     def test_run_sync_targeted_requires_explicit_exam_years_for_non_moex_probe(self) -> None:
         class CeecTargetedClient:
@@ -1332,8 +1253,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(root / "data"),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1349,7 +1268,6 @@ class CliBuildSiteTests(unittest.TestCase):
         self.assertIn("exam_years", output.getvalue())
         self.assertIn("ceec_gsat", output.getvalue())
 
-    @patch("app.cli.build_site")
     @patch("app.cli.write_data_files")
     @patch("app.cli.build_bundles")
     @patch("app.cli.merge_targeted_state")
@@ -1364,7 +1282,6 @@ class CliBuildSiteTests(unittest.TestCase):
         merge_targeted_state_mock,
         build_bundles_mock,
         _write_data_files_mock,
-        _build_site_mock,
     ) -> None:
         class CeecProvider:
             provider_id = "ceec_gsat"
@@ -1413,8 +1330,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(root / "data"),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1459,8 +1374,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     str(probe_path),
                     "--data-dir",
                     str(root / "data"),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",
@@ -1571,8 +1484,6 @@ class CliBuildSiteTests(unittest.TestCase):
                     "1",
                     "--data-dir",
                     str(data_dir),
-                    "--site-dir",
-                    str(root / "site"),
                     "--mirror-dir",
                     str(root / "mirror"),
                     "--bundle-dir",

@@ -157,8 +157,8 @@ Future rule:
 
 Current behavior:
 
-- `app.publisher.build_site` rebuilds the legacy `site/` output
-- the frontend build emits a frontend-specific `data/bundles.json` feed from generated bundles, optionally wrapped with LootLabs URLs
+- `app.publisher.publish_site` writes site-scoped publication metadata under `data/sites/<site_id>/`
+- the frontend build emits a frontend-specific `data/bundles.json` feed from publication data, optionally wrapped with LootLabs URLs
 
 Future rule:
 
@@ -175,7 +175,6 @@ Future rule:
 | `sync-incremental` | yes | yes, safe subset only | preserves existing state for failed exam IDs and returns non-zero if failures remain |
 | `sync-full` | yes | yes | writes full regenerated outputs and returns non-zero if failures remain |
 | `build-bundles` | yes | no | local rebuild path; returns non-zero if failures exist |
-| `build-site` | yes | yes | rebuilds legacy site from existing generated data |
 | `sync-lootlabs` | yes | no | fails if bundle schema, settings, or provider response are invalid |
 
 ## Generated Versus Manual Inputs
@@ -194,7 +193,6 @@ Generated outputs today:
 - `data/source-manifest.json`
 - `data/release-assets.json`
 - `data/lootlabs-links.json`
-- `site/**`
 
 Operators and developers MUST treat generated outputs as derived state. Manual edits to generated files are temporary recovery actions only and MUST be followed by a rebuilding command or code fix.
 
