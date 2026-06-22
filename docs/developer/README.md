@@ -18,6 +18,7 @@ The repository is in a transition state:
 - Read `source-onboarding.md` when adding a new source.
 - Read `source-spec-template.md` before drafting source #2 or later.
 - Read `ci-cd-and-release.md` before touching GitHub Actions, release logic, or deploy paths.
+- Read `exam-classification.md` before changing frontend exam categories, subclass rules, or onboarding a new provider class.
 
 ## Normative Language
 
@@ -48,3 +49,4 @@ Any change that adds or materially changes a provider, site, workflow, schema, r
 - `provider-site-registry.md`: current and planned provider/site ownership registry
 - `source-onboarding.md`: required steps and definition of done for new sources
 - `source-spec-template.md`: copy-paste template for approving new provider designs
+- `exam-classification.md`: frontend exam class/subclass taxonomy, pattern rules, and expansion guide

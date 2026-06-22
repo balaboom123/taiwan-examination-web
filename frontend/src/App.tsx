@@ -12,6 +12,8 @@ import { EmptyState } from "@/components/empty-state"
 import { LoadingSkeleton } from "@/components/loading-skeleton"
 import { Pagination } from "@/components/pagination"
 import { Stamp } from "@/components/stamp"
+import { CategoryFilter } from "@/components/category-filter"
+import { EXAM_CLASSES, type ExamClass } from "@/lib/exam-classification"
 import type { Bundle } from "@/types"
 
 const PAGE_SIZE = 30
@@ -48,6 +50,8 @@ function App() {
   const [query, setQuery] = useState("")
   const debouncedQuery = useDebouncedValue(query, 200)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [selectedClass, setSelectedClass] = useState<ExamClass | null>(null)
+  const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
   const [sortKey, setSortKey] = useState<SortKey>("name")
   const [page, setPage] = useState(1)
 
@@ -59,16 +63,54 @@ function App() {
     return Array.from(set).sort((a, b) => b - a)
   }, [bundles])
 
-  const filtered = useMemo(() => {
+  const baseFiltered = useMemo(() => {
     let result = bundles
-
     if (debouncedQuery.trim()) {
       const q = debouncedQuery.trim().toLowerCase()
       result = result.filter((b) => b.name.toLowerCase().includes(q))
     }
-
     if (selectedYear !== null) {
       result = result.filter((b) => b.years.includes(selectedYear))
+    }
+    return result
+  }, [bundles, debouncedQuery, selectedYear])
+
+  const classCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const b of baseFiltered) {
+      counts[b.examClass] = (counts[b.examClass] ?? 0) + 1
+    }
+    return counts
+  }, [baseFiltered])
+
+  const availableClasses = useMemo(
+    () => EXAM_CLASSES.filter((c) => (classCounts[c] ?? 0) > 0),
+    [classCounts]
+  )
+
+  const subclassCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const b of baseFiltered) {
+      if (selectedClass && b.examClass !== selectedClass) continue
+      counts[b.examSubclass] = (counts[b.examSubclass] ?? 0) + 1
+    }
+    return counts
+  }, [baseFiltered, selectedClass])
+
+  const availableSubclasses = useMemo(
+    () => Object.keys(subclassCounts).filter((s) => subclassCounts[s] > 0),
+    [subclassCounts]
+  )
+
+  const filtered = useMemo(() => {
+    let result = baseFiltered
+
+    if (selectedClass) {
+      result = result.filter((b) => b.examClass === selectedClass)
+    }
+
+    if (selectedSubclass) {
+      result = result.filter((b) => b.examSubclass === selectedSubclass)
     }
 
     const sorted = [...result]
@@ -85,7 +127,7 @@ function App() {
     }
 
     return sorted
-  }, [bundles, debouncedQuery, selectedYear, sortKey])
+  }, [baseFiltered, selectedClass, selectedSubclass, sortKey])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const safePage = Math.min(page, totalPages)
@@ -111,6 +153,17 @@ function App() {
     setPage(1)
   }
 
+  function handleClassChange(cls: ExamClass | null) {
+    setSelectedClass(cls)
+    setSelectedSubclass(null)
+    setPage(1)
+  }
+
+  function handleSubclassChange(sub: string | null) {
+    setSelectedSubclass(sub)
+    setPage(1)
+  }
+
   function handleSortChange(key: SortKey) {
     setSortKey(key)
     setPage(1)
@@ -119,6 +172,8 @@ function App() {
   function handleReset() {
     setQuery("")
     setSelectedYear(null)
+    setSelectedClass(null)
+    setSelectedSubclass(null)
     setPage(1)
   }
 
@@ -175,6 +230,21 @@ function App() {
               total={bundles.length}
               totalFiles={totalFiles}
               yearRange={yearRange}
+            />
+          </div>
+        )}
+
+        {!loading && (
+          <div className="mt-6">
+            <CategoryFilter
+              availableClasses={availableClasses}
+              availableSubclasses={availableSubclasses}
+              selectedClass={selectedClass}
+              selectedSubclass={selectedSubclass}
+              onClassChange={handleClassChange}
+              onSubclassChange={handleSubclassChange}
+              classCounts={classCounts}
+              subclassCounts={subclassCounts}
             />
           </div>
         )}

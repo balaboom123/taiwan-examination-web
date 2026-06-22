@@ -4,4 +4,6 @@ export interface Bundle {
   years: number[]
   fileCount: number
   url: string
+  examClass: string
+  examSubclass: string
 }

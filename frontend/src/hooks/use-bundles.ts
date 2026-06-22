@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import type { Bundle } from "@/types"
+import { classifyBundle } from "@/lib/exam-classification"
 
 interface UseBundlesResult {
   bundles: Bundle[]
@@ -7,7 +8,15 @@ interface UseBundlesResult {
   error: string | null
 }
 
-function isValidBundle(item: unknown): item is Bundle {
+interface RawBundle {
+  id: string
+  name: string
+  years: number[]
+  fileCount: number
+  url: string
+}
+
+function isValidRawBundle(item: unknown): item is RawBundle {
   if (typeof item !== "object" || item === null) return false
   const obj = item as Record<string, unknown>
   return (
@@ -17,6 +26,11 @@ function isValidBundle(item: unknown): item is Bundle {
     typeof obj.fileCount === "number" &&
     typeof obj.url === "string"
   )
+}
+
+function enrichBundle(raw: RawBundle): Bundle {
+  const { examClass, examSubclass } = classifyBundle(raw.id, raw.name)
+  return { ...raw, examClass, examSubclass }
 }
 
 function normalizeBundlesPayload(data: unknown): unknown[] {
@@ -48,7 +62,7 @@ export function useBundles(): UseBundlesResult {
       })
       .then((data) => {
         const bundlesData = normalizeBundlesPayload(data)
-        const valid = bundlesData.filter(isValidBundle)
+        const valid = bundlesData.filter(isValidRawBundle).map(enrichBundle)
         if (valid.length === 0 && bundlesData.length > 0) {
           throw new Error("Data schema mismatch")
         }
