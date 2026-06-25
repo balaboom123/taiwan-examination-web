@@ -4,11 +4,13 @@ from app.providers.base import SourceProvider
 from app.providers.ceec_gsat.provider import CeecGsatProvider
 from app.providers.moex.provider import MoexProvider
 from app.providers.rcpet_cap.provider import RcpetCapProvider
+from app.providers.wdasec_skill.provider import WdasecSkillProvider
 
 _PROVIDER_FACTORIES = {
     "ceec_gsat": CeecGsatProvider,
     "moex": MoexProvider,
     "rcpet_cap": RcpetCapProvider,
+    "wdasec_skill": WdasecSkillProvider,
 }
 
 
