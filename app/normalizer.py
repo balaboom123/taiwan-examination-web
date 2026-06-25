@@ -28,6 +28,8 @@ KNOWN_PREFIXES = [
 ]
 _CEEC_GSAT_CANONICAL_ID = "ceec-gsat"
 _CEEC_GSAT_CANONICAL_NAME = "學科能力測驗"
+_WDASEC_SKILL_CANONICAL_ID = "wdasec-skill"
+_WDASEC_SKILL_CANONICAL_NAME = "全國技術士技能檢定"
 
 
 def legacy_fallback_canonical_id(candidate: str) -> str:
@@ -126,6 +128,8 @@ def _derive_canonical(
     """Return (canonical_id, canonical_name, stripped_candidate, needs_review)."""
     if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
         return _CEEC_GSAT_CANONICAL_ID, _CEEC_GSAT_CANONICAL_NAME, _CEEC_GSAT_CANONICAL_NAME, False
+    if _WDASEC_SKILL_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
+        return _WDASEC_SKILL_CANONICAL_ID, _WDASEC_SKILL_CANONICAL_NAME, _WDASEC_SKILL_CANONICAL_NAME, False
     alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
     candidate = _strip_exam_family(raw_category or exam_name_raw)
     if alias:
