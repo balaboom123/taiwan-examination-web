@@ -154,7 +154,7 @@ class _DownloadPageParser(HTMLParser):
 def parse_download_page(html: str) -> list[MoeaRecruitEntry]:
     """Parse the Taipower MOEA joint exam download listing page."""
     parser = _DownloadPageParser()
-    parser.feed(unescape(html))
+    parser.feed(html)
     return parser.entries
 
 
