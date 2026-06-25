@@ -53,6 +53,25 @@ DOWNLOAD_PAGE_HTML_SINGLE_FILE = """
 </body></html>
 """
 
+DOWNLOAD_PAGE_HTML_NESTED_DIVS = """
+<html><body>
+<div class="download-list">
+  <div class="list-item">
+    <div class="title">
+      <div>Inner nested div</div>
+      114年新進職員甄試試題解答
+    </div>
+    <div class="file">
+      <div class="wrapper">
+        <a href="/media/5487/114nian_examination_questions.pdf">試題</a>
+      </div>
+      <a href="/media/5488/114nian_examination_answers.pdf">解答</a>
+    </div>
+  </div>
+</div>
+</body></html>
+"""
+
 
 class MoeaRecruitParserTests(unittest.TestCase):
     def test_parse_download_page_extracts_entries(self) -> None:
@@ -95,6 +114,20 @@ class MoeaRecruitParserTests(unittest.TestCase):
         self.assertEqual(entries[0].year_roc, 110)
         self.assertEqual(len(entries[0].downloads), 1)
         self.assertEqual(entries[0].downloads[0].label, "試題暨解答")
+
+    def test_parse_download_page_handles_nested_divs(self) -> None:
+        """Test that nested divs inside title and file sections don't break parsing."""
+        entries = parse_download_page(DOWNLOAD_PAGE_HTML_NESTED_DIVS)
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].year_roc, 114)
+        self.assertEqual(entries[0].year_ad, 2025)
+        # Should extract both downloads despite nested divs in file section
+        self.assertEqual(len(entries[0].downloads), 2)
+        self.assertEqual(entries[0].downloads[0].label, "試題")
+        self.assertEqual(entries[0].downloads[1].label, "解答")
+        # Title should be extracted correctly despite nested div
+        self.assertIn("114年新進職員甄試試題解答", entries[0].title)
 
     def test_parse_download_page_empty_html_returns_empty_list(self) -> None:
         entries = parse_download_page("<html><body></body></html>")

@@ -59,6 +59,11 @@ class _DownloadPageParser(HTMLParser):
         self._in_title = False
         self._in_file = False
         self._in_anchor = False
+        # Depth counters for nested div tracking
+        self._div_depth_title: int = 0
+        self._div_depth_file: int = 0
+        self._div_depth_item: int = 0
+        self._div_depth_list: int = 0
         self._current_title: str = ""
         self._title_parts: list[str] = []
         self._current_href: str = ""
@@ -72,6 +77,7 @@ class _DownloadPageParser(HTMLParser):
 
         if tag == "div" and "download-list" in classes:
             self._in_download_list = True
+            self._div_depth_list = 1
             return
 
         if not self._in_download_list:
@@ -79,6 +85,7 @@ class _DownloadPageParser(HTMLParser):
 
         if tag == "div" and "list-item" in classes:
             self._in_list_item = True
+            self._div_depth_item = 1
             self._current_title = ""
             self._current_downloads = []
             return
@@ -88,12 +95,25 @@ class _DownloadPageParser(HTMLParser):
 
         if tag == "div" and "title" in classes:
             self._in_title = True
+            self._div_depth_title = 1
             self._title_parts = []
             return
 
         if tag == "div" and "file" in classes:
             self._in_file = True
+            self._div_depth_file = 1
             return
+
+        # Handle nested divs within tracked sections
+        if tag == "div":
+            if self._in_title:
+                self._div_depth_title += 1
+            elif self._in_file:
+                self._div_depth_file += 1
+            elif self._in_list_item:
+                self._div_depth_item += 1
+            elif self._in_download_list:
+                self._div_depth_list += 1
 
         if self._in_file and tag == "a":
             self._in_anchor = True
@@ -109,19 +129,27 @@ class _DownloadPageParser(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag == "div":
             if self._in_title:
-                self._current_title = _normalize_text("".join(self._title_parts))
-                self._in_title = False
+                self._div_depth_title -= 1
+                if self._div_depth_title == 0:
+                    self._current_title = _normalize_text("".join(self._title_parts))
+                    self._in_title = False
                 return
             if self._in_file:
-                self._in_file = False
+                self._div_depth_file -= 1
+                if self._div_depth_file == 0:
+                    self._in_file = False
                 return
             if self._in_list_item:
-                # Closing a list-item: flush the entry
-                self._flush_entry()
-                self._in_list_item = False
+                self._div_depth_item -= 1
+                if self._div_depth_item == 0:
+                    # Closing a list-item: flush the entry
+                    self._flush_entry()
+                    self._in_list_item = False
                 return
             if self._in_download_list:
-                self._in_download_list = False
+                self._div_depth_list -= 1
+                if self._div_depth_list == 0:
+                    self._in_download_list = False
                 return
 
         if tag == "a" and self._in_anchor:
