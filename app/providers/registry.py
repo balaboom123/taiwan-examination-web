@@ -6,6 +6,7 @@ from app.providers.cpc_recruit.provider import CpcRecruitProvider
 from app.providers.moea_recruit.provider import MoeaRecruitProvider
 from app.providers.moex.provider import MoexProvider
 from app.providers.taipower_recruit.provider import TaipowerRecruitProvider
+from app.providers.twc_recruit.provider import TwcRecruitProvider
 
 _PROVIDER_FACTORIES = {
     "ceec_gsat": CeecGsatProvider,
@@ -13,6 +14,7 @@ _PROVIDER_FACTORIES = {
     "moea_recruit": MoeaRecruitProvider,
     "moex": MoexProvider,
     "taipower_recruit": TaipowerRecruitProvider,
+    "twc_recruit": TwcRecruitProvider,
 }
 
 
