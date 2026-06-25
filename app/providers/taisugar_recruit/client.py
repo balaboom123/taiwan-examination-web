@@ -23,6 +23,8 @@ _YEAR_RE = re.compile(r"(\d{2,3})\s*年")
 # Pagination URL pattern: append &page=N
 _PAGE_URL = "https://www.taisugar.com.tw/chinese/News_Index.aspx?p=3&n=10080&page={page}"
 
+MAX_PAGES = 50
+
 
 @dataclass(frozen=True)
 class TaisugarNewsItem:
@@ -280,7 +282,7 @@ class TaisugarRecruitClient:
         items: list[TaisugarNewsItem] = []
         seen_urls: set[str] = set()
         page = 1
-        while True:
+        while page <= MAX_PAGES:
             url = LISTING_URL if page == 1 else _PAGE_URL.format(page=page)
             html = self._fetch_text(url)
             page_items = parse_news_listing(html)
