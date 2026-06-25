@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import MagicMock, patch
 
 from app.providers.wdasec_skill.client import (
     DetailRow,

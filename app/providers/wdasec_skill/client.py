@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
@@ -17,9 +16,6 @@ PAGE_URL = "https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx"
 USER_AGENT = "Mozilla/5.0 (compatible; wdasec-skill-mirror/1.0)"
 CANONICAL_CATEGORY = "全國技術士技能檢定"
 
-_YEAR_RE = re.compile(r"(\d{3})年度")
-_SESSION_RE = re.compile(r"第(\d)梯次")
-_HIDDEN_FIELD_NAMES = ("__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION")
 
 
 @dataclass(frozen=True)
@@ -110,7 +106,7 @@ class _ListingParser(HTMLParser):
         if not self._in_gvdata:
             return
         if tag == "th":
-            self._in_header = True
+            self._in_header = False
         elif tag == "td" and self._in_cell:
             text = " ".join("".join(self._text_parts).split()).strip()
             if self._cell_index == 0:
