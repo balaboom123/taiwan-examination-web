@@ -1,0 +1,40 @@
+name: sync-rcpet-cap
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 3 * * 6"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache mirror directory
+        uses: actions/cache@v4
+        with:
+          path: mirror
+          key: rcpet-cap-mirror-${{ hashFiles('data/providers/rcpet_cap/source-manifest.json') }}
+          restore-keys: |
+            rcpet-cap-mirror-
+
+      - name: Run RCPET CAP sync
+        run: python -m app sync-full --provider rcpet_cap --site-id default
+
+      - name: Commit regenerated RCPET CAP provider data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "chore: refresh RCPET CAP provider data"
+          git push

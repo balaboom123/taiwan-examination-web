@@ -19,6 +19,7 @@ interface ProviderRoute {
 
 const PROVIDER_ROUTES: readonly ProviderRoute[] = [
   { idPrefix: "ceec-", examClass: "升學", defaultSubclass: "學測" },
+  { idPrefix: "rcpet-cap", examClass: "升學", defaultSubclass: "國中教育會考" },
 ]
 
 const DEFAULT_CLASS: ExamClass = "公職"
@@ -65,7 +66,7 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
     fallback: "其他",
   },
   升學: {
-    subclasses: ["學測"],
+    subclasses: ["學測", "國中教育會考"],
     rules: [],
     fallback: "學測",
   },
