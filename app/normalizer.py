@@ -29,6 +29,25 @@ KNOWN_PREFIXES = [
 _CEEC_GSAT_CANONICAL_ID = "ceec-gsat"
 _CEEC_GSAT_CANONICAL_NAME = "學科能力測驗"
 
+_MOEA_RECRUIT_CANONICAL_ID = "moea-recruit"
+_MOEA_RECRUIT_CANONICAL_NAME = "國營事業聯招（新進職員）"
+_TAIPOWER_RECRUIT_CANONICAL_ID = "taipower-recruit"
+_TAIPOWER_RECRUIT_CANONICAL_NAME = "台電新進僱用人員甄試"
+_CPC_RECRUIT_CANONICAL_ID = "cpc-recruit"
+_CPC_RECRUIT_CANONICAL_NAME = "中油新進人員甄試"
+_TWC_RECRUIT_CANONICAL_ID = "twc-recruit"
+_TWC_RECRUIT_CANONICAL_NAME = "台水評價職位人員甄試"
+_TAISUGAR_RECRUIT_CANONICAL_ID = "taisugar-recruit"
+_TAISUGAR_RECRUIT_CANONICAL_NAME = "台糖新進工員甄試"
+
+_SOE_CANONICAL_MAP = {
+    "moea-recruit-": (_MOEA_RECRUIT_CANONICAL_ID, _MOEA_RECRUIT_CANONICAL_NAME),
+    "taipower-recruit-": (_TAIPOWER_RECRUIT_CANONICAL_ID, _TAIPOWER_RECRUIT_CANONICAL_NAME),
+    "cpc-recruit-": (_CPC_RECRUIT_CANONICAL_ID, _CPC_RECRUIT_CANONICAL_NAME),
+    "twc-recruit-": (_TWC_RECRUIT_CANONICAL_ID, _TWC_RECRUIT_CANONICAL_NAME),
+    "taisugar-recruit-": (_TAISUGAR_RECRUIT_CANONICAL_ID, _TAISUGAR_RECRUIT_CANONICAL_NAME),
+}
+
 
 def legacy_fallback_canonical_id(candidate: str) -> str:
     return "canonical-" + candidate.encode("utf-8").hex()[:16]
@@ -124,6 +143,9 @@ def _derive_canonical(
     alias_rules: list[AliasRule],
 ) -> tuple[str, str, str, bool]:
     """Return (canonical_id, canonical_name, stripped_candidate, needs_review)."""
+    for prefix, (canonical_id, canonical_name) in _SOE_CANONICAL_MAP.items():
+        if source_exam_id.startswith(prefix):
+            return canonical_id, canonical_name, canonical_name, False
     if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
         return _CEEC_GSAT_CANONICAL_ID, _CEEC_GSAT_CANONICAL_NAME, _CEEC_GSAT_CANONICAL_NAME, False
     alias = next((rule for rule in alias_rules if _match_alias(rule, raw_category, year_ad)), None)
