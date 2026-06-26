@@ -52,6 +52,38 @@ _SOE_CANONICAL_MAP = {
     "taisugar-recruit-": (_TAISUGAR_RECRUIT_CANONICAL_ID, _TAISUGAR_RECRUIT_CANONICAL_NAME),
 }
 
+_FINANCIAL_CERT_CANONICAL_MAP = {
+    # SFI (證基會) certifications
+    "sfi-cert-securities-dealer-": ("sfi-securities-dealer", "證券商業務員"),
+    "sfi-cert-senior-securities-dealer-": ("sfi-senior-securities-dealer", "證券商高級業務員"),
+    "sfi-cert-futures-dealer-": ("sfi-futures-dealer", "期貨商業務員"),
+    "sfi-cert-securities-analyst-": ("sfi-securities-analyst", "證券投資分析人員"),
+    "sfi-cert-sitca-": ("sfi-sitca", "投信投顧業務員"),
+    "sfi-cert-corporate-internal-control-": ("sfi-corporate-internal-control", "企業內部控制基本能力測驗"),
+    "sfi-cert-bills-dealer-": ("sfi-bills-dealer", "票券商業務人員"),
+    "sfi-cert-stock-affairs-": ("sfi-stock-affairs", "股務人員"),
+    "sfi-cert-asset-securitization-": ("sfi-asset-securitization", "資產證券化基本能力測驗"),
+    "sfi-cert-business-ethics-": ("sfi-business-ethics", "工商倫理測驗"),
+    # TABF (金融研訓院) certifications
+    "tabf-cert-bank-internal-control-": ("tabf-bank-internal-control", "銀行內部控制與內部稽核"),
+    "tabf-cert-trust-business-": ("tabf-trust-business", "信託業務人員"),
+    "tabf-cert-financial-planning-": ("tabf-financial-planning", "理財規劃人員"),
+    "tabf-cert-fx-junior-": ("tabf-fx-junior", "初階外匯人員"),
+    "tabf-cert-fx-senior-": ("tabf-fx-senior", "進階外匯人員"),
+    "tabf-cert-credit-": ("tabf-credit", "授信人員"),
+    "tabf-cert-risk-management-": ("tabf-risk-management", "風險管理基本能力"),
+    "tabf-cert-debt-collection-": ("tabf-debt-collection", "債權催收人員"),
+    "tabf-cert-digital-finance-": ("tabf-digital-finance", "數位金融知識與能力"),
+    "tabf-cert-aml-": ("tabf-aml", "防制洗錢與打擊資恐"),
+    "tabf-cert-fintech-": ("tabf-fintech", "金融科技力知識"),
+    "tabf-cert-asset-valuation-": ("tabf-asset-valuation", "資產評估人員"),
+    # TII (保發中心) certifications
+    "tii-cert-life-insurance-": ("tii-life-insurance", "人身保險業務員"),
+    "tii-cert-property-insurance-": ("tii-property-insurance", "財產保險業務員"),
+    "tii-cert-investment-insurance-": ("tii-investment-insurance", "投資型保險商品業務員"),
+    "tii-cert-health-insurance-": ("tii-health-insurance", "傷害保險及健康保險業務員"),
+}
+
 
 def legacy_fallback_canonical_id(candidate: str) -> str:
     return "canonical-" + candidate.encode("utf-8").hex()[:16]
@@ -148,6 +180,9 @@ def _derive_canonical(
 ) -> tuple[str, str, str, bool]:
     """Return (canonical_id, canonical_name, stripped_candidate, needs_review)."""
     for prefix, (canonical_id, canonical_name) in _SOE_CANONICAL_MAP.items():
+        if source_exam_id.startswith(prefix):
+            return canonical_id, canonical_name, canonical_name, False
+    for prefix, (canonical_id, canonical_name) in _FINANCIAL_CERT_CANONICAL_MAP.items():
         if source_exam_id.startswith(prefix):
             return canonical_id, canonical_name, canonical_name, False
     if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
