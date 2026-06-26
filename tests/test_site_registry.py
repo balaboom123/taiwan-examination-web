@@ -19,8 +19,17 @@ class SiteRegistryTests(unittest.TestCase):
                 "twc_recruit",
                 "rcpet_cap",
                 "wdasec_skill",
+                "sfi_cert",
+                "tabf_cert",
+                "tii_cert",
             ),
         )
         self.assertEqual(site.release_tag_prefix, "default-bundles")
         self.assertEqual(site.release_shard_size, 900)
         self.assertEqual(site.public_min_years, 2)
+
+    def test_default_site_includes_financial_cert_providers(self) -> None:
+        config = get_site_config("default")
+        for provider_id in ("sfi_cert", "tabf_cert", "tii_cert"):
+            with self.subTest(provider_id=provider_id):
+                self.assertIn(provider_id, config.provider_ids)
