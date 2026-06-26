@@ -31,7 +31,7 @@ function Footer() {
   return (
     <footer className="border-t border-line">
       <div className="mx-auto flex max-w-4xl flex-col gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
-        <span>資料來源：考選部歷屆試題查詢 · 本站為非官方整理</span>
+        <span>資料來源：考選部 · 國營事業 · 國中會考 · 技能檢定 · 本站為非官方整理</span>
         <a
           href="https://github.com/balaboom123/taiwan-examination-web"
           target="_blank"
@@ -212,15 +212,15 @@ function App() {
               歷屆試題下載
             </h2>
             <p className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-ink-600">
-              收錄考選部歷年國家考試試題，依類科彙整為多年度 ZIP
-              檔，可直接下載。
+              收錄國家考試、國營事業甄試、國中會考及技能檢定歷年試題，依類科彙整為多年度
+              ZIP 檔，可直接下載。
             </p>
           </div>
           <span
             aria-hidden="true"
             className="hidden shrink-0 select-none border-l border-line pl-4 pt-1 font-serif text-sm tracking-[0.3em] text-ink-400 [writing-mode:vertical-rl] md:block"
           >
-            國家考試試題檔案庫
+            歷屆試題檔案庫
           </span>
         </section>
 

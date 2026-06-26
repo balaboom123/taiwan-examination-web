@@ -83,7 +83,7 @@ class _NewsListingParser(HTMLParser):
         attrs_dict = dict(attrs)
         classes = (attrs_dict.get("class") or "").split()
 
-        if tag == "div" and "wucNews_index" in classes:
+        if tag == "div" and "n_content" in classes:
             self._in_news_list = True
             self._div_depth_news = 1
             return

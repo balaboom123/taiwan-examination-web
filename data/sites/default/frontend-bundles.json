@@ -11815,6 +11815,26 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/counseling-psychologist.zip"
     },
     {
+      "id": "cpc-recruit",
+      "name": "中油新進人員甄試",
+      "years": [
+        114,
+        113,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        101,
+        98
+      ],
+      "fileCount": 12,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/cpc-recruit.zip"
+    },
+    {
       "id": "dietitian",
       "name": "營養師",
       "years": [
@@ -11847,6 +11867,32 @@
       ],
       "fileCount": 646,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/dietitian.zip"
+    },
+    {
+      "id": "moea-recruit",
+      "name": "國營事業聯招（新進職員）",
+      "years": [
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        97,
+        96,
+        95,
+        93,
+        91
+      ],
+      "fileCount": 340,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/moea-recruit.zip"
     },
     {
       "id": "nurse",
@@ -11883,6 +11929,28 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/nurse.zip"
     },
     {
+      "id": "rcpet-cap",
+      "name": "國中教育會考",
+      "years": [
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102
+      ],
+      "fileCount": 122,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/rcpet-cap.zip"
+    },
+    {
       "id": "social-worker",
       "name": "社會工作師",
       "years": [
@@ -11911,6 +11979,50 @@
       ],
       "fileCount": 461,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/social-worker.zip"
+    },
+    {
+      "id": "taipower-recruit",
+      "name": "台電新進僱用人員甄試",
+      "years": [
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        97,
+        96,
+        95,
+        93,
+        91
+      ],
+      "fileCount": 340,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip"
+    },
+    {
+      "id": "twc-recruit",
+      "name": "台水評價職位人員甄試",
+      "years": [
+        114,
+        112,
+        111,
+        110,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103
+      ],
+      "fileCount": 10,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/twc-recruit.zip"
     }
   ]
 }

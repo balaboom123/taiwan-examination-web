@@ -15,7 +15,17 @@ class SiteConfig:
 _SITES = {
     "default": SiteConfig(
         site_id="default",
-        provider_ids=("moex", "ceec_gsat"),
+        provider_ids=(
+            "moex",
+            "ceec_gsat",
+            "cpc_recruit",
+            "moea_recruit",
+            "taipower_recruit",
+            "taisugar_recruit",
+            "twc_recruit",
+            "rcpet_cap",
+            "wdasec_skill",
+        ),
         release_tag_prefix="default-bundles",
         release_shard_size=900,
         public_min_years=2,

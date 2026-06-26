@@ -68,7 +68,7 @@ class _DetailPageParser(HTMLParser):
         attrs_dict = dict(attrs)
         classes = (attrs_dict.get("class") or "").split()
 
-        if tag == "div" and "檔案下載" in classes:
+        if tag == "div" and "main_page_other_download" in classes:
             self._in_file_div = True
             self._div_depth_file = 1
             return

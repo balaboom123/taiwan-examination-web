@@ -52,58 +52,26 @@ class CpcRecruitEntry:
 
 
 class _ContentPageParser(HTMLParser):
-    """Parse a CPC ``News_Content.aspx`` page and collect anchor links.
+    """Parse a CPC ``News_Content.aspx`` page and collect Download.ashx links.
 
-    CPC's ASP.NET CMS renders the body text inside a ``<div>`` whose id
-    contains ``ContentPlaceHolder1_contentText`` or whose class contains
-    ``mcnTextContent``.  Inside that container there are ``<table>`` rows
-    with ``<a>`` anchors pointing to ``Download.ashx``.
-
-    The parser uses an *inside-content-area* flag plus a depth counter so
-    that nested ``<div>`` elements (e.g. additional wrappers) do not cause
-    premature exit from the capture region.
+    Captures all ``<a>`` anchors whose ``href`` contains ``Download.ashx``,
+    regardless of their position in the page structure.
     """
 
-    # Attribute fragments that identify the outer content wrapper.
-    _CONTENT_ID_FRAGMENT = "ContentPlaceHolder1_contentText"
-    _CONTENT_CLASS = "mcnTextContent"
+    _DOWNLOAD_FRAGMENT = "Download.ashx"
 
     def __init__(self) -> None:
         super().__init__()
-        # Whether we are inside the relevant content area
-        self._in_content: bool = False
-        # Depth counter for div nesting inside the content area
-        self._content_div_depth: int = 0
-        # Anchor capture state
         self._in_anchor: bool = False
         self._current_href: str = ""
         self._anchor_parts: list[str] = []
-        # Collected raw hrefs (absolute or relative) with link text
         self.links: list[tuple[str, str]] = []  # (href, label)
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        attrs_dict = dict(attrs)
-
-        if tag == "div":
-            div_id = attrs_dict.get("id") or ""
-            div_classes = (attrs_dict.get("class") or "").split()
-            if (
-                self._CONTENT_ID_FRAGMENT in div_id
-                or self._CONTENT_CLASS in div_classes
-            ):
-                self._in_content = True
-                self._content_div_depth = 1
-                return
-            if self._in_content:
-                self._content_div_depth += 1
-            return
-
-        if not self._in_content:
-            return
-
         if tag == "a":
+            attrs_dict = dict(attrs)
             href = attrs_dict.get("href") or ""
-            if href:
+            if self._DOWNLOAD_FRAGMENT in href:
                 self._in_anchor = True
                 self._current_href = unescape(href)
                 self._anchor_parts = []
@@ -113,12 +81,6 @@ class _ContentPageParser(HTMLParser):
             self._anchor_parts.append(data)
 
     def handle_endtag(self, tag: str) -> None:
-        if tag == "div" and self._in_content:
-            self._content_div_depth -= 1
-            if self._content_div_depth == 0:
-                self._in_content = False
-            return
-
         if tag == "a" and self._in_anchor:
             label = _normalize_text("".join(self._anchor_parts))
             href = self._current_href
@@ -129,17 +91,32 @@ class _ContentPageParser(HTMLParser):
             self._current_href = ""
 
 
+def _decode_url_filename(href: str) -> str:
+    """Decode the base64-encoded filename from a Download.ashx URL's ``n`` parameter."""
+    from base64 import b64decode
+    parsed = urlparse(href)
+    from urllib.parse import parse_qs
+    qs = parse_qs(parsed.query)
+    n_param = qs.get("n", [""])[0]
+    if not n_param:
+        return ""
+    try:
+        raw = b64decode(unquote(n_param))
+        for enc in ("utf-8", "cp950", "big5"):
+            try:
+                return raw.decode(enc)
+            except (UnicodeDecodeError, LookupError):
+                continue
+        return raw.decode("utf-8", "replace")
+    except Exception:
+        return ""
+
+
 def parse_employment_page(html: str, source: str = "phd") -> list[CpcRecruitEntry]:
     """Parse a CPC employment news-content page and return download entries.
 
-    Args:
-        html:   Raw HTML of the page.
-        source: ``"phd"`` for the PhD exam papers page or ``"hiring"`` for
-                the hiring-outline page.  Stored on each entry.
-
-    Returns:
-        List of :class:`CpcRecruitEntry` objects, one per valid anchor link
-        that carries a ROC year number.
+    Extracts year from the link label or, as fallback, from the base64-decoded
+    filename in the Download.ashx URL.
     """
     parser = _ContentPageParser()
     parser.feed(html)
@@ -147,14 +124,22 @@ def parse_employment_page(html: str, source: str = "phd") -> list[CpcRecruitEntr
     entries: list[CpcRecruitEntry] = []
     for href, label in parser.links:
         match = _YEAR_RE.search(label)
+        effective_label = label
+        if match is None:
+            decoded = _decode_url_filename(href)
+            match = _YEAR_RE.search(decoded)
+            if decoded:
+                effective_label = decoded
         if match is None:
             continue
         year_roc = int(match.group(1))
+        if year_roc < 80 or year_roc > 200:
+            continue
         entries.append(
             CpcRecruitEntry(
                 year_roc=year_roc,
                 year_ad=year_roc + 1911,
-                label=label,
+                label=effective_label,
                 url=href,
                 source=source,
             )

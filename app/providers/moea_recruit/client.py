@@ -13,7 +13,7 @@ from app.providers.base import DownloadedFile, ResponseMetadata
 
 BASE_URL = "https://www.taipower.com.tw/"
 DOWNLOAD_URL = "https://www.taipower.com.tw/tc/download.aspx?mid=261"
-USER_AGENT = "Mozilla/5.0 (compatible; moea-recruit-mirror/1.0)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
 CANONICAL_CATEGORY = "國營事業聯招（新進職員）"
 _YEAR_RE = re.compile(r"(\d{2,3})\s*年")
 
@@ -37,129 +37,36 @@ def _normalize_text(text: str) -> str:
 
 
 class _DownloadPageParser(HTMLParser):
-    """Parse the Taipower download listing page.
+    """Parse the Taipower download listing page for MOEA joint exams.
 
-    Expected structure:
-      <div class="download-list">
-        <div class="list-item">
-          <div class="title">NNN年...</div>
-          <div class="file">
-            <a href="/media/...">label</a>
-            ...
+    Structure (as of 2025):
+      <ul>
+        <li>
+          <p class="title">NNN年...</p>
+          <div class="drawerBox">
+            <ul class="fileDownload">
+              <li>
+                <span class="name">Label</span>
+                <ul class="downloadFiles">
+                  <li><a download href="/media/...?mediaDL=true">...</a></li>
+                </ul>
+              </li>
+            </ul>
           </div>
-        </div>
-        ...
-      </div>
+        </li>
+      </ul>
     """
 
     def __init__(self) -> None:
         super().__init__()
-        self._in_download_list = False
-        self._in_list_item = False
-        self._in_title = False
-        self._in_file = False
-        self._in_anchor = False
-        # Depth counters for nested div tracking
-        self._div_depth_title: int = 0
-        self._div_depth_file: int = 0
-        self._div_depth_item: int = 0
-        self._div_depth_list: int = 0
-        self._current_title: str = ""
+        self._in_title_p: bool = False
         self._title_parts: list[str] = []
-        self._current_href: str = ""
-        self._anchor_parts: list[str] = []
+        self._in_name_span: bool = False
+        self._name_parts: list[str] = []
+        self._current_title: str = ""
+        self._current_name: str = ""
         self._current_downloads: list[MoeaRecruitDownload] = []
         self.entries: list[MoeaRecruitEntry] = []
-
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        attrs_dict = dict(attrs)
-        classes = (attrs_dict.get("class") or "").split()
-
-        if tag == "div" and "download-list" in classes:
-            self._in_download_list = True
-            self._div_depth_list = 1
-            return
-
-        if not self._in_download_list:
-            return
-
-        if tag == "div" and "list-item" in classes:
-            self._in_list_item = True
-            self._div_depth_item = 1
-            self._current_title = ""
-            self._current_downloads = []
-            return
-
-        if not self._in_list_item:
-            return
-
-        if tag == "div" and "title" in classes:
-            self._in_title = True
-            self._div_depth_title = 1
-            self._title_parts = []
-            return
-
-        if tag == "div" and "file" in classes:
-            self._in_file = True
-            self._div_depth_file = 1
-            return
-
-        # Handle nested divs within tracked sections
-        if tag == "div":
-            if self._in_title:
-                self._div_depth_title += 1
-            elif self._in_file:
-                self._div_depth_file += 1
-            elif self._in_list_item:
-                self._div_depth_item += 1
-            elif self._in_download_list:
-                self._div_depth_list += 1
-
-        if self._in_file and tag == "a":
-            self._in_anchor = True
-            self._current_href = attrs_dict.get("href") or ""
-            self._anchor_parts = []
-
-    def handle_data(self, data: str) -> None:
-        if self._in_title:
-            self._title_parts.append(data)
-        elif self._in_anchor:
-            self._anchor_parts.append(data)
-
-    def handle_endtag(self, tag: str) -> None:
-        if tag == "div":
-            if self._in_title:
-                self._div_depth_title -= 1
-                if self._div_depth_title == 0:
-                    self._current_title = _normalize_text("".join(self._title_parts))
-                    self._in_title = False
-                return
-            if self._in_file:
-                self._div_depth_file -= 1
-                if self._div_depth_file == 0:
-                    self._in_file = False
-                return
-            if self._in_list_item:
-                self._div_depth_item -= 1
-                if self._div_depth_item == 0:
-                    # Closing a list-item: flush the entry
-                    self._flush_entry()
-                    self._in_list_item = False
-                return
-            if self._in_download_list:
-                self._div_depth_list -= 1
-                if self._div_depth_list == 0:
-                    self._in_download_list = False
-                return
-
-        if tag == "a" and self._in_anchor:
-            label = _normalize_text("".join(self._anchor_parts))
-            if label and self._current_href:
-                url = urljoin(BASE_URL, self._current_href)
-                self._current_downloads.append(MoeaRecruitDownload(label=label, url=url))
-            self._in_anchor = False
-            self._anchor_parts = []
-            self._current_href = ""
 
     def _flush_entry(self) -> None:
         title = self._current_title
@@ -178,21 +85,89 @@ class _DownloadPageParser(HTMLParser):
             )
         )
 
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attrs_dict = dict(attrs)
+        classes = (attrs_dict.get("class") or "").split()
+
+        if tag == "p" and "title" in classes:
+            self._flush_entry()
+            self._current_downloads = []
+            self._in_title_p = True
+            self._title_parts = []
+            return
+
+        if tag == "span" and "name" in classes:
+            self._in_name_span = True
+            self._name_parts = []
+            return
+
+        if tag == "a" and "download" in attrs_dict:
+            href = attrs_dict.get("href") or ""
+            if href:
+                label = self._current_name or _normalize_text(unquote(Path(urlparse(href).path).stem))
+                url = urljoin(BASE_URL, href)
+                self._current_downloads.append(MoeaRecruitDownload(label=label, url=url))
+
+    def handle_data(self, data: str) -> None:
+        if self._in_title_p:
+            self._title_parts.append(data)
+        elif self._in_name_span:
+            self._name_parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "p" and self._in_title_p:
+            self._current_title = _normalize_text("".join(self._title_parts))
+            self._in_title_p = False
+
+        if tag == "span" and self._in_name_span:
+            self._current_name = _normalize_text("".join(self._name_parts))
+            self._in_name_span = False
+
+    def close(self) -> None:
+        super().close()
+        self._flush_entry()
+
+
+_YEAR_TAB_RE = re.compile(
+    r'<a\s+href="(/\d+/\d+/\d+/\d+/\?[^"]+q_attribute=\d+)"[^>]*>'
+    r"(\d{2,3})年度?</a>"
+)
+
 
 def parse_download_page(html: str) -> list[MoeaRecruitEntry]:
     """Parse the Taipower MOEA joint exam download listing page."""
     parser = _DownloadPageParser()
     parser.feed(html)
+    parser.close()
     return parser.entries
+
+
+def parse_year_tabs(html: str) -> list[tuple[int, str]]:
+    """Extract (year_roc, relative_url) pairs from year navigation tabs."""
+    results: list[tuple[int, str]] = []
+    for m in _YEAR_TAB_RE.finditer(html):
+        href = unescape(m.group(1))
+        year_roc = int(m.group(2))
+        results.append((year_roc, href))
+    return results
 
 
 class MoeaRecruitClient:
     provider_id = "moea_recruit"
 
+    def __init__(self) -> None:
+        self._cached_entries: list[MoeaRecruitEntry] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
-            return response.read().decode("utf-8", "replace")
+            raw = response.read()
+            for encoding in ("utf-8", "big5", "cp950"):
+                try:
+                    return raw.decode(encoding)
+                except (UnicodeDecodeError, LookupError):
+                    continue
+            return raw.decode("utf-8", "replace")
 
     def head(self, url: str) -> ResponseMetadata:
         request = Request(url, headers={"User-Agent": USER_AGENT}, method="HEAD")
@@ -217,8 +192,20 @@ class MoeaRecruitClient:
             )
 
     def _iter_entries(self) -> list[MoeaRecruitEntry]:
-        html = self._fetch_text(DOWNLOAD_URL)
-        return parse_download_page(html)
+        if self._cached_entries is not None:
+            return self._cached_entries
+        main_html = self._fetch_text(DOWNLOAD_URL)
+        entries = parse_download_page(main_html)
+        seen_years = {e.year_roc for e in entries}
+        for year_roc, rel_url in parse_year_tabs(main_html):
+            if year_roc in seen_years:
+                continue
+            seen_years.add(year_roc)
+            page_url = urljoin(BASE_URL, rel_url)
+            page_html = self._fetch_text(page_url)
+            entries.extend(parse_download_page(page_html))
+        self._cached_entries = entries
+        return entries
 
     def discover_available_years(self) -> list[int]:
         return sorted({entry.year_ad for entry in self._iter_entries()}, reverse=True)
