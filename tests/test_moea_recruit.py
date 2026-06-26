@@ -4,71 +4,161 @@ from unittest.mock import patch
 from app.providers.moea_recruit.client import MoeaRecruitClient, parse_download_page
 
 
-# Fixture based on the Taipower download listing page structure at
-# https://www.taipower.com.tw/tc/download.aspx?mid=261
-# The page renders a list of downloadable files inside a <div class="download-list"> container.
-# Each entry is a <div class="list-item"> with a <div class="title"> heading and one or more
-# <a> links inside a <div class="file"> block.
 DOWNLOAD_PAGE_HTML = """
 <html>
 <head><title>台電下載專區</title></head>
 <body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">113年新進職員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/5485/113nian_examination_questions.pdf">試題</a>
-      <a href="/media/5486/113nian_examination_answers.pdf">解答</a>
+<ul>
+  <li>
+    <p class="title">113年新進職員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5485/113nian_examination_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5486/113nian_examination_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">112年新進職員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/5123/112nian_examination_questions.pdf">試題</a>
-      <a href="/media/5124/112nian_examination_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">112年新進職員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5123/112nian_examination_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5124/112nian_examination_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">111年新進職員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/4892/111nian_examination_questions.pdf">試題</a>
-      <a href="/media/4893/111nian_examination_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">111年新進職員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/4892/111nian_examination_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/4893/111nian_examination_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+</ul>
 </body>
 </html>
 """
 
 DOWNLOAD_PAGE_HTML_SINGLE_FILE = """
 <html><body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">110年新進職員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/4567/110nian_examination.pdf">試題暨解答</a>
+<ul>
+  <li>
+    <p class="title">110年新進職員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題暨解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/4567/110nian_examination.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+</ul>
 </body></html>
 """
 
 DOWNLOAD_PAGE_HTML_NESTED_DIVS = """
 <html><body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">
-      <div>Inner nested div</div>
-      114年新進職員甄試試題解答
+<ul>
+  <li>
+    <p class="title"><span>Inner nested span</span> 114年新進職員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5487/114nian_examination_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5488/114nian_examination_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-    <div class="file">
-      <div class="wrapper">
-        <a href="/media/5487/114nian_examination_questions.pdf">試題</a>
-      </div>
-      <a href="/media/5488/114nian_examination_answers.pdf">解答</a>
+  </li>
+</ul>
+</body></html>
+"""
+
+DOWNLOAD_PAGE_HTML_MULTI_SUBJECT = """
+<html><body>
+<ul>
+  <li>
+    <p class="title">112年度共同科目</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">共同科目試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/2001/common_q.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">共同科目解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/2002/common_a.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+  <li>
+    <p class="title">112年度企業管理概論</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">企業管理概論試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/2003/biz_q.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">企業管理概論解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/2004/biz_a.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
 </body></html>
 """
 
@@ -116,17 +206,14 @@ class MoeaRecruitParserTests(unittest.TestCase):
         self.assertEqual(entries[0].downloads[0].label, "試題暨解答")
 
     def test_parse_download_page_handles_nested_divs(self) -> None:
-        """Test that nested divs inside title and file sections don't break parsing."""
         entries = parse_download_page(DOWNLOAD_PAGE_HTML_NESTED_DIVS)
 
         self.assertEqual(len(entries), 1)
         self.assertEqual(entries[0].year_roc, 114)
         self.assertEqual(entries[0].year_ad, 2025)
-        # Should extract both downloads despite nested divs in file section
         self.assertEqual(len(entries[0].downloads), 2)
         self.assertEqual(entries[0].downloads[0].label, "試題")
         self.assertEqual(entries[0].downloads[1].label, "解答")
-        # Title should be extracted correctly despite nested div
         self.assertIn("114年新進職員甄試試題解答", entries[0].title)
 
     def test_parse_download_page_empty_html_returns_empty_list(self) -> None:
@@ -172,6 +259,27 @@ class MoeaRecruitParserTests(unittest.TestCase):
         self.assertEqual(exams[0].code, "moea-recruit-113")
         self.assertEqual(exams[0].year_ad, 2024)
         self.assertEqual(exams[0].year_roc, 113)
+
+    def test_discover_exams_deduplicates_multi_subject_entries(self) -> None:
+        with patch.object(MoeaRecruitClient, "_fetch_text", return_value=DOWNLOAD_PAGE_HTML_MULTI_SUBJECT):
+            client = MoeaRecruitClient()
+            exams = client.discover_exams(2023)
+
+        self.assertEqual(len(exams), 1)
+        self.assertEqual(exams[0].code, "moea-recruit-112")
+
+    def test_fetch_exam_page_aggregates_multi_subject_entries(self) -> None:
+        with patch.object(MoeaRecruitClient, "_fetch_text", return_value=DOWNLOAD_PAGE_HTML_MULTI_SUBJECT):
+            client = MoeaRecruitClient()
+            page = client.fetch_exam_page("moea-recruit-112", 2023)
+
+        self.assertEqual(len(page.papers), 4)
+        urls = {url for paper in page.papers for url in paper.files.values()}
+        self.assertEqual(len(urls), 4)
+        codes = [paper.subject_code for paper in page.papers]
+        self.assertEqual(codes, ["joint-01", "joint-02", "joint-03", "joint-04"])
+        file_types = [ft for paper in page.papers for ft in paper.files]
+        self.assertEqual(file_types, ["question", "answer", "question", "answer"])
 
     def test_registry_returns_moea_recruit_provider(self) -> None:
         from app.providers.registry import get_provider

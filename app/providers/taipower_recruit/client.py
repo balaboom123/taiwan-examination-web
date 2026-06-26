@@ -225,24 +225,37 @@ class TaipowerRecruitClient:
         return sorted({entry.year_ad for entry in self._iter_entries()}, reverse=True)
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        return [
-            ExamOption(
-                code=_exam_code(entry),
-                year_ad=entry.year_ad,
-                year_roc=entry.year_roc,
-                label=entry.title,
+        seen: set[str] = set()
+        result: list[ExamOption] = []
+        for entry in self._iter_entries():
+            if entry.year_ad != year_ad:
+                continue
+            code = _exam_code(entry)
+            if code in seen:
+                continue
+            seen.add(code)
+            result.append(
+                ExamOption(
+                    code=code,
+                    year_ad=entry.year_ad,
+                    year_roc=entry.year_roc,
+                    label=entry.title,
+                )
             )
-            for entry in self._iter_entries()
-            if entry.year_ad == year_ad
-        ]
+        return result
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
-        entry = next(
+        matching = [
             item for item in self._iter_entries()
             if _exam_code(item) == exam_code and item.year_ad == year_ad
-        )
+        ]
+        if not matching:
+            raise ValueError(f"No entries found for {exam_code} year {year_ad}")
+        first = matching[0]
         papers: list[ParsedPaper] = []
-        for index, download in enumerate(entry.downloads, start=1):
+        for file_index, download in enumerate(
+            (dl for entry in matching for dl in entry.downloads), start=1
+        ):
             if "答案" in download.label or "解答" in download.label:
                 file_type = "answer"
             else:
@@ -250,8 +263,8 @@ class TaipowerRecruitClient:
             papers.append(
                 ParsedPaper(
                     category_raw=CANONICAL_CATEGORY,
-                    category_code=str(entry.year_roc),
-                    subject_code=f"hiring-{index:02d}",
+                    category_code=str(first.year_roc),
+                    subject_code=f"hiring-{file_index:02d}",
                     subject_name_raw=download.label,
                     files={file_type: download.url},
                 )
@@ -259,8 +272,8 @@ class TaipowerRecruitClient:
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,
-            year_roc=entry.year_roc,
-            exam_name_raw=entry.title,
+            year_roc=first.year_roc,
+            exam_name_raw=first.title,
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,

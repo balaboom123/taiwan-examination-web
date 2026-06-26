@@ -1,11 +1,191 @@
 [
   {
     "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-01-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/mzlhnpiw/115年度新進僱用人員甄試試題_國文及英文.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-02-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/qbvbgatt/115年度新進僱用人員甄試答案_國文及英文.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/gjlebzgs/115年度新進僱用人員甄試試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/tjyjwqu3/115年度新進僱用人員甄試答案_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/jexbdch0/115年度新進僱用人員甄試試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/00wdehrj/115年度新進僱用人員甄試答案_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/behlxqj1/115年度新進僱用人員甄試試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/4mjavzq2/115年度新進僱用人員甄試答案_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/12apva0p/115年度新進僱用人員甄試試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/3ecd4v0f/115年度新進僱用人員甄試答案_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/mpafkpxr/115年度新進僱用人員甄試試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/4t5ipsuv/115年度新進僱用人員甄試答案_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/btoblswx/115年度新進僱用人員甄試試題_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/m23du311/115年度新進僱用人員甄試答案_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/4cbjoctn/115年度新進僱用人員甄試試題_會計審計法規採購法概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/puoffvy4/115年度新進僱用人員甄試答案_會計審計法規採購法概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/izpdx03r/115年度新進僱用人員甄試試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/4aebsasd/115年度新進僱用人員甄試答案_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/h1pfzd33/115年度新進僱用人員甄試試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-115",
+    "year_roc": 115,
+    "paper_code": "115-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/sreb1jjn/115年度新進僱用人員甄試答案_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
     "paper_code": "114-joint-01-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/mmocmbob/114年度新進僱用人員甄試試題_國文及英文.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
@@ -14,169 +194,169 @@
     "year_roc": 114,
     "paper_code": "114-joint-02-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/dfnndv5z/114年度新進僱用人員甄試答案_國文及英文.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-03-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/0jwckm1v/114年度新進僱用人員甄試試題_物理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-04-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/luqhysn0/114年度新進僱用人員甄試答案_物理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-05-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/ioigf1gk/114年度新進僱用人員甄試試題_輸配電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-06-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/nmwdlo1p/114年度新進僱用人員甄試答案_輸配電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-07-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/rooirppq/114年度新進僱用人員甄試試題_電工機械.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-08-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/ynyjtle2/114年度新進僱用人員甄試答案_電工機械.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-09-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/docpwat5/114年度新進僱用人員甄試試題_電子學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-10-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/0p0iiw0k/114年度新進僱用人員甄試答案_電子學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-11-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/hl0nwaan/114年度新進僱用人員甄試試題_工程力學概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-12-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/2rah4tbl/114年度新進僱用人員甄試答案_工程力學概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-13-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/2tginb5q/114年度新進僱用人員甄試試題_行政學概要法律常識.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-14-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/kzygy1qs/114年度新進僱用人員甄試答案_行政學概要法律常識.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-15-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/gu3n40nh/114年度新進僱用人員甄試試題_會計審計法規採購法概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-16-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/gmmnvkwf/114年度新進僱用人員甄試答案_會計審計法規採購法概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-17-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/q0kbxnsz/114年度新進僱用人員甄試試題_基本電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-18-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/cp1bufaj/114年度新進僱用人員甄試答案_基本電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-01-question",
+    "paper_code": "114-joint-19-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/dnzkjzu3/114年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/ue1pvfvn/114年度新進僱用人員甄試試題_機械原理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-114",
     "year_roc": 114,
-    "paper_code": "114-joint-02-answer",
+    "paper_code": "114-joint-20-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/20rh4psc/114年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/g3fdht5s/114年度新進僱用人員甄試答案_機械原理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
@@ -185,7 +365,7 @@
     "year_roc": 113,
     "paper_code": "113-joint-01-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/c4mdpguu/113年度新進僱用人員甄試試題_國文及英文.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
@@ -194,349 +374,1231 @@
     "year_roc": 113,
     "paper_code": "113-joint-02-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/1aoiohbp/113年度新進僱用人員甄試答案_國文及英文.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-03-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/t4hleqzf/113年度新進僱用人員甄試試題_物理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-04-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/2j5js3qw/113年度新進僱用人員甄試答案_物理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-05-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/jwan1z24/113年度新進僱用人員甄試試題_輸配電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-06-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/cdkn1ued/113年度新進僱用人員甄試答案_輸配電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-07-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/n1lfnlea/113年度新進僱用人員甄試試題_電工機械.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-08-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/cqzof2es/113年度新進僱用人員甄試答案_電工機械.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-09-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/0i2dl35c/113年度新進僱用人員甄試試題_電子學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-10-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/nd2bkxft/113年度新進僱用人員甄試答案_電子學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-11-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/3vbbwzcr/113年度新進僱用人員甄試試題_工程力學概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-12-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/bkndsv0z/113年度新進僱用人員甄試答案_工程力學概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-13-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/taihjtar/113年度新進僱用人員甄試試題_行政學概要-法律常識.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-14-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/ugjcmg1s/113年度新進僱用人員甄試答案_行政學概要-法律常識.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-15-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/cs2byvss/113年度新進僱用人員甄試試題_會計審計法規-採購法概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-16-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/aiabplbx/113年度新進僱用人員甄試答案_會計審計法規-採購法概要.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-17-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/uvth2nv2/113年度新進僱用人員甄試試題_基本電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-18-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/s2chjhqh/113年度新進僱用人員甄試答案_基本電學.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-01-question",
+    "paper_code": "113-joint-19-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/milpuorj/113年度新進職員甄試試題科目_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/vy5bqmhc/113年度新進僱用人員甄試試題_機械原理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
     "source_exam_id": "moea-recruit-113",
     "year_roc": 113,
-    "paper_code": "113-joint-02-answer",
+    "paper_code": "113-joint-20-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/ajjlepfx/113年度新進職員甄試試題解答_共同科目.pdf?mediaDL=true",
+    "url": "https://www.taipower.com.tw/media/uvvb3be2/113年度新進僱用人員甄試答案_機械原理.pdf?mediaDL=true",
     "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
-    "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
-  },
-  {
-    "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-112",
+    "year_roc": 112,
+    "paper_code": "112-joint-13-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/ghbmrzy5/112年度新進僱用人員甄試試題_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-112",
+    "year_roc": 112,
+    "paper_code": "112-joint-14-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/b1ulqk4j/112年度新進僱用人員甄試答案_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-111",
+    "year_roc": 111,
+    "paper_code": "111-joint-13-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/oybkoevl/111行政學概要法律常識試題v.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-33: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-111",
+    "year_roc": 111,
+    "paper_code": "111-joint-14-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/2lndp1oi/111行政學概要法律常識解答v.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-33: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-110",
+    "year_roc": 110,
+    "paper_code": "110-joint-15-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/43uirf01/110年度新進僱用人員甄試試題_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-110",
+    "year_roc": 110,
+    "paper_code": "110-joint-16-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/lqpp0m1c/110年度新進僱用人員甄試答案_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-109",
+    "year_roc": 109,
+    "paper_code": "109-joint-13-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/na0bf1ij/109行政學概要法律常識試題.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-33: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-109",
+    "year_roc": 109,
+    "paper_code": "109-joint-14-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/qv5lzdd3/109年度新進僱用人員甄試答案_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-34: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-108",
+    "year_roc": 108,
+    "paper_code": "108-joint-15-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/2i2ijnja/108年度新進僱用人員甄試科目試題_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-108",
+    "year_roc": 108,
+    "paper_code": "108-joint-16-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/przda2qi/108年度新進僱用人員甄試科目解答_行政學概要法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-03-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/tehkvnd4/106年度新進僱用人員甄試科目試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-04-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/gpgfihvo/106年度新進僱用人員甄試科目解答_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-05-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/cmmbzl45/106年度新進僱用人員甄試科目試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-06-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/d5wnq4pm/106年度新進僱用人員甄試科目解答_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-07-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/5x0evpsm/106年度新進僱用人員甄試科目試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-08-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/ezsi5x4w/106年度新進僱用人員甄試科目解答_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-09-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/qbyfgtju/106年度新進僱用人員甄試科目試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-01-answer",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-10-answer",
     "file_type": "answer",
-    "url": "https://www.taipower.com.tw/media/vrwfsxjj/98年新進職員甄試解答科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/bzanfsd2/106年度新進僱用人員甄試科目解答_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
   },
   {
     "stage": "download",
-    "source_exam_id": "moea-recruit-98",
-    "year_roc": 98,
-    "paper_code": "98-joint-02-question",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-11-question",
     "file_type": "question",
-    "url": "https://www.taipower.com.tw/media/c4qn4neh/98年新進職員甄試試題科目a_共同科目.pdf?mediaDL=true",
-    "message": "'ascii' codec can't encode characters in position 22-32: ordinal not in range(128)"
+    "url": "https://www.taipower.com.tw/media/2w3jidfn/106年度新進僱用人員甄試科目試題_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/yejn5exa/106年度新進僱用人員甄試科目解答_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/5qxhgtb2/106年度新進僱用人員甄試科目試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/w0wdl3nj/106年度新進僱用人員甄試科目解答_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/4lekqonq/106行政學概要法律常識試題試題.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-35: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/ibhhp5z0/106行政學概要法律常識試題答案.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-35: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/1jkcgg5x/106年度新進僱用人員甄試科目試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/340dlf3s/106年度新進僱用人員甄試科目解答_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/nfsdnsds/106年度新進僱用人員甄試科目試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-106",
+    "year_roc": 106,
+    "paper_code": "106-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/1u0dca2w/106年度新進僱用人員甄試科目解答_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/s0anfzcy/105年度新進僱用人員甄試科目試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/dcgdjvhl/105年度新進僱用人員甄試科目解答_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/fotfxink/105年度新進僱用人員甄試科目試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/5xennwmr/105年度新進僱用人員甄試科目解答_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/vlolgfys/105年度新進僱用人員甄試科目試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/0m2hvyc2/105年度新進僱用人員甄試科目解答_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/qmtbmph1/105年度新進僱用人員甄試科目試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/qbvjtoug/105年度新進僱用人員甄試科目解答_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/kulhoe2n/105年度新進僱用人員甄試科目試題_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/0p0lsppe/105年度新進僱用人員甄試科目解答_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/hefpdux5/105年度新進僱用人員甄試科目試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/xlrk12y0/105年度新進僱用人員甄試科目解答_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/yennzamb/105年度新進僱用人員甄試科目試題_行政學概要-法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/uvhnez03/105年度新進僱用人員甄試科目解答_行政學概要-法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/ovxp0zqz/105年度新進僱用人員甄試科目試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/p5gizv40/105年度新進僱用人員甄試科目解答_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/uckjov2d/105年度新進僱用人員甄試科目試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-105",
+    "year_roc": 105,
+    "paper_code": "105-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/epthetdg/105年度新進僱用人員甄試科目解答_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/c4hij4ko/104年度新進僱用人員甄試科目試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/3ceisdeh/104年度新進僱用人員甄試科目解答_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/rnbnk1ll/104年度新進僱用人員甄試科目試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/pyyptz5d/104年度新進僱用人員甄試科目解答_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/tf0jyfij/104年度新進僱用人員甄試科目試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/aizpxcbf/104年度新進僱用人員甄試科目解答_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/4rlcq4ux/104年度新進僱用人員甄試科目試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/xpmga1wn/104年度新進僱用人員甄試科目解答_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/brrf3hj1/104年度新進僱用人員甄試科目試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/pycpzu2n/104年度新進僱用人員甄試科目解答_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/msejbgep/104年度新進僱用人員甄試科目解答_行政學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/s0fhv2kg/104年度新進僱用人員甄試科目試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/fn1f2y3n/104年度新進僱用人員甄試科目解答_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/2agn4eql/104年度新進僱用人員甄試科目試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/yyzjdx0t/104年度新進僱用人員甄試科目解答_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/qash1rl1/104年度新進僱用人員甄試科目試題_機械及起重常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-104",
+    "year_roc": 104,
+    "paper_code": "104-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/z5unxbvs/104年度新進僱用人員甄試科目解答_機械及起重常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/qxzfzfzr/103年度新進僱用人員甄試科目試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/o2oife1b/103年度新進僱用人員甄試科目解答_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/rwthuced/103年度新進僱用人員甄試科目試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/jbsigeie/103年度新進僱用人員甄試科目解答_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/utslsr55/103年度新進僱用人員甄試科目試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/rkjl5g0n/103年度新進僱用人員甄試科目解答_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/jdajuwjn/103年度新進僱用人員甄試科目試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/tsmjufe2/103年度新進僱用人員甄試科目解答_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/3kffbp1z/103年度新進僱用人員甄試科目試題_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/avkfwyle/103年度新進僱用人員甄試科目解答_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/e4qj5mpx/103年度新進僱用人員甄試科目試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/bpbpdl4l/103年度新進僱用人員甄試科目解答_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/3tblrkw3/103年度新進僱用人員甄試科目試題_行政學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/bqpjveaz/103年度新進僱用人員甄試科目解答_行政學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/cfybiish/103年度新進僱用人員甄試科目試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/gh0o5pr0/103年度新進僱用人員甄試科目解答_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/ugbn2d13/103年度新進僱用人員甄試科目試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-103",
+    "year_roc": 103,
+    "paper_code": "103-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/brcijmse/103年度新進僱用人員甄試科目解答_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/qe0dbpyi/102年度新進僱用人員甄試科目試題_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/mhonfk4b/102年度新進僱用人員甄試科目解答_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/ptjjgyin/102年度新進僱用人員甄試科目試題_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/2tnn2taw/102年度新進僱用人員甄試科目解答_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/xujffng0/102年度新進僱用人員甄試科目試題_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/3pxhbjhg/102年度新進僱用人員甄試科目解答_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/htrpeekm/102年度新進僱用人員甄試科目試題_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/iwfah4xb/102年度新進僱用人員甄試科目解答_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/hnkn4zqg/102年度新進僱用人員甄試科目試題_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/m1dd24ir/102年度新進僱用人員甄試科目解答_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-15-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/rnbj0vwy/102年度新進僱用人員甄試科目解答_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-16-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/ckkjhgmc/102年度新進僱用人員甄試科目試題_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-17-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/mzjjvz4j/102年度新進僱用人員甄試科目解答_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-18-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/2e3iz5ey/102年度新進僱用人員甄試科目試題_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-19-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/2plnmuf0/102年度新進僱用人員甄試科目解答_測量-土木-建築工程概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-102",
+    "year_roc": 102,
+    "paper_code": "102-joint-20-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/s1kojcir/102年度新進僱用人員甄試科目試題_測量-土木-建築工程概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-36: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-01-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/viwpaxha/101年新進養成班試題科目a_國文及英文.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-02-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/owslnk43/101年新進養成班試題解答a_國文及英文.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-03-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/lq2b30hg/101年新進養成班試題科目a_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-04-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/bnamzzeb/101年新進養成班試題解答a_物理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-05-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/k44ivfik/101年新進養成班試題科目a_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-06-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/4yhpmw0i/101年新進養成班試題解答a_輸配電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-07-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/fs3gwxgq/101年新進養成班試題科目a_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-08-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/m1tnhxip/101年新進養成班試題解答a_電工機械.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-09-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/uacb0jca/101年新進養成班試題科目a_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-10-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/1egmz4td/101年新進養成班試題解答a_電子學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-11-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/ij1fz3fr/101年新進養成班試題科目a_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-12-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/g3gavzy1/101年新進養成班試題解答a_環境科學概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/w1kjfffe/101年新進養成班試題科目a_經濟學概要-法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-14-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/mejfkol4/101年新進養成班試題解答a_經濟學概要-法律常識.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-15-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/mpbmfhmb/101年新進養成班試題科目a_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-16-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/lkobqiwu/101年新進養成班試題解答a_工程力學概要.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-17-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/apfh0l5q/101年新進養成班試題科目a_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-18-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/tnsp10yl/101年新進養成班試題解答a_基本電學.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-19-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/yjafmh1z/101年新進養成班試題科目a_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-101",
+    "year_roc": 101,
+    "paper_code": "101-joint-20-answer",
+    "file_type": "answer",
+    "url": "https://www.taipower.com.tw/media/mj3pm2yu/101年新進養成班試題解答a_機械原理.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 23-32: ordinal not in range(128)"
+  },
+  {
+    "stage": "download",
+    "source_exam_id": "moea-recruit-95",
+    "year_roc": 95,
+    "paper_code": "95-joint-13-question",
+    "file_type": "question",
+    "url": "https://www.taipower.com.tw/media/uwqfn1bj/95年新進養成班試題科目A_管理概論.pdf?mediaDL=true",
+    "message": "'ascii' codec can't encode characters in position 22-31: ordinal not in range(128)"
   }
 ]

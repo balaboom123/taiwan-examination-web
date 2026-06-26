@@ -4,86 +4,199 @@ from unittest.mock import patch
 from app.providers.taipower_recruit.client import TaipowerRecruitClient, parse_hiring_page
 
 
-# Fixture based on the Taipower download listing page structure at
-# https://www.taipower.com.tw/tc/download.aspx?mid=262
-# The page renders a list of downloadable files inside a <div class="download-list"> container.
-# Each entry is a <div class="list-item"> with a <div class="title"> heading and one or more
-# <a> links inside a <div class="file"> block.
-# NOTE: mid=262 is Taipower's OWN hiring exam; mid=261 is the MOEA joint exam.
 HIRING_PAGE_HTML = """
 <html>
 <head><title>台電下載專區</title></head>
 <body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">113年新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/5585/113nian_hiring_questions.pdf">試題</a>
-      <a href="/media/5586/113nian_hiring_answers.pdf">解答</a>
+<ul>
+  <li>
+    <p class="title">113年新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5585/113nian_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5586/113nian_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">112年新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/5223/112nian_hiring_questions.pdf">試題</a>
-      <a href="/media/5224/112nian_hiring_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">112年新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5223/112nian_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5224/112nian_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">107年12月新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/3892/107dec_hiring_questions.pdf">試題</a>
-      <a href="/media/3893/107dec_hiring_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">107年12月新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3892/107dec_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3893/107dec_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">107年5月新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/3790/107may_hiring_questions.pdf">試題</a>
-      <a href="/media/3791/107may_hiring_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">107年5月新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3790/107may_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3791/107may_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div class="list-item">
-    <div class="title">106年新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/3600/106nian_hiring_questions.pdf">試題</a>
-      <a href="/media/3601/106nian_hiring_answers.pdf">解答</a>
+  </li>
+  <li>
+    <p class="title">106年新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3600/106nian_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/3601/106nian_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+</ul>
 </body>
 </html>
 """
 
 HIRING_PAGE_HTML_SINGLE_FILE = """
 <html><body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">111年新進僱用人員甄試試題解答</div>
-    <div class="file">
-      <a href="/media/4992/111nian_hiring.pdf">試題暨解答</a>
+<ul>
+  <li>
+    <p class="title">111年新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題暨解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/4992/111nian_hiring.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+</ul>
 </body></html>
 """
 
 HIRING_PAGE_HTML_NESTED_DIVS = """
 <html><body>
-<div class="download-list">
-  <div class="list-item">
-    <div class="title">
-      <div>Inner nested div</div>
-      114年新進僱用人員甄試試題解答
+<ul>
+  <li>
+    <p class="title"><span>Inner nested span</span> 114年新進僱用人員甄試試題解答</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5587/114nian_hiring_questions.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/5588/114nian_hiring_answers.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-    <div class="file">
-      <div class="wrapper">
-        <a href="/media/5587/114nian_hiring_questions.pdf">試題</a>
-      </div>
-      <a href="/media/5588/114nian_hiring_answers.pdf">解答</a>
+  </li>
+</ul>
+</body></html>
+"""
+
+HIRING_PAGE_HTML_MULTI_SUBJECT = """
+<html><body>
+<ul>
+  <li>
+    <p class="title">112年度共同科目</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">共同科目試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/1001/common_q.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">共同科目解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/1002/common_a.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </div>
-</div>
+  </li>
+  <li>
+    <p class="title">112年度企業管理概論</p>
+    <div class="drawerBox">
+      <ul class="fileDownload">
+        <li>
+          <span class="name">企業管理概論試題</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/1003/biz_q.pdf">下載</a></li>
+          </ul>
+        </li>
+        <li>
+          <span class="name">企業管理概論解答</span>
+          <ul class="downloadFiles">
+            <li><a download href="/media/1004/biz_a.pdf">下載</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
 </body></html>
 """
 
@@ -137,7 +250,6 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         year_107_entries = [e for e in entries if e.year_roc == 107]
 
         self.assertEqual(len(year_107_entries), 2)
-        # Month attribute must be set for multi-session year entries
         self.assertIsNotNone(year_107_entries[0].month)
         self.assertIsNotNone(year_107_entries[1].month)
 
@@ -163,7 +275,6 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(entries[0].downloads[0].label, "試題暨解答")
 
     def test_parse_hiring_page_handles_nested_divs(self) -> None:
-        """Test that nested divs inside title and file sections don't break parsing."""
         entries = parse_hiring_page(HIRING_PAGE_HTML_NESTED_DIVS)
 
         self.assertEqual(len(entries), 1)
@@ -235,6 +346,27 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         codes = {e.code for e in exams}
         self.assertIn("taipower-recruit-107-12", codes)
         self.assertIn("taipower-recruit-107-5", codes)
+
+    def test_discover_exams_deduplicates_multi_subject_entries(self) -> None:
+        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML_MULTI_SUBJECT):
+            client = TaipowerRecruitClient()
+            exams = client.discover_exams(2023)
+
+        self.assertEqual(len(exams), 1)
+        self.assertEqual(exams[0].code, "taipower-recruit-112")
+
+    def test_fetch_exam_page_aggregates_multi_subject_entries(self) -> None:
+        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML_MULTI_SUBJECT):
+            client = TaipowerRecruitClient()
+            page = client.fetch_exam_page("taipower-recruit-112", 2023)
+
+        self.assertEqual(len(page.papers), 4)
+        urls = {url for paper in page.papers for url in paper.files.values()}
+        self.assertEqual(len(urls), 4)
+        codes = [paper.subject_code for paper in page.papers]
+        self.assertEqual(codes, ["hiring-01", "hiring-02", "hiring-03", "hiring-04"])
+        file_types = [ft for paper in page.papers for ft in paper.files]
+        self.assertEqual(file_types, ["question", "answer", "question", "answer"])
 
     def test_registry_returns_taipower_recruit_provider(self) -> None:
         from app.providers.registry import get_provider
