@@ -52,6 +52,54 @@ Add planned providers here before implementation starts.
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
 | notes | contributes exactly one canonical bundle asset for `學科能力測驗`; public publication remains site-owned |
 
+### Provider: `sfi_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `sfi_cert` |
+| status | planned |
+| source name | Securities & Futures Institute certification exam archive |
+| source type | public web source |
+| current implementation scope | planned multi-bundle provider for securities and futures certifications |
+| target scoped ownership | `data/providers/sfi_cert/` |
+| target mirror ownership | `mirror/providers/sfi_cert/` |
+| planned sync workflows | `sync-sfi-cert.yml` |
+| planned CLI entrypoints | `sync-full --provider sfi_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes ~10 canonical bundle assets (one per certification type); public publication remains site-owned |
+
+### Provider: `tabf_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `tabf_cert` |
+| status | planned |
+| source name | Taiwan Academy of Banking and Finance certification exam archive |
+| source type | public web source |
+| current implementation scope | planned multi-bundle provider for banking and finance certifications |
+| target scoped ownership | `data/providers/tabf_cert/` |
+| target mirror ownership | `mirror/providers/tabf_cert/` |
+| planned sync workflows | `sync-tabf-cert.yml` |
+| planned CLI entrypoints | `sync-full --provider tabf_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes ~12 canonical bundle assets (one per certification type); public publication remains site-owned |
+
+### Provider: `tii_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `tii_cert` |
+| status | planned |
+| source name | Taiwan Insurance Institute certification exam archive |
+| source type | public web source |
+| current implementation scope | planned multi-bundle provider for insurance certifications |
+| target scoped ownership | `data/providers/tii_cert/` |
+| target mirror ownership | `mirror/providers/tii_cert/` |
+| planned sync workflows | `sync-tii-cert.yml` |
+| planned CLI entrypoints | `sync-full --provider tii_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes ~4 canonical bundle assets (one per certification type); public publication remains site-owned |
+
 Recommended entry format:
 
 ### Provider: `<provider_id>`
@@ -80,7 +128,7 @@ Recommended entry format:
 | status | active |
 | purpose | current public exam bundle catalog |
 | current input providers | `moex` |
-| target input providers | `moex`, `ceec_gsat` |
+| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert` |
 | current publication ownership | root-level `data/bundles.json`, `data/release-assets.json`, `data/lootlabs-links.json` |
 | target scoped ownership | `data/sites/default/` |
 | current bundle storage | `bundles/` |
