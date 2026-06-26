@@ -16,6 +16,9 @@ Source of truth: `frontend/src/lib/exam-classification.ts`.
 | --- | --- |
 | 公職 | 行政類科, 法律類科, 商科類科, 技術類科, 資訊類科, 醫藥衛生, 警消海巡, 外交國際, 交通海事, 農林漁牧, 文教類科, 導遊領隊, 其他 |
 | 升學 | 學測 |
+| 國營事業 | 國營事業聯招, 台電僱員, 中油甄試, 台水甄試, 台糖甄試 |
+| 技檢 | 技術士技能檢定 |
+| 金融證照 | 證券期貨, 銀行金融, 保險, 其他 |
 
 Classes and subclasses are ordered. The order in `EXAM_CLASSES` and `CLASS_CONFIG[class].subclasses` is the display order in the UI.
 
@@ -47,6 +50,16 @@ Current routes:
 | ID Prefix | Class | Default Subclass | Rationale |
 | --- | --- | --- | --- |
 | `ceec-` | 升學 | 學測 | CEEC bundles are university entrance exams; currently only 學測 exists |
+| `rcpet-cap` | 升學 | 國中教育會考 | RCPET bundles for junior high school assessment |
+| `moea-recruit` | 國營事業 | 國營事業聯招 | MOEA joint recruitment exams |
+| `taipower-recruit` | 國營事業 | 台電僱員 | Taipower employee recruitment |
+| `cpc-recruit` | 國營事業 | 中油甄試 | CPC recruitment |
+| `twc-recruit` | 國營事業 | 台水甄試 | Taiwan Water recruitment |
+| `taisugar-recruit` | 國營事業 | 台糖甄試 | Taisugar recruitment |
+| `wdasec-skill` | 技檢 | 技術士技能檢定 | Workforce Development Agency skill certification |
+| `sfi-` | 金融證照 | — | SFI bundles classify via pattern rules across subclasses |
+| `tabf-` | 金融證照 | — | TABF bundles classify via pattern rules across subclasses |
+| `tii-` | 金融證照 | — | TII bundles classify via pattern rules across subclasses |
 
 All other bundles (moex provider) have no explicit route and fall through to `DEFAULT_CLASS = "公職"`.
 

@@ -1,4 +1,4 @@
-export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢"] as const
+export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢", "金融證照"] as const
 export type ExamClass = (typeof EXAM_CLASSES)[number]
 
 export interface ExamCategory {
@@ -26,6 +26,9 @@ const PROVIDER_ROUTES: readonly ProviderRoute[] = [
   { idPrefix: "twc-recruit", examClass: "國營事業", defaultSubclass: "台水甄試" },
   { idPrefix: "taisugar-recruit", examClass: "國營事業", defaultSubclass: "台糖甄試" },
   { idPrefix: "wdasec-skill", examClass: "技檢", defaultSubclass: "技術士技能檢定" },
+  { idPrefix: "sfi-", examClass: "金融證照" },
+  { idPrefix: "tabf-", examClass: "金融證照" },
+  { idPrefix: "tii-", examClass: "金融證照" },
 ]
 
 const DEFAULT_CLASS: ExamClass = "公職"
@@ -85,6 +88,15 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
     subclasses: ["技術士技能檢定"],
     rules: [],
     fallback: "技術士技能檢定",
+  },
+  金融證照: {
+    subclasses: ["證券期貨", "銀行金融", "保險", "其他"],
+    rules: [
+      [/證券|期貨|投信投顧|企業內部控制|票券|股務|資產證券化|工商倫理/, "證券期貨"],
+      [/銀行|信託|理財規劃|外匯|授信|風險管理|債權催收|數位金融|洗錢|金融科技|資產評估/, "銀行金融"],
+      [/保險/, "保險"],
+    ],
+    fallback: "其他",
   },
 }
 
