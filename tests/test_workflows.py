@@ -454,5 +454,40 @@ jobs:
         self.assertNotIn("optimize-mirror-pdfs", readme)
 
 
+class FinancialCertWorkflowTests(unittest.TestCase):
+    def test_sync_sfi_cert_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-sfi-cert.yml").read_text(encoding="utf-8")
+
+        self.assertIn("python -m app sync-full --provider sfi_cert --site-id default", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
+    def test_sync_tabf_cert_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-tabf-cert.yml").read_text(encoding="utf-8")
+
+        self.assertIn("python -m app sync-full --provider tabf_cert --site-id default", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
+    def test_sync_tii_cert_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-tii-cert.yml").read_text(encoding="utf-8")
+
+        self.assertIn("python -m app sync-full --provider tii_cert --site-id default", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
+    def test_financial_cert_workflows_have_schedule(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for name in ("sync-sfi-cert.yml", "sync-tabf-cert.yml", "sync-tii-cert.yml"):
+            with self.subTest(name=name):
+                workflow = (workflows_dir / name).read_text(encoding="utf-8")
+                self.assertIn("schedule:", workflow)
+                self.assertIn("cron:", workflow)
+                self.assertIn("workflow_dispatch:", workflow)
+
+
 if __name__ == "__main__":
     unittest.main()
