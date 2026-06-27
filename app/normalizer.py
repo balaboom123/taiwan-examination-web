@@ -64,6 +64,8 @@ _FINANCIAL_CERT_CANONICAL_MAP = {
     "sfi-cert-stock-affairs-": ("sfi-stock-affairs", "股務人員"),
     "sfi-cert-asset-securitization-": ("sfi-asset-securitization", "資產證券化基本能力測驗"),
     "sfi-cert-business-ethics-": ("sfi-business-ethics", "工商倫理測驗"),
+    "sfi-cert-aml-": ("sfi-aml", "防制洗錢與打擊資恐專業人員測驗"),
+    "sfi-cert-sustainability-": ("sfi-sustainability", "永續發展基礎能力測驗"),
     # TABF (金融研訓院) certifications
     "tabf-cert-bank-internal-control-": ("tabf-bank-internal-control", "銀行內部控制與內部稽核"),
     "tabf-cert-trust-business-": ("tabf-trust-business", "信託業務人員"),
@@ -82,6 +84,9 @@ _FINANCIAL_CERT_CANONICAL_MAP = {
     "tii-cert-property-insurance-": ("tii-property-insurance", "財產保險業務員"),
     "tii-cert-investment-insurance-": ("tii-investment-insurance", "投資型保險商品業務員"),
     "tii-cert-health-insurance-": ("tii-health-insurance", "傷害保險及健康保險業務員"),
+    "tii-cert-policyholder-service-": ("tii-policyholder-service", "人身保險業務員保戶服務檢定"),
+    "tii-cert-aml-": ("tii-aml", "防制洗錢與打擊資恐專業人員測驗"),
+    "tii-cert-sustainability-": ("tii-sustainability", "永續發展基礎能力測驗"),
 }
 
 

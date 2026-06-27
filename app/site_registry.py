@@ -10,6 +10,8 @@ class SiteConfig:
     release_tag_prefix: str
     release_shard_size: int = 900
     public_min_years: int = 1
+    public_min_years_by_canonical_prefix: dict[str, int] | None = None
+    required_provider_ids: tuple[str, ...] = ()
 
 
 _SITES = {
@@ -32,6 +34,8 @@ _SITES = {
         release_tag_prefix="default-bundles",
         release_shard_size=900,
         public_min_years=2,
+        public_min_years_by_canonical_prefix={"sfi-": 1, "tabf-": 1, "tii-": 1},
+        required_provider_ids=("moex", "ceec_gsat"),
     )
 }
 

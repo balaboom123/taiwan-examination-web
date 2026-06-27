@@ -351,6 +351,53 @@ class BundlerTests(unittest.TestCase):
                 self.assertIn("86/101_2001_Navigation_試題_086020.pdf", names)
             self.assertEqual(result.failures, [])
 
+    def test_build_bundles_allows_single_year_for_configured_canonical_prefix(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            bundles_dir = root / "bundles"
+            tii_dir = mirror_dir / "providers" / "tii_cert" / "115" / "tii-cert-aml-2026-1" / "aml" / "main"
+            ceec_dir = mirror_dir / "providers" / "ceec_gsat" / "115" / "gsat-115" / "101" / "0101"
+            tii_dir.mkdir(parents=True)
+            ceec_dir.mkdir(parents=True)
+            (tii_dir / "question.pdf").write_bytes(b"%PDF-1.7 tii")
+            (ceec_dir / "question.pdf").write_bytes(b"%PDF-1.7 ceec")
+
+            tii_paper = make_paper(
+                canonical_id="tii-aml",
+                canonical_name="TII AML",
+                year_roc=115,
+                source_exam_id="tii-cert-aml-2026-1",
+                category_raw="TII AML",
+                subject_code="main",
+                storage_key="providers/tii_cert/115/tii-cert-aml-2026-1/aml/main/question.pdf",
+            )
+            tii_paper.provider_id = "tii_cert"
+            ceec_paper = make_paper(
+                canonical_id="ceec-gsat",
+                canonical_name="CEEC GSAT",
+                year_roc=115,
+                source_exam_id="gsat-115",
+                category_raw="GSAT",
+                subject_code="0101",
+                storage_key="providers/ceec_gsat/115/gsat-115/101/0101/question.pdf",
+            )
+            ceec_paper.provider_id = "ceec_gsat"
+
+            result = build_bundles(
+                bundle_dir=bundles_dir,
+                mirror_dir=mirror_dir,
+                normalized=NormalizedCatalog(papers=[tii_paper, ceec_paper], review_queue=[]),
+                bundle_base_url="",
+                min_years=2,
+                min_years_by_canonical_prefix={"tii-": 1},
+            )
+
+            self.assertEqual([bundle.canonical_id for bundle in result.bundles], ["tii-aml"])
+            self.assertTrue((bundles_dir / "tii-aml.zip").exists())
+            self.assertFalse((bundles_dir / "ceec-gsat.zip").exists())
+            self.assertEqual(result.failures, [])
+
 
 if __name__ == "__main__":
     unittest.main()

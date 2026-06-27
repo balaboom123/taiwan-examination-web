@@ -11950,6 +11950,85 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/rcpet-cap.zip"
     },
     {
+      "id": "sfi-aml",
+      "name": "防制洗錢與打擊資恐專業人員測驗",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-aml.zip"
+    },
+    {
+      "id": "sfi-corporate-internal-control",
+      "name": "企業內部控制基本能力測驗",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-corporate-internal-control.zip"
+    },
+    {
+      "id": "sfi-futures-dealer",
+      "name": "期貨商業務員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-futures-dealer.zip"
+    },
+    {
+      "id": "sfi-securities-analyst",
+      "name": "證券投資分析人員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-analyst.zip"
+    },
+    {
+      "id": "sfi-securities-dealer",
+      "name": "證券商業務員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-dealer.zip"
+    },
+    {
+      "id": "sfi-senior-securities-dealer",
+      "name": "證券商高級業務員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-senior-securities-dealer.zip"
+    },
+    {
+      "id": "sfi-sitca",
+      "name": "投信投顧業務員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sitca.zip"
+    },
+    {
+      "id": "sfi-sustainability",
+      "name": "永續發展基礎能力測驗",
+      "years": [
+        115
+      ],
+      "fileCount": 2,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sustainability.zip"
+    },
+    {
       "id": "social-worker",
       "name": "社會工作師",
       "years": [
@@ -11980,6 +12059,86 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/social-worker.zip"
     },
     {
+      "id": "tabf-aml",
+      "name": "防制洗錢與打擊資恐",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-aml.zip"
+    },
+    {
+      "id": "tabf-bank-internal-control",
+      "name": "銀行內部控制與內部稽核",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 104,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-bank-internal-control.zip"
+    },
+    {
+      "id": "tabf-credit",
+      "name": "授信人員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 36,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-credit.zip"
+    },
+    {
+      "id": "tabf-financial-planning",
+      "name": "理財規劃人員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 18,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-financial-planning.zip"
+    },
+    {
+      "id": "tabf-fintech",
+      "name": "金融科技力知識",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 12,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fintech.zip"
+    },
+    {
+      "id": "tabf-fx-junior",
+      "name": "初階外匯人員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 18,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fx-junior.zip"
+    },
+    {
+      "id": "tabf-risk-management",
+      "name": "風險管理基本能力",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 12,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-risk-management.zip"
+    },
+    {
+      "id": "tabf-trust-business",
+      "name": "信託業務人員",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 48,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-trust-business.zip"
+    },
+    {
       "id": "taipower-recruit",
       "name": "台電新進僱用人員甄試",
       "years": [
@@ -12003,6 +12162,33 @@
       ],
       "fileCount": 192,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip"
+    },
+    {
+      "id": "tii-aml",
+      "name": "防制洗錢與打擊資恐專業人員測驗",
+      "years": [
+        114
+      ],
+      "fileCount": 2,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-aml.zip"
+    },
+    {
+      "id": "tii-investment-insurance",
+      "name": "投資型保險商品業務員",
+      "years": [
+        115
+      ],
+      "fileCount": 1,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-investment-insurance.zip"
+    },
+    {
+      "id": "tii-sustainability",
+      "name": "永續發展基礎能力測驗",
+      "years": [
+        115
+      ],
+      "fileCount": 2,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-sustainability.zip"
     },
     {
       "id": "twc-recruit",

@@ -223,7 +223,9 @@ def publish_site(
     for provider_id in site_config.provider_ids:
         provider = provider_paths(repo_root, provider_id)
         if not provider.data_dir.exists():
-            raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
+            if provider_id in site_config.required_provider_ids:
+                raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
+            continue
         _raw_pages, provider_catalog, _failures = load_provider_state(provider)
         aggregated_papers.extend(provider_catalog.papers)
         aggregated_review_queue.extend(provider_catalog.review_queue)
@@ -252,6 +254,7 @@ def publish_site(
         bundle_base_url="",
         canonical_aliases=canonical_aliases,
         min_years=site_config.public_min_years,
+        min_years_by_canonical_prefix=site_config.public_min_years_by_canonical_prefix,
     )
     if bundle_result.failures:
         raise ValueError(_format_bundle_failures(bundle_result.failures))
