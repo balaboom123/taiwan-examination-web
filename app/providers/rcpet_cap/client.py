@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import parse_qsl, urlencode, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -25,6 +25,40 @@ def _resolve_gdrive_url(url: str) -> str:
         return f"https://drive.google.com/uc?id={m.group(1)}&export=download"
     return url
 
+
+class _GdriveConfirmParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self._in_download_form = False
+        self._action = ""
+        self._fields: dict[str, str] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attrs_dict = dict(attrs)
+        if tag == "form" and attrs_dict.get("id") == "download-form":
+            self._in_download_form = True
+            self._action = attrs_dict.get("action", "") or ""
+            self._fields = {}
+            return
+        if self._in_download_form and tag == "input":
+            name = attrs_dict.get("name")
+            if name:
+                self._fields[name] = attrs_dict.get("value", "") or ""
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "form" and self._in_download_form:
+            self._in_download_form = False
+
+
+def _resolve_gdrive_confirm_url(html: str, current_url: str) -> str:
+    parser = _GdriveConfirmParser()
+    parser.feed(html)
+    if not parser._action or not parser._fields:
+        return ""
+    existing = dict(parse_qsl(urlparse(current_url).query))
+    fields = {**existing, **parser._fields}
+    return f"{urljoin(current_url, parser._action)}?{urlencode(fields)}"
+
 _SUBJECT_MAP: dict[str, tuple[str, str]] = {
     "寫作測驗": ("writing", "question"),
     "國文科": ("chinese", "question"),
@@ -32,7 +66,7 @@ _SUBJECT_MAP: dict[str, tuple[str, str]] = {
     "英語（閱讀）": ("english-reading", "question"),
     "英語（聽力）": ("english-listening", "question"),
     "英語科聽力語音檔(壓縮檔)-備註": ("english-listening", "question"),
-    "英語科聽力語音檔(mp3)-備註": ("english-listening", "question"),
+    "英語科聽力語音檔(mp3)-備註": ("english-listening", "listening_audio"),
     "數學科": ("math", "question"),
     "社會科": ("social", "question"),
     "自然科": ("science", "question"),
@@ -240,11 +274,20 @@ class RcpetCapClient:
         url = _resolve_gdrive_url(url)
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=120) as response:
-            return DownloadedFile(
-                data=response.read(),
-                content_type=response.headers.get("Content-Type", "application/octet-stream"),
-                file_name=Path(unquote(urlparse(url).path)).name,
-            )
+            data = response.read()
+            content_type = response.headers.get("Content-Type", "application/octet-stream")
+            file_name = Path(unquote(urlparse(url).path)).name
+            if "text/html" in content_type.lower() and "Google Drive - Virus scan warning" in data[:4096].decode("utf-8", "ignore"):
+                confirm_url = _resolve_gdrive_confirm_url(data.decode("utf-8", "ignore"), response.geturl())
+                if confirm_url:
+                    confirm_request = Request(confirm_url, headers={"User-Agent": USER_AGENT})
+                    with urlopen(confirm_request, timeout=120) as confirm_response:
+                        return DownloadedFile(
+                            data=confirm_response.read(),
+                            content_type=confirm_response.headers.get("Content-Type", "application/octet-stream"),
+                            file_name=Path(unquote(urlparse(confirm_response.geturl()).path)).name,
+                        )
+            return DownloadedFile(data=data, content_type=content_type, file_name=file_name)
 
     def _get_dropdown_entries(self) -> list[DropdownEntry]:
         html = self._fetch_text(MAIN_PAGE_URL)

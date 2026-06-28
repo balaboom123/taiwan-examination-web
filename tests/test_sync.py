@@ -218,6 +218,40 @@ class QuestionDocClient:
         )
 
 
+class QuestionArchiveClient:
+    provider_id = "rcpet_cap"
+
+    def __init__(self, *, url: str, data: bytes, content_type: str, file_name: str) -> None:
+        self.url = url
+        self.data = data
+        self.content_type = content_type
+        self.file_name = file_name
+        self.downloaded_urls: list[str] = []
+
+    def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="115 CAP",
+            attachments=[],
+            papers=[
+                ParsedPaper(
+                    category_raw="CAP",
+                    category_code="115",
+                    subject_code="english-listening",
+                    subject_name_raw="English listening",
+                    files={"question": self.url},
+                )
+            ],
+            provider_id=self.provider_id,
+        )
+
+    def download_file(self, url: str) -> DownloadedFile:
+        self.downloaded_urls.append(url)
+        return DownloadedFile(data=self.data, content_type=self.content_type, file_name=self.file_name)
+
+
 class SyncExamPagesTests(unittest.TestCase):
     def test_moex_provider_implements_source_provider_contract(self) -> None:
         self.assertIsInstance(MoexProvider(), SourceProvider)
@@ -442,6 +476,59 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(
             raw_pages[0].papers[1].mirror_files["question_alt"]["storage_key"],
             "providers/ceec_gsat/102/gsat-102-science/102/science-02/question_alt.doc",
+        )
+        self.assertEqual(failures, [])
+
+    def test_sync_exam_pages_accepts_question_zip_payloads_without_filename_extension(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            client = QuestionArchiveClient(
+                url="https://drive.google.com/uc?id=demo&export=download",
+                data=b"PK\x03\x04zip payload",
+                content_type="application/octet-stream",
+                file_name="uc",
+            )
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("cap-115", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(client.downloaded_urls, ["https://drive.google.com/uc?id=demo&export=download"])
+        self.assertEqual(len(raw_pages), 1)
+        self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+            "providers/rcpet_cap/115/cap-115/115/english-listening/question.zip",
+        )
+        self.assertEqual(failures, [])
+
+    def test_sync_exam_pages_accepts_question_rar_payloads(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            client = QuestionArchiveClient(
+                url="https://ws.cpc.com.tw/Download.ashx?u=demo&n=demo",
+                data=b"Rar!\x1a\x07\x00archive payload",
+                content_type="application/octet-stream",
+                file_name="old-question.rar",
+            )
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("cap-115", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(client.downloaded_urls, ["https://ws.cpc.com.tw/Download.ashx?u=demo&n=demo"])
+        self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
+            "providers/rcpet_cap/115/cap-115/115/english-listening/question.rar",
         )
         self.assertEqual(failures, [])
 

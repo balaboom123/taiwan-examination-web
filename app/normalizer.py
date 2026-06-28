@@ -89,6 +89,14 @@ _FINANCIAL_CERT_CANONICAL_MAP = {
     "tii-cert-sustainability-": ("tii-sustainability", "永續發展基礎能力測驗"),
 }
 
+_REQUESTED_TOPIC_CANONICAL_MAP = {
+    "teacher-qual-": ("teacher-qual", "教師資格考試"),
+    "gept-cert-": ("gept-cert", "GEPT全民英檢"),
+    "tocfl-cert-": ("tocfl-cert", "TOCFL華語文能力測驗"),
+    "tqc-cert-": ("tqc-cert", "TQC電腦技能基金會認證"),
+    "ipas-cert-": ("ipas-cert", "iPAS產業人才能力鑑定"),
+}
+
 
 def legacy_fallback_canonical_id(candidate: str) -> str:
     return "canonical-" + candidate.encode("utf-8").hex()[:16]
@@ -188,6 +196,9 @@ def _derive_canonical(
         if source_exam_id.startswith(prefix):
             return canonical_id, canonical_name, canonical_name, False
     for prefix, (canonical_id, canonical_name) in _FINANCIAL_CERT_CANONICAL_MAP.items():
+        if source_exam_id.startswith(prefix):
+            return canonical_id, canonical_name, canonical_name, False
+    for prefix, (canonical_id, canonical_name) in _REQUESTED_TOPIC_CANONICAL_MAP.items():
         if source_exam_id.startswith(prefix):
             return canonical_id, canonical_name, canonical_name, False
     if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):

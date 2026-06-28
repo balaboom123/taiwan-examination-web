@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -13,7 +13,13 @@ from app.providers.base import DownloadedFile, ResponseMetadata
 
 BASE_URL = "https://www.taipower.com.tw/"
 DOWNLOAD_URL = "https://www.taipower.com.tw/tc/download.aspx?mid=262"
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+REQUEST_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Referer": BASE_URL,
+}
 CANONICAL_CATEGORY = "台電新進僱用人員甄試"
 _YEAR_RE = re.compile(r"(\d{2,3})\s*年")
 _MONTH_RE = re.compile(r"(\d{1,2})\s*月")
@@ -166,6 +172,19 @@ def _exam_code(entry: TaipowerRecruitEntry) -> str:
     return f"taipower-recruit-{entry.year_roc}"
 
 
+def _quote_url_for_request(url: str) -> str:
+    parts = urlsplit(url)
+    return urlunsplit(
+        (
+            parts.scheme,
+            parts.netloc,
+            quote(unquote(parts.path), safe="/%"),
+            quote(unquote(parts.query), safe="=&%"),
+            quote(unquote(parts.fragment), safe="%"),
+        )
+    )
+
+
 class TaipowerRecruitClient:
     provider_id = "taipower_recruit"
 
@@ -173,7 +192,7 @@ class TaipowerRecruitClient:
         self._cached_entries: list[TaipowerRecruitEntry] | None = None
 
     def _fetch_text(self, url: str) -> str:
-        request = Request(url, headers={"User-Agent": USER_AGENT})
+        request = Request(_quote_url_for_request(url), headers=REQUEST_HEADERS)
         with urlopen(request, timeout=60) as response:
             raw = response.read()
             for encoding in ("utf-8", "big5", "cp950"):
@@ -184,7 +203,7 @@ class TaipowerRecruitClient:
             return raw.decode("utf-8", "replace")
 
     def head(self, url: str) -> ResponseMetadata:
-        request = Request(url, headers={"User-Agent": USER_AGENT}, method="HEAD")
+        request = Request(_quote_url_for_request(url), headers=REQUEST_HEADERS, method="HEAD")
         with urlopen(request, timeout=60) as response:
             content_length = response.headers.get("Content-Length")
             return ResponseMetadata(
@@ -197,7 +216,7 @@ class TaipowerRecruitClient:
             )
 
     def download_file(self, url: str) -> DownloadedFile:
-        request = Request(url, headers={"User-Agent": USER_AGENT})
+        request = Request(_quote_url_for_request(url), headers=REQUEST_HEADERS)
         with urlopen(request, timeout=120) as response:
             return DownloadedFile(
                 data=response.read(),

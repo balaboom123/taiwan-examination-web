@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from app.providers.taipower_recruit.client import TaipowerRecruitClient, parse_hiring_page
+from app.providers.taipower_recruit.client import TaipowerRecruitClient, _quote_url_for_request, parse_hiring_page
 
 
 HIRING_PAGE_HTML = """
@@ -202,6 +202,16 @@ HIRING_PAGE_HTML_MULTI_SUBJECT = """
 
 
 class TaipowerRecruitParserTests(unittest.TestCase):
+    def test_quote_url_for_request_percent_encodes_non_ascii_path_and_preserves_query(self) -> None:
+        url = "https://www.taipower.com.tw/media/demo/115年度新進僱用人員甄試試題.pdf?mediaDL=true"
+
+        quoted = _quote_url_for_request(url)
+
+        self.assertEqual(
+            quoted,
+            "https://www.taipower.com.tw/media/demo/115%E5%B9%B4%E5%BA%A6%E6%96%B0%E9%80%B2%E5%83%B1%E7%94%A8%E4%BA%BA%E5%93%A1%E7%94%84%E8%A9%A6%E8%A9%A6%E9%A1%8C.pdf?mediaDL=true",
+        )
+
     def test_parse_hiring_page_extracts_entries(self) -> None:
         entries = parse_hiring_page(HIRING_PAGE_HTML)
 

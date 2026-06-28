@@ -11,7 +11,7 @@ from app.crawler import year_ad_from_code
 from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.migration import migrate_legacy_state
-from app.models import BundleAsset, NormalizedCatalog
+from app.models import BundleAsset, NormalizedCatalog, SyncFailure
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import ProviderPaths, site_paths
 from app.publisher import publish_site, write_data_files, write_provider_state
@@ -406,10 +406,18 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
     if getattr(args, "write_manifest", False) and not _supports_probe_manifest(provider_id, provider):
         print(f"--write-manifest is not supported for provider {provider_id}: missing probe URL model", flush=True)
         return 1
-    if getattr(args, "year_window", None):
-        years = _latest_years(provider, args.year_window)
-    else:
-        years = _discover_years(provider, args.years)
+    try:
+        if getattr(args, "year_window", None):
+            years = _latest_years(provider, args.year_window)
+        else:
+            years = _discover_years(provider, args.years)
+    except Exception as exc:
+        existing_provider_raw_pages, existing_provider_catalog, _existing_provider_failures = load_provider_state(provider_state)
+        if existing_provider_raw_pages or existing_provider_catalog.papers:
+            print(f"Provider {provider_id} discovery unavailable ({exc}); preserving existing provider state.", flush=True)
+            return 0
+        print(f"Provider {provider_id} discovery failed and no existing provider state is available: {exc}", flush=True)
+        return 1
     aliases = load_alias_rules(args.aliases)
     mirror_store = MirrorStore(args.mirror_dir)
 
@@ -419,7 +427,22 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
     all_sync_failures: list = []
 
     for year in years:
-        exam_codes = [(exam.code, exam.year_ad) for exam in provider.discover_exams(year)]
+        try:
+            exam_codes = [(exam.code, exam.year_ad) for exam in provider.discover_exams(year)]
+        except Exception as exc:
+            print(f"Year {year}: failed to discover exams: {exc}")
+            all_sync_failures.append(
+                SyncFailure(
+                    stage="discover",
+                    source_exam_id=f"{provider_id}-{year}",
+                    year_roc=year - 1911,
+                    paper_code="",
+                    file_type="",
+                    url="",
+                    message=f"Failed to discover exams: {exc}",
+                )
+            )
+            continue
         print(f"Syncing year {year} ({len(exam_codes)} exams)...")
         try:
             raw_pages_year, catalog_year, failures_year = sync_exam_pages(

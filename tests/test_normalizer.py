@@ -132,6 +132,38 @@ class NormalizePapersTests(unittest.TestCase):
         self.assertTrue(all(paper.canonical_id.startswith("canonical-") for paper in normalized.papers))
         self.assertNotEqual(normalized.papers[0].canonical_id, normalized.papers[1].canonical_id)
 
+    def test_requested_topic_providers_use_stable_canonical_ids(self) -> None:
+        cases = [
+            ("teacher-qual-115", "教師資格考試", "teacher-qual", "教師資格考試"),
+            ("gept-cert-materials", "GEPT全民英檢官方練習資料_初級", "gept-cert", "GEPT全民英檢"),
+            ("tocfl-cert-materials", "TOCFL華語文能力測驗官方參考資料", "tocfl-cert", "TOCFL華語文能力測驗"),
+            ("tqc-cert-samples", "TQC範例試卷_專業知識領域類", "tqc-cert", "TQC電腦技能基金會認證"),
+            ("ipas-cert-downloads", "iPAS產業人才能力鑑定官方下載_ISE", "ipas-cert", "iPAS產業人才能力鑑定"),
+        ]
+        for source_exam_id, category_raw, expected_id, expected_name in cases:
+            with self.subTest(source_exam_id=source_exam_id):
+                normalized = normalize_papers(
+                    source_exam_id=source_exam_id,
+                    year_ad=2026,
+                    exam_name_raw=category_raw,
+                    papers=[
+                        ParsedPaper(
+                            category_raw=category_raw,
+                            category_code="topic",
+                            subject_code="download",
+                            subject_name_raw="download",
+                            files={"question": "https://example.test/file.pdf"},
+                        )
+                    ],
+                    alias_rules=[],
+                    mirror_base_url="",
+                    mirror_metadata={("topic", "download", "question"): {"checksum": "abc", "storage_key": "topic/download/question.pdf"}},
+                )
+
+                self.assertEqual(normalized.papers[0].canonical_id, expected_id)
+                self.assertEqual(normalized.papers[0].canonical_name, expected_name)
+                self.assertEqual(normalized.review_queue, [])
+
 
 if __name__ == "__main__":
     unittest.main()

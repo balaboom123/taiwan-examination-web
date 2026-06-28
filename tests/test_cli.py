@@ -286,6 +286,106 @@ class CliCommandTests(unittest.TestCase):
         self.assertIn("--write-manifest", output.getvalue())
         self.assertIn("ceec_gsat", output.getvalue())
 
+    def test_command_sync_preserves_existing_provider_state_when_discovery_is_unavailable(self) -> None:
+        class DiscoveryOutageClient:
+            provider_id = "wdasec_skill"
+
+            def discover_available_years(self) -> list[int]:
+                raise OSError("temporary name resolution failure")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "aliases.json").write_text('{"rules": []}', encoding="utf-8")
+            provider = provider_paths(root, "wdasec_skill")
+            existing_page = SourceExamPage(
+                provider_id="wdasec_skill",
+                source_exam_id="202603160001",
+                year_ad=2026,
+                year_roc=115,
+                exam_name_raw="Existing skill exam",
+                attachments=[],
+                papers=[],
+            )
+            existing_paper = _paper(
+                "wdasec_skill",
+                "wdasec-skill",
+                source_exam_id="202603160001",
+            )
+            write_provider_state(
+                provider,
+                raw_pages=[existing_page],
+                normalized=NormalizedCatalog(papers=[existing_paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            before_exams = (provider.exams_dir / "2026.json").read_text(encoding="utf-8")
+            before_papers = (provider.papers_dir / "2026.json").read_text(encoding="utf-8")
+            args = build_parser().parse_args(
+                [
+                    "sync-full",
+                    "--provider",
+                    "wdasec_skill",
+                    "--data-dir",
+                    str(data_dir),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = command_sync(args, client=DiscoveryOutageClient())
+
+            self.assertEqual(exit_code, 0)
+            self.assertIn("preserving existing", output.getvalue())
+            self.assertEqual((provider.exams_dir / "2026.json").read_text(encoding="utf-8"), before_exams)
+            self.assertEqual((provider.papers_dir / "2026.json").read_text(encoding="utf-8"), before_papers)
+
+    def test_command_sync_records_year_discovery_failure(self) -> None:
+        class YearDiscoveryFailureClient:
+            provider_id = "wdasec_skill"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int):
+                raise OSError("temporary year page failure")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "aliases.json").write_text('{"rules": []}', encoding="utf-8")
+            args = build_parser().parse_args(
+                [
+                    "sync-full",
+                    "--provider",
+                    "wdasec_skill",
+                    "--data-dir",
+                    str(data_dir),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = command_sync(args, client=YearDiscoveryFailureClient())
+
+            failures = json.loads((provider_paths(root, "wdasec_skill").sync_failures_path).read_text(encoding="utf-8"))
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("failed to discover exams", output.getvalue())
+        self.assertEqual(failures[0]["stage"], "discover")
+        self.assertEqual(failures[0]["source_exam_id"], "wdasec_skill-2026")
+
     def test_command_sync_incremental_merges_and_writes_provider_scoped_state(self) -> None:
         class SuccessfulIncrementalClient:
             provider_id = "moex"

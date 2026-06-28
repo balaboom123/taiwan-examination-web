@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from app.providers.moea_recruit.client import MoeaRecruitClient, parse_download_page
+from app.providers.moea_recruit.client import MoeaRecruitClient, _quote_url_for_request, parse_download_page
 
 
 DOWNLOAD_PAGE_HTML = """
@@ -164,6 +164,16 @@ DOWNLOAD_PAGE_HTML_MULTI_SUBJECT = """
 
 
 class MoeaRecruitParserTests(unittest.TestCase):
+    def test_quote_url_for_request_percent_encodes_non_ascii_path_and_preserves_query(self) -> None:
+        url = "https://www.taipower.com.tw/media/demo/115年度新進職員甄試試題.pdf?mediaDL=true"
+
+        quoted = _quote_url_for_request(url)
+
+        self.assertEqual(
+            quoted,
+            "https://www.taipower.com.tw/media/demo/115%E5%B9%B4%E5%BA%A6%E6%96%B0%E9%80%B2%E8%81%B7%E5%93%A1%E7%94%84%E8%A9%A6%E8%A9%A6%E9%A1%8C.pdf?mediaDL=true",
+        )
+
     def test_parse_download_page_extracts_entries(self) -> None:
         entries = parse_download_page(DOWNLOAD_PAGE_HTML)
 

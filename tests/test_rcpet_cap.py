@@ -6,7 +6,7 @@ from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
-from app.providers.rcpet_cap.client import RcpetCapClient, _resolve_gdrive_url, parse_dropdown, parse_year_page
+from app.providers.rcpet_cap.client import RcpetCapClient, _resolve_gdrive_confirm_url, _resolve_gdrive_url, parse_dropdown, parse_year_page
 
 
 MAIN_PAGE_HTML = """
@@ -121,6 +121,35 @@ class GdriveUrlTests(unittest.TestCase):
         url = "https://cap.rcpet.edu.tw/exam/115/115P_Chinese.pdf"
         self.assertEqual(_resolve_gdrive_url(url), url)
 
+    def test_resolve_confirm_url_from_google_drive_warning_form(self) -> None:
+        html = """
+        <form id="download-form" action="https://drive.usercontent.google.com/download" method="get">
+          <input type="hidden" name="id" value="file-id">
+          <input type="hidden" name="export" value="download">
+          <input type="hidden" name="confirm" value="t">
+          <input type="hidden" name="uuid" value="abc">
+        </form>
+        """
+
+        resolved = _resolve_gdrive_confirm_url(html, "https://drive.google.com/uc?id=file-id&export=download")
+
+        self.assertIn("drive.usercontent.google.com/download", resolved)
+        self.assertIn("confirm=t", resolved)
+        self.assertIn("uuid=abc", resolved)
+
+    def test_resolve_confirm_url_handles_relative_warning_form_action(self) -> None:
+        html = """
+        <form id="download-form" action="/download" method="get">
+          <input type="hidden" name="id" value="file-id">
+          <input type="hidden" name="confirm" value="t">
+        </form>
+        """
+
+        resolved = _resolve_gdrive_confirm_url(html, "https://drive.usercontent.google.com/uc?id=file-id")
+
+        self.assertTrue(resolved.startswith("https://drive.usercontent.google.com/download?"))
+        self.assertIn("confirm=t", resolved)
+
 
 class YearPageParserTests(unittest.TestCase):
     def test_parse_year_page_extracts_all_subjects(self) -> None:
@@ -187,6 +216,21 @@ class YearPageParserTests(unittest.TestCase):
         subject_codes = [p.subject_code for p in result.papers]
         self.assertIn("english-reading", subject_codes)
         self.assertIn("english-listening", subject_codes)
+
+    def test_parse_year_page_legacy_mp3_listening_uses_audio_file_type(self) -> None:
+        html = """
+        <html><body>
+        <h1>102年國中教育會考題本及相關檔案</h1>
+        <ul>
+          <li><a href="https://drive.google.com/file/d/audio-id/view">英語科聽力語音檔(mp3)-備註</a></li>
+        </ul>
+        </body></html>
+        """
+
+        result = parse_year_page(html, year_roc=102)
+        listening = next(p for p in result.papers if p.subject_code == "english-listening")
+
+        self.assertIn("listening_audio", listening.files)
 
     def test_parse_year_page_resolves_urls_with_base(self) -> None:
         html = """

@@ -150,6 +150,7 @@ FILE_TYPE_LABELS = {
     "corrected_answer": "更正答案",
     "all_answers": "全部答案",
     "accessible_bundle": "無障礙題本",
+    "listening_audio": "聽力音檔",
 }
 
 

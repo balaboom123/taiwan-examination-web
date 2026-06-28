@@ -12,20 +12,25 @@ from app.storage import MirrorStore
 EXTENSION_OVERRIDES = {
     "application/pdf": ".pdf",
     "application/zip": ".zip",
+    "application/x-rar-compressed": ".rar",
+    "application/vnd.rar": ".rar",
     "application/msword": ".doc",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
 }
 EXPECTED_EXTENSIONS = {
-    "question": (".pdf", ".doc"),
+    "question": (".pdf", ".doc", ".zip", ".rar"),
     "question_alt": (".pdf", ".docx", ".doc"),
     "answer": (".pdf",),
     "answer_sheet": (".pdf",),
     "corrected_answer": (".pdf",),
     "all_answers": (".pdf",),
     "accessible_bundle": (".zip",),
+    "listening_audio": (".mp3",),
 }
 ZIP_SIGNATURES = (b"PK\x03\x04", b"PK\x05\x06", b"PK\x07\x08")
 DOC_SIGNATURE = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+RAR_SIGNATURES = (b"Rar!\x1a\x07\x00", b"Rar!\x1a\x07\x01\x00")
+MP3_FRAME_SYNC_PREFIXES = (b"\xff\xfb", b"\xff\xf3", b"\xff\xf2")
 
 
 def _extension_for(content_type: str, file_name: str) -> str:
@@ -68,6 +73,10 @@ def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
         return head.startswith(DOC_SIGNATURE)
     if expected_extension in {".zip", ".docx"}:
         return any(head.startswith(signature) for signature in ZIP_SIGNATURES)
+    if expected_extension == ".rar":
+        return any(data.startswith(signature) for signature in RAR_SIGNATURES)
+    if expected_extension == ".mp3":
+        return data.startswith(b"ID3") or any(head.startswith(signature) for signature in MP3_FRAME_SYNC_PREFIXES)
     return False
 
 
