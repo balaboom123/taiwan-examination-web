@@ -6,6 +6,7 @@ from app.providers.teacher_qual.client import (
     TeacherQualClient,
     parse_available_years,
     parse_downloads,
+    parse_order_options,
     parse_subject_options,
 )
 
@@ -30,6 +31,32 @@ TEACHER_LISTING_HTML = """
 </table>
 """
 
+ZERO_PADDED_YEAR_HTML = """
+<table>
+  <tr><td>樣卷</td></tr>
+  <tr><td>01_選擇題答案卡樣張<br><a href="ShowPicOut2.aspx?ASParam=sample">文件下載</a></td></tr>
+  <tr><td>099年試題及參考答案</td></tr>
+  <tr><td>考題及參考答案</td><td>全部下載<br><a href="ShowPicOut2.aspx?ASParam=y099">文件下載</a></td></tr>
+</table>
+"""
+
+SAMPLE_ONLY_YEAR_HTML = """
+<table>
+  <tr><td>樣卷</td></tr>
+  <tr><td>01_選擇題答案卡樣張<br><a href="ShowPicOut2.aspx?ASParam=sample">文件下載</a></td></tr>
+  <tr><td>107年僅有範例題</td></tr>
+  <tr><td>範例題</td><td>全部下載<br><a href="ShowPicOut2.aspx?ASParam=y107">文件下載</a></td></tr>
+</table>
+"""
+
+ORDER_SELECT_HTML = """
+<select name="ctl00$ContentPlaceHolder1$ddlOrder" id="ctl00_ContentPlaceHolder1_ddlOrder">
+  <option selected="selected" value=""></option>
+  <option value="1">第一次考試</option>
+  <option value="2">第二次考試</option>
+</select>
+"""
+
 
 class TeacherQualParserTests(unittest.TestCase):
     def test_parse_available_years(self) -> None:
@@ -45,11 +72,28 @@ class TeacherQualParserTests(unittest.TestCase):
         self.assertEqual(downloads[0].label, "115年試題及參考答案 考題及參考答案 全部下載")
         self.assertTrue(downloads[0].url.endswith("ASParam=all"))
 
+    def test_parse_downloads_keeps_zero_padded_roc_year_bundle(self) -> None:
+        downloads = parse_downloads(ZERO_PADDED_YEAR_HTML, year_roc=99)
+
+        self.assertEqual(len(downloads), 1)
+        self.assertEqual(downloads[0].label, "099年試題及參考答案 考題及參考答案 全部下載")
+        self.assertTrue(downloads[0].url.endswith("ASParam=y099"))
+
+    def test_parse_downloads_keeps_sample_only_year_bundle(self) -> None:
+        downloads = parse_downloads(SAMPLE_ONLY_YEAR_HTML, year_roc=107)
+
+        self.assertEqual(len(downloads), 1)
+        self.assertEqual(downloads[0].label, "107年僅有範例題 範例題 全部下載")
+        self.assertTrue(downloads[0].url.endswith("ASParam=y107"))
+
+    def test_parse_order_options(self) -> None:
+        self.assertEqual(parse_order_options(ORDER_SELECT_HTML), [("1", "第一次考試"), ("2", "第二次考試")])
+
 
 class TeacherQualClientTests(unittest.TestCase):
     def test_fetch_exam_page_builds_single_bundle_paper(self) -> None:
         client = TeacherQualClient()
-        client._listing_for_year = lambda year_roc: TEACHER_LISTING_HTML  # type: ignore[method-assign]
+        client._listing_for_year = lambda year_roc, order_code="": TEACHER_LISTING_HTML  # type: ignore[method-assign]
 
         page = client.fetch_exam_page("teacher-qual-115", 2026)
 
@@ -57,6 +101,31 @@ class TeacherQualClientTests(unittest.TestCase):
         self.assertEqual(page.source_exam_id, "teacher-qual-115")
         self.assertEqual(len(page.papers), 1)
         self.assertIn("question", page.papers[0].files)
+
+    def test_discover_exams_splits_exam_order_when_source_requires_it(self) -> None:
+        client = TeacherQualClient()
+        client.discover_available_years = lambda: [2019]  # type: ignore[method-assign]
+        client._year_selection_html = lambda year_roc: ORDER_SELECT_HTML  # type: ignore[method-assign]
+
+        exams = client.discover_exams(2019)
+
+        self.assertEqual([exam.code for exam in exams], ["teacher-qual-108-1", "teacher-qual-108-2"])
+        self.assertEqual([exam.label for exam in exams], ["108年教師資格考試第一次考試歷屆試題及參考答案", "108年教師資格考試第二次考試歷屆試題及參考答案"])
+
+    def test_fetch_exam_page_uses_exam_order_suffix(self) -> None:
+        client = TeacherQualClient()
+        calls = []
+
+        def listing_for_year(year_roc: int, order_code: str = "") -> str:
+            calls.append((year_roc, order_code))
+            return TEACHER_LISTING_HTML
+
+        client._listing_for_year = listing_for_year  # type: ignore[method-assign]
+
+        page = client.fetch_exam_page("teacher-qual-108-2", 2019)
+
+        self.assertEqual(calls, [(108, "2")])
+        self.assertEqual(page.exam_name_raw, "108年教師資格考試第二次考試歷屆試題及參考答案")
 
 
 if __name__ == "__main__":

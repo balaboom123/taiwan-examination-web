@@ -17823,14 +17823,35 @@
       "canonical_id": "teacher-qual",
       "canonical_name": "教師資格考試",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94
       ],
-      "file_count": 1,
+      "file_count": 23,
       "storage_key": "bundles/sites/default/teacher-qual.zip",
       "asset_name": "teacher-qual.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip",
-      "checksum": "90d7da791d5ad0feb8411b653e13fcb7e76e51645e753aac800842b28d34d116",
+      "checksum": "01075eee63c990d6ec0c6996f8d20d433663d338ca96dcd24b51a0f88edf96cf",
       "legacy_asset_names": [
         "教師資格考試__teacher-qual.zip"
       ]

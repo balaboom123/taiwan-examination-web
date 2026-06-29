@@ -18,6 +18,13 @@ USER_AGENT = "Mozilla/5.0 (compatible; teacher-qual-mirror/1.0)"
 CANONICAL_CATEGORY = "教師資格考試"
 ALL_SUBJECT_CODE = "all-categories"
 ALL_SUBJECT_NAME = "全部類科試題及參考答案"
+YEAR_FIELD = "ctl00$ContentPlaceHolder1$schyy"
+ORDER_FIELD = "ctl00$ContentPlaceHolder1$ddlOrder"
+SUBJECT_FIELD = "ctl00$ContentPlaceHolder1$exid"
+ORDER_LABELS = {
+    "1": "第一次考試",
+    "2": "第二次考試",
+}
 
 
 @dataclass(frozen=True)
@@ -103,14 +110,27 @@ def _select_options(html: str, name: str) -> list[tuple[str, str]]:
 
 def parse_available_years(html: str) -> list[int]:
     years: list[int] = []
-    for value, _label in _select_options(html, "ctl00$ContentPlaceHolder1$schyy"):
+    for value, _label in _select_options(html, YEAR_FIELD):
         if value.isdigit():
             years.append(int(value) + 1911)
     return sorted(dict.fromkeys(years), reverse=True)
 
 
+def parse_order_options(html: str) -> list[tuple[str, str]]:
+    return _select_options(html, ORDER_FIELD)
+
+
 def parse_subject_options(html: str) -> list[tuple[str, str]]:
-    return _select_options(html, "ctl00$ContentPlaceHolder1$exid")
+    return _select_options(html, SUBJECT_FIELD)
+
+
+def _is_year_section_heading(token_text: str, *, year_roc: int) -> bool:
+    return token_text in {
+        f"{year_roc}年試題及參考答案",
+        f"{year_roc:03d}年試題及參考答案",
+        f"{year_roc}年僅有範例題",
+        f"{year_roc:03d}年僅有範例題",
+    }
 
 
 def parse_downloads(html: str, *, year_roc: int) -> list[TeacherQualDownload]:
@@ -119,10 +139,9 @@ def parse_downloads(html: str, *, year_roc: int) -> list[TeacherQualDownload]:
     downloads: list[TeacherQualDownload] = []
     context: list[str] = []
     in_year_section = False
-    year_heading = f"{year_roc}年試題及參考答案"
     for token_type, token_text, token_href in parser.tokens:
         if token_type == "text":
-            if token_text == year_heading:
+            if _is_year_section_heading(token_text, year_roc=year_roc):
                 in_year_section = True
                 context = [token_text]
                 continue
@@ -166,7 +185,28 @@ class TeacherQualClient:
                 continue
         return raw.decode("utf-8", "replace")
 
-    def _listing_for_year(self, year_roc: int) -> str:
+    def _year_selection_html(self, year_roc: int) -> str:
+        opener = build_opener(HTTPCookieProcessor(CookieJar()))
+        headers = {"User-Agent": USER_AGENT, "Content-Type": "application/x-www-form-urlencoded"}
+
+        def fetch(data: dict[str, str] | None = None) -> str:
+            body = urlencode(data).encode("utf-8") if data is not None else None
+            request = Request(LISTING_URL, data=body, headers=headers)
+            with opener.open(request, timeout=60) as response:
+                return response.read().decode("utf-8", "replace")
+
+        initial_html = fetch()
+        return fetch(
+            {
+                **_hidden_fields(initial_html),
+                "__EVENTTARGET": YEAR_FIELD,
+                "__EVENTARGUMENT": "",
+                YEAR_FIELD: f"{year_roc:03d}",
+                SUBJECT_FIELD: "",
+            }
+        )
+
+    def _listing_for_year(self, year_roc: int, order_code: str = "") -> str:
         opener = build_opener(HTTPCookieProcessor(CookieJar()))
         headers = {"User-Agent": USER_AGENT, "Content-Type": "application/x-www-form-urlencoded"}
 
@@ -180,24 +220,39 @@ class TeacherQualClient:
         year_html = fetch(
             {
                 **_hidden_fields(initial_html),
-                "__EVENTTARGET": "ctl00$ContentPlaceHolder1$schyy",
+                "__EVENTTARGET": YEAR_FIELD,
                 "__EVENTARGUMENT": "",
-                "ctl00$ContentPlaceHolder1$schyy": f"{year_roc:03d}",
-                "ctl00$ContentPlaceHolder1$exid": "",
+                YEAR_FIELD: f"{year_roc:03d}",
+                SUBJECT_FIELD: "",
             }
         )
-        subjects = parse_subject_options(year_html)
+        subject_html = year_html
+        if order_code:
+            subject_html = fetch(
+                {
+                    **_hidden_fields(year_html),
+                    "__EVENTTARGET": ORDER_FIELD,
+                    "__EVENTARGUMENT": "",
+                    YEAR_FIELD: f"{year_roc:03d}",
+                    ORDER_FIELD: order_code,
+                    SUBJECT_FIELD: "",
+                }
+            )
+        subjects = parse_subject_options(subject_html)
         selected_subject = "99" if any(value == "99" for value, _label in subjects) else (subjects[0][0] if subjects else "")
         if not selected_subject:
-            return year_html
+            return subject_html
+        form_data = {
+            **_hidden_fields(subject_html),
+            "__EVENTTARGET": SUBJECT_FIELD,
+            "__EVENTARGUMENT": "",
+            YEAR_FIELD: f"{year_roc:03d}",
+            SUBJECT_FIELD: selected_subject,
+        }
+        if order_code:
+            form_data[ORDER_FIELD] = order_code
         return fetch(
-            {
-                **_hidden_fields(year_html),
-                "__EVENTTARGET": "ctl00$ContentPlaceHolder1$exid",
-                "__EVENTARGUMENT": "",
-                "ctl00$ContentPlaceHolder1$schyy": f"{year_roc:03d}",
-                "ctl00$ContentPlaceHolder1$exid": selected_subject,
-            }
+            form_data
         )
 
     def discover_available_years(self) -> list[int]:
@@ -207,6 +262,17 @@ class TeacherQualClient:
         if year_ad not in self.discover_available_years():
             return []
         year_roc = year_ad - 1911
+        order_options = parse_order_options(self._year_selection_html(year_roc))
+        if order_options:
+            return [
+                ExamOption(
+                    code=f"teacher-qual-{year_roc}-{order_code}",
+                    year_ad=year_ad,
+                    year_roc=year_roc,
+                    label=f"{year_roc}年教師資格考試{order_label}歷屆試題及參考答案",
+                )
+                for order_code, order_label in order_options
+            ]
         return [
             ExamOption(
                 code=f"teacher-qual-{year_roc}",
@@ -218,7 +284,10 @@ class TeacherQualClient:
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
-        downloads = parse_downloads(self._listing_for_year(year_roc), year_roc=year_roc)
+        match = re.fullmatch(r"teacher-qual-\d+(?:-(\d+))?", exam_code)
+        order_code = match.group(1) if match else ""
+        order_label = ORDER_LABELS.get(order_code, "")
+        downloads = parse_downloads(self._listing_for_year(year_roc, order_code), year_roc=year_roc)
         papers = [
             ParsedPaper(
                 category_raw=CANONICAL_CATEGORY,
@@ -233,7 +302,7 @@ class TeacherQualClient:
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=year_roc,
-            exam_name_raw=f"{year_roc}年教師資格考試歷屆試題及參考答案",
+            exam_name_raw=f"{year_roc}年教師資格考試{order_label}歷屆試題及參考答案",
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,
