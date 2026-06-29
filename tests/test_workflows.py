@@ -489,5 +489,29 @@ class FinancialCertWorkflowTests(unittest.TestCase):
                 self.assertIn("workflow_dispatch:", workflow)
 
 
+class RequestedTopicWorkflowTests(unittest.TestCase):
+    def test_sync_teacher_recruit_tainan_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-teacher-recruit-tainan.yml").read_text(encoding="utf-8")
+
+        self.assertIn('- cron: "25 5 * * 2"', workflow)
+        self.assertNotIn('- cron: "35 5 * * 2"', workflow)
+        self.assertIn("python -m app sync-full --provider teacher_recruit_tainan --site-id default", workflow)
+        self.assertIn("schedule:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
+    def test_sync_teacher_recruit_taipei_junior_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-teacher-recruit-taipei-junior.yml").read_text(encoding="utf-8")
+
+        self.assertIn("python -m app sync-full --provider teacher_recruit_taipei_junior --site-id default", workflow)
+        self.assertIn("schedule:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
+
 if __name__ == "__main__":
     unittest.main()

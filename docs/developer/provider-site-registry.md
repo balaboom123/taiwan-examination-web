@@ -32,6 +32,38 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` |
 | notes | current provider used as migration baseline |
 
+### Provider: `teacher_recruit_tainan`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `teacher_recruit_tainan` |
+| status | active |
+| source name | 臺南市國小教師甄選網 |
+| source type | public web source |
+| current implementation scope | current-year 教師甄試 provider for Tainan elementary and pre-K special-ed recruitment papers |
+| current raw data ownership | `data/providers/teacher_recruit_tainan/` |
+| current mirror ownership | `mirror/providers/teacher_recruit_tainan/` |
+| current sync workflows | `sync-teacher-recruit-tainan.yml` |
+| current CLI entrypoints | `sync-full --provider teacher_recruit_tainan --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle asset, `teacher-recruit-tainan`; public publication remains site-owned |
+
+### Provider: `teacher_recruit_taipei_junior`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `teacher_recruit_taipei_junior` |
+| status | active |
+| source name | 臺北市政府教育局國中教師聯合甄選公告 |
+| source type | public web source |
+| current implementation scope | Taipei junior-high formal teacher recruitment question and answer PDFs from reviewed DOE article pages |
+| current raw data ownership | `data/providers/teacher_recruit_taipei_junior/` |
+| current mirror ownership | `mirror/providers/teacher_recruit_taipei_junior/` |
+| current sync workflows | `sync-teacher-recruit-taipei-junior.yml` |
+| current CLI entrypoints | `sync-full --provider teacher_recruit_taipei_junior --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle asset, `teacher-recruit-taipei-junior`; public publication remains site-owned |
+
 ## Planned Providers
 
 Add planned providers here before implementation starts.
@@ -128,7 +160,7 @@ Recommended entry format:
 | status | active |
 | purpose | current public exam bundle catalog |
 | current input providers | `moex` |
-| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert` |
+| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_taipei_junior`, `teacher_recruit_tainan`, `gept_cert`, `tocfl_cert`, `tqc_cert`, `ipas_cert` |
 | current publication ownership | root-level `data/bundles.json`, `data/release-assets.json`, `data/lootlabs-links.json` |
 | target scoped ownership | `data/sites/default/` |
 | current bundle storage | `bundles/` |

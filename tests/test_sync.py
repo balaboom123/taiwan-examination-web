@@ -252,6 +252,39 @@ class QuestionArchiveClient:
         return DownloadedFile(data=self.data, content_type=self.content_type, file_name=self.file_name)
 
 
+class AnswerArchiveClient:
+    provider_id = "teacher_recruit_tainan"
+
+    def __init__(self) -> None:
+        self.downloaded_urls: list[str] = []
+
+    def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="115學年度臺南市國小教師甄試",
+            attachments=[],
+            papers=[
+                ParsedPaper(
+                    category_raw="臺南市國小教師甄試",
+                    category_code="115",
+                    subject_code="elementary-prek-special-ed",
+                    subject_name_raw="國小教師暨學前特教師聯合甄選",
+                    files={
+                        "answer": "https://example.test/reference-answer.zip",
+                        "corrected_answer": "https://example.test/corrected-answer.zip",
+                    },
+                )
+            ],
+            provider_id=self.provider_id,
+        )
+
+    def download_file(self, url: str) -> DownloadedFile:
+        self.downloaded_urls.append(url)
+        return DownloadedFile(data=b"PK\x03\x04zip payload", content_type="application/zip", file_name=Path(url).name)
+
+
 class SyncExamPagesTests(unittest.TestCase):
     def test_moex_provider_implements_source_provider_contract(self) -> None:
         self.assertIsInstance(MoexProvider(), SourceProvider)
@@ -529,6 +562,34 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(
             raw_pages[0].papers[0].mirror_files["question"]["storage_key"],
             "providers/rcpet_cap/115/cap-115/115/english-listening/question.rar",
+        )
+        self.assertEqual(failures, [])
+
+    def test_sync_exam_pages_accepts_answer_zip_payloads(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            client = AnswerArchiveClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("teacher-recruit-tainan-115", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(
+            client.downloaded_urls,
+            ["https://example.test/reference-answer.zip", "https://example.test/corrected-answer.zip"],
+        )
+        self.assertEqual(sorted(paper.file_type for paper in normalized.papers), ["answer", "corrected_answer"])
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["answer"]["storage_key"],
+            "providers/teacher_recruit_tainan/115/teacher-recruit-tainan-115/115/elementary-prek-special-ed/answer.zip",
+        )
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["corrected_answer"]["storage_key"],
+            "providers/teacher_recruit_tainan/115/teacher-recruit-tainan-115/115/elementary-prek-special-ed/corrected_answer.zip",
         )
         self.assertEqual(failures, [])
 

@@ -17836,6 +17836,39 @@
       ]
     },
     {
+      "canonical_id": "teacher-recruit-tainan",
+      "canonical_name": "臺南市國小教師甄試",
+      "years": [
+        115
+      ],
+      "file_count": 3,
+      "storage_key": "bundles/sites/default/teacher-recruit-tainan.zip",
+      "asset_name": "teacher-recruit-tainan.zip",
+      "release_tag": "default-bundles-001",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-tainan.zip",
+      "checksum": "076256611f3890a2bda9d97af07d541de159d32f768eb4629360b96074ab6ea2",
+      "legacy_asset_names": [
+        "臺南市國小教師甄試__teacher-recruit-tainan.zip"
+      ]
+    },
+    {
+      "canonical_id": "teacher-recruit-taipei-junior",
+      "canonical_name": "臺北市國中教師甄試",
+      "years": [
+        114,
+        113
+      ],
+      "file_count": 68,
+      "storage_key": "bundles/sites/default/teacher-recruit-taipei-junior.zip",
+      "asset_name": "teacher-recruit-taipei-junior.zip",
+      "release_tag": "default-bundles-001",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-junior.zip",
+      "checksum": "e19ae122b887b2436663b4995eb7c58718b22b58696facfa2e95449c9a88a265",
+      "legacy_asset_names": [
+        "臺北市國中教師甄試__teacher-recruit-taipei-junior.zip"
+      ]
+    },
+    {
       "canonical_id": "tii-aml",
       "canonical_name": "防制洗錢與打擊資恐專業人員測驗",
       "years": [

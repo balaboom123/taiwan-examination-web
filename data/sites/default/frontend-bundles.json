@@ -12201,6 +12201,25 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip"
     },
     {
+      "id": "teacher-recruit-tainan",
+      "name": "臺南市國小教師甄試",
+      "years": [
+        115
+      ],
+      "fileCount": 3,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-tainan.zip"
+    },
+    {
+      "id": "teacher-recruit-taipei-junior",
+      "name": "臺北市國中教師甄試",
+      "years": [
+        114,
+        113
+      ],
+      "fileCount": 68,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-junior.zip"
+    },
+    {
       "id": "tii-aml",
       "name": "防制洗錢與打擊資恐專業人員測驗",
       "years": [

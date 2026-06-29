@@ -20,9 +20,9 @@ EXTENSION_OVERRIDES = {
 EXPECTED_EXTENSIONS = {
     "question": (".pdf", ".doc", ".zip", ".rar"),
     "question_alt": (".pdf", ".docx", ".doc"),
-    "answer": (".pdf",),
+    "answer": (".pdf", ".zip"),
     "answer_sheet": (".pdf",),
-    "corrected_answer": (".pdf",),
+    "corrected_answer": (".pdf", ".zip"),
     "all_answers": (".pdf",),
     "accessible_bundle": (".zip",),
     "listening_audio": (".mp3",),

@@ -23,6 +23,8 @@ class SiteRegistryTests(unittest.TestCase):
                 "tabf_cert",
                 "tii_cert",
                 "teacher_qual",
+                "teacher_recruit_taipei_junior",
+                "teacher_recruit_tainan",
                 "gept_cert",
                 "tocfl_cert",
                 "tqc_cert",
@@ -39,6 +41,8 @@ class SiteRegistryTests(unittest.TestCase):
                 "tabf-": 1,
                 "tii-": 1,
                 "teacher-qual": 1,
+                "teacher-recruit-taipei-junior": 1,
+                "teacher-recruit-tainan": 1,
                 "gept-cert": 1,
                 "tocfl-cert": 1,
                 "tqc-cert": 1,
@@ -55,6 +59,6 @@ class SiteRegistryTests(unittest.TestCase):
 
     def test_default_site_includes_requested_topic_providers(self) -> None:
         config = get_site_config("default")
-        for provider_id in ("teacher_qual", "gept_cert", "tocfl_cert", "tqc_cert", "ipas_cert"):
+        for provider_id in ("teacher_qual", "teacher_recruit_taipei_junior", "teacher_recruit_tainan", "gept_cert", "tocfl_cert", "tqc_cert", "ipas_cert"):
             with self.subTest(provider_id=provider_id):
                 self.assertIn(provider_id, config.provider_ids)

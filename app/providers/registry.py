@@ -13,6 +13,8 @@ from app.providers.tabf_cert.provider import TabfCertProvider
 from app.providers.taisugar_recruit.provider import TaisugarRecruitProvider
 from app.providers.taipower_recruit.provider import TaipowerRecruitProvider
 from app.providers.teacher_qual.provider import TeacherQualProvider
+from app.providers.teacher_recruit_taipei_junior.provider import TaipeiJuniorRecruitProvider
+from app.providers.teacher_recruit_tainan.provider import TainanTeacherRecruitProvider
 from app.providers.tii_cert.provider import TiiCertProvider
 from app.providers.tocfl_cert.provider import TocflCertProvider
 from app.providers.tqc_cert.provider import TqcCertProvider
@@ -32,6 +34,8 @@ _PROVIDER_FACTORIES = {
     "taisugar_recruit": TaisugarRecruitProvider,
     "taipower_recruit": TaipowerRecruitProvider,
     "teacher_qual": TeacherQualProvider,
+    "teacher_recruit_taipei_junior": TaipeiJuniorRecruitProvider,
+    "teacher_recruit_tainan": TainanTeacherRecruitProvider,
     "tii_cert": TiiCertProvider,
     "tocfl_cert": TocflCertProvider,
     "tqc_cert": TqcCertProvider,

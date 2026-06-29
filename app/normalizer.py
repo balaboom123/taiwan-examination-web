@@ -91,6 +91,8 @@ _FINANCIAL_CERT_CANONICAL_MAP = {
 
 _REQUESTED_TOPIC_CANONICAL_MAP = {
     "teacher-qual-": ("teacher-qual", "教師資格考試"),
+    "teacher-recruit-taipei-junior-": ("teacher-recruit-taipei-junior", "臺北市國中教師甄試"),
+    "teacher-recruit-tainan-": ("teacher-recruit-tainan", "臺南市國小教師甄試"),
     "gept-cert-": ("gept-cert", "GEPT全民英檢"),
     "tocfl-cert-": ("tocfl-cert", "TOCFL華語文能力測驗"),
     "tqc-cert-": ("tqc-cert", "TQC電腦技能基金會認證"),
