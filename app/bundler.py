@@ -118,10 +118,6 @@ def _bundle_asset_name(canonical_id: str) -> str:
     return f"{stable}.zip"
 
 
-def _bundle_download_url(bundle_base_url: str, asset_name: str) -> str:
-    return ""
-
-
 def _lookup_canonical_ids(canonical_id: str, canonical_name: str, canonical_alias_ids: list[str] | None = None) -> list[str]:
     lookup_ids: list[str] = []
     for alias_id in canonical_alias_ids or []:
@@ -302,9 +298,6 @@ def build_bundles(
         bundle_entries_by_paper_key: dict[tuple[str, str, str, str], str] = {}
         included_years: set[int] = set()
         file_count = 0
-        download_url = _bundle_download_url(bundle_base_url, asset_name)
-        for paper in papers:
-            paper.download_url_bundle = ""
 
         ordered = sorted(
             papers,
@@ -398,9 +391,6 @@ def build_bundles(
                 on_progress(group_index, total_groups, asset_name, 0)
             continue
 
-        for paper in included_papers:
-            paper.download_url_bundle = download_url
-
         digest = hashlib.sha256(bundle_path.read_bytes()).hexdigest()
         bundle_assets.append(
             BundleAsset(
@@ -411,7 +401,7 @@ def build_bundles(
                 storage_key=storage_key,
                 asset_name=asset_name,
                 release_tag="",
-                download_url=download_url,
+                download_url="",
                 checksum=digest,
                 legacy_asset_names=legacy_asset_names,
             )
