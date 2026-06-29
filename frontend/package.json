@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "test": "node --test ./build/bundles-data.test.mjs",
+    "test": "node --test ./build/bundles-data.test.mjs ./build/exam-classification.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

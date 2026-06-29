@@ -1,4 +1,4 @@
-export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢", "金融證照"] as const
+export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢", "金融證照", "教師資格考試"] as const
 export type ExamClass = (typeof EXAM_CLASSES)[number]
 
 export interface ExamCategory {
@@ -26,6 +26,9 @@ const PROVIDER_ROUTES: readonly ProviderRoute[] = [
   { idPrefix: "twc-recruit", examClass: "國營事業", defaultSubclass: "台水甄試" },
   { idPrefix: "taisugar-recruit", examClass: "國營事業", defaultSubclass: "台糖甄試" },
   { idPrefix: "wdasec-skill", examClass: "技檢", defaultSubclass: "技術士技能檢定" },
+  { idPrefix: "teacher-qual", examClass: "教師資格考試", defaultSubclass: "教師資格考試" },
+  { idPrefix: "teacher-recruit-tainan", examClass: "教師資格考試", defaultSubclass: "臺南市國小教師甄試" },
+  { idPrefix: "teacher-recruit-taipei-junior", examClass: "教師資格考試", defaultSubclass: "臺北市國中教師甄試" },
   { idPrefix: "sfi-", examClass: "金融證照" },
   { idPrefix: "tabf-", examClass: "金融證照" },
   { idPrefix: "tii-", examClass: "金融證照" },
@@ -97,6 +100,11 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
       [/保險/, "保險"],
     ],
     fallback: "其他",
+  },
+  教師資格考試: {
+    subclasses: ["教師資格考試", "臺南市國小教師甄試", "臺北市國中教師甄試"],
+    rules: [],
+    fallback: "教師資格考試",
   },
 }
 
