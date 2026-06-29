@@ -13,8 +13,12 @@ from app.providers.tabf_cert.provider import TabfCertProvider
 from app.providers.taisugar_recruit.provider import TaisugarRecruitProvider
 from app.providers.taipower_recruit.provider import TaipowerRecruitProvider
 from app.providers.teacher_qual.provider import TeacherQualProvider
+from app.providers.teacher_recruit_central_alliance.provider import CentralAllianceRecruitProvider
+from app.providers.teacher_recruit_kaohsiung.provider import KaohsiungTeacherRecruitProvider
+from app.providers.teacher_recruit_newtaipei.provider import NewTaipeiTeacherRecruitProvider
 from app.providers.teacher_recruit_taipei_junior.provider import TaipeiJuniorRecruitProvider
 from app.providers.teacher_recruit_tainan.provider import TainanTeacherRecruitProvider
+from app.providers.teacher_recruit_taoyuan_elementary.provider import TaoyuanElementaryRecruitProvider
 from app.providers.tii_cert.provider import TiiCertProvider
 from app.providers.tocfl_cert.provider import TocflCertProvider
 from app.providers.tqc_cert.provider import TqcCertProvider
@@ -34,8 +38,12 @@ _PROVIDER_FACTORIES = {
     "taisugar_recruit": TaisugarRecruitProvider,
     "taipower_recruit": TaipowerRecruitProvider,
     "teacher_qual": TeacherQualProvider,
+    "teacher_recruit_central_alliance": CentralAllianceRecruitProvider,
+    "teacher_recruit_kaohsiung": KaohsiungTeacherRecruitProvider,
+    "teacher_recruit_newtaipei": NewTaipeiTeacherRecruitProvider,
     "teacher_recruit_taipei_junior": TaipeiJuniorRecruitProvider,
     "teacher_recruit_tainan": TainanTeacherRecruitProvider,
+    "teacher_recruit_taoyuan_elementary": TaoyuanElementaryRecruitProvider,
     "tii_cert": TiiCertProvider,
     "tocfl_cert": TocflCertProvider,
     "tqc_cert": TqcCertProvider,

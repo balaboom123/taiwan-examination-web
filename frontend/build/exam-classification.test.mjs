@@ -31,4 +31,20 @@ test("teacher bundles are grouped under teacher qualification class", async () =
     examClass: "教師資格考試",
     examSubclass: "臺北市國中教師甄試",
   })
+  assert.deepEqual(classifyBundle("teacher-recruit-newtaipei", "新北市教師甄試"), {
+    examClass: "教師資格考試",
+    examSubclass: "新北市教師甄試",
+  })
+  assert.deepEqual(classifyBundle("teacher-recruit-taoyuan-elementary", "桃園市國小教師甄試"), {
+    examClass: "教師資格考試",
+    examSubclass: "桃園市國小教師甄試",
+  })
+  assert.deepEqual(classifyBundle("teacher-recruit-kaohsiung", "高雄市教師甄試"), {
+    examClass: "教師資格考試",
+    examSubclass: "高雄市教師甄試",
+  })
+  assert.deepEqual(classifyBundle("teacher-recruit-central-alliance", "中區策略聯盟教師甄試"), {
+    examClass: "教師資格考試",
+    examSubclass: "中區策略聯盟教師甄試",
+  })
 })

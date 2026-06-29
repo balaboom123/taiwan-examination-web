@@ -135,6 +135,20 @@ class NormalizePapersTests(unittest.TestCase):
     def test_requested_topic_providers_use_stable_canonical_ids(self) -> None:
         cases = [
             ("teacher-qual-115", "教師資格考試", "teacher-qual", "教師資格考試"),
+            ("teacher-recruit-newtaipei-115-junior", "新北市教師甄試", "teacher-recruit-newtaipei", "新北市教師甄試"),
+            (
+                "teacher-recruit-taoyuan-elementary-115",
+                "桃園市國小教師甄試",
+                "teacher-recruit-taoyuan-elementary",
+                "桃園市國小教師甄試",
+            ),
+            ("teacher-recruit-kaohsiung-115-elementary", "高雄市教師甄試", "teacher-recruit-kaohsiung", "高雄市教師甄試"),
+            (
+                "teacher-recruit-central-alliance-115-elementary",
+                "中區策略聯盟教師甄試",
+                "teacher-recruit-central-alliance",
+                "中區策略聯盟教師甄試",
+            ),
             ("teacher-recruit-tainan-115", "臺南市國小教師甄試", "teacher-recruit-tainan", "臺南市國小教師甄試"),
             ("teacher-recruit-taipei-junior-114", "臺北市國中教師甄試", "teacher-recruit-taipei-junior", "臺北市國中教師甄試"),
             ("gept-cert-materials", "GEPT全民英檢官方練習資料_初級", "gept-cert", "GEPT全民英檢"),

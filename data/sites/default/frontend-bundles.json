@@ -12222,6 +12222,33 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip"
     },
     {
+      "id": "teacher-recruit-central-alliance",
+      "name": "中區策略聯盟教師甄試",
+      "years": [
+        115
+      ],
+      "fileCount": 96,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip"
+    },
+    {
+      "id": "teacher-recruit-kaohsiung",
+      "name": "高雄市教師甄試",
+      "years": [
+        115
+      ],
+      "fileCount": 9,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-kaohsiung.zip"
+    },
+    {
+      "id": "teacher-recruit-newtaipei",
+      "name": "新北市教師甄試",
+      "years": [
+        115
+      ],
+      "fileCount": 5,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-newtaipei.zip"
+    },
+    {
       "id": "teacher-recruit-tainan",
       "name": "臺南市國小教師甄試",
       "years": [
@@ -12239,6 +12266,15 @@
       ],
       "fileCount": 68,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-junior.zip"
+    },
+    {
+      "id": "teacher-recruit-taoyuan-elementary",
+      "name": "桃園市國小教師甄試",
+      "years": [
+        115
+      ],
+      "fileCount": 21,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taoyuan-elementary.zip"
     },
     {
       "id": "tii-aml",

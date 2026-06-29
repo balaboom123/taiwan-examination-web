@@ -3,8 +3,19 @@ import { formatYearRange } from "@/lib/utils"
 import type { Bundle } from "@/types"
 
 const MAX_YEAR_CHIPS = 14
+const SOURCE_NOTES: Record<string, string> = {
+  "teacher-qual": "來源：教育部教師資格考試歷屆試題，全國資格考試。",
+  "teacher-recruit-newtaipei": "來源：新北市教育人員聯合甄選公告 API，目前收錄 115 學年度。",
+  "teacher-recruit-taoyuan-elementary": "來源：桃園市國小教師甄選網，目前收錄 115 學年度。",
+  "teacher-recruit-kaohsiung": "來源：高雄市國小與特教教師甄選官方網站，目前收錄 115 學年度。",
+  "teacher-recruit-central-alliance": "來源：中區策略聯盟試題疑義網站，官方縣市甄選系統指向此站，目前收錄 115 學年度。",
+  "teacher-recruit-tainan": "來源：臺南市國小教師甄選網，目前僅 115 學年度公開 ZIP。",
+  "teacher-recruit-taipei-junior": "來源：臺北市教育局公告，目前僅 113–114 學年度國中聯甄。",
+}
 
 export function BundleRow({ bundle }: { bundle: Bundle }) {
+  const sourceNote = SOURCE_NOTES[bundle.id]
+
   return (
     <li className="flex items-center gap-4 px-4 py-4 transition-colors hover:bg-cream">
       <div className="min-w-0 flex-1">
@@ -14,6 +25,11 @@ export function BundleRow({ bundle }: { bundle: Bundle }) {
         <p className="mt-1.5 font-mono text-xs text-ink-500">
           民國 {formatYearRange(bundle.years)} · {bundle.fileCount} 份試題
         </p>
+        {sourceNote && (
+          <p className="mt-1.5 text-xs leading-relaxed text-ink-500">
+            {sourceNote}
+          </p>
+        )}
         {bundle.years.length > 2 && (
           <p className="mt-1 hidden flex-wrap gap-x-2 font-mono text-[11px] leading-relaxed text-ink-400 sm:flex">
             {bundle.years.slice(0, MAX_YEAR_CHIPS).map((y) => (

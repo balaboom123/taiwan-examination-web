@@ -1,0 +1,44 @@
+name: sync-teacher-recruit-central-alliance
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "45 6 * * 2"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: sync-teacher-recruit-central-alliance
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache mirror directory
+        uses: actions/cache@v4
+        with:
+          path: mirror
+          key: teacher-recruit-central-alliance-mirror-${{ hashFiles('data/providers/teacher_recruit_central_alliance/source-manifest.json') }}
+          restore-keys: |
+            teacher-recruit-central-alliance-mirror-
+
+      - name: Run Central Alliance teacher recruitment sync
+        run: python -m app sync-full --provider teacher_recruit_central_alliance --site-id default
+
+      - name: Commit regenerated Central Alliance teacher recruitment provider data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "chore: refresh Central Alliance teacher recruitment provider data"
+          git push
