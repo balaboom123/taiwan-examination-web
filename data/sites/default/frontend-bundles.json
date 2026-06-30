@@ -11880,6 +11880,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/gept-cert.zip"
     },
     {
+      "id": "hakka-cert",
+      "name": "客語能力認證",
+      "years": [
+        115
+      ],
+      "fileCount": 30,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip"
+    },
+    {
       "id": "ipas-cert",
       "name": "iPAS產業人才能力鑑定",
       "years": [
@@ -12161,6 +12170,15 @@
       ],
       "fileCount": 48,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-trust-business.zip"
+    },
+    {
+      "id": "taigi-cert",
+      "name": "臺灣台語語言能力認證",
+      "years": [
+        115
+      ],
+      "fileCount": 37,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taigi-cert.zip"
     },
     {
       "id": "taipower-recruit",

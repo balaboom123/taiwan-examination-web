@@ -17354,6 +17354,22 @@
       ]
     },
     {
+      "canonical_id": "hakka-cert",
+      "canonical_name": "客語能力認證",
+      "years": [
+        115
+      ],
+      "file_count": 30,
+      "storage_key": "bundles/sites/default/hakka-cert.zip",
+      "asset_name": "hakka-cert.zip",
+      "release_tag": "default-bundles-001",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip",
+      "checksum": "2530833578f3034514ca2800dec2e689b6a2d3ffb6c57d5ee0e69ba73fe4b5bb",
+      "legacy_asset_names": [
+        "客語能力認證__hakka-cert.zip"
+      ]
+    },
+    {
       "canonical_id": "ipas-cert",
       "canonical_name": "iPAS產業人才能力鑑定",
       "years": [
@@ -17781,6 +17797,22 @@
       "checksum": "83f0d6e79a529e6b2154d3d1618a663779813c960248c3daaf14f8e82afb9522",
       "legacy_asset_names": [
         "信託業務人員__tabf-trust-business.zip"
+      ]
+    },
+    {
+      "canonical_id": "taigi-cert",
+      "canonical_name": "臺灣台語語言能力認證",
+      "years": [
+        115
+      ],
+      "file_count": 37,
+      "storage_key": "bundles/sites/default/taigi-cert.zip",
+      "asset_name": "taigi-cert.zip",
+      "release_tag": "default-bundles-001",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taigi-cert.zip",
+      "checksum": "1ebfd38a9dc6279087549685ca655f3c44e72449385980ad71ab2d9340888982",
+      "legacy_asset_names": [
+        "臺灣台語語言能力認證__taigi-cert.zip"
       ]
     },
     {

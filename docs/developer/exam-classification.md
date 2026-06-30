@@ -19,6 +19,7 @@ Source of truth: `frontend/src/lib/exam-classification.ts`.
 | 國營事業 | 國營事業聯招, 台電僱員, 中油甄試, 台水甄試, 台糖甄試 |
 | 技檢 | 技術士技能檢定 |
 | 金融證照 | 證券期貨, 銀行金融, 保險, 其他 |
+| 語言檢定 | 全民英檢 GEPT, TOCFL 華語文能力測驗, 客語能力認證, 臺灣台語語言能力認證 |
 
 Classes and subclasses are ordered. The order in `EXAM_CLASSES` and `CLASS_CONFIG[class].subclasses` is the display order in the UI.
 
@@ -57,6 +58,10 @@ Current routes:
 | `twc-recruit` | 國營事業 | 台水甄試 | Taiwan Water recruitment |
 | `taisugar-recruit` | 國營事業 | 台糖甄試 | Taisugar recruitment |
 | `wdasec-skill` | 技檢 | 技術士技能檢定 | Workforce Development Agency skill certification |
+| `gept-cert` | 語言檢定 | 全民英檢 GEPT | GEPT practice materials; single bundle |
+| `tocfl-cert` | 語言檢定 | TOCFL 華語文能力測驗 | TOCFL reference downloads; single bundle |
+| `hakka-cert` | 語言檢定 | 客語能力認證 | Hakka certification materials; single bundle |
+| `taigi-cert` | 語言檢定 | 臺灣台語語言能力認證 | Taiwan Taiwanese certification materials; single bundle |
 | `sfi-` | 金融證照 | — | SFI bundles classify via pattern rules across subclasses |
 | `tabf-` | 金融證照 | — | TABF bundles classify via pattern rules across subclasses |
 | `tii-` | 金融證照 | — | TII bundles classify via pattern rules across subclasses |

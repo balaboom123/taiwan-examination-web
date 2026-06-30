@@ -64,6 +64,70 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
 | notes | contributes one canonical bundle asset, `teacher-recruit-taipei-junior`; public publication remains site-owned |
 
+### Provider: `gept_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `gept_cert` |
+| status | active |
+| source name | GEPT 全民英檢 official practice materials (LTTC) |
+| source type | public web source |
+| current implementation scope | official GEPT practice PDFs, ZIPs, and listening MP3s across five proficiency levels |
+| current raw data ownership | `data/providers/gept_cert/` |
+| current mirror ownership | `mirror/providers/gept_cert/` |
+| current sync workflows | `sync-gept-cert.yml` |
+| current CLI entrypoints | `sync-full --provider gept_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle `gept-cert`; public publication remains site-owned |
+
+### Provider: `tocfl_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `tocfl_cert` |
+| status | active |
+| source name | TOCFL 華語文能力測驗 official reference downloads |
+| source type | public web source |
+| current implementation scope | official TOCFL downloadable reference materials from tocfl.edu.tw |
+| current raw data ownership | `data/providers/tocfl_cert/` |
+| current mirror ownership | `mirror/providers/tocfl_cert/` |
+| current sync workflows | `sync-tocfl-cert.yml` |
+| current CLI entrypoints | `sync-full --provider tocfl_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle `tocfl-cert`; public publication remains site-owned |
+
+### Provider: `hakka_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `hakka_cert` |
+| status | active |
+| source name | 客語能力認證 official materials (客家委員會) |
+| source type | public web source |
+| current implementation scope | official Hakka certification vocabulary PDFs and question bank PDFs; audio ZIPs excluded until language bundles can be sharded |
+| current raw data ownership | `data/providers/hakka_cert/` |
+| current mirror ownership | `mirror/providers/hakka_cert/` |
+| current sync workflows | `sync-hakka-cert.yml` |
+| current CLI entrypoints | `sync-full --provider hakka_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle `hakka-cert`; public publication remains site-owned |
+
+### Provider: `taigi_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `taigi_cert` |
+| status | active |
+| source name | 臺灣台語語言能力認證 official materials (教育部) |
+| source type | public web source |
+| current implementation scope | official Taiwan Taiwanese certification sample exam PDFs, MP3s, and ZIPs |
+| current raw data ownership | `data/providers/taigi_cert/` |
+| current mirror ownership | `mirror/providers/taigi_cert/` |
+| current sync workflows | `sync-taigi-cert.yml` |
+| current CLI entrypoints | `sync-full --provider taigi_cert --site-id default` |
+| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
+| notes | contributes one canonical bundle `taigi-cert`; public publication remains site-owned |
+
 ## Planned Providers
 
 Add planned providers here before implementation starts.
@@ -160,7 +224,7 @@ Recommended entry format:
 | status | active |
 | purpose | current public exam bundle catalog |
 | current input providers | `moex` |
-| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_taipei_junior`, `teacher_recruit_tainan`, `gept_cert`, `tocfl_cert`, `tqc_cert`, `ipas_cert` |
+| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_taipei_junior`, `teacher_recruit_tainan`, `gept_cert`, `tocfl_cert`, `hakka_cert`, `taigi_cert`, `tqc_cert`, `ipas_cert` |
 | current publication ownership | root-level `data/bundles.json`, `data/release-assets.json`, `data/lootlabs-links.json` |
 | target scoped ownership | `data/sites/default/` |
 | current bundle storage | `bundles/` |

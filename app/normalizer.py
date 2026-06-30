@@ -100,6 +100,8 @@ _REQUESTED_TOPIC_CANONICAL_MAP = {
     "teacher-recruit-tainan-": ("teacher-recruit-tainan", "臺南市國小教師甄試"),
     "gept-cert-": ("gept-cert", "GEPT全民英檢"),
     "tocfl-cert-": ("tocfl-cert", "TOCFL華語文能力測驗"),
+    "hakka-cert-": ("hakka-cert", "客語能力認證"),
+    "taigi-cert-": ("taigi-cert", "臺灣台語語言能力認證"),
     "tqc-cert-": ("tqc-cert", "TQC電腦技能基金會認證"),
     "ipas-cert-": ("ipas-cert", "iPAS產業人才能力鑑定"),
 }

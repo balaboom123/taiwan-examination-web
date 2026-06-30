@@ -4,6 +4,7 @@ from app.providers.base import SourceProvider
 from app.providers.ceec_gsat.provider import CeecGsatProvider
 from app.providers.cpc_recruit.provider import CpcRecruitProvider
 from app.providers.gept_cert.provider import GeptCertProvider
+from app.providers.hakka_cert.provider import HakkaCertProvider
 from app.providers.ipas_cert.provider import IpasCertProvider
 from app.providers.moea_recruit.provider import MoeaRecruitProvider
 from app.providers.moex.provider import MoexProvider
@@ -12,6 +13,7 @@ from app.providers.sfi_cert.provider import SfiCertProvider
 from app.providers.tabf_cert.provider import TabfCertProvider
 from app.providers.taisugar_recruit.provider import TaisugarRecruitProvider
 from app.providers.taipower_recruit.provider import TaipowerRecruitProvider
+from app.providers.taigi_cert.provider import TaigiCertProvider
 from app.providers.teacher_qual.provider import TeacherQualProvider
 from app.providers.teacher_recruit_central_alliance.provider import CentralAllianceRecruitProvider
 from app.providers.teacher_recruit_kaohsiung.provider import KaohsiungTeacherRecruitProvider
@@ -30,6 +32,7 @@ _PROVIDER_FACTORIES = {
     "ceec_gsat": CeecGsatProvider,
     "cpc_recruit": CpcRecruitProvider,
     "gept_cert": GeptCertProvider,
+    "hakka_cert": HakkaCertProvider,
     "ipas_cert": IpasCertProvider,
     "moea_recruit": MoeaRecruitProvider,
     "moex": MoexProvider,
@@ -38,6 +41,7 @@ _PROVIDER_FACTORIES = {
     "tabf_cert": TabfCertProvider,
     "taisugar_recruit": TaisugarRecruitProvider,
     "taipower_recruit": TaipowerRecruitProvider,
+    "taigi_cert": TaigiCertProvider,
     "teacher_qual": TeacherQualProvider,
     "teacher_recruit_central_alliance": CentralAllianceRecruitProvider,
     "teacher_recruit_kaohsiung": KaohsiungTeacherRecruitProvider,

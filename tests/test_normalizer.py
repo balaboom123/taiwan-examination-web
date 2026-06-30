@@ -159,6 +159,8 @@ class NormalizePapersTests(unittest.TestCase):
             ),
             ("gept-cert-materials", "GEPT全民英檢官方練習資料_初級", "gept-cert", "GEPT全民英檢"),
             ("tocfl-cert-materials", "TOCFL華語文能力測驗官方參考資料", "tocfl-cert", "TOCFL華語文能力測驗"),
+            ("hakka-cert-materials", "客語能力認證官方教材及試題_四縣", "hakka-cert", "客語能力認證"),
+            ("taigi-cert-materials", "臺灣台語語言能力認證官方試題範例", "taigi-cert", "臺灣台語語言能力認證"),
             ("tqc-cert-samples", "TQC範例試卷_專業知識領域類", "tqc-cert", "TQC電腦技能基金會認證"),
             ("ipas-cert-downloads", "iPAS產業人才能力鑑定官方下載_ISE", "ipas-cert", "iPAS產業人才能力鑑定"),
         ]

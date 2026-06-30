@@ -8,6 +8,8 @@ This records the provider-scope decision for the 2026-06 request.
 | 教師甄試 | Partially implemented | `teacher_recruit_tainan`, `teacher_recruit_taipei_junior`, `teacher_recruit_taipei_elementary`, `teacher_recruit_newtaipei`, `teacher_recruit_taoyuan_elementary`, `teacher_recruit_kaohsiung`, and `teacher_recruit_central_alliance` mirror verified official/public source surfaces. County and school recruitment papers remain scattered, so additional 教甄 providers require source-index approval. |
 | GEPT 全民英檢 | Implemented | `gept_cert` mirrors official LTTC/GEPT practice PDFs, ZIPs, and listening MP3 assets. |
 | TOCFL 華語文能力測驗 | Implemented | `tocfl_cert` mirrors official TOCFL downloadable reference materials. Mock-test pages are HTML/interactive, not direct paper archives. |
+| 客語能力認證 | Implemented | `hakka_cert` mirrors official Hakka certification vocabulary and question-bank PDFs from 哈客網路學院. Audio ZIPs are intentionally excluded from the public bundle until language bundles can be sharded. |
+| 臺灣台語語言能力認證 | Implemented | `taigi_cert` mirrors official Taiwan Taiwanese certification sample papers and audio from the MOE certification site. |
 | JLPT/TOPIK local schedules | Deferred | Local pages are schedules/registration information, not official downloadable past-paper archives. |
 | TQC | Implemented | `tqc_cert` mirrors official TQC sample-paper PDFs. |
 | iPAS | Implemented | `ipas_cert` mirrors official certification download PDFs. These are exam/download documents, not historical solved paper archives. |
