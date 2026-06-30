@@ -13,7 +13,7 @@ from app.providers.base import DownloadedFile, ResponseMetadata
 
 USER_AGENT = "Mozilla/5.0 (compatible; gept-cert-mirror/1.0)"
 CANONICAL_CATEGORY = "GEPT全民英檢官方練習資料"
-MATERIALS_YEAR = 2026
+MATERIALS_YEAR = 2022
 
 
 @dataclass(frozen=True)
@@ -22,6 +22,7 @@ class GeptDownload:
     label: str
     file_type: str
     url: str
+    year_ad: int
 
 
 class _AnchorParser(HTMLParser):
@@ -74,6 +75,15 @@ def _slug(text: str, fallback: str) -> str:
     return encoded or fallback
 
 
+def _year_from_url(url: str) -> int | None:
+    match = re.search(r"/(20\d{2})/", url)
+    return int(match.group(1)) if match else None
+
+
+def _exam_code(level_code: str, year_ad: int) -> str:
+    return f"gept-cert-{level_code}-{year_ad}"
+
+
 def parse_intro_downloads(html: str, *, base_url: str, level_code: str) -> tuple[list[GeptDownload], list[str]]:
     parser = _AnchorParser()
     parser.feed(html)
@@ -85,7 +95,15 @@ def parse_intro_downloads(html: str, *, base_url: str, level_code: str) -> tuple
         url = _quote_url_for_request(urljoin(base_url, href))
         lower = url.lower()
         if lower.endswith((".pdf", ".zip")):
-            downloads.append(GeptDownload(level_code=level_code, label=label or Path(urlparse(url).path).name, file_type="question", url=url))
+            downloads.append(
+                GeptDownload(
+                    level_code=level_code,
+                    label=label or Path(urlparse(url).path).name,
+                    file_type="question",
+                    url=url,
+                    year_ad=_year_from_url(url) or MATERIALS_YEAR,
+                )
+            )
         elif "geptpractice" in lower:
             practice_pages.append(url)
     return downloads, practice_pages
@@ -100,7 +118,15 @@ def parse_practice_audio(html: str, *, base_url: str, level_code: str) -> list[G
             continue
         seen.add(url)
         label = Path(urlparse(url).path).name
-        downloads.append(GeptDownload(level_code=level_code, label=label, file_type="listening_audio", url=url))
+        downloads.append(
+            GeptDownload(
+                level_code=level_code,
+                label=label,
+                file_type="listening_audio",
+                url=url,
+                year_ad=_year_from_url(url) or _year_from_url(base_url) or MATERIALS_YEAR,
+            )
+        )
     return downloads
 
 
@@ -136,15 +162,32 @@ class GeptCertClient:
         return all_downloads
 
     def discover_available_years(self) -> list[int]:
-        return [MATERIALS_YEAR]
+        years = {download.year_ad for download in self._downloads()}
+        return sorted(years or {MATERIALS_YEAR}, reverse=True)
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        if year_ad != MATERIALS_YEAR:
-            return []
-        return [ExamOption(code="gept-cert-materials", year_ad=year_ad, year_roc=year_ad - 1911, label="GEPT全民英檢官方練習資料")]
+        downloads = self._downloads()
+        level_names = {code: name for code, name, _url in self.LEVELS}
+        level_codes = {download.level_code for download in downloads if download.year_ad == year_ad}
+        return [
+            ExamOption(
+                code=_exam_code(level_code, year_ad),
+                year_ad=year_ad,
+                year_roc=year_ad - 1911,
+                label=f"GEPT全民英檢 {level_names.get(level_code, level_code)}",
+            )
+            for level_code, _name, _url in self.LEVELS
+            if level_code in level_codes
+        ]
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         level_names = {code: name for code, name, _url in self.LEVELS}
+        requested_level = next((code for code, _name, _url in self.LEVELS if exam_code == _exam_code(code, year_ad)), None)
+        downloads = [
+            download
+            for download in self._downloads()
+            if download.year_ad == year_ad and (requested_level is None or download.level_code == requested_level)
+        ]
         papers = [
             ParsedPaper(
                 category_raw=f"{CANONICAL_CATEGORY}_{level_names.get(download.level_code, download.level_code)}",
@@ -153,13 +196,14 @@ class GeptCertClient:
                 subject_name_raw=download.label,
                 files={download.file_type: download.url},
             )
-            for index, download in enumerate(self._downloads(), start=1)
+            for index, download in enumerate(downloads, start=1)
         ]
+        exam_name = f"GEPT全民英檢 {level_names[requested_level]}" if requested_level else "GEPT全民英檢官方練習資料"
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=year_ad - 1911,
-            exam_name_raw="GEPT全民英檢官方練習資料",
+            exam_name_raw=exam_name,
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,

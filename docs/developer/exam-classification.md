@@ -58,10 +58,10 @@ Current routes:
 | `twc-recruit` | 國營事業 | 台水甄試 | Taiwan Water recruitment |
 | `taisugar-recruit` | 國營事業 | 台糖甄試 | Taisugar recruitment |
 | `wdasec-skill` | 技檢 | 技術士技能檢定 | Workforce Development Agency skill certification |
-| `gept-cert` | 語言檢定 | 全民英檢 GEPT | GEPT practice materials; single bundle |
-| `tocfl-cert` | 語言檢定 | TOCFL 華語文能力測驗 | TOCFL reference downloads; single bundle |
-| `hakka-cert` | 語言檢定 | 客語能力認證 | Hakka certification materials; single bundle |
-| `taigi-cert` | 語言檢定 | 臺灣台語語言能力認證 | Taiwan Taiwanese certification materials; single bundle |
+| `gept-cert` | 語言檢定 | 全民英檢 GEPT | GEPT practice materials; backend bundles are split by level/year |
+| `tocfl-cert` | 語言檢定 | TOCFL 華語文能力測驗 | TOCFL reference downloads; backend records source years parsed from filenames |
+| `hakka-cert` | 語言檢定 | 客語能力認證 | Hakka certification materials; backend bundles are split by official level category/year |
+| `taigi-cert` | 語言檢定 | 臺灣台語語言能力認證 | Taiwan Taiwanese certification materials; backend bundles are split by A/B/C卷 |
 | `sfi-` | 金融證照 | — | SFI bundles classify via pattern rules across subclasses |
 | `tabf-` | 金融證照 | — | TABF bundles classify via pattern rules across subclasses |
 | `tii-` | 金融證照 | — | TII bundles classify via pattern rules across subclasses |

@@ -21,6 +21,7 @@ MATERIALS_YEAR = 2026
 class TocflDownload:
     label: str
     url: str
+    year_ad: int
 
 
 class _AnchorParser(HTMLParser):
@@ -60,6 +61,11 @@ def _slug(text: str, fallback: str) -> str:
     return encoded or fallback
 
 
+def _year_from_text(text: str) -> int | None:
+    match = re.search(r"(20\d{2})", text)
+    return int(match.group(1)) if match else None
+
+
 def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TocflDownload]:
     parser = _AnchorParser()
     parser.feed(html)
@@ -67,10 +73,11 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TocflDow
     seen: set[str] = set()
     for label, href in parser.links:
         url = urljoin(base_url, href)
-        if not url.lower().endswith((".pdf", ".zip")) or url in seen:
+        if not url.lower().endswith((".pdf", ".zip", ".xls", ".xlsx")) or url in seen:
             continue
         seen.add(url)
-        downloads.append(TocflDownload(label=label or Path(urlparse(url).path).name, url=url))
+        display_label = label or Path(urlparse(url).path).name
+        downloads.append(TocflDownload(label=display_label, url=url, year_ad=_year_from_text(url) or _year_from_text(display_label) or MATERIALS_YEAR))
     return downloads
 
 
@@ -86,14 +93,18 @@ class TocflCertClient:
         return parse_downloads(self._fetch_text(DOWNLOAD_URL), base_url=DOWNLOAD_URL)
 
     def discover_available_years(self) -> list[int]:
-        return [MATERIALS_YEAR]
+        years = {download.year_ad for download in self._downloads()}
+        return sorted(years or {MATERIALS_YEAR}, reverse=True)
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        if year_ad != MATERIALS_YEAR:
+        if not any(download.year_ad == year_ad for download in self._downloads()):
             return []
-        return [ExamOption(code="tocfl-cert-materials", year_ad=year_ad, year_roc=year_ad - 1911, label="TOCFL官方參考資料")]
+        return [ExamOption(code=f"tocfl-cert-{year_ad}", year_ad=year_ad, year_roc=year_ad - 1911, label=f"TOCFL官方參考資料 {year_ad}")]
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        downloads = self._downloads()
+        if exam_code != "tocfl-cert-materials":
+            downloads = [download for download in downloads if download.year_ad == year_ad]
         papers = [
             ParsedPaper(
                 category_raw=CANONICAL_CATEGORY,
@@ -102,7 +113,7 @@ class TocflCertClient:
                 subject_name_raw=download.label,
                 files={"question": download.url},
             )
-            for index, download in enumerate(self._downloads(), start=1)
+            for index, download in enumerate(downloads, start=1)
         ]
         return SourceExamPage(
             source_exam_id=exam_code,

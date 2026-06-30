@@ -19,6 +19,7 @@ MATERIALS_YEAR = 2026
 
 @dataclass(frozen=True)
 class TaigiDownload:
+    form_code: str
     label: str
     file_type: str
     url: str
@@ -80,6 +81,20 @@ def _subject_code(url: str, label: str, fallback: str) -> str:
     return f"{stem}-{label_slug}" if stem and stem != label_slug else label_slug
 
 
+def _form_code(label: str) -> str:
+    if label.startswith("A卷"):
+        return "a"
+    if label.startswith("B卷"):
+        return "b"
+    if label.startswith("C卷"):
+        return "c"
+    return "general"
+
+
+def _exam_code(form_code: str, year_ad: int) -> str:
+    return f"taigi-cert-{form_code}-{year_ad}"
+
+
 def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TaigiDownload]:
     parser = _AnchorParser()
     parser.feed(html)
@@ -95,7 +110,8 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TaigiDow
             continue
         seen.add(url)
         file_type = "listening_audio" if lower_path.endswith(".mp3") else "question"
-        downloads.append(TaigiDownload(label=label or Path(unquote(parsed.path)).name, file_type=file_type, url=url))
+        display_label = label or Path(unquote(parsed.path)).name
+        downloads.append(TaigiDownload(form_code=_form_code(display_label), label=display_label, file_type=file_type, url=url))
     return downloads
 
 
@@ -116,18 +132,29 @@ class TaigiCertClient:
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
         if year_ad != MATERIALS_YEAR:
             return []
-        return [ExamOption(code="taigi-cert-materials", year_ad=year_ad, year_roc=year_ad - 1911, label=CANONICAL_CATEGORY)]
+        forms = {download.form_code for download in self._downloads() if download.form_code != "general"}
+        return [
+            ExamOption(code=_exam_code(form_code, year_ad), year_ad=year_ad, year_roc=year_ad - 1911, label=f"臺灣台語語言能力認證 {form_code.upper()}卷")
+            for form_code in ("a", "b", "c")
+            if form_code in forms
+        ]
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        requested_form = next((form for form in ("a", "b", "c") if exam_code == _exam_code(form, year_ad)), None)
+        downloads = [
+            download
+            for download in self._downloads()
+            if requested_form is None or download.form_code == requested_form
+        ]
         papers = [
             ParsedPaper(
-                category_raw=CANONICAL_CATEGORY,
-                category_code="taigi-cert",
+                category_raw=f"{CANONICAL_CATEGORY}_{download.form_code.upper()}卷",
+                category_code=download.form_code,
                 subject_code=_subject_code(download.url, download.label, f"download-{index}"),
                 subject_name_raw=download.label,
                 files={download.file_type: download.url},
             )
-            for index, download in enumerate(self._downloads(), start=1)
+            for index, download in enumerate(downloads, start=1)
         ]
         return SourceExamPage(
             source_exam_id=exam_code,

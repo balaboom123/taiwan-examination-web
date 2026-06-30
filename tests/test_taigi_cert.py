@@ -28,12 +28,27 @@ class TaigiCertParserTests(unittest.TestCase):
 
 
 class TaigiCertClientTests(unittest.TestCase):
-    def test_discovery_uses_single_materials_exam(self) -> None:
+    def test_discovery_uses_single_synthetic_resource_year(self) -> None:
         client = TaigiCertClient()
 
         self.assertEqual(client.discover_available_years(), [2026])
-        self.assertEqual([exam.code for exam in client.discover_exams(2026)], ["taigi-cert-materials"])
         self.assertEqual(client.discover_exams(2027), [])
+
+    def test_discovery_keeps_taigi_forms_as_separate_exams(self) -> None:
+        client = TaigiCertClient()
+        client._fetch_text = lambda url: RESOURCE_HTML  # type: ignore[method-assign]
+
+        self.assertEqual([exam.code for exam in client.discover_exams(2026)], ["taigi-cert-a-2026", "taigi-cert-b-2026"])
+
+    def test_fetch_exam_page_filters_taigi_by_requested_form(self) -> None:
+        client = TaigiCertClient()
+        client._fetch_text = lambda url: RESOURCE_HTML  # type: ignore[method-assign]
+
+        page = client.fetch_exam_page("taigi-cert-a-2026", 2026)
+
+        self.assertEqual(page.source_exam_id, "taigi-cert-a-2026")
+        self.assertEqual(len(page.papers), 3)
+        self.assertTrue(all(paper.category_code == "a" for paper in page.papers))
 
     def test_fetch_exam_page_builds_download_papers(self) -> None:
         client = TaigiCertClient()

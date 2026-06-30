@@ -72,13 +72,13 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | status | active |
 | source name | GEPT 全民英檢 official practice materials (LTTC) |
 | source type | public web source |
-| current implementation scope | official GEPT practice PDFs, ZIPs, and listening MP3s across five proficiency levels |
+| current implementation scope | official GEPT practice PDFs, ZIPs, and listening MP3s, split by proficiency level and source year where available |
 | current raw data ownership | `data/providers/gept_cert/` |
 | current mirror ownership | `mirror/providers/gept_cert/` |
 | current sync workflows | `sync-gept-cert.yml` |
 | current CLI entrypoints | `sync-full --provider gept_cert --site-id default` |
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle `gept-cert`; public publication remains site-owned |
+| notes | contributes one canonical bundle per GEPT level (`gept-cert-elementary`, `gept-cert-intermediate`, `gept-cert-high-intermediate`, `gept-cert-advanced`, `gept-cert-superior`); public publication remains site-owned |
 
 ### Provider: `tocfl_cert`
 
@@ -88,13 +88,13 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | status | active |
 | source name | TOCFL 華語文能力測驗 official reference downloads |
 | source type | public web source |
-| current implementation scope | official TOCFL downloadable reference materials from tocfl.edu.tw |
+| current implementation scope | official TOCFL downloadable reference materials from tocfl.edu.tw, split by resource year parsed from filenames where available |
 | current raw data ownership | `data/providers/tocfl_cert/` |
 | current mirror ownership | `mirror/providers/tocfl_cert/` |
 | current sync workflows | `sync-tocfl-cert.yml` |
 | current CLI entrypoints | `sync-full --provider tocfl_cert --site-id default` |
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle `tocfl-cert`; public publication remains site-owned |
+| notes | contributes canonical bundle `tocfl-cert` with source years parsed from official filenames; public publication remains site-owned |
 
 ### Provider: `hakka_cert`
 
@@ -104,13 +104,13 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | status | active |
 | source name | 客語能力認證 official materials (客家委員會) |
 | source type | public web source |
-| current implementation scope | official Hakka certification vocabulary PDFs and question bank PDFs; audio ZIPs excluded until language bundles can be sharded |
+| current implementation scope | official Hakka certification vocabulary PDFs and question bank PDFs across official level categories and paginated years; audio ZIPs excluded until language bundles can be sharded |
 | current raw data ownership | `data/providers/hakka_cert/` |
 | current mirror ownership | `mirror/providers/hakka_cert/` |
 | current sync workflows | `sync-hakka-cert.yml` |
 | current CLI entrypoints | `sync-full --provider hakka_cert --site-id default` |
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle `hakka-cert`; public publication remains site-owned |
+| notes | contributes one canonical bundle per official level category (`hakka-cert-basic-elementary`, `hakka-cert-intermediate-high-intermediate`, `hakka-cert-advanced`); public publication remains site-owned |
 
 ### Provider: `taigi_cert`
 
@@ -120,13 +120,13 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | status | active |
 | source name | 臺灣台語語言能力認證 official materials (教育部) |
 | source type | public web source |
-| current implementation scope | official Taiwan Taiwanese certification sample exam PDFs, MP3s, and ZIPs |
+| current implementation scope | official Taiwan Taiwanese certification sample exam PDFs, MP3s, and ZIPs split by A/B/C卷 form |
 | current raw data ownership | `data/providers/taigi_cert/` |
 | current mirror ownership | `mirror/providers/taigi_cert/` |
 | current sync workflows | `sync-taigi-cert.yml` |
 | current CLI entrypoints | `sync-full --provider taigi_cert --site-id default` |
 | operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle `taigi-cert`; public publication remains site-owned |
+| notes | contributes one canonical bundle per form (`taigi-cert-a`, `taigi-cert-b`, `taigi-cert-c`); public publication remains site-owned |
 
 ## Planned Providers
 

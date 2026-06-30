@@ -45,7 +45,7 @@ class GeptCertParserTests(unittest.TestCase):
 
 
 class GeptCertClientTests(unittest.TestCase):
-    def test_materials_year_does_not_follow_runtime_calendar_year(self) -> None:
+    def test_material_years_come_from_source_links_not_runtime_calendar_year(self) -> None:
         class FutureDate:
             @classmethod
             def today(cls) -> date:
@@ -53,10 +53,43 @@ class GeptCertClientTests(unittest.TestCase):
 
         with patch("app.providers.gept_cert.client.date", FutureDate, create=True):
             client = GeptCertClient()
+            client._fetch_text = lambda url: PRACTICE_HTML if url.endswith("geptpracticee.htm") else INTRO_HTML  # type: ignore[method-assign]
+            client.LEVELS = (("elementary", "初級", "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"),)
 
-            self.assertEqual(client.discover_available_years(), [2026])
-            self.assertEqual([exam.year_ad for exam in client.discover_exams(2026)], [2026])
+            self.assertEqual(client.discover_available_years(), [2022])
+            self.assertEqual([exam.code for exam in client.discover_exams(2022)], ["gept-cert-elementary-2022"])
             self.assertEqual(client.discover_exams(2027), [])
+
+    def test_discovery_keeps_gept_levels_as_separate_exams(self) -> None:
+        client = GeptCertClient()
+        client._fetch_text = lambda url: INTRO_HTML  # type: ignore[method-assign]
+        client.LEVELS = (
+            ("elementary", "初級", "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"),
+            ("intermediate", "中級", "https://www.gept.org.tw/Exam_Intro/t02_introduction.asp"),
+        )
+
+        exams = client.discover_exams(2022)
+
+        self.assertEqual([exam.code for exam in exams], ["gept-cert-elementary-2022", "gept-cert-intermediate-2022"])
+
+    def test_fetch_exam_page_filters_gept_by_requested_level_and_year(self) -> None:
+        client = GeptCertClient()
+
+        def fake_fetch(url: str) -> str:
+            if url.endswith("geptpracticee.htm") or url.endswith("geptpractice.htm"):
+                return PRACTICE_HTML
+            return INTRO_HTML
+
+        client._fetch_text = fake_fetch  # type: ignore[method-assign]
+        client.LEVELS = (
+            ("elementary", "初級", "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"),
+            ("intermediate", "中級", "https://www.gept.org.tw/Exam_Intro/t02_introduction.asp"),
+        )
+
+        page = client.fetch_exam_page("gept-cert-elementary-2022", 2022)
+
+        self.assertEqual(page.source_exam_id, "gept-cert-elementary-2022")
+        self.assertEqual({paper.category_code for paper in page.papers}, {"elementary"})
 
     def test_fetch_exam_page_builds_download_papers(self) -> None:
         client = GeptCertClient()
@@ -69,10 +102,10 @@ class GeptCertClientTests(unittest.TestCase):
         client._fetch_text = fake_fetch  # type: ignore[method-assign]
         client.LEVELS = (("elementary", "初級", "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"),)
 
-        page = client.fetch_exam_page("gept-cert-materials", 2026)
+        page = client.fetch_exam_page("gept-cert-elementary-2022", 2022)
 
         self.assertEqual(page.provider_id, "gept_cert")
-        self.assertEqual(len(page.papers), 4)
+        self.assertEqual(len(page.papers), 3)
         self.assertIn("listening_audio", page.papers[-1].files)
 
 
