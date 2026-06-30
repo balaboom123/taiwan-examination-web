@@ -33,6 +33,7 @@ This topic has two user intents:
 - `teacher_qual` handles ROC 108 / AD 2019 as first and second exam entries, ROC 107 / AD 2018 as a sample-only archive entry, and ROC 099-094 zero-padded headings.
 - `teacher_recruit_tainan` implements the first 教甄 source from an official Tainan current-year recruitment site.
 - `teacher_recruit_taipei_junior` implements official Taipei DOE junior-high 教甄 article pages.
+- `teacher_recruit_taipei_elementary` implements the official Taipei City elementary 教甄 article page for 114學年度 combined question-and-answer PDFs.
 - `teacher_recruit_newtaipei` implements the official New Taipei education personnel joint selection portal and its public 教甄公告 JSON API.
 - `teacher_recruit_taoyuan_elementary` implements the official Taoyuan elementary selection site's `answer.aspx` paper page.
 - `teacher_recruit_kaohsiung` implements official Kaohsiung elementary and special-education current-year exam sites.
@@ -107,9 +108,9 @@ Each row records an official source candidate:
 
 This keeps research cheap and prevents a pile of half-working crawlers.
 
-The accepted source-specific providers are `teacher_recruit_tainan`, `teacher_recruit_taipei_junior`, `teacher_recruit_newtaipei`, `teacher_recruit_taoyuan_elementary`, `teacher_recruit_kaohsiung`, and `teacher_recruit_central_alliance`. These providers are intentionally source-scoped rather than claiming national 教甄 coverage.
+The accepted source-specific providers are `teacher_recruit_tainan`, `teacher_recruit_taipei_junior`, `teacher_recruit_taipei_elementary`, `teacher_recruit_newtaipei`, `teacher_recruit_taoyuan_elementary`, `teacher_recruit_kaohsiung`, and `teacher_recruit_central_alliance`. These providers are intentionally source-scoped rather than claiming national 教甄 coverage.
 
-The checked national recruitment portals are rejected for paper crawling because they do not expose downloadable past-paper archives. Taipei elementary is recorded as `watch`: it has one official downloadable article, but not enough reviewed year depth yet to solve the "one year only" complaint. New Taipei is stronger than a single article source because one official portal exposes a public list API, detail API, attachment metadata, and download-token API for multiple current-year teacher-selection notices.
+The checked national recruitment portals are rejected for paper crawling because they do not expose downloadable past-paper archives. Taipei elementary is implemented as a current-year scoped provider after source review confirmed the official article is published by 臺北市政府教育局國小教育科 and exposes direct `Download.ashx` PDFs whose filenames decode into subject names ending in `含答案`. New Taipei is stronger than a single article source because one official portal exposes a public list API, detail API, attachment metadata, and download-token API for multiple current-year teacher-selection notices.
 
 Taoyuan, Kaohsiung, and Central Alliance are current-year source providers. They are useful because they expose direct paper files from official or officially linked selection sites, but they do not prove historical or national completeness. The Central Alliance vendor host is accepted only with official provenance: reviewed Taichung, Keelung, and Hsinchu County selection pages point candidates to that site for papers or answer appeals.
 
@@ -128,6 +129,7 @@ Eligible providers use one provider per source owner:
 | Example provider_id | Source scope | Bundle strategy |
 | --- | --- | --- |
 | `teacher_recruit_taipei` | Taipei public teacher recruitment archive | one or more bundles by school level or subject group |
+| `teacher_recruit_taipei_elementary` | Taipei elementary teacher recruitment article page | one bundle for current-year elementary papers |
 | `teacher_recruit_newtaipei` | New Taipei public teacher recruitment archive | one or more bundles by school level or subject group |
 | `teacher_recruit_taoyuan_elementary` | Taoyuan elementary teacher recruitment paper page | one bundle for current-year elementary papers |
 | `teacher_recruit_kaohsiung` | Kaohsiung elementary and special-education teacher recruitment sites | one source bundle, split by scope only if needed |
@@ -186,10 +188,11 @@ Teacher recruitment providers should use the same site-owned release sharding as
 4. Record official county and school sources in that index before implementation.
 5. Implement source-specific providers only when the index marks them `implement`.
 6. Keep `teacher_recruit_tainan` and `teacher_recruit_taipei_junior` as source-specific 教甄 providers.
-7. Keep `teacher_recruit_newtaipei` current-year scoped until the official API exposes reviewed historical records.
-8. Keep Taoyuan elementary, Kaohsiung, and Central Alliance current-year scoped until reviewed official archives or stable prior-year patterns are found.
-9. Keep Taichung, Keelung, and Hsinchu County as Central Alliance provenance/watch rows unless they expose their own teacher paper downloads.
-10. Add more 教甄 providers only after the source index marks them `implement`.
+7. Keep `teacher_recruit_taipei_elementary` as a current-year scoped official article provider until a stable Taipei elementary archive or second reviewed official year is found.
+8. Keep `teacher_recruit_newtaipei` current-year scoped until the official API exposes reviewed historical records.
+9. Keep Taoyuan elementary, Kaohsiung, and Central Alliance current-year scoped until reviewed official archives or stable prior-year patterns are found.
+10. Keep Taichung, Keelung, and Hsinchu County as Central Alliance provenance/watch rows unless they expose their own teacher paper downloads.
+11. Add more 教甄 providers only after the source index marks them `implement`.
 
 ## Non-Goals
 
@@ -224,9 +227,10 @@ Mitigation: label 教甄 bundles by source owner and year coverage. Do not marke
 - The national 教師資格考試 path remains `teacher_qual` / `teacher-qual`.
 - `teacher-qual` publishes all official archive years with downloadable files from ROC 094-115 / AD 2005-2026.
 - 教甄 is documented as a staged source family, not a single national provider.
-- `teacher_recruit_tainan` and `teacher_recruit_taipei_junior` are documented as partial, source-specific 教甄 implementations.
+- `teacher_recruit_tainan`, `teacher_recruit_taipei_junior`, and `teacher_recruit_taipei_elementary` are documented as partial, source-specific 教甄 implementations.
 - `teacher_recruit_newtaipei` is documented as an implemented official API-backed 教甄 source, with detail/list mismatch validation required before ingesting attachments.
 - `teacher_recruit_taoyuan_elementary`, `teacher_recruit_kaohsiung`, and `teacher_recruit_central_alliance` are documented as implemented current-year source-specific providers.
+- `teacher_recruit_taipei_elementary` is documented as an implemented current-year source-specific provider that mirrors official `含答案` PDFs as `question_answer`.
 - Central Alliance documentation records official provenance from Taichung, Keelung, and Hsinchu County, and does not treat the vendor domain as a standalone official archive.
 - A future engineer can decide whether a county or school source is implementable using the eligibility rules above.
 - The default site can publish teacher bundles without a new public site.

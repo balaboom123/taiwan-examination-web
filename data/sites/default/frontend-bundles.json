@@ -12258,6 +12258,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-tainan.zip"
     },
     {
+      "id": "teacher-recruit-taipei-elementary",
+      "name": "臺北市國小教師甄試",
+      "years": [
+        114
+      ],
+      "fileCount": 12,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-elementary.zip"
+    },
+    {
       "id": "teacher-recruit-taipei-junior",
       "name": "臺北市國中教師甄試",
       "years": [

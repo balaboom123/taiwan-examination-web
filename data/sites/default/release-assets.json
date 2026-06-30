@@ -7091,6 +7091,15 @@
     },
     {
       "release_tag": "default-bundles-001",
+      "storage_key": "bundles/sites/default/teacher-recruit-taipei-elementary.zip",
+      "asset_name": "teacher-recruit-taipei-elementary.zip",
+      "checksum": "a8b6463b3e327409e8b87f98e58ebf7f29cfbad703a7b55b3fa14b6e9638587e",
+      "legacy_asset_names": [
+        "臺北市國小教師甄試__teacher-recruit-taipei-elementary.zip"
+      ]
+    },
+    {
+      "release_tag": "default-bundles-001",
       "storage_key": "bundles/sites/default/teacher-recruit-taipei-junior.zip",
       "asset_name": "teacher-recruit-taipei-junior.zip",
       "checksum": "d0120d192df60b0f07a0a34657ddb6b6bf07c17fd745c984141c39f03bddf6b8",

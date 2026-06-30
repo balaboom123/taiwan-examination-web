@@ -151,6 +151,12 @@ class NormalizePapersTests(unittest.TestCase):
             ),
             ("teacher-recruit-tainan-115", "臺南市國小教師甄試", "teacher-recruit-tainan", "臺南市國小教師甄試"),
             ("teacher-recruit-taipei-junior-114", "臺北市國中教師甄試", "teacher-recruit-taipei-junior", "臺北市國中教師甄試"),
+            (
+                "teacher-recruit-taipei-elementary-114",
+                "臺北市國小教師甄試",
+                "teacher-recruit-taipei-elementary",
+                "臺北市國小教師甄試",
+            ),
             ("gept-cert-materials", "GEPT全民英檢官方練習資料_初級", "gept-cert", "GEPT全民英檢"),
             ("tocfl-cert-materials", "TOCFL華語文能力測驗官方參考資料", "tocfl-cert", "TOCFL華語文能力測驗"),
             ("tqc-cert-samples", "TQC範例試卷_專業知識領域類", "tqc-cert", "TQC電腦技能基金會認證"),

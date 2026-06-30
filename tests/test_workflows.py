@@ -512,6 +512,17 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
+    def test_sync_teacher_recruit_taipei_elementary_workflow_is_provider_only(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-teacher-recruit-taipei-elementary.yml").read_text(encoding="utf-8")
+
+        self.assertIn('- cron: "55 5 * * 2"', workflow)
+        self.assertIn("python -m app sync-full --provider teacher_recruit_taipei_elementary --site-id default", workflow)
+        self.assertIn("schedule:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
+        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
+        self.assertNotIn("release_assets.py", workflow)
+
     def test_sync_newtaipei_teacher_recruit_workflow_is_provider_only(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "sync-teacher-recruit-newtaipei.yml").read_text(encoding="utf-8")
 
