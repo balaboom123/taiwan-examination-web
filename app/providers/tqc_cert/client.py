@@ -13,6 +13,7 @@ from app.providers.base import DownloadedFile, ResponseMetadata
 
 BASE_URL = "https://www.tqc.org.tw/TQCNet/"
 EXAM_PAPER_URL = urljoin(BASE_URL, "ExamPaper.aspx")
+TQC_HOSTS = {"tqc.org.tw", "www.tqc.org.tw"}
 USER_AGENT = "Mozilla/5.0 (compatible; tqc-cert-mirror/1.0)"
 CANONICAL_CATEGORY = "TQC範例試卷"
 MATERIALS_YEAR = 2026
@@ -84,6 +85,11 @@ def _slug(text: str, fallback: str) -> str:
     return encoded or fallback
 
 
+def _is_tqc_url(url: str) -> bool:
+    parsed = urlparse(url)
+    return (parsed.hostname or "").lower() in TQC_HOSTS
+
+
 _POSTBACK_RE = re.compile(r"__doPostBack\(['\"]([^'\"]+)['\"],\s*['\"]([^'\"]*)['\"]\)")
 
 
@@ -100,7 +106,8 @@ def parse_page_requests(html: str) -> list[TqcPageRequest]:
             request = TqcPageRequest(event_target=match.group(1), event_argument=match.group(2))
         elif token_href and not token_href.lower().endswith(".pdf") and "javascript:" not in token_href.lower():
             page_url = urljoin(EXAM_PAPER_URL, token_href)
-            if not urlparse(page_url).path.lower().endswith("/tqcnet/exampaper.aspx"):
+            parsed_page_url = urlparse(page_url)
+            if not _is_tqc_url(page_url) or not parsed_page_url.path.lower().endswith("/tqcnet/exampaper.aspx"):
                 continue
             request = TqcPageRequest(url=page_url)
         else:
@@ -122,7 +129,10 @@ def parse_exam_papers(html: str) -> list[TqcExamPaper]:
             text_window.append(token_text)
             text_window = text_window[-4:]
             continue
-        if "/user/Example/" not in token_href or not token_href.lower().endswith(".pdf"):
+        paper_url = urljoin(EXAM_PAPER_URL, token_href)
+        parsed_paper_url = urlparse(paper_url)
+        paper_path = parsed_paper_url.path.lower()
+        if not _is_tqc_url(paper_url) or "/user/example/" not in paper_path or not paper_path.endswith(".pdf"):
             continue
         if len(text_window) < 3:
             continue
@@ -133,7 +143,7 @@ def parse_exam_papers(html: str) -> list[TqcExamPaper]:
                 title=title,
                 category=category,
                 published_year=int(year_match.group(1)) if year_match else 0,
-                url=urljoin(EXAM_PAPER_URL, token_href),
+                url=paper_url,
             )
         )
     return entries

@@ -66,12 +66,31 @@ class TqcCertParserTests(unittest.TestCase):
         self.assertEqual(papers[0].published_year, 2020)
         self.assertTrue(papers[0].url.endswith("/user/Example/python.pdf"))
 
+    def test_parse_exam_papers_rejects_off_domain_sample_pdfs(self) -> None:
+        html = """
+        <table>
+          <tr>
+            <td>偽造試卷</td>
+            <td>專業知識領域類</td>
+            <td>2026/06/09</td>
+            <td><a href="https://example.com/user/Example/fake.pdf">範例試卷下載</a></td>
+          </tr>
+        </table>
+        """
+
+        self.assertEqual(parse_exam_papers(html), [])
+
     def test_parse_page_requests_extracts_postback_pagers(self) -> None:
         requests = parse_page_requests(TQC_PAGED_EXAM_PAPER_HTML)
 
         self.assertEqual(len(requests), 1)
         self.assertEqual(requests[0].event_target, "pager")
         self.assertEqual(requests[0].event_argument, "Page$2")
+
+    def test_parse_page_requests_rejects_off_domain_exam_paper_pages(self) -> None:
+        html = '<a href="https://example.com/TQCNet/ExamPaper.aspx">2</a>'
+
+        self.assertEqual(parse_page_requests(html), [])
 
 
 class TqcCertClientTests(unittest.TestCase):
