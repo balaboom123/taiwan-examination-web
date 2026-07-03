@@ -122,8 +122,6 @@ def should_refresh_lootlabs_entry(
         return True
     if entry.target_download_url != bundle.download_url:
         return True
-    if entry.target_checksum != bundle.checksum:
-        return True
     return False
 
 
