@@ -11889,13 +11889,40 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip"
     },
     {
-      "id": "ipas-cert",
-      "name": "iPAS產業人才能力鑑定",
+      "id": "ipas-cert-aiap",
+      "name": "iPAS AI應用規劃師",
       "years": [
         115
       ],
-      "fileCount": 97,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert.zip"
+      "fileCount": 25,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiap.zip"
+    },
+    {
+      "id": "ipas-cert-aiot",
+      "name": "iPAS AIoT應用工程師",
+      "years": [
+        115
+      ],
+      "fileCount": 11,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiot.zip"
+    },
+    {
+      "id": "ipas-cert-ise",
+      "name": "iPAS 資訊安全工程師",
+      "years": [
+        115
+      ],
+      "fileCount": 15,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-ise.zip"
+    },
+    {
+      "id": "ipas-cert-oia",
+      "name": "iPAS 營運智慧分析師",
+      "years": [
+        115
+      ],
+      "fileCount": 11,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-oia.zip"
     },
     {
       "id": "moea-recruit",
@@ -12345,14 +12372,17 @@
       "years": [
         115,
         114,
+        112,
         111,
+        110,
         109,
         108,
+        107,
         106,
         105,
         104
       ],
-      "fileCount": 12,
+      "fileCount": 44,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tqc-cert.zip"
     },
     {

@@ -76,3 +76,40 @@ test("language certification bundles are grouped under language proficiency clas
     examSubclass: "臺灣台語語言能力認證",
   })
 })
+
+test("IT certification bundles are grouped under computer information certification class", async () => {
+  const { EXAM_CLASSES, SUBCLASS_ORDER, classifyBundle } = await loadClassifier()
+
+  assert.ok(EXAM_CLASSES.includes("電腦/資訊證照"))
+  assert.deepEqual(SUBCLASS_ORDER["電腦/資訊證照"], [
+    "TQC 電腦技能基金會",
+    "iPAS 資訊安全工程師",
+    "iPAS 營運智慧分析師",
+    "iPAS AI應用規劃師",
+    "iPAS AIoT應用工程師",
+  ])
+  assert.deepEqual(classifyBundle("tqc-cert", "TQC官方範例試卷"), {
+    examClass: "電腦/資訊證照",
+    examSubclass: "TQC 電腦技能基金會",
+  })
+  assert.deepEqual(classifyBundle("ipas-cert-ise", "iPAS 資訊安全工程師"), {
+    examClass: "電腦/資訊證照",
+    examSubclass: "iPAS 資訊安全工程師",
+  })
+  assert.deepEqual(classifyBundle("ipas-cert-oia", "iPAS 營運智慧分析師"), {
+    examClass: "電腦/資訊證照",
+    examSubclass: "iPAS 營運智慧分析師",
+  })
+  assert.deepEqual(classifyBundle("ipas-cert-aiap", "iPAS AI應用規劃師"), {
+    examClass: "電腦/資訊證照",
+    examSubclass: "iPAS AI應用規劃師",
+  })
+  assert.deepEqual(classifyBundle("ipas-cert-aiot", "iPAS AIoT應用工程師"), {
+    examClass: "電腦/資訊證照",
+    examSubclass: "iPAS AIoT應用工程師",
+  })
+  assert.deepEqual(classifyBundle("wdasec-skill", "全國技術士技能檢定"), {
+    examClass: "技檢",
+    examSubclass: "技術士技能檢定",
+  })
+})

@@ -11,9 +11,9 @@ This records the provider-scope decision for the 2026-06 request.
 | 客語能力認證 | Implemented | `hakka_cert` mirrors official Hakka certification vocabulary and question-bank PDFs from 哈客網路學院. Audio ZIPs are intentionally excluded from the public bundle until language bundles can be sharded. |
 | 臺灣台語語言能力認證 | Implemented | `taigi_cert` mirrors official Taiwan Taiwanese certification sample papers and audio from the MOE certification site. |
 | JLPT/TOPIK local schedules | Deferred | Local pages are schedules/registration information, not official downloadable past-paper archives. |
-| TQC | Implemented | `tqc_cert` mirrors official TQC sample-paper PDFs. |
-| iPAS | Implemented | `ipas_cert` mirrors official certification download PDFs. These are exam/download documents, not historical solved paper archives. |
-| iCAP | Deferred | The WDA iCAP public site exposes resource/download listings via AJAX, but no public official exam-paper archive was identified. |
+| TQC | Implemented | `tqc_cert` mirrors official paginated TQC sample-paper PDFs. |
+| iPAS | Implemented | `ipas_cert` mirrors IT-adjacent iPAS official certification PDFs for `ISE`, `OIA`, `AIAP`, and `AIOT`, including learning-resource question PDFs where available. |
+| iCAP 勞動部職能發展應用平台 | Deferred | Official iCAP sources expose competency standards, certified competency-oriented courses, certification workflows, and data downloads, but no public IT exam-paper archive was identified. Add an iCAP provider only if the product supports non-paper competency metadata or an official exam-paper archive appears. |
 | 軍校正期班/專業軍官班 | Deferred | No stable official public historical paper archive was identified. |
 | 警察特考 | Already supported | Covered by the existing `moex` provider, including general police and police personnel special exams. |
 | 不動產經紀人、地政士 | Already supported | Covered by the existing `moex` provider under professional/technical examinations. |

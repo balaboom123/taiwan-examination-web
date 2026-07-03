@@ -6857,11 +6857,38 @@
     },
     {
       "release_tag": "default-bundles-001",
-      "storage_key": "bundles/sites/default/ipas-cert.zip",
-      "asset_name": "ipas-cert.zip",
-      "checksum": "f5592011fc8105f61a6d72d56c9abca17d2e3c9205484ecfde1c0628d53efe4a",
+      "storage_key": "bundles/sites/default/ipas-cert-aiap.zip",
+      "asset_name": "ipas-cert-aiap.zip",
+      "checksum": "d4a67353f2e79b1b8a76b9eeeb7c8ae164a317ab01ab27cda1776db22f89f30b",
       "legacy_asset_names": [
-        "iPAS產業人才能力鑑定__ipas-cert.zip"
+        "iPAS AI應用規劃師__ipas-cert-aiap.zip"
+      ]
+    },
+    {
+      "release_tag": "default-bundles-001",
+      "storage_key": "bundles/sites/default/ipas-cert-aiot.zip",
+      "asset_name": "ipas-cert-aiot.zip",
+      "checksum": "cb94b31b91f6b09723b5a3227d27b574bba7b25e1668c763fd753fd173614e3d",
+      "legacy_asset_names": [
+        "iPAS AIoT應用工程師__ipas-cert-aiot.zip"
+      ]
+    },
+    {
+      "release_tag": "default-bundles-001",
+      "storage_key": "bundles/sites/default/ipas-cert-ise.zip",
+      "asset_name": "ipas-cert-ise.zip",
+      "checksum": "179404c9bbc168ec058ff400a8139d89476c3109546ec7fd30e1affabfd667f9",
+      "legacy_asset_names": [
+        "iPAS 資訊安全工程師__ipas-cert-ise.zip"
+      ]
+    },
+    {
+      "release_tag": "default-bundles-001",
+      "storage_key": "bundles/sites/default/ipas-cert-oia.zip",
+      "asset_name": "ipas-cert-oia.zip",
+      "checksum": "b6a7e5a602e7e7f864700c1b8359ea9496e3abe62c1fef7be9fa1802cb95235b",
+      "legacy_asset_names": [
+        "iPAS 營運智慧分析師__ipas-cert-oia.zip"
       ]
     },
     {
@@ -7174,7 +7201,7 @@
       "release_tag": "default-bundles-001",
       "storage_key": "bundles/sites/default/tqc-cert.zip",
       "asset_name": "tqc-cert.zip",
-      "checksum": "9badadc812b3a4eb8a222db100804224879036ff214ebbff67ca41ab7942c929",
+      "checksum": "76f93daa65fe6c5c4c668c109f56d3eeb18f864a63223f2360a47af8a2455cba",
       "legacy_asset_names": [
         "TQC電腦技能基金會認證__tqc-cert.zip"
       ]

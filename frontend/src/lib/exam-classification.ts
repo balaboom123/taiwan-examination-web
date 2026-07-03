@@ -1,4 +1,4 @@
-export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢", "金融證照", "教師資格考試", "語言檢定"] as const
+export const EXAM_CLASSES = ["公職", "升學", "國營事業", "技檢", "金融證照", "教師資格考試", "語言檢定", "電腦/資訊證照"] as const
 export type ExamClass = (typeof EXAM_CLASSES)[number]
 
 export interface ExamCategory {
@@ -37,6 +37,11 @@ const PROVIDER_ROUTES: readonly ProviderRoute[] = [
   { idPrefix: "tocfl-cert", examClass: "語言檢定", defaultSubclass: "TOCFL 華語文能力測驗" },
   { idPrefix: "hakka-cert", examClass: "語言檢定", defaultSubclass: "客語能力認證" },
   { idPrefix: "taigi-cert", examClass: "語言檢定", defaultSubclass: "臺灣台語語言能力認證" },
+  { idPrefix: "tqc-cert", examClass: "電腦/資訊證照", defaultSubclass: "TQC 電腦技能基金會" },
+  { idPrefix: "ipas-cert-ise", examClass: "電腦/資訊證照", defaultSubclass: "iPAS 資訊安全工程師" },
+  { idPrefix: "ipas-cert-oia", examClass: "電腦/資訊證照", defaultSubclass: "iPAS 營運智慧分析師" },
+  { idPrefix: "ipas-cert-aiap", examClass: "電腦/資訊證照", defaultSubclass: "iPAS AI應用規劃師" },
+  { idPrefix: "ipas-cert-aiot", examClass: "電腦/資訊證照", defaultSubclass: "iPAS AIoT應用工程師" },
   { idPrefix: "sfi-", examClass: "金融證照" },
   { idPrefix: "tabf-", examClass: "金融證照" },
   { idPrefix: "tii-", examClass: "金融證照" },
@@ -126,6 +131,17 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
     subclasses: ["全民英檢 GEPT", "TOCFL 華語文能力測驗", "客語能力認證", "臺灣台語語言能力認證"],
     rules: [],
     fallback: "全民英檢 GEPT",
+  },
+  "電腦/資訊證照": {
+    subclasses: [
+      "TQC 電腦技能基金會",
+      "iPAS 資訊安全工程師",
+      "iPAS 營運智慧分析師",
+      "iPAS AI應用規劃師",
+      "iPAS AIoT應用工程師",
+    ],
+    rules: [],
+    fallback: "TQC 電腦技能基金會",
   },
 }
 

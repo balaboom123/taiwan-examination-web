@@ -60,6 +60,10 @@ class SiteRegistryTests(unittest.TestCase):
                 "hakka-cert": 1,
                 "taigi-cert": 1,
                 "tqc-cert": 1,
+                "ipas-cert-ise": 1,
+                "ipas-cert-oia": 1,
+                "ipas-cert-aiap": 1,
+                "ipas-cert-aiot": 1,
                 "ipas-cert": 1,
             },
         )
