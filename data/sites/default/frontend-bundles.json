@@ -11880,22 +11880,77 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/gept-cert.zip"
     },
     {
-      "id": "hakka-cert",
-      "name": "客語能力認證",
+      "id": "hakka-cert-advanced",
+      "name": "客語能力認證 高級",
       "years": [
         115
       ],
-      "fileCount": 30,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip"
+      "fileCount": 10,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-advanced.zip"
     },
     {
-      "id": "ipas-cert",
-      "name": "iPAS產業人才能力鑑定",
+      "id": "hakka-cert-basic-elementary",
+      "name": "客語能力認證 基礎級暨初級",
       "years": [
         115
       ],
-      "fileCount": 97,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert.zip"
+      "fileCount": 21,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-basic-elementary.zip"
+    },
+    {
+      "id": "hakka-cert-intermediate-high-intermediate",
+      "name": "客語能力認證 中級暨中高級",
+      "years": [
+        115
+      ],
+      "fileCount": 6,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-intermediate-high-intermediate.zip"
+    },
+    {
+      "id": "ipas-cert-aiap",
+      "name": "iPAS AI應用規劃師",
+      "years": [
+        115
+      ],
+      "fileCount": 25,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiap.zip"
+    },
+    {
+      "id": "ipas-cert-aiot",
+      "name": "iPAS AIoT應用工程師",
+      "years": [
+        115
+      ],
+      "fileCount": 11,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiot.zip"
+    },
+    {
+      "id": "ipas-cert-ise",
+      "name": "iPAS 資訊安全工程師",
+      "years": [
+        115
+      ],
+      "fileCount": 15,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-ise.zip"
+    },
+    {
+      "id": "ipas-cert-oia",
+      "name": "iPAS 營運智慧分析師",
+      "years": [
+        115
+      ],
+      "fileCount": 11,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-oia.zip"
+    },
+    {
+      "id": "jlpt-cert",
+      "name": "JLPT Japanese-Language Proficiency Test",
+      "years": [
+        107,
+        101
+      ],
+      "fileCount": 116,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/jlpt-cert.zip"
     },
     {
       "id": "moea-recruit",
@@ -12334,9 +12389,11 @@
       "id": "tocfl-cert",
       "name": "TOCFL華語文能力測驗",
       "years": [
-        115
+        115,
+        113,
+        111
       ],
-      "fileCount": 2,
+      "fileCount": 95,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tocfl-cert.zip"
     },
     {
@@ -12345,14 +12402,17 @@
       "years": [
         115,
         114,
+        112,
         111,
+        110,
         109,
         108,
+        107,
         106,
         105,
         104
       ],
-      "fileCount": 12,
+      "fileCount": 44,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tqc-cert.zip"
     },
     {
@@ -12372,6 +12432,16 @@
       ],
       "fileCount": 10,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/twc-recruit.zip"
+    },
+    {
+      "id": "wdasec-skill",
+      "name": "全國技術士技能檢定",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 677,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/wdasec-skill.zip"
     }
   ]
 }

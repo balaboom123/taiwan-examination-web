@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import hashlib
 from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
@@ -12,6 +13,7 @@ from app.models import ExamOption, ParsedPaper, SourceExamPage
 from app.providers.base import DownloadedFile, ResponseMetadata
 
 DOWNLOAD_URL = "https://tocfl.edu.tw/tocfl/index.php/exam/download"
+MOCK_TEST_URL = "https://tocfl.edu.tw/tocfl/index.php/exam/test/page/1?pressBtn=%28%E9%A1%8C%E5%BA%AB%29"
 USER_AGENT = "Mozilla/5.0 (compatible; tocfl-cert-mirror/1.0)"
 CANONICAL_CATEGORY = "TOCFL華語文能力測驗官方參考資料"
 MATERIALS_YEAR = 2026
@@ -22,6 +24,7 @@ class TocflDownload:
     label: str
     url: str
     year_ad: int
+    file_type: str = "question"
 
 
 class _AnchorParser(HTMLParser):
@@ -57,13 +60,30 @@ def _slug(text: str, fallback: str) -> str:
     ascii_slug = re.sub(r"[^0-9A-Za-z]+", "-", text).strip("-").lower()
     if ascii_slug:
         return ascii_slug
-    encoded = text.encode("utf-8").hex()[:24]
-    return encoded or fallback
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16] if text else fallback
 
 
 def _year_from_text(text: str) -> int | None:
     match = re.search(r"(20\d{2})", text)
     return int(match.group(1)) if match else None
+
+
+def _file_type_for(label: str) -> str:
+    if "音檔" in label:
+        return "listening_audio"
+    if "答案" in label:
+        return "answer"
+    if "聽力腳本" in label:
+        return "question_alt"
+    return "question"
+
+
+def _display_label(label: str, url: str) -> str:
+    cleaned = label.strip().strip("[]")
+    file_stem = Path(unquote(urlparse(url).path)).stem.replace("_", " ")
+    if label.startswith("[") and cleaned:
+        return f"{file_stem} {cleaned}"
+    return label or Path(urlparse(url).path).name
 
 
 def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TocflDownload]:
@@ -73,11 +93,18 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[TocflDow
     seen: set[str] = set()
     for label, href in parser.links:
         url = urljoin(base_url, href)
-        if not url.lower().endswith((".pdf", ".zip", ".xls", ".xlsx")) or url in seen:
+        if not url.lower().endswith((".pdf", ".zip", ".rar", ".xls", ".xlsx")) or url in seen:
             continue
         seen.add(url)
-        display_label = label or Path(urlparse(url).path).name
-        downloads.append(TocflDownload(label=display_label, url=url, year_ad=_year_from_text(url) or _year_from_text(display_label) or MATERIALS_YEAR))
+        display_label = _display_label(label, url)
+        downloads.append(
+            TocflDownload(
+                label=display_label,
+                url=url,
+                year_ad=_year_from_text(url) or _year_from_text(display_label) or MATERIALS_YEAR,
+                file_type=_file_type_for(label),
+            )
+        )
     return downloads
 
 
@@ -90,7 +117,15 @@ class TocflCertClient:
             return response.read().decode("utf-8", "replace")
 
     def _downloads(self) -> list[TocflDownload]:
-        return parse_downloads(self._fetch_text(DOWNLOAD_URL), base_url=DOWNLOAD_URL)
+        downloads: list[TocflDownload] = []
+        seen: set[str] = set()
+        for url in (DOWNLOAD_URL, MOCK_TEST_URL):
+            for download in parse_downloads(self._fetch_text(url), base_url=url):
+                if download.url in seen:
+                    continue
+                seen.add(download.url)
+                downloads.append(download)
+        return downloads
 
     def discover_available_years(self) -> list[int]:
         years = {download.year_ad for download in self._downloads()}
@@ -111,7 +146,7 @@ class TocflCertClient:
                 category_code="tocfl-reference",
                 subject_code=_slug(download.label, f"download-{index}"),
                 subject_name_raw=download.label,
-                files={"question": download.url},
+                files={download.file_type: download.url},
             )
             for index, download in enumerate(downloads, start=1)
         ]

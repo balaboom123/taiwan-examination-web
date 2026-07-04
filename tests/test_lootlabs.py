@@ -81,7 +81,7 @@ class LootLabsTests(unittest.TestCase):
                 with self.assertRaises(LootLabsError):
                     load_lootlabs_settings_from_env(env)
 
-    def test_should_refresh_lootlabs_entry_for_target_checksum_and_settings_changes(self) -> None:
+    def test_should_refresh_lootlabs_entry_for_target_url_and_settings_changes(self) -> None:
         bundle = _bundle()
         entry = LootLabsManifestEntry(
             canonical_id="nurse",
@@ -94,7 +94,7 @@ class LootLabsTests(unittest.TestCase):
         settings = LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)
 
         self.assertFalse(should_refresh_lootlabs_entry(bundle, entry, settings, settings))
-        self.assertTrue(should_refresh_lootlabs_entry(_bundle(checksum="sha-2"), entry, settings, settings))
+        self.assertFalse(should_refresh_lootlabs_entry(_bundle(checksum="sha-2"), entry, settings, settings))
         self.assertTrue(
             should_refresh_lootlabs_entry(
                 _bundle(download_url="https://example.com/other.zip"),

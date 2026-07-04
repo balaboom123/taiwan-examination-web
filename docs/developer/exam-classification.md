@@ -20,6 +20,7 @@ Source of truth: `frontend/src/lib/exam-classification.ts`.
 | 技檢 | 技術士技能檢定 |
 | 金融證照 | 證券期貨, 銀行金融, 保險, 其他 |
 | 語言檢定 | 全民英檢 GEPT, TOCFL 華語文能力測驗, 客語能力認證, 臺灣台語語言能力認證 |
+| 電腦/資訊證照 | TQC 電腦技能基金會, iPAS 資訊安全工程師, iPAS 營運智慧分析師, iPAS AI應用規劃師, iPAS AIoT應用工程師 |
 
 Classes and subclasses are ordered. The order in `EXAM_CLASSES` and `CLASS_CONFIG[class].subclasses` is the display order in the UI.
 
@@ -62,6 +63,11 @@ Current routes:
 | `tocfl-cert` | 語言檢定 | TOCFL 華語文能力測驗 | TOCFL reference downloads; backend records source years parsed from filenames |
 | `hakka-cert` | 語言檢定 | 客語能力認證 | Hakka certification materials; backend bundles are split by official level category/year |
 | `taigi-cert` | 語言檢定 | 臺灣台語語言能力認證 | Taiwan Taiwanese certification materials; backend bundles are split by A/B/C卷 |
+| `tqc-cert` | 電腦/資訊證照 | TQC 電腦技能基金會 | CSF TQC sample-paper PDFs |
+| `ipas-cert-ise` | 電腦/資訊證照 | iPAS 資訊安全工程師 | iPAS 資訊類 certification with published question PDFs |
+| `ipas-cert-oia` | 電腦/資訊證照 | iPAS 營運智慧分析師 | iPAS 資訊類 certification with official briefs and learning resources |
+| `ipas-cert-aiap` | 電腦/資訊證照 | iPAS AI應用規劃師 | iPAS cross-domain AI certification with published question PDFs |
+| `ipas-cert-aiot` | 電腦/資訊證照 | iPAS AIoT應用工程師 | iPAS electronic-communications certification with AIoT/IoT content |
 | `sfi-` | 金融證照 | — | SFI bundles classify via pattern rules across subclasses |
 | `tabf-` | 金融證照 | — | TABF bundles classify via pattern rules across subclasses |
 | `tii-` | 金融證照 | — | TII bundles classify via pattern rules across subclasses |

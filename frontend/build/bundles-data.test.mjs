@@ -269,38 +269,37 @@ test("toFrontendBundles throws when a LootLabs manifest entry targets a differen
   )
 })
 
-test("toFrontendBundles throws when a LootLabs manifest entry targets a different checksum", () => {
-  assert.throws(
-    () =>
-      toFrontendBundles(
-        [
-          {
-            canonical_id: "nurse",
-            canonical_name: "Nurse",
-            years: [115],
-            file_count: 1,
-            download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
-            checksum: "sha-1",
-          },
-        ],
+test("toFrontendBundles accepts cached LootLabs entries when only the checksum changed", () => {
+  assert.equal(
+    toFrontendBundles(
+      [
         {
-          lootlabsManifest: {
-            version: 1,
-            provider: "lootlabs",
-            settings: { tier_id: 1, number_of_tasks: 1, theme: 1 },
-            bundles: {
-              nurse: {
-                canonical_id: "nurse",
-                asset_name: "nurse.zip",
-                loot_url: "https://loot-link.com/s?cached",
-                target_download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
-                target_checksum: "sha-2",
-                updated_at: "2026-06-15T08:00:00+08:00",
-              },
+          canonical_id: "nurse",
+          canonical_name: "Nurse",
+          years: [115],
+          file_count: 1,
+          download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+          checksum: "sha-1",
+        },
+      ],
+      {
+        lootlabsManifest: {
+          version: 1,
+          provider: "lootlabs",
+          settings: { tier_id: 1, number_of_tasks: 1, theme: 1 },
+          bundles: {
+            nurse: {
+              canonical_id: "nurse",
+              asset_name: "nurse.zip",
+              loot_url: "https://loot-link.com/s?cached",
+              target_download_url: "https://github.com/example/repo/releases/download/moex-bundles/nurse.zip",
+              target_checksum: "sha-2",
+              updated_at: "2026-06-15T08:00:00+08:00",
             },
           },
         },
-      ),
-    /Invalid LootLabs entry for bundle nurse/,
+      },
+    )[0].url,
+    "https://loot-link.com/s?cached",
   )
 })

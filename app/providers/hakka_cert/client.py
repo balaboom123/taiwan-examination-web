@@ -131,17 +131,18 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL, level_code: str 
         parsed = urlparse(url)
         if parsed.netloc != "elearning.hakka.gov.tw" or not parsed.path.startswith("/hakka/files/downloads/"):
             continue
-        # ponytail: Hakka audio ZIPs make a multi-GB public bundle; add them when bundles can shard by dialect/file type.
-        if not parsed.path.lower().endswith(".pdf") or url in seen:
+        path_lower = parsed.path.lower()
+        if not path_lower.endswith((".pdf", ".zip")) or url in seen:
             continue
         seen.add(url)
         display_label = label or Path(unquote(parsed.path)).name
+        file_type = "listening_audio" if path_lower.endswith(".zip") or "音檔" in display_label else "question"
         downloads.append(
             HakkaDownload(
                 level_code=level_code,
                 category_code=_dialect_code(display_label),
                 label=display_label,
-                file_type="question",
+                file_type=file_type,
                 url=url,
                 year_ad=_year_from_label(display_label),
             )

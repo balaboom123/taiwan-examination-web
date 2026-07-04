@@ -160,6 +160,7 @@ class NormalizePapersTests(unittest.TestCase):
             ("gept-cert-materials", "GEPT全民英檢官方練習資料_初級", "gept-cert", "GEPT全民英檢"),
             ("gept-cert-elementary-2022", "GEPT全民英檢官方練習資料_初級", "gept-cert-elementary", "GEPT全民英檢 初級"),
             ("gept-cert-intermediate-2022", "GEPT全民英檢官方練習資料_中級", "gept-cert-intermediate", "GEPT全民英檢 中級"),
+            ("jlpt-cert-practice-2018", "JLPT Japanese-Language Proficiency Test_N1", "jlpt-cert", "JLPT Japanese-Language Proficiency Test"),
             ("tocfl-cert-materials", "TOCFL華語文能力測驗官方參考資料", "tocfl-cert", "TOCFL華語文能力測驗"),
             ("tocfl-cert-2024", "TOCFL華語文能力測驗官方參考資料", "tocfl-cert", "TOCFL華語文能力測驗"),
             ("hakka-cert-materials", "客語能力認證官方教材及試題_四縣", "hakka-cert", "客語能力認證"),
@@ -179,6 +180,10 @@ class NormalizePapersTests(unittest.TestCase):
             ("taigi-cert-a-2026", "臺灣台語語言能力認證官方試題範例", "taigi-cert-a", "臺灣台語語言能力認證 A卷"),
             ("taigi-cert-b-2026", "臺灣台語語言能力認證官方試題範例", "taigi-cert-b", "臺灣台語語言能力認證 B卷"),
             ("tqc-cert-samples", "TQC範例試卷_專業知識領域類", "tqc-cert", "TQC電腦技能基金會認證"),
+            ("ipas-cert-ise-2026", "iPAS產業人才能力鑑定官方下載_ISE", "ipas-cert-ise", "iPAS 資訊安全工程師"),
+            ("ipas-cert-oia-2026", "iPAS產業人才能力鑑定官方下載_OIA", "ipas-cert-oia", "iPAS 營運智慧分析師"),
+            ("ipas-cert-aiap-2026", "iPAS產業人才能力鑑定官方下載_AIAP", "ipas-cert-aiap", "iPAS AI應用規劃師"),
+            ("ipas-cert-aiot-2026", "iPAS產業人才能力鑑定官方下載_AIOT", "ipas-cert-aiot", "iPAS AIoT應用工程師"),
             ("ipas-cert-downloads", "iPAS產業人才能力鑑定官方下載_ISE", "ipas-cert", "iPAS產業人才能力鑑定"),
         ]
         for source_exam_id, category_raw, expected_id, expected_name in cases:

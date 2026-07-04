@@ -105,7 +105,7 @@ class GeptCertClientTests(unittest.TestCase):
         page = client.fetch_exam_page("gept-cert-elementary-2022", 2022)
 
         self.assertEqual(page.provider_id, "gept_cert")
-        self.assertEqual(len(page.papers), 3)
+        self.assertEqual(len(page.papers), 4)
         self.assertIn("listening_audio", page.papers[-1].files)
 
 

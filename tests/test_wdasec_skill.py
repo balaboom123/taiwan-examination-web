@@ -1,4 +1,5 @@
 import unittest
+from urllib.parse import parse_qs
 
 from app.providers.wdasec_skill.client import (
     DetailRow,
@@ -9,6 +10,29 @@ from app.providers.wdasec_skill.client import (
     parse_listing_rows,
     parse_page_count,
 )
+
+
+class _FakeResponse:
+    headers = {}
+    status = 200
+
+    def __enter__(self) -> "_FakeResponse":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        return None
+
+    def read(self) -> bytes:
+        return INITIAL_PAGE_HTML.encode("utf-8")
+
+
+class _CapturingOpener:
+    def __init__(self) -> None:
+        self.data = b""
+
+    def open(self, request, timeout: int = 60) -> _FakeResponse:  # noqa: ANN001
+        self.data = request.data
+        return _FakeResponse()
 
 
 INITIAL_PAGE_HTML = """\
@@ -127,6 +151,24 @@ class HiddenFieldParserTests(unittest.TestCase):
 
         self.assertEqual(fields["__VIEWSTATE"], "FAKE_VS_2")
         self.assertEqual(fields["hdfType"], "201111010001")
+
+    def test_parse_keeps_listing_row_hidden_fields(self) -> None:
+        fields = parse_hidden_fields(CATEGORY_LISTING_HTML)
+
+        self.assertEqual(fields["gvData$ctl02$hdfPLAID"], "202603160001")
+
+
+class WdasecSkillClientPostTests(unittest.TestCase):
+    def test_post_replays_listing_row_hidden_fields(self) -> None:
+        opener = _CapturingOpener()
+        client = WdasecSkillClient()
+        client._opener = opener
+        client._hidden_fields = parse_hidden_fields(CATEGORY_LISTING_HTML)
+
+        client._post({"__EVENTTARGET": "gvData", "__EVENTARGUMENT": "order$0"})
+
+        payload = parse_qs(opener.data.decode("utf-8"))
+        self.assertEqual(payload["gvData$ctl02$hdfPLAID"], ["202603160001"])
 
 
 class ListingParserTests(unittest.TestCase):

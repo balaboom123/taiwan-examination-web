@@ -13,6 +13,18 @@ TOCFL_DOWNLOAD_HTML = """
 <a href="/tocfl/assets/files/vocabulary/CCCC_Vocabulary_2022.xls">兒童華語文能力測驗情境詞彙表</a>
 """
 
+TOCFL_MOCK_HTML = """
+<div class="section-title-NoB">聽力</div>
+<div class="subsection-title-NoB">第一部分</div>
+<div class="link-NoB">
+  <a href="https://tocfl.edu.tw/tocfl/assets/files/mock_database/N_L_Part%20One_T.rar">[正體試題]</a>
+  <a href="https://tocfl.edu.tw/tocfl/assets/files/mock_database/N_L_Part%20One_S.rar">[簡體試題]</a>
+  <a href="https://tocfl.edu.tw/tocfl/assets/files/mock_database/N_L_Part%20One_MP3.rar">[音檔]</a>
+  <a href="https://tocfl.edu.tw/tocfl/assets/files/mock_database/N_L_Part%20One_Answer.xlsx">[答案]</a>
+  <a href="https://tocfl.edu.tw/tocfl/assets/files/mock_database/N_L_Part%20One_Listening%20Script.rar">[聽力腳本]</a>
+</div>
+"""
+
 
 class TocflCertParserTests(unittest.TestCase):
     def test_parse_downloads_extracts_official_pdf_and_zip_assets(self) -> None:
@@ -23,6 +35,13 @@ class TocflCertParserTests(unittest.TestCase):
         self.assertTrue(downloads[0].url.endswith("8000zhuyin_202409.zip"))
         self.assertTrue(downloads[1].url.endswith("8000_description_202204.pdf"))
         self.assertTrue(downloads[2].url.endswith("CCCC_Vocabulary_2022.xls"))
+
+    def test_parse_downloads_classifies_mock_test_assets(self) -> None:
+        downloads = parse_downloads(TOCFL_MOCK_HTML, base_url="https://tocfl.edu.tw/tocfl/index.php/exam/test/page/1")
+
+        self.assertEqual([download.file_type for download in downloads], ["question", "question", "listening_audio", "answer", "question_alt"])
+        self.assertEqual(len({download.label for download in downloads}), 5)
+        self.assertTrue(downloads[0].label.startswith("N L Part One T"))
 
 
 class TocflCertClientTests(unittest.TestCase):
@@ -65,6 +84,14 @@ class TocflCertClientTests(unittest.TestCase):
         self.assertEqual(page.provider_id, "tocfl_cert")
         self.assertEqual(len(page.papers), 3)
         self.assertIn("question", page.papers[0].files)
+
+    def test_fetch_exam_page_uses_unique_subject_codes_for_chinese_labels(self) -> None:
+        client = TocflCertClient()
+        client._fetch_text = lambda url: TOCFL_DOWNLOAD_HTML  # type: ignore[method-assign]
+
+        page = client.fetch_exam_page("tocfl-cert-materials", 2026)
+
+        self.assertEqual(len({paper.subject_code for paper in page.papers}), 3)
 
 
 if __name__ == "__main__":

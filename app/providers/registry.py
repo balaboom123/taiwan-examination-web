@@ -6,6 +6,7 @@ from app.providers.cpc_recruit.provider import CpcRecruitProvider
 from app.providers.gept_cert.provider import GeptCertProvider
 from app.providers.hakka_cert.provider import HakkaCertProvider
 from app.providers.ipas_cert.provider import IpasCertProvider
+from app.providers.jlpt_cert.provider import JlptCertProvider
 from app.providers.moea_recruit.provider import MoeaRecruitProvider
 from app.providers.moex.provider import MoexProvider
 from app.providers.rcpet_cap.provider import RcpetCapProvider
@@ -34,6 +35,7 @@ _PROVIDER_FACTORIES = {
     "gept_cert": GeptCertProvider,
     "hakka_cert": HakkaCertProvider,
     "ipas_cert": IpasCertProvider,
+    "jlpt_cert": JlptCertProvider,
     "moea_recruit": MoeaRecruitProvider,
     "moex": MoexProvider,
     "rcpet_cap": RcpetCapProvider,

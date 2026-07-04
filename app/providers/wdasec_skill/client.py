@@ -51,7 +51,7 @@ class _HiddenFieldParser(HTMLParser):
         attr_dict = dict(attrs)
         if attr_dict.get("type") == "hidden":
             name = attr_dict.get("name", "")
-            if name.startswith("__") or name in ("hdfType", "Hiddyyyy", "hiddkey"):
+            if name:
                 self.fields[name] = attr_dict.get("value", "")
 
 
@@ -283,12 +283,9 @@ class WdasecSkillClient:
         return html
 
     def _post(self, extra_fields: dict[str, str]) -> str:
-        payload = {k: v for k, v in self._hidden_fields.items() if k.startswith("__")}
+        payload = dict(self._hidden_fields)
         payload.setdefault("__EVENTTARGET", "")
         payload.setdefault("__EVENTARGUMENT", "")
-        payload["hdfType"] = self._hidden_fields.get("hdfType", "")
-        payload["Hiddyyyy"] = self._hidden_fields.get("Hiddyyyy", "")
-        payload["hiddkey"] = self._hidden_fields.get("hiddkey", "")
         payload.update(extra_fields)
         data = urlencode(payload).encode("utf-8")
         request = Request(PAGE_URL, data=data, headers={

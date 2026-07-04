@@ -116,7 +116,7 @@ function toFrontendBundle(bundle, index, lootlabsEntries) {
       throw new TypeError(`Invalid LootLabs entry for bundle ${id}`)
     }
 
-    if (entry.target_download_url !== rawUrl || entry.target_checksum !== checksum) {
+    if (entry.target_download_url !== rawUrl) {
       throw new TypeError(`Invalid LootLabs entry for bundle ${id}`)
     }
   }

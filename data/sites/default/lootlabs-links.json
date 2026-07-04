@@ -5486,6 +5486,334 @@
       "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/social-worker.zip",
       "target_checksum": "6202876dd92afb18ed9d8c15001774871275ca31b753b322ae390bd21a335d36",
       "updated_at": "2026-06-21T02:00:06.398291+00:00"
+    },
+    "cpc-recruit": {
+      "canonical_id": "cpc-recruit",
+      "asset_name": "cpc-recruit.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/cpc-recruit.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/cpc-recruit.zip",
+      "target_checksum": "d88430eddfeb50011c6eda3c22368a5232031d19c3b47ff3e4421e26fe6cbcc0",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "gept-cert": {
+      "canonical_id": "gept-cert",
+      "asset_name": "gept-cert.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/gept-cert.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/gept-cert.zip",
+      "target_checksum": "e492ebe7aa933a00a4bddc17e99fb31d8d7944bdf806deb2bdd4d8047788e457",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "hakka-cert": {
+      "canonical_id": "hakka-cert",
+      "asset_name": "hakka-cert.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip",
+      "target_checksum": "2530833578f3034514ca2800dec2e689b6a2d3ffb6c57d5ee0e69ba73fe4b5bb",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "ipas-cert-aiap": {
+      "canonical_id": "ipas-cert-aiap",
+      "asset_name": "ipas-cert-aiap.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiap.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiap.zip",
+      "target_checksum": "d4a67353f2e79b1b8a76b9eeeb7c8ae164a317ab01ab27cda1776db22f89f30b",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "ipas-cert-aiot": {
+      "canonical_id": "ipas-cert-aiot",
+      "asset_name": "ipas-cert-aiot.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiot.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-aiot.zip",
+      "target_checksum": "cb94b31b91f6b09723b5a3227d27b574bba7b25e1668c763fd753fd173614e3d",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "ipas-cert-ise": {
+      "canonical_id": "ipas-cert-ise",
+      "asset_name": "ipas-cert-ise.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-ise.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-ise.zip",
+      "target_checksum": "179404c9bbc168ec058ff400a8139d89476c3109546ec7fd30e1affabfd667f9",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "ipas-cert-oia": {
+      "canonical_id": "ipas-cert-oia",
+      "asset_name": "ipas-cert-oia.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-oia.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-oia.zip",
+      "target_checksum": "b6a7e5a602e7e7f864700c1b8359ea9496e3abe62c1fef7be9fa1802cb95235b",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "moea-recruit": {
+      "canonical_id": "moea-recruit",
+      "asset_name": "moea-recruit.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/moea-recruit.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/moea-recruit.zip",
+      "target_checksum": "c6d015ad334d1fd0e3314094f83c373ca7ed8c1bc9d54d3546ec9d5751cb6e66",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "rcpet-cap": {
+      "canonical_id": "rcpet-cap",
+      "asset_name": "rcpet-cap.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/rcpet-cap.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/rcpet-cap.zip",
+      "target_checksum": "9e92b79e0dd54a71c4964a95376e1f993357bff2b25422e216df7c756d5defda",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-aml": {
+      "canonical_id": "sfi-aml",
+      "asset_name": "sfi-aml.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-aml.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-aml.zip",
+      "target_checksum": "51c71321af90b987f8881e1e17e876d949879f44f6001d9fb853552ece45c02e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-corporate-internal-control": {
+      "canonical_id": "sfi-corporate-internal-control",
+      "asset_name": "sfi-corporate-internal-control.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-corporate-internal-control.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-corporate-internal-control.zip",
+      "target_checksum": "a6b60b6f344b335c103de76be27720e96760447534309c0ac21a8402a9aa8558",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-futures-dealer": {
+      "canonical_id": "sfi-futures-dealer",
+      "asset_name": "sfi-futures-dealer.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-futures-dealer.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-futures-dealer.zip",
+      "target_checksum": "84cd3f4670a2c9881e55331972356dc873e84e17a9e6818055dfe0f590d38b23",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-securities-analyst": {
+      "canonical_id": "sfi-securities-analyst",
+      "asset_name": "sfi-securities-analyst.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-analyst.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-analyst.zip",
+      "target_checksum": "abffce94b0e028c0383835b75af9674eb223e1800fbfd2d046fc4efad3901344",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-securities-dealer": {
+      "canonical_id": "sfi-securities-dealer",
+      "asset_name": "sfi-securities-dealer.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-dealer.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-securities-dealer.zip",
+      "target_checksum": "b32645d833dcf9620ce94112eef6891ff8d230b9be13c2945ee5f2aa3900f0e2",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-senior-securities-dealer": {
+      "canonical_id": "sfi-senior-securities-dealer",
+      "asset_name": "sfi-senior-securities-dealer.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-senior-securities-dealer.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-senior-securities-dealer.zip",
+      "target_checksum": "349a9b27daaeef66ebc8c149b8afe05b475684ee283adabb1491496605963310",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-sitca": {
+      "canonical_id": "sfi-sitca",
+      "asset_name": "sfi-sitca.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sitca.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sitca.zip",
+      "target_checksum": "d6f613d79e80347c223b1ee70724de8b6dea3b5994c85cae60631cc20165fdf9",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "sfi-sustainability": {
+      "canonical_id": "sfi-sustainability",
+      "asset_name": "sfi-sustainability.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sustainability.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/sfi-sustainability.zip",
+      "target_checksum": "3fd9e96245ee40a184d27ef69eea91f53dd77d9c2e539edadacfc07aaee61e0d",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-aml": {
+      "canonical_id": "tabf-aml",
+      "asset_name": "tabf-aml.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-aml.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-aml.zip",
+      "target_checksum": "06a5cb48ec60f44537e7642efce550b1f6a776295dec7407437961e49f05ca97",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-bank-internal-control": {
+      "canonical_id": "tabf-bank-internal-control",
+      "asset_name": "tabf-bank-internal-control.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-bank-internal-control.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-bank-internal-control.zip",
+      "target_checksum": "75d03f0f8dc9f1b59c54a13dbd9a4645c13c8b4d95479c09d732e41afc22a758",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-credit": {
+      "canonical_id": "tabf-credit",
+      "asset_name": "tabf-credit.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-credit.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-credit.zip",
+      "target_checksum": "3e0411008d7a3f25324e48aa0d0061f90cd77f6d95a26001c4b463ec9f768c29",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-financial-planning": {
+      "canonical_id": "tabf-financial-planning",
+      "asset_name": "tabf-financial-planning.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-financial-planning.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-financial-planning.zip",
+      "target_checksum": "6733ae7ea52c74d86056e9613206ca2226310662dd883919b6c31d1bae4b816e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-fintech": {
+      "canonical_id": "tabf-fintech",
+      "asset_name": "tabf-fintech.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fintech.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fintech.zip",
+      "target_checksum": "150370d6c79d96d3a7c7f9bd4fcb017fce0267088451b991c3235cd79bf16ed7",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-fx-junior": {
+      "canonical_id": "tabf-fx-junior",
+      "asset_name": "tabf-fx-junior.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fx-junior.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-fx-junior.zip",
+      "target_checksum": "7dcbc71ca417bfc67395aea374d8cf8ff294bbd32314ff8a514c22db3142bf3b",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-risk-management": {
+      "canonical_id": "tabf-risk-management",
+      "asset_name": "tabf-risk-management.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-risk-management.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-risk-management.zip",
+      "target_checksum": "ee46e4308ecdf1b352c51a9189e5bca871eeb59ba9154472cef4662d48073d70",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tabf-trust-business": {
+      "canonical_id": "tabf-trust-business",
+      "asset_name": "tabf-trust-business.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-trust-business.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tabf-trust-business.zip",
+      "target_checksum": "83f0d6e79a529e6b2154d3d1618a663779813c960248c3daaf14f8e82afb9522",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "taigi-cert": {
+      "canonical_id": "taigi-cert",
+      "asset_name": "taigi-cert.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taigi-cert.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taigi-cert.zip",
+      "target_checksum": "1ebfd38a9dc6279087549685ca655f3c44e72449385980ad71ab2d9340888982",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "taipower-recruit": {
+      "canonical_id": "taipower-recruit",
+      "asset_name": "taipower-recruit.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip",
+      "target_checksum": "8795f7ce93ddca915587023bbb8f392be2046fa2bce54a33f7af7ea5fb0f360c",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-qual": {
+      "canonical_id": "teacher-qual",
+      "asset_name": "teacher-qual.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip",
+      "target_checksum": "5aa72ccd36e9deba7a94ab19da13b079e2cb12a84f83ee37ae63902374350ba2",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-central-alliance": {
+      "canonical_id": "teacher-recruit-central-alliance",
+      "asset_name": "teacher-recruit-central-alliance.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip",
+      "target_checksum": "c4a870a409543e5b98eeddf8de23e59715264861625a87ae2c522e475374890e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-kaohsiung": {
+      "canonical_id": "teacher-recruit-kaohsiung",
+      "asset_name": "teacher-recruit-kaohsiung.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-kaohsiung.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-kaohsiung.zip",
+      "target_checksum": "9be25417e275ff1f6643063eb6314ddff78d947483b290b0a71ac0a7f5476188",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-newtaipei": {
+      "canonical_id": "teacher-recruit-newtaipei",
+      "asset_name": "teacher-recruit-newtaipei.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-newtaipei.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-newtaipei.zip",
+      "target_checksum": "08bbb4de869e5adbbb75b255045181c54434b7c1ba9d33be059a768494639a1e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-tainan": {
+      "canonical_id": "teacher-recruit-tainan",
+      "asset_name": "teacher-recruit-tainan.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-tainan.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-tainan.zip",
+      "target_checksum": "4abadf26f534ef4605416df4794af70afeaf5abb7556dd9d926d159b8640f521",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-taipei-elementary": {
+      "canonical_id": "teacher-recruit-taipei-elementary",
+      "asset_name": "teacher-recruit-taipei-elementary.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-elementary.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-elementary.zip",
+      "target_checksum": "a8b6463b3e327409e8b87f98e58ebf7f29cfbad703a7b55b3fa14b6e9638587e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-taipei-junior": {
+      "canonical_id": "teacher-recruit-taipei-junior",
+      "asset_name": "teacher-recruit-taipei-junior.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-junior.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taipei-junior.zip",
+      "target_checksum": "d0120d192df60b0f07a0a34657ddb6b6bf07c17fd745c984141c39f03bddf6b8",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "teacher-recruit-taoyuan-elementary": {
+      "canonical_id": "teacher-recruit-taoyuan-elementary",
+      "asset_name": "teacher-recruit-taoyuan-elementary.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taoyuan-elementary.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-taoyuan-elementary.zip",
+      "target_checksum": "b706d6f475c5a6605f4f98f9ba8c1b7a1251b1173fb6a956ec90843b81307ab2",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tii-aml": {
+      "canonical_id": "tii-aml",
+      "asset_name": "tii-aml.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-aml.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-aml.zip",
+      "target_checksum": "fe88d135c1c04aa84f9c20132a1f72246516de01638ce76d696453ad564c426e",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tii-investment-insurance": {
+      "canonical_id": "tii-investment-insurance",
+      "asset_name": "tii-investment-insurance.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-investment-insurance.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-investment-insurance.zip",
+      "target_checksum": "d6f28fa7580fac05e561664eca7129682c1402668c56b4bb8f2c183a39a65d2a",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tii-sustainability": {
+      "canonical_id": "tii-sustainability",
+      "asset_name": "tii-sustainability.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-sustainability.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tii-sustainability.zip",
+      "target_checksum": "029963a23b46690a877f0141a66e5309c6261ac65bf76cd23f071c5d37d86ac8",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tocfl-cert": {
+      "canonical_id": "tocfl-cert",
+      "asset_name": "tocfl-cert.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tocfl-cert.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tocfl-cert.zip",
+      "target_checksum": "cfb7f9cfb015969b5e19a7b2408b4543618f2576c5b7bb0d9960118b14f4e674",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "tqc-cert": {
+      "canonical_id": "tqc-cert",
+      "asset_name": "tqc-cert.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tqc-cert.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tqc-cert.zip",
+      "target_checksum": "76f93daa65fe6c5c4c668c109f56d3eeb18f864a63223f2360a47af8a2455cba",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
+    },
+    "twc-recruit": {
+      "canonical_id": "twc-recruit",
+      "asset_name": "twc-recruit.zip",
+      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/twc-recruit.zip",
+      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/twc-recruit.zip",
+      "target_checksum": "d818b233ab21985fd6fa9c7b5450a3ec2505b0c29d0c4d1a1c5946a09307758b",
+      "updated_at": "2026-07-03T06:54:35.902761+00:00"
     }
   }
 }

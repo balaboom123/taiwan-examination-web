@@ -20,13 +20,13 @@ EXTENSION_OVERRIDES = {
 EXPECTED_EXTENSIONS = {
     "question": (".pdf", ".doc", ".zip", ".rar"),
     "question_answer": (".pdf", ".zip", ".rar"),
-    "question_alt": (".pdf", ".docx", ".doc"),
-    "answer": (".pdf", ".zip"),
+    "question_alt": (".pdf", ".docx", ".doc", ".rar"),
+    "answer": (".pdf", ".xlsx", ".zip"),
     "answer_sheet": (".pdf",),
     "corrected_answer": (".pdf", ".zip"),
     "all_answers": (".pdf",),
     "accessible_bundle": (".zip",),
-    "listening_audio": (".mp3",),
+    "listening_audio": (".mp3", ".zip", ".rar"),
 }
 ZIP_SIGNATURES = (b"PK\x03\x04", b"PK\x05\x06", b"PK\x07\x08")
 DOC_SIGNATURE = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
@@ -72,8 +72,10 @@ def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
         return head.startswith(b"%PDF")
     if expected_extension == ".doc":
         return head.startswith(DOC_SIGNATURE)
-    if expected_extension in {".zip", ".docx"}:
+    if expected_extension in {".zip", ".docx", ".xlsx"}:
         return any(head.startswith(signature) for signature in ZIP_SIGNATURES)
+    if expected_extension == ".xls":
+        return head.startswith(DOC_SIGNATURE)
     if expected_extension == ".rar":
         return any(data.startswith(signature) for signature in RAR_SIGNATURES)
     if expected_extension == ".mp3":

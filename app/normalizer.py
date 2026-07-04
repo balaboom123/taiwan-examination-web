@@ -104,6 +104,7 @@ _REQUESTED_TOPIC_CANONICAL_MAP = {
     "gept-cert-advanced-": ("gept-cert-advanced", "GEPT全民英檢 高級"),
     "gept-cert-superior-": ("gept-cert-superior", "GEPT全民英檢 優級"),
     "gept-cert-": ("gept-cert", "GEPT全民英檢"),
+    "jlpt-cert-": ("jlpt-cert", "JLPT Japanese-Language Proficiency Test"),
     "tocfl-cert-": ("tocfl-cert", "TOCFL華語文能力測驗"),
     "hakka-cert-basic-elementary-": ("hakka-cert-basic-elementary", "客語能力認證 基礎級暨初級"),
     "hakka-cert-intermediate-high-intermediate-": ("hakka-cert-intermediate-high-intermediate", "客語能力認證 中級暨中高級"),
@@ -114,6 +115,10 @@ _REQUESTED_TOPIC_CANONICAL_MAP = {
     "taigi-cert-c-": ("taigi-cert-c", "臺灣台語語言能力認證 C卷"),
     "taigi-cert-": ("taigi-cert", "臺灣台語語言能力認證"),
     "tqc-cert-": ("tqc-cert", "TQC電腦技能基金會認證"),
+    "ipas-cert-ise-": ("ipas-cert-ise", "iPAS 資訊安全工程師"),
+    "ipas-cert-oia-": ("ipas-cert-oia", "iPAS 營運智慧分析師"),
+    "ipas-cert-aiap-": ("ipas-cert-aiap", "iPAS AI應用規劃師"),
+    "ipas-cert-aiot-": ("ipas-cert-aiot", "iPAS AIoT應用工程師"),
     "ipas-cert-": ("ipas-cert", "iPAS產業人才能力鑑定"),
 }
 

@@ -31,12 +31,15 @@ class HakkaCertParserTests(unittest.TestCase):
     def test_parse_downloads_keeps_public_pdf_assets_once_with_dialect_code(self) -> None:
         downloads = parse_downloads(DOWNLOAD_HTML)
 
-        self.assertEqual(len(downloads), 2)
+        self.assertEqual(len(downloads), 3)
         self.assertEqual(downloads[0].category_code, "sixian")
         self.assertEqual(downloads[0].file_type, "question")
         self.assertTrue(downloads[0].url.endswith("/hakka/files/downloads/321.pdf"))
         self.assertEqual(downloads[1].category_code, "sixian")
         self.assertTrue(downloads[1].url.endswith("/hakka/files/downloads/324.pdf"))
+        self.assertEqual(downloads[2].category_code, "hailu")
+        self.assertEqual(downloads[2].file_type, "listening_audio")
+        self.assertTrue(downloads[2].url.endswith("/hakka/files/downloads/322.zip"))
 
 
 class HakkaCertClientTests(unittest.TestCase):
@@ -102,8 +105,9 @@ class HakkaCertClientTests(unittest.TestCase):
 
         self.assertEqual(page.provider_id, "hakka_cert")
         self.assertEqual(page.exam_name_raw, "客語能力認證官方教材及試題 基礎級暨初級")
-        self.assertEqual(len(page.papers), 2)
+        self.assertEqual(len(page.papers), 3)
         self.assertIn("question", page.papers[0].files)
+        self.assertIn("listening_audio", page.papers[2].files)
         self.assertEqual(len({paper.subject_code for paper in page.papers}), len(page.papers))
 
 
