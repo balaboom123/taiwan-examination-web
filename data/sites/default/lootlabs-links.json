@@ -5711,14 +5711,6 @@
       "target_checksum": "5aa72ccd36e9deba7a94ab19da13b079e2cb12a84f83ee37ae63902374350ba2",
       "updated_at": "2026-07-03T06:54:35.902761+00:00"
     },
-    "teacher-recruit-central-alliance": {
-      "canonical_id": "teacher-recruit-central-alliance",
-      "asset_name": "teacher-recruit-central-alliance.zip",
-      "loot_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip",
-      "target_download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip",
-      "target_checksum": "c4a870a409543e5b98eeddf8de23e59715264861625a87ae2c522e475374890e",
-      "updated_at": "2026-07-03T06:54:35.902761+00:00"
-    },
     "teacher-recruit-kaohsiung": {
       "canonical_id": "teacher-recruit-kaohsiung",
       "asset_name": "teacher-recruit-kaohsiung.zip",

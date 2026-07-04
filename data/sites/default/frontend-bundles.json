@@ -12295,15 +12295,6 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip"
     },
     {
-      "id": "teacher-recruit-central-alliance",
-      "name": "中區策略聯盟教師甄試",
-      "years": [
-        115
-      ],
-      "fileCount": 96,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip"
-    },
-    {
       "id": "teacher-recruit-kaohsiung",
       "name": "高雄市教師甄試",
       "years": [
