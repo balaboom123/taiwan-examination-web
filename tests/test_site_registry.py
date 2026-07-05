@@ -75,13 +75,8 @@ class SiteRegistryTests(unittest.TestCase):
                 "ipas-cert-aiap": 1,
                 "ipas-cert-aiot": 1,
                 "ipas-cert": 1,
-                "ceec-ast": 1,
-                "tcte-tve": 1,
-                "special-admission": 1,
-                "post-recruit": 1,
                 "hce-cmu": 1,
                 "hce-tcu": 1,
-                "hce-nsysu": 1,
                 "hce-nthu": 1,
             },
         )

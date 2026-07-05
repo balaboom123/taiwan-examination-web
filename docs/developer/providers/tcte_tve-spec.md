@@ -45,7 +45,7 @@ python -m app sync-full --provider tcte_tve --site-id default
 - provider package: `app/providers/tcte_tve/`
 - focused tests: `tests/test_tcte_tve.py`
 - published bundle: `tcte-tve`
-- local synced coverage: 115學年度 / 2026, 191 files
+- local synced coverage: 95-115學年度 / 2006-2026, 2536 files
 
 ## Normalization Rules
 

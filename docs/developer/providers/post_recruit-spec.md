@@ -16,7 +16,7 @@ Source proof passed on 2026-07-05.
 - accepted source owner: Chunghwa Post, linking to TABF as commissioned exam host
 - Chunghwa Post source page: `https://www.post.gov.tw/post/internet/Group/index.jsp?ID=1467343194090`
 - TABF history-paper page: `https://svc.tabf.org.tw/115post02//Paper/Year`
-- accepted coverage in local data: 114年 / 2025
+- accepted coverage in local data: 112-114年 / 2023-2025
 - accepted file type: public direct PDF links under TABF `_File/Download/.../HistoryPaper/`
 
 The accepted source must be Chunghwa Post or a host explicitly named by Chunghwa Post for the recruitment year. A cram-school mirror is not an accepted source even if it has complete PDFs.
@@ -53,7 +53,7 @@ python -m app sync-full --provider post_recruit --site-id default
 - provider package: `app/providers/post_recruit/`
 - focused tests: `tests/test_post_recruit.py`
 - published bundle: `post-recruit`
-- local synced coverage: 114年 / 2025, 52 files
+- local synced coverage: 112-114年 / 2023-2025, 112 files
 
 ## Normalization Rules
 

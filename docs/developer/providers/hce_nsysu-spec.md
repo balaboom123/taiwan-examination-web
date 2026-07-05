@@ -20,7 +20,7 @@ The accepted source must be an official National Sun Yat-sen University page or 
 - accepted paper archive: `https://lis.nsysu.edu.tw/p/412-1001-23442.php?Lang=zh-tw`
 - implemented provider: `app/providers/hce_nsysu/`
 - parser/shared client: `app/providers/hce_archive.py`
-- current synced coverage: ROC 115 / AD 2026, 1 combined PDF, 0 failures
+- current synced coverage: ROC 111-115 / AD 2022-2026, 5 combined PDFs, 0 failures
 - public bundle: `hce-nsysu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip`
 
 ## Discovery Model

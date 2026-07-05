@@ -17178,14 +17178,17 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
-        114
+        114,
+        113,
+        112,
+        111
       ],
-      "file_count": 40,
+      "file_count": 145,
       "storage_key": "bundles/sites/default/ceec-ast.zip",
       "asset_name": "ceec-ast.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ceec-ast.zip",
-      "checksum": "ad2d54d3ed3981db297a4b4f1aea0a82bcdfbe0351dbc5f3101f18bada4fcc51",
+      "checksum": "0abea042c9b770b23505f6e17bd81f89d60c6ab0ff435b23be9fcb04ef21c829",
       "legacy_asset_names": [
         "分科測驗__ceec-ast.zip"
       ]
@@ -17437,14 +17440,18 @@
       "canonical_id": "hce-nsysu",
       "canonical_name": "國立中山大學學士後醫學系",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111
       ],
-      "file_count": 1,
+      "file_count": 5,
       "storage_key": "bundles/sites/default/hce-nsysu.zip",
       "asset_name": "hce-nsysu.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip",
-      "checksum": "7924c6b7aeec0bdcaa55c6dd3393cb0c33c1ad523c6e8622bcd8d12d7041fd87",
+      "checksum": "ac79f02db674c180762783bf4570a3f2889b298740067578a8fb1151293505ef",
       "legacy_asset_names": [
         "國立中山大學學士後醫學系__hce-nsysu.zip"
       ]
@@ -17643,14 +17650,16 @@
       "canonical_id": "post-recruit",
       "canonical_name": "中華郵政職階人員甄試",
       "years": [
-        114
+        114,
+        113,
+        112
       ],
-      "file_count": 52,
+      "file_count": 112,
       "storage_key": "bundles/sites/default/post-recruit.zip",
       "asset_name": "post-recruit.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/post-recruit.zip",
-      "checksum": "a0c23e491a2f64139802d55ad0d16cb57f27f5ad4e98884f3f79b50d5db143f4",
+      "checksum": "3781269151e961b548c8be54bce10c4d9e613a27766755013f47906f0851ee67",
       "legacy_asset_names": [
         "中華郵政職階人員甄試__post-recruit.zip"
       ]
@@ -17860,14 +17869,27 @@
       "canonical_id": "special-admission",
       "canonical_name": "身心障礙學生升學大專校院甄試",
       "years": [
-        114
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102
       ],
-      "file_count": 18,
+      "file_count": 216,
       "storage_key": "bundles/sites/default/special-admission.zip",
       "asset_name": "special-admission.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/special-admission.zip",
-      "checksum": "8b5677f649d9847f4fda4e71630f220089181aa0883527f35685eeaf624d1341",
+      "checksum": "da210db20d2faa921b84b5ad6a3600c1dfe5fe444659c3fd11ff89f1c2443d8d",
       "legacy_asset_names": [
         "身心障礙學生升學大專校院甄試__special-admission.zip"
       ]
@@ -18064,14 +18086,34 @@
       "canonical_id": "tcte-tve",
       "canonical_name": "四技二專統一入學測驗",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        99,
+        98,
+        97,
+        96,
+        95
       ],
-      "file_count": 191,
+      "file_count": 2536,
       "storage_key": "bundles/sites/default/tcte-tve.zip",
       "asset_name": "tcte-tve.zip",
       "release_tag": "default-bundles-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tcte-tve.zip",
-      "checksum": "7fb49b21c9effcba440685494935786888ee628d6220a12da923d526107f458c",
+      "checksum": "41168a3f4d39b097e239a04c960e85a3e4d47f06662cf8eb61e749d610e28cf2",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve.zip"
       ]

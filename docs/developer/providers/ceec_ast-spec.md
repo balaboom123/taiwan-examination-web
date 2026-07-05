@@ -44,7 +44,7 @@ python -m app sync-full --provider ceec_ast --site-id default
 - provider package: `app/providers/ceec_ast/`
 - focused tests: `tests/test_ceec_ast.py`
 - published bundle: `ceec-ast`
-- local synced coverage: 114學年度 / 2025, 40 files
+- local synced coverage: 111-114學年度 / 2022-2025, 145 files
 
 ## Normalization Rules
 

@@ -78,6 +78,19 @@ class HceArchiveParserTests(unittest.TestCase):
         self.assertEqual([page.year_roc for page in pages], [115, 114])
         self.assertEqual(pages[0].url, "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf")
 
+    def test_parse_combined_pdf_listing_ignores_footer_pdf_numbers(self) -> None:
+        html = """
+        <html><body>
+          <a href="https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf">115年</a>
+          <a href="https://lis.nsysu.edu.tw/var/file/1/1001/img/39/266894846.pdf">隱私權政策聲明</a>
+          <a href="https://lis.nsysu.edu.tw/var/file/1/1001/img/1132/386200698.pdf">個人資料保護管理政策</a>
+        </body></html>
+        """
+
+        pages = parse_combined_pdf_listing(html, "https://lis.nsysu.edu.tw/p/412-1001-23442.php", HCE_CONFIGS["hce_nsysu"])
+
+        self.assertEqual([page.year_roc for page in pages], [115])
+
     def test_request_url_quotes_non_ascii_download_paths(self) -> None:
         self.assertEqual(
             _request_url("https://example.edu/files/115國文試題.pdf"),

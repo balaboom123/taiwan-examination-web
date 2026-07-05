@@ -15,7 +15,7 @@ Source proof passed on 2026-07-05.
 
 - accepted source owner: 115學年度身心障礙學生升學大專校院甄試委員會, hosted by National Central University
 - source page: `https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question`
-- accepted coverage in local data: 114學年度 / 2025
+- accepted coverage in local data: 102-115學年度 / 2013-2026
 - accepted scope: 大學組 / 共同, limited to Shuati-listed subjects
 - accepted file type: public direct PDF links
 
@@ -60,7 +60,7 @@ python -m app sync-full --provider special_admission --site-id default
 - provider package: `app/providers/special_admission/`
 - focused tests: `tests/test_special_admission.py`
 - published bundle: `special-admission`
-- local synced coverage: 114學年度 / 2025, 18 files
+- local synced coverage: 102-115學年度 / 2013-2026, 216 files
 
 ## Non-Goals
 
