@@ -4,7 +4,7 @@
 
 **Goal:** Decide whether `hce_nsysu` can be implemented from an official National Sun Yat-sen University source.
 
-**Status:** Implemented from the official NSYSU library archive. Current local sync: ROC 115 / AD 2026, 1 combined PDF, 0 failures. Public bundle: `hce-nsysu`.
+**Status:** Implemented from the official NSYSU library archive. Current local sync: ROC 111-115 / AD 2022-2026, 5 combined PDFs, 0 failures. Public bundle: `hce-nsysu`.
 
 **Architecture:** Source-proof first, then add one provider only if public direct downloads exist.
 

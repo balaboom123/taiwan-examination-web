@@ -180,8 +180,6 @@ def parse_year_page(html: str, base_url: str) -> list[ParsedPaper]:
             continue
         subject_name = subject.text
         files = {"question": question_cell.links[0]}
-        if len(question_cell.links) > 1:
-            files["question_alt"] = question_cell.links[1]
         if answer_cell.links:
             files["answer"] = answer_cell.links[0]
         code = _category_code(current_group)

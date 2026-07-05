@@ -114,6 +114,8 @@ def parse_combined_pdf_listing(html: str, base_url: str, config: HceArchiveConfi
         if match is None:
             continue
         year_roc = int(match.group("year"))
+        if year_roc < 80 or year_roc > 199:
+            continue
         if year_roc in seen:
             continue
         seen.add(year_roc)

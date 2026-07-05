@@ -68,7 +68,7 @@ class TcteTveParserTests(unittest.TestCase):
         self.assertEqual(papers[0].category_code, "common")
         self.assertEqual(papers[0].subject_code, "chinese")
         self.assertEqual(papers[0].files["question"], "https://web1.tcte.edu.tw/EXAM/115_4y/downloader.php?obj=question-pdf")
-        self.assertEqual(papers[0].files["question_alt"], "https://web1.tcte.edu.tw/EXAM/115_4y/downloader.php?obj=question-docx")
+        self.assertNotIn("question_alt", papers[0].files)
         self.assertEqual(papers[0].files["answer"], "https://web1.tcte.edu.tw/EXAM/115_4y/downloader.php?obj=answer-pdf")
         self.assertNotIn("feature", papers[0].files)
         self.assertEqual(papers[1].category_code, "01")
