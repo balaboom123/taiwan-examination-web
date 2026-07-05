@@ -252,6 +252,43 @@ class QuestionArchiveClient:
         return DownloadedFile(data=self.data, content_type=self.content_type, file_name=self.file_name)
 
 
+class TocflMockAssetClient:
+    provider_id = "tocfl_cert"
+
+    def __init__(self) -> None:
+        self.downloaded_urls: list[str] = []
+
+    def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="TOCFL mock",
+            attachments=[],
+            papers=[
+                ParsedPaper(
+                    category_raw="TOCFL華語文能力測驗官方參考資料",
+                    category_code="tocfl-mock",
+                    subject_code="novice-listening-one",
+                    subject_name_raw="Novice listening part one",
+                    files={
+                        "question": "https://example.test/question.rar",
+                        "listening_audio": "https://example.test/audio.rar",
+                        "answer": "https://example.test/answer.xlsx",
+                        "question_alt": "https://example.test/script.rar",
+                    },
+                )
+            ],
+            provider_id=self.provider_id,
+        )
+
+    def download_file(self, url: str) -> DownloadedFile:
+        self.downloaded_urls.append(url)
+        if url.endswith(".xlsx"):
+            return DownloadedFile(data=b"PK\x03\x04xlsx payload", content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file_name=Path(url).name)
+        return DownloadedFile(data=b"Rar!\x1a\x07\x00archive payload", content_type="application/octet-stream", file_name=Path(url).name)
+
+
 class AnswerArchiveClient:
     provider_id = "teacher_recruit_tainan"
 
@@ -590,6 +627,29 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(
             raw_pages[0].papers[0].mirror_files["corrected_answer"]["storage_key"],
             "providers/teacher_recruit_tainan/115/teacher-recruit-tainan-115/115/elementary-prek-special-ed/corrected_answer.zip",
+        )
+        self.assertEqual(failures, [])
+
+    def test_sync_exam_pages_accepts_tocfl_mock_archive_and_spreadsheet_payloads(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mirror_root = Path(tmp_dir)
+            client = TocflMockAssetClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("tocfl-cert-2026", 2026)],
+                mirror_store=MirrorStore(mirror_root),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(
+            sorted(paper.file_type for paper in normalized.papers),
+            ["answer", "listening_audio", "question", "question_alt"],
+        )
+        self.assertEqual(
+            sorted(raw_pages[0].papers[0].mirror_files),
+            ["answer", "listening_audio", "question", "question_alt"],
         )
         self.assertEqual(failures, [])
 

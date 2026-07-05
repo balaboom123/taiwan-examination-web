@@ -11743,6 +11743,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/canonical-ffa3f669e8fed0aa.zip"
     },
     {
+      "id": "ceec-ast",
+      "name": "分科測驗",
+      "years": [
+        114
+      ],
+      "fileCount": 40,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ceec-ast.zip"
+    },
+    {
       "id": "ceec-gsat",
       "name": "學科能力測驗",
       "years": [
@@ -11880,13 +11889,67 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/gept-cert.zip"
     },
     {
-      "id": "hakka-cert",
-      "name": "客語能力認證",
+      "id": "hakka-cert-advanced",
+      "name": "客語能力認證 高級",
       "years": [
         115
       ],
-      "fileCount": 30,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert.zip"
+      "fileCount": 10,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-advanced.zip"
+    },
+    {
+      "id": "hakka-cert-basic-elementary",
+      "name": "客語能力認證 基礎級暨初級",
+      "years": [
+        115
+      ],
+      "fileCount": 21,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-basic-elementary.zip"
+    },
+    {
+      "id": "hakka-cert-intermediate-high-intermediate",
+      "name": "客語能力認證 中級暨中高級",
+      "years": [
+        115
+      ],
+      "fileCount": 6,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-intermediate-high-intermediate.zip"
+    },
+    {
+      "id": "hce-cmu",
+      "name": "中國醫藥大學學士後中醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 8,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-cmu.zip"
+    },
+    {
+      "id": "hce-nsysu",
+      "name": "國立中山大學學士後醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 1,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip"
+    },
+    {
+      "id": "hce-nthu",
+      "name": "國立清華大學學士後醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nthu.zip"
+    },
+    {
+      "id": "hce-tcu",
+      "name": "慈濟大學學士後中醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 8,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-tcu.zip"
     },
     {
       "id": "ipas-cert-aiap",
@@ -11923,6 +11986,16 @@
       ],
       "fileCount": 11,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ipas-cert-oia.zip"
+    },
+    {
+      "id": "jlpt-cert",
+      "name": "JLPT Japanese-Language Proficiency Test",
+      "years": [
+        107,
+        101
+      ],
+      "fileCount": 116,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/jlpt-cert.zip"
     },
     {
       "id": "moea-recruit",
@@ -11986,6 +12059,15 @@
       ],
       "fileCount": 607,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/nurse.zip"
+    },
+    {
+      "id": "post-recruit",
+      "name": "中華郵政職階人員甄試",
+      "years": [
+        114
+      ],
+      "fileCount": 52,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/post-recruit.zip"
     },
     {
       "id": "rcpet-cap",
@@ -12119,6 +12201,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/social-worker.zip"
     },
     {
+      "id": "special-admission",
+      "name": "身心障礙學生升學大專校院甄試",
+      "years": [
+        114
+      ],
+      "fileCount": 18,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/special-admission.zip"
+    },
+    {
       "id": "tabf-aml",
       "name": "防制洗錢與打擊資恐",
       "years": [
@@ -12237,6 +12328,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip"
     },
     {
+      "id": "tcte-tve",
+      "name": "四技二專統一入學測驗",
+      "years": [
+        115
+      ],
+      "fileCount": 191,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tcte-tve.zip"
+    },
+    {
       "id": "teacher-qual",
       "name": "教師資格考試",
       "years": [
@@ -12265,15 +12365,6 @@
       ],
       "fileCount": 23,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-qual.zip"
-    },
-    {
-      "id": "teacher-recruit-central-alliance",
-      "name": "中區策略聯盟教師甄試",
-      "years": [
-        115
-      ],
-      "fileCount": 96,
-      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/teacher-recruit-central-alliance.zip"
     },
     {
       "id": "teacher-recruit-kaohsiung",
@@ -12361,9 +12452,11 @@
       "id": "tocfl-cert",
       "name": "TOCFL華語文能力測驗",
       "years": [
-        115
+        115,
+        113,
+        111
       ],
-      "fileCount": 2,
+      "fileCount": 95,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tocfl-cert.zip"
     },
     {
@@ -12402,6 +12495,16 @@
       ],
       "fileCount": 10,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/twc-recruit.zip"
+    },
+    {
+      "id": "wdasec-skill",
+      "name": "全國技術士技能檢定",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 677,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/wdasec-skill.zip"
     }
   ]
 }

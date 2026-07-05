@@ -28,6 +28,20 @@ KNOWN_PREFIXES = [
 ]
 _CEEC_GSAT_CANONICAL_ID = "ceec-gsat"
 _CEEC_GSAT_CANONICAL_NAME = "學科能力測驗"
+_CEEC_AST_CANONICAL_ID = "ceec-ast"
+_CEEC_AST_CANONICAL_NAME = "分科測驗"
+_TCTE_TVE_CANONICAL_ID = "tcte-tve"
+_TCTE_TVE_CANONICAL_NAME = "四技二專統一入學測驗"
+_SPECIAL_ADMISSION_CANONICAL_ID = "special-admission"
+_SPECIAL_ADMISSION_CANONICAL_NAME = "身心障礙學生升學大專校院甄試"
+_POST_RECRUIT_CANONICAL_ID = "post-recruit"
+_POST_RECRUIT_CANONICAL_NAME = "中華郵政職階人員甄試"
+_HCE_CANONICAL_MAP = {
+    "hce-cmu-": ("hce-cmu", "中國醫藥大學學士後中醫學系"),
+    "hce-tcu-": ("hce-tcu", "慈濟大學學士後中醫學系"),
+    "hce-nsysu-": ("hce-nsysu", "國立中山大學學士後醫學系"),
+    "hce-nthu-": ("hce-nthu", "國立清華大學學士後醫學系"),
+}
 _RCPET_CAP_CANONICAL_ID = "rcpet-cap"
 _RCPET_CAP_CANONICAL_NAME = "國中教育會考"
 _WDASEC_SKILL_CANONICAL_ID = "wdasec-skill"
@@ -104,6 +118,7 @@ _REQUESTED_TOPIC_CANONICAL_MAP = {
     "gept-cert-advanced-": ("gept-cert-advanced", "GEPT全民英檢 高級"),
     "gept-cert-superior-": ("gept-cert-superior", "GEPT全民英檢 優級"),
     "gept-cert-": ("gept-cert", "GEPT全民英檢"),
+    "jlpt-cert-": ("jlpt-cert", "JLPT Japanese-Language Proficiency Test"),
     "tocfl-cert-": ("tocfl-cert", "TOCFL華語文能力測驗"),
     "hakka-cert-basic-elementary-": ("hakka-cert-basic-elementary", "客語能力認證 基礎級暨初級"),
     "hakka-cert-intermediate-high-intermediate-": ("hakka-cert-intermediate-high-intermediate", "客語能力認證 中級暨中高級"),
@@ -227,6 +242,22 @@ def _derive_canonical(
             return canonical_id, canonical_name, canonical_name, False
     if source_exam_id.startswith("gsat-") and _CEEC_GSAT_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
         return _CEEC_GSAT_CANONICAL_ID, _CEEC_GSAT_CANONICAL_NAME, _CEEC_GSAT_CANONICAL_NAME, False
+    if source_exam_id.startswith("ceec-ast-"):
+        return _CEEC_AST_CANONICAL_ID, _CEEC_AST_CANONICAL_NAME, _CEEC_AST_CANONICAL_NAME, False
+    if source_exam_id.startswith("tcte-tve-"):
+        return _TCTE_TVE_CANONICAL_ID, _TCTE_TVE_CANONICAL_NAME, _TCTE_TVE_CANONICAL_NAME, False
+    if source_exam_id.startswith("special-admission-"):
+        return (
+            _SPECIAL_ADMISSION_CANONICAL_ID,
+            _SPECIAL_ADMISSION_CANONICAL_NAME,
+            _SPECIAL_ADMISSION_CANONICAL_NAME,
+            False,
+        )
+    if source_exam_id.startswith("post-recruit-"):
+        return _POST_RECRUIT_CANONICAL_ID, _POST_RECRUIT_CANONICAL_NAME, _POST_RECRUIT_CANONICAL_NAME, False
+    for prefix, (canonical_id, canonical_name) in _HCE_CANONICAL_MAP.items():
+        if source_exam_id.startswith(prefix):
+            return canonical_id, canonical_name, canonical_name, False
     if source_exam_id.startswith("cap-") and _RCPET_CAP_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):
         return _RCPET_CAP_CANONICAL_ID, _RCPET_CAP_CANONICAL_NAME, _RCPET_CAP_CANONICAL_NAME, False
     if _WDASEC_SKILL_CANONICAL_NAME in normalize_text(raw_category or exam_name_raw):

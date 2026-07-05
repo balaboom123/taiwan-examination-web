@@ -25,9 +25,25 @@ interface ProviderRoute {
 }
 
 const PROVIDER_ROUTES: readonly ProviderRoute[] = [
+  { idPrefix: "ceec-ast", examClass: "升學測驗", defaultSubclass: "分科測驗" },
   { idPrefix: "ceec-", examClass: "升學測驗", defaultSubclass: "學測" },
+  {
+    idPrefix: "tcte-tve",
+    examClass: "升學測驗",
+    defaultSubclass: "四技二專統一入學測驗",
+  },
+  {
+    idPrefix: "special-admission",
+    examClass: "升學測驗",
+    defaultSubclass: "身心障礙升學甄試",
+  },
+  { idPrefix: "hce-cmu", examClass: "升學測驗", defaultSubclass: "學士後醫學/中醫" },
+  { idPrefix: "hce-tcu", examClass: "升學測驗", defaultSubclass: "學士後醫學/中醫" },
+  { idPrefix: "hce-nsysu", examClass: "升學測驗", defaultSubclass: "學士後醫學/中醫" },
+  { idPrefix: "hce-nthu", examClass: "升學測驗", defaultSubclass: "學士後醫學/中醫" },
   { idPrefix: "rcpet-cap", examClass: "升學測驗", defaultSubclass: "國中教育會考" },
   { idPrefix: "moea-recruit", examClass: "國營/就業甄試", defaultSubclass: "國營事業聯招" },
+  { idPrefix: "post-recruit", examClass: "國營/就業甄試", defaultSubclass: "郵政招考" },
   { idPrefix: "taipower-recruit", examClass: "國營/就業甄試", defaultSubclass: "台電僱員" },
   { idPrefix: "cpc-recruit", examClass: "國營/就業甄試", defaultSubclass: "中油甄試" },
   { idPrefix: "twc-recruit", examClass: "國營/就業甄試", defaultSubclass: "台水甄試" },
@@ -36,6 +52,7 @@ const PROVIDER_ROUTES: readonly ProviderRoute[] = [
   { idPrefix: "teacher-qual", examClass: "教師考試", defaultSubclass: "教師資格檢定" },
   { idPrefix: "teacher-recruit", examClass: "教師考試", defaultSubclass: "教師甄試" },
   { idPrefix: "gept-cert", examClass: "證照/檢定", defaultSubclass: "語言檢定" },
+  { idPrefix: "jlpt-cert", examClass: "證照/檢定", defaultSubclass: "語言檢定" },
   { idPrefix: "tocfl-cert", examClass: "證照/檢定", defaultSubclass: "語言檢定" },
   { idPrefix: "hakka-cert", examClass: "證照/檢定", defaultSubclass: "語言檢定" },
   { idPrefix: "taigi-cert", examClass: "證照/檢定", defaultSubclass: "語言檢定" },
@@ -112,7 +129,7 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
     fallback: "其他專技",
   },
   "國營/就業甄試": {
-    subclasses: ["國營事業聯招", "台電僱員", "中油甄試", "台水甄試", "台糖甄試"],
+    subclasses: ["國營事業聯招", "郵政招考", "台電僱員", "中油甄試", "台水甄試", "台糖甄試"],
     rules: [],
     fallback: "國營事業聯招",
   },
@@ -122,7 +139,7 @@ const CLASS_CONFIG: Record<ExamClass, ClassConfig> = {
     fallback: "教師資格檢定",
   },
   升學測驗: {
-    subclasses: ["學測", "國中教育會考"],
+    subclasses: ["學測", "分科測驗", "四技二專統一入學測驗", "身心障礙升學甄試", "學士後醫學/中醫", "國中教育會考"],
     rules: [],
     fallback: "學測",
   },

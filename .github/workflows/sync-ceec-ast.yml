@@ -1,0 +1,40 @@
+name: sync-ceec-ast
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 3 * * 6"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache mirror directory
+        uses: actions/cache@v4
+        with:
+          path: mirror
+          key: ceec-ast-mirror-${{ hashFiles('data/providers/ceec_ast/source-manifest.json') }}
+          restore-keys: |
+            ceec-ast-mirror-
+
+      - name: Run CEEC AST sync
+        run: python -m app sync-full --provider ceec_ast --site-id default
+
+      - name: Commit regenerated CEEC AST provider data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "chore: refresh CEEC AST provider data"
+          git push

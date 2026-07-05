@@ -1,0 +1,1 @@
+"""Special admission provider."""

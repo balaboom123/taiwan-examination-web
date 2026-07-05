@@ -1,0 +1,40 @@
+name: sync-hce-nthu
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 4 * * 6"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache mirror directory
+        uses: actions/cache@v4
+        with:
+          path: mirror
+          key: hce-nthu-mirror-${{ hashFiles('data/providers/hce_nthu/source-manifest.json') }}
+          restore-keys: |
+            hce-nthu-mirror-
+
+      - name: Run NTHU HCE sync
+        run: python -m app sync-full --provider hce_nthu --site-id default
+
+      - name: Commit regenerated NTHU HCE provider data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "chore: refresh NTHU HCE provider data"
+          git push

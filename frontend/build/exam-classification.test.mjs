@@ -120,6 +120,10 @@ test("language certification bundles are grouped under language proficiency clas
     examClass: "證照/檢定",
     examSubclass: "語言檢定",
   })
+  assert.deepEqual(classifyBundle("jlpt-cert", "JLPT Japanese-Language Proficiency Test"), {
+    examClass: "證照/檢定",
+    examSubclass: "語言檢定",
+  })
   assert.deepEqual(classifyBundle("tocfl-cert", "TOCFL華語文能力測驗官方參考資料"), {
     examClass: "證照/檢定",
     examSubclass: "語言檢定",

@@ -1,0 +1,1 @@
+"""Chunghwa Post recruitment provider."""

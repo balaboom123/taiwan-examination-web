@@ -15,14 +15,21 @@ DOWNLOAD_URL = "https://elearning.hakka.gov.tw/hakka/download-files"
 USER_AGENT = "Mozilla/5.0 (compatible; hakka-cert-mirror/1.0)"
 CANONICAL_CATEGORY = "客語能力認證官方教材及試題"
 MATERIALS_YEAR = 2026
+LEVEL_CATEGORIES = (
+    ("basic-elementary", "基礎級暨初級", f"{DOWNLOAD_URL}?c=2"),
+    ("intermediate-high-intermediate", "中級暨中高級", f"{DOWNLOAD_URL}?c=3"),
+    ("advanced", "高級", f"{DOWNLOAD_URL}?c=5"),
+)
 
 
 @dataclass(frozen=True)
 class HakkaDownload:
+    level_code: str
     category_code: str
     label: str
     file_type: str
     url: str
+    year_ad: int
 
 
 class _AnchorParser(HTMLParser):
@@ -94,7 +101,27 @@ def _dialect_code(label: str) -> str:
     return "general"
 
 
-def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[HakkaDownload]:
+def _year_from_label(label: str) -> int:
+    match = re.search(r"(\d{3})\s*年度", label)
+    return int(match.group(1)) + 1911 if match else MATERIALS_YEAR
+
+
+def _exam_code(level_code: str, year_ad: int) -> str:
+    return f"hakka-cert-{level_code}-{year_ad}"
+
+
+def parse_page_urls(html: str, *, base_url: str = DOWNLOAD_URL) -> list[str]:
+    parser = _AnchorParser()
+    parser.feed(html)
+    urls: list[str] = []
+    for _label, href in parser.links:
+        url = _quote_url_for_request(urljoin(base_url, href))
+        if "page=" in url and url.startswith(DOWNLOAD_URL) and url not in urls:
+            urls.append(url)
+    return urls
+
+
+def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL, level_code: str = "materials") -> list[HakkaDownload]:
     parser = _AnchorParser()
     parser.feed(html)
     downloads: list[HakkaDownload] = []
@@ -104,12 +131,22 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL) -> list[HakkaDow
         parsed = urlparse(url)
         if parsed.netloc != "elearning.hakka.gov.tw" or not parsed.path.startswith("/hakka/files/downloads/"):
             continue
-        # ponytail: Hakka audio ZIPs make a multi-GB public bundle; add them when bundles can shard by dialect/file type.
-        if not parsed.path.lower().endswith(".pdf") or url in seen:
+        path_lower = parsed.path.lower()
+        if not path_lower.endswith((".pdf", ".zip")) or url in seen:
             continue
         seen.add(url)
         display_label = label or Path(unquote(parsed.path)).name
-        downloads.append(HakkaDownload(category_code=_dialect_code(display_label), label=display_label, file_type="question", url=url))
+        file_type = "listening_audio" if path_lower.endswith(".zip") or "音檔" in display_label else "question"
+        downloads.append(
+            HakkaDownload(
+                level_code=level_code,
+                category_code=_dialect_code(display_label),
+                label=display_label,
+                file_type=file_type,
+                url=url,
+                year_ad=_year_from_label(display_label),
+            )
+        )
     return downloads
 
 
@@ -122,32 +159,67 @@ class HakkaCertClient:
             return response.read().decode("utf-8", "replace")
 
     def _downloads(self) -> list[HakkaDownload]:
-        return parse_downloads(self._fetch_text(DOWNLOAD_URL), base_url=DOWNLOAD_URL)
+        downloads: list[HakkaDownload] = []
+        seen_download_urls: set[str] = set()
+        for level_code, _level_name, start_url in LEVEL_CATEGORIES:
+            seen_pages: set[str] = set()
+            pending = [start_url]
+            while pending:
+                page_url = pending.pop(0)
+                if page_url in seen_pages:
+                    continue
+                seen_pages.add(page_url)
+                html = self._fetch_text(page_url)
+                for download in parse_downloads(html, base_url=page_url, level_code=level_code):
+                    if download.url in seen_download_urls:
+                        continue
+                    seen_download_urls.add(download.url)
+                    downloads.append(download)
+                pending.extend(url for url in parse_page_urls(html, base_url=page_url) if url not in seen_pages and url not in pending)
+        return downloads
 
     def discover_available_years(self) -> list[int]:
-        return [MATERIALS_YEAR]
+        years = {download.year_ad for download in self._downloads()}
+        return sorted(years or {MATERIALS_YEAR}, reverse=True)
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        if year_ad != MATERIALS_YEAR:
-            return []
-        return [ExamOption(code="hakka-cert-materials", year_ad=year_ad, year_roc=year_ad - 1911, label=CANONICAL_CATEGORY)]
+        downloads = self._downloads()
+        level_names = {code: name for code, name, _url in LEVEL_CATEGORIES}
+        level_codes = {download.level_code for download in downloads if download.year_ad == year_ad}
+        return [
+            ExamOption(
+                code=_exam_code(level_code, year_ad),
+                year_ad=year_ad,
+                year_roc=year_ad - 1911,
+                label=f"客語能力認證 {level_names.get(level_code, level_code)}",
+            )
+            for level_code, _name, _url in LEVEL_CATEGORIES
+            if level_code in level_codes
+        ]
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        level_names = {code: name for code, name, _url in LEVEL_CATEGORIES}
+        requested_level = next((code for code, _name, _url in LEVEL_CATEGORIES if exam_code == _exam_code(code, year_ad)), None)
+        downloads = [
+            download
+            for download in self._downloads()
+            if download.year_ad == year_ad and (requested_level is None or download.level_code == requested_level)
+        ]
         papers = [
             ParsedPaper(
-                category_raw=f"{CANONICAL_CATEGORY}_{download.category_code}",
+                category_raw=f"{CANONICAL_CATEGORY}_{level_names.get(download.level_code, download.level_code)}_{download.category_code}",
                 category_code=download.category_code,
                 subject_code=_subject_code(download.url, download.label, f"download-{index}"),
                 subject_name_raw=download.label,
                 files={download.file_type: download.url},
             )
-            for index, download in enumerate(self._downloads(), start=1)
+            for index, download in enumerate(downloads, start=1)
         ]
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=year_ad - 1911,
-            exam_name_raw=CANONICAL_CATEGORY,
+            exam_name_raw=f"{CANONICAL_CATEGORY} {level_names[requested_level]}" if requested_level else CANONICAL_CATEGORY,
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,
