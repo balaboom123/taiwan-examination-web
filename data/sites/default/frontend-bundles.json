@@ -11743,6 +11743,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/canonical-ffa3f669e8fed0aa.zip"
     },
     {
+      "id": "ceec-ast",
+      "name": "分科測驗",
+      "years": [
+        114
+      ],
+      "fileCount": 40,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/ceec-ast.zip"
+    },
+    {
       "id": "ceec-gsat",
       "name": "學科能力測驗",
       "years": [
@@ -11907,6 +11916,42 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hakka-cert-intermediate-high-intermediate.zip"
     },
     {
+      "id": "hce-cmu",
+      "name": "中國醫藥大學學士後中醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 8,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-cmu.zip"
+    },
+    {
+      "id": "hce-nsysu",
+      "name": "國立中山大學學士後醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 1,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip"
+    },
+    {
+      "id": "hce-nthu",
+      "name": "國立清華大學學士後醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 4,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nthu.zip"
+    },
+    {
+      "id": "hce-tcu",
+      "name": "慈濟大學學士後中醫學系",
+      "years": [
+        115
+      ],
+      "fileCount": 8,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-tcu.zip"
+    },
+    {
       "id": "ipas-cert-aiap",
       "name": "iPAS AI應用規劃師",
       "years": [
@@ -12014,6 +12059,15 @@
       ],
       "fileCount": 607,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/nurse.zip"
+    },
+    {
+      "id": "post-recruit",
+      "name": "中華郵政職階人員甄試",
+      "years": [
+        114
+      ],
+      "fileCount": 52,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/post-recruit.zip"
     },
     {
       "id": "rcpet-cap",
@@ -12147,6 +12201,15 @@
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-002/social-worker.zip"
     },
     {
+      "id": "special-admission",
+      "name": "身心障礙學生升學大專校院甄試",
+      "years": [
+        114
+      ],
+      "fileCount": 18,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/special-admission.zip"
+    },
+    {
       "id": "tabf-aml",
       "name": "防制洗錢與打擊資恐",
       "years": [
@@ -12263,6 +12326,15 @@
       ],
       "fileCount": 370,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/taipower-recruit.zip"
+    },
+    {
+      "id": "tcte-tve",
+      "name": "四技二專統一入學測驗",
+      "years": [
+        115
+      ],
+      "fileCount": 191,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/tcte-tve.zip"
     },
     {
       "id": "teacher-qual",
