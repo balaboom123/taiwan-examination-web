@@ -79,7 +79,6 @@ Use case:
 Current inputs:
 
 - generated bundles metadata
-- current LootLabs manifest when gating is enabled
 - frontend app source
 
 Trigger manually when:
@@ -94,13 +93,12 @@ For sync and publication workflows:
 1. Check workflow logs for non-zero Python command exits.
 2. Check whether `data/` commits were pushed.
 3. Check release asset coverage and uploaded ZIP names.
-4. Check LootLabs refresh step if enabled.
 
 For deploy workflows:
 
 1. Check that the frontend build completed.
 2. Check that the emitted frontend `data/bundles.json` came from `data/sites/default/bundles.json`.
-3. Check the deployed site if bundle links or gating behavior changed.
+3. Check the deployed site if bundle links or social-gate behavior changed.
 
 ## Current Workflow Ownership Model
 

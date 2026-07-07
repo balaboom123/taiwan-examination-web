@@ -11,10 +11,9 @@ Recommended local tools:
 - Node and npm for `frontend/`
 - GitHub CLI `gh` for release operations
 
-Required credentials for release and gating operations:
+Required credentials for release operations:
 
 - `GH_TOKEN`
-- `LOOTLABS_API_KEY`
 
 ## Generated State You Should Know
 
@@ -29,7 +28,6 @@ Site-owned generated paths:
 
 - `data/sites/default/bundles.json`
 - `data/sites/default/release-assets.json`
-- `data/sites/default/lootlabs-links.json`
 - `bundles/sites/default/`
 
 Default-site publication policy:
@@ -62,7 +60,6 @@ Run from the repo root.
 | `python -m app migrate-legacy-state --provider moex --site-id default --mode move` | reader and workflow cutover is ready and you want to promote existing root state in place without re-downloading | `data/providers/moex/*`, `data/sites/default/*`, `mirror/providers/moex/*`, `bundles/sites/default/*` |
 | `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` | you already promoted legacy state and need a pass/fail safety check before deleting the old root files | stdout verification report |
 | `python -m app publish-site --site-id default --repository <owner>/<repo>` | provider state is ready and you need the filtered public bundle set and release metadata rebuilt | `data/sites/default/*`, `bundles/sites/default/` |
-| `python -m app sync-lootlabs --site-id default` | site bundle URLs or checksums changed | `data/sites/default/lootlabs-links.json` |
 | `python .github/scripts/release_assets.py ensure` | site publication wrote new release metadata and tags may need bootstrapping | GitHub Releases only |
 | `python .github/scripts/release_assets.py upload` | local bundle ZIPs need to be uploaded to their assigned release tags | GitHub Releases only |
 | `python .github/scripts/release_assets.py prune` | stale ZIP assets may remain on one or more release tags | GitHub Releases only |
@@ -77,7 +74,6 @@ On GitHub-hosted Actions, the normal MOEX path is:
 2. `sync-targeted --download-affected-bundles`
 3. `publish-site --publish-plan .tmp/site-publish-plan.json`
 4. `release_assets.py ensure/upload/prune`
-5. `sync-lootlabs`
 
 Important:
 
@@ -146,7 +142,6 @@ Expected site outputs:
 
 - `data/sites/default/bundles.json`
 - `data/sites/default/release-assets.json`
-- `data/sites/default/lootlabs-links.json` after a LootLabs sync
 - `bundles/sites/default/*.zip`
 
 If you omit `--publish-plan`, the command rebuilds the entire public site bundle set. Keep that for manual bootstrap/recovery work, not the normal hosted path.
@@ -175,15 +170,9 @@ Important:
 - the command rewrites site bundle metadata from `bundles/<asset>` to `bundles/sites/default/<asset>`
 - the reader and workflow cutover is already complete on this branch, so `move` is now the last preparation step before root-file cleanup
 
-### 7. Sync LootLabs links
+### 7. Verify social-gated downloads
 
-Use:
-
-```bash
-python -m app sync-lootlabs --site-id default
-```
-
-Run this after `publish-site` when site bundle URLs or checksums changed.
+The frontend keeps direct ZIP URLs in `data/bundles.json`. The download row opens the category-specific LINE channel first and unlocks ZIP downloads locally after the click.
 
 ## Manual Verification Checklist
 
@@ -192,10 +181,10 @@ After a sync or publication run, check:
 1. `data/providers/<provider_id>/sync-failures.json`
 2. `data/providers/<provider_id>/review-queue.json`
 3. `data/sites/default/release-assets.json`
-4. `data/sites/default/lootlabs-links.json` if gating is enabled
-5. `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` during the final cutover window
-6. GitHub release asset coverage if you published bundles
-7. frontend build if public deployment behavior changed
+4. `python -m app migrate-legacy-state --provider moex --site-id default --mode verify` during the final cutover window
+5. GitHub release asset coverage if you published bundles
+6. frontend build if public deployment behavior changed
+7. deployed download rows if social-gate behavior changed
 
 If a hosted workflow fails with:
 
@@ -212,7 +201,7 @@ uv run pytest -q
 ```
 
 ```bash
-node --test frontend/build/bundles-data.test.mjs
+cmd /c "cd /d frontend && npm test"
 ```
 
 ```bash

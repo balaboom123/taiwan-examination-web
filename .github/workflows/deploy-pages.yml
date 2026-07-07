@@ -6,7 +6,6 @@ on:
     paths:
       - frontend/**
       - data/sites/default/bundles.json
-      - data/sites/default/lootlabs-links.json
       - .github/workflows/deploy-pages.yml
   workflow_dispatch:
 
@@ -28,17 +27,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Sync LootLabs links
-        env:
-          LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}
-          LOOTLABS_TIER_ID: "1"
-          LOOTLABS_NUMBER_OF_TASKS: "1"
-          LOOTLABS_THEME: "1"
-        run: python -m app sync-lootlabs --site-id default
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -53,7 +41,6 @@ jobs:
         working-directory: frontend
         env:
           VITE_ENABLE_ADSENSE: "false"
-          VITE_ENABLE_LOOTLABS_GATING: "true"
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Upload artifact

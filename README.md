@@ -14,7 +14,6 @@ Site-owned publication state:
 
 - `data/sites/default/bundles.json`: canonical bundle metadata for the public site after site publication policy filters (the default site currently publishes multi-year bundles only)
 - `data/sites/default/release-assets.json`: expected GitHub Release assets for that public bundle set, grouped by explicit site-owned release tag
-- `data/sites/default/lootlabs-links.json`: gated public download links for the site
 - `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
 
 Public deployment output:
@@ -34,13 +33,12 @@ python -m app sync-incremental --provider moex --years 2 --write-manifest --mani
 python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 python -m app sync-full --provider ceec_gsat --site-id default
 python -m app publish-site --site-id default --repository <owner>/<repo>
-python -m app sync-lootlabs --site-id default
 ```
 
 ## Workflow Strategy
 
 - Provider sync owns discovery, source parsing, mirrored files, normalized papers, manifests, and sync failures.
-- Site publication owns bundle ZIPs, release asset manifests, LootLabs link manifests, and frontend-consumable site data.
+- Site publication owns bundle ZIPs, release asset manifests, and frontend-consumable site data.
 - `probe-latest` checks the newest MOEX years first and updates the provider manifest only when `--write-manifest` is passed.
 - `sync-targeted` refreshes only exams reported by the MOEX probe result.
 - `sync-incremental` is the recent-year maintenance path used by the audit workflow.

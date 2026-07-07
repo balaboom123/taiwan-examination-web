@@ -4,7 +4,6 @@ import unittest
 from pathlib import Path
 
 from app.cli import build_parser, main
-from app.lootlabs import LootLabsManifest, LootLabsManifestEntry, LootLabsSettings, write_lootlabs_manifest
 from app.migration import migrate_legacy_state
 
 
@@ -115,25 +114,6 @@ def _seed_legacy_state(root: Path) -> None:
             }
         ],
     )
-    write_lootlabs_manifest(
-        root / "data" / "lootlabs-links.json",
-        LootLabsManifest(
-            version=1,
-            provider="lootlabs",
-            settings=LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1),
-            bundles={
-                "nurse": LootLabsManifestEntry(
-                    canonical_id="nurse",
-                    asset_name="nurse.zip",
-                    loot_url="https://loot.example/nurse",
-                    target_download_url="https://example.test/nurse.zip",
-                    target_checksum="bundle-sha",
-                    updated_at="2026-06-19T00:00:00+08:00",
-                )
-            },
-        ),
-    )
-
     mirror_path = root / "mirror" / "115" / "115030" / "101" / "0101" / "question.pdf"
     mirror_path.parent.mkdir(parents=True, exist_ok=True)
     mirror_path.write_bytes(b"%PDF-1.7 legacy mirror")

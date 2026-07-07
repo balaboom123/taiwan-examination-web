@@ -10,9 +10,8 @@ from unittest.mock import patch
 from app.manifest import SourceManifest
 from app.cli import _download_affected_bundles, build_parser, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
-from app.lootlabs import LootLabsError, LootLabsManifest, LootLabsManifestEntry, LootLabsSettings, write_lootlabs_manifest
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
-from app.paths import legacy_paths, provider_paths, site_paths
+from app.paths import provider_paths, site_paths
 from app.publisher import write_data_files, write_provider_state
 from app.state import load_provider_state
 
@@ -53,6 +52,12 @@ class CliParserCleanupTests(unittest.TestCase):
 
         with self.assertRaises(SystemExit):
             parser.parse_args(["build-site"])
+
+    def test_removed_sync_lootlabs_command_is_rejected(self) -> None:
+        parser = build_parser()
+
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["sync-lootlabs"])
 
     def test_sync_incremental_parser_rejects_legacy_site_dir_flag(self) -> None:
         parser = build_parser()
@@ -1604,234 +1609,6 @@ class CliCommandTests(unittest.TestCase):
             self.assertEqual(len(nurse_papers), 2)
             self.assertEqual({p["file_type"] for p in nurse_papers}, {"question", "answer"})
             self.assertEqual({p["checksum"] for p in nurse_papers}, {"old-question", "old-answer"})
-
-    def test_sync_lootlabs_parser_accepts_repo_root_and_site_id(self) -> None:
-        parser = build_parser()
-        args = parser.parse_args(
-            [
-                "sync-lootlabs",
-                "--repo-root",
-                "repo",
-                "--site-id",
-                "default",
-            ]
-        )
-
-        self.assertEqual(args.repo_root, Path("repo"))
-        self.assertEqual(args.site_id, "default")
-
-    @patch(
-        "app.cli.load_lootlabs_settings_from_env",
-        return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
-    )
-    def test_sync_lootlabs_reads_site_owned_bundles_and_writes_only_site_manifest(self, _settings) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            site = site_paths(root, "default")
-            site.data_dir.mkdir(parents=True, exist_ok=True)
-            site.bundles_path.write_text(
-                json.dumps(
-                    {
-                        "schema_version": 1,
-                        "site_id": "default",
-                        "bundles": [
-                            {
-                                "canonical_id": "nurse",
-                                "canonical_name": "Nurse",
-                                "years": [115],
-                                "file_count": 1,
-                                "storage_key": "bundles/sites/default/nurse.zip",
-                                "asset_name": "nurse.zip",
-                                "release_tag": "default-bundles-001",
-                                "download_url": "https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
-                                "checksum": "sha-1",
-                            }
-                        ],
-                    }
-                ),
-                encoding="utf-8",
-            )
-
-            def sync_side_effect(*, bundles, manifest_path, api_key, settings, **_kwargs):
-                self.assertEqual(api_key, "token")
-                self.assertEqual(settings, LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1))
-                self.assertEqual(manifest_path, site.lootlabs_manifest_path)
-                self.assertEqual([bundle.canonical_id for bundle in bundles], ["nurse"])
-                manifest = LootLabsManifest(
-                    version=1,
-                    provider="lootlabs",
-                    settings=settings,
-                    bundles={
-                        "nurse": LootLabsManifestEntry(
-                            canonical_id="nurse",
-                            asset_name="nurse.zip",
-                            loot_url="https://loot.example/nurse",
-                            target_download_url=bundles[0].download_url,
-                            target_checksum=bundles[0].checksum,
-                            updated_at="2026-06-18T00:00:00+08:00",
-                        )
-                    },
-                )
-                write_lootlabs_manifest(manifest_path, manifest)
-                return manifest
-
-            with patch("app.cli.sync_lootlabs_manifest", side_effect=sync_side_effect):
-                exit_code = main(["sync-lootlabs", "--repo-root", str(root), "--site-id", "default"])
-
-            self.assertEqual(exit_code, 0)
-            site_manifest = json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8"))
-            self.assertEqual(site_manifest["provider"], "lootlabs")
-            self.assertFalse(legacy_paths(root).lootlabs_manifest_path.exists())
-
-    @patch(
-        "app.cli.load_lootlabs_settings_from_env",
-        return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
-    )
-    def test_sync_lootlabs_returns_non_zero_when_site_bundles_are_missing_even_if_legacy_bundles_exist(self, _settings) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            legacy = legacy_paths(root)
-            legacy.data_dir.mkdir(parents=True, exist_ok=True)
-            legacy.bundles_path.write_text(
-                json.dumps(
-                    [
-                        {
-                            "canonical_id": "nurse",
-                            "canonical_name": "Nurse",
-                            "years": [115],
-                            "file_count": 1,
-                            "storage_key": "bundles/nurse.zip",
-                            "asset_name": "nurse.zip",
-                            "release_tag": "default-bundles-001",
-                            "download_url": "https://github.com/example/repo/releases/download/default-bundles-001/nurse.zip",
-                            "checksum": "sha-1",
-                        }
-                    ]
-                ),
-                encoding="utf-8",
-            )
-            output = io.StringIO()
-
-            with redirect_stdout(output):
-                exit_code = main(["sync-lootlabs", "--repo-root", str(root), "--site-id", "default"])
-
-            self.assertEqual(exit_code, 1)
-            self.assertIn("bundles.json", output.getvalue())
-            self.assertFalse(legacy.lootlabs_manifest_path.exists())
-
-    @patch("app.cli.sync_lootlabs_manifest", side_effect=LootLabsError("provider down"))
-    @patch(
-        "app.cli.load_lootlabs_settings_from_env",
-        return_value=("token", LootLabsSettings(tier_id=1, number_of_tasks=1, theme=1)),
-    )
-    def test_sync_lootlabs_returns_non_zero_when_provider_fails(self, _settings, _sync) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            site = site_paths(root, "default")
-            site.data_dir.mkdir(parents=True, exist_ok=True)
-            site.bundles_path.write_text('{"schema_version": 1, "site_id": "default", "bundles": []}', encoding="utf-8")
-
-            exit_code = main(
-                [
-                    "sync-lootlabs",
-                    "--repo-root",
-                    str(root),
-                    "--site-id",
-                    "default",
-                ]
-            )
-
-        self.assertEqual(exit_code, 1)
-
-    @patch("app.cli.sync_lootlabs_manifest")
-    def test_sync_lootlabs_returns_non_zero_when_env_numbers_are_invalid(self, sync_mock) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            site = site_paths(root, "default")
-            site.data_dir.mkdir(parents=True, exist_ok=True)
-            site.bundles_path.write_text('{"schema_version": 1, "site_id": "default", "bundles": []}', encoding="utf-8")
-            output = io.StringIO()
-
-            with patch.dict(
-                "os.environ",
-                {
-                    "LOOTLABS_API_KEY": "token",
-                    "LOOTLABS_TIER_ID": "abc",
-                },
-                clear=False,
-            ):
-                with redirect_stdout(output):
-                    exit_code = main(
-                        [
-                            "sync-lootlabs",
-                            "--repo-root",
-                            str(root),
-                            "--site-id",
-                            "default",
-                        ]
-                    )
-
-        self.assertEqual(exit_code, 1)
-        self.assertIn("LOOTLABS_TIER_ID", output.getvalue())
-        sync_mock.assert_not_called()
-
-    @patch("app.cli.sync_lootlabs_manifest")
-    @patch("app.cli.load_lootlabs_settings_from_env")
-    def test_sync_lootlabs_returns_non_zero_when_bundles_file_is_missing(self, settings_mock, sync_mock) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            root = Path(tmp_dir)
-            output = io.StringIO()
-
-            with redirect_stdout(output):
-                exit_code = main(
-                    [
-                        "sync-lootlabs",
-                        "--repo-root",
-                        str(root),
-                        "--site-id",
-                        "default",
-                    ]
-                )
-
-        self.assertEqual(exit_code, 1)
-        self.assertIn("bundles.json", output.getvalue())
-        settings_mock.assert_not_called()
-        sync_mock.assert_not_called()
-
-    @patch("app.cli.sync_lootlabs_manifest")
-    @patch("app.cli.load_lootlabs_settings_from_env")
-    def test_sync_lootlabs_returns_non_zero_when_bundles_file_is_malformed(self, settings_mock, sync_mock) -> None:
-        test_cases = [
-            "{not-json",
-            json.dumps({"not": "a-list"}),
-        ]
-
-        for payload in test_cases:
-            with self.subTest(payload=payload):
-                with tempfile.TemporaryDirectory() as tmp_dir:
-                    root = Path(tmp_dir)
-                    site = site_paths(root, "default")
-                    site.data_dir.mkdir(parents=True, exist_ok=True)
-                    site.bundles_path.write_text(payload, encoding="utf-8")
-                    output = io.StringIO()
-
-                    with redirect_stdout(output):
-                        exit_code = main(
-                            [
-                                "sync-lootlabs",
-                                "--repo-root",
-                                str(root),
-                                "--site-id",
-                                "default",
-                            ]
-                        )
-
-                self.assertEqual(exit_code, 1)
-                self.assertIn("bundles.json", output.getvalue())
-
-        settings_mock.assert_not_called()
-        sync_mock.assert_not_called()
-
 
 if __name__ == "__main__":
     unittest.main()

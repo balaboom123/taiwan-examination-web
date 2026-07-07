@@ -24,7 +24,6 @@ The goal is to prevent the multi-source expansion from drifting into ad hoc JSON
 | alias rules | provider unless documented otherwise | `data/aliases.json` | `data/providers/<provider_id>/aliases.json` |
 | bundle metadata | site | `data/bundles.json` | `data/sites/<site_id>/bundles.json` |
 | release asset inventory | site | `data/release-assets.json` | `data/sites/<site_id>/release-assets.json` |
-| gating manifest | site | `data/lootlabs-links.json` | `data/sites/<site_id>/lootlabs-links.json` |
 | frontend bundle feed | site | emitted during frontend build | `data/sites/<site_id>/frontend-bundles.json` or build artifact equivalent |
 
 ## Versioning Rules
@@ -247,35 +246,6 @@ Rules:
 - Site publication MUST support multiple release tags.
 - The default operational ceiling is to shard before any one release exceeds 900 assets.
 
-## Site Contract: Gating Manifest
-
-Current LootLabs entries include:
-
-- `canonical_id`
-- `asset_name`
-- `loot_url`
-- `target_download_url`
-- `target_checksum`
-- `updated_at`
-
-Required target wrapped shape:
-
-```json
-{
-  "schema_version": 1,
-  "site_id": "default",
-  "provider": "lootlabs",
-  "settings": {},
-  "bundles": {}
-}
-```
-
-Rules:
-
-- Gating manifests MUST belong to exactly one site.
-- Gating records MUST validate target URL and checksum drift.
-- Gating consumers MUST be able to rebuild the manifest from site bundle metadata.
-
 ## Site Contract: Frontend Bundle Feed
 
 Current frontend feed shape:
@@ -298,7 +268,6 @@ Required future wrapped shape:
 {
   "schema_version": 1,
   "site_id": "default",
-  "gated": true,
   "bundles": [
     {
       "id": "nurse",
@@ -331,6 +300,6 @@ Before adding the second provider, the repo SHOULD implement:
 1. `provider_id` support on provider-owned persisted contracts.
 2. `site_id` support on site-owned persisted contracts.
 3. Site-scoped frontend feed generation.
-4. Explicit schema wrappers for bundle metadata and gating manifests.
+4. Explicit schema wrappers for bundle metadata.
 5. Site-owned `release_tag` assignment on published bundle and release asset contracts.
 6. A deterministic multi-tag publication policy that avoids the GitHub per-release asset cap.

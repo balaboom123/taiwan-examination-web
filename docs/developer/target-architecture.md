@@ -17,7 +17,7 @@ The target architecture MUST allow the repo to support:
 - `provider`: source-specific ingestion implementation such as MOEX
 - `site`: public-facing deployment with its own branding, frontend config, release tag, and download behavior
 - `normalized catalog`: provider data converted into a shared paper schema
-- `publication`: transformation from normalized data to bundles, release assets, gating links, and frontend outputs
+- `publication`: transformation from normalized data to bundles, release assets, and frontend outputs
 - `release shard`: a site-owned GitHub release tag that stores a subset of the site's published bundle assets
 - `operator profile`: secrets, workflow permissions, and manual procedures required to run a provider or site
 
@@ -51,7 +51,6 @@ data/
     default/
       bundles.json
       release-assets.json
-      lootlabs-links.json
       frontend-bundles.json
     <site_id>/
       ...
@@ -118,7 +117,7 @@ This means:
 
 - providers MUST NOT own public GitHub release tags when they feed an existing site
 - a site MAY publish through one release tag or many release tags
-- the frontend and LootLabs integration MUST consume one site publication feed regardless of how many release tags back the assets
+- the frontend MUST consume one site publication feed regardless of how many release tags back the assets
 - asset-to-tag assignment MUST be deterministic so assets do not move between tags unpredictably
 
 The default strategy for this repository is:
@@ -154,9 +153,9 @@ Every site MUST define:
 - monetization behavior, if any
 - deployment target and workflow owner
 
-### Monetization contract
+### Download gate contract
 
-Monetization layers such as LootLabs MUST wrap publication outputs, not provider downloads. They MUST validate that the wrapped target URL and checksum still match the current bundle asset.
+Download gates MUST apply to publication outputs, not provider downloads. They MUST NOT be required for provider ingestion or release publication.
 
 ## Transition Phases
 
@@ -167,7 +166,7 @@ The migration SHOULD happen in phases:
 - MOEX-only
 - root-level generated `data/`
 - one release tag
-- one LootLabs manifest
+- frontend social-gated downloads
 
 ### Phase 1: Provider-aware code structure
 

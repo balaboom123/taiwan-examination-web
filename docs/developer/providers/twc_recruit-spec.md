@@ -87,7 +87,6 @@ Canonical site-owned outputs then live under:
 
 - `data/sites/default/bundles.json`
 - `data/sites/default/release-assets.json`
-- `data/sites/default/lootlabs-links.json`
 - `bundles/sites/default/`
 
-For compatibility during the migration, the `default` site may also refresh legacy root-level outputs such as `data/bundles.json` and `data/lootlabs-links.json`.
+For compatibility during the migration, the `default` site may also refresh legacy root-level outputs such as `data/bundles.json`.

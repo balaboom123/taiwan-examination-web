@@ -225,7 +225,7 @@ Recommended entry format:
 | purpose | current public exam bundle catalog |
 | current input providers | `moex` |
 | target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_taipei_junior`, `teacher_recruit_tainan`, `gept_cert`, `tocfl_cert`, `hakka_cert`, `taigi_cert`, `tqc_cert`, `ipas_cert` |
-| current publication ownership | root-level `data/bundles.json`, `data/release-assets.json`, `data/lootlabs-links.json` |
+| current publication ownership | root-level `data/bundles.json`, `data/release-assets.json` |
 | target scoped ownership | `data/sites/default/` |
 | current bundle storage | `bundles/` |
 | target bundle storage | `bundles/sites/default/` |
@@ -235,7 +235,7 @@ Recommended entry format:
 | current publish ownership | sync workflows plus `.github/scripts/release_assets.py` |
 | current frontend surface | `frontend/` |
 | legacy output surface | none |
-| gating provider | LootLabs, optional by build/deploy path |
+| download gate | frontend LINE social gate |
 | notes | current site still uses MOEX-shaped naming, needs site-scoped cutover, and will eventually absorb one CEEC bundle asset without splitting the public site |
 
 ## Planned Sites
@@ -258,7 +258,7 @@ Recommended entry format:
 | deploy workflows | |
 | publish ownership | |
 | frontend surface | |
-| gating provider | |
+| download gate | |
 | notes | |
 
 ## Secret And Integration Registry
@@ -268,7 +268,6 @@ Current shared integrations:
 | Integration | Current owner | Purpose |
 | --- | --- | --- |
 | GitHub release token via `GH_TOKEN` | site publication workflows | upload/prune bundle assets |
-| `LOOTLABS_API_KEY` | current default site | content-locker link generation |
 
 Future rule:
 

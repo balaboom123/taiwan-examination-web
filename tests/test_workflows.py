@@ -123,21 +123,6 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn("release_assets.py upload", workflow)
             self.assertIn("release_assets.py prune", workflow)
 
-    def test_workflows_sync_lootlabs_after_release_asset_updates(self) -> None:
-        workflows_dir = REPO_ROOT / ".github" / "workflows"
-        commit_steps = {
-            "sync-full.yml": "Commit regenerated data",
-            "sync-incremental.yml": "Commit regenerated data",
-            "audit-recent.yml": "Commit audited data",
-        }
-        for workflow_name, commit_step in commit_steps.items():
-            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
-            sync_lootlabs_index = workflow.index("python -m app sync-lootlabs --site-id default")
-            self.assertIn("python -m app sync-lootlabs --site-id default", workflow)
-            self.assertLess(workflow.index("release_assets.py upload"), sync_lootlabs_index)
-            self.assertLess(workflow.index("release_assets.py prune"), sync_lootlabs_index)
-            self.assertLess(sync_lootlabs_index, workflow.index(commit_step))
-
     def test_sync_workflows_do_not_stage_legacy_site_output(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):
@@ -149,36 +134,12 @@ class WorkflowTests(unittest.TestCase):
         push_paths = _workflow_push_paths(workflow)
 
         self.assertIn("data/sites/default/bundles.json", push_paths)
-        self.assertIn("data/sites/default/lootlabs-links.json", push_paths)
 
-    def test_pages_deploy_syncs_lootlabs_manifest_before_frontend_build(self) -> None:
+    def test_pages_deploy_builds_frontend_without_python_pre_step(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
 
-        self.assertIn("actions/setup-python@v5", workflow)
-        self.assertIn('python-version: "3.12"', workflow)
-        self.assertIn("python -m app sync-lootlabs --site-id default", workflow)
-        self.assertIn("LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}", workflow)
-        self.assertIn('VITE_ENABLE_LOOTLABS_GATING: "true"', workflow)
-        self.assertLess(workflow.index("actions/setup-python@v5"), workflow.index("python -m app sync-lootlabs --site-id default"))
-        self.assertLess(workflow.index("python -m app sync-lootlabs --site-id default"), workflow.index("npm run build"))
-
-    def test_pages_deploy_path_check_ignores_occurrences_outside_push_paths(self) -> None:
-        workflow = """name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-    paths:
-      - frontend/**
-  workflow_dispatch:
-
-jobs:
-  deploy:
-    steps:
-      - run: echo data/sites/default/lootlabs-links.json
-"""
-
-        self.assertNotIn("data/sites/default/lootlabs-links.json", _workflow_push_paths(workflow))
+        self.assertNotIn("actions/setup-python@v5", workflow)
+        self.assertLess(workflow.index("actions/setup-node@v6"), workflow.index("npm run build"))
 
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
@@ -436,7 +397,6 @@ jobs:
         self.assertIn('- cron: "20 3 * * 6"', workflow)
         self.assertIn("python -m app sync-full --provider ceec_gsat --site-id default", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py ensure", workflow)
         self.assertNotIn("release_assets.py upload", workflow)
         self.assertNotIn("release_assets.py prune", workflow)
@@ -460,7 +420,6 @@ class FinancialCertWorkflowTests(unittest.TestCase):
 
         self.assertIn("python -m app sync-full --provider sfi_cert --site-id default", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_tabf_cert_workflow_is_provider_only(self) -> None:
@@ -468,7 +427,6 @@ class FinancialCertWorkflowTests(unittest.TestCase):
 
         self.assertIn("python -m app sync-full --provider tabf_cert --site-id default", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_tii_cert_workflow_is_provider_only(self) -> None:
@@ -476,7 +434,6 @@ class FinancialCertWorkflowTests(unittest.TestCase):
 
         self.assertIn("python -m app sync-full --provider tii_cert --site-id default", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_financial_cert_workflows_have_schedule(self) -> None:
@@ -499,7 +456,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_teacher_recruit_taipei_junior_workflow_is_provider_only(self) -> None:
@@ -509,7 +465,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_teacher_recruit_taipei_elementary_workflow_is_provider_only(self) -> None:
@@ -520,7 +475,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_newtaipei_teacher_recruit_workflow_is_provider_only(self) -> None:
@@ -531,7 +485,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_taoyuan_teacher_recruit_workflow_is_provider_only(self) -> None:
@@ -542,7 +495,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_kaohsiung_teacher_recruit_workflow_is_provider_only(self) -> None:
@@ -553,7 +505,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
     def test_sync_central_alliance_teacher_recruit_workflow_is_provider_only(self) -> None:
@@ -564,7 +515,6 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
-        self.assertNotIn("python -m app sync-lootlabs --site-id default", workflow)
         self.assertNotIn("release_assets.py", workflow)
 
 

@@ -23,7 +23,6 @@ class SitePaths:
     data_dir: Path
     bundles_path: Path
     release_assets_path: Path
-    lootlabs_manifest_path: Path
     frontend_bundles_path: Path
     bundle_dir: Path
 
@@ -33,7 +32,6 @@ class LegacyPaths:
     data_dir: Path
     bundles_path: Path
     release_assets_path: Path
-    lootlabs_manifest_path: Path
     bundle_dir: Path
 
 
@@ -59,7 +57,6 @@ def site_paths(repo_root: Path, site_id: str) -> SitePaths:
         data_dir=data_dir,
         bundles_path=data_dir / "bundles.json",
         release_assets_path=data_dir / "release-assets.json",
-        lootlabs_manifest_path=data_dir / "lootlabs-links.json",
         frontend_bundles_path=data_dir / "frontend-bundles.json",
         bundle_dir=repo_root / "bundles" / "sites" / site_id,
     )
@@ -70,6 +67,5 @@ def legacy_paths(repo_root: Path) -> LegacyPaths:
         data_dir=repo_root / "data",
         bundles_path=repo_root / "data" / "bundles.json",
         release_assets_path=repo_root / "data" / "release-assets.json",
-        lootlabs_manifest_path=repo_root / "data" / "lootlabs-links.json",
         bundle_dir=repo_root / "bundles",
     )

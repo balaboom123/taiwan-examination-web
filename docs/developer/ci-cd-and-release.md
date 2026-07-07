@@ -28,7 +28,6 @@ Current behavior:
 - commits refreshed source manifest when probe finds no changes
 - runs `sync-targeted` when probe reports changes
 - uploads and prunes release assets
-- refreshes LootLabs links
 - commits regenerated `data/`
 
 ### `sync-full.yml`
@@ -42,7 +41,6 @@ Current behavior:
 - runs `sync-full`
 - ensures the release exists
 - uploads and prunes release assets
-- refreshes LootLabs links
 - commits regenerated `data/`
 
 ### `audit-recent.yml`
@@ -58,7 +56,6 @@ Current behavior:
 - downloads current release bundles when possible
 - runs recent-year incremental sync only when hosted coverage is already complete
 - uploads and prunes release assets
-- refreshes LootLabs links
 - commits audited `data/`
 
 ### `discover.yml`
@@ -81,7 +78,6 @@ Purpose:
 Current behavior:
 
 - checks out repo
-- refreshes LootLabs links before build
 - builds `frontend/`
 - emits frontend `data/bundles.json` during the build
 - deploys `frontend/dist` to GitHub Pages
@@ -110,7 +106,6 @@ These assumptions MUST be removed before multiple sites publish independent bund
 Current workflows rely on:
 
 - `GH_TOKEN` or `github.token`
-- `LOOTLABS_API_KEY`
 - `gh` CLI for release asset management
 - Python 3.12
 - Node for `frontend/`
@@ -140,7 +135,6 @@ Responsibilities:
 
 - build bundles for a site
 - publish release assets for a site
-- refresh optional gating manifests for a site
 - commit or store site publication outputs
 
 Naming pattern:
@@ -164,7 +158,6 @@ Naming pattern:
 - A workflow MUST NOT mutate another provider's manifest, mirror, bundle, or release state.
 - New workflows MUST prefer generic environment variable names or site/provider-scoped names over hard-coded MOEX names.
 - Release tags MUST be site-scoped in the target architecture.
-- Gating refresh MUST happen after bundle metadata is finalized, never before.
 - Deploy workflows MUST use site-owned publication data as input.
 
 ## Migration Guidance

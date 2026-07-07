@@ -26,7 +26,7 @@ Every provider MUST NOT:
 
 - write to another provider's state
 - depend on frontend-specific logic to complete ingestion
-- depend on LootLabs or another monetization layer to complete sync
+- depend on monetization or frontend download gates to complete sync
 
 ## 3. Site Rules
 
@@ -60,12 +60,11 @@ Every site MUST NOT:
 - Deploy workflows MUST be site-scoped.
 - Workflow names, environment variables, and release tags MUST move away from MOEX-only naming for new work.
 
-## 6. Monetization Rules
+## 6. Download Gate Rules
 
-- Monetization layers such as LootLabs MUST wrap final bundle URLs only.
-- Monetization manifests MUST store enough information to validate target URL drift and checksum drift.
-- Monetization MUST remain optional per site.
-- Monetization failure MUST NOT corrupt provider state.
+- Download gates MUST apply to final bundle URLs only.
+- Download gates MUST remain optional per site.
+- Download gate failure MUST NOT corrupt provider state.
 
 ## 7. Testing Rules
 

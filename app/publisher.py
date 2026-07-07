@@ -102,7 +102,6 @@ def write_site_state(
     site,
     bundles: list[BundleAsset],
     frontend_bundles: list[dict],
-    lootlabs_manifest: dict | None,
 ) -> None:
     site.data_dir.mkdir(parents=True, exist_ok=True)
     site.bundles_path.write_text(
@@ -142,8 +141,6 @@ def write_site_state(
         ),
         encoding="utf-8",
     )
-    if lootlabs_manifest is not None:
-        site.lootlabs_manifest_path.write_text(json.dumps(lootlabs_manifest, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def apply_bundle_download_urls(
@@ -277,6 +274,5 @@ def publish_site(
         site,
         bundles_with_urls,
         frontend_bundles,
-        lootlabs_manifest=None,
     )
     return normalized_with_urls, bundles_with_urls

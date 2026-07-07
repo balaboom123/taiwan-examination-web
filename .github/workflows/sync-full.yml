@@ -69,15 +69,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py prune
 
-      - name: Sync LootLabs links
-        if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
-        env:
-          LOOTLABS_API_KEY: ${{ secrets.LOOTLABS_API_KEY }}
-          LOOTLABS_TIER_ID: "1"
-          LOOTLABS_NUMBER_OF_TASKS: "1"
-          LOOTLABS_THEME: "1"
-        run: python -m app sync-lootlabs --site-id default
-
       - name: Commit regenerated data
         if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
         run: |

@@ -14,8 +14,8 @@ The current and future lifecycle is:
 6. merge refreshed state with existing published state
 7. build bundles and release metadata
 8. upload/prune release assets
-9. refresh gating links
-10. publish legacy or frontend outputs
+9. publish frontend outputs
+10. apply frontend social-gated download behavior
 
 ## Stage Details
 
@@ -139,31 +139,28 @@ Integrity properties:
 - release state is derived from generated metadata, not manual memory
 - compatibility alias assets remain published when listed in generated metadata
 
-### 9. Gating link refresh
-
-Current behavior:
-
-- `sync-lootlabs` reads `data/bundles.json`
-- each LootLabs entry stores the target download URL and checksum
-- links are refreshed when settings, URL, or checksum change
-
-Future rule:
-
-- gating manifests MUST be site-scoped
-- gating MUST be optional at the site level
-- no provider code may depend on gating in order to complete ingestion
-
-### 10. Public output
+### 9. Public output
 
 Current behavior:
 
 - `app.publisher.publish_site` writes site-scoped publication metadata under `data/sites/<site_id>/`
-- the frontend build emits a frontend-specific `data/bundles.json` feed from publication data, optionally wrapped with LootLabs URLs
+- the frontend build emits a frontend-specific `data/bundles.json` feed from publication data
 
 Future rule:
 
 - public outputs MUST be site-scoped
 - frontend feed generation MUST consume publication outputs, never raw provider state
+
+### 10. Frontend social gate
+
+Current behavior:
+
+- generated bundle feeds keep direct ZIP URLs
+- the frontend download row opens a category-specific LINE channel before unlocking ZIP downloads locally
+
+Future rule:
+
+- provider and publication commands MUST NOT depend on frontend download gating to complete ingestion or release publication
 
 ## Current Write Behavior By Command
 
@@ -175,7 +172,6 @@ Future rule:
 | `sync-incremental` | yes | yes, safe subset only | preserves existing state for failed exam IDs and returns non-zero if failures remain |
 | `sync-full` | yes | yes | writes full regenerated outputs and returns non-zero if failures remain |
 | `build-bundles` | yes | no | local rebuild path; returns non-zero if failures exist |
-| `sync-lootlabs` | yes | no | fails if bundle schema, settings, or provider response are invalid |
 
 ## Generated Versus Manual Inputs
 
@@ -192,12 +188,11 @@ Generated outputs today:
 - `data/sync-failures.json`
 - `data/source-manifest.json`
 - `data/release-assets.json`
-- `data/lootlabs-links.json`
 
 Operators and developers MUST treat generated outputs as derived state. Manual edits to generated files are temporary recovery actions only and MUST be followed by a rebuilding command or code fix.
 
 ## Expansion Rules
 
 - New providers MUST own their own manifests, review queues, and failure logs.
-- New sites MUST own their own bundle metadata, release asset inventory, and gating manifests.
+- New sites MUST own their own bundle metadata and release asset inventory.
 - Shared schemas MAY evolve, but provider-specific fields MUST NOT leak into site-facing bundle feeds without an explicit contract update.

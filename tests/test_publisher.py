@@ -145,13 +145,6 @@ class PublisherTests(unittest.TestCase):
             root = Path(tmp_dir)
             provider = provider_paths(root, "moex")
             site = site_paths(root, "default")
-            lootlabs_manifest = {
-                "schema_version": 1,
-                "provider": "lootlabs",
-                "site_id": "default",
-                "links": [{"bundle_id": "nurse", "url": "https://lootlabs.gg/example"}],
-            }
-
             write_provider_state(
                 provider,
                 raw_pages=raw_pages,
@@ -164,20 +157,14 @@ class PublisherTests(unittest.TestCase):
                 site,
                 bundles=bundles,
                 frontend_bundles=[{"id": "nurse", "name": "Nurse", "years": [115], "fileCount": 1, "url": bundles[0].download_url}],
-                lootlabs_manifest=lootlabs_manifest,
             )
 
             self.assertTrue(provider.exams_dir.exists())
             self.assertTrue(site.bundles_path.exists())
             self.assertTrue(provider.aliases_path.exists())
             self.assertTrue(site.release_assets_path.exists())
-            self.assertEqual(
-                json.loads(site.lootlabs_manifest_path.read_text(encoding="utf-8")),
-                lootlabs_manifest,
-            )
             self.assertFalse((root / "data" / "bundles.json").exists())
             self.assertFalse((root / "data" / "release-assets.json").exists())
-            self.assertFalse((root / "data" / "lootlabs-links.json").exists())
 
     def test_publish_site_aggregates_provider_catalogs_into_default_site(self) -> None:
         moex_latest = NormalizedPaper(
@@ -507,7 +494,6 @@ class PublisherTests(unittest.TestCase):
                         "url": nurse_bundle.download_url,
                     }
                 ],
-                lootlabs_manifest=None,
             )
 
             normalized, bundles = publish_site(

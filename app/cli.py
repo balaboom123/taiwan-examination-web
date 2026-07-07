@@ -8,7 +8,6 @@ from pathlib import Path
 
 from app.bundler import build_bundles
 from app.crawler import year_ad_from_code
-from app.lootlabs import LootLabsError, load_lootlabs_settings_from_env, sync_lootlabs_manifest
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.migration import migrate_legacy_state
 from app.models import BundleAsset, NormalizedCatalog, SyncFailure
@@ -170,35 +169,6 @@ def command_build_bundles(args: argparse.Namespace) -> int:
     print(f"Built {len(bundles)} bundles, {len(rebuild_result.failures)} bundle failures", flush=True)
     if failures:
         print(f"{len(failures)} total failures (see data/sync-failures.json)", flush=True)
-        return 1
-    return 0
-
-
-def _load_lootlabs_bundles(site) -> list[BundleAsset]:
-    bundles_path = site.bundles_path
-    try:
-        if bundles_path.exists():
-            return load_site_bundles(site)
-        raise LootLabsError(f"{bundles_path} is required")
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
-        raise LootLabsError(f"Failed to read {bundles_path}: {exc}") from exc
-    except TypeError as exc:
-        raise LootLabsError(f"Invalid bundle entry in {bundles_path}") from exc
-
-
-def command_sync_lootlabs(args: argparse.Namespace) -> int:
-    try:
-        site = site_paths(args.repo_root, args.site_id)
-        bundles = _load_lootlabs_bundles(site)
-        api_key, settings = load_lootlabs_settings_from_env()
-        sync_lootlabs_manifest(
-            bundles=bundles,
-            manifest_path=site.lootlabs_manifest_path,
-            api_key=api_key,
-            settings=settings,
-        )
-    except LootLabsError as exc:
-        print(str(exc), flush=True)
         return 1
     return 0
 
@@ -621,14 +591,6 @@ def build_parser() -> argparse.ArgumentParser:
     build_bundles_parser.add_argument("--bundle-base-url", default="")
     build_bundles_parser.add_argument("--min-years", type=int, default=2)
     build_bundles_parser.set_defaults(handler=command_build_bundles)
-
-    lootlabs_parser = subparsers.add_parser(
-        "sync-lootlabs",
-        help="Create or refresh LootLabs content-locker links for generated bundle downloads.",
-    )
-    lootlabs_parser.add_argument("--repo-root", type=Path, default=repo_root)
-    lootlabs_parser.add_argument("--site-id", default="default")
-    lootlabs_parser.set_defaults(handler=command_sync_lootlabs)
 
     publish_site_parser = subparsers.add_parser("publish-site", help="Aggregate provider outputs and publish one site.")
     publish_site_parser.add_argument("--repo-root", type=Path, default=repo_root)

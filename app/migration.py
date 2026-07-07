@@ -120,15 +120,6 @@ def _plan_actions(repo_root: Path, *, provider_id: str, site_id: str) -> list[Pl
         )
     )
     actions.extend(
-        _plan_file_action(
-            source=legacy.lootlabs_manifest_path,
-            target=site.lootlabs_manifest_path,
-            retention="move",
-            payload_kind="raw",
-            prune_boundary=legacy.data_dir,
-        )
-    )
-    actions.extend(
         _plan_directory_moves(
             source_dir=repo_root / "mirror",
             target_dir=provider.mirror_dir,

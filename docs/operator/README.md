@@ -7,7 +7,7 @@ Use these docs if you:
 - run syncs manually
 - trigger or inspect GitHub Actions workflows
 - rebuild bundles or publication outputs
-- refresh LootLabs links
+- verify social-gated download behavior
 - investigate publication failures
 
 These docs assume you are operating the repository, not browsing the public website.
@@ -31,7 +31,7 @@ Current operating model:
 
 - one active provider: MOEX
 - one primary release tag for bundles
-- one current gating provider: LootLabs
+- frontend social gate for public downloads, with no generated gating manifest
 - modern `frontend/` deploy fed by site-scoped publication data
 
 Future operating model:

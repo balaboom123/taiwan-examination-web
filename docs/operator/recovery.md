@@ -13,7 +13,7 @@ Use this guide when sync, publication, release, or deploy behavior fails.
 
 When something fails, answer these questions first:
 
-1. Did the failure happen during provider fetch, site publication, release publication, gating, or deploy?
+1. Did the failure happen during provider fetch, site publication, release publication, frontend download gating, or deploy?
 2. Did any generated files change before the failure?
 3. Is the problem limited to one provider or does it affect the whole `default` site?
 4. Is the site release asset set still complete?
@@ -77,50 +77,44 @@ Recovery:
 5. run `python .github/scripts/release_assets.py prune`
 6. verify each site-owned release tag after upload and prune complete
 
-## Scenario 4: LootLabs Links Are Missing Or Stale
+## Scenario 4: Social-Gated Downloads Look Wrong
 
 Symptoms:
 
 - frontend links do not resolve as expected
-- `sync-lootlabs` fails
-- LootLabs manifest entries do not match current bundle URL or checksum
+- first click opens the wrong LINE channel
+- second click still does not open the ZIP
 
 Recovery:
 
-1. verify `LOOTLABS_API_KEY`
-2. verify `data/sites/default/bundles.json` exists and reflects the current bundles
-3. rerun:
-
-```bash
-python -m app sync-lootlabs --site-id default
-```
-
-4. if link creation still fails, inspect provider response behavior and check whether the upstream API changed
+1. verify `data/sites/default/bundles.json` exists and reflects the current bundles
+2. verify the frontend category mapping in `frontend/src/lib/social-gate.ts`
+3. run the frontend tests and build
+4. redeploy after fixing code or generated bundle metadata
 
 Important:
 
-- do not edit `data/sites/default/lootlabs-links.json` by hand as a permanent fix
-- refresh from generated bundle metadata instead
+- there is no generated gating manifest
+- the social gate is client-side; it cannot verify LINE membership
 
 ## Scenario 5: Frontend Deploy Fails
 
 Symptoms:
 
 - `deploy-pages.yml` fails
-- frontend build cannot read bundle data or LootLabs manifest
+- frontend build cannot read bundle data
 
 Recovery:
 
 1. verify generated `data/sites/default/bundles.json`
-2. verify `data/sites/default/lootlabs-links.json` if gating is enabled
-3. run locally:
+2. run locally:
 
 ```bash
-node --test frontend/build/bundles-data.test.mjs
+cmd /c "cd /d frontend && npm test"
 cmd /c "cd /d frontend && npm run build"
 ```
 
-4. rerun deploy workflow after fixing data or build issues
+3. rerun deploy workflow after fixing data or build issues
 
 ## Scenario 6: Bundle URLs Or Public Downloads Look Wrong
 
@@ -140,7 +134,6 @@ python -m app publish-site --site-id default --repository <owner>/<repo>
 ```
 
 4. republish release assets with `release_assets.py upload`
-5. rerun `python -m app sync-lootlabs --site-id default` if gating is enabled
 
 ## Scenario 7: Alias Or Normalization Drift
 
@@ -169,7 +162,7 @@ Recovery:
 2. verify `mirror/providers/ceec_gsat/` contains the expected downloads
 3. rerun the CEEC provider sync
 4. rerun `python -m app publish-site --site-id default --repository <owner>/<repo>` only after every required provider state and mirror input for `default` is present
-5. rerun release publication and LootLabs sync if the site bundle metadata changed
+5. rerun release publication if the site bundle metadata changed
 
 ## Scenario 9: Legacy State Migration Verify Fails
 

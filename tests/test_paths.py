@@ -27,7 +27,6 @@ class PathLayoutTests(unittest.TestCase):
         self.assertEqual(paths.data_dir, root / "data" / "sites" / "default")
         self.assertEqual(paths.bundles_path, root / "data" / "sites" / "default" / "bundles.json")
         self.assertEqual(paths.release_assets_path, root / "data" / "sites" / "default" / "release-assets.json")
-        self.assertEqual(paths.lootlabs_manifest_path, root / "data" / "sites" / "default" / "lootlabs-links.json")
         self.assertEqual(paths.frontend_bundles_path, root / "data" / "sites" / "default" / "frontend-bundles.json")
         self.assertEqual(paths.bundle_dir, root / "bundles" / "sites" / "default")
 

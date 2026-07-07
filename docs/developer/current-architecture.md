@@ -24,7 +24,6 @@ Current major characteristics:
 | `app/sync.py` | mirroring, payload validation, and normalized input preparation |
 | `app/state.py` | incremental and targeted merge logic against existing generated state |
 | `app/publisher.py` | write generated site-scoped publication JSON files |
-| `app/lootlabs.py` | create and refresh LootLabs content-locker links |
 | `app/manifest.py` | source manifest read/write for probe state |
 | `app/probe.py` | probe recent source changes without full download |
 | `.github/workflows/` | scheduled and manual automation |
@@ -43,7 +42,6 @@ These commands are implemented in `python -m app` today:
 | `sync-incremental` | refresh a recent year window | updated generated data with safe partial merge |
 | `sync-full` | rebuild from the live source | full generated data and bundles |
 | `build-bundles` | rebuild ZIP bundles from existing local state only | updated `bundles/`, `data/bundles.json` |
-| `sync-lootlabs` | create or refresh LootLabs links for bundle downloads | `data/lootlabs-links.json` |
 
 ## Current Generated Data
 
@@ -58,7 +56,6 @@ The repo currently writes these root-level artifacts:
 | `data/sync-failures.json` | generated | download/build failures |
 | `data/source-manifest.json` | generated | probe state for cheap incremental checks |
 | `data/release-assets.json` | generated | expected release asset inventory |
-| `data/lootlabs-links.json` | generated | current LootLabs link manifest |
 | `data/aliases.json` | manual input | alias rules maintained by developers/operators |
 
 `data/aliases.json` is the only intended manual normalization input in the current `data/` tree. Everything else is generated.
@@ -82,8 +79,8 @@ There is one supported public output surface today:
 6. `app/bundler.py` rebuilds ZIP bundles and canonical bundle metadata.
 7. `app/publisher.py` writes generated site-scoped publication JSON outputs.
 8. `.github/scripts/release_assets.py` ensures release coverage and publishes bundle ZIP assets.
-9. `sync-lootlabs` wraps bundle URLs with current LootLabs links.
-10. `frontend/` build emits a frontend-friendly `data/bundles.json` feed and deploys the app.
+9. `frontend/` build emits a frontend-friendly `data/bundles.json` feed and deploys the app.
+10. Frontend download rows open the configured LINE channel before unlocking ZIP downloads locally.
 
 ## Current Automation
 
@@ -102,7 +99,6 @@ These are the main structural limitations that MUST be removed over time:
 - most generated state is unscoped root-level state in `data/`
 - workflow names and environment variables are MOEX-specific
 - one release tag owns all published bundles
-- one LootLabs manifest is assumed for the full publication set
 - the frontend feed assumes a single global `data/bundles.json`
 - provider behavior is mixed into shared orchestration paths
 

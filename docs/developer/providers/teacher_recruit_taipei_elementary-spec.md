@@ -75,7 +75,7 @@ Unknown subjects fall back to a stable SHA-1 based `subject-<hash>` code.
 - workflow: `.github/workflows/sync-teacher-recruit-taipei-elementary.yml`
 - schedule: Tuesday `05:55` UTC, provider-only refresh
 - command: `python -m app sync-full --provider teacher_recruit_taipei_elementary --site-id default`
-- no direct `publish-site`, LootLabs sync, or release upload in the provider-only workflow
+- no direct `publish-site`, release upload in the provider-only workflow
 
 ## 8. Operator Runbook
 
