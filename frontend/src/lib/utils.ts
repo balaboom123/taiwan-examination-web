@@ -5,6 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/** Internal link honoring the GitHub Pages base path. Pass "" for home. */
+export function siteHref(path: string): string {
+  return import.meta.env.BASE_URL + path
+}
+
 export function rocToAd(roc: number): number {
   return roc + 1911
 }

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useRef, useEffect } from "react"
 import { useBundles } from "@/hooks/use-bundles"
 import { useDebouncedValue } from "@/hooks/use-debounce"
 import { formatYearRange } from "@/lib/utils"
@@ -13,37 +13,13 @@ import { LoadingSkeleton } from "@/components/loading-skeleton"
 import { Pagination } from "@/components/pagination"
 import { Stamp } from "@/components/stamp"
 import { CategoryFilter } from "@/components/category-filter"
+import { Footer } from "@/components/footer"
+import { PaperGrain } from "@/components/paper-grain"
+import { hasSocialAccess } from "@/lib/social-gate"
 import { EXAM_CLASSES, type ExamClass } from "@/lib/exam-classification"
 import type { Bundle } from "@/types"
 
 const PAGE_SIZE = 30
-
-function PaperGrain() {
-  return (
-    <div
-      aria-hidden="true"
-      className="texture-paper pointer-events-none fixed inset-0 z-50 opacity-[0.035] mix-blend-multiply"
-    />
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-4xl flex-col gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
-        <span>資料來源：考選部 · 國營事業 · 國中會考 · 技能檢定 · 本站為非官方整理</span>
-        <a
-          href="https://github.com/balaboom123/taiwan-examination-web"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono transition-colors hover:text-ink-950"
-        >
-          GitHub
-        </a>
-      </div>
-    </footer>
-  )
-}
 
 function App() {
   const { bundles, loading, error } = useBundles()
@@ -54,6 +30,20 @@ function App() {
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
   const [sortKey, setSortKey] = useState<SortKey>("name")
   const [page, setPage] = useState(1)
+  const [unlocked, setUnlocked] = useState(hasSocialAccess)
+  const listTopRef = useRef<HTMLParagraphElement>(null)
+
+  // The join page (opened in a new tab) grants access; pick it up here via
+  // the cross-tab storage event, with focus as a fallback.
+  useEffect(() => {
+    const sync = () => setUnlocked((u) => u || hasSocialAccess())
+    window.addEventListener("storage", sync)
+    window.addEventListener("focus", sync)
+    return () => {
+      window.removeEventListener("storage", sync)
+      window.removeEventListener("focus", sync)
+    }
+  }, [])
 
   const allYears = useMemo(() => {
     const set = new Set<number>()
@@ -169,6 +159,11 @@ function App() {
     setPage(1)
   }
 
+  function handlePageChange(nextPage: number) {
+    setPage(nextPage)
+    listTopRef.current?.scrollIntoView()
+  }
+
   function handleReset() {
     setQuery("")
     setSelectedYear(null)
@@ -205,7 +200,7 @@ function App() {
       <PaperGrain />
       <Header totalBundles={bundles.length} />
 
-      <main className="mx-auto w-full max-w-4xl flex-1 px-6 pb-10 pt-10">
+      <main id="main" className="mx-auto w-full max-w-4xl flex-1 px-6 pb-10 pt-10">
         <section className="flex items-start justify-between gap-8">
           <div>
             <h2 className="font-serif text-3xl font-black tracking-tight text-ink-950 md:text-[2.5rem] md:leading-[1.15]">
@@ -270,7 +265,8 @@ function App() {
           ) : (
             <div className="animate-fade-in">
               <p
-                className="mb-2 font-mono text-xs text-ink-500"
+                ref={listTopRef}
+                className="mb-2 scroll-mt-24 font-mono text-xs text-ink-500"
                 aria-live="polite"
               >
                 第 {(safePage - 1) * PAGE_SIZE + 1}–
@@ -282,13 +278,17 @@ function App() {
                 className="-mx-4 divide-y divide-line border-y border-line"
               >
                 {paginated.map((bundle: Bundle) => (
-                  <BundleRow key={bundle.id} bundle={bundle} />
+                  <BundleRow
+                    key={bundle.id}
+                    bundle={bundle}
+                    unlocked={unlocked}
+                  />
                 ))}
               </ul>
               <Pagination
                 current={safePage}
                 total={totalPages}
-                onChange={setPage}
+                onChange={handlePageChange}
               />
             </div>
           )}

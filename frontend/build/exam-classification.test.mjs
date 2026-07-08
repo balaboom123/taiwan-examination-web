@@ -176,33 +176,9 @@ test("IT certification bundles are grouped under computer information certificat
   })
 })
 
-test("download gate chooses LINE channel from bundle category", async () => {
-  const { socialChannelForBundle } = await loadSocialGate()
-
-  assert.equal(
-    socialChannelForBundle({ examClass: "升學測驗", examSubclass: "國中教育會考" }).url,
-    "https://line.me/ti/g2/MhOvoVeolNCiW378gPYpwxNd_UKOSkeyh-8k0Q?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  )
-  assert.equal(
-    socialChannelForBundle({ examClass: "升學測驗", examSubclass: "學測" }).url,
-    "https://line.me/ti/g2/MN4eYdpSgoM56-DgqE9k-NtOJKQ_nbnJWeqVSQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  )
-  assert.equal(
-    socialChannelForBundle({ examClass: "升學測驗", examSubclass: "分科測驗" }).url,
-    "https://line.me/ti/g2/MN4eYdpSgoM56-DgqE9k-NtOJKQ_nbnJWeqVSQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  )
-  assert.equal(
-    socialChannelForBundle({ examClass: "國營/就業甄試", examSubclass: "國營事業聯招" }).url,
-    "https://line.me/ti/g2/BbtDmyVsB-xV-dRc2WfItQC2xz0ImRxDmQVycg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  )
-  assert.equal(
-    socialChannelForBundle({ examClass: "專技人員考試", examSubclass: "醫事/健康" }).url,
-    "https://line.me/ti/g2/BbtDmyVsB-xV-dRc2WfItQC2xz0ImRxDmQVycg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  )
-})
-
-test("download gate access is shared by social channel", async () => {
-  const { grantSocialAccess, hasSocialAccess } = await loadSocialGate()
+test("download gate access is global and honors legacy per-channel keys", async () => {
+  const { grantSocialAccess, hasSocialAccess, SOCIAL_CHANNELS } =
+    await loadSocialGate()
   const previousWindow = globalThis.window
   const storage = new Map()
 
@@ -214,12 +190,15 @@ test("download gate access is shared by social channel", async () => {
   }
 
   try {
-    assert.equal(hasSocialAccess("public-service"), false)
+    assert.equal(SOCIAL_CHANNELS.length, 3)
+    assert.equal(hasSocialAccess(), false)
 
-    grantSocialAccess("public-service")
+    grantSocialAccess()
+    assert.equal(hasSocialAccess(), true)
 
-    assert.equal(hasSocialAccess("public-service"), true)
-    assert.equal(hasSocialAccess("cap"), false)
+    storage.clear()
+    storage.set("taiwan-exam-download-access:cap", "1")
+    assert.equal(hasSocialAccess(), true)
   } finally {
     if (previousWindow === undefined) {
       delete globalThis.window

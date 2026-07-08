@@ -122,6 +122,18 @@ export default defineConfig(({ command }) => {
   })
   return {
     base,
+    build: {
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, "index.html"),
+          about: path.resolve(__dirname, "about.html"),
+          contact: path.resolve(__dirname, "contact.html"),
+          faq: path.resolve(__dirname, "faq.html"),
+          join: path.resolve(__dirname, "join.html"),
+          privacy: path.resolve(__dirname, "privacy.html"),
+        },
+      },
+    },
     plugins: [
       servedBundlesPlugin(),
       adsenseAssetsPlugin({ enabled: adsenseEnabled }),

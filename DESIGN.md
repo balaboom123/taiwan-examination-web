@@ -42,11 +42,14 @@ Chinese-first: tracking-wide on serif titles, letterspaced (0.2em+) small labels
 
 ## Components
 
-- **Download action**: seal-600 block, white Download icon + mono "ZIP" label (icon-only 44px square on mobile), hover seal-700, `active:translate-y-px`.
+- **Download action**: seal-600 block, white Download icon + mono "ZIP" label (icon-only 44px square on mobile), hover seal-700, `active:translate-y-px`. Locked rows show a bordered 加入 button + a paper-deep Lock/ZIP button instead; both open the join gate.
+- **Join gate** (`pages/join.tsx`, `/join.html`): one linktree-style page shared by every row — seal mark, centered narrow column, stacked bordered channel buttons. Locked-row actions are plain anchors to it (new tab); only visiting the page unlocks downloads site-wide (localStorage), and the opener tab picks the unlock up via the storage/focus events. Seal stays reserved for the unlocked download.
 - **Stamp** (`components/stamp.tsx`): rotated −5° bordered seal-red serif mark, used for empty ("查無資料") and error ("載入失敗") states. Decorative, `aria-hidden`.
 - **Filters**: square tags; selected = ink-950 fill with cream text; `aria-pressed` on all toggles.
 - **Pagination**: mono folio numbers, current page = ink-950 square with `aria-current="page"`.
 - **Skeleton**: ruled rows matching the list layout, shimmer in paper tones.
+- **Site nav**: quiet text links in the masthead (`sm:`+, active page underlined ink) and a colophon footer (`components/footer.tsx`) with page nav, data-source line, and unofficial disclaimer between hairlines.
+- **Info pages** (`pages/info-layout.tsx` + `about/contact/faq/privacy`): Vite MPA entries sharing the home hero pattern (serif h2 + vertical ornament); long-form body uses `.prose-info` (65ch, serif h2 with hairline rule above, ink underlined links — seal stays reserved for downloads).
 
 ## Motion
 
