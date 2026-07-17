@@ -216,6 +216,7 @@ Required fields:
 - `download_url`
 - `checksum`
 - `legacy_asset_names`
+- `part_index` and `part_count` when a logical bundle is multipart
 
 Rules:
 
@@ -224,6 +225,9 @@ Rules:
 - `download_url` MUST point to the ungated final artifact target.
 - `legacy_asset_names` MAY be used for compatibility but MUST remain site-owned, not provider-owned.
 - Consumers MUST NOT assume that all bundles for a site live under one release tag.
+- GitHub release assets MUST be smaller than 2 GiB; the generator targets a lower safety ceiling (currently 1.9 GB).
+- A logical identity MAY have multiple physical records when its payload exceeds the byte ceiling. Multipart records MUST share `bundle_id`, carry `part_index`/`part_count`, and have distinct `asset_name` values.
+- Multipart projections MUST NOT publish a legacy alias as if it were a complete archive. Legacy aliases are retained only for unsplit assets; old v1 releases remain the compatibility source.
 
 Recommended future wrapped shape:
 
@@ -254,6 +258,8 @@ Rules:
 - Site publication MUST support multiple release tags.
 - The default operational ceiling is to shard before any one release exceeds 900 physical ZIP assets.
 - Physical count includes the primary asset and every `legacy_asset_names` alias; no release may exceed 1,000 physical assets.
+- Byte size is an independent constraint: every uploaded ZIP MUST be strictly below GitHub's 2 GiB per-asset limit.
+- Release tooling MUST check local byte size before invoking `gh release upload`; a failed upload MUST NOT leave a manifest pointing at an oversized asset.
 
 ## Site Contract: Frontend Bundle Feed
 
@@ -283,7 +289,11 @@ Required future wrapped shape:
       "name": "Nurse",
       "years": [115, 114],
       "fileCount": 42,
-      "url": "https://..."
+      "url": "https://...",
+      "parts": [
+        {"label": "第 1/2 部分", "url": "https://...", "fileCount": 500},
+        {"label": "第 2/2 部分", "url": "https://...", "fileCount": 450}
+      ]
     }
   ]
 }
@@ -296,6 +306,7 @@ Rules:
 - The frontend feed MUST be derivable entirely from site publication outputs.
 - Frontend consumers MUST NOT need to know which release tag stores a given asset.
 - V2 frontend entries MUST consume structured series/level/track facets; they MUST NOT reconstruct official identity from display-name regexes.
+- Multipart entries MUST render one logical row with one download control per part; the row's file count is the sum of its parts.
 
 ## Compatibility Policy
 

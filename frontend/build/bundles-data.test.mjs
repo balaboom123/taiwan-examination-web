@@ -62,6 +62,48 @@ test("toFrontendBundles converts generated bundle records into the frontend sche
   )
 })
 
+test("toFrontendBundles groups multipart physical records into one logical download row", () => {
+  assert.deepEqual(
+    toFrontendBundles([
+      {
+        canonical_id: "large",
+        canonical_name: "Large",
+        years: [115],
+        file_count: 4,
+        download_url: "https://example.com/large-part-1.zip",
+        checksum: "sha-1",
+        part_index: 1,
+        part_count: 2,
+        part_label: "第 1/2 部分",
+      },
+      {
+        canonical_id: "large",
+        canonical_name: "Large",
+        years: [114],
+        file_count: 5,
+        download_url: "https://example.com/large-part-2.zip",
+        checksum: "sha-2",
+        part_index: 2,
+        part_count: 2,
+        part_label: "第 2/2 部分",
+      },
+    ]),
+    [
+      {
+        id: "large",
+        name: "Large",
+        years: [115, 114],
+        fileCount: 9,
+        url: "https://example.com/large-part-1.zip",
+        parts: [
+          { label: "第 1/2 部分", url: "https://example.com/large-part-1.zip", fileCount: 4 },
+          { label: "第 2/2 部分", url: "https://example.com/large-part-2.zip", fileCount: 5 },
+        ],
+      },
+    ],
+  )
+})
+
 test("toFrontendBundles preserves structured v2 identity facets", () => {
   assert.deepEqual(
     toFrontendBundles([

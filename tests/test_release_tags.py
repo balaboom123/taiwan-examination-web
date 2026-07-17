@@ -136,6 +136,35 @@ class ReleaseTagAssignmentTests(unittest.TestCase):
             ],
         )
 
+    def test_apply_bundle_download_urls_groups_multipart_parts(self) -> None:
+        first = _bundle("large--part-01-of-02.zip", canonical_id="large")
+        first.bundle_id = "large"
+        first.part_index = 1
+        first.part_count = 2
+        first.part_label = "第 1/2 部分"
+        first.file_count = 4
+        second = _bundle("large--part-02-of-02.zip", canonical_id="large")
+        second.bundle_id = "large"
+        second.part_index = 2
+        second.part_count = 2
+        second.part_label = "第 2/2 部分"
+        second.file_count = 5
+        bundles = assign_release_tags(
+            release_tag_prefix="default-bundles",
+            existing_bundles=[],
+            bundles=[first, second],
+            max_assets_per_release=10,
+        )
+
+        _catalog, _updated, frontend = apply_bundle_download_urls(
+            NormalizedCatalog(papers=[], review_queue=[]), bundles, repository="example/repo"
+        )
+
+        self.assertEqual(len(frontend), 1)
+        self.assertEqual(frontend[0]["id"], "large")
+        self.assertEqual(frontend[0]["fileCount"], 9)
+        self.assertEqual([part["label"] for part in frontend[0]["parts"]], ["第 1/2 部分", "第 2/2 部分"])
+
     def test_assign_release_tags_counts_compatibility_aliases_as_physical_assets(self) -> None:
         first = _bundle("a.zip")
         first.legacy_asset_names = ["a-legacy.zip"]

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import type { Bundle } from "@/types"
+import type { Bundle, BundlePart } from "@/types"
 import { classifyBundle } from "@/lib/exam-classification"
 
 interface UseBundlesResult {
@@ -14,6 +14,7 @@ interface RawBundle {
   years: number[]
   fileCount: number
   url: string
+  parts?: BundlePart[]
   examClass?: string
   examSubclass?: string
   domainId?: string
@@ -33,7 +34,13 @@ function isValidRawBundle(item: unknown): item is RawBundle {
     typeof obj.name === "string" &&
     Array.isArray(obj.years) &&
     typeof obj.fileCount === "number" &&
-    typeof obj.url === "string"
+    typeof obj.url === "string" &&
+    (obj.parts === undefined || (Array.isArray(obj.parts) && obj.parts.every((part) =>
+      typeof part === "object" && part !== null &&
+      typeof (part as { label?: unknown }).label === "string" &&
+      typeof (part as { url?: unknown }).url === "string" &&
+      typeof (part as { fileCount?: unknown }).fileCount === "number"
+    )))
   )
 }
 

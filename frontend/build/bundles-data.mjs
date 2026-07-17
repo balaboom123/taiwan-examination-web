@@ -128,7 +128,36 @@ function toFrontendBundle(bundle, index) {
 
 export function toFrontendBundles(bundles) {
   const normalizedBundles = normalizeBundlesSource(bundles)
-  return normalizedBundles.map((bundle, index) => toFrontendBundle(bundle, index))
+  const grouped = new Map()
+
+  normalizedBundles.forEach((bundle, index) => {
+    const frontend = toFrontendBundle(bundle, index)
+    const partCount = Number.isInteger(bundle.part_count) ? bundle.part_count : 1
+    const partIndex = Number.isInteger(bundle.part_index) ? bundle.part_index : 1
+    const part = {
+      label: typeof bundle.part_label === "string" && bundle.part_label
+        ? bundle.part_label
+        : `第 ${partIndex}/${partCount} 部分`,
+      url: frontend.url,
+      fileCount: frontend.fileCount,
+    }
+    const existing = grouped.get(frontend.id)
+    if (!existing) {
+      if (partCount > 1) frontend.parts = [part]
+      grouped.set(frontend.id, frontend)
+      return
+    }
+
+    existing.years = Array.from(new Set([...existing.years, ...frontend.years])).sort((a, b) => b - a)
+    existing.fileCount += frontend.fileCount
+    if (!existing.parts) existing.parts = []
+    existing.parts.push(part)
+  })
+
+  return Array.from(grouped.values()).map((bundle) => {
+    if (bundle.parts && bundle.parts.length <= 1) delete bundle.parts
+    return bundle
+  })
 }
 
 function normalizePathCandidates(pathOrPaths) {

@@ -20,6 +20,11 @@ WINDOWS_RESERVED_NAMES = {
     *(f"LPT{index}" for index in range(1, 10)),
 }
 
+# GitHub rejects release assets at 2 GiB or larger. Keep a generous margin
+# because the API limit is strict and ZIP metadata adds a small amount.
+MAX_BUNDLE_BYTES = 1_900_000_000
+BUNDLE_PART_OVERHEAD = 4096
+
 
 def _safe_segment(value: str, max_length: int | None = None) -> str:
     cleaned = (value or "").strip()
@@ -160,6 +165,95 @@ def _legacy_asset_names(
     return [name for name in dict.fromkeys(names) if name != asset_name]
 
 
+def _part_asset_name(asset_name: str, part_index: int, part_count: int) -> str:
+    suffix = Path(asset_name).suffix or ".zip"
+    stem = asset_name[: -len(suffix)] if asset_name.endswith(suffix) else asset_name
+    return f"{stem}--part-{part_index:02d}-of-{part_count:02d}{suffix}"
+
+
+def _partition_bundle_entries(
+    archive: zipfile.ZipFile,
+    entries: list[tuple[NormalizedPaper, str]],
+    *,
+    max_bytes: int,
+) -> list[list[tuple[NormalizedPaper, str]]]:
+    groups: list[list[tuple[NormalizedPaper, str]]] = []
+    current: list[tuple[NormalizedPaper, str]] = []
+    current_size = BUNDLE_PART_OVERHEAD
+    for paper, arcname in entries:
+        info = archive.getinfo(arcname)
+        contribution = info.file_size + BUNDLE_PART_OVERHEAD
+        if contribution > max_bytes:
+            raise ValueError(
+                f"bundle entry {arcname} is {info.file_size} bytes and exceeds the "
+                f"{max_bytes}-byte multipart target"
+            )
+        if current and current_size + contribution > max_bytes:
+            groups.append(current)
+            current = []
+            current_size = BUNDLE_PART_OVERHEAD
+        current.append((paper, arcname))
+        current_size += contribution
+    if current:
+        groups.append(current)
+    return groups
+
+
+def _split_bundle_archive(
+    bundle_path: Path,
+    asset_name: str,
+    *,
+    included_papers: list[NormalizedPaper],
+    bundle_entries_by_paper_key: dict[tuple[str, str, str, str], str],
+    max_bytes: int,
+) -> list[tuple[Path, str, list[NormalizedPaper]]]:
+    """Split an oversized archive into independently downloadable ZIP parts."""
+    if bundle_path.stat().st_size <= max_bytes:
+        return [(bundle_path, asset_name, included_papers)]
+
+    entries = [
+        (paper, bundle_entries_by_paper_key[_paper_bundle_key(paper)])
+        for paper in included_papers
+    ]
+    for stale_part in bundle_path.parent.glob(f"{bundle_path.stem}--part-*.zip"):
+        stale_part.unlink(missing_ok=True)
+
+    with zipfile.ZipFile(bundle_path, "r") as source:
+        groups = _partition_bundle_entries(source, entries, max_bytes=max_bytes)
+        base_manifest = json.loads(source.read("bundle.json").decode("utf-8"))
+        part_paths: list[tuple[Path, str, list[NormalizedPaper]]] = []
+        part_count = len(groups)
+        for part_index, group in enumerate(groups, 1):
+            part_name = _part_asset_name(asset_name, part_index, part_count)
+            part_path = bundle_path.with_name(part_name)
+            with zipfile.ZipFile(part_path, "w", compression=zipfile.ZIP_STORED, allowZip64=True) as destination:
+                for _paper, arcname in group:
+                    with source.open(arcname, "r") as source_entry, destination.open(
+                        arcname, "w", force_zip64=True
+                    ) as destination_entry:
+                        shutil.copyfileobj(source_entry, destination_entry, length=1024 * 1024)
+                part_manifest = dict(base_manifest)
+                part_manifest["part_index"] = part_index
+                part_manifest["part_count"] = part_count
+                part_manifest["part_label"] = f"第 {part_index}/{part_count} 部分"
+                part_manifest["file_count"] = len(group)
+                part_manifest["years"] = sorted({paper.year_roc for paper, _arcname in group}, reverse=True)
+                part_manifest["papers"] = [
+                    {**to_plain_data(paper), "bundle_entry": arcname}
+                    for paper, arcname in group
+                ]
+                destination.writestr(
+                    "bundle.json",
+                    json.dumps(part_manifest, ensure_ascii=False, indent=2),
+                )
+            if part_path.stat().st_size >= 2_147_483_648:
+                raise ValueError(f"generated multipart asset still exceeds GitHub's 2 GiB limit: {part_path}")
+            part_paths.append((part_path, part_name, [paper for paper, _arcname in group]))
+
+    bundle_path.unlink()
+    return part_paths
+
+
 _EntryRef = tuple[Path, str]
 
 
@@ -262,7 +356,10 @@ def build_bundles(
     on_load_progress: Callable | None = None,
     min_years: int = 1,
     min_years_by_canonical_prefix: dict[str, int] | None = None,
+    max_bundle_bytes: int = MAX_BUNDLE_BYTES,
 ) -> BundleBuildResult:
+    if max_bundle_bytes < 1 or max_bundle_bytes >= 2_147_483_648:
+        raise ValueError("max_bundle_bytes must be below GitHub's 2 GiB per-asset limit")
     bundle_dir.mkdir(parents=True, exist_ok=True)
     existing_entries_by_canonical, existing_entries_by_paper_key = _load_existing_entries_by_canonical(bundle_dir, on_progress=on_load_progress)
     grouped: dict[str, list[NormalizedPaper]] = {}
@@ -431,39 +528,53 @@ def build_bundles(
                 on_progress(group_index, total_groups, asset_name, 0)
             continue
 
-        digest = hashlib.sha256(bundle_path.read_bytes()).hexdigest()
+        part_specs = _split_bundle_archive(
+            bundle_path,
+            asset_name,
+            included_papers=included_papers,
+            bundle_entries_by_paper_key=bundle_entries_by_paper_key,
+            max_bytes=max_bundle_bytes,
+        )
         exemplar = included_papers[0]
         legacy_ids = sorted({paper.canonical_id for paper in papers if paper.canonical_id})
-        bundle_assets.append(
-            BundleAsset(
-                canonical_id=legacy_ids[0] if legacy_ids else canonical_id,
-                canonical_name=canonical_name,
-                years=sorted(included_years, reverse=True),
-                file_count=file_count,
-                storage_key=storage_key,
-                asset_name=asset_name,
-                release_tag="",
-                download_url="",
-                checksum=digest,
-                legacy_asset_names=legacy_asset_names,
-                schema_version=1 if legacy_projection else 2,
-                bundle_id="" if legacy_projection else canonical_id,
-                catalog_version="" if legacy_projection else exemplar.catalog_version,
-                domain_id="" if legacy_projection else exemplar.domain_id,
-                exam_family_id="" if legacy_projection else exemplar.exam_family_id,
-                exam_series_id="" if legacy_projection else exemplar.exam_series_id,
-                level_id="" if legacy_projection else exemplar.level_id,
-                track_id="" if legacy_projection else exemplar.track_id,
-                variant_ids=[] if legacy_projection else list(exemplar.variant_ids),
-                stage_id="" if legacy_projection else exemplar.stage_id,
-                bundle_policy_id="" if legacy_projection else exemplar.bundle_policy_id,
-                classification_confidence="" if legacy_projection else exemplar.classification_confidence,
-                classification_reason="" if legacy_projection else exemplar.classification_reason,
-                exam_class="" if legacy_projection else exemplar.exam_class,
-                exam_subclass="" if legacy_projection else exemplar.exam_subclass,
-                legacy_canonical_ids=sorted(set([*compatibility_ids, *legacy_ids]) - {legacy_ids[0] if legacy_ids else canonical_id}),
+        split_bundle = len(part_specs) > 1
+        part_count = len(part_specs)
+        for part_index, (part_path, part_name, part_papers) in enumerate(part_specs, 1):
+            part_digest = hashlib.sha256(part_path.read_bytes()).hexdigest()
+            part_years = sorted({paper.year_roc for paper in part_papers}, reverse=True)
+            bundle_assets.append(
+                BundleAsset(
+                    canonical_id=legacy_ids[0] if legacy_ids else canonical_id,
+                    canonical_name=canonical_name,
+                    years=part_years,
+                    file_count=len(part_papers),
+                    storage_key=f"bundles/{part_name}",
+                    asset_name=part_name,
+                    release_tag="",
+                    download_url="",
+                    checksum=part_digest,
+                    legacy_asset_names=[] if split_bundle else legacy_asset_names,
+                    schema_version=1 if legacy_projection else 2,
+                    bundle_id="" if legacy_projection else canonical_id,
+                    catalog_version="" if legacy_projection else exemplar.catalog_version,
+                    domain_id="" if legacy_projection else exemplar.domain_id,
+                    exam_family_id="" if legacy_projection else exemplar.exam_family_id,
+                    exam_series_id="" if legacy_projection else exemplar.exam_series_id,
+                    level_id="" if legacy_projection else exemplar.level_id,
+                    track_id="" if legacy_projection else exemplar.track_id,
+                    variant_ids=[] if legacy_projection else list(exemplar.variant_ids),
+                    stage_id="" if legacy_projection else exemplar.stage_id,
+                    bundle_policy_id="" if legacy_projection else exemplar.bundle_policy_id,
+                    classification_confidence="" if legacy_projection else exemplar.classification_confidence,
+                    classification_reason="" if legacy_projection else exemplar.classification_reason,
+                    exam_class="" if legacy_projection else exemplar.exam_class,
+                    exam_subclass="" if legacy_projection else exemplar.exam_subclass,
+                    legacy_canonical_ids=sorted(set([*compatibility_ids, *legacy_ids]) - {legacy_ids[0] if legacy_ids else canonical_id}),
+                    part_index=part_index,
+                    part_count=part_count,
+                    part_label=f"第 {part_index}/{part_count} 部分" if split_bundle else "",
+                )
             )
-        )
         if on_progress:
             on_progress(group_index, total_groups, asset_name, file_count)
     return BundleBuildResult(bundles=bundle_assets, failures=failures)

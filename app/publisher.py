@@ -138,6 +138,23 @@ def _release_asset_record(bundle: BundleAsset) -> dict:
                 "bundle_policy_id": bundle.bundle_policy_id,
             }
         )
+    if bundle.part_count > 1:
+        record.update(
+            {
+                "part_index": bundle.part_index,
+                "part_count": bundle.part_count,
+                "part_label": bundle.part_label,
+            }
+        )
+    return record
+
+
+def _site_bundle_record(bundle: BundleAsset) -> dict:
+    record = to_plain_data(bundle)
+    if bundle.part_count <= 1:
+        record.pop("part_index", None)
+        record.pop("part_count", None)
+        record.pop("part_label", None)
     return record
 
 
@@ -148,7 +165,7 @@ def write_site_state(
 ) -> None:
     site.data_dir.mkdir(parents=True, exist_ok=True)
     schema_version = 2 if any(_structured_bundle(bundle) for bundle in bundles) else 1
-    bundles_payload = {"schema_version": schema_version, "site_id": site.site_id, "bundles": to_plain_data(bundles)}
+    bundles_payload = {"schema_version": schema_version, "site_id": site.site_id, "bundles": [_site_bundle_record(bundle) for bundle in bundles]}
     if schema_version == 2:
         bundles_payload["catalog_version"] = "exam-identity-v2"
     site.bundles_path.write_text(
@@ -201,7 +218,9 @@ def apply_bundle_download_urls(
             download_url = f"https://github.com/{repository}/releases/download/{bundle.release_tag}/{quote(bundle.asset_name)}"
         updated_bundle = replace(bundle, download_url=download_url)
         updated_bundles.append(updated_bundle)
-        bundle_index[_bundle_key(updated_bundle)] = updated_bundle
+        # Paper-level links retain one stable primary URL. The frontend feed
+        # below exposes every part of a multipart logical bundle.
+        bundle_index.setdefault(_bundle_key(updated_bundle), updated_bundle)
         for legacy_id in updated_bundle.legacy_canonical_ids:
             bundle_index.setdefault(legacy_id, updated_bundle)
 
@@ -215,15 +234,36 @@ def apply_bundle_download_urls(
         for paper in normalized.papers
     ]
 
-    frontend_bundles = []
+    grouped: dict[str, list[BundleAsset]] = {}
+    order: list[str] = []
     for bundle in updated_bundles:
+        key = _bundle_key(bundle)
+        if key not in grouped:
+            grouped[key] = []
+            order.append(key)
+        grouped[key].append(bundle)
+
+    frontend_bundles = []
+    for key in order:
+        bundle_parts = sorted(grouped[key], key=lambda item: (item.part_index, item.asset_name))
+        bundle = bundle_parts[0]
+        years = sorted({year for part in bundle_parts for year in part.years}, reverse=True)
         frontend = {
-            "id": _bundle_key(bundle),
+            "id": key,
             "name": bundle.canonical_name,
-            "years": bundle.years,
-            "fileCount": bundle.file_count,
+            "years": years,
+            "fileCount": sum(part.file_count for part in bundle_parts),
             "url": bundle.download_url,
         }
+        if len(bundle_parts) > 1:
+            frontend["parts"] = [
+                {
+                    "label": part.part_label or f"第 {index}/{len(bundle_parts)} 部分",
+                    "url": part.download_url,
+                    "fileCount": part.file_count,
+                }
+                for index, part in enumerate(bundle_parts, 1)
+            ]
         if _structured_bundle(bundle):
             frontend.update(
                 {

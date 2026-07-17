@@ -152,6 +152,12 @@ class BundleAsset:
     exam_class: str = ""
     exam_subclass: str = ""
     legacy_canonical_ids: list[str] = field(default_factory=list)
+    # A logical exam identity may need multiple downloadable ZIP parts when
+    # one archive would exceed GitHub's per-asset byte limit. The identity
+    # remains `bundle_id`; these fields describe the physical projection.
+    part_index: int = 1
+    part_count: int = 1
+    part_label: str = ""
 
 
 @dataclass

@@ -275,6 +275,23 @@ class WorkflowTests(unittest.TestCase):
             ],
         )
 
+    def test_release_script_rejects_assets_at_github_byte_limit(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(b"PK\x05\x06")
+            local_assets = [{
+                "storage_key": str(bundle_path),
+                "asset_name": "bundle.zip",
+                "release_tag": "default-bundles-001",
+            }]
+            with mock.patch.object(module, "GITHUB_RELEASE_ASSET_BYTE_LIMIT", 1), \
+                    mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 1)
+        run_mock.assert_not_called()
+
     def test_release_script_upload_skips_remote_zip_names_that_already_exist(self) -> None:
         module = _load_release_script()
         with tempfile.TemporaryDirectory() as tmp:

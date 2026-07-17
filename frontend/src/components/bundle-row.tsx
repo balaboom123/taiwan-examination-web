@@ -48,18 +48,23 @@ export function BundleRow({
         )}
       </div>
       {unlocked ? (
-        <a
-          href={bundle.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`下載 ${bundle.name} 試題 ZIP`}
-          className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-[3px] bg-seal-600 text-cream transition-all hover:bg-seal-700 active:translate-y-px sm:w-auto sm:px-4"
-        >
-          <Download className="size-4" strokeWidth={2} />
-          <span className="hidden font-mono text-xs font-medium tracking-[0.15em] sm:inline">
-            ZIP
-          </span>
-        </a>
+        <div className="flex shrink-0 flex-wrap justify-end gap-2">
+          {(bundle.parts ?? [{ label: "ZIP", url: bundle.url, fileCount: bundle.fileCount }]).map((part) => (
+            <a
+              key={part.url}
+              href={part.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`下載 ${bundle.name} ${part.label}`}
+              className="flex h-11 items-center justify-center gap-2 rounded-[3px] bg-seal-600 px-3 text-cream transition-all hover:bg-seal-700 active:translate-y-px sm:px-4"
+            >
+              <Download className="size-4" strokeWidth={2} />
+              <span className="font-mono text-xs font-medium tracking-[0.15em]">
+                {part.label}
+              </span>
+            </a>
+          ))}
+        </div>
       ) : (
         <div className="flex shrink-0 items-center gap-2">
           {/* Real anchors, not window.open: a user-gesture anchor can't be

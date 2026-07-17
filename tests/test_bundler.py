@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import unittest
 import zipfile
@@ -396,6 +397,51 @@ class BundlerTests(unittest.TestCase):
             self.assertEqual([bundle.canonical_id for bundle in result.bundles], ["tii-aml"])
             self.assertTrue((bundles_dir / "tii-aml.zip").exists())
             self.assertFalse((bundles_dir / "ceec-gsat.zip").exists())
+            self.assertEqual(result.failures, [])
+
+    def test_build_bundles_splits_oversized_archive_into_manifested_parts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            bundles_dir = root / "bundles"
+            papers = []
+            for index in range(3):
+                storage_key = f"115/exam-{index}/101/010{index}/question.bin"
+                source = mirror_dir / storage_key
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_bytes(os.urandom(5500))
+                papers.append(
+                    make_paper(
+                        canonical_id="large",
+                        canonical_name="Large",
+                        year_roc=115,
+                        source_exam_id=f"exam-{index}",
+                        subject_code=f"010{index}",
+                        storage_key=storage_key,
+                    )
+                )
+
+            result = build_bundles(
+                bundle_dir=bundles_dir,
+                mirror_dir=mirror_dir,
+                normalized=NormalizedCatalog(papers=papers, review_queue=[]),
+                bundle_base_url="",
+                max_bundle_bytes=12_000,
+            )
+
+            self.assertEqual(len(result.bundles), 3)
+            self.assertEqual({bundle.bundle_id for bundle in result.bundles}, {""})
+            self.assertEqual({bundle.part_count for bundle in result.bundles}, {3})
+            self.assertEqual([bundle.part_index for bundle in result.bundles], [1, 2, 3])
+            self.assertFalse((bundles_dir / "large.zip").exists())
+            for bundle in result.bundles:
+                archive_path = bundles_dir / bundle.asset_name
+                self.assertLess(archive_path.stat().st_size, 12_000)
+                with zipfile.ZipFile(archive_path) as archive:
+                    manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
+                    self.assertEqual(manifest["part_count"], 3)
+                    self.assertEqual(manifest["part_index"], bundle.part_index)
+                    self.assertEqual(manifest["file_count"], 1)
             self.assertEqual(result.failures, [])
 
     def test_structured_asset_names_remain_unique_after_readable_prefix_truncation(self) -> None:

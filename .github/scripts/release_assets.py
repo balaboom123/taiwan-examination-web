@@ -18,6 +18,7 @@ RELEASE_ASSETS_PATH = Path("data") / "sites" / SITE_ID / "release-assets.json"
 UPLOAD_BATCH_SIZE = 50
 GITHUB_RELEASE_ASSET_LIMIT = 1000
 RELEASE_SAFETY_TARGET = 900
+GITHUB_RELEASE_ASSET_BYTE_LIMIT = 2_147_483_648
 
 
 def _local_assets() -> list[dict]:
@@ -150,6 +151,13 @@ def upload() -> int:
         for asset in assets:
             local_path = Path(asset["storage_key"])
             zip_names = _asset_zip_names(asset, include_legacy=False)
+            if local_path.exists() and local_path.stat().st_size >= GITHUB_RELEASE_ASSET_BYTE_LIMIT:
+                print(
+                    f"release asset {local_path} is {local_path.stat().st_size} bytes; "
+                    f"GitHub requires assets smaller than {GITHUB_RELEASE_ASSET_BYTE_LIMIT} bytes",
+                    file=sys.stderr,
+                )
+                return 1
             if not local_path.exists():
                 if any(name not in remote_names for name in zip_names):
                     missing.append(str(local_path))
