@@ -136,6 +136,56 @@ class ReleaseTagAssignmentTests(unittest.TestCase):
             ],
         )
 
+    def test_assign_release_tags_counts_compatibility_aliases_as_physical_assets(self) -> None:
+        first = _bundle("a.zip")
+        first.legacy_asset_names = ["a-legacy.zip"]
+        second = _bundle("b.zip")
+        updated = assign_release_tags(
+            release_tag_prefix="default-bundles",
+            existing_bundles=[],
+            bundles=[first, second],
+            max_assets_per_release=2,
+        )
+
+        self.assertEqual([bundle.release_tag for bundle in updated], ["default-bundles-001", "default-bundles-002"])
+
+    def test_release_capacity_rejects_more_than_hard_limit(self) -> None:
+        from app.release_tags import validate_release_capacity
+
+        bundle = _bundle("primary.zip")
+        bundle.release_tag = "default-bundles-001"
+        bundle.legacy_asset_names = [f"alias-{index}.zip" for index in range(1000)]
+
+        with self.assertRaisesRegex(ValueError, "release asset cap exceeded"):
+            validate_release_capacity([bundle])
+
+    def test_assign_release_tags_rejects_one_bundle_over_shard_target(self) -> None:
+        oversized = _bundle("oversized.zip")
+        oversized.legacy_asset_names = ["alias-1.zip", "alias-2.zip"]
+
+        with self.assertRaisesRegex(ValueError, "exceeding shard target"):
+            assign_release_tags(
+                release_tag_prefix="default-bundles",
+                existing_bundles=[],
+                bundles=[oversized],
+                max_assets_per_release=2,
+            )
+
+    def test_strip_ambiguous_legacy_assets_removes_aliases_from_new_projection(self) -> None:
+        from app.release_tags import strip_ambiguous_legacy_assets
+
+        first = _bundle("first.zip", canonical_id="first")
+        first.legacy_asset_names = ["shared.zip"]
+        second = _bundle("second.zip", canonical_id="second")
+        second.legacy_asset_names = ["shared.zip"]
+
+        cleaned, conflicts = strip_ambiguous_legacy_assets([first, second])
+
+        self.assertEqual(conflicts[0]["asset_name"], "shared.zip")
+        self.assertEqual(conflicts[0]["bundle_ids"], ["first", "second"])
+        self.assertEqual(cleaned[0].legacy_asset_names, [])
+        self.assertEqual(cleaned[1].legacy_asset_names, [])
+
 
 if __name__ == "__main__":
     unittest.main()

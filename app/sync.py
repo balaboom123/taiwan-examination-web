@@ -244,6 +244,7 @@ def sync_exam_pages(
             alias_rules=alias_rules,
             mirror_base_url=mirror_base_url,
             mirror_metadata=mirror_metadata,
+            provider_id=provider_id,
         )
         if provider_id:
             for normalized_paper in normalized.papers:

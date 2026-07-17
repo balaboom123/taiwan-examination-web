@@ -1,4 +1,4 @@
-# Current Architecture
+Status: transition snapshot. This page describes the original MOEX-first paths and remains useful for locating legacy files. It is not authoritative for exam identity, bundle purity, or release capacity; use exam-identity-v2.md, contracts.md, and operator/catalog-audit.md for those topics. Do not copy its old single-provider or one-release assumptions into new code.\n\n# Current Architecture
 
 This document describes the repository as it exists today. It is descriptive, not aspirational.
 

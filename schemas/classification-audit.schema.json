@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taiwan-examination-web.invalid/schemas/classification-audit.schema.json",
+  "title": "Classification audit v1",
+  "type": "object",
+  "required": ["schema_version", "catalog_version", "site_id", "provider_count", "paper_records_scanned", "records_with_identity", "records_needing_review", "approved_review_isolated_records", "unapproved_review_records", "all_records_covered", "mixed_legacy_groups", "current_bundle_dispositions", "planned_bundle_count", "planned_release_shards"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "catalog_version": {"const": "exam-identity-v2"},
+    "site_id": {"type": "string"},
+    "provider_count": {"type": "integer", "minimum": 0},
+    "paper_records_scanned": {"type": "integer", "minimum": 0},
+    "records_with_identity": {"type": "integer", "minimum": 0},
+    "records_needing_review": {"type": "integer", "minimum": 0},
+    "review_isolation_policy": {"const": "event-specific-review-bundle-v1"},
+    "approved_review_isolated_records": {"type": "integer", "minimum": 0},
+    "unapproved_review_records": {"type": "integer", "minimum": 0},
+    "all_records_covered": {"type": "boolean"},
+    "mixed_legacy_groups": {"type": "array"},
+    "current_bundle_dispositions": {"type": "array"},
+    "planned_bundle_count": {"type": "integer", "minimum": 0},
+    "planned_release_shards": {"type": "integer", "minimum": 0},
+    "planned_release_asset_counts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 1000}
+    },
+    "release_asset_limit": {"const": 1000},
+    "release_safety_target": {"type": "integer", "maximum": 900},
+    "current_release_capacity_ok": {"type": "boolean"}
+  },
+  "additionalProperties": true
+}

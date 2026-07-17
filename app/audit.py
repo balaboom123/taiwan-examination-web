@@ -1,0 +1,332 @@
+from __future__ import annotations
+
+"""Whole-catalog classification and bundle-disposition audit.
+
+The audit is independent of the network and ZIP creation. It loads every
+provider's retained normalized paper record, recomputes identity from raw
+evidence, and compares it with the currently published site inventory.
+"""
+
+from collections import Counter, defaultdict
+import json
+from pathlib import Path
+from typing import Any
+
+from app.bundler import _bundle_asset_name, _legacy_asset_names
+from app.classification import classify_normalized_paper, identity_fields
+from app.paths import provider_paths, site_paths
+from app.release_tags import GITHUB_RELEASE_ASSET_LIMIT, RELEASE_SAFETY_TARGET, assign_release_tags, physical_asset_names, strip_ambiguous_legacy_assets, validate_release_capacity
+from app.site_registry import get_site_config
+from app.models import BundleAsset
+from app.state import load_provider_state, load_site_bundles
+
+
+def _jsonify_signature(value: dict[str, Any]) -> dict[str, Any]:
+    return {
+        **{key: item for key, item in value.items() if key not in {"source_exam_ids", "raw_categories"}},
+        "source_exam_ids": sorted(value["source_exam_ids"]),
+        "raw_categories": sorted(value["raw_categories"]),
+    }
+
+
+def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[str, Any]:
+    site_config = get_site_config(site_id)
+    provider_reports: list[dict[str, Any]] = []
+    all_papers: list[Any] = []
+    all_review_items: list[Any] = []
+    for provider_id in site_config.provider_ids:
+        provider = provider_paths(repo_root, provider_id)
+        raw_pages, catalog, failures = load_provider_state(provider)
+        signatures: dict[str, dict[str, Any]] = {}
+        confidence_counts: dict[str, int] = defaultdict(int)
+        for paper in catalog.papers:
+            if not paper.provider_id:
+                paper.provider_id = provider_id
+            identity = classify_normalized_paper(paper)
+            fields = identity_fields(identity)
+            all_papers.append(paper)
+            confidence_counts[identity.confidence] += 1
+            signature = identity.signature
+            signatures.setdefault(
+                signature,
+                {
+                    "signature": signature,
+                    "bundle_id": identity.bundle_id,
+                    "bundle_name": identity.bundle_name,
+                    "confidence": identity.confidence,
+                    "reason": identity.reason,
+                    "record_count": 0,
+                    "source_exam_ids": set(),
+                    "raw_categories": set(),
+                    "records_needing_v2_rewrite": 0,
+                },
+            )
+            entry = signatures[signature]
+            entry["record_count"] += 1
+            entry["source_exam_ids"].add(paper.source_exam_id)
+            entry["raw_categories"].add(paper.category_raw)
+            if any(getattr(paper, field, None) != value for field, value in fields.items()):
+                entry["records_needing_v2_rewrite"] += 1
+        all_review_items.extend(catalog.review_queue)
+        provider_reports.append(
+            {
+                "provider_id": provider_id,
+                "raw_exam_pages": len(raw_pages),
+                "paper_records": len(catalog.papers),
+                "distinct_source_exam_ids": len({paper.source_exam_id for paper in catalog.papers}),
+                "distinct_identity_signatures": len(signatures),
+                "classification_confidence": dict(sorted(confidence_counts.items())),
+                "sync_failure_count": len(failures),
+                "review_queue_count": len(catalog.review_queue),
+                "signatures": [
+                    _jsonify_signature(value)
+                    for value in sorted(signatures.values(), key=lambda item: item["signature"])
+                ],
+            }
+        )
+
+    by_legacy_group: dict[tuple[str, str], dict[str, Any]] = {}
+    for paper in all_papers:
+        key = (paper.provider_id, paper.canonical_id)
+        entry = by_legacy_group.setdefault(
+            key,
+            {
+                "provider_id": paper.provider_id,
+                "legacy_canonical_id": paper.canonical_id,
+                "legacy_canonical_name": paper.canonical_name,
+                "record_count": 0,
+                "source_exam_ids": set(),
+                "identity_signatures": set(),
+                "bundle_ids": set(),
+            },
+        )
+        identity = classify_normalized_paper(paper)
+        entry["record_count"] += 1
+        entry["source_exam_ids"].add(paper.source_exam_id)
+        entry["identity_signatures"].add(identity.signature)
+        entry["bundle_ids"].add(identity.bundle_id)
+
+    mixed_groups = []
+    for entry in sorted(by_legacy_group.values(), key=lambda item: (item["provider_id"], item["legacy_canonical_id"])):
+        if len(entry["identity_signatures"]) <= 1:
+            continue
+        mixed_groups.append(
+            {
+                "provider_id": entry["provider_id"],
+                "legacy_canonical_id": entry["legacy_canonical_id"],
+                "legacy_canonical_name": entry["legacy_canonical_name"],
+                "record_count": entry["record_count"],
+                "source_exam_ids": sorted(entry["source_exam_ids"]),
+                "identity_signatures": sorted(entry["identity_signatures"]),
+                "bundle_ids": sorted(entry["bundle_ids"]),
+                "disposition": "split",
+            }
+        )
+
+    current_bundles = load_site_bundles(site_paths(repo_root, site_id))
+    papers_by_legacy_id: dict[tuple[str, str], list[Any]] = defaultdict(list)
+    for paper in all_papers:
+        papers_by_legacy_id[(paper.provider_id, paper.canonical_id)].append(paper)
+    bundle_dispositions = []
+    for bundle in current_bundles:
+        bundle_id = bundle.bundle_id or bundle.canonical_id
+        matching = [
+            paper
+            for (_provider_id, legacy_id), papers in papers_by_legacy_id.items()
+            if legacy_id in {bundle.canonical_id, *bundle.legacy_canonical_ids}
+            for paper in papers
+        ]
+        identities = {classify_normalized_paper(paper).signature for paper in matching}
+        if not matching:
+            disposition = "unmapped"
+        elif len(identities) > 1:
+            disposition = "split"
+        elif bundle_id and any(classify_normalized_paper(paper).bundle_id == bundle_id for paper in matching):
+            disposition = "keep"
+        else:
+            disposition = "rename"
+        bundle_dispositions.append(
+            {
+                "current_bundle_id": bundle_id,
+                "canonical_name": bundle.canonical_name,
+                "record_count": len(matching),
+                "identity_signature_count": len(identities),
+                "disposition": disposition,
+            }
+        )
+
+    planned_groups: dict[str, dict[str, Any]] = {}
+    for paper in all_papers:
+        identity = classify_normalized_paper(paper)
+        group = planned_groups.setdefault(
+            identity.bundle_id,
+            {"years": set(), "canonical_ids": set(), "provider_ids": set(), "identity": identity},
+        )
+        group["years"].add(paper.year_roc)
+        group["canonical_ids"].add(paper.canonical_id)
+        group["provider_ids"].add(paper.provider_id)
+    def required_years(paper_group: dict[str, Any]) -> int:
+        minimum = site_config.public_min_years
+        for canonical_id in paper_group["canonical_ids"]:
+            for prefix, prefix_minimum in (site_config.public_min_years_by_canonical_prefix or {}).items():
+                if canonical_id.startswith(prefix):
+                    minimum = min(minimum, prefix_minimum)
+        return minimum
+    public_planned_groups = [
+        group
+        for group in planned_groups.values()
+        if len(group["years"]) >= required_years(group)
+    ]
+    planned_bundle_count = len(public_planned_groups)
+    release_target = min(max(site_config.release_shard_size, 1), RELEASE_SAFETY_TARGET)
+    planned_assets = []
+    for group in public_planned_groups:
+        identity = group["identity"]
+        asset_name = _bundle_asset_name(identity.bundle_id, structured=True)
+        planned_assets.append(
+            BundleAsset(
+                canonical_id=identity.bundle_id,
+                canonical_name=identity.bundle_name,
+                years=sorted(group["years"], reverse=True),
+                file_count=0,
+                storage_key=f"bundles/{asset_name}",
+                asset_name=asset_name,
+                bundle_id=identity.bundle_id,
+                legacy_asset_names=_legacy_asset_names(
+                    identity.bundle_id, identity.bundle_name, asset_name, []
+                ),
+            )
+        )
+    planned_assets, _planned_alias_conflicts = strip_ambiguous_legacy_assets(planned_assets)
+    planned_tagged = assign_release_tags(
+        release_tag_prefix=f"{site_config.release_tag_prefix}-v2",
+        existing_bundles=current_bundles,
+        bundles=planned_assets,
+        max_assets_per_release=release_target,
+    )
+    validate_release_capacity(planned_tagged)
+    planned_release_asset_counts: Counter[str] = Counter()
+    for bundle in planned_tagged:
+        planned_release_asset_counts[bundle.release_tag] += len(physical_asset_names(bundle))
+    planned_release_shards = len(planned_release_asset_counts)
+    current_release_counts: Counter[str] = Counter()
+    for bundle in current_bundles:
+        if bundle.release_tag:
+            current_release_counts[bundle.release_tag] += len(physical_asset_names(bundle))
+    current_release_capacity_ok = all(
+        count <= GITHUB_RELEASE_ASSET_LIMIT for count in current_release_counts.values()
+    )
+    records_with_identity = sum(1 for paper in all_papers if classify_normalized_paper(paper).bundle_id)
+    review_queue_signatures = {
+        item.classification_signature
+        for item in all_review_items
+        if item.classification_signature
+    }
+    review_records = 0
+    approved_review_isolated_records = 0
+    unapproved_review_records = 0
+    for paper in all_papers:
+        identity = classify_normalized_paper(paper)
+        if identity.confidence != "review":
+            continue
+        review_records += 1
+        event_marker = f"event-{identity.exam_event_id}" if identity.exam_event_id else ""
+        isolated = (
+            bool(identity.exam_event_id)
+            and identity.exam_event_id == paper.source_exam_id
+            and bool(event_marker)
+            and event_marker in identity.bundle_id
+            and identity.signature in review_queue_signatures
+        )
+        if isolated:
+            approved_review_isolated_records += 1
+        else:
+            unapproved_review_records += 1
+    return {
+        "schema_version": 1,
+        "catalog_version": "exam-identity-v2",
+        "site_id": site_id,
+        "provider_count": len(site_config.provider_ids),
+        "providers_with_state": sum(1 for report in provider_reports if report["paper_records"] or report["raw_exam_pages"]),
+        "paper_records_scanned": len(all_papers),
+        "records_with_identity": records_with_identity,
+        "records_needing_review": review_records,
+        "review_queue_entries": len(all_review_items),
+        "review_isolation_policy": "event-specific-review-bundle-v1",
+        "approved_review_isolated_records": approved_review_isolated_records,
+        "unapproved_review_records": unapproved_review_records,
+        "distinct_legacy_groups": len(by_legacy_group),
+        "mixed_legacy_groups": mixed_groups,
+        "current_bundle_count": len(current_bundles),
+        "current_bundle_dispositions": bundle_dispositions,
+        "current_bundle_disposition_counts": dict(Counter(item["disposition"] for item in bundle_dispositions)),
+        "current_release_asset_counts": dict(sorted(current_release_counts.items())),
+        "current_release_capacity_ok": current_release_capacity_ok,
+        "release_asset_limit": GITHUB_RELEASE_ASSET_LIMIT,
+        "release_safety_target": RELEASE_SAFETY_TARGET,
+        "planned_bundle_count": planned_bundle_count,
+        "planned_release_shards": planned_release_shards,
+        "planned_release_shard_target": release_target,
+        "planned_release_asset_counts": dict(sorted(planned_release_asset_counts.items())),
+        "all_records_covered": records_with_identity == len(all_papers),
+        "providers": provider_reports,
+    }
+
+
+def write_catalog_audit(report: dict[str, Any], output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
+    if not strict:
+        return 0
+    return 1 if report["unapproved_review_records"] or not report["all_records_covered"] else 0
+
+
+def build_release_plan(repo_root: Path, *, site_id: str = "default", release_tag_prefix: str | None = None) -> dict[str, Any]:
+    """Build a read-only physical-asset release plan from current site state."""
+    site_config = get_site_config(site_id)
+    bundles = load_site_bundles(site_paths(repo_root, site_id))
+    bundles, alias_conflicts = strip_ambiguous_legacy_assets(bundles)
+    assigned = assign_release_tags(
+        release_tag_prefix=release_tag_prefix or f"{site_config.release_tag_prefix}-v2",
+        existing_bundles=bundles,
+        bundles=bundles,
+        max_assets_per_release=min(max(site_config.release_shard_size, 1), RELEASE_SAFETY_TARGET),
+    )
+    validate_release_capacity(assigned)
+    by_tag: dict[str, set[str]] = defaultdict(set)
+    for bundle in assigned:
+        by_tag.setdefault(bundle.release_tag, set()).update(physical_asset_names(bundle))
+    shards = [
+        {
+            "release_tag": tag,
+            "asset_count": len(names),
+            "asset_names": sorted(names),
+        }
+        for tag, names in sorted(by_tag.items())
+    ]
+    return {
+        "schema_version": 2,
+        "catalog_version": "exam-identity-v2",
+        "site_id": site_id,
+        "release_asset_limit": GITHUB_RELEASE_ASSET_LIMIT,
+        "safety_target": RELEASE_SAFETY_TARGET,
+        "ambiguous_legacy_assets": alias_conflicts,
+        "shards": shards,
+        "bundles": [
+            {
+                "bundle_id": bundle.bundle_id or bundle.canonical_id,
+                "asset_name": bundle.asset_name,
+                "release_tag": bundle.release_tag,
+                "legacy_asset_names": bundle.legacy_asset_names,
+            }
+            for bundle in assigned
+        ],
+    }
+
+
+def write_release_plan(plan: dict[str, Any], output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(plan, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")

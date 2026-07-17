@@ -1,4 +1,4 @@
-# CI/CD And Release
+Status: workflow transition reference. The current identity and physical-release rules are in exam-identity-v2.md, contracts.md, and operator/catalog-audit.md. Older one-release assumptions below describe the legacy workflow and do not permit exceeding the 1,000-asset cap.\n\n# CI/CD And Release
 
 This document defines the current workflow behavior and the rules future automation MUST follow.
 
@@ -155,7 +155,7 @@ Naming pattern:
 ## Required Rules For New Automation
 
 - A workflow MUST declare which provider or site it owns.
-- A workflow MUST NOT mutate another provider's manifest, mirror, bundle, or release state.
+- A workflow MUST NOT mutate another provider’s manifest, mirror, bundle, or release state.
 - New workflows MUST prefer generic environment variable names or site/provider-scoped names over hard-coded MOEX names.
 - Release tags MUST be site-scoped in the target architecture.
 - Deploy workflows MUST use site-owned publication data as input.

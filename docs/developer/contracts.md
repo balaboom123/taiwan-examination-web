@@ -1,5 +1,7 @@
 # Contracts
 
+Status: current field-level contract reference. For identity ownership and bundle purity, see exam-identity-v2.md. Older name-only grouping assumptions in this document are superseded by the v2 rules.
+
 This document defines the concrete data and interface contracts that future providers and sites MUST follow.
 
 The goal is to prevent the multi-source expansion from drifting into ad hoc JSON shapes, implicit compatibility assumptions, or frontend/backend coupling.
@@ -144,7 +146,9 @@ Current optional-but-supported fields:
 
 Rules:
 
-- `canonical_id` is the stable grouping key for bundle generation.
+- `canonical_id` is the stable legacy lookup/URL identity and MUST be preserved for compatibility.
+- `bundle_id` plus the v2 identity dimensions is the grouping key for v2 bundle generation.
+- A parser MUST NOT merge official programs or levels merely because their canonical track labels match.
 - `source_exam_id` is the stable provider traceability key.
 - `download_url_bundle` is publication-derived and MUST remain optional at provider-normalization time.
 - Provider-specific parser fields MUST NOT leak into this contract without an explicit schema update.
@@ -198,8 +202,12 @@ Current frontend publication depends on fields derived from `BundleAsset`.
 
 Required fields:
 
+- `schema_version`
+- `bundle_id`
 - `canonical_id`
 - `canonical_name`
+- `catalog_version` for v2 site state
+- `domain_id`, `exam_family_id`, `exam_series_id`, `level_id`, `track_id`, `variant_ids`, `stage_id`
 - `years`
 - `file_count`
 - `storage_key`
@@ -244,7 +252,8 @@ Rules:
 - Release asset inventory entries MUST be site-owned even when multiple providers contribute bundle content.
 - Release tag assignment MUST be deterministic.
 - Site publication MUST support multiple release tags.
-- The default operational ceiling is to shard before any one release exceeds 900 assets.
+- The default operational ceiling is to shard before any one release exceeds 900 physical ZIP assets.
+- Physical count includes the primary asset and every `legacy_asset_names` alias; no release may exceed 1,000 physical assets.
 
 ## Site Contract: Frontend Bundle Feed
 
@@ -286,6 +295,7 @@ Rules:
 - The frontend feed MUST NOT expose raw provider-specific crawl fields.
 - The frontend feed MUST be derivable entirely from site publication outputs.
 - Frontend consumers MUST NOT need to know which release tag stores a given asset.
+- V2 frontend entries MUST consume structured series/level/track facets; they MUST NOT reconstruct official identity from display-name regexes.
 
 ## Compatibility Policy
 

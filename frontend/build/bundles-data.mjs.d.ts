@@ -14,6 +14,15 @@ export interface FrontendBundle {
   years: number[]
   fileCount: number
   url: string
+  examClass?: string
+  examSubclass?: string
+  domainId?: string
+  examFamilyId?: string
+  seriesId?: string
+  levelId?: string
+  trackId?: string
+  variantIds?: string[]
+  stageId?: string
 }
 
 export function resolvePagesBase(options?: ResolvePagesBaseOptions): string

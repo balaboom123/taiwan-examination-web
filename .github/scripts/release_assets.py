@@ -16,6 +16,8 @@ RELEASE_TAG = os.environ.get("RELEASE_TAG") or os.environ.get("MOEX_RELEASE_TAG"
 SITE_ID = os.environ.get("SITE_ID", "default")
 RELEASE_ASSETS_PATH = Path("data") / "sites" / SITE_ID / "release-assets.json"
 UPLOAD_BATCH_SIZE = 50
+GITHUB_RELEASE_ASSET_LIMIT = 1000
+RELEASE_SAFETY_TARGET = 900
 
 
 def _local_assets() -> list[dict]:
@@ -105,6 +107,13 @@ def coverage() -> int:
         }
         total_expected += len(expected)
         total_release += len(current)
+        if len(expected) > GITHUB_RELEASE_ASSET_LIMIT or len(current) > GITHUB_RELEASE_ASSET_LIMIT:
+            raise ValueError(
+                f"release {release_tag} exceeds GitHub's {GITHUB_RELEASE_ASSET_LIMIT}-asset limit "
+                f"(expected={len(expected)}, current={len(current)})"
+            )
+        if len(expected) > RELEASE_SAFETY_TARGET:
+            print(f"warning: release {release_tag} exceeds the {RELEASE_SAFETY_TARGET}-asset safety target")
         missing = expected - current
         unexpected = current - published
         release_bootstrap_required = bool(missing or unexpected)
@@ -130,6 +139,13 @@ def upload() -> int:
     missing = []
     for release_tag, assets in sorted(_group_assets_by_release_tag().items()):
         remote_names = set(_release_zip_names(release_tag, allow_missing=True))
+        if len(remote_names) > GITHUB_RELEASE_ASSET_LIMIT:
+            print(
+                f"release {release_tag} already has {len(remote_names)} ZIP assets; refusing to upload beyond "
+                f"the {GITHUB_RELEASE_ASSET_LIMIT}-asset limit",
+                file=sys.stderr,
+            )
+            return 1
         upload_specs: list[str] = []
         for asset in assets:
             local_path = Path(asset["storage_key"])
@@ -144,6 +160,12 @@ def upload() -> int:
                 spec = f"{local_path}#{name}"
                 upload_specs.append(spec)
                 remote_names.add(name)
+        if len(remote_names) > GITHUB_RELEASE_ASSET_LIMIT:
+            print(
+                f"release {release_tag} would exceed {GITHUB_RELEASE_ASSET_LIMIT} ZIP assets after upload",
+                file=sys.stderr,
+            )
+            return 1
         for start in range(0, len(upload_specs), UPLOAD_BATCH_SIZE):
             batch = upload_specs[start:start + UPLOAD_BATCH_SIZE]
             subprocess.run(["gh", "release", "upload", release_tag, *batch, "--clobber"], check=True)

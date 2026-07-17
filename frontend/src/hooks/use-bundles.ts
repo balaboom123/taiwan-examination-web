@@ -14,6 +14,15 @@ interface RawBundle {
   years: number[]
   fileCount: number
   url: string
+  examClass?: string
+  examSubclass?: string
+  domainId?: string
+  examFamilyId?: string
+  seriesId?: string
+  levelId?: string
+  trackId?: string
+  variantIds?: string[]
+  stageId?: string
 }
 
 function isValidRawBundle(item: unknown): item is RawBundle {
@@ -29,7 +38,9 @@ function isValidRawBundle(item: unknown): item is RawBundle {
 }
 
 function enrichBundle(raw: RawBundle): Bundle {
-  const { examClass, examSubclass } = classifyBundle(raw.id, raw.name)
+  const fallback = classifyBundle(raw.id, raw.name)
+  const examClass = raw.examClass ?? fallback.examClass
+  const examSubclass = raw.examSubclass ?? fallback.examSubclass
   return { ...raw, examClass, examSubclass }
 }
 

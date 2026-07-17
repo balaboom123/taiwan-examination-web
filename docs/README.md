@@ -1,71 +1,72 @@
-# Project Documentation
+# Project documentation
 
-This directory defines how the repository works today and how it MUST evolve as it expands beyond the current MOEX-only implementation.
+The repository has two documentation audiences:
 
-There are two primary audiences:
+- docs/developer/: contracts, architecture, taxonomy, decisions, and contributor workflows.
+- docs/operator/: repeatable audit, publication, release, and recovery procedures.
 
-- `developer/`: engineers changing architecture, schemas, workflows, code structure, or onboarding new sources.
-- `operator/`: repo operators running syncs, releases, audits, deployments, and recovery procedures. These are the "user" docs for maintainers rather than end visitors of the website.
+Generated state under data/, bundles/, mirror/, and frontend build output is never a documentation source of truth.
 
-## Document Precedence
+## Authority and precedence
 
-When documents conflict, use this order:
+Use the smallest authoritative source for the question:
 
-1. `developer/extension-rules.md`
-2. `developer/target-architecture.md`
-3. `developer/ci-cd-and-release.md`
-4. `operator/recovery.md`
-5. `operator/runbook.md`
-6. `developer/current-architecture.md`
-7. Historical design notes such as `DESIGN.md` and `PRODUCT.md`
+1. catalog/ and schemas/ for executable taxonomy and data contracts;
+2. developer/exam-identity-v2.md for the current identity and bundle policy;
+3. developer/contracts.md for provider/site interface details;
+4. developer/decision-records/ for accepted architectural choices;
+5. operator/ for commands, release preflight, and recovery;
+6. developer/current-architecture.md and target-architecture.md for transition context;
+7. dated plans/specs under docs/superpowers/ for historical, non-normative context.
 
-`developer/extension-rules.md` is the normative governance document for future expansion.
+If an older document conflicts with the catalog, schema, identity reference, or ADR, the older document is stale and must be corrected or marked historical.
 
-## Reading Order
+## Recommended reading order
 
-If you are new to the repo:
+1. developer/README.md
+2. developer/exam-identity-v2.md
+3. developer/contracts.md
+4. developer/current-architecture.md
+5. operator/catalog-audit.md
+6. relevant provider/source and ADR documents
 
-1. Read `developer/current-architecture.md`
-2. Read `developer/target-architecture.md`
-3. Read `developer/contracts.md`
-4. Read `developer/migration-plan.md`
-5. Read `developer/extension-rules.md`
-6. Read `operator/runbook.md`
+## Project map
 
-## Documentation Map
+~~~
+catalog/                         reviewed taxonomy and provider mappings
+schemas/                         versioned JSON contracts
+app/classification.py            deterministic identity resolver
+app/normalizer.py                provider normalization and v2 enrichment
+app/bundler.py                   pure bundle grouping and ZIP manifests
+app/publisher.py                 site projection and frontend facets
+app/release_tags.py              physical-asset shard assignment
+app/audit.py                     whole-catalog audit
+data/providers/<provider>/       generated provider-owned state
+data/sites/<site>/               generated site publication state
+bundles/sites/<site>/            generated ZIP assets
+frontend/                        presentation and compatibility feed code
+docs/developer/                  reference, decisions, architecture, onboarding
+docs/operator/                   runbooks, audits, release, recovery
+docs/superpowers/                historical plans/specifications
+PLAN.md                          temporary untracked execution brief
+~~~
 
-- `developer/README.md`: overview of the developer docs
-- `developer/current-architecture.md`: how the repo works today
-- `developer/target-architecture.md`: the intended multi-source architecture
-- `developer/contracts.md`: concrete data and interface contracts for providers and sites
-- `developer/migration-plan.md`: exact current-to-target cutover sequence
-- `developer/data-lifecycle.md`: source-to-publication lifecycle and integrity model
-- `developer/ci-cd-and-release.md`: workflow, release, and deploy rules
-- `developer/extension-rules.md`: mandatory expansion rules
-- `developer/provider-site-registry.md`: ownership registry for active and planned providers/sites
-- `developer/source-onboarding.md`: checklist for adding a new source
-- `developer/source-spec-template.md`: fixed template for proposing a new source before implementation
-- `operator/README.md`: overview of operator docs
-- `operator/runbook.md`: manual operating procedures
-- `operator/workflows.md`: automated workflow behavior and expectations
-- `operator/recovery.md`: failure handling and recovery steps
+## Document map
 
-## Glossary
+- developer/exam-identity-v2.md: normative identity dimensions, purity, versioning, and change workflow.
+- developer/contracts.md: provider, normalized paper, bundle, release, and frontend contracts.
+- developer/decision-records/: short ADRs for durable architectural decisions.
+- developer/current-architecture.md: current pipeline and transition assumptions.
+- developer/target-architecture.md: longer-term provider/site architecture.
+- developer/data-lifecycle.md: source-to-publication lifecycle.
+- developer/ci-cd-and-release.md: workflow and release integration.
+- developer/extension-rules.md: expansion governance.
+- developer/provider-site-registry.md: provider/site ownership.
+- developer/source-onboarding.md: provider onboarding checklist.
+- operator/catalog-audit.md: full-catalog identity audit, migration, release preflight, and recovery.
+- operator/runbook.md, workflows.md, recovery.md: established operational procedures.
+- superpowers/: historical proposals; not normative after implementation.
 
-- `provider`: source-specific ingestion implementation such as MOEX
-- `site`: public-facing deployment with its own branding, bundle feed, release assets, and deploy target
-- `normalized paper`: source content after category normalization and metadata cleanup
-- `bundle`: ZIP archive grouping multiple years or files for download
-- `publication`: the process of turning normalized data into bundle metadata, release assets, gating links, and frontend-consumable outputs
-- `operator`: maintainer who runs syncs, investigates failures, or triggers workflows
-- `generated data`: files produced by commands or workflows and not intended for manual editing
+## Maintenance rule
 
-## Current Status
-
-The current repository is still single-provider and mostly single-site:
-
-- provider: MOEX
-- modern frontend app: `frontend/`
-- site-scoped publication data under `data/sites/default/`
-
-The target model is multi-provider and site-scoped. The docs in this directory define the migration path and the guardrails for getting there.
+Every change to a catalog concept, mapping, schema, release policy, provider, or site must update the owning reference, relevant ADR/procedure, and automated tests. Add Status, Owner, and applicable version to maintained docs. Completed plans move to an archive or receive a clear historical banner; they do not remain competing specifications.

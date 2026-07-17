@@ -1,52 +1,53 @@
-# Developer Documentation
+# Developer documentation
 
-This section is for engineers changing repository behavior, architecture, schemas, release workflows, or onboarding new sources.
+This section is for engineers changing repository behavior, schemas, publication, release workflows, or provider integrations.
 
-The repository is in a transition state:
+## Start here
 
-- `current-architecture.md` describes the MOEX-first implementation that exists today.
-- `target-architecture.md` defines the multi-source structure the repo MUST move toward.
+- exam-identity-v2.md is the current normative identity/bundle reference.
+- contracts.md defines serialized boundaries and compatibility rules.
+- ../operator/catalog-audit.md defines whole-catalog audit and migration commands.
+- decision-records/ explains why the identity and release decisions were made.
+- current-architecture.md explains the pipeline as implemented; target-architecture.md is transition context.
+- provider-site-registry.md and source-onboarding.md are required before changing provider/site scope.
+- ci-cd-and-release.md is required before changing workflows or release upload logic.
+- exam-classification.md documents frontend display taxonomy and its v1 compatibility fallback; it is not the official identity source.
 
-## How To Use These Docs
-
-- Read `current-architecture.md` if you need to understand the repo as it exists now.
-- Read `target-architecture.md` before introducing any new provider, site, or workflow.
-- Read `contracts.md` before changing schemas, feeds, or persisted publication state.
-- Read `migration-plan.md` before moving paths or changing ownership boundaries.
-- Read `extension-rules.md` before approving structural changes.
-- Read `provider-site-registry.md` before adding or renaming any provider or site.
-- Read `source-onboarding.md` when adding a new source.
-- Read `source-spec-template.md` before drafting source #2 or later.
-- Read `ci-cd-and-release.md` before touching GitHub Actions, release logic, or deploy paths.
-- Read `exam-classification.md` before changing frontend exam categories, subclass rules, or onboarding a new provider class.
-
-## Normative Language
+## Normative language
 
 These docs use RFC-style words:
 
-- `MUST`: mandatory rule
-- `MUST NOT`: forbidden
-- `SHOULD`: recommended default; deviations require clear justification
-- `MAY`: optional
+- MUST: mandatory
+- MUST NOT: forbidden
+- SHOULD: recommended default; deviations require a recorded reason
+- MAY: optional
 
-## Required Companion Updates
+## Ownership boundary
+
+Executable domain truth belongs in catalog/, schemas/, and app/classification.py. Documentation explains and governs that truth; it must not duplicate a second unvalidated regex taxonomy.
+
+## Required companion updates
 
 Any change that adds or materially changes a provider, site, workflow, schema, release process, or operator procedure MUST update:
 
-- the relevant developer doc in this directory
-- the relevant operator doc in `../operator/`
-- tests or validation steps affected by the change
+- the owning catalog/mapping or schema;
+- the relevant developer reference and ADR;
+- the relevant operator procedure;
+- tests and audit fixtures.
 
-## Document Map
+## Document map
 
-- `current-architecture.md`: current repo boundaries, outputs, and single-source assumptions
-- `target-architecture.md`: future provider/site model and migration phases
-- `contracts.md`: normative contract definitions for provider and site data
-- `migration-plan.md`: exact migration sequence from root-level global state to scoped ownership
-- `data-lifecycle.md`: flow from source discovery to public download link
-- `ci-cd-and-release.md`: current workflows and future scoping rules
-- `extension-rules.md`: expansion governance
-- `provider-site-registry.md`: current and planned provider/site ownership registry
-- `source-onboarding.md`: required steps and definition of done for new sources
-- `source-spec-template.md`: copy-paste template for approving new provider designs
-- `exam-classification.md`: frontend exam class/subclass taxonomy, pattern rules, and expansion guide
+- exam-identity-v2.md: identity dimensions, bundle purity, review and migration workflow
+- contracts.md: concrete provider/site/feed/release contracts
+- decision-records/: accepted architecture decisions
+- current-architecture.md: current pipeline and data paths
+- target-architecture.md: provider/site target model
+- data-lifecycle.md: source-to-publication lifecycle
+- ci-cd-and-release.md: CI/CD and release rules
+- extension-rules.md: expansion governance
+- provider-site-registry.md: ownership registry
+- source-onboarding.md: new-provider checklist
+- source-spec-template.md: source proposal template
+- exam-classification.md: UI class/subclass compatibility behavior
+
+When a document is dated or located under docs/superpowers/, treat it as historical unless this README or an ADR explicitly adopts it.

@@ -67,6 +67,11 @@ class ReviewItem:
     normalized_candidate: str
     source_exam_id: str
     year_roc: int
+    provider_id: str = ""
+    raw_exam_name: str = ""
+    classification_signature: str = ""
+    bundle_id: str = ""
+    reason: str = ""
 
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key)
@@ -92,6 +97,26 @@ class NormalizedPaper:
     checksum: str = ""
     provider_id: str = ""
 
+    # Versioned exam identity fields. The legacy canonical fields above remain
+    # for URL and migration compatibility; publication grouping uses bundle_id.
+    schema_version: int = 1
+    catalog_version: str = ""
+    domain_id: str = ""
+    exam_family_id: str = ""
+    exam_series_id: str = ""
+    level_id: str = ""
+    track_id: str = ""
+    variant_ids: list[str] = field(default_factory=list)
+    stage_id: str = ""
+    exam_event_id: str = ""
+    bundle_id: str = ""
+    bundle_name: str = ""
+    bundle_policy_id: str = "default-bundle-policy-v2"
+    classification_confidence: str = ""
+    classification_reason: str = ""
+    exam_class: str = ""
+    exam_subclass: str = ""
+
 
 @dataclass
 class NormalizedCatalog:
@@ -111,6 +136,22 @@ class BundleAsset:
     download_url: str = ""
     checksum: str = ""
     legacy_asset_names: list[str] = field(default_factory=list)
+    schema_version: int = 1
+    bundle_id: str = ""
+    catalog_version: str = ""
+    domain_id: str = ""
+    exam_family_id: str = ""
+    exam_series_id: str = ""
+    level_id: str = ""
+    track_id: str = ""
+    variant_ids: list[str] = field(default_factory=list)
+    stage_id: str = ""
+    bundle_policy_id: str = "default-bundle-policy-v2"
+    classification_confidence: str = ""
+    classification_reason: str = ""
+    exam_class: str = ""
+    exam_subclass: str = ""
+    legacy_canonical_ids: list[str] = field(default_factory=list)
 
 
 @dataclass

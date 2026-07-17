@@ -71,13 +71,26 @@ function toFrontendBundle(bundle, index) {
   }
 
   const {
-    canonical_id: id,
-    canonical_name: name,
+    canonical_id: legacyId,
+    bundle_id: structuredId,
+    canonical_name: canonicalName,
+    bundle_name: bundleName,
     years,
     file_count: fileCount,
     download_url: rawUrl,
     checksum,
+    domain_id: domainId,
+    exam_family_id: examFamilyId,
+    exam_series_id: seriesId,
+    level_id: levelId,
+    track_id: trackId,
+    variant_ids: variantIds,
+    stage_id: stageId,
+    exam_class: examClass,
+    exam_subclass: examSubclass,
   } = bundle
+  const id = typeof structuredId === "string" && structuredId ? structuredId : legacyId
+  const name = typeof bundleName === "string" && bundleName ? bundleName : canonicalName
 
   if (
     typeof id !== "string" ||
@@ -90,13 +103,27 @@ function toFrontendBundle(bundle, index) {
     throw new TypeError(`Bundle at index ${index} does not match the generated data schema`)
   }
 
-  return {
+  const frontendBundle = {
     id,
     name,
     years,
     fileCount,
     url: rawUrl,
   }
+  if (typeof structuredId === "string" && structuredId) {
+    Object.assign(frontendBundle, {
+      domainId,
+      examFamilyId,
+      seriesId,
+      levelId,
+      trackId,
+      variantIds: Array.isArray(variantIds) ? variantIds : [],
+      stageId,
+      examClass: typeof examClass === "string" ? examClass : undefined,
+      examSubclass: typeof examSubclass === "string" ? examSubclass : undefined,
+    })
+  }
+  return frontendBundle
 }
 
 export function toFrontendBundles(bundles) {

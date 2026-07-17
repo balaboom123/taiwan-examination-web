@@ -62,6 +62,49 @@ test("toFrontendBundles converts generated bundle records into the frontend sche
   )
 })
 
+test("toFrontendBundles preserves structured v2 identity facets", () => {
+  assert.deepEqual(
+    toFrontendBundles([
+      {
+        canonical_id: "canonical-general-administration",
+        canonical_name: "一般行政",
+        bundle_id: "moex-civil-high-grade-3-general-administration",
+        years: [115, 114],
+        file_count: 120,
+        download_url: "https://example.com/general-admin-high.zip",
+        checksum: "sha-v2",
+        domain_id: "civil-service",
+        exam_family_id: "civil-service-exam",
+        exam_series_id: "civil-high",
+        level_id: "grade-3",
+        track_id: "general-administration",
+        variant_ids: [],
+        stage_id: "not-applicable",
+        exam_class: "公職考試",
+        exam_subclass: "公職／公務人員",
+      },
+    ]),
+    [
+      {
+        id: "moex-civil-high-grade-3-general-administration",
+        name: "一般行政",
+        years: [115, 114],
+        fileCount: 120,
+        url: "https://example.com/general-admin-high.zip",
+        domainId: "civil-service",
+        examFamilyId: "civil-service-exam",
+        seriesId: "civil-high",
+        levelId: "grade-3",
+        trackId: "general-administration",
+        variantIds: [],
+        stageId: "not-applicable",
+        examClass: "公職考試",
+        examSubclass: "公職／公務人員",
+      },
+    ],
+  )
+})
+
 test("toFrontendBundles accepts wrapped site bundles schema", () => {
   assert.deepEqual(
     toFrontendBundles({

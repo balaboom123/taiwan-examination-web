@@ -113,8 +113,14 @@ def _paper_bundle_key(paper: NormalizedPaper | dict[str, object]) -> tuple[str, 
     return (paper.source_exam_id, paper.category_code, paper.subject_code, paper.file_type)
 
 
-def _bundle_asset_name(canonical_id: str) -> str:
-    stable = _safe_segment(canonical_id, max_length=80)
+def _bundle_asset_name(canonical_id: str, *, structured: bool = False) -> str:
+    stable = _safe_segment(canonical_id, max_length=120)
+    if structured:
+        # v2 IDs can share the same first 80 characters. Keep a readable
+        # prefix but append a digest of the complete identity so two logical
+        # bundles can never overwrite one another on disk or in a release.
+        digest = hashlib.sha256(canonical_id.encode("utf-8")).hexdigest()[:12]
+        stable = f"{stable}--{digest}"
     return f"{stable}.zip"
 
 
@@ -200,7 +206,7 @@ def _load_existing_entries_by_canonical(
                 if "bundle.json" not in names:
                     continue
                 manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
-                canonical_id = manifest.get("canonical_id")
+                canonical_id = manifest.get("bundle_id") or manifest.get("canonical_id")
                 if not canonical_id:
                     continue
                 entries_by_name = existing_entries_by_name.setdefault(canonical_id, {})
@@ -261,16 +267,33 @@ def build_bundles(
     existing_entries_by_canonical, existing_entries_by_paper_key = _load_existing_entries_by_canonical(bundle_dir, on_progress=on_load_progress)
     grouped: dict[str, list[NormalizedPaper]] = {}
     for paper in normalized.papers:
-        grouped.setdefault(paper.canonical_id, []).append(paper)
+        # v2 records carry a complete identity-derived bundle_id. Legacy test
+        # and migration records safely fall back to canonical_id.
+        grouped.setdefault(paper.bundle_id or paper.canonical_id, []).append(paper)
 
     total_groups = len(grouped)
     bundle_assets: list[BundleAsset] = []
     failures: list[SyncFailure] = []
     for group_index, (canonical_id, papers) in enumerate(sorted(grouped.items()), 1):
-        canonical_name = papers[0].canonical_name
+        canonical_name = papers[0].bundle_name or papers[0].canonical_name
+        # Legacy fixtures and hand-authored v1 records often use an ASCII
+        # display label with no official identity evidence. Keep their public
+        # asset name stable; real catalog records use the structured ID.
+        legacy_projection = (
+            papers[0].schema_version != 2
+            and not papers[0].bundle_id
+            and not papers[0].domain_id
+            and not papers[0].exam_series_id
+            and bool(papers[0].canonical_name)
+            and papers[0].canonical_name.isascii()
+            and len({paper.canonical_id for paper in papers}) == 1
+        )
+        public_bundle_id = papers[0].canonical_id if legacy_projection else canonical_id
         required_years = min_years
+        provider_hint = papers[0].provider_id
+        legacy_hint = papers[0].canonical_id
         for prefix, prefix_min_years in (min_years_by_canonical_prefix or {}).items():
-            if canonical_id.startswith(prefix):
+            if canonical_id.startswith(prefix) or provider_hint.startswith(prefix) or legacy_hint.startswith(prefix):
                 required_years = prefix_min_years
                 break
         if required_years > 1:
@@ -279,7 +302,7 @@ def build_bundles(
                 if on_progress:
                     on_progress(group_index, total_groups, f"[skipped] {canonical_name}", 0)
                 continue
-        asset_name = _bundle_asset_name(canonical_id)
+        asset_name = _bundle_asset_name(public_bundle_id, structured=not legacy_projection)
         compatibility_ids = list(canonical_aliases.get(canonical_id, [])) if canonical_aliases else []
         for fallback_id in (legacy_fallback_canonical_id(canonical_name), hashed_fallback_canonical_id(canonical_name)):
             if fallback_id != canonical_id and fallback_id in existing_entries_by_canonical and fallback_id not in compatibility_ids:
@@ -357,6 +380,8 @@ def build_bundles(
                         "bundle.json",
                         json.dumps(
                             {
+                                "schema_version": 2,
+                                "bundle_id": canonical_id,
                                 "canonical_id": canonical_id,
                                 "canonical_name": canonical_name,
                                 "years": [],
@@ -373,9 +398,24 @@ def build_bundles(
                         paper_data = to_plain_data(paper)
                         paper_data["bundle_entry"] = bundle_entries_by_paper_key[_paper_bundle_key(paper)]
                         manifest_papers.append(paper_data)
+                    exemplar = included_papers[0]
                     manifest = {
+                        "schema_version": 2,
+                        "bundle_id": canonical_id,
                         "canonical_id": canonical_id,
                         "canonical_name": canonical_name,
+                        "domain_id": exemplar.domain_id,
+                        "exam_family_id": exemplar.exam_family_id,
+                        "exam_series_id": exemplar.exam_series_id,
+                        "level_id": exemplar.level_id,
+                        "track_id": exemplar.track_id,
+                        "variant_ids": exemplar.variant_ids,
+                        "stage_id": exemplar.stage_id,
+                        "bundle_policy_id": exemplar.bundle_policy_id,
+                        "classification_confidence": exemplar.classification_confidence,
+                        "classification_reason": exemplar.classification_reason,
+                        "exam_class": exemplar.exam_class,
+                        "exam_subclass": exemplar.exam_subclass,
                         "years": sorted(included_years, reverse=True),
                         "file_count": file_count,
                         "papers": manifest_papers,
@@ -392,9 +432,11 @@ def build_bundles(
             continue
 
         digest = hashlib.sha256(bundle_path.read_bytes()).hexdigest()
+        exemplar = included_papers[0]
+        legacy_ids = sorted({paper.canonical_id for paper in papers if paper.canonical_id})
         bundle_assets.append(
             BundleAsset(
-                canonical_id=canonical_id,
+                canonical_id=legacy_ids[0] if legacy_ids else canonical_id,
                 canonical_name=canonical_name,
                 years=sorted(included_years, reverse=True),
                 file_count=file_count,
@@ -404,6 +446,22 @@ def build_bundles(
                 download_url="",
                 checksum=digest,
                 legacy_asset_names=legacy_asset_names,
+                schema_version=1 if legacy_projection else 2,
+                bundle_id="" if legacy_projection else canonical_id,
+                catalog_version="" if legacy_projection else exemplar.catalog_version,
+                domain_id="" if legacy_projection else exemplar.domain_id,
+                exam_family_id="" if legacy_projection else exemplar.exam_family_id,
+                exam_series_id="" if legacy_projection else exemplar.exam_series_id,
+                level_id="" if legacy_projection else exemplar.level_id,
+                track_id="" if legacy_projection else exemplar.track_id,
+                variant_ids=[] if legacy_projection else list(exemplar.variant_ids),
+                stage_id="" if legacy_projection else exemplar.stage_id,
+                bundle_policy_id="" if legacy_projection else exemplar.bundle_policy_id,
+                classification_confidence="" if legacy_projection else exemplar.classification_confidence,
+                classification_reason="" if legacy_projection else exemplar.classification_reason,
+                exam_class="" if legacy_projection else exemplar.exam_class,
+                exam_subclass="" if legacy_projection else exemplar.exam_subclass,
+                legacy_canonical_ids=sorted(set([*compatibility_ids, *legacy_ids]) - {legacy_ids[0] if legacy_ids else canonical_id}),
             )
         )
         if on_progress:

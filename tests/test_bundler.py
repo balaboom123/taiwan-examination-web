@@ -398,6 +398,83 @@ class BundlerTests(unittest.TestCase):
             self.assertFalse((bundles_dir / "ceec-gsat.zip").exists())
             self.assertEqual(result.failures, [])
 
+    def test_structured_asset_names_remain_unique_after_readable_prefix_truncation(self) -> None:
+        from app.bundler import _bundle_asset_name
+
+        prefix = "moex-" + "x" * 120
+        first = prefix + "-grade-3"
+        second = prefix + "-grade-4"
+
+        first_name = _bundle_asset_name(first, structured=True)
+        second_name = _bundle_asset_name(second, structured=True)
+
+        self.assertNotEqual(first_name, second_name)
+        self.assertLessEqual(len(first_name), 255)
+        self.assertLessEqual(len(second_name), 255)
+
+
+    def test_v2_bundle_id_splits_same_legacy_track_into_separate_assets(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            bundles_dir = root / "bundles"
+            high = make_paper(
+                canonical_id="一般行政",
+                canonical_name="一般行政",
+                year_roc=115,
+                source_exam_id="high-115",
+                subject_code="0101",
+                storage_key="115/high-115/101/0101/question.pdf",
+            )
+            ordinary = make_paper(
+                canonical_id="一般行政",
+                canonical_name="一般行政",
+                year_roc=115,
+                source_exam_id="ordinary-115",
+                subject_code="0101",
+                storage_key="115/ordinary-115/101/0101/question.pdf",
+            )
+            for paper, bundle_id, bundle_name, series_id, level_id in (
+                (high, "moex-civil-high-grade-3-general-administration", "高等考試｜三等｜一般行政", "civil-high", "grade-3"),
+                (ordinary, "moex-civil-ordinary-ordinary-general-administration", "普通考試｜普通｜一般行政", "civil-ordinary", "ordinary"),
+            ):
+                paper.provider_id = "moex"
+                paper.schema_version = 2
+                paper.catalog_version = "exam-identity-v2"
+                paper.domain_id = "civil-service"
+                paper.exam_family_id = "civil-service-exam"
+                paper.exam_series_id = series_id
+                paper.level_id = level_id
+                paper.track_id = "general-administration"
+                paper.stage_id = "not-applicable"
+                paper.bundle_id = bundle_id
+                paper.bundle_name = bundle_name
+                paper.bundle_policy_id = "default-bundle-policy-v2"
+                paper.classification_confidence = "high"
+                paper.classification_reason = "test fixture"
+                paper.exam_class = "公職考試"
+                paper.exam_subclass = "公職／公務人員"
+                source = mirror_dir / paper.storage_key
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_bytes(b"%PDF-1.7 identity")
+
+            result = build_bundles(
+                bundle_dir=bundles_dir,
+                mirror_dir=mirror_dir,
+                normalized=NormalizedCatalog(papers=[high, ordinary], review_queue=[]),
+                bundle_base_url="",
+            )
+
+            self.assertEqual(len(result.bundles), 2)
+            self.assertEqual({bundle.bundle_id for bundle in result.bundles}, {high.bundle_id, ordinary.bundle_id})
+            self.assertEqual({bundle.canonical_id for bundle in result.bundles}, {"一般行政"})
+            for bundle in result.bundles:
+                with zipfile.ZipFile(bundles_dir / bundle.asset_name) as archive:
+                    manifest = json.loads(archive.read("bundle.json").decode("utf-8"))
+                    self.assertEqual(manifest["bundle_id"], bundle.bundle_id)
+                    self.assertEqual(manifest["exam_series_id"], bundle.exam_series_id)
+                    self.assertEqual(manifest["level_id"], bundle.level_id)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,6 +8,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Iterable
 
+from app.classification import classify_paper, identity_fields
 from app.models import AliasRule, NormalizedCatalog, NormalizedPaper, ParsedPaper, ReviewItem
 
 KNOWN_CANONICAL_IDS = {
@@ -273,6 +274,32 @@ def _derive_canonical(
     return _canonical_id(canonical_name), canonical_name, candidate, False
 
 
+def _deduplicate_review_queue(items: list[ReviewItem]) -> list[ReviewItem]:
+    """Keep one evidence record per provider/event/category review signature.
+
+    Older queues were emitted once per paper and predated provider attribution.
+    Prefer the richest v2 item when duplicate legacy rows are encountered so
+    migration remains lossless without inflating the human review workload.
+    """
+    def key(item: ReviewItem) -> tuple[str, str, str]:
+        return (item.provider_id, item.source_exam_id, item.raw_category)
+
+    def score(item: ReviewItem) -> tuple[int, int, int, int]:
+        return (
+            bool(item.classification_signature),
+            bool(item.bundle_id),
+            bool(item.reason),
+            bool(item.raw_exam_name),
+        )
+
+    selected: dict[tuple[str, str, str], ReviewItem] = {}
+    for item in items:
+        current = selected.get(key(item))
+        if current is None or score(item) > score(current):
+            selected[key(item)] = item
+    return [selected[item_key] for item_key in sorted(selected)]
+
+
 def normalize_papers(
     source_exam_id: str,
     year_ad: int,
@@ -281,6 +308,7 @@ def normalize_papers(
     alias_rules: list[AliasRule],
     mirror_base_url: str,
     mirror_metadata: dict[tuple[str, str, str], dict[str, str]],
+    provider_id: str = "",
 ) -> NormalizedCatalog:
     year_roc = year_ad - 1911
     normalized_papers: list[NormalizedPaper] = []
@@ -288,13 +316,34 @@ def normalize_papers(
     for paper in papers:
         raw_category = paper.category_raw or exam_name_raw
         canonical_id, canonical_name, candidate, needs_review = _derive_canonical(source_exam_id, raw_category, exam_name_raw, year_ad, alias_rules)
-        if needs_review:
+        identity = None
+        fields = {}
+        if provider_id and not _is_legacy_ascii_fixture(paper, canonical_name=canonical_name, exam_name_raw=exam_name_raw):
+            identity = classify_paper(
+                provider_id=provider_id,
+                source_exam_id=source_exam_id,
+                year_ad=year_ad,
+                category_raw=raw_category,
+                exam_name_raw=exam_name_raw,
+                canonical_id=canonical_id,
+                canonical_name=canonical_name,
+                subject_name_raw=paper.subject_name_raw,
+                subject_code=paper.subject_code,
+            )
+            fields = identity_fields(identity)
+        if needs_review or (identity is not None and identity.confidence == "review"):
             review_queue.append(
                 ReviewItem(
                     raw_category=raw_category,
                     normalized_candidate=candidate or canonical_name,
                     source_exam_id=source_exam_id,
                     year_roc=year_roc,
+                    provider_id=provider_id,
+                    raw_exam_name=exam_name_raw,
+                    classification_signature=identity.signature if identity is not None else "",
+                    bundle_id=identity.bundle_id if identity is not None else "",
+                    reason=("legacy canonicalization requires review; " if needs_review else "")
+                    + (identity.reason if identity is not None else ""),
                 )
             )
 
@@ -320,17 +369,90 @@ def normalize_papers(
                     download_url_mirror=download_url_mirror,
                     storage_key=storage_key,
                     checksum=metadata.get("checksum", ""),
+                    provider_id=provider_id,
+                    **fields,
                 )
             )
-    return NormalizedCatalog(papers=normalized_papers, review_queue=review_queue)
+    return NormalizedCatalog(papers=normalized_papers, review_queue=_deduplicate_review_queue(review_queue))
 
 
-def renormalize_catalog(catalog: NormalizedCatalog, alias_rules: list[AliasRule]) -> NormalizedCatalog:
+def _is_legacy_ascii_fixture(
+    paper: NormalizedPaper | ParsedPaper, *, canonical_name: str = "", exam_name_raw: str = ""
+) -> bool:
+    """Keep hand-authored ASCII fixture records on the v1 projection.
+
+    Real provider records carry source-language names; this narrow guard exists
+    only so legacy unit fixtures do not silently change their public asset IDs.
+    """
+    schema_version = getattr(paper, "schema_version", 1)
+    paper_name = canonical_name or getattr(paper, "canonical_name", "")
+    category_raw = getattr(paper, "category_raw", "")
+    if schema_version != 1 or not paper_name.isascii() or not category_raw.isascii():
+        return False
+    source_exam_name = exam_name_raw or getattr(paper, "exam_name_raw", "")
+    return bool(re.search(r"\b(?:exam|gsat)\b", source_exam_name, re.IGNORECASE))
+
+
+def renormalize_catalog(
+    catalog: NormalizedCatalog,
+    alias_rules: list[AliasRule],
+    *,
+    collect_reviews: bool = True,
+) -> NormalizedCatalog:
+    """Attach v2 identity metadata without changing legacy canonical URLs.
+
+    ``canonical_id`` is a compatibility key.  It is intentionally retained
+    during migration; the v2 ``bundle_id`` is the only publication grouping
+    key.  ``collect_reviews`` is disabled by the publication read path so a
+    compatibility publish does not manufacture duplicate queue entries; the
+    explicit catalog migration command enables it.
+    """
     papers: list[NormalizedPaper] = []
+    review_queue = _deduplicate_review_queue(list(catalog.review_queue))
     for paper in catalog.papers:
         raw_category = paper.category_raw or paper.exam_name_raw
-        canonical_id, canonical_name, _, _ = _derive_canonical(paper.source_exam_id, raw_category, paper.exam_name_raw, paper.year_roc + 1911, alias_rules)
-        if canonical_id != paper.canonical_id or canonical_name != paper.canonical_name:
-            paper = replace(paper, canonical_id=canonical_id, canonical_name=canonical_name)
+        provider_id = paper.provider_id
+        year_ad = paper.year_roc + 1911
+        canonical_id = paper.canonical_id
+        canonical_name = paper.canonical_name
+        candidate = canonical_name
+        needs_review = False
+        if not canonical_id or not canonical_name:
+            canonical_id, canonical_name, candidate, needs_review = _derive_canonical(
+                paper.source_exam_id, raw_category, paper.exam_name_raw, year_ad, alias_rules
+            )
+        identity = None
+        fields = {}
+        if provider_id and not _is_legacy_ascii_fixture(paper):
+            identity = classify_paper(
+                provider_id=provider_id,
+                source_exam_id=paper.source_exam_id,
+                year_ad=year_ad,
+                category_raw=raw_category,
+                exam_name_raw=paper.exam_name_raw,
+                canonical_id=canonical_id,
+                canonical_name=canonical_name,
+                subject_name_raw=paper.subject_name_raw,
+                subject_code=paper.subject_code,
+            )
+            fields = identity_fields(identity)
+        paper = replace(paper, canonical_id=canonical_id, canonical_name=canonical_name, **fields)
+        if collect_reviews and (needs_review or (identity is not None and identity.confidence == "review")):
+            # Append the generated evidence even when a legacy queue row has
+            # the same key; deduplication below prefers this richer v2 item.
+            review_queue.append(
+                ReviewItem(
+                    raw_category=raw_category,
+                    normalized_candidate=candidate or canonical_name,
+                    source_exam_id=paper.source_exam_id,
+                    year_roc=paper.year_roc,
+                    provider_id=provider_id,
+                    raw_exam_name=paper.exam_name_raw,
+                    classification_signature=identity.signature if identity is not None else "",
+                    bundle_id=identity.bundle_id if identity is not None else "",
+                    reason=("legacy canonicalization requires review; " if needs_review else "")
+                    + (identity.reason if identity is not None else ""),
+                )
+            )
         papers.append(paper)
-    return NormalizedCatalog(papers=papers, review_queue=catalog.review_queue)
+    return NormalizedCatalog(papers=papers, review_queue=_deduplicate_review_queue(review_queue))

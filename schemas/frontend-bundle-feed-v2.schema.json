@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taiwan-examination-web.invalid/schemas/frontend-bundle-feed-v2.schema.json",
+  "title": "Frontend bundle feed v2",
+  "type": "object",
+  "required": ["schema_version", "site_id", "catalog_version", "bundles"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "site_id": {"type": "string", "minLength": 1},
+    "catalog_version": {"const": "exam-identity-v2"},
+    "bundles": {"type": "array", "items": {"$ref": "#/$defs/bundle"}}
+  },
+  "$defs": {
+    "bundle": {
+      "type": "object",
+      "required": ["id", "name", "years", "fileCount", "url", "domainId", "examFamilyId", "seriesId", "levelId", "trackId", "variantIds", "stageId"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "name": {"type": "string"},
+        "years": {"type": "array", "items": {"type": "integer"}},
+        "fileCount": {"type": "integer", "minimum": 1},
+        "url": {"type": "string"},
+        "domainId": {"type": "string"},
+        "examFamilyId": {"type": "string"},
+        "seriesId": {"type": "string"},
+        "levelId": {"type": "string"},
+        "trackId": {"type": "string"},
+        "variantIds": {"type": "array", "items": {"type": "string"}},
+        "stageId": {"type": "string"},
+        "examClass": {"type": "string"},
+        "examSubclass": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

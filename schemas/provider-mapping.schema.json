@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taiwan-examination-web.invalid/schemas/provider-mapping.schema.json",
+  "title": "Provider identity mapping source",
+  "type": "object",
+  "required": ["schema_version", "catalog_version", "provider_id", "rules", "review_policy"],
+  "properties": {
+    "schema_version": {"type": "integer", "minimum": 1},
+    "catalog_version": {"type": "string", "minLength": 1},
+    "provider_id": {"type": "string", "minLength": 1},
+    "owner": {"type": "string"},
+    "precedence": {"type": "array", "items": {"type": "string"}},
+    "rules": {"type": "array", "items": {"type": "object", "required": ["id", "match", "level_id", "confidence"], "properties": {"id": {"type": "string"}, "match": {"type": "array", "items": {"type": "string"}}, "level_id": {"type": "string"}, "confidence": {"enum": ["high", "medium", "review"]}}, "additionalProperties": true}},
+    "review_policy": {"type": "object", "required": ["when", "action", "prohibited"], "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

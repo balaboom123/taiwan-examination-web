@@ -43,8 +43,11 @@ def load_site_bundles(site) -> list[BundleAsset]:
     payload = json.loads(site.bundles_path.read_text(encoding="utf-8"))
     if isinstance(payload, dict):
         schema_version = payload.get("schema_version")
-        if schema_version is not None and schema_version != 1:
+        if schema_version is not None and schema_version not in {1, 2}:
             raise ValueError(f"Unsupported site bundles schema_version: {schema_version}")
+        if schema_version == 2 and payload.get("catalog_version") != "exam-identity-v2":
+            # A v2 wrapper must identify the taxonomy version.
+            raise ValueError("Unsupported site bundles schema_version: missing catalog_version")
         payload_site_id = payload.get("site_id")
         if payload_site_id is not None and payload_site_id != site.site_id:
             raise ValueError(f"Site bundles site_id mismatch: expected {site.site_id}, got {payload_site_id}")
@@ -113,9 +116,18 @@ def merge_targeted_state(
 
 
 def filter_catalog_by_canonical_ids(catalog: NormalizedCatalog, canonical_ids: set[str]) -> NormalizedCatalog:
+    def matches(paper: NormalizedPaper) -> bool:
+        return paper.canonical_id in canonical_ids or bool(paper.bundle_id and paper.bundle_id in canonical_ids)
+
     return NormalizedCatalog(
-        papers=[paper for paper in catalog.papers if paper.canonical_id in canonical_ids],
-        review_queue=[item for item in catalog.review_queue if item.normalized_candidate in canonical_ids or item.raw_category in canonical_ids],
+        papers=[paper for paper in catalog.papers if matches(paper)],
+        review_queue=[
+            item
+            for item in catalog.review_queue
+            if item.normalized_candidate in canonical_ids
+            or item.raw_category in canonical_ids
+            or item.bundle_id in canonical_ids
+        ],
     )
 
 
@@ -227,7 +239,13 @@ def _load_raw_pages_dir(exams_dir: Path, provider_id: str = "") -> list[SourceEx
 
 def _load_catalog_dir(papers_dir: Path, review_queue_path: Path, provider_id: str = "") -> NormalizedCatalog:
     papers = [NormalizedPaper(provider_id=paper.get("provider_id", provider_id), **{k: v for k, v in paper.items() if k != "provider_id"}) for paper in _load_json_dir(papers_dir)]
-    review_queue = [ReviewItem(**item) for item in _load_json(review_queue_path)]
+    review_queue = [
+        ReviewItem(
+            provider_id=item.get("provider_id") or provider_id,
+            **{key: value for key, value in item.items() if key != "provider_id"},
+        )
+        for item in _load_json(review_queue_path)
+    ]
     return NormalizedCatalog(papers=papers, review_queue=review_queue)
 
 

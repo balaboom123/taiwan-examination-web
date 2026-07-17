@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taiwan-examination-web.invalid/schemas/release-plan-v2.schema.json",
+  "title": "Release plan v2",
+  "type": "object",
+  "required": ["schema_version", "site_id", "release_asset_limit", "safety_target", "shards", "bundles"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "site_id": {"type": "string"},
+    "release_asset_limit": {"const": 1000},
+    "safety_target": {"type": "integer", "maximum": 900},
+    "shards": {"type": "array", "items": {"type": "object", "required": ["release_tag", "asset_count"], "properties": {"release_tag": {"type": "string"}, "asset_count": {"type": "integer", "maximum": 1000}}, "additionalProperties": true}},
+    "bundles": {"type": "array", "items": {"type": "object", "required": ["bundle_id", "asset_name", "release_tag"], "properties": {"bundle_id": {"type": "string"}, "asset_name": {"type": "string"}, "release_tag": {"type": "string"}, "legacy_asset_names": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": true}}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "catalog_version": "exam-identity-v2",
+  "identity_schema_version": 2,
+  "owner": "catalog maintainers",
+  "status": "normative",
+  "description": "Versioned identity dimensions used to classify every retained paper and to form pure publication bundles.",
+  "dimensions": [
+    {"id": "provider_id", "required": true, "meaning": "source system owner"},
+    {"id": "domain_id", "required": true, "meaning": "broad domain such as civil-service, professional, admissions, certification"},
+    {"id": "exam_family_id", "required": true, "meaning": "official family within the domain"},
+    {"id": "exam_series_id", "required": true, "meaning": "specific official programme; equivalent programmes are not merged"},
+    {"id": "level_id", "required": true, "meaning": "official level or not-applicable when the provider has no level dimension"},
+    {"id": "track_id", "required": true, "meaning": "category, profession, subject family, or qualification"},
+    {"id": "variant_ids", "required": true, "meaning": "content-changing language, population, destination, group, or form"},
+    {"id": "stage_id", "required": true, "meaning": "stage when the paper set changes"},
+    {"id": "exam_event_id", "required": true, "meaning": "source examination occurrence"},
+    {"id": "bundle_id", "required": true, "meaning": "stable logical publication identity derived from the purity dimensions"}
+  ],
+  "not_applicable": "not-applicable",
+  "confidence": {
+    "high": "direct category or provider mapping evidence",
+    "medium": "unambiguous source-event or provider policy evidence",
+    "review": "missing or conflicting authority; isolate by event and retain a review record"
+  },
+  "bundle_purity": {
+    "equal_dimensions": ["exam_series_id", "level_id", "track_id", "stage_id", "variant_ids"],
+    "may_vary": ["year_roc", "exam_event_id", "source_exam_id"],
+    "never_group_by": ["canonical_id", "canonical_name", "display_name", "legal_level_equivalence"]
+  },
+  "id_policy": {
+    "stable": true,
+    "labels_are_mutable": true,
+    "historical_aliases_are_separate": true,
+    "unknown_values_are_not_fallback_groups": true
+  },
+  "examples": [
+    {"series": "civil-high", "level": "grade-3", "track": "general-administration", "bundle_id": "moex-civil-high-grade-3-general-administration"},
+    {"series": "civil-ordinary", "level": "ordinary", "track": "general-administration", "bundle_id": "moex-civil-ordinary-ordinary-general-administration"},
+    {"series": "civil-elementary", "level": "elementary", "track": "general-administration", "bundle_id": "moex-civil-elementary-elementary-general-administration"},
+    {"series": "special-local-government", "level": "grade-4", "track": "general-administration", "bundle_id": "moex-special-local-government-grade-4-general-administration"},
+    {"series": "language-gept", "level": "intermediate", "track": "gept", "bundle_id": "gept-cert-language-gept-intermediate-gept"},
+    {"series": "language-jlpt", "level": "n1", "track": "jlpt", "bundle_id": "jlpt-cert-language-jlpt-n1-jlpt"}
+  ],
+  "change_control": {
+    "rule_owner": "app/classification.py plus catalog/mappings",
+    "required_evidence": ["raw category/event", "source provider rule or authoritative reference", "regression test", "catalog audit result"],
+    "required_commands": ["python3 -m app audit-catalog --strict", "uv run pytest -q"]
+  }
+}

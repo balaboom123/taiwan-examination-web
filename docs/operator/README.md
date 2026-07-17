@@ -1,42 +1,27 @@
-# Operator Documentation
+# Operator documentation
 
-This section is the user-facing documentation for repo operators and maintainers.
+This section is for repository operators and maintainers running syncs, audits, publication, release, deployment, and recovery.
 
-Use these docs if you:
+The identity and release migration adds whole-catalog audit and v2 shard preflight. Read catalog-audit.md before changing taxonomy, migration, bundles, or releases.
 
-- run syncs manually
-- trigger or inspect GitHub Actions workflows
-- rebuild bundles or publication outputs
-- verify social-gated download behavior
-- investigate publication failures
+## Reading order
 
-These docs assume you are operating the repository, not browsing the public website.
+1. catalog-audit.md
+2. runbook.md
+3. workflows.md
+4. recovery.md
 
-## Reading Order
-
-1. `runbook.md`
-2. `workflows.md`
-3. `recovery.md`
-
-## Safety Rules
+## Safety rules
 
 - Prefer probe or targeted refresh before a full rebuild.
-- Treat `data/`, `bundles/`, and `mirror/` as operational state.
-- Do not manually edit generated files unless the recovery doc explicitly calls for it.
-- Remember that `data/aliases.json` is a manual input; most other `data/` files are generated outputs.
+- Treat data/, bundles/, and mirror/ as operational state.
+- Do not manually edit generated files unless recovery explicitly requires it.
+- Maintain taxonomy and mappings under catalog/, not under generated data/.
+- Count physical release asset names, including compatibility aliases.
+- Do not upload, prune, or delete legacy assets without explicit authorization.
 
-## Current Status
+## Current status
 
-Current operating model:
+The default site registry currently spans all configured providers, although provider state may be populated incrementally. The current v1 inventory is retained for compatibility. V2 publication uses structured identity and may span multiple release shards; each shard targets at most 900 physical assets and must never exceed 1,000.
 
-- one active provider: MOEX
-- one primary release tag for bundles
-- frontend social gate for public downloads, with no generated gating manifest
-- modern `frontend/` deploy fed by site-scoped publication data
-
-Future operating model:
-
-- multiple providers
-- potentially multiple sites
-- provider-scoped sync and recovery
-- site-scoped release and deploy paths
+The modern frontend is fed by site-scoped publication data. Older pages describing one active provider or one release tag are transition snapshots and are subordinate to the current identity reference, ADR, and operator audit procedure.

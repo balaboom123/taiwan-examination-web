@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taiwan-examination-web.invalid/schemas/taxonomy.schema.json",
+  "title": "Exam identity taxonomy source",
+  "type": "object",
+  "required": ["schema_version", "catalog_version", "dimensions", "bundle_purity"],
+  "properties": {
+    "schema_version": {"type": "integer", "minimum": 1},
+    "catalog_version": {"type": "string", "minLength": 1},
+    "identity_schema_version": {"type": "integer", "minimum": 1},
+    "owner": {"type": "string"},
+    "dimensions": {"type": "array", "items": {"type": "object", "required": ["id", "required", "meaning"], "properties": {"id": {"type": "string"}, "required": {"type": "boolean"}, "meaning": {"type": "string"}}, "additionalProperties": true}},
+    "bundle_purity": {"type": "object", "required": ["equal_dimensions", "may_vary", "never_group_by"], "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

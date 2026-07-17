@@ -6,18 +6,20 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+from app.audit import audit_exit_code, build_catalog_audit, build_release_plan, write_catalog_audit, write_release_plan
 from app.bundler import build_bundles
 from app.crawler import year_ad_from_code
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.migration import migrate_legacy_state
 from app.models import BundleAsset, NormalizedCatalog, SyncFailure
 from app.normalizer import load_alias_rules, renormalize_catalog
-from app.paths import ProviderPaths, site_paths
+from app.paths import ProviderPaths, provider_paths, site_paths
 from app.publisher import publish_site, write_data_files, write_provider_state
 from app.probe import probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 from app.state import load_existing_state, load_provider_state, load_site_bundles, merge_incremental_state, merge_targeted_state
+from app.site_registry import get_site_config
 from app.sync import sync_exam_pages
 from app.storage import MirrorStore
 
@@ -499,6 +501,62 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
     return 0
 
 
+
+def command_plan_release(args: argparse.Namespace) -> int:
+    try:
+        plan = build_release_plan(args.repo_root, site_id=args.site_id, release_tag_prefix=args.release_tag_prefix)
+        write_release_plan(plan, args.output)
+    except ValueError as exc:
+        print(str(exc), flush=True)
+        return 1
+    print(
+        f"Planned {len(plan['bundles'])} bundles across {len(plan['shards'])} release shards; "
+        f"report: {args.output}",
+        flush=True,
+    )
+    return 0
+
+def command_audit_catalog(args: argparse.Namespace) -> int:
+    report = build_catalog_audit(args.repo_root, site_id=args.site_id)
+    write_catalog_audit(report, args.output)
+    print(
+        f"Scanned {report['paper_records_scanned']} records across {report['provider_count']} providers; "
+        f"{len(report['mixed_legacy_groups'])} legacy groups require split and "
+        f"{report['records_needing_review']} records require review. Report: {args.output}",
+        flush=True,
+    )
+    return audit_exit_code(report, strict=args.strict)
+
+
+def command_migrate_catalog(args: argparse.Namespace) -> int:
+    site_config = get_site_config(args.site_id)
+    provider_ids = (args.provider,) if args.provider else site_config.provider_ids
+    migrated = 0
+    records = 0
+    for provider_id in provider_ids:
+        provider = provider_paths(args.repo_root, provider_id)
+        if not provider.data_dir.exists():
+            continue
+        raw_pages, catalog, failures = load_provider_state(provider)
+        aliases = load_alias_rules(provider.aliases_path)
+        migrated_catalog = renormalize_catalog(catalog, aliases)
+        manifest = None
+        if provider.source_manifest_path.exists():
+            manifest = load_source_manifest(provider.source_manifest_path, provider_id=provider_id)
+        write_provider_state(
+            provider,
+            raw_pages=raw_pages,
+            normalized=migrated_catalog,
+            aliases=aliases,
+            failures=failures,
+            manifest=manifest,
+        )
+        migrated += 1
+        records += len(migrated_catalog.papers)
+    print(f"Migrated {records} paper records across {migrated} providers to exam-identity-v2", flush=True)
+    return 0
+
+
 def command_publish_site(args: argparse.Namespace) -> int:
     try:
         affected_canonical_ids, canonical_aliases = _load_publish_plan(args.publish_plan, args.site_id)
@@ -591,6 +649,35 @@ def build_parser() -> argparse.ArgumentParser:
     build_bundles_parser.add_argument("--bundle-base-url", default="")
     build_bundles_parser.add_argument("--min-years", type=int, default=2)
     build_bundles_parser.set_defaults(handler=command_build_bundles)
+
+    plan_release_parser = subparsers.add_parser(
+        "plan-release",
+        help="Plan physical release shards from current site inventory without uploading or deleting assets.",
+    )
+    plan_release_parser.add_argument("--repo-root", type=Path, default=repo_root)
+    plan_release_parser.add_argument("--site-id", default="default")
+    plan_release_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "release-plan.json")
+    plan_release_parser.add_argument("--release-tag-prefix", default=None)
+    plan_release_parser.set_defaults(handler=command_plan_release)
+
+    audit_parser = subparsers.add_parser(
+        "audit-catalog",
+        help="Audit every provider record and current bundle for identity coverage and mixed groups.",
+    )
+    audit_parser.add_argument("--repo-root", type=Path, default=repo_root)
+    audit_parser.add_argument("--site-id", default="default")
+    audit_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "catalog-audit.json")
+    audit_parser.add_argument("--strict", action="store_true")
+    audit_parser.set_defaults(handler=command_audit_catalog)
+
+    migrate_catalog_parser = subparsers.add_parser(
+        "migrate-catalog",
+        help="Reclassify all retained provider state into exam-identity-v2 without network access.",
+    )
+    migrate_catalog_parser.add_argument("--repo-root", type=Path, default=repo_root)
+    migrate_catalog_parser.add_argument("--site-id", default="default")
+    migrate_catalog_parser.add_argument("--provider", default=None)
+    migrate_catalog_parser.set_defaults(handler=command_migrate_catalog)
 
     publish_site_parser = subparsers.add_parser("publish-site", help="Aggregate provider outputs and publish one site.")
     publish_site_parser.add_argument("--repo-root", type=Path, default=repo_root)

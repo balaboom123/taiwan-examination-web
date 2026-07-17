@@ -10,8 +10,14 @@ from urllib.parse import quote
 from app.bundler import build_bundles
 from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
+from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
-from app.release_tags import assign_release_tags
+from app.release_tags import (
+    RELEASE_SAFETY_TARGET,
+    assign_release_tags,
+    strip_ambiguous_legacy_assets,
+    validate_release_capacity,
+)
 from app.site_registry import get_site_config
 from app.state import filter_catalog_by_canonical_ids, load_provider_state, load_site_bundles
 
@@ -98,44 +104,82 @@ def write_provider_state(
         write_source_manifest(provider.source_manifest_path, manifest)
 
 
+def _bundle_key(bundle: BundleAsset) -> str:
+    return bundle.bundle_id or bundle.canonical_id
+
+
+def _paper_bundle_key(paper: NormalizedPaper) -> str:
+    return paper.bundle_id or paper.canonical_id
+
+
+def _structured_bundle(bundle: BundleAsset) -> bool:
+    return bool(bundle.bundle_id or bundle.domain_id or bundle.exam_series_id)
+
+
+def _release_asset_record(bundle: BundleAsset) -> dict:
+    record = {
+        "release_tag": bundle.release_tag,
+        "storage_key": bundle.storage_key,
+        "asset_name": bundle.asset_name,
+        "checksum": bundle.checksum,
+        "legacy_asset_names": bundle.legacy_asset_names,
+    }
+    if _structured_bundle(bundle):
+        record.update(
+            {
+                "bundle_id": _bundle_key(bundle),
+                "domain_id": bundle.domain_id,
+                "exam_family_id": bundle.exam_family_id,
+                "exam_series_id": bundle.exam_series_id,
+                "level_id": bundle.level_id,
+                "track_id": bundle.track_id,
+                "variant_ids": bundle.variant_ids,
+                "stage_id": bundle.stage_id,
+                "bundle_policy_id": bundle.bundle_policy_id,
+            }
+        )
+    return record
+
+
 def write_site_state(
     site,
     bundles: list[BundleAsset],
     frontend_bundles: list[dict],
 ) -> None:
     site.data_dir.mkdir(parents=True, exist_ok=True)
+    schema_version = 2 if any(_structured_bundle(bundle) for bundle in bundles) else 1
+    bundles_payload = {"schema_version": schema_version, "site_id": site.site_id, "bundles": to_plain_data(bundles)}
+    if schema_version == 2:
+        bundles_payload["catalog_version"] = "exam-identity-v2"
     site.bundles_path.write_text(
         json.dumps(
-            {"schema_version": 1, "site_id": site.site_id, "bundles": to_plain_data(bundles)},
+            bundles_payload,
             ensure_ascii=False,
             indent=2,
         ),
         encoding="utf-8",
     )
+    release_payload = {
+        "schema_version": schema_version,
+        "site_id": site.site_id,
+        "assets": [_release_asset_record(bundle) for bundle in bundles],
+    }
+    if schema_version == 2:
+        release_payload["catalog_version"] = "exam-identity-v2"
     site.release_assets_path.write_text(
         json.dumps(
-            {
-                "schema_version": 1,
-                "site_id": site.site_id,
-                "assets": [
-                    {
-                        "release_tag": bundle.release_tag,
-                        "storage_key": bundle.storage_key,
-                        "asset_name": bundle.asset_name,
-                        "checksum": bundle.checksum,
-                        "legacy_asset_names": bundle.legacy_asset_names,
-                    }
-                    for bundle in bundles
-                ],
-            },
+            release_payload,
             ensure_ascii=False,
             indent=2,
         ),
         encoding="utf-8",
     )
+    frontend_payload = {"schema_version": schema_version, "site_id": site.site_id, "bundles": frontend_bundles}
+    if schema_version == 2:
+        frontend_payload["catalog_version"] = "exam-identity-v2"
     site.frontend_bundles_path.write_text(
         json.dumps(
-            {"schema_version": 1, "site_id": site.site_id, "bundles": frontend_bundles},
+            frontend_payload,
             ensure_ascii=False,
             indent=2,
         ),
@@ -157,28 +201,44 @@ def apply_bundle_download_urls(
             download_url = f"https://github.com/{repository}/releases/download/{bundle.release_tag}/{quote(bundle.asset_name)}"
         updated_bundle = replace(bundle, download_url=download_url)
         updated_bundles.append(updated_bundle)
-        bundle_index[updated_bundle.canonical_id] = updated_bundle
+        bundle_index[_bundle_key(updated_bundle)] = updated_bundle
+        for legacy_id in updated_bundle.legacy_canonical_ids:
+            bundle_index.setdefault(legacy_id, updated_bundle)
 
     updated_papers = [
         replace(
             paper,
-            download_url_bundle=bundle_index.get(paper.canonical_id).download_url
-            if paper.canonical_id in bundle_index
+            download_url_bundle=bundle_index.get(_paper_bundle_key(paper)).download_url
+            if _paper_bundle_key(paper) in bundle_index
             else "",
         )
         for paper in normalized.papers
     ]
 
-    frontend_bundles = [
-        {
-            "id": bundle.canonical_id,
+    frontend_bundles = []
+    for bundle in updated_bundles:
+        frontend = {
+            "id": _bundle_key(bundle),
             "name": bundle.canonical_name,
             "years": bundle.years,
             "fileCount": bundle.file_count,
             "url": bundle.download_url,
         }
-        for bundle in updated_bundles
-    ]
+        if _structured_bundle(bundle):
+            frontend.update(
+                {
+                    "domainId": bundle.domain_id,
+                    "examFamilyId": bundle.exam_family_id,
+                    "seriesId": bundle.exam_series_id,
+                    "levelId": bundle.level_id,
+                    "trackId": bundle.track_id,
+                    "variantIds": bundle.variant_ids,
+                    "stageId": bundle.stage_id,
+                    "examClass": bundle.exam_class,
+                    "examSubclass": bundle.exam_subclass,
+                }
+            )
+        frontend_bundles.append(frontend)
     return (
         NormalizedCatalog(papers=updated_papers, review_queue=normalized.review_queue),
         updated_bundles,
@@ -224,6 +284,10 @@ def publish_site(
                 raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
             continue
         _raw_pages, provider_catalog, _failures = load_provider_state(provider)
+        aliases = load_alias_rules(provider.aliases_path)
+        # Existing generated records predate v2. Reclassify on load so a publish
+        # run cannot reproduce mixed-level bundles before a full sync is done.
+        provider_catalog = renormalize_catalog(provider_catalog, aliases, collect_reviews=False)
         aggregated_papers.extend(provider_catalog.papers)
         aggregated_review_queue.extend(provider_catalog.review_queue)
 
@@ -236,11 +300,16 @@ def publish_site(
         preserved_bundles: list[BundleAsset] = []
         rebuild_catalog = normalized
     else:
-        active_canonical_ids = {paper.canonical_id for paper in normalized.papers}
+        active_bundle_ids = {_paper_bundle_key(paper) for paper in normalized.papers}
+        active_legacy_ids = {paper.canonical_id for paper in normalized.papers}
         preserved_bundles = [
             bundle
             for bundle in existing_bundles
-            if bundle.canonical_id in active_canonical_ids and bundle.canonical_id not in affected_canonical_ids
+            if (
+                (_bundle_key(bundle) in active_bundle_ids or bundle.canonical_id in active_legacy_ids)
+                and _bundle_key(bundle) not in affected_canonical_ids
+                and bundle.canonical_id not in affected_canonical_ids
+            )
         ]
         rebuild_catalog = filter_catalog_by_canonical_ids(normalized, affected_canonical_ids)
 
@@ -259,12 +328,20 @@ def publish_site(
         [*preserved_bundles, *_site_scoped_bundles(site_id, bundle_result.bundles)],
         key=lambda bundle: bundle.canonical_id,
     )
+    # A v2 publication is additive: old default-bundles-* releases remain
+    # untouched, while the new site projection is assigned to a separate
+    # namespace. Ambiguous legacy aliases cannot safely point to more than
+    # one v2 identity, so omit them from the new projection and retain them in
+    # the v1 release inventory for rollback/compatibility.
+    release_projection, _alias_conflicts = strip_ambiguous_legacy_assets(site_scoped_bundles)
+    v2_release_prefix = f"{site_config.release_tag_prefix}-v2"
     tagged_bundles = assign_release_tags(
-        release_tag_prefix=site_config.release_tag_prefix,
+        release_tag_prefix=v2_release_prefix,
         existing_bundles=existing_bundles,
-        bundles=site_scoped_bundles,
-        max_assets_per_release=site_config.release_shard_size,
+        bundles=release_projection,
+        max_assets_per_release=min(site_config.release_shard_size, RELEASE_SAFETY_TARGET),
     )
+    validate_release_capacity(tagged_bundles)
     normalized_with_urls, bundles_with_urls, frontend_bundles = apply_bundle_download_urls(
         normalized,
         tagged_bundles,
