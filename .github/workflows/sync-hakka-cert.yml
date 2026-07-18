@@ -33,7 +33,7 @@ jobs:
             hakka-cert-mirror-
 
       - name: Run Hakka cert sync
-        run: python -m app sync-full --provider hakka_cert --site-id default
+        run: python -m app sync-full --provider hakka_cert --site-id default --prune-orphaned-mirror
 
       - name: Commit regenerated Hakka cert provider data
         run: |

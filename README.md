@@ -32,6 +32,8 @@ python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --man
 python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
 python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
 python -m app sync-full --provider ceec_gsat --site-id default
+python -m app dedupe-mirror --apply
+python -m app prune-orphaned-mirror --provider hakka_cert --apply
 python -m app publish-site --site-id default --repository <owner>/<repo>
 ```
 
@@ -45,6 +47,8 @@ python -m app publish-site --site-id default --repository <owner>/<repo>
 - `sync-full` is the recovery and bootstrap path for a selected provider.
 - `publish-site` aggregates all providers assigned to the `default` site and assigns deterministic site-owned release tags.
 - Mirror validation rejects HTML placeholder downloads and repairs stale `.ashx` siblings when a valid `.pdf` or `.zip` is fetched again.
+- Mirror storage persists a checksum index and hard-links byte-identical downloads, preserving each source path without consuming a second payload copy.
+- `dedupe-mirror --apply` compacts existing mirror files; `prune-orphaned-mirror --apply` is fail-closed and removes only files absent from complete provider state.
 
 The scheduled `sync-incremental` GitHub Actions workflow behaves in two modes:
 

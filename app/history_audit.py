@@ -1,0 +1,232 @@
+from __future__ import annotations
+
+"""Event-level archive coverage audit.
+
+This audit is intentionally separate from bundle construction.  It compares
+retained raw and normalized state with the site inventory, verifies local
+mirror references, and can optionally compare source discovery with local
+events.  It never downloads source files or writes provider state.
+"""
+
+from collections import Counter, defaultdict
+import json
+from pathlib import Path
+from typing import Any, Iterable
+
+from app.paths import provider_paths, site_paths
+from app.providers.registry import get_provider
+from app.site_registry import get_site_config
+from app.state import load_provider_state, load_site_bundles
+
+
+def _event_key(source_exam_id: str, year_ad: int) -> tuple[str, int]:
+    return source_exam_id, year_ad
+
+
+def _published_bundle_index(bundles: list[Any]) -> dict[str, dict[str, set[int]]]:
+    index: dict[str, dict[str, set[int]]] = defaultdict(dict)
+    for bundle in bundles:
+        bundle_id = bundle.bundle_id or bundle.canonical_id
+        for candidate in {bundle_id, bundle.canonical_id, *bundle.legacy_canonical_ids}:
+            if candidate:
+                index[candidate].setdefault(bundle_id, set()).update(bundle.years)
+    return index
+
+
+def _failure_status(failures: list[Any]) -> str | None:
+    stages = {failure.stage for failure in failures}
+    if "bundle" in stages:
+        return "bundle_repair_needed"
+    if stages:
+        return "sync_failure_recorded"
+    return None
+
+
+def _probe_provider(
+    provider_id: str,
+    local_event_keys: set[tuple[str, int]],
+    *,
+    client: Any | None,
+) -> dict[str, Any]:
+    try:
+        source_client = client or get_provider(provider_id)
+        years = sorted(set(source_client.discover_available_years()), reverse=True)
+    except Exception as exc:
+        return {
+            "status": "error",
+            "available_years": [],
+            "source_event_count": 0,
+            "source_only_events": [],
+            "year_errors": [],
+            "error": str(exc),
+        }
+
+    source_events: list[dict[str, Any]] = []
+    year_errors: list[dict[str, Any]] = []
+    for year_ad in years:
+        try:
+            exams = source_client.discover_exams(year_ad)
+        except Exception as exc:
+            year_errors.append({"year_ad": year_ad, "error": str(exc)})
+            continue
+        for exam in exams:
+            source_events.append(
+                {
+                    "source_exam_id": exam.code,
+                    "year_ad": exam.year_ad,
+                    "year_roc": exam.year_roc,
+                    "label": exam.label,
+                }
+            )
+    deduped: dict[tuple[str, int], dict[str, Any]] = {}
+    for event in source_events:
+        deduped[_event_key(event["source_exam_id"], event["year_ad"])] = event
+    source_only_events = [
+        event
+        for key, event in sorted(deduped.items(), key=lambda item: (-item[0][1], item[0][0]))
+        if key not in local_event_keys
+    ]
+    return {
+        "status": "partial" if year_errors else "ok",
+        "available_years": years,
+        "source_event_count": len(deduped),
+        "source_only_events": source_only_events,
+        "year_errors": year_errors,
+    }
+
+
+def build_history_coverage_audit(
+    repo_root: Path,
+    *,
+    site_id: str = "default",
+    provider_ids: Iterable[str] | None = None,
+    probe_sources: bool = False,
+    clients: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build a read-only per-event coverage report.
+
+    ``source_only_events`` are authoritative discovery gaps only when the
+    optional source probe succeeds.  An upstream outage is reported as a
+    probe error, never misclassified as missing historical material.
+    """
+    site_config = get_site_config(site_id)
+    selected_provider_ids = tuple(provider_ids or site_config.provider_ids)
+    published_index = _published_bundle_index(load_site_bundles(site_paths(repo_root, site_id)))
+    provider_reports: list[dict[str, Any]] = []
+    status_counts: Counter[str] = Counter()
+    total_source_only = 0
+
+    for provider_id in selected_provider_ids:
+        provider = provider_paths(repo_root, provider_id)
+        raw_pages, catalog, failures = load_provider_state(provider)
+        raw_by_event = {
+            _event_key(page.source_exam_id, page.year_ad): page
+            for page in raw_pages
+        }
+        papers_by_event: dict[tuple[str, int], list[Any]] = defaultdict(list)
+        for paper in catalog.papers:
+            papers_by_event[_event_key(paper.source_exam_id, paper.year_roc + 1911)].append(paper)
+        failures_by_event: dict[tuple[str, int], list[Any]] = defaultdict(list)
+        for failure in failures:
+            failures_by_event[_event_key(failure.source_exam_id, failure.year_roc + 1911)].append(failure)
+
+        event_keys = set(raw_by_event) | set(papers_by_event) | set(failures_by_event)
+        events: list[dict[str, Any]] = []
+        for source_exam_id, year_ad in sorted(event_keys, key=lambda item: (-item[1], item[0])):
+            papers = papers_by_event[_event_key(source_exam_id, year_ad)]
+            event_failures = failures_by_event[_event_key(source_exam_id, year_ad)]
+            missing_mirror_files = sorted(
+                {
+                    paper.storage_key or f"{paper.paper_code}:{paper.file_type}"
+                    for paper in papers
+                    if not paper.storage_key or not (repo_root / "mirror" / paper.storage_key).is_file()
+                }
+            )
+            required_bundle_ids = {paper.bundle_id or paper.canonical_id for paper in papers}
+            published_bundle_ids = sorted(
+                {
+                    published_bundle_id
+                    for bundle_id in required_bundle_ids
+                    for published_bundle_id, published_years in published_index.get(bundle_id, {}).items()
+                    if year_ad - 1911 in published_years
+                }
+            )
+            unpublished_bundle_ids = sorted(
+                bundle_id
+                for bundle_id in required_bundle_ids
+                if not any(
+                    year_ad - 1911 in published_years
+                    for published_years in published_index.get(bundle_id, {}).values()
+                )
+            )
+            failure_status = _failure_status(event_failures)
+            if missing_mirror_files:
+                status = "download_gap"
+            elif failure_status is not None:
+                status = failure_status
+            elif not papers and _event_key(source_exam_id, year_ad) in raw_by_event:
+                status = "normalization_gap"
+            elif papers and unpublished_bundle_ids:
+                status = "normalized_not_published"
+            elif papers:
+                status = "published_complete"
+            else:
+                status = "failure_only"
+            status_counts[status] += 1
+            events.append(
+                {
+                    "source_exam_id": source_exam_id,
+                    "year_ad": year_ad,
+                    "year_roc": year_ad - 1911,
+                    "raw_page_present": _event_key(source_exam_id, year_ad) in raw_by_event,
+                    "normalized_paper_records": len(papers),
+                    "missing_mirror_files": missing_mirror_files,
+                    "published_bundle_ids": published_bundle_ids,
+                    "unpublished_bundle_ids": unpublished_bundle_ids,
+                    "failure_count": len(event_failures),
+                    "failure_stages": sorted({failure.stage for failure in event_failures}),
+                    "status": status,
+                }
+            )
+
+        source_probe = {"status": "not_requested", "available_years": [], "source_event_count": 0, "source_only_events": [], "year_errors": []}
+        if probe_sources:
+            source_probe = _probe_provider(
+                provider_id,
+                event_keys,
+                client=(clients or {}).get(provider_id),
+            )
+            total_source_only += len(source_probe["source_only_events"])
+        provider_reports.append(
+            {
+                "provider_id": provider_id,
+                "raw_exam_pages": len(raw_pages),
+                "normalized_paper_records": len(catalog.papers),
+                "sync_failure_count": len(failures),
+                "events": events,
+                "source_probe": source_probe,
+            }
+        )
+
+    summary = dict(sorted(status_counts.items()))
+    summary["parser_gap"] = total_source_only
+    return {
+        "schema_version": 1,
+        "site_id": site_id,
+        "probe_sources": probe_sources,
+        "provider_count": len(provider_reports),
+        "summary": summary,
+        "providers": provider_reports,
+    }
+
+
+def write_history_coverage_audit(report: dict[str, Any], output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def history_audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
+    if not strict:
+        return 0
+    summary = report["summary"]
+    return int(any(summary.get(status, 0) for status in ("download_gap", "normalization_gap", "bundle_repair_needed", "parser_gap")))

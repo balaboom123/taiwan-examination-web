@@ -8,9 +8,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 from app.manifest import SourceManifest
-from app.cli import _download_affected_bundles, build_parser, command_sync, main, run_probe_latest, run_sync_targeted
+from app.cli import _download_affected_bundles, build_parser, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
-from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
+from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage, SyncFailure
 from app.paths import provider_paths, site_paths
 from app.publisher import write_data_files, write_provider_state
 from app.state import load_provider_state
@@ -72,6 +72,61 @@ class CliCommandTests(unittest.TestCase):
         parser = build_parser()
         args = parser.parse_args(["sync-incremental", "--years", "3"])
         self.assertEqual(args.year_window, 3)
+
+    def test_parser_accepts_mirror_maintenance_commands(self) -> None:
+        parser = build_parser()
+
+        dedupe_args = parser.parse_args(["dedupe-mirror", "--mirror-dir", "mirror", "--apply"])
+        prune_args = parser.parse_args(["prune-orphaned-mirror", "--provider", "hakka_cert", "--apply"])
+        sync_args = parser.parse_args(["sync-full", "--provider", "hakka_cert", "--prune-orphaned-mirror"])
+
+        self.assertEqual(dedupe_args.mirror_dir, Path("mirror"))
+        self.assertTrue(dedupe_args.apply)
+        self.assertEqual(prune_args.provider, "hakka_cert")
+        self.assertTrue(prune_args.apply)
+        self.assertTrue(sync_args.prune_orphaned_mirror)
+
+    @patch("app.cli.sync_exam_pages")
+    def test_command_sync_incremental_limits_to_requested_source_exam_ids(self, sync_exam_pages_mock) -> None:
+        class SelectiveClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [
+                    ExamOption(code="115030", year_ad=year_ad, year_roc=115, label="Exam 115030"),
+                    ExamOption(code="115040", year_ad=year_ad, year_roc=115, label="Exam 115040"),
+                ]
+
+        sync_exam_pages_mock.return_value = ([], NormalizedCatalog(papers=[], review_queue=[]), [])
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "aliases.json").write_text('{"rules": []}', encoding="utf-8")
+            args = build_parser().parse_args(
+                [
+                    "sync-incremental",
+                    "--years",
+                    "1",
+                    "--provider",
+                    "moex",
+                    "--source-exam-id",
+                    "115040",
+                    "--data-dir",
+                    str(data_dir),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+
+            self.assertEqual(command_sync(args, client=SelectiveClient()), 0)
+
+        self.assertEqual(sync_exam_pages_mock.call_args.kwargs["exam_codes"], [("115040", 2026)])
 
     def test_parser_accepts_provider_and_site_for_sync_commands(self) -> None:
         parser = build_parser()
@@ -1609,6 +1664,97 @@ class CliCommandTests(unittest.TestCase):
             self.assertEqual(len(nurse_papers), 2)
             self.assertEqual({p["file_type"] for p in nurse_papers}, {"question", "answer"})
             self.assertEqual({p["checksum"] for p in nurse_papers}, {"old-question", "old-answer"})
+
+    def test_repair_failures_refetches_only_recorded_bundle_failure_and_clears_it(self) -> None:
+        class RepairClient:
+            provider_id = "moex"
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                self.fetched = (exam_code, year_ad)
+                return SourceExamPage(
+                    provider_id="moex",
+                    source_exam_id=exam_code,
+                    year_ad=year_ad,
+                    year_roc=year_ad - 1911,
+                    exam_name_raw="113 Nurse Exam",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="Nurse",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="Subject",
+                            files={"question": "https://example.test/question.pdf"},
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                return DownloadedFile(data=b"%PDF-1.7 repaired", content_type="application/pdf", file_name="question.pdf")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            provider = provider_paths(root, "moex")
+            aliases = [AliasRule(match_type="exact", raw_pattern="Nurse", canonical_id="nurse", canonical_name="Nurse")]
+            write_provider_state(
+                provider,
+                raw_pages=[
+                    SourceExamPage(
+                        provider_id="moex",
+                        source_exam_id="113010",
+                        year_ad=2024,
+                        year_roc=113,
+                        exam_name_raw="113 Nurse Exam",
+                        attachments=[],
+                        papers=[],
+                    )
+                ],
+                normalized=NormalizedCatalog(papers=[_paper("moex", "nurse", year_roc=113, source_exam_id="113010")], review_queue=[]),
+                aliases=aliases,
+                failures=[
+                    SyncFailure(
+                        stage="bundle",
+                        source_exam_id="113010",
+                        year_roc=113,
+                        paper_code="101-0101-question",
+                        file_type="question",
+                        url="",
+                        message="Missing mirrored file for bundle entry",
+                    )
+                ],
+                manifest=None,
+            )
+            args = build_parser().parse_args(
+                [
+                    "repair-failures",
+                    "--provider",
+                    "moex",
+                    "--years",
+                    "2024",
+                    "--data-dir",
+                    str(data_dir),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(provider.aliases_path),
+                ]
+            )
+            client = RepairClient()
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = command_repair_failures(args, client=client)
+
+            raw_pages, catalog, failures = load_provider_state(provider)
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(client.fetched, ("113010", 2024))
+            self.assertEqual({page.source_exam_id for page in raw_pages}, {"113010"})
+            self.assertEqual({paper.source_exam_id for paper in catalog.papers}, {"113010"})
+            self.assertEqual(failures, [])
+            self.assertIn("Repaired 1/1", output.getvalue())
+            self.assertTrue((root / "mirror" / "providers/moex/113/113010/101/0101/question.pdf").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -93,6 +93,35 @@ class ProbeTests(unittest.TestCase):
         self.assertEqual(result.request_counts["year_head_count"], 1)
         self.assertEqual(result.request_counts["exam_head_count"], 2)
 
+    def test_probe_latest_recovers_empty_moex_manifest_even_when_head_length_matches(self) -> None:
+        client = FakeProbeClient()
+        year_url = "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?y=2026"
+        client.exams_by_year[2026] = [_exam("115040")]
+        client.head_lengths = {
+            year_url: 800,
+            make_result_url("115040", 2026): 500,
+        }
+        client.pages["115040"] = _page("115040")
+        manifest = SourceManifest(
+            provider_id="moex",
+            years={
+                "2026": {
+                    "year_ad": 2026,
+                    "year_roc": 115,
+                    "search_url": year_url,
+                    "head_content_length": 800,
+                    "exam_codes": [],
+                    "exam_codes_hash": hash_exam_codes([]),
+                }
+            },
+        )
+
+        result = probe_latest(client=client, manifest=manifest, year_window=1, now="2026-05-20T00:00:00+08:00")
+
+        self.assertEqual(client.discovered_exam_years, [2026])
+        self.assertEqual(result.updated_manifest.years["2026"]["exam_codes"], ["115040"])
+        self.assertEqual(result.changed_exam_codes, ["115040"])
+
     def test_probe_latest_fetches_changed_exam_page_and_updates_hashes(self) -> None:
         client = FakeProbeClient()
         year_url = "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?y=2026"

@@ -14,14 +14,17 @@ EXTENSION_OVERRIDES = {
     "application/zip": ".zip",
     "application/x-rar-compressed": ".rar",
     "application/vnd.rar": ".rar",
+    "application/vnd.ms-excel": ".xls",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
+    "application/vnd.oasis.opendocument.spreadsheet": ".ods",
     "application/msword": ".doc",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
 }
 EXPECTED_EXTENSIONS = {
-    "question": (".pdf", ".doc", ".zip", ".rar"),
-    "question_answer": (".pdf", ".zip", ".rar"),
-    "question_alt": (".pdf", ".docx", ".doc", ".rar"),
-    "answer": (".pdf", ".xlsx", ".zip"),
+    "question": (".pdf", ".doc", ".zip", ".rar", ".docx", ".xls", ".xlsx", ".ods"),
+    "question_answer": (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ods", ".zip", ".rar"),
+    "question_alt": (".pdf", ".docx", ".doc", ".xls", ".xlsx", ".ods", ".zip", ".rar"),
+    "answer": (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ods", ".zip", ".rar"),
     "answer_sheet": (".pdf",),
     "corrected_answer": (".pdf", ".zip"),
     "all_answers": (".pdf",),
@@ -72,7 +75,7 @@ def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
         return head.startswith(b"%PDF")
     if expected_extension == ".doc":
         return head.startswith(DOC_SIGNATURE)
-    if expected_extension in {".zip", ".docx", ".xlsx"}:
+    if expected_extension in {".zip", ".docx", ".xlsx", ".ods"}:
         return any(head.startswith(signature) for signature in ZIP_SIGNATURES)
     if expected_extension == ".xls":
         return head.startswith(DOC_SIGNATURE)
@@ -253,4 +256,5 @@ def sync_exam_pages(
         normalized_papers.extend(normalized.papers)
         review_queue.extend(normalized.review_queue)
 
+    mirror_store.flush_dedupe_index()
     return raw_pages, NormalizedCatalog(papers=normalized_papers, review_queue=review_queue), failures

@@ -4,13 +4,22 @@ from unittest.mock import patch
 from app.models import NormalizedCatalog
 from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
-from app.providers.hce_archive import HCE_CONFIGS, HceArchiveClient, _request_url, parse_article_listing, parse_combined_pdf_listing
+from app.providers.hce_archive import HCE_CONFIGS, HceArchiveClient, _request_url, parse_article_listing, parse_combined_pdf_listing, parse_listing_page_urls
 from app.providers.registry import get_provider
 
 
 CMU_LISTING_HTML = """
 <html><body>
   <a href="/?q=zh-hant/node/641">115學年度學士後中醫學系入學招生考試試題及參考答案公告</a>
+</body></html>
+"""
+
+CMU_PAGINATION_HTML = """
+<html><body>
+  <a href="/?q=zh-hant/news_spbcm&amp;page=1">第 2 頁</a>
+  <a href="/?q=zh-hant/news_spbcm&amp;page=2">第 3 頁</a>
+  <a href="/?q=zh-hant/news_spbcm&amp;topic=other&amp;page=3">Other archive</a>
+  <a href="/?q=zh-hant/node/641">115公告</a>
 </body></html>
 """
 
@@ -46,6 +55,30 @@ class HceArchiveParserTests(unittest.TestCase):
         self.assertEqual(pages[0].year_ad, 2026)
         self.assertEqual(pages[0].year_roc, 115)
         self.assertEqual(pages[0].url, "https://adm21.cmu.edu.tw/?q=zh-hant/node/641")
+
+    def test_parse_listing_page_urls_keeps_only_cmu_archive_pagination(self) -> None:
+        urls = parse_listing_page_urls(CMU_PAGINATION_HTML, HCE_CONFIGS["hce_cmu"].listing_url, HCE_CONFIGS["hce_cmu"])
+
+        self.assertEqual(
+            urls,
+            [
+                "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm&page=1",
+                "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm&page=2",
+            ],
+        )
+
+    def test_cmu_short_historical_file_labels_become_questions_and_all_answers(self) -> None:
+        html = """
+        <a href="/sites/default/files/112%E5%9C%8B%E6%96%87.pdf">112國文.pdf</a>
+        <a href="/sites/default/files/112%E5%8C%96%E5%AD%B8.pdf">112化學.pdf</a>
+        <a href="/sites/default/files/answers.pdf">公告用-112後中參考答案.pdf</a>
+        """
+        papers = HCE_CONFIGS["hce_cmu"].parse_papers(html, "https://adm21.cmu.edu.tw/?q=zh-hant/node/325")
+        by_subject = {paper.subject_code: paper for paper in papers}
+
+        self.assertEqual(by_subject["chinese"].files["question"], "https://adm21.cmu.edu.tw/sites/default/files/112%E5%9C%8B%E6%96%87.pdf")
+        self.assertEqual(by_subject["chemistry"].files["question"], "https://adm21.cmu.edu.tw/sites/default/files/112%E5%8C%96%E5%AD%B8.pdf")
+        self.assertEqual(by_subject["all"].files["all_answers"], "https://adm21.cmu.edu.tw/sites/default/files/answers.pdf")
 
     def test_tcu_subject_file_page_extracts_question_and_answer_assets(self) -> None:
         papers = HCE_CONFIGS["hce_tcu"].parse_papers(
@@ -112,6 +145,32 @@ class HceArchiveProviderTests(unittest.TestCase):
         self.assertEqual(page.source_exam_id, "hce-cmu-115")
         self.assertEqual(page.year_roc, 115)
 
+    def test_cmu_client_follows_pagination_once_and_caches_year_pages(self) -> None:
+        page_one = """
+        <a href="/?q=zh-hant/node/640">114學年度學士後中醫學系入學招生考試試題及參考答案公告</a>
+        <a href="/?q=zh-hant/news_spbcm&amp;page=2">第 3 頁</a>
+        """
+        page_two = """
+        <a href="/?q=zh-hant/node/639">113學年度學士後中醫學系入學招生考試試題及參考答案公告</a>
+        """
+        responses = {
+            HCE_CONFIGS["hce_cmu"].listing_url: CMU_LISTING_HTML + CMU_PAGINATION_HTML,
+            "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm&page=1": page_one,
+            "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm&page=2": page_two,
+        }
+        calls: list[str] = []
+
+        def fake_fetch(url: str) -> str:
+            calls.append(url)
+            return responses[url]
+
+        client = HceArchiveClient(HCE_CONFIGS["hce_cmu"])
+        with patch.object(client, "_fetch_text", side_effect=fake_fetch):
+            self.assertEqual(client.discover_available_years(), [2026, 2025, 2024])
+            self.assertEqual([exam.code for exam in client.discover_exams(2025)], ["hce-cmu-114"])
+
+        self.assertEqual(len(calls), 3)
+
     def test_nsysu_client_uses_combined_pdf_as_one_paper(self) -> None:
         with patch.object(HceArchiveClient, "_fetch_text", return_value=NSYSU_LISTING_HTML):
             page = HceArchiveClient(HCE_CONFIGS["hce_nsysu"]).fetch_exam_page("hce-nsysu-115", 2026)
@@ -120,6 +179,9 @@ class HceArchiveProviderTests(unittest.TestCase):
         self.assertEqual(page.papers[0].category_code, "post-bacc-medicine")
         self.assertEqual(page.papers[0].subject_code, "all")
         self.assertEqual(page.papers[0].files["question_answer"], "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf")
+
+    def test_nthu_config_includes_verified_historical_article_pages(self) -> None:
+        self.assertEqual([page.year_roc for page in HCE_CONFIGS["hce_nthu"].historical_year_pages], [114, 113, 112, 111])
 
     def test_registry_returns_hce_providers(self) -> None:
         for provider_id in ("hce_cmu", "hce_tcu", "hce_nsysu", "hce_nthu"):
