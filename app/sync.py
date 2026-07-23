@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import time
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import unquote
 
 from app.models import AliasRule, ExamAttachment, NormalizedCatalog, ParsedPaper, SourceExamPage, StoredFile, SyncFailure
@@ -111,6 +113,19 @@ def _is_valid_stored_file(path: Path, file_type: str) -> bool:
     return _matches_expected_binary(path.read_bytes()[:8], actual_extension)
 
 
+def _retry_network(operation, attempts: int = 3):
+    for attempt in range(attempts):
+        try:
+            return operation()
+        except OSError as exc:
+            if isinstance(exc, HTTPError) and exc.code not in {408, 425, 429} and exc.code < 500:
+                raise
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(2**attempt)
+    raise AssertionError("network retry loop did not return or raise")
+
+
 def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: str, file_type: str, download_url: str) -> StoredFile:
     legacy_prefix = prefix
     stored = mirror_store.find_existing(prefix)
@@ -125,7 +140,7 @@ def _ensure_mirrored(client: SourceProvider, mirror_store: MirrorStore, prefix: 
     if stored is not None and not _is_valid_stored_file(stored.path, file_type):
         stored = None
     if stored is None:
-        downloaded = client.download_file(download_url)
+        downloaded = _retry_network(lambda: client.download_file(download_url))
         extension = _validated_extension(file_type, downloaded.data, downloaded.content_type, downloaded.file_name)
         stored = mirror_store.write_bytes(f"{prefix}{extension}", downloaded.data, overwrite=True)
         mirror_store.delete_matching_except(prefix, stored.storage_key)
@@ -157,7 +172,7 @@ def sync_exam_pages(
 
     for exam_code, year_ad in exam_codes:
         try:
-            page = client.fetch_exam_page(exam_code, year_ad)
+            page = _retry_network(lambda: client.fetch_exam_page(exam_code, year_ad))
         except Exception as exc:
             failures.append(
                 SyncFailure(

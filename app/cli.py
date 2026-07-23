@@ -573,6 +573,7 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         manifest=provider_manifest,
     )
     if failures:
+        _print_failures(failures)
         print(f"Completed with {len(failures)} failure(s). See data/sync-failures.json for details.")
         return 1
     if getattr(args, "prune_orphaned_mirror", False):

@@ -9,13 +9,14 @@ permissions:
   contents: write
 
 concurrency:
-  group: sync-incremental-${{ github.ref }}
+  group: moex-data-writer
   cancel-in-progress: false
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # A cold MOEX mirror may need several hours to refresh affected bundles.
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,12 +55,7 @@ jobs:
 
       - name: Commit source manifest
         if: steps.probe.outputs.should_sync != 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/providers/moex/source-manifest.json
-          git diff --cached --quiet || git commit -m "chore: refresh source manifest"
-          git push
+        run: bash .github/scripts/commit-and-push.sh "chore: refresh source manifest" data/providers/moex/source-manifest.json
 
       - name: Run targeted sync
         if: steps.probe.outputs.should_sync == 'true'
@@ -89,9 +85,4 @@ jobs:
 
       - name: Commit regenerated data
         if: steps.probe.outputs.should_sync == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          git diff --cached --quiet || git commit -m "chore: refresh targeted downloadable bundles"
-          git push
+        run: bash .github/scripts/commit-and-push.sh "chore: refresh targeted downloadable bundles" data/providers/moex data/sites/default

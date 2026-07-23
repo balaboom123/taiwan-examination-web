@@ -86,7 +86,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("steps.probe.outputs.should_sync == 'true'", workflow)
         self.assertIn(".tmp/source-probe.json", workflow)
         self.assertIn("steps.probe.outputs.should_sync != 'true'", workflow)
-        self.assertIn("git add data/providers/moex/source-manifest.json", workflow)
+        self.assertIn("commit-and-push.sh \"chore: refresh source manifest\" data/providers/moex/source-manifest.json", workflow)
 
     def test_incremental_workflow_downloads_only_affected_release_bundles_via_targeted_sync(self) -> None:
         workflow_path = REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml"
@@ -382,6 +382,24 @@ class WorkflowTests(unittest.TestCase):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
             self.assertIn("concurrency:", workflow)
             self.assertIn("timeout-minutes:", workflow)
+
+    def test_cold_cache_workflows_have_full_hosted_timeout_budget(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml", "sync-hakka-cert.yml"):
+            workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("timeout-minutes: 360", workflow, workflow_name)
+
+    def test_data_writing_workflows_use_conflict_safe_publisher(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        workflow_paths = sorted(workflows_dir.glob("sync-*.yml")) + [workflows_dir / "audit-recent.yml"]
+
+        for workflow_path in workflow_paths:
+            workflow = workflow_path.read_text(encoding="utf-8")
+            if "contents: write" not in workflow:
+                continue
+            self.assertIn(".github/scripts/commit-and-push.sh", workflow, workflow_path.name)
+            self.assertNotIn("git add data\n", workflow, workflow_path.name)
+            self.assertNotIn("\n          git push\n", workflow, workflow_path.name)
 
     def test_workflows_describe_downloadable_bundle_release(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"

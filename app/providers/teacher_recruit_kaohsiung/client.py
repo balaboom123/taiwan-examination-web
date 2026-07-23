@@ -157,6 +157,10 @@ class KaohsiungTeacherRecruitClient:
         return self.special_html
 
     def discover_available_years(self) -> list[int]:
+        # Probe both source boards before syncing so a source outage preserves
+        # the last known-good provider state instead of replacing it with failures.
+        self._elementary_html()
+        self._special_html()
         return [2026]
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:

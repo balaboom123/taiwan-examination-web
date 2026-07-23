@@ -101,6 +101,19 @@ class QuestionOnlyClient:
         return DownloadedFile(data=b"%PDF-1.7 original payload", content_type="application/pdf", file_name=Path(url).name)
 
 
+class RetryOnceClient(QuestionOnlyClient):
+    def __init__(self) -> None:
+        super().__init__()
+        self.attempts = 0
+
+    def download_file(self, url: str) -> DownloadedFile:
+        self.attempts += 1
+        self.downloaded_urls.append(url)
+        if self.attempts == 1:
+            raise OSError("temporary network failure")
+        return DownloadedFile(data=b"%PDF-1.7 retry payload", content_type="application/pdf", file_name=Path(url).name)
+
+
 class HtmlPlaceholderClient:
     provider_id = "moex"
 
@@ -437,6 +450,23 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(normalized.papers, [])
         self.assertEqual(len(failures), 1)
         self.assertIn("HTML placeholder", failures[0].message)
+
+    def test_sync_exam_pages_retries_transient_download_failures(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            client = RetryOnceClient()
+
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=client,
+                exam_codes=[("115030", 2026)],
+                mirror_store=MirrorStore(Path(tmp_dir)),
+                alias_rules=[AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(client.attempts, 2)
+        self.assertEqual(len(raw_pages), 1)
+        self.assertEqual([paper.file_type for paper in normalized.papers], ["question"])
+        self.assertEqual(failures, [])
 
     def test_sync_exam_pages_replaces_invalid_existing_ashx_with_valid_pdf(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

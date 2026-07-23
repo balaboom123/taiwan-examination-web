@@ -9,13 +9,14 @@ permissions:
   contents: write
 
 concurrency:
-  group: audit-recent-${{ github.ref }}
+  group: moex-data-writer
   cancel-in-progress: false
 
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # The monthly two-year audit can rebuild a cold MOEX mirror.
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -68,9 +69,4 @@ jobs:
         run: python .github/scripts/release_assets.py prune
 
       - name: Commit audited data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          git diff --cached --quiet || git commit -m "chore: audit recent downloadable bundles"
-          git push
+        run: bash .github/scripts/commit-and-push.sh "chore: audit recent downloadable bundles" data/providers/moex data/sites/default
