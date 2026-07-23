@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider ceec_gsat --site-id default
 
       - name: Commit regenerated CEEC GSAT provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh CEEC GSAT provider data" data/providers/ceec_gsat
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh CEEC GSAT provider data" data/providers/ceec_gsat

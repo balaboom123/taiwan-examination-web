@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider sfi_cert --site-id default
 
       - name: Commit regenerated SFI cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh SFI cert provider data" data/providers/sfi_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh SFI cert provider data" data/providers/sfi_cert

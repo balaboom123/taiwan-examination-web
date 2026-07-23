@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider taigi_cert --site-id default
 
       - name: Commit regenerated Taigi cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Taigi cert provider data" data/providers/taigi_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Taigi cert provider data" data/providers/taigi_cert

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider teacher_recruit_kaohsiung --site-id default
 
       - name: Commit regenerated Kaohsiung teacher recruitment provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Kaohsiung teacher recruitment provider data" data/providers/teacher_recruit_kaohsiung
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Kaohsiung teacher recruitment provider data" data/providers/teacher_recruit_kaohsiung

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider rcpet_cap --site-id default
 
       - name: Commit regenerated RCPET CAP provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh RCPET CAP provider data" data/providers/rcpet_cap
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh RCPET CAP provider data" data/providers/rcpet_cap

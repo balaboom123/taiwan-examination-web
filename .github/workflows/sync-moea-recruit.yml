@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider moea_recruit --site-id default
 
       - name: Commit regenerated MOEA Recruit provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh MOEA Recruit provider data" data/providers/moea_recruit
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh MOEA Recruit provider data" data/providers/moea_recruit

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider teacher_recruit_tainan --site-id default
 
       - name: Commit regenerated Tainan teacher recruitment provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Tainan teacher recruitment provider data" data/providers/teacher_recruit_tainan
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Tainan teacher recruitment provider data" data/providers/teacher_recruit_tainan

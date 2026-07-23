@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider tcte_tve --site-id default
 
       - name: Commit regenerated TCTE TVE provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TCTE TVE provider data" data/providers/tcte_tve
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TCTE TVE provider data" data/providers/tcte_tve

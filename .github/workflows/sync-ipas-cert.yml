@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider ipas_cert --site-id default
 
       - name: Commit regenerated iPAS cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh iPAS cert provider data" data/providers/ipas_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh iPAS cert provider data" data/providers/ipas_cert

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider tocfl_cert --site-id default
 
       - name: Commit regenerated TOCFL cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TOCFL cert provider data" data/providers/tocfl_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TOCFL cert provider data" data/providers/tocfl_cert

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider taisugar_recruit --site-id default
 
       - name: Commit regenerated Taisugar Recruit provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Taisugar Recruit provider data" data/providers/taisugar_recruit
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Taisugar Recruit provider data" data/providers/taisugar_recruit

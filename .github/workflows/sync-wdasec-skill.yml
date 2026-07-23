@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider wdasec_skill --site-id default
 
       - name: Commit regenerated wdasec_skill provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh wdasec_skill provider data" data/providers/wdasec_skill
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh wdasec_skill provider data" data/providers/wdasec_skill

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider post_recruit --site-id default
 
       - name: Commit regenerated Chunghwa Post provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Chunghwa Post provider data" data/providers/post_recruit
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Chunghwa Post provider data" data/providers/post_recruit

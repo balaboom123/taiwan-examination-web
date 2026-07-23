@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider teacher_recruit_central_alliance --site-id default
 
       - name: Commit regenerated Central Alliance teacher recruitment provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Central Alliance teacher recruitment provider data" data/providers/teacher_recruit_central_alliance
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Central Alliance teacher recruitment provider data" data/providers/teacher_recruit_central_alliance

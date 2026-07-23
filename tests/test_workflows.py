@@ -389,6 +389,17 @@ class WorkflowTests(unittest.TestCase):
             workflow = (workflows_dir / workflow_name).read_text(encoding="utf-8")
             self.assertIn("timeout-minutes: 360", workflow, workflow_name)
 
+    def test_shared_commit_commands_are_valid_yaml_block_scalars(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        for workflow_path in sorted(workflows_dir.glob("*.yml")):
+            lines = workflow_path.read_text(encoding="utf-8").splitlines()
+            for index, line in enumerate(lines):
+                if "commit-and-push.sh" not in line:
+                    continue
+                self.assertGreater(index, 0, workflow_path.name)
+                self.assertEqual(lines[index - 1].strip(), "run: >-", workflow_path.name)
+                self.assertFalse(line.lstrip().startswith("run:"), workflow_path.name)
+
     def test_data_writing_workflows_use_conflict_safe_publisher(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         workflow_paths = sorted(workflows_dir.glob("sync-*.yml")) + [workflows_dir / "audit-recent.yml"]

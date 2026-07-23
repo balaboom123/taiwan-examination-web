@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider twc_recruit --site-id default
 
       - name: Commit regenerated TWC Recruit provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TWC Recruit provider data" data/providers/twc_recruit
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TWC Recruit provider data" data/providers/twc_recruit

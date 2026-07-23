@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider ceec_ast --site-id default
 
       - name: Commit regenerated CEEC AST provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh CEEC AST provider data" data/providers/ceec_ast
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh CEEC AST provider data" data/providers/ceec_ast

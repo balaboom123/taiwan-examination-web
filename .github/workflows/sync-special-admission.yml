@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider special_admission --site-id default
 
       - name: Commit regenerated special admission provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh special admission provider data" data/providers/special_admission
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh special admission provider data" data/providers/special_admission

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider tii_cert --site-id default
 
       - name: Commit regenerated TII cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TII cert provider data" data/providers/tii_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TII cert provider data" data/providers/tii_cert

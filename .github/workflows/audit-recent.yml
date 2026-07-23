@@ -69,4 +69,5 @@ jobs:
         run: python .github/scripts/release_assets.py prune
 
       - name: Commit audited data
-        run: bash .github/scripts/commit-and-push.sh "chore: audit recent downloadable bundles" data/providers/moex data/sites/default
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: audit recent downloadable bundles" data/providers/moex data/sites/default

@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider teacher_qual --site-id default
 
       - name: Commit regenerated teacher qualification provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh teacher qualification provider data" data/providers/teacher_qual
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh teacher qualification provider data" data/providers/teacher_qual

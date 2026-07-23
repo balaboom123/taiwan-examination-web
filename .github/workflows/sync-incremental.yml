@@ -55,7 +55,8 @@ jobs:
 
       - name: Commit source manifest
         if: steps.probe.outputs.should_sync != 'true'
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh source manifest" data/providers/moex/source-manifest.json
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh source manifest" data/providers/moex/source-manifest.json
 
       - name: Run targeted sync
         if: steps.probe.outputs.should_sync == 'true'
@@ -85,4 +86,5 @@ jobs:
 
       - name: Commit regenerated data
         if: steps.probe.outputs.should_sync == 'true'
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh targeted downloadable bundles" data/providers/moex data/sites/default
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh targeted downloadable bundles" data/providers/moex data/sites/default

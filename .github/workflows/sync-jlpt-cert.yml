@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider jlpt_cert --site-id default
 
       - name: Commit regenerated JLPT cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh JLPT cert provider data" data/providers/jlpt_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh JLPT cert provider data" data/providers/jlpt_cert

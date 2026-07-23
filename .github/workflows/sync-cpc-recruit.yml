@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider cpc_recruit --site-id default
 
       - name: Commit regenerated CPC Recruit provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh CPC Recruit provider data" data/providers/cpc_recruit
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh CPC Recruit provider data" data/providers/cpc_recruit

@@ -71,4 +71,5 @@ jobs:
 
       - name: Commit regenerated data
         if: ${{ inputs.allow_unsupported_hosted_bootstrap == 'true' }}
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh downloadable exam bundles" data/providers/moex data/sites/default
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh downloadable exam bundles" data/providers/moex data/sites/default

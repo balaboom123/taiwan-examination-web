@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider hce_nthu --site-id default
 
       - name: Commit regenerated NTHU HCE provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh NTHU HCE provider data" data/providers/hce_nthu
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh NTHU HCE provider data" data/providers/hce_nthu

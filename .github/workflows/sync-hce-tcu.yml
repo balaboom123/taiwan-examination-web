@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider hce_tcu --site-id default
 
       - name: Commit regenerated TCU HCE provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TCU HCE provider data" data/providers/hce_tcu
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TCU HCE provider data" data/providers/hce_tcu

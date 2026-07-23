@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider teacher_recruit_taipei_junior --site-id default
 
       - name: Commit regenerated Taipei junior-high teacher recruitment provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Taipei junior-high teacher recruitment provider data" data/providers/teacher_recruit_taipei_junior
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Taipei junior-high teacher recruitment provider data" data/providers/teacher_recruit_taipei_junior

@@ -37,4 +37,5 @@ jobs:
         run: python -m app sync-full --provider hakka_cert --site-id default --prune-orphaned-mirror
 
       - name: Commit regenerated Hakka cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh Hakka cert provider data" data/providers/hakka_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh Hakka cert provider data" data/providers/hakka_cert

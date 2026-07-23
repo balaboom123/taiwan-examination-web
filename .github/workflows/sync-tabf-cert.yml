@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider tabf_cert --site-id default
 
       - name: Commit regenerated TABF cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh TABF cert provider data" data/providers/tabf_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TABF cert provider data" data/providers/tabf_cert

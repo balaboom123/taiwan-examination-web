@@ -36,4 +36,5 @@ jobs:
         run: python -m app sync-full --provider gept_cert --site-id default
 
       - name: Commit regenerated GEPT cert provider data
-        run: bash .github/scripts/commit-and-push.sh "chore: refresh GEPT cert provider data" data/providers/gept_cert
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh GEPT cert provider data" data/providers/gept_cert
