@@ -28,7 +28,9 @@
         "variantIds": {"type": "array", "items": {"type": "string"}},
         "stageId": {"type": "string"},
         "examClass": {"type": "string"},
-        "examSubclass": {"type": "string"}
+        "examSubclass": {"type": "string"},
+        "searchAliases": {"type": "array", "items": {"type": "string"}},
+        "subjectLabels": {"type": "array", "items": {"type": "string"}}
       },
       "additionalProperties": false
     }

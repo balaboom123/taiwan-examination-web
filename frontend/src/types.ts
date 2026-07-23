@@ -20,4 +20,6 @@ export interface Bundle {
   trackId?: string
   variantIds?: string[]
   stageId?: string
+  searchAliases?: string[]
+  subjectLabels?: string[]
 }

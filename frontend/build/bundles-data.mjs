@@ -88,6 +88,8 @@ function toFrontendBundle(bundle, index) {
     stage_id: stageId,
     exam_class: examClass,
     exam_subclass: examSubclass,
+    search_aliases: searchAliases,
+    subject_labels: subjectLabels,
   } = bundle
   const id = typeof structuredId === "string" && structuredId ? structuredId : legacyId
   const name = typeof bundleName === "string" && bundleName ? bundleName : canonicalName
@@ -121,6 +123,8 @@ function toFrontendBundle(bundle, index) {
       stageId,
       examClass: typeof examClass === "string" ? examClass : undefined,
       examSubclass: typeof examSubclass === "string" ? examSubclass : undefined,
+      ...(Array.isArray(searchAliases) && searchAliases.length > 0 ? { searchAliases } : {}),
+      ...(Array.isArray(subjectLabels) && subjectLabels.length > 0 ? { subjectLabels } : {}),
     })
   }
   return frontendBundle
@@ -150,6 +154,12 @@ export function toFrontendBundles(bundles) {
 
     existing.years = Array.from(new Set([...existing.years, ...frontend.years])).sort((a, b) => b - a)
     existing.fileCount += frontend.fileCount
+    for (const field of ["searchAliases", "subjectLabels"]) {
+      const values = Array.isArray(frontend[field]) ? frontend[field] : []
+      if (values.length > 0) {
+        existing[field] = Array.from(new Set([...(existing[field] ?? []), ...values]))
+      }
+    }
     if (!existing.parts) existing.parts = []
     existing.parts.push(part)
   })

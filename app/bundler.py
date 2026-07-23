@@ -10,6 +10,7 @@ from pathlib import Path
 
 from app.normalizer import hashed_fallback_canonical_id, legacy_fallback_canonical_id
 from app.models import BundleAsset, BundleBuildResult, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
+from app.publication_metadata import derive_public_metadata
 
 WINDOWS_RESERVED_NAMES = {
     "CON",
@@ -536,6 +537,11 @@ def build_bundles(
             max_bytes=max_bundle_bytes,
         )
         exemplar = included_papers[0]
+        search_aliases, subject_labels = derive_public_metadata(
+            included_papers,
+            bundle_id=canonical_id,
+            canonical_name=canonical_name,
+        )
         legacy_ids = sorted({paper.canonical_id for paper in papers if paper.canonical_id})
         split_bundle = len(part_specs) > 1
         part_count = len(part_specs)
@@ -569,6 +575,8 @@ def build_bundles(
                     classification_reason="" if legacy_projection else exemplar.classification_reason,
                     exam_class="" if legacy_projection else exemplar.exam_class,
                     exam_subclass="" if legacy_projection else exemplar.exam_subclass,
+                    search_aliases=search_aliases,
+                    subject_labels=subject_labels,
                     legacy_canonical_ids=sorted(set([*compatibility_ids, *legacy_ids]) - {legacy_ids[0] if legacy_ids else canonical_id}),
                     part_index=part_index,
                     part_count=part_count,

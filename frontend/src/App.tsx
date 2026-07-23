@@ -17,20 +17,27 @@ import { Footer } from "@/components/footer"
 import { PaperGrain } from "@/components/paper-grain"
 import { hasSocialAccess } from "@/lib/social-gate"
 import { EXAM_CLASSES, type ExamClass } from "@/lib/exam-classification"
+import { buildSearchQuery, readSearchState } from "@/lib/search-state"
 import type { Bundle } from "@/types"
 
 const PAGE_SIZE = 30
+const initialSearchState = readSearchState(window.location.search)
+
+function validExamClass(value: string | null): ExamClass | null {
+  return value && EXAM_CLASSES.includes(value as ExamClass) ? (value as ExamClass) : null
+}
 
 function App() {
   const { bundles, loading, error } = useBundles()
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState(initialSearchState.query)
   const debouncedQuery = useDebouncedValue(query, 200)
-  const [selectedYear, setSelectedYear] = useState<number | null>(null)
-  const [selectedClass, setSelectedClass] = useState<ExamClass | null>(null)
-  const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
-  const [sortKey, setSortKey] = useState<SortKey>("name")
-  const [page, setPage] = useState(1)
+  const [selectedYear, setSelectedYear] = useState<number | null>(initialSearchState.year)
+  const [selectedClass, setSelectedClass] = useState<ExamClass | null>(validExamClass(initialSearchState.examClass))
+  const [selectedSubclass, setSelectedSubclass] = useState<string | null>(initialSearchState.subclass)
+  const [sortKey, setSortKey] = useState<SortKey>(initialSearchState.sort)
+  const [page, setPage] = useState(initialSearchState.page)
   const [unlocked, setUnlocked] = useState(hasSocialAccess)
+  const [shareFeedback, setShareFeedback] = useState(false)
   const listTopRef = useRef<HTMLParagraphElement>(null)
 
   // The join page (opened in a new tab) grants access; pick it up here via
@@ -45,6 +52,34 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const syncFromLocation = () => {
+      const next = readSearchState(window.location.search)
+      setQuery(next.query)
+      setSelectedYear(next.year)
+      setSelectedClass(validExamClass(next.examClass))
+      setSelectedSubclass(next.subclass)
+      setSortKey(next.sort)
+      setPage(next.page)
+    }
+    window.addEventListener("popstate", syncFromLocation)
+    return () => window.removeEventListener("popstate", syncFromLocation)
+  }, [])
+
+  useEffect(() => {
+    const search = buildSearchQuery({
+      query,
+      year: selectedYear,
+      examClass: selectedClass,
+      subclass: selectedSubclass,
+      sort: sortKey,
+      page,
+    })
+    const nextUrl = `${window.location.pathname}${search ? `?${search}` : ""}${window.location.hash}`
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`
+    if (nextUrl !== currentUrl) window.history.replaceState(null, "", nextUrl)
+  }, [query, selectedYear, selectedClass, selectedSubclass, sortKey, page])
+
   const allYears = useMemo(() => {
     const set = new Set<number>()
     for (const b of bundles) {
@@ -57,7 +92,13 @@ function App() {
     let result = bundles
     if (debouncedQuery.trim()) {
       const q = debouncedQuery.trim().toLowerCase()
-      result = result.filter((b) => b.name.toLowerCase().includes(q))
+      result = result.filter((b) =>
+        [b.name, ...(b.searchAliases ?? []), ...(b.subjectLabels ?? []), b.examClass, b.examSubclass]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
+      )
     }
     if (selectedYear !== null) {
       result = result.filter((b) => b.years.includes(selectedYear))
@@ -159,6 +200,20 @@ function App() {
     setPage(1)
   }
 
+  async function handleShareLink() {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "考選部歷屆試題", url: window.location.href })
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(window.location.href)
+      }
+      setShareFeedback(true)
+      window.setTimeout(() => setShareFeedback(false), 1800)
+    } catch {
+      // Closing the native share sheet is an expected user action.
+    }
+  }
+
   function handlePageChange(nextPage: number) {
     setPage(nextPage)
     listTopRef.current?.scrollIntoView()
@@ -245,7 +300,18 @@ function App() {
         )}
 
         <div className="mt-6 flex flex-col gap-4">
-          <SearchBar value={query} onChange={handleQueryChange} />
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="min-w-0 flex-1">
+              <SearchBar value={query} onChange={handleQueryChange} />
+            </div>
+            <button
+              type="button"
+              onClick={handleShareLink}
+              className="h-12 shrink-0 rounded-sm border border-line-strong bg-cream px-4 text-sm font-medium text-ink-700 transition-colors hover:bg-paper-deep hover:text-ink-950"
+            >
+              {shareFeedback ? "連結已複製" : "分享搜尋連結"}
+            </button>
+          </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <YearFilter

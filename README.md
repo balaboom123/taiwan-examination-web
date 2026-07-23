@@ -19,6 +19,8 @@ Site-owned publication state:
 Public deployment output:
 
 - `frontend/dist/` built from `frontend/` plus `data/sites/default/*`
+- Production host: GitHub Pages at `https://balaboom123.github.io/taiwan-examination-web/`; Netlify is preview-only.
+- Launch procedure: [`docs/operator/release-checklist.md`](docs/operator/release-checklist.md)
 
 Manual input:
 

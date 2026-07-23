@@ -553,5 +553,25 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertNotIn("release_assets.py", workflow)
 
 
+class LaunchCITest(unittest.TestCase):
+    def test_ci_workflow_covers_release_and_frontend_gates(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+
+        for required in (
+            "pull_request:",
+            "python -m pytest -q",
+            "tests/test_workflows.py",
+            "python -m app audit-catalog",
+            "python scripts/validate_publication.py",
+            "python -m app plan-release",
+            "npm ci",
+            "npm test",
+            "npm run lint",
+            "npm run build",
+        ):
+            self.assertIn(required, workflow)
+        self.assertIn('node-version: "22"', workflow)
+
+
 if __name__ == "__main__":
     unittest.main()
