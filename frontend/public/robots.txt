@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /join.html
+Sitemap: https://balaboom123.github.io/taiwan-examination-web/sitemap.xml

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
+from urllib.parse import parse_qs, quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -36,11 +36,15 @@ class HceArchiveConfig:
     subject_slugs: dict[str, str]
     listing_pattern: re.Pattern[str]
     combined_pdf_listing: bool = False
+    pagination_param: str | None = None
+    max_listing_pages: int = 1
+    historical_year_pages: tuple[HceYearPage, ...] = ()
 
-    def parse_listing(self, html: str) -> list[HceYearPage]:
+    def parse_listing(self, html: str, base_url: str | None = None) -> list[HceYearPage]:
+        resolved_base_url = base_url or self.listing_url
         if self.combined_pdf_listing:
-            return parse_combined_pdf_listing(html, self.listing_url, self)
-        return parse_article_listing(html, self.listing_url, self)
+            return parse_combined_pdf_listing(html, resolved_base_url, self)
+        return parse_article_listing(html, resolved_base_url, self)
 
     def parse_papers(self, html: str, base_url: str) -> list[ParsedPaper]:
         return parse_subject_file_page(html, base_url, self)
@@ -104,6 +108,37 @@ def parse_article_listing(html: str, base_url: str, config: HceArchiveConfig) ->
     return sorted(pages, key=lambda page: page.year_ad, reverse=True)
 
 
+def parse_listing_page_urls(html: str, base_url: str, config: HceArchiveConfig) -> list[str]:
+    """Return official archive-page links that retain the configured listing context.
+
+    Some admission sites publish only a small number of announcements on the
+    first page. Following every same-site link would turn a bounded archive
+    crawl into a site crawl, so pagination is intentionally opt-in per
+    provider configuration.
+    """
+    if not config.pagination_param:
+        return []
+
+    base = urlparse(base_url)
+    base_query = parse_qs(base.query, keep_blank_values=True)
+    base_query.pop(config.pagination_param, None)
+    urls: list[str] = []
+    seen: set[str] = set()
+    for link in _links_from_html(html, base_url):
+        candidate = urlparse(link.url)
+        if (candidate.scheme, candidate.netloc, candidate.path) != (base.scheme, base.netloc, base.path):
+            continue
+        candidate_query = parse_qs(candidate.query, keep_blank_values=True)
+        page_values = candidate_query.pop(config.pagination_param, [])
+        if not page_values or not all(value.isdigit() and int(value) >= 0 for value in page_values):
+            continue
+        if candidate_query != base_query or link.url in seen:
+            continue
+        seen.add(link.url)
+        urls.append(link.url)
+    return urls
+
+
 def parse_combined_pdf_listing(html: str, base_url: str, config: HceArchiveConfig) -> list[HceYearPage]:
     pages: list[HceYearPage] = []
     seen: set[int] = set()
@@ -151,14 +186,26 @@ def parse_subject_file_page(html: str, base_url: str, config: HceArchiveConfig) 
         if not _candidate_file_url(link):
             continue
         kind = _asset_kind(link.label)
-        if kind is None:
+        subject = _subject_for(link.label, config)
+        if kind is None and subject is None:
             continue
-        file_type, subject_code, subject_name = kind
-        if subject_code != "all":
-            subject = _subject_for(link.label, config)
-            if subject is None:
-                continue
+        if kind is None:
+            # Some historical CMU pages label a question PDF only as
+            # "112國文.pdf" rather than including the word "試題".
+            file_type = "question"
             subject_code, subject_name = subject
+        else:
+            file_type, subject_code, subject_name = kind
+            if subject_code != "all":
+                if subject is None:
+                    # A single untitled reference-answer PDF applies to all
+                    # subjects; keep it rather than dropping source evidence.
+                    if file_type != "answer":
+                        continue
+                    file_type = "all_answers"
+                    subject_code, subject_name = "all", "各科參考答案"
+                else:
+                    subject_code, subject_name = subject
         paper = grouped.setdefault(
             subject_code,
             ParsedPaper(
@@ -215,6 +262,7 @@ class HceArchiveClient:
     def __init__(self, config: HceArchiveConfig) -> None:
         self.config = config
         self.provider_id = config.provider_id
+        self._year_pages_cache: tuple[HceYearPage, ...] | None = None
 
     def _open(self, url: str, *, method: str = "GET", timeout: int = 60):
         request = Request(_request_url(url), headers={"User-Agent": USER_AGENT}, method=method)
@@ -228,7 +276,27 @@ class HceArchiveClient:
             return response.read().decode("utf-8", "replace")
 
     def _year_pages(self) -> list[HceYearPage]:
-        return self.config.parse_listing(self._fetch_text(self.config.listing_url))
+        if self._year_pages_cache is not None:
+            return list(self._year_pages_cache)
+
+        pages_by_year = {page.year_ad: page for page in self.config.historical_year_pages}
+        pending = [self.config.listing_url]
+        seen: set[str] = set()
+
+        while pending and len(seen) < max(self.config.max_listing_pages, 1):
+            listing_url = pending.pop(0)
+            if listing_url in seen:
+                continue
+            seen.add(listing_url)
+            html = self._fetch_text(listing_url)
+            for page in self.config.parse_listing(html, listing_url):
+                pages_by_year[page.year_ad] = page
+            for page_url in parse_listing_page_urls(html, listing_url, self.config):
+                if page_url not in seen and page_url not in pending:
+                    pending.append(page_url)
+
+        self._year_pages_cache = tuple(sorted(pages_by_year.values(), key=lambda page: page.year_ad, reverse=True))
+        return list(self._year_pages_cache)
 
     def discover_available_years(self) -> list[int]:
         return [page.year_ad for page in self._year_pages()]
@@ -292,12 +360,14 @@ HCE_CONFIGS = {
     "hce_cmu": HceArchiveConfig(
         provider_id="hce_cmu",
         canonical_slug="hce-cmu",
-        listing_url="https://adm21.cmu.edu.tw/?q=news_spbcm",
+        listing_url="https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm",
         exam_name="中國醫藥大學學士後中醫學系",
         category_code="post-bacc-chinese-medicine",
         category_name="中國醫藥大學學士後中醫學系",
         subject_slugs={"國文": "chinese", "化學": "chemistry", "英文": "english", "生物學": "biology"},
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後中醫學系.*試題及參考答案"),
+        pagination_param="page",
+        max_listing_pages=8,
     ),
     "hce_tcu": HceArchiveConfig(
         provider_id="hce_tcu",
@@ -335,5 +405,23 @@ HCE_CONFIGS = {
             "進階物理與線性代數": "advanced-physics-linear-algebra",
         },
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後醫學系.*各科試題及參考答案"),
+        historical_year_pages=(
+            HceYearPage(
+                year_ad=2025,
+                url="https://adms.site.nthu.edu.tw/p/406-1207-286149%2Cr6125.php?Lang=zh-tw",
+            ),
+            HceYearPage(
+                year_ad=2024,
+                url="https://adms.site.nthu.edu.tw/p/406-1207-266837%2Cr6125.php?Lang=zh-tw",
+            ),
+            HceYearPage(
+                year_ad=2023,
+                url="https://adms.site.nthu.edu.tw/p/406-1207-246483%2Cr6125.php?Lang=zh-tw",
+            ),
+            HceYearPage(
+                year_ad=2022,
+                url="https://adms.site.nthu.edu.tw/p/406-1207-227566%2Cr6125.php?Lang=zh-tw",
+            ),
+        ),
     ),
 }

@@ -20,6 +20,9 @@ LEVEL_CATEGORIES = (
     ("intermediate-high-intermediate", "中級暨中高級", f"{DOWNLOAD_URL}?c=3"),
     ("advanced", "高級", f"{DOWNLOAD_URL}?c=5"),
 )
+SUPPORTED_DOWNLOAD_SUFFIXES = (".pdf", ".zip", ".rar", ".mp3", ".doc", ".docx", ".xls", ".xlsx", ".ods")
+EXAM_ASSET_LABEL_TOKENS = ("題庫", "試題", "答案")
+AUDIO_SUFFIXES = (".zip", ".rar", ".mp3")
 
 
 @dataclass(frozen=True)
@@ -106,6 +109,20 @@ def _year_from_label(label: str) -> int:
     return int(match.group(1)) + 1911 if match else MATERIALS_YEAR
 
 
+def _file_type_for_download(path_lower: str, label: str) -> str:
+    if "答案" in label:
+        return "answer"
+    if path_lower.endswith(AUDIO_SUFFIXES) or any(token in label for token in ("音檔", "聽力", "聽測")):
+        return "listening_audio"
+    return "question"
+
+
+
+
+def _is_exam_asset(label: str) -> bool:
+    return any(token in label for token in EXAM_ASSET_LABEL_TOKENS)
+
+
 def _exam_code(level_code: str, year_ad: int) -> str:
     return f"hakka-cert-{level_code}-{year_ad}"
 
@@ -132,11 +149,13 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL, level_code: str 
         if parsed.netloc != "elearning.hakka.gov.tw" or not parsed.path.startswith("/hakka/files/downloads/"):
             continue
         path_lower = parsed.path.lower()
-        if not path_lower.endswith((".pdf", ".zip")) or url in seen:
+        if not path_lower.endswith(SUPPORTED_DOWNLOAD_SUFFIXES) or url in seen:
+            continue
+        display_label = label or Path(unquote(parsed.path)).name
+        if not _is_exam_asset(display_label):
             continue
         seen.add(url)
-        display_label = label or Path(unquote(parsed.path)).name
-        file_type = "listening_audio" if path_lower.endswith(".zip") or "音檔" in display_label else "question"
+        file_type = _file_type_for_download(path_lower, display_label)
         downloads.append(
             HakkaDownload(
                 level_code=level_code,
@@ -153,12 +172,18 @@ def parse_downloads(html: str, *, base_url: str = DOWNLOAD_URL, level_code: str 
 class HakkaCertClient:
     provider_id = "hakka_cert"
 
+    def __init__(self) -> None:
+        self._downloads_cache: tuple[HakkaDownload, ...] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(_quote_url_for_request(url), headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
             return response.read().decode("utf-8", "replace")
 
     def _downloads(self) -> list[HakkaDownload]:
+        if self._downloads_cache is not None:
+            return list(self._downloads_cache)
+
         downloads: list[HakkaDownload] = []
         seen_download_urls: set[str] = set()
         for level_code, _level_name, start_url in LEVEL_CATEGORIES:
@@ -176,7 +201,8 @@ class HakkaCertClient:
                     seen_download_urls.add(download.url)
                     downloads.append(download)
                 pending.extend(url for url in parse_page_urls(html, base_url=page_url) if url not in seen_pages and url not in pending)
-        return downloads
+        self._downloads_cache = tuple(downloads)
+        return list(self._downloads_cache)
 
     def discover_available_years(self) -> list[int]:
         years = {download.year_ad for download in self._downloads()}

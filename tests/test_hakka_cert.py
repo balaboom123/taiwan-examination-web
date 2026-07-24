@@ -7,9 +7,10 @@ from app.providers.hakka_cert.client import HakkaCertClient, parse_downloads
 
 DOWNLOAD_HTML = """
 <a href="/hakka/files/downloads/321.pdf">四縣 初級 題庫</a>
-<a href="/hakka/files/downloads/324.pdf">四縣 初級 詞彙</a>
-<a href="/hakka/files/downloads/322.zip">海陸 音檔</a>
+<a href="/hakka/files/downloads/324.pdf">四縣 初級 題庫（二）</a>
+<a href="/hakka/files/downloads/322.zip">海陸 初級 題庫 音檔</a>
 <a href="/hakka/files/downloads/323.ods">詞彙表</a>
+<a href="/hakka/files/downloads/325.ods">四縣 初級 題庫答案</a>
 <a href="/hakka/files/downloads/321.pdf">duplicate</a>
 """
 
@@ -23,7 +24,7 @@ PAGED_BASIC_HTML_PAGE_2 = """
 """
 
 PAGED_INTERMEDIATE_HTML = """
-<a href="/hakka/files/downloads/548.pdf">114 年度客語能力認證中級暨中高級詞彙（海陸腔-上）PDF 下載</a>
+<a href="/hakka/files/downloads/548.pdf">114 年度客語能力認證中級暨中高級題庫（海陸腔-上）PDF 下載</a>
 """
 
 
@@ -31,7 +32,7 @@ class HakkaCertParserTests(unittest.TestCase):
     def test_parse_downloads_keeps_public_pdf_assets_once_with_dialect_code(self) -> None:
         downloads = parse_downloads(DOWNLOAD_HTML)
 
-        self.assertEqual(len(downloads), 3)
+        self.assertEqual(len(downloads), 4)
         self.assertEqual(downloads[0].category_code, "sixian")
         self.assertEqual(downloads[0].file_type, "question")
         self.assertTrue(downloads[0].url.endswith("/hakka/files/downloads/321.pdf"))
@@ -41,6 +42,9 @@ class HakkaCertParserTests(unittest.TestCase):
         self.assertEqual(downloads[2].file_type, "listening_audio")
         self.assertTrue(downloads[2].url.endswith("/hakka/files/downloads/322.zip"))
 
+
+        self.assertEqual(downloads[3].file_type, "answer")
+        self.assertTrue(downloads[3].url.endswith("/hakka/files/downloads/325.ods"))
 
 class HakkaCertClientTests(unittest.TestCase):
     def test_discovery_uses_material_year_for_labels_without_year(self) -> None:
@@ -105,10 +109,26 @@ class HakkaCertClientTests(unittest.TestCase):
 
         self.assertEqual(page.provider_id, "hakka_cert")
         self.assertEqual(page.exam_name_raw, "客語能力認證官方教材及試題 基礎級暨初級")
-        self.assertEqual(len(page.papers), 3)
+        self.assertEqual(len(page.papers), 4)
         self.assertIn("question", page.papers[0].files)
         self.assertIn("listening_audio", page.papers[2].files)
         self.assertEqual(len({paper.subject_code for paper in page.papers}), len(page.papers))
+
+
+    def test_download_listing_is_cached_across_discovery_and_fetch(self) -> None:
+        client = HakkaCertClient()
+        calls: list[str] = []
+
+        def fake_fetch(url: str) -> str:
+            calls.append(url)
+            return "" if "c=3" in url or "c=5" in url else DOWNLOAD_HTML
+
+        client._fetch_text = fake_fetch  # type: ignore[method-assign]
+
+        client.discover_available_years()
+        client.fetch_exam_page("hakka-cert-basic-elementary-2026", 2026)
+
+        self.assertEqual(len(calls), 3)
 
 
 if __name__ == "__main__":

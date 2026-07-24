@@ -117,7 +117,15 @@ def probe_latest(client: SourceProvider, manifest: SourceManifest, year_window: 
         counts["year_head_count"] += 1
         existing_year = manifest.years.get(year_key)
         existing_codes = list(existing_year.get("exam_codes", [])) if existing_year else []
-        year_changed = existing_year is None or existing_year.get("head_content_length") != year_head.content_length
+        # Older MOEX manifests could record an empty option list when a
+        # malformed response had the same content length as a valid page.
+        # MOEX archive years are not validly represented by an empty list, so
+        # force a guarded rediscovery instead of perpetuating that bad cache.
+        year_changed = (
+            existing_year is None
+            or existing_year.get("head_content_length") != year_head.content_length
+            or (provider_id == "moex" and not existing_codes)
+        )
 
         if year_changed:
             exams = client.discover_exams(year_ad)

@@ -36,9 +36,5 @@ jobs:
         run: python -m app sync-full --provider tocfl_cert --site-id default
 
       - name: Commit regenerated TOCFL cert provider data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          git diff --cached --quiet || git commit -m "chore: refresh TOCFL cert provider data"
-          git push
+        run: >-
+          bash .github/scripts/commit-and-push.sh "chore: refresh TOCFL cert provider data" data/providers/tocfl_cert

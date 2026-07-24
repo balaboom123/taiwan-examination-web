@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 from app.audit import audit_exit_code, build_catalog_audit, build_release_plan, write_catalog_audit, write_release_plan
+from app.history_audit import build_history_coverage_audit, history_audit_exit_code, write_history_coverage_audit
 from app.bundler import build_bundles
 from app.crawler import year_ad_from_code
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
@@ -371,6 +372,80 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
     return 0
 
 
+def command_repair_failures(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
+    repair_client = _provider_for_args(args, client)
+    provider_id = _provider_id_for_args(args, repair_client)
+    provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
+    existing_raw_pages, existing_catalog, existing_failures = load_provider_state(provider_state)
+    requested_years = set(args.years or [])
+    requested_exam_ids = set(args.source_exam_id or [])
+    repair_stages = set(args.stages)
+    selected_failures = [
+        failure
+        for failure in existing_failures
+        if failure.stage in repair_stages
+        and (not requested_years or failure.year_roc + 1911 in requested_years)
+        and (not requested_exam_ids or failure.source_exam_id in requested_exam_ids)
+    ]
+    if not selected_failures:
+        print(f"No matching repairable failures for provider {provider_id}.", flush=True)
+        return 0
+
+    exam_codes = sorted({(failure.source_exam_id, failure.year_roc + 1911) for failure in selected_failures})
+    print(f"Repairing {len(exam_codes)} failed source exam(s) for {provider_id}...", flush=True)
+    aliases = load_alias_rules(args.aliases)
+    refreshed_raw_pages, refreshed_catalog, sync_failures = sync_exam_pages(
+        client=repair_client,
+        exam_codes=exam_codes,
+        mirror_store=MirrorStore(args.mirror_dir),
+        alias_rules=aliases,
+        mirror_base_url="",
+        download_attachments=not args.skip_attachments,
+    )
+    failed_exam_ids = {failure.source_exam_id for failure in sync_failures}
+    safe_exam_ids = {page.source_exam_id for page in refreshed_raw_pages if page.source_exam_id not in failed_exam_ids}
+    safe_raw_pages = [page for page in refreshed_raw_pages if page.source_exam_id in safe_exam_ids]
+    safe_catalog = NormalizedCatalog(
+        papers=[paper for paper in refreshed_catalog.papers if paper.source_exam_id in safe_exam_ids],
+        review_queue=[item for item in refreshed_catalog.review_queue if item.source_exam_id in safe_exam_ids],
+    )
+    merged_raw_pages, merged_catalog, _, _affected_canonical_ids, _canonical_aliases = merge_incremental_state(
+        existing_raw_pages=existing_raw_pages,
+        existing_catalog=existing_catalog,
+        existing_bundles=[],
+        refreshed_raw_pages=safe_raw_pages,
+        refreshed_catalog=safe_catalog,
+    )
+    provider_failures = [
+        failure
+        for failure in existing_failures
+        if failure.source_exam_id not in safe_exam_ids
+    ]
+    provider_failures.extend(sync_failures)
+    write_provider_state(
+        provider_state,
+        raw_pages=merged_raw_pages,
+        normalized=merged_catalog,
+        aliases=aliases,
+        failures=provider_failures,
+        manifest=None,
+    )
+    selected_keys = {(failure.source_exam_id, failure.year_roc) for failure in selected_failures}
+    remaining = [
+        failure
+        for failure in provider_failures
+        if (failure.source_exam_id, failure.year_roc) in selected_keys
+    ]
+    print(
+        f"Repaired {len(safe_exam_ids)}/{len(exam_codes)} source exam(s); "
+        f"{len(remaining)} related failure(s) remain.",
+        flush=True,
+    )
+    if sync_failures:
+        _print_failures(sync_failures)
+    return 1 if remaining else 0
+
+
 def command_sync(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
     provider = _provider_for_args(args, client)
     provider_id = _provider_id_for_args(args, provider)
@@ -392,7 +467,6 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         return 1
     aliases = load_alias_rules(args.aliases)
     mirror_store = MirrorStore(args.mirror_dir)
-
     all_raw_pages: list = []
     all_papers: list = []
     all_review_queue: list = []
@@ -415,6 +489,9 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
                 )
             )
             continue
+        requested_exam_ids = set(getattr(args, "source_exam_id", []) or [])
+        if requested_exam_ids:
+            exam_codes = [exam_code for exam_code in exam_codes if exam_code[0] in requested_exam_ids]
         print(f"Syncing year {year} ({len(exam_codes)} exams)...")
         try:
             raw_pages_year, catalog_year, failures_year = sync_exam_pages(
@@ -496,10 +573,60 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         manifest=provider_manifest,
     )
     if failures:
+        _print_failures(failures)
         print(f"Completed with {len(failures)} failure(s). See data/sync-failures.json for details.")
         return 1
+    if getattr(args, "prune_orphaned_mirror", False):
+        try:
+            prune_result = mirror_store.prune_unreferenced_provider(
+                provider_id,
+                provider_raw_pages,
+                provider_normalized,
+                apply=True,
+            )
+        except ValueError as exc:
+            print(str(exc), flush=True)
+            return 1
+        print(
+            f"Pruned {prune_result.removed_files} unreferenced mirror file(s) for {provider_id}; "
+            f"reclaimed {prune_result.reclaimable_bytes} bytes.",
+            flush=True,
+        )
     return 0
 
+
+
+def command_dedupe_mirror(args: argparse.Namespace) -> int:
+    result = MirrorStore(args.mirror_dir).deduplicate_existing(apply=args.apply)
+    action = "Deduplicated" if args.apply else "Would deduplicate"
+    print(
+        f"{action} {result.relinked_files} file(s) across {result.duplicate_groups} duplicate payload group(s); "
+        f"reclaimable {result.reclaimable_bytes} bytes from {result.scanned_files} scanned file(s).",
+        flush=True,
+    )
+    return 0
+
+
+def command_prune_orphaned_mirror(args: argparse.Namespace) -> int:
+    provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, args.provider)
+    raw_pages, catalog, _failures = load_provider_state(provider_state)
+    try:
+        result = MirrorStore(args.mirror_dir).prune_unreferenced_provider(
+            args.provider,
+            raw_pages,
+            catalog,
+            apply=args.apply,
+        )
+    except ValueError as exc:
+        print(str(exc), flush=True)
+        return 1
+    action = "Pruned" if args.apply else "Would prune"
+    print(
+        f"{action} {result.removed_files} unreferenced mirror file(s) for {args.provider}; "
+        f"reclaimable {result.reclaimable_bytes} bytes from {result.scanned_files} scanned file(s).",
+        flush=True,
+    )
+    return 0
 
 
 def command_plan_release(args: argparse.Namespace) -> int:
@@ -515,6 +642,22 @@ def command_plan_release(args: argparse.Namespace) -> int:
         flush=True,
     )
     return 0
+
+def command_audit_history(args: argparse.Namespace) -> int:
+    report = build_history_coverage_audit(
+        args.repo_root,
+        site_id=args.site_id,
+        provider_ids=args.provider,
+        probe_sources=args.probe_sources,
+    )
+    write_history_coverage_audit(report, args.output)
+    print(
+        f"Audited {report['provider_count']} provider(s); "
+        f"{report['summary'].get('parser_gap', 0)} source-only event(s). Report: {args.output}",
+        flush=True,
+    )
+    return history_audit_exit_code(report, strict=args.strict)
+
 
 def command_audit_catalog(args: argparse.Namespace) -> int:
     report = build_catalog_audit(args.repo_root, site_id=args.site_id)
@@ -619,6 +762,38 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--release-tag", default="moex-bundles")
     targeted.set_defaults(handler=run_sync_targeted)
 
+    repair = subparsers.add_parser(
+        "repair-failures",
+        help="Re-fetch only source exams with recorded bundle or download failures, preserving partial failures.",
+    )
+    repair.add_argument("--provider", default="moex")
+    repair.add_argument("--data-dir", type=Path, default=repo_root / "data")
+    repair.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
+    repair.add_argument("--aliases", type=Path, default=repo_root / "data" / "aliases.json")
+    repair.add_argument("--years", nargs="*", type=int, default=None, help="AD years to repair")
+    repair.add_argument("--source-exam-id", nargs="*", default=None)
+    repair.add_argument("--stages", nargs="*", default=["bundle", "download"])
+    repair.add_argument("--skip-attachments", action="store_true", default=False)
+    repair.set_defaults(handler=command_repair_failures)
+
+    dedupe_parser = subparsers.add_parser(
+        "dedupe-mirror",
+        help="Replace byte-identical mirror payload copies with hard links while preserving every path.",
+    )
+    dedupe_parser.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
+    dedupe_parser.add_argument("--apply", action="store_true", default=False)
+    dedupe_parser.set_defaults(handler=command_dedupe_mirror)
+
+    prune_parser = subparsers.add_parser(
+        "prune-orphaned-mirror",
+        help="Remove provider mirror files not referenced by current state; refuses incomplete state.",
+    )
+    prune_parser.add_argument("--provider", required=True)
+    prune_parser.add_argument("--data-dir", type=Path, default=repo_root / "data")
+    prune_parser.add_argument("--mirror-dir", type=Path, default=repo_root / "mirror")
+    prune_parser.add_argument("--apply", action="store_true", default=False)
+    prune_parser.set_defaults(handler=command_prune_orphaned_mirror)
+
     for name in ("sync-full", "sync-incremental"):
         sync = subparsers.add_parser(name, help=f"{name} against the selected provider.")
         sync.add_argument("--data-dir", type=Path, default=repo_root / "data")
@@ -633,8 +808,15 @@ def build_parser() -> argparse.ArgumentParser:
         sync.add_argument("--publish-plan-output", type=Path, default=None)
         sync.add_argument("--provider", default="moex")
         sync.add_argument("--site-id", default="default")
+        sync.add_argument(
+            "--source-exam-id",
+            action="append",
+            default=[],
+            help="Restrict the sync to one or more source exam IDs (repeatable).",
+        )
         sync.add_argument("--release-tag", default="moex-bundles")
         sync.add_argument("--write-manifest", action="store_true", default=False)
+        sync.add_argument("--prune-orphaned-mirror", action="store_true", default=False)
         if name == "sync-full":
             sync.add_argument("--years", nargs="*", type=int, default=None)
         else:
@@ -669,6 +851,18 @@ def build_parser() -> argparse.ArgumentParser:
     audit_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "catalog-audit.json")
     audit_parser.add_argument("--strict", action="store_true")
     audit_parser.set_defaults(handler=command_audit_catalog)
+
+    history_audit_parser = subparsers.add_parser(
+        "history-audit",
+        help="Audit event-level raw, normalized, mirror, publication, and optional official-source coverage.",
+    )
+    history_audit_parser.add_argument("--repo-root", type=Path, default=repo_root)
+    history_audit_parser.add_argument("--site-id", default="default")
+    history_audit_parser.add_argument("--provider", nargs="*", default=None)
+    history_audit_parser.add_argument("--probe-sources", action="store_true")
+    history_audit_parser.add_argument("--strict", action="store_true")
+    history_audit_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "history-audit.json")
+    history_audit_parser.set_defaults(handler=command_audit_history)
 
     migrate_catalog_parser = subparsers.add_parser(
         "migrate-catalog",

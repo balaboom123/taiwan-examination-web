@@ -31,6 +31,12 @@ export function BundleRow({
         <p className="mt-1.5 font-mono text-xs text-ink-500">
           民國 {formatYearRange(bundle.years)} · {bundle.fileCount} 份試題
         </p>
+        {bundle.subjectLabels && bundle.subjectLabels.length > 0 && (
+          <p className="mt-1.5 text-xs leading-relaxed text-ink-600">
+            <span className="font-medium text-ink-700">科目：</span>
+            {bundle.subjectLabels.join("、")}
+          </p>
+        )}
         {sourceNote && (
           <p className="mt-1.5 text-xs leading-relaxed text-ink-500">
             {sourceNote}

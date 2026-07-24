@@ -36,6 +36,10 @@ _HTML_CHARSET_RE = re.compile(br"<meta[^>]+charset=['\"]?\s*([a-zA-Z0-9_-]+)", r
 _DEFAULT_URLOPEN = urlopen
 
 
+class MoexSourceQualityError(RuntimeError):
+    """The official response did not contain the expected MOEX source structure."""
+
+
 def make_result_url(exam_code: str, year_ad: int) -> str:
     return f"{urljoin(BASE_URL, SEARCH_PATH)}?{urlencode({'e': exam_code, 'y': str(year_ad)})}"
 
@@ -80,6 +84,8 @@ class _SearchPageParser(HTMLParser):
         self._option_text = ""
         self.available_years: list[int] = []
         self.exams: list[tuple[str, str]] = []
+        self.saw_year_select = False
+        self.saw_exam_select = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attrs_dict = dict(attrs)
@@ -87,6 +93,10 @@ class _SearchPageParser(HTMLParser):
             self._current_select_name = attrs_dict.get("name")
             self._capture_years = self._current_select_name == "ctl00$holderContent$wUctlExamYearStart$ddlExamYear"
             self._capture_exams = self._current_select_name == "ctl00$holderContent$ddlExamCode"
+            if self._capture_years:
+                self.saw_year_select = True
+            if self._capture_exams:
+                self.saw_exam_select = True
             return
         if tag == "option" and (self._capture_years or self._capture_exams):
             self._option_value = attrs_dict.get("value", "")
@@ -104,7 +114,7 @@ class _SearchPageParser(HTMLParser):
             return
         if tag == "option" and (self._capture_years or self._capture_exams):
             text = " ".join(self._option_text.split())
-            if self._capture_years and self._option_value:
+            if self._capture_years and self._option_value.isdigit():
                 self.available_years.append(int(self._option_value))
             elif self._capture_exams and self._option_value:
                 self.exams.append((self._option_value, text))
@@ -129,12 +139,14 @@ class _ResultTableParser(HTMLParser):
         self._cell_hrefs: list[str] = []
         self.current_row: list[_Cell] = []
         self.rows: list[list[_Cell]] = []
+        self.saw_target_table = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attrs_dict = dict(attrs)
         if tag == "table" and attrs_dict.get("id") == "ctl00_holderContent_tblExamQand":
             self.in_table = True
             self.table_depth = 1
+            self.saw_target_table = True
             return
         if not self.in_table:
             return
@@ -176,14 +188,28 @@ class _ResultTableParser(HTMLParser):
             self.in_tr = False
 
 
-def parse_search_page(html: str) -> SearchPageData:
+def parse_search_page(
+    html: str,
+    *,
+    require_year_select: bool = False,
+    require_exam_select: bool = False,
+    require_exams: bool = False,
+) -> SearchPageData:
     parser = _SearchPageParser()
     parser.feed(html)
+    if require_year_select and not parser.saw_year_select:
+        raise MoexSourceQualityError("MOEX search response is missing the year selector")
+    if require_exam_select and not parser.saw_exam_select:
+        raise MoexSourceQualityError("MOEX search response is missing the exam selector")
+    if require_year_select and not parser.available_years:
+        raise MoexSourceQualityError("MOEX search response contains no available years")
     year_ad = parser.available_years[0] if parser.available_years else 0
     exams = [
         ExamOption(code=code, year_ad=year_ad_from_code(code, default_year_ad=year_ad), year_roc=roc_year_from_code(code), label=label)
         for code, label in parser.exams
     ]
+    if require_exams and not exams:
+        raise MoexSourceQualityError("MOEX search response contains no exam options")
     return SearchPageData(available_years=parser.available_years, exams=exams)
 
 
@@ -253,9 +279,11 @@ def _decode_html_bytes(body: bytes, content_type: str) -> str:
     return body.decode("utf-8", "replace")
 
 
-def parse_result_page(html: str, exam_code: str, year_ad: int) -> SourceExamPage:
+def parse_result_page(html: str, exam_code: str, year_ad: int, *, require_table: bool = False) -> SourceExamPage:
     parser = _ResultTableParser()
     parser.feed(html)
+    if require_table and not parser.saw_target_table:
+        raise MoexSourceQualityError("MOEX result response is missing the exam question-and-answer table")
     if not parser.rows:
         return SourceExamPage(
             provider_id="moex",
@@ -344,13 +372,34 @@ class MoexClient:
             )
 
     def discover_available_years(self) -> list[int]:
-        return parse_search_page(self._fetch_text(urljoin(BASE_URL, SEARCH_PATH))).available_years
+        return parse_search_page(
+            self._fetch_text(urljoin(BASE_URL, SEARCH_PATH)),
+            require_year_select=True,
+        ).available_years
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
-        return parse_search_page(self._fetch_text(make_year_search_url(year_ad))).exams
+        page = parse_search_page(
+            self._fetch_text(make_year_search_url(year_ad)),
+            require_year_select=True,
+            require_exam_select=True,
+            require_exams=True,
+        )
+        if year_ad not in page.available_years:
+            raise MoexSourceQualityError(f"MOEX search response does not include requested year {year_ad}")
+        return page.exams
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
-        return parse_result_page(self._fetch_text(make_result_url(exam_code, year_ad)), exam_code=exam_code, year_ad=year_ad)
+        page = parse_result_page(
+            self._fetch_text(make_result_url(exam_code, year_ad)),
+            exam_code=exam_code,
+            year_ad=year_ad,
+            require_table=True,
+        )
+        if not page.exam_name_raw:
+            raise MoexSourceQualityError(f"MOEX result response contains no exam name for {exam_code}")
+        if not page.attachments and not page.papers:
+            raise MoexSourceQualityError(f"MOEX result response contains no downloadable records for {exam_code}")
+        return page
 
     def download_file(self, url: str) -> DownloadedFile:
         request = Request(url, headers={"User-Agent": self.user_agent})

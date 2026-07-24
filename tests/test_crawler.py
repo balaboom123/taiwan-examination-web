@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from app.crawler import MoexClient, make_download_url, make_result_url, parse_result_page, parse_search_page
-from app.providers.moex.client import MoexClient as PackageMoexClient
+from app.providers.moex.client import MoexClient as PackageMoexClient, MoexSourceQualityError
 
 
 SEARCH_HTML = """
@@ -63,6 +63,18 @@ class ParseSearchPageTests(unittest.TestCase):
         self.assertIn("護理師", page.exams[0].label)
 
 
+    def test_required_search_structure_rejects_placeholder_html(self) -> None:
+        with self.assertRaises(MoexSourceQualityError):
+            parse_search_page("<html><body>temporarily unavailable</body></html>", require_year_select=True)
+
+        with self.assertRaises(MoexSourceQualityError):
+            parse_search_page(
+                '<select name="ctl00$holderContent$wUctlExamYearStart$ddlExamYear"><option value="2026">115</option></select>',
+                require_exam_select=True,
+                require_exams=True,
+            )
+
+
 class ParseResultPageTests(unittest.TestCase):
     def test_parse_result_page_extracts_attachments_and_subject_files(self) -> None:
         parsed = parse_result_page(RESULT_HTML, exam_code="115030", year_ad=2026)
@@ -83,6 +95,10 @@ class ParseResultPageTests(unittest.TestCase):
         second_paper = parsed.papers[1]
         self.assertEqual(second_paper.subject_name_raw, "基本護理學")
         self.assertEqual(set(second_paper.files), {"question", "answer", "corrected_answer"})
+
+    def test_required_result_table_rejects_placeholder_html(self) -> None:
+        with self.assertRaises(MoexSourceQualityError):
+            parse_result_page("<html><body>blocked</body></html>", exam_code="115030", year_ad=2026, require_table=True)
 
     def test_url_builders_return_live_http_entrypoints(self) -> None:
         self.assertEqual(

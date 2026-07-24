@@ -24,6 +24,8 @@ interface RawBundle {
   trackId?: string
   variantIds?: string[]
   stageId?: string
+  searchAliases?: string[]
+  subjectLabels?: string[]
 }
 
 function isValidRawBundle(item: unknown): item is RawBundle {
@@ -35,6 +37,8 @@ function isValidRawBundle(item: unknown): item is RawBundle {
     Array.isArray(obj.years) &&
     typeof obj.fileCount === "number" &&
     typeof obj.url === "string" &&
+    (obj.searchAliases === undefined || (Array.isArray(obj.searchAliases) && obj.searchAliases.every((item) => typeof item === "string"))) &&
+    (obj.subjectLabels === undefined || (Array.isArray(obj.subjectLabels) && obj.subjectLabels.every((item) => typeof item === "string"))) &&
     (obj.parts === undefined || (Array.isArray(obj.parts) && obj.parts.every((part) =>
       typeof part === "object" && part !== null &&
       typeof (part as { label?: unknown }).label === "string" &&

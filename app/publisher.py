@@ -278,6 +278,10 @@ def apply_bundle_download_urls(
                     "examSubclass": bundle.exam_subclass,
                 }
             )
+        if bundle.search_aliases:
+            frontend["searchAliases"] = bundle.search_aliases
+        if bundle.subject_labels:
+            frontend["subjectLabels"] = bundle.subject_labels
         frontend_bundles.append(frontend)
     return (
         NormalizedCatalog(papers=updated_papers, review_queue=normalized.review_queue),

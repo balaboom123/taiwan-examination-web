@@ -65,6 +65,11 @@ class KaohsiungTeacherRecruitClientTests(unittest.TestCase):
         self.assertEqual(page.papers[0].subject_name_raw, "身心障礙類")
         self.assertEqual(set(page.papers[0].files), {"question", "answer", "corrected_answer"})
 
+    def test_discover_available_years_validates_both_source_boards(self) -> None:
+        client = KaohsiungTeacherRecruitClient(elementary_html=ELEMENTARY_HTML, special_html=SPECIAL_HTML)
+
+        self.assertEqual(client.discover_available_years(), [2026])
+
 
 if __name__ == "__main__":
     unittest.main()

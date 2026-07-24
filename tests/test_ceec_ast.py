@@ -6,7 +6,7 @@ from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
-from app.providers.ceec_ast.client import CeecAstClient, parse_listing_page
+from app.providers.ceec_ast.client import AST_NOTICE_URL, CeecAstClient, parse_listing_page, parse_notice_listing, parse_notice_papers
 
 
 LISTING_HTML = """
@@ -31,6 +31,27 @@ LISTING_HTML = """
 """
 
 
+AST_NOTICE_LISTING_HTML = """
+<html><body>
+  <a href="/xmdoc/cont?xsmsid=0I363338985390931117&amp;sid=0Q167535468443608600">115學年度分科測驗試題/答題卷/參考答案</a>
+</body></html>
+"""
+
+AST_NOTICE_PAGE_HTML = """
+<table>
+  <tr><th>科目</th><th>試題</th><th>答題卷</th><th>參考答案</th></tr>
+  <tr><td>物理</td><td><a href="/files/physics-question.pdf">試題</a></td><td><a href="/files/physics-sheet.pdf">答題卷</a></td><td><a href="/files/physics-answer.pdf">答案</a></td></tr>
+  <tr><td>化學</td><td><a href="/files/chemistry-question.pdf">試題</a></td><td><a href="/files/chemistry-sheet.pdf">答題卷</a></td><td><a href="/files/chemistry-answer.pdf">答案</a></td></tr>
+  <tr><td>數學A</td><td><a href="/files/math-a-question.pdf">試題</a></td><td><a href="/files/math-a-sheet.pdf">答題卷</a></td><td><a href="/files/math-a-answer.pdf">答案</a></td></tr>
+  <tr><td>生物</td><td><a href="/files/biology-question.pdf">試題</a></td><td><a href="/files/biology-sheet.pdf">答題卷</a></td><td><a href="/files/biology-answer.pdf">答案</a></td></tr>
+  <tr><td>歷史</td><td><a href="/files/history-question.pdf">試題</a></td><td><a href="/files/history-sheet.pdf">答題卷</a></td><td><a href="/files/history-answer.pdf">答案</a></td></tr>
+  <tr><td>地理</td><td><a href="/files/geography-question.pdf">試題</a></td><td><a href="/files/geography-sheet.pdf">答題卷</a></td><td><a href="/files/geography-answer.pdf">答案</a></td></tr>
+  <tr><td>數學B</td><td><a href="/files/math-b-question.pdf">試題</a></td><td><a href="/files/math-b-sheet.pdf">答題卷</a></td><td><a href="/files/math-b-answer.pdf">答案</a></td></tr>
+  <tr><td>公民與社會</td><td><a href="/files/civics-question.pdf">試題</a></td><td><a href="/files/civics-sheet.pdf">答題卷</a></td><td><a href="/files/civics-answer.pdf">答案</a></td></tr>
+</table>
+"""
+
+
 class CeecAstParserTests(unittest.TestCase):
     def test_parse_listing_page_extracts_total_pages_and_ast_row(self) -> None:
         page = parse_listing_page(LISTING_HTML)
@@ -44,6 +65,35 @@ class CeecAstParserTests(unittest.TestCase):
             [item.label for item in page.entries[0].downloads],
             ["試題內容", "試題內容", "答題卷", "選擇(填)題答案", "非選擇題評分原則"],
         )
+
+    def test_parse_notice_listing_and_subject_table_extracts_current_ast_materials(self) -> None:
+        notices = parse_notice_listing(AST_NOTICE_LISTING_HTML)
+        papers = parse_notice_papers(AST_NOTICE_PAGE_HTML, base_url=notices[0].url, year_ad=2026)
+
+        self.assertEqual([(notice.source_exam_id, notice.year_ad) for notice in notices], [("ceec-ast-notice-115", 2026)])
+        self.assertEqual(len(papers), 8)
+        self.assertEqual({paper.subject_code for paper in papers}, {"physics", "chemistry", "math-a", "biology", "history", "geography", "math-b", "civics-society"})
+        self.assertEqual({file_type for paper in papers for file_type in paper.files}, {"question", "answer_sheet", "answer"})
+
+    def test_client_prefers_current_official_notice_over_generic_listing(self) -> None:
+        notice_url = "https://www.ceec.edu.tw/xmdoc/cont?xsmsid=0I363338985390931117&sid=0Q167535468443608600"
+
+        def fake_fetch(url: str) -> str:
+            if url == AST_NOTICE_URL:
+                return AST_NOTICE_LISTING_HTML
+            if url == notice_url:
+                return AST_NOTICE_PAGE_HTML
+            return LISTING_HTML
+
+        client = CeecAstClient()
+        client._fetch_text = fake_fetch  # type: ignore[method-assign]
+
+        self.assertEqual(client.discover_available_years(), [2026, 2025])
+        self.assertEqual([exam.code for exam in client.discover_exams(2026)], ["ceec-ast-notice-115"])
+        page = client.fetch_exam_page("ceec-ast-notice-115", 2026)
+
+        self.assertEqual(page.exam_name_raw, "115學年度分科測驗試題/答題卷/參考答案")
+        self.assertEqual(len(page.papers), 8)
 
     def test_fetch_exam_page_turns_one_listing_row_into_many_single_file_papers(self) -> None:
         with patch.object(CeecAstClient, "_fetch_text", return_value=LISTING_HTML):

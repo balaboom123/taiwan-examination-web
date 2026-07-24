@@ -1,3 +1,4 @@
+# Netlify is used for deploy previews only. GitHub Pages is the canonical production host.
 [build]
   base = "frontend"
   command = "npm run build"
@@ -5,4 +6,9 @@
 
 [build.environment]
   VITE_BASE_PATH = "/"
-  VITE_ENABLE_ADSENSE = "true"
+  VITE_ENABLE_ADSENSE = "false"
+
+[context.deploy-preview]
+  [context.deploy-preview.environment]
+    VITE_BASE_PATH = "/"
+    VITE_ENABLE_ADSENSE = "false"
