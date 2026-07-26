@@ -11,7 +11,7 @@ The repository has a working provider-to-frontend pipeline, but the archive is n
 - 0 current sync-failure records, but 653 current MOEX review-queue entries and 2,989 review-confidence records isolated by event.
 - 0 event-level download gaps, 291 normalization gaps, 8 normalized-but-not-published events, and 275 explicit publication-policy exclusions after the HCE, MOEX, and New Taipei targeted repairs. The policy-aware provider-to-site check finds 2,418 expected and 2,418 actual logical site IDs, with zero missing or extra IDs.
 - only one checked-in source manifest: `data/providers/moex/source-manifest.json`.
-- no completed live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request.
+- no complete live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request; bounded probes now provide provider-specific evidence for selected gaps.
 
 The current source state and the current public projection are therefore different completeness questions. MOEX 2025 and 2026 data are present locally; the remaining 2025-2026 groups absent from the site are 35 and 13 one-year groups containing 339 and 105 records, respectively, under the documented two-year public-bundle policy. Separate normalization gaps remain. Generated-manifest agreement alone is not evidence that every official source item is public or that the source itself has been exhaustively discovered.
 
@@ -69,6 +69,7 @@ At audit start the branch had no unpushed commits relative to its own upstream b
 - A read-only WDASEC adapter fetch of official session 202411040001 returned 207 paper rows. A temporary normal-pipeline refresh of all six 2024 sessions returned 453 normalized papers, 422 valid mirrored payloads, zero failures, and approximately 415 MB. This is evidence that the 134 older raw WDASEC sessions are accessible stale coverage, not parser/download failures.
 - A full Hakka historical publication attempt failed closed on one 2,094,415,387-byte listening ZIP, above the 1,900,000,000-byte multipart target. The failure exposed a bundler safety defect: stale parts could be removed before entry-size validation. The fix and regression test now validate source sizes before writing and preserve existing assets on failure.
 - A read-only New Taipei list/detail/token probe found one official senior-teacher question/answer paper. The normal pipeline mirrored and normalized it with zero failures or review records, and a targeted local publication updated the existing bundle to five papers (20,542,479 bytes); history changed from 292 to 291 normalization gaps and from 716 to 717 completed events.
+- A bounded 2026-07-26 teacher-source probe showed that all Central Alliance subject/final pages returned HTTP 200 but every paper row said `已截止` and exposed no file link; the three empty raw events are therefore source-expired evidence, not parser failures. The documented Kaohsiung regular and special endpoints both returned HTTP 404; its stale local special state was preserved and its elementary normalization gap remains an official-endpoint blocker.
 - No public release, deployment, history rewrite, credential use, or remote publication occurred. The ignored mirror/bundle cache is operational state and is not evidence that remote release assets exist.
 
 The scoped Hakka republish failed closed when one official listening ZIP exceeded the 1.9 GB multipart target. The failed, unreferenced 29.8 GB ignored temporary archive was removed; the preserved legacy current-year archive and reconstructed ignored current-year parts remain local, while no release was uploaded. The bundler now preflights source-entry sizes and preserves existing assets before an oversized-entry failure. The publication validator also received a one-line syntax repair that was verified locally.
@@ -123,8 +124,8 @@ Python linting is not configured in `pyproject.toml` or CI. The repository has P
 | `taisugar_recruit` | `https://www.taisugar.com.tw/chinese/News_Index.aspx?p=3&n=10080` | Taisugar recruitment paper announcements | 2025 observed | 2025; 1 → 1 | **Partial** | Listing mixes recruitment notices and exam material; one event is normalized but not published. |
 | `tcte_tve` | `https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y` | TCTE 四技二專統一入學測驗 / TVE archive | Raw listing 2001–2026; paper downloads documented 2006–2026 | raw 2001–2026; papers 2006–2026, 21 buckets; 26 → 2,536 | **Partial** | Five old events have normalization gaps. Older source rows without downloadable paper assets must be explicitly classified rather than silently omitted. |
 | `teacher_qual` | `https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx` | National teacher qualification exam | Source selector ROC 094–115 / AD 2005–2026 | 2005–2026, 22 buckets; 23 → 23 | **Covered in declared scope** | ASP.NET WebForms postbacks; 2018 is a format transition and 2017 is sample-only. Those semantics must remain visible in any completeness metric. |
-| `teacher_recruit_central_alliance` | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` | Central-region annual teacher-selection question/answer site | Current 115 school year / AD 2026 only | 2026; 3 → 0 | **Partial / parser blocker** | Annual vendor domain; official provenance comes from Taichung, Keelung, and Hsinchu sources. Current raw events produced no normalized papers. |
-| `teacher_recruit_kaohsiung` | `https://exam.kh.edu.tw/teaexam/` | Kaohsiung elementary and special-education teacher recruitment | Current 2026 scope | 2026; 2 → 2 | **Partial** | ZIP/PDF question and answer files; lists, venues, vacancies, brochures, duplicates, and teaching-demo topics are intentionally skipped. One normalization gap remains. |
+| `teacher_recruit_central_alliance` | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` | Central-region annual teacher-selection question/answer site | Current 115 school year / AD 2026 only | 2026; 3 → 0 | **Blocked / source expired** | Annual vendor domain; official provenance comes from Taichung, Keelung, and Hsinchu sources. On 2026-07-26 all three subject/final page pairs returned HTTP 200 with paper rows marked `已截止` and no downloadable links. This is source-side expiry, not a parser failure. |
+| `teacher_recruit_kaohsiung` | `https://exam.kh.edu.tw/teaexam/` | Kaohsiung elementary and special-education teacher recruitment | Current 2026 scope | 2026; 2 → 2 | **Partial / source endpoint blocker** | ZIP/PDF question and answer files; lists, venues, vacancies, brochures, duplicates, and teaching-demo topics are intentionally skipped. On 2026-07-26 both documented regular and special endpoints returned HTTP 404; one elementary normalization gap remains and no replacement official endpoint has been verified. |
 | `teacher_recruit_newtaipei` | `https://career.ntpc.edu.tw/module/newtea/module/newtea/ap/out-announce?c=01` | New Taipei education-personnel joint-selection written papers | Current 2026 scope | 2026; 4 → 5 | **Covered, current-year scope** | Public list/detail/token API; the targeted 2026 senior-teacher paper refresh now leaves all four retained events complete. Teaching-demo, score, and list notices remain intentionally skipped. |
 | `teacher_recruit_tainan` | `https://qualify.tn.edu.tw/trexamps/` | Tainan elementary and pre-K special-ed teacher recruitment | Current 2026 scope | 2026; 1 → 3 | **Covered, current-year scope** | Historical reconstruction is intentionally excluded until a stable official archive is found. |
 | `teacher_recruit_taipei_elementary` | `https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2` | Taipei elementary teacher joint recruitment | Reviewed 114 school year / AD 2025 | 2025; 1 → 12 | **Covered, reviewed current-year scope** | Fixed official article map; city-wide news listing is not treated as an archive. |
@@ -161,9 +162,9 @@ Teacher recruitment is correctly described as partial. The repository currently 
 
 The immediate data defects are:
 
-- `teacher_recruit_central_alliance`: 3 raw current-year events, 0 normalized papers.
+- `teacher_recruit_central_alliance`: 3 raw current-year events, 0 normalized papers; the official pages currently mark every paper `已截止` and provide no files.
 - `teacher_recruit_newtaipei`: no remaining normalization-gap event in the reviewed 2026 scope; the targeted refresh added the senior-teacher paper and answer asset.
-- `teacher_recruit_kaohsiung`: 1 normalization-gap event.
+- `teacher_recruit_kaohsiung`: 1 normalization-gap event; both documented current endpoints returned HTTP 404 in the bounded probe.
 - Current-year-only scope for Taipei elementary, Taoyuan, Tainan, New Taipei, Kaohsiung, and Central Alliance is intentional, but must remain visible in completion metrics.
 
 The appropriate completion unit is therefore “every source-index row has a documented decision and every implemented row has complete current-year assets,” not “all county and school teacher recruitment is archived.”
@@ -258,7 +259,7 @@ The remaining weaknesses are:
 
 ### P1 — source and data-quality reconciliation
 
-1. Repair Central Alliance teacher parsing and investigate the Kaohsiung normalization gap/source endpoint.
+1. Recheck Central Alliance when the official annual paper pages expose files again; investigate the Kaohsiung replacement endpoint or accepted archival surface.
 2. Resolve the 291 normalization-gap events and 8 normalized-not-published Hakka events; separately disposition the WDASEC historical payload cost and oversized Hakka audio before treating them as releasable coverage. The 275 policy-excluded events must remain evidence-backed.
 3. Reconcile the 667 mixed legacy groups requiring split and document the current physical/logical distinction: 2,421 physical assets, 2,418 logical IDs, with the policy-aware expected logical set equal to the site set.
 4. Decide ownership of the exact 370-record/370-checksum duplication between `moea_recruit` and `taipower_recruit`.
@@ -300,6 +301,7 @@ The completeness goal should be considered achieved only when all of the followi
 
 - **Scope:** Should “complete” include practice/sample/reference materials and audio, or only administered examination papers and answer keys?
 - **Teacher breadth:** Is the approved scope the current source-index set, or should every official county, city, and school recruitment source be pursued?
+- **Teacher endpoint retention:** Should Central Alliance and Kaohsiung remain explicitly blocked with stale local state until their official pages recover, or may a newly verified official replacement/archive be added to the accepted source scope?
 - **Deferred topics:** Should iCAP non-paper resources be allowed, and should TOPIK/military recruitment remain blocked until direct-download evidence exists?
 - **Source ownership:** Should the duplicate MOEA/Taipower records remain as two official categories, or should one become the canonical owner with an explicit alias?
 - **Publication policy:** Should valid single-year bundles be public, or is the current multi-year default policy still intentional? This directly affects how source coverage and public coverage are reported.

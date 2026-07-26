@@ -4,14 +4,14 @@
 
 This spec records the next implementable city/county teacher-recruitment paper sources after Taipei, Tainan, and New Taipei.
 
-Implemented provider candidates:
+Current and blocked provider candidates:
 
 | provider_id | status | source family | source URL |
 |---|---|---|---|
 | `teacher_recruit_taipei_elementary` | implemented | Taipei city elementary teacher joint recruitment | `https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2` |
 | `teacher_recruit_taoyuan_elementary` | implemented | Taoyuan elementary teacher joint recruitment | `https://elementary.tyc.edu.tw/web/answer.aspx?openExternalBrowser=1` |
-| `teacher_recruit_kaohsiung` | implemented | Kaohsiung elementary and special-education teacher recruitment | `https://exam.kh.edu.tw/teaexam/` and `https://exam.kh.edu.tw/special/index.jsp` |
-| `teacher_recruit_central_alliance` | implemented | 115 Central Alliance teacher-selection questions and answers | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` and `https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php` |
+| `teacher_recruit_kaohsiung` | implemented; current endpoint blocker | Kaohsiung elementary and special-education teacher recruitment | `https://exam.kh.edu.tw/teaexam/` and `https://exam.kh.edu.tw/special/index.jsp` |
+| `teacher_recruit_central_alliance` | implemented; source currently expired | 115 Central Alliance teacher-selection questions and answers | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` and `https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php` |
 
 Watch/provenance sources:
 
@@ -98,6 +98,8 @@ Current paper downloads are direct PDFs under `/special/upload/`, including:
 
 Skip admission lists, venue maps, duplicate URL-encoded copies, teaching-demo topics, and brochure files.
 
+Bounded live evidence on 2026-07-26: both documented Kaohsiung page URLs returned HTTP 404. Preserve the last known local state and do not invent a new endpoint; the provider remains blocked until an official replacement or restored page is reviewed.
+
 ### Central Alliance
 
 The source is the current-year 115中區策略聯盟甄選試題疑義網站.
@@ -121,6 +123,8 @@ The subject page groups downloads by category:
 | `A` | 幼兒園 |
 | `B` | 國小 |
 | `C` | 國中 |
+
+The pages are expected to expose paper links when the annual source is active. A bounded live probe on 2026-07-26 returned HTTP 200, but every paper row on all three categories was marked `已截止`; no question, reference-answer, or final-answer file link was present. The empty current raw events therefore record source expiry, not a parser success claim.
 
 Question/reference downloads use:
 
