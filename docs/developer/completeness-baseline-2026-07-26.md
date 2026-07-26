@@ -9,7 +9,7 @@ The repository has a working provider-to-frontend pipeline, but the archive is n
 - 35 registered providers and 147,514 normalized paper records.
 - 2,410 physical site/release bundle assets, represented as 2,407 logical frontend rows, across 8 release shards after targeted MOEX reconciliation.
 - 0 current sync-failure records, but 649 current MOEX review-queue entries and 2,989 review-confidence records isolated by event.
-- 489 event-level download gaps, 299 normalization gaps, and 57 normalized-but-not-published events in the post-reconciliation non-strict history audit. The policy-aware provider-to-site check now finds 2,407 expected and 2,407 actual logical site IDs, with zero missing or extra IDs.
+- 489 event-level download gaps, 299 normalization gaps, and 48 normalized-but-not-published events after the HCE targeted repair. The policy-aware provider-to-site check still finds 2,407 expected and 2,407 actual logical site IDs, with zero missing or extra IDs.
 - only one checked-in source manifest: `data/providers/moex/source-manifest.json`.
 - no completed live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request.
 
@@ -43,7 +43,7 @@ Official/public access is not the same as a redistribution license. The reposito
 | Bundling | `app/bundler.py` groups by v2 bundle ID, preserves legacy entries, validates mirror inputs, splits oversized archives, and applies site year policy. | The current default site is deliberately multi-year for most bundles. Provider state can contain valid single-year or unprojected bundles that are not public. |
 | Site publication and release projection | `app/publisher.py` aggregates the 35 providers, filters by site policy, assigns v2 release tags, and writes `data/sites/default/`. `app/bundler.py` and `scripts/validate_publication.py` now share the public-year eligibility rule. `app/release_tags.py` targets 900 physical assets and hard-fails at 1,000. | The current snapshot has zero provider-derived logical IDs missing from or extra in the site inventory, but event-level history gaps remain. Local release planning does not verify that remote GitHub release assets actually exist. |
 | Frontend display | `frontend/src/` consumes `frontend-bundles.json`; `frontend/build/` contains generated-feed and pure-logic tests. `App.tsx` supplies search, filters, sorting, pagination, and download rows. | There are no source-level component tests, browser tests, accessibility tests, or end-to-end tests. |
-| CI and deployment | .github/workflows/ci.yml runs Python/catalog gates and frontend test/lint/build. GitHub Pages is canonical production; Netlify is preview-only. deploy-pages.yml now repeats the Python/catalog/publication/release-plan gates and frontend test/lint before upload. | Provider-specific refresh workflows still do not all run aggregate publication gates, and remote release assets remain unverified locally. |
+| CI and deployment | .github/workflows/ci.yml runs Python tests, strict catalog/history audits, publication/release checks, and frontend test/lint/build. GitHub Pages is canonical production; Netlify is preview-only. deploy-pages.yml repeats those data gates and frontend test/lint before upload. | Provider-specific refresh workflows still do not all run aggregate publication gates, and the strict history gate currently blocks deployment on unresolved event gaps. |
 
 ## Git and worktree baseline
 
@@ -58,7 +58,7 @@ Remote information was fetched with `git fetch --all --prune`; local work was no
 | Current branch vs latest main at audit start | `5 ahead / 6 behind` |
 | Unique current-branch commits | `1bf0186`, `d9920b7`, `5b21aed`, `8f38478`, `98aee3b` |
 | Unique latest-main commits | `d3af20f`, `4168bea`, `59ed533`, `b197b3f`, `306f10c`, `de3f461` |
-| Corrective-cycle change set | `.github/workflows/deploy-pages.yml`, `app/bundler.py`, `app/publisher.py`, `data/sites/default/{bundles.json,frontend-bundles.json,release-assets.json}`, `scripts/validate_publication.py`, two test files, and this report; intentionally not published remotely |
+| Corrective-cycle change set | .github/workflows/{ci.yml,deploy-pages.yml}, app/bundler.py, app/publisher.py, data/sites/default/{bundles.json,frontend-bundles.json,release-assets.json}, scripts/validate_publication.py, two test files, and this report; intentionally not published remotely |
 | Untracked files at audit baseline | `PLAN.md` only; it remains intentionally preserved and excluded from the corrective-cycle commit |
 | Large ignored operational state | data/ about 301 MB; mirror/ about 52 GB; bundles/ about 78 GB |
 
@@ -75,7 +75,7 @@ The attempted full local republish was interrupted before the Hakka bundle compl
 | `python3 scripts/validate_publication.py` | **Pass after reconciliation and policy gate**: 2,410 site bundles, 2,407 frontend bundles, 2,410 release assets, 10 schemas; expected and actual logical site IDs both 2,407 | Generated publication shapes and provider-derived public eligibility agree. This is not official-source completeness. |
 | `python3 -m app plan-release --site-id default ...` | **Pass after reconciliation**: 2,410 physical bundles across 8 shards | Local release capacity is within the 900 target and 1,000 hard limit. It does not prove remote release assets exist. |
 | `python3 -m app audit-catalog --site-id default ...` | **Pass after reconciliation**: 147,514 records; 2,989 review records; 649 queue entries; 667 legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
-| `python3 -m app history-audit --site-id default ...` | Post-reconciliation non-strict **pass**; strict **fails** on 489 download gaps, 299 normalization gaps, and 57 normalized-not-published events; parser gaps 0 | This is the most direct current provider-state/publication gap signal. |
+| `python3 -m app history-audit --site-id default ...` | Post-HCE-repair non-strict **pass**; strict **fails** on 489 download gaps, 299 normalization gaps, and 48 normalized-not-published events; parser gaps 0 | This is the most direct current provider-state/publication gap signal. |
 | `python3 -m app migrate-legacy-state --provider moex --mode verify` | **Pass** | Legacy state verification is green. It does not validate current official-source discovery. |
 | `bash -n .github/scripts/*.sh && git diff --check` | **Pass** | Shell syntax and whitespace gates are green. |
 | Direct Node test runner | **11 passed, 2 failed of 13** | The two failures are `exam-classification` and `search-state`, both unable to import `typescript` because dependencies are not installed. |
@@ -99,9 +99,9 @@ Python linting is not configured in `pyproject.toml` or CI. The repository has P
 | `cpc_recruit` | `https://www.cpc.com.tw/News.aspx?n=32&sms=8969` | CPC Corporation company recruitment written papers | 2009–2025 observed | 2009–2025, 14 buckets; 14 → 17 | **Covered in declared scope** | Official CPC pages and linked files; the joint/MOEA page redirects to a Taipower archive handled by `moea_recruit`, so it must not be duplicated here. |
 | `gept_cert` | `https://www.gept.org.tw/Exam_Intro/t01_introduction.asp` | GEPT official practice and listening materials by proficiency level | Current-year material scope; current state 2026 | 2026; 1 → 34 | **Covered, current-materials scope** | Practice materials, PDFs/ZIPs, and MP3s, not a full historical exam archive. Public source; reuse license not established. |
 | `hakka_cert` | `https://elearning.hakka.gov.tw/hakka/download-files` | Hakka certification vocabulary/question-bank and audio materials | 2018–2026 observed across paginated official downloads | 2018–2026, 9 buckets; 11 → 156 | **Partial** | PDFs and listening ZIPs are mirrored. Eight events are normalized-but-not-published in the current history audit. |
-| `hce_cmu` | `https://spbcm.cmu.edu.tw/page/384` | CMU post-baccalaureate Chinese medicine entrance papers | 2021–2026 in current state | 2021–2026; 6 → 30 | **Partial** | Public university pages/PDFs; 5 events are normalized but not published. |
+| `hce_cmu` | https://spbcm.cmu.edu.tw/page/384 | CMU post-baccalaureate Chinese medicine entrance papers | 2021–2026 in current state | 2021–2026; 6 → 30 | **Covered in declared scope** | Public university pages/PDFs; the six retained events now publish all 30 mirrored papers. |
 | `hce_nsysu` | `https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw` | NSYSU post-baccalaureate medicine entrance papers | 2022–2026 in current state | 2022–2026; 5 → 5 | **Covered in declared scope** | Official university/library archive; source availability still needs a bounded live verification. |
-| `hce_nthu` | `https://adms.site.nthu.edu.tw/p/403-1207-6125-1.php?Lang=zh-tw` | NTHU post-baccalaureate medicine entrance papers | 2022–2026 in current state | 2022–2026; 5 → 24 | **Partial** | Public admissions archive; 4 events are normalized but not published. |
+| `hce_nthu` | https://adms.site.nthu.edu.tw/p/403-1207-6125-1.php?Lang=zh-tw | NTHU post-baccalaureate medicine entrance papers | 2022–2026 in current state | 2022–2026; 5 → 24 | **Covered in declared scope** | Public admissions archive; the five retained events now publish all 24 mirrored papers. |
 | `hce_tcu` | `https://admissions.tcu.edu.tw/?page_id=62` | Tzu Chi University post-baccalaureate Chinese medicine entrance papers | Current 2026 source scope | 2026; 1 → 8 | **Covered, current-year scope** | Public university source; historical archive not established. |
 | `ipas_cert` | `https://ipd.nat.gov.tw/ipas/` | iPAS professional certification learning/question materials | Current-year scope; 2026 observed | 2026; 4 → 62 | **Covered, current-materials scope** | ISE/AIAP/OIA/AIOT source resources; some codes expose learning guides rather than past questions. |
 | `jlpt_cert` | `https://www.jlpt.jp/e/samples/sampleindex.html` | JLPT official sample workbook and listening materials | Official sample sections for 2012 and 2018 observed | 2012 and 2018; 2 → 116 | **Covered, sample-materials scope** | Not a historical archive of every JLPT sitting; includes PDF/audio. Official source, no blanket redistribution license verified. |
@@ -230,7 +230,7 @@ Only MOEX has a current source manifest. For the other providers, the same histo
 
 ## Deployment and gate gaps
 
-`.github/workflows/ci.yml` remains the strongest gate: it runs Python tests, workflow-contract tests, catalog audit, publication/schema validation, release planning, shell syntax, frontend tests, frontend lint, and frontend build. `deploy-pages.yml` now repeats the Python/catalog/publication/release-plan gates and runs frontend tests and lint before the Pages artifact is uploaded. Its path filter includes application code, provider state, all default-site generated indexes, schemas, and the validator.
+.github/workflows/ci.yml remains the strongest gate: it runs Python tests, workflow-contract tests, strict catalog and event-level history audits, publication/schema validation, release planning, shell syntax, frontend tests, frontend lint, and frontend build. deploy-pages.yml now repeats the Python/catalog/publication/strict-history/release-plan gates and runs frontend tests and lint before the Pages artifact is uploaded. Its path filter includes application code, provider state, all default-site generated indexes, schemas, and the validator.
 
 The remaining weaknesses are:
 
@@ -252,7 +252,7 @@ The remaining weaknesses are:
 ### P1 — source and data-quality reconciliation
 
 1. Repair Central Alliance teacher parsing and the New Taipei/Kaohsiung normalization gaps.
-2. Resolve the 299 normalization-gap events and 57 normalized-not-published events reported by the final history audit, starting with MOEX, WDASEC, TCTE, HCE, Hakka, and teacher recruitment; distinguish policy-excluded single-year items from actual publication defects.
+2. Resolve the 299 normalization-gap events and 48 normalized-not-published events reported by the post-HCE history audit, starting with MOEX, WDASEC, TCTE, Hakka, and teacher recruitment; distinguish policy-excluded single-year items from actual publication defects.
 3. Reconcile the 667 legacy groups requiring split and document the current physical/logical distinction: 2,410 physical assets, 2,407 logical IDs, with the policy-aware expected logical set equal to the site set.
 4. Decide ownership of the exact 370-record/370-checksum duplication between `moea_recruit` and `taipower_recruit`.
 5. Refresh stale provider specifications and the human registry so documented source scope, current year ranges, and test counts match executable state.
@@ -298,6 +298,7 @@ The completeness goal should be considered achieved only when all of the followi
 - **Publication policy:** Should valid single-year bundles be public, or is the current multi-year default policy still intentional? This directly affects how source coverage and public coverage are reported.
 - **Legal posture:** Is there an approved basis for redistributing official PDFs/audio in GitHub releases, or should the project store metadata/links only for some providers?
 - **Release capacity:** Is the current GitHub Release/Pages architecture acceptable as the archive grows toward the 900-asset safety target and tens of gigabytes of local operational state?
+- **Integrity gate:** The strict event-level audit still fails on 489 download gaps, 299 normalization gaps, and 48 normalized-not-published events. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
 - **Branch integration:** Should the five commits unique to `agent/exam-coverage-and-mirror-dedup` be intentionally ported onto latest `origin/main`, or should implementation start from latest main and preserve this branch only as an audit reference?
 
 ## Safest branch and release strategy

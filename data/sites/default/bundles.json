@@ -1672,14 +1672,19 @@
       "canonical_id": "hce-cmu",
       "canonical_name": "中國醫藥大學學士後中醫學系",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111,
+        110
       ],
-      "file_count": 8,
+      "file_count": 30,
       "storage_key": "bundles/sites/default/hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
       "asset_name": "hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
-      "checksum": "d95f11791fc67fec6ea15d610149a49ddb2c261b103f6c10b8260a88bb7b36c0",
+      "checksum": "b0cbb66b8d4e88147d20c71e9d8a6c0fde503a4f31fa53d99ec72d4adf36ddd4",
       "legacy_asset_names": [
         "中國醫藥大學學士後中醫學系__hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu.zip",
         "hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu.zip"
@@ -1704,12 +1709,19 @@
         "化學",
         "國文",
         "英文",
+        "各科參考答案",
         "115學年度中國醫藥大學學士後中醫學系",
         "post-bacc-chinese-medicine",
         "biology",
         "chemistry",
         "chinese",
-        "english"
+        "english",
+        "114學年度中國醫藥大學學士後中醫學系",
+        "all",
+        "113學年度中國醫藥大學學士後中醫學系",
+        "112學年度中國醫藥大學學士後中醫學系",
+        "111學年度中國醫藥大學學士後中醫學系",
+        "110學年度中國醫藥大學學士後中醫學系"
       ],
       "subject_labels": [],
       "legacy_canonical_ids": []
@@ -1766,14 +1778,18 @@
       "canonical_id": "hce-nthu",
       "canonical_name": "國立清華大學學士後醫學系",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111
       ],
-      "file_count": 4,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
       "asset_name": "hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
-      "checksum": "badfac99241698307edd1b53bc1d15641b0d62a2f99bba37a52bba904b1d058c",
+      "checksum": "25434449c9f947f403362667800d8f6aaf0bd0c226fbb506f69eb589a9391fe1",
       "legacy_asset_names": [
         "國立清華大學學士後醫學系__hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu.zip",
         "hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu.zip"
@@ -1798,12 +1814,20 @@
         "生物與生化",
         "化學與物理",
         "英文",
+        "進階物理與線性代數",
+        "資訊科學",
         "115學年度國立清華大學學士後醫學系",
         "post-bacc-medicine",
         "all",
         "biology-biochemistry",
         "chemistry-physics",
-        "english"
+        "english",
+        "114學年度國立清華大學學士後醫學系",
+        "advanced-physics-linear-algebra",
+        "113學年度國立清華大學學士後醫學系",
+        "computer-science",
+        "112學年度國立清華大學學士後醫學系",
+        "111學年度國立清華大學學士後醫學系"
       ],
       "subject_labels": [],
       "legacy_canonical_ids": []

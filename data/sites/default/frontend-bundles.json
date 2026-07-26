@@ -1188,9 +1188,14 @@
       "id": "hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu",
       "name": "中國醫藥大學學士後中醫學系",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111,
+        110
       ],
-      "fileCount": 8,
+      "fileCount": 30,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -1206,12 +1211,19 @@
         "化學",
         "國文",
         "英文",
+        "各科參考答案",
         "115學年度中國醫藥大學學士後中醫學系",
         "post-bacc-chinese-medicine",
         "biology",
         "chemistry",
         "chinese",
-        "english"
+        "english",
+        "114學年度中國醫藥大學學士後中醫學系",
+        "all",
+        "113學年度中國醫藥大學學士後中醫學系",
+        "112學年度中國醫藥大學學士後中醫學系",
+        "111學年度中國醫藥大學學士後中醫學系",
+        "110學年度中國醫藥大學學士後中醫學系"
       ]
     },
     {
@@ -1250,9 +1262,13 @@
       "id": "hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu",
       "name": "國立清華大學學士後醫學系",
       "years": [
-        115
+        115,
+        114,
+        113,
+        112,
+        111
       ],
-      "fileCount": 4,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -1268,12 +1284,20 @@
         "生物與生化",
         "化學與物理",
         "英文",
+        "進階物理與線性代數",
+        "資訊科學",
         "115學年度國立清華大學學士後醫學系",
         "post-bacc-medicine",
         "all",
         "biology-biochemistry",
         "chemistry-physics",
-        "english"
+        "english",
+        "114學年度國立清華大學學士後醫學系",
+        "advanced-physics-linear-algebra",
+        "113學年度國立清華大學學士後醫學系",
+        "computer-science",
+        "112學年度國立清華大學學士後醫學系",
+        "111學年度國立清華大學學士後醫學系"
       ]
     },
     {

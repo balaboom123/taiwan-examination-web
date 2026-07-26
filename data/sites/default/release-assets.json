@@ -538,7 +538,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
       "asset_name": "hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip",
-      "checksum": "d95f11791fc67fec6ea15d610149a49ddb2c261b103f6c10b8260a88bb7b36c0",
+      "checksum": "b0cbb66b8d4e88147d20c71e9d8a6c0fde503a4f31fa53d99ec72d4adf36ddd4",
       "legacy_asset_names": [
         "中國醫藥大學學士後中醫學系__hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu.zip",
         "hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu.zip"
@@ -576,7 +576,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
       "asset_name": "hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu--497a2ca62c44.zip",
-      "checksum": "badfac99241698307edd1b53bc1d15641b0d62a2f99bba37a52bba904b1d058c",
+      "checksum": "25434449c9f947f403362667800d8f6aaf0bd0c226fbb506f69eb589a9391fe1",
       "legacy_asset_names": [
         "國立清華大學學士後醫學系__hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu.zip",
         "hce-nthu-post-baccalaureate-medical-not-applicable-hce-nthu.zip"

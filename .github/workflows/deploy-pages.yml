@@ -42,8 +42,9 @@ jobs:
       - name: Run Python and catalog gates
         run: |
           python -m pytest -q
-          python -m app audit-catalog --repo-root . --site-id default --output .tmp/catalog-audit.json
+          python -m app audit-catalog --repo-root . --site-id default --strict --output .tmp/catalog-audit.json
           python scripts/validate_publication.py
+          python -m app history-audit --repo-root . --site-id default --strict --output .tmp/history-audit.json
           python -m app plan-release --repo-root . --site-id default --output .tmp/release-plan.json
       - name: Validate shell scripts and whitespace
         run: |
