@@ -33,6 +33,17 @@ for key in (
 PY
 ~~~
 
+## Event coverage audit
+
+Run the event-level audit separately from the identity audit:
+
+~~~bash
+python3 -m app history-audit --site-id default --output .tmp/history-audit.json
+python3 -m app history-audit --site-id default --strict --output .tmp/history-audit-strict.json
+~~~
+
+The report distinguishes download gaps, normalization gaps, normalized-but-not-published events, source-only parser gaps, and excluded-by-publication-policy events. The strict form fails on unresolved gaps and passes only when every excluded event has an explicit site-policy disposition.
+
 The strict form is a gate:
 
 ~~~bash

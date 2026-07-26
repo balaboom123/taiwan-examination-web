@@ -13,6 +13,8 @@ import json
 from pathlib import Path
 from typing import Any, Iterable
 
+from app.bundler import public_bundle_ids
+from app.models import NormalizedCatalog
 from app.paths import provider_paths, site_paths
 from app.providers.registry import get_provider
 from app.site_registry import get_site_config
@@ -115,10 +117,12 @@ def build_history_coverage_audit(
     provider_reports: list[dict[str, Any]] = []
     status_counts: Counter[str] = Counter()
     total_source_only = 0
+    all_normalized_papers = []
 
     for provider_id in selected_provider_ids:
         provider = provider_paths(repo_root, provider_id)
         raw_pages, catalog, failures = load_provider_state(provider)
+        all_normalized_papers.extend(catalog.papers)
         raw_by_event = {
             _event_key(page.source_exam_id, page.year_ad): page
             for page in raw_pages
@@ -208,6 +212,25 @@ def build_history_coverage_audit(
             }
         )
 
+    public_ids = public_bundle_ids(
+        NormalizedCatalog(papers=all_normalized_papers, review_queue=[]),
+        min_years=site_config.public_min_years,
+        min_years_by_canonical_prefix=site_config.public_min_years_by_canonical_prefix,
+    )
+    for provider_report in provider_reports:
+        for event in provider_report["events"]:
+            if event["status"] != "normalized_not_published":
+                continue
+            unpublished_ids = set(event["unpublished_bundle_ids"])
+            policy_eligible_ids = sorted(unpublished_ids & public_ids)
+            policy_excluded_ids = sorted(unpublished_ids - public_ids)
+            event["policy_eligible_bundle_ids"] = policy_eligible_ids
+            event["policy_excluded_bundle_ids"] = policy_excluded_ids
+            if policy_excluded_ids and not policy_eligible_ids:
+                event["status"] = "excluded_by_publication_policy"
+                status_counts["normalized_not_published"] -= 1
+                status_counts["excluded_by_publication_policy"] += 1
+
     summary = dict(sorted(status_counts.items()))
     summary["parser_gap"] = total_source_only
     return {
@@ -229,4 +252,15 @@ def history_audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
     if not strict:
         return 0
     summary = report["summary"]
-    return int(any(summary.get(status, 0) for status in ("download_gap", "normalization_gap", "bundle_repair_needed", "parser_gap")))
+    return int(
+        any(
+            summary.get(status, 0)
+            for status in (
+                "download_gap",
+                "normalization_gap",
+                "normalized_not_published",
+                "bundle_repair_needed",
+                "parser_gap",
+            )
+        )
+    )

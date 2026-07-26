@@ -22,6 +22,57 @@ class _ProbeClient:
 
 
 class HistoryAuditTests(unittest.TestCase):
+    def test_audit_explicitly_disposes_single_year_publication_exclusion(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            provider = provider_paths(root, "moex")
+            raw_page = SourceExamPage(
+                provider_id="moex",
+                source_exam_id="115030",
+                year_ad=2026,
+                year_roc=115,
+                exam_name_raw="MOEX 115030",
+                attachments=[],
+                papers=[],
+            )
+            paper = NormalizedPaper(
+                provider_id="moex",
+                canonical_id="nurse",
+                canonical_name="Nurse",
+                year_roc=115,
+                exam_name_raw="MOEX 115030",
+                category_raw="Nurse",
+                subject_name_raw="Subject",
+                paper_code="101-0101-question",
+                file_type="question",
+                download_url_source="https://example.test/question.pdf",
+                category_code="101",
+                source_exam_id="115030",
+                subject_code="0101",
+                storage_key="providers/moex/115/115030/101/0101/question.pdf",
+            )
+            write_provider_state(
+                provider,
+                raw_pages=[raw_page],
+                normalized=NormalizedCatalog(papers=[paper], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            mirror_path = root / "mirror" / paper.storage_key
+            mirror_path.parent.mkdir(parents=True, exist_ok=True)
+            mirror_path.write_bytes(b"paper")
+            write_site_state(site_paths(root, "default"), [], [])
+
+            report = build_history_coverage_audit(root, provider_ids=["moex"])
+
+        event = report["providers"][0]["events"][0]
+        self.assertEqual(event["status"], "excluded_by_publication_policy")
+        self.assertEqual(event["policy_eligible_bundle_ids"], [])
+        self.assertEqual(event["policy_excluded_bundle_ids"], ["nurse"])
+        self.assertEqual(report["summary"]["excluded_by_publication_policy"], 1)
+        self.assertEqual(history_audit_exit_code(report, strict=True), 0)
+
     def test_audit_reports_missing_mirror_and_authoritative_source_only_event(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
