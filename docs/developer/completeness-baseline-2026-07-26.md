@@ -1,6 +1,6 @@
 # Completeness Baseline — 2026-07-26
 
-This report records the baseline and bounded corrective cycles, including a final targeted source/identity reconciliation. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
+This report records the baseline and bounded corrective cycles, including a final targeted source/identity reconciliation. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect, and reconciled generated review state. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
 
 ## Executive result
 
@@ -8,7 +8,7 @@ The repository has a working provider-to-frontend pipeline, but the archive is n
 
 - 35 registered providers and 184,817 normalized paper records.
 - 2,932 physical site/release bundle assets, represented as 2,929 logical frontend rows, across 10 release shards after targeted MOEX reconciliation.
-- 0 current sync-failure records, but 896 current MOEX review-queue entries and 4,455 review-confidence records isolated by event.
+- 0 current sync-failure records, but 692 current MOEX review-queue entries and 4,455 review-confidence records isolated by event.
 - 0 event-level download gaps, 151 normalization gaps, 8 normalized-but-not-published events, and 329 explicit publication-policy exclusions after the HCE, MOEX, New Taipei, and TCTE targeted repairs. The policy-aware provider-to-site check finds 2,929 expected and 2,929 actual logical site IDs, with zero missing or extra IDs.
 - only one checked-in source manifest: `data/providers/moex/source-manifest.json`.
 - no complete live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request; bounded probes now provide provider-specific evidence for selected gaps.
@@ -51,14 +51,20 @@ Remote information was fetched with `git fetch --all --prune`; local work was no
 
 | Item | Baseline |
 | --- | --- |
-| Current branch | agent/exam-coverage-and-mirror-dedup; final handoff snapshot |
+| Current branch | `agent/exam-coverage-and-mirror-dedup` |
+| Current checkpoint before this local review-state commit | `c7d6b7f` (`docs quantify WDASEC history blocker`) |
+| Current divergence vs latest fetched main | `6 behind / 19 ahead` (`origin/main...HEAD`) |
+| Current divergence vs tracked upstream | `0 behind / 14 ahead` (`@{upstream}...HEAD`) |
+| Current uncommitted tracked files | `app/audit.py`, `app/normalizer.py`, MOEX review queue, completeness/operator docs, and two focused test files |
+| Current untracked files | `PLAN.md` only (about 40 KB); it remains intentionally preserved and excluded from commits |
+| Large untracked files | None; the 52 GB mirror and 57 GB bundles are ignored operational state, not untracked Git files |
 | Audit starting HEAD | `1bf01863013dffbfc89b5b7d4b49702d38dbec7e` (`fix: repair workflow YAML command scalars`) |
 | Tracked upstream at audit start | `origin/agent/exam-coverage-and-mirror-dedup`; divergence `0 ahead / 0 behind` |
 | Latest fetched main | `origin/main` / `origin/HEAD` at `d3af20f` (`chore: refresh CEEC AST provider data`, 2026-07-25) |
 | Current branch vs latest main at audit start | `5 ahead / 6 behind` |
-| Unique current-branch commits | Snapshot-only; run git rev-list --left-right --count origin/main...HEAD for the live count; see git log for the reviewable commit list |
+| Unique current-branch commits at this checkpoint | 19 relative to latest `origin/main`; 14 relative to tracked upstream; see `git log` for the reviewable list |
 | Unique latest-main commits | `d3af20f`, `4168bea`, `59ed533`, `b197b3f`, `306f10c`, `de3f461` |
-| Corrective-cycle change set | CI/workflow gates, app bundling/publication/history/state logic, the MOEX 2023 provider state and review queue, default-site generated indexes, scripts/validate_publication.py, focused regression tests, and this report; intentionally not published remotely |
+| Corrective-cycle change set | CI/workflow gates, app bundling/publication/history/state logic, MOEX/TCTE/teacher/provider state, generated indexes, review-state reconciliation, focused tests, and completeness/operator reports; intentionally not published remotely |
 | Untracked files at audit baseline | `PLAN.md` only; it remains intentionally preserved and excluded from the corrective-cycle commit |
 | Large ignored operational state | data/ about 374 MB; mirror/ about 52 GB; bundles/ about 57 GB |
 
@@ -73,6 +79,7 @@ At audit start the branch had no unpushed commits relative to its own upstream b
 - A bounded 2026-07-26 teacher-source probe showed that all Central Alliance subject/final pages returned HTTP 200 but every paper row said `已截止` and exposed no file link; the three empty raw events are therefore source-expired evidence, not parser failures. The documented Kaohsiung regular and special endpoints both returned HTTP 404; its stale local special state was preserved and its elementary normalization gap remains an official-endpoint blocker.
 - A live TCTE probe found that the ROC 92–94 official year pages use historical anchor-based layouts with direct paper/answer links. The backwards-compatible parser fix covered 420 normalized records (140, 140, and 140) with zero sync failures and approximately 174 MB of unique payloads; ROC 90–91 remain separate scope items because their answer surfaces are non-per-subject or non-downloadable.
 - A bounded official MOEX refresh of the 148 historical normalization gaps recovered 137 events, added 35,402 normalized records, and produced zero sync failures. Eleven remain evidence-backed source/file blockers: eight official result pages return 查無結果 (094030, 094100, 094200, 094250, 093040, 093090, 093180, 093240), while 093170 has corrected-answer placeholders, 090270 has answer placeholders, and 085210 has a question placeholder.
+- A full offline catalog migration now rebuilds the generated review queue from current papers instead of preserving stale rows. It removed 204 stale MOEX keys (147 legacy rows with empty evidence and 57 rows superseded by current classification), leaving 692 current review keys; the historical 166-key comparison is now 105 high, 60 medium, and 1 review.
 - No public release, deployment, history rewrite, credential use, or remote publication occurred. The ignored mirror/bundle cache is operational state and is not evidence that remote release assets exist.
 
 The scoped Hakka republish failed closed when one official listening ZIP exceeded the 1.9 GB multipart target. The failed, unreferenced 29.8 GB ignored temporary archive was removed; the preserved legacy current-year archive and reconstructed ignored current-year parts remain local, while no release was uploaded. The bundler now preflights source-entry sizes and preserves existing assets before an oversized-entry failure. The publication validator also received a one-line syntax repair that was verified locally.
@@ -81,11 +88,11 @@ The scoped Hakka republish failed closed when one official listening ZIP exceede
 
 | Check | Result | Interpretation |
 | --- | --- | --- |
-| uv run pytest -q | **521 passed, 70 subtests passed** in 1.81 s | Python functional baseline is green. |
-| Standard-library trace over the Python suite | **9,921/9,921 reported app lines** across 116/117 imported app modules | All reported app lines were executed; only app/__main__.py was not imported. This provides no branch coverage or live-source coverage. |
+| uv run pytest -q | **523 passed, 70 subtests passed** in 1.81 s | Python functional baseline is green. |
+| Standard-library trace over the Python suite | **9,973/11,914 executable app lines (83.71%)** across 101 traced app modules | `app/__main__.py` was not imported. This is line coverage only; it provides no branch coverage or live-source coverage. |
 | python3 scripts/validate_publication.py | **Pass after syntax repair**: 2,932 site bundles, 2,929 frontend bundles, 2,932 release assets, 10 schemas; expected and actual logical site IDs both 2,929 | Generated publication shapes and provider-derived public eligibility agree. This is not official-source completeness, remote-asset verification, or proof that oversized Hakka audio is releasable. |
 | python3 -m app plan-release | **Pass**: 2,932 physical bundles across 10 release shards | Local release capacity is within the 900-per-shard target and 1,000-per-shard hard limit. It does not prove remote release assets exist. |
-| python3 -m app audit-catalog | **Pass**: 184,817 records; 4,455 review records; 896 queue entries; 774 mixed legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
+| python3 -m app audit-catalog | **Pass**: 184,817 records; 4,455 review records; 692 queue entries; 774 mixed legacy groups requiring split; 0 stale and 0 missing queue keys | Strict mode passes because all review records have event-specific isolation, no review record is unapproved, and generated queue keys agree with current papers. It is an identity-safety result, not an archive-completeness result. |
 | python3 -m app history-audit | Policy-aware non-strict **pass**; strict **fails** on 151 normalization gaps and 8 normalized-not-published events; 329 events are explicitly excluded by publication policy; download and parser gaps are both 0 | This is the most direct current provider-state/publication gap signal. |
 | `python3 -m app migrate-legacy-state --provider moex --mode verify` | **Pass** | Legacy state verification is green. It does not validate current official-source discovery. |
 | `bash -n .github/scripts/*.sh && git diff --check` | **Pass** | Shell syntax and whitespace gates are green. |
@@ -211,11 +218,11 @@ Comparison against current state:
 | 5,403 failure keys | Every key has a current normalized paper and a valid mirrored payload | **0 still-valid mirror failures; 5,403 resolved at mirror level** |
 | 5,403 failure keys | 5,375 failure rows map to bundle IDs occurring in `data/sites/default/bundles.json` | **5,375 public** |
 | 5,403 failure keys | 28 failure rows map to valid mirrored papers whose logical groups remain outside the current site inventory | **28 policy-excluded publication items**, not active download failures |
-| 166 unique review keys | 149 exact semantic keys remain in the current MOEX review queue | **149 still valid as unresolved review keys** |
-| 166 unique review keys | 17 keys no longer appear as review keys, while their source events remain current | **17 reclassified; not evidence to delete** |
+| 166 unique review keys | 1 exact semantic key remains in the current generated MOEX review queue | **1 still valid as an unresolved review key** |
+| 166 unique review keys | 165 keys remain in current normalized papers and now classify as 105 high and 60 medium | **165 reclassified; no historical key is missing from current papers** |
 | Current failure files | All 35 provider failure files are empty | **No current failure queue**, but this does not prove source completeness |
 
-The current catalog audit’s 4,455 review-confidence records are a broader record-level population than the historical 972 queue rows. Its `approved_review_isolated_records=4,455` and `unapproved_review_records=0` mean the identity policy is fail-safe; they do not mean the records have been semantically mapped or publicly published. The 28 historical failure rows outside the site are consistent with the current single-year publication policy and still require an explicit scope decision.
+The current generated queue has 692 deduplicated evidence keys after removing 204 stale rows (147 legacy rows with empty evidence and 57 rows superseded by current classification). The current catalog audit’s 4,455 review-confidence records are a broader record-level population than the historical 972 queue rows. Its `approved_review_isolated_records=4,455` and `unapproved_review_records=0` mean the identity policy is fail-safe; they do not mean the records have been semantically mapped or publicly published. The 28 historical failure rows outside the site are consistent with the current single-year publication policy and still require an explicit scope decision.
 
 Only MOEX has a current source manifest. For the other providers, the same historical reconciliation cannot be made against a source manifest until provider-scoped manifests or equivalent discovery snapshots exist.
 
@@ -223,7 +230,7 @@ Only MOEX has a current source manifest. For the other providers, the same histo
 
 ### What is covered now
 
-- Python unit/integration tests cover provider parsers, normalization, bundling, catalog audits, workflows, migrations, and storage behavior sufficiently to execute every traced executable app line except `app/__main__.py`.
+- Python unit/integration tests cover provider parsers, normalization, bundling, catalog audits, workflows, migrations, and storage behavior; the refreshed trace observed 9,973/11,914 executable app lines (83.71%) across 101 app modules, with `app/__main__.py` not imported.
 - Pure frontend feed and logic tests cover generated bundle conversion, publication metadata, search-state behavior, and classification helpers when the TypeScript dependency is available.
 - Publication schema and release-capacity validators run in CI and passed locally.
 
@@ -237,7 +244,7 @@ Only MOEX has a current source manifest. For the other providers, the same histo
 - No end-to-end test that loads the generated feed, searches/filter/sorts, reloads a shared URL, and follows a real published download URL.
 - No automated check that remote GitHub release ZIP names/checksums are present and downloadable; local manifests only describe intended assets.
 - No bounded, resumable live-source probe that produces a complete source inventory when one provider stalls.
-- The checked-in provider/site registry documentation is stale in places: several providers are still labeled planned and some recorded test/coverage counts predate the current 521-test state.
+- The checked-in provider/site registry documentation is stale in places: several providers are still labeled planned and some recorded test/coverage counts predate the current 523-test state.
 
 ## Deployment and gate gaps
 
@@ -257,7 +264,7 @@ The remaining weaknesses are:
 1. Decide and document whether the 444 current-year MOEX records excluded by the two-year site policy are intentionally outside the public scope or need a narrow current-year publication exception. Preserve all source records; do not reset or prune while investigating.
 2. Add a provider-scoped discovery/manifest contract for every active provider, including source URL, probe timestamp, discovered years/events, file-level eligibility, blocked response evidence, and explicit exclusions.
 3. Keep the event-level completeness ledger as the denominator for history-audit strict mode: covered, blocked, or explicitly excluded, with no unknown events.
-4. Resolve the 149 still-valid historical review keys and the current 896-entry review queue through authoritative mappings or explicit documented isolation decisions. Do not merge review records into confident bundles merely to make a count green.
+4. Resolve the 1 still-valid historical review key and the current 692-entry review queue through authoritative mappings or explicit documented isolation decisions. Do not merge review records into confident bundles merely to make a count green.
 5. Add aggregate publication and integrity gates to provider refresh workflows, or make them produce a clearly marked pending-publication change that cannot be mistaken for a released catalog.
 
 ### P1 — source and data-quality reconciliation
@@ -293,7 +300,7 @@ The completeness goal should be considered achieved only when all of the followi
 1. The source matrix names every discovered official source, provider owner, category, URL, source year/event range, local range, legal review state, and status. Every row is `covered`, `blocked with evidence`, or `intentionally out of scope with a reason`; no row is `unknown`.
 2. Every active provider has a current provider-scoped manifest or an equivalent signed/generated discovery snapshot. For each source event, the ledger can show raw page, eligible files, mirror checksum, normalized identity, public bundle, and release asset—or the precise blocked/excluded reason.
 3. `history-audit --strict` passes with `download_gap=0`, `normalization_gap=0`, `normalized_not_published=0`, and `parser_gap=0` after approved blocked/excluded items are represented explicitly outside the covered denominator.
-4. `audit-catalog --strict` passes with no unapproved review records, no unexplained mixed legacy groups, and a documented disposition for every review-confidence record. A review-isolated record is not counted as complete unless its source scope and public visibility are also resolved.
+4. `audit-catalog --strict` passes with no unapproved review records, no stale or missing review-queue keys, no unexplained mixed legacy groups, and a documented disposition for every review-confidence record. A review-isolated record is not counted as complete unless its source scope and public visibility are also resolved.
 5. Current provider state, site bundles, frontend feed, release-assets metadata, and actual remote release assets agree exactly for all covered records. The site/frontend set equality and release checksums are verified in CI.
 6. MOEX 2025 and 2026 manifest counts, source events, normalized papers, site bundles, and release assets reconcile with zero empty-code-list or stale-publication discrepancies; any single-year exclusions are explicit, measured, and approved.
 7. Teacher recruitment rows meet their declared scope: current-year providers contain all eligible official paper/answer files for the reviewed year, historical providers contain every documented source year, and watch/reject rows have evidence.
@@ -318,7 +325,7 @@ The completeness goal should be considered achieved only when all of the followi
 ## Safest branch and release strategy
 
 1. Keep the audit branch and its pre-existing `PLAN.md` intact as the baseline reference. The current corrective cycle is a reviewable local change on this branch; do not rebase it in place.
-2. After reviewing the ten-versus-six commit divergence, create a fresh implementation branch from fetched `origin/main` (`d3af20f`). Port only intentionally selected changes by review/cherry-pick; do not merge generated data blindly.
+2. After reviewing the current `19 ahead / 6 behind` divergence from `origin/main` (`14 ahead` of the tracked upstream branch), create a fresh implementation branch from fetched `origin/main` (`d3af20f`). Port only intentionally selected changes by review/cherry-pick; do not merge generated data blindly.
 3. Work in small provider/gate pull requests. Keep source-scope/manifest changes separate from generated mirror/bundle refreshes and from frontend changes.
 4. Run the full CI contract before any source sync that could change `data/sites/default`, `bundles/`, or release metadata. Treat provider-only refreshes as pending until aggregate publication and release checks pass.
 5. Use a dedicated data/release change only after source manifests, normalization review, mirror checksums, site publication, release planning, and remote asset coverage agree. Merge to `main` through CI; let GitHub Pages deploy only the green merge commit.

@@ -14,10 +14,11 @@ from typing import Any
 
 from app.bundler import _bundle_asset_name, _legacy_asset_names
 from app.classification import classify_normalized_paper, identity_fields
+from app.models import BundleAsset, NormalizedCatalog
+from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
 from app.release_tags import GITHUB_RELEASE_ASSET_LIMIT, RELEASE_SAFETY_TARGET, assign_release_tags, physical_asset_names, strip_ambiguous_legacy_assets, validate_release_capacity
 from app.site_registry import get_site_config
-from app.models import BundleAsset
 from app.state import load_provider_state, load_site_bundles
 
 
@@ -27,6 +28,10 @@ def _jsonify_signature(value: dict[str, Any]) -> dict[str, Any]:
         "source_exam_ids": sorted(value["source_exam_ids"]),
         "raw_categories": sorted(value["raw_categories"]),
     }
+
+
+def _review_key(item: Any) -> tuple[str, str, str]:
+    return (item.provider_id, item.source_exam_id, item.raw_category)
 
 
 def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[str, Any]:
@@ -67,6 +72,13 @@ def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[st
             entry["raw_categories"].add(paper.category_raw)
             if any(getattr(paper, field, None) != value for field, value in fields.items()):
                 entry["records_needing_v2_rewrite"] += 1
+        rebuilt_queue = renormalize_catalog(
+            NormalizedCatalog(papers=catalog.papers, review_queue=[]),
+            load_alias_rules(provider.aliases_path),
+            collect_reviews=True,
+        ).review_queue
+        current_review_keys = {_review_key(item) for item in catalog.review_queue}
+        rebuilt_review_keys = {_review_key(item) for item in rebuilt_queue}
         all_review_items.extend(catalog.review_queue)
         provider_reports.append(
             {
@@ -78,6 +90,10 @@ def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[st
                 "classification_confidence": dict(sorted(confidence_counts.items())),
                 "sync_failure_count": len(failures),
                 "review_queue_count": len(catalog.review_queue),
+                "review_queue_stale_entries": len(current_review_keys - rebuilt_review_keys),
+                "review_queue_missing_entries": len(rebuilt_review_keys - current_review_keys),
+                "review_queue_stale_keys": [list(key) for key in sorted(current_review_keys - rebuilt_review_keys)],
+                "review_queue_missing_keys": [list(key) for key in sorted(rebuilt_review_keys - current_review_keys)],
                 "signatures": [
                     _jsonify_signature(value)
                     for value in sorted(signatures.values(), key=lambda item: item["signature"])
@@ -252,6 +268,8 @@ def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[st
         "records_with_identity": records_with_identity,
         "records_needing_review": review_records,
         "review_queue_entries": len(all_review_items),
+        "review_queue_stale_entries": sum(report["review_queue_stale_entries"] for report in provider_reports),
+        "review_queue_missing_entries": sum(report["review_queue_missing_entries"] for report in provider_reports),
         "review_isolation_policy": "event-specific-review-bundle-v1",
         "approved_review_isolated_records": approved_review_isolated_records,
         "unapproved_review_records": unapproved_review_records,
@@ -281,7 +299,12 @@ def write_catalog_audit(report: dict[str, Any], output: Path) -> None:
 def audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
     if not strict:
         return 0
-    return 1 if report["unapproved_review_records"] or not report["all_records_covered"] else 0
+    return 1 if (
+        report["unapproved_review_records"]
+        or report["review_queue_stale_entries"]
+        or report["review_queue_missing_entries"]
+        or not report["all_records_covered"]
+    ) else 0
 
 
 def build_release_plan(repo_root: Path, *, site_id: str = "default", release_tag_prefix: str | None = None) -> dict[str, Any]:
