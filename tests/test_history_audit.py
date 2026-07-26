@@ -72,6 +72,7 @@ class HistoryAuditTests(unittest.TestCase):
         self.assertEqual(event["policy_excluded_bundle_ids"], ["nurse"])
         self.assertEqual(report["summary"]["excluded_by_publication_policy"], 1)
         self.assertEqual(history_audit_exit_code(report, strict=True), 0)
+        self.assertEqual(history_audit_exit_code({"summary": {"normalized_not_published": 1}}, strict=True), 1)
 
     def test_audit_reports_missing_mirror_and_authoritative_source_only_event(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
