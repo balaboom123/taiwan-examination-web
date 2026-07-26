@@ -147022,12 +147022,12 @@
       "years": [
         115
       ],
-      "file_count": 4,
+      "file_count": 5,
       "storage_key": "bundles/sites/default/teacher-recruit-newtaipei-teacher-recruitment-not-applicable-teacher-recruit-newtaipei--b6acc48d8748.zip",
       "asset_name": "teacher-recruit-newtaipei-teacher-recruitment-not-applicable-teacher-recruit-newtaipei--b6acc48d8748.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/teacher-recruit-newtaipei-teacher-recruitment-not-applicable-teacher-recruit-newtaipei--b6acc48d8748.zip",
-      "checksum": "0bc7c28f73626ff9a1327c6036d94140969e049ab1227dc8409deafb515d3641",
+      "checksum": "8cf838c707dc7d7b6eb835d647fd2586ef9ced58a5e366184f3be9acb2f376ef",
       "legacy_asset_names": [
         "新北市教師甄試__teacher-recruit-newtaipei-teacher-recruitment-not-applicable-teacher-recruit-new.zip",
         "teacher-recruit-newtaipei-teacher-recruitment-not-applicable-teacher-recruit-new.zip"
@@ -147051,11 +147051,13 @@
         "新北市115學年度國民小學暨幼兒園教師甄選",
         "新北市立國民中學115學年度教師聯合甄選",
         "新北市115學年度公立幼兒園契約進用教保員甄選",
+        "新北市公立高級中等學校115學年度教師聯合甄選",
         "115學年度新北市教師甄試",
         "115",
         "elementary-kindergarten",
         "junior",
-        "preschool"
+        "preschool",
+        "senior"
       ],
       "subject_labels": [],
       "legacy_canonical_ids": []

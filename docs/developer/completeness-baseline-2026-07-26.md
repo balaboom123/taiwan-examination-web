@@ -1,15 +1,15 @@
 # Completeness Baseline — 2026-07-26
 
-This report records the baseline, two bounded corrective cycles, and a final targeted source/identity reconciliation. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
+This report records the baseline and bounded corrective cycles, including a final targeted source/identity reconciliation. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
 
 ## Executive result
 
 The repository has a working provider-to-frontend pipeline, but the archive is not complete under the requested definition. The current snapshot has:
 
-- 35 registered providers and 148,994 normalized paper records.
+- 35 registered providers and 148,995 normalized paper records.
 - 2,421 physical site/release bundle assets, represented as 2,418 logical frontend rows, across 9 release shards after targeted MOEX reconciliation.
 - 0 current sync-failure records, but 653 current MOEX review-queue entries and 2,989 review-confidence records isolated by event.
-- 0 event-level download gaps, 292 normalization gaps, 8 normalized-but-not-published events, and 275 explicit publication-policy exclusions after the HCE and MOEX targeted repairs. The policy-aware provider-to-site check finds 2,418 expected and 2,418 actual logical site IDs, with zero missing or extra IDs.
+- 0 event-level download gaps, 291 normalization gaps, 8 normalized-but-not-published events, and 275 explicit publication-policy exclusions after the HCE, MOEX, and New Taipei targeted repairs. The policy-aware provider-to-site check finds 2,418 expected and 2,418 actual logical site IDs, with zero missing or extra IDs.
 - only one checked-in source manifest: `data/providers/moex/source-manifest.json`.
 - no completed live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request.
 
@@ -39,7 +39,7 @@ Official/public access is not the same as a redistribution license. The reposito
 | Official source discovery | app/providers/base.py defines discovery, page fetch, HEAD, and download contracts. Provider clients implement source-specific HTML/API/WebForms parsing. MOEX has a versioned source manifest; the other 34 providers do not. | Without a manifest or equivalent discovery evidence for every provider, missing years and newly published files cannot be distinguished from intentional scope. |
 | Probe and change detection | `app/probe.py` and `app/history_audit.py` compare source events and local state. `history-audit --probe-sources` can call live discovery. | The live run was stopped at `ceec_gsat` after a 60-second URL-opening wait; there is no complete current external-source inventory. |
 | Mirroring | `app/sync.py` validates file signatures, records checksums, reuses valid files, and writes provider-scoped mirrors. `app/storage.py` uses SHA-256 and a dedupe index. | The mirror is about 52 GB and is ignored operational state. Current failure queues are empty, but historical failure provenance must be retained separately. |
-| Normalization and identity | app/normalizer.py emits NormalizedPaper records and review candidates. app/classification.py derives exam identity v2 dimensions and isolates unresolved evidence by event. | 2,989 records still have review confidence; 292 events have normalization gaps. A passing review-isolation audit means records are safely separated, not semantically resolved. |
+| Normalization and identity | app/normalizer.py emits NormalizedPaper records and review candidates. app/classification.py derives exam identity v2 dimensions and isolates unresolved evidence by event. | 2,989 records still have review confidence; 291 events have normalization gaps. A passing review-isolation audit means records are safely separated, not semantically resolved. |
 | Bundling | `app/bundler.py` groups by v2 bundle ID, preserves legacy entries, validates mirror inputs, splits oversized archives, and applies site year policy. | The current default site is deliberately multi-year for most bundles. Provider state can contain valid single-year or unprojected bundles that are not public. |
 | Site publication and release projection | app/publisher.py aggregates the 35 providers, filters by site policy, assigns v2 release tags, and writes data/sites/default/. app/bundler.py and scripts/validate_publication.py share the public-year eligibility rule. Targeted state selection now uses bundle_id for v2 records and canonical_id only for legacy records; a regression covers shared legacy IDs across independent v2 groups. | The current snapshot has zero provider-derived logical IDs missing from or extra in the site inventory, but event-level history gaps remain. Local release planning does not verify that remote GitHub release assets actually exist. |
 | Frontend display | `frontend/src/` consumes `frontend-bundles.json`; `frontend/build/` contains generated-feed and pure-logic tests. `App.tsx` supplies search, filters, sorting, pagination, and download rows. | There are no source-level component tests, browser tests, accessibility tests, or end-to-end tests. |
@@ -68,6 +68,7 @@ At audit start the branch had no unpushed commits relative to its own upstream b
 
 - A read-only WDASEC adapter fetch of official session 202411040001 returned 207 paper rows. A temporary normal-pipeline refresh of all six 2024 sessions returned 453 normalized papers, 422 valid mirrored payloads, zero failures, and approximately 415 MB. This is evidence that the 134 older raw WDASEC sessions are accessible stale coverage, not parser/download failures.
 - A full Hakka historical publication attempt failed closed on one 2,094,415,387-byte listening ZIP, above the 1,900,000,000-byte multipart target. The failure exposed a bundler safety defect: stale parts could be removed before entry-size validation. The fix and regression test now validate source sizes before writing and preserve existing assets on failure.
+- A read-only New Taipei list/detail/token probe found one official senior-teacher question/answer paper. The normal pipeline mirrored and normalized it with zero failures or review records, and a targeted local publication updated the existing bundle to five papers (20,542,479 bytes); history changed from 292 to 291 normalization gaps and from 716 to 717 completed events.
 - No public release, deployment, history rewrite, credential use, or remote publication occurred. The ignored mirror/bundle cache is operational state and is not evidence that remote release assets exist.
 
 The scoped Hakka republish failed closed when one official listening ZIP exceeded the 1.9 GB multipart target. The failed, unreferenced 29.8 GB ignored temporary archive was removed; the preserved legacy current-year archive and reconstructed ignored current-year parts remain local, while no release was uploaded. The bundler now preflights source-entry sizes and preserves existing assets before an oversized-entry failure. The publication validator also received a one-line syntax repair that was verified locally.
@@ -80,8 +81,8 @@ The scoped Hakka republish failed closed when one official listening ZIP exceede
 | Standard-library trace over the Python suite | **9,865/9,865 reported app lines** across 116/117 imported app modules | All reported app lines were executed; only app/__main__.py was not imported. This provides no branch coverage or live-source coverage. |
 | python3 scripts/validate_publication.py | **Pass after syntax repair**: 2,421 site bundles, 2,418 frontend bundles, 2,421 release assets, 10 schemas; expected and actual logical site IDs both 2,418 | Generated publication shapes and provider-derived public eligibility agree. This is not official-source completeness, remote-asset verification, or proof that oversized Hakka audio is releasable. |
 | python3 -m app plan-release | **Pass**: 2,421 physical bundles across 9 release shards | Local release capacity is within the 900 target and 1,000 hard limit. It does not prove remote release assets exist. |
-| python3 -m app audit-catalog | **Pass**: 148,994 records; 2,989 review records; 653 queue entries; 667 mixed legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
-| python3 -m app history-audit | Policy-aware non-strict **pass**; strict **fails** on 292 normalization gaps and 8 normalized-not-published events; 275 events are explicitly excluded by publication policy; download and parser gaps are both 0 | This is the most direct current provider-state/publication gap signal. |
+| python3 -m app audit-catalog | **Pass**: 148,995 records; 2,989 review records; 653 queue entries; 667 mixed legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
+| python3 -m app history-audit | Policy-aware non-strict **pass**; strict **fails** on 291 normalization gaps and 8 normalized-not-published events; 275 events are explicitly excluded by publication policy; download and parser gaps are both 0 | This is the most direct current provider-state/publication gap signal. |
 | `python3 -m app migrate-legacy-state --provider moex --mode verify` | **Pass** | Legacy state verification is green. It does not validate current official-source discovery. |
 | `bash -n .github/scripts/*.sh && git diff --check` | **Pass** | Shell syntax and whitespace gates are green. |
 | Direct Node test runner | **11 passed, 2 failed of 13** | The two failures are `exam-classification` and `search-state`, both unable to import `typescript` because dependencies are not installed. |
@@ -124,7 +125,7 @@ Python linting is not configured in `pyproject.toml` or CI. The repository has P
 | `teacher_qual` | `https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx` | National teacher qualification exam | Source selector ROC 094–115 / AD 2005–2026 | 2005–2026, 22 buckets; 23 → 23 | **Covered in declared scope** | ASP.NET WebForms postbacks; 2018 is a format transition and 2017 is sample-only. Those semantics must remain visible in any completeness metric. |
 | `teacher_recruit_central_alliance` | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` | Central-region annual teacher-selection question/answer site | Current 115 school year / AD 2026 only | 2026; 3 → 0 | **Partial / parser blocker** | Annual vendor domain; official provenance comes from Taichung, Keelung, and Hsinchu sources. Current raw events produced no normalized papers. |
 | `teacher_recruit_kaohsiung` | `https://exam.kh.edu.tw/teaexam/` | Kaohsiung elementary and special-education teacher recruitment | Current 2026 scope | 2026; 2 → 2 | **Partial** | ZIP/PDF question and answer files; lists, venues, vacancies, brochures, duplicates, and teaching-demo topics are intentionally skipped. One normalization gap remains. |
-| `teacher_recruit_newtaipei` | `https://career.ntpc.edu.tw/module/newtea/module/newtea/ap/out-announce?c=01` | New Taipei education-personnel joint-selection written papers | Current 2026 scope | 2026; 4 → 4 | **Partial** | Public list/detail/token API; teaching-demo, score, and list notices are skipped. One normalization gap remains. |
+| `teacher_recruit_newtaipei` | `https://career.ntpc.edu.tw/module/newtea/module/newtea/ap/out-announce?c=01` | New Taipei education-personnel joint-selection written papers | Current 2026 scope | 2026; 4 → 5 | **Covered, current-year scope** | Public list/detail/token API; the targeted 2026 senior-teacher paper refresh now leaves all four retained events complete. Teaching-demo, score, and list notices remain intentionally skipped. |
 | `teacher_recruit_tainan` | `https://qualify.tn.edu.tw/trexamps/` | Tainan elementary and pre-K special-ed teacher recruitment | Current 2026 scope | 2026; 1 → 3 | **Covered, current-year scope** | Historical reconstruction is intentionally excluded until a stable official archive is found. |
 | `teacher_recruit_taipei_elementary` | `https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2` | Taipei elementary teacher joint recruitment | Reviewed 114 school year / AD 2025 | 2025; 1 → 12 | **Covered, reviewed current-year scope** | Fixed official article map; city-wide news listing is not treated as an archive. |
 | `teacher_recruit_taipei_junior` | `https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48` | Taipei junior-high formal teacher recruitment | Reviewed 2024–2025 | 2024–2025; 2 → 68 | **Covered in reviewed scope** | Fixed official article map; no automatic future-year discovery until a stable endpoint exists. |
@@ -161,7 +162,7 @@ Teacher recruitment is correctly described as partial. The repository currently 
 The immediate data defects are:
 
 - `teacher_recruit_central_alliance`: 3 raw current-year events, 0 normalized papers.
-- `teacher_recruit_newtaipei`: 1 normalization-gap event.
+- `teacher_recruit_newtaipei`: no remaining normalization-gap event in the reviewed 2026 scope; the targeted refresh added the senior-teacher paper and answer asset.
 - `teacher_recruit_kaohsiung`: 1 normalization-gap event.
 - Current-year-only scope for Taipei elementary, Taoyuan, Tainan, New Taipei, Kaohsiung, and Central Alliance is intentional, but must remain visible in completion metrics.
 
@@ -232,7 +233,7 @@ Only MOEX has a current source manifest. For the other providers, the same histo
 - No end-to-end test that loads the generated feed, searches/filter/sorts, reloads a shared URL, and follows a real published download URL.
 - No automated check that remote GitHub release ZIP names/checksums are present and downloadable; local manifests only describe intended assets.
 - No bounded, resumable live-source probe that produces a complete source inventory when one provider stalls.
-- The checked-in provider/site registry documentation is stale in places: several providers are still labeled planned and some recorded test/coverage counts predate the current 518-test state.
+- The checked-in provider/site registry documentation is stale in places: several providers are still labeled planned and some recorded test/coverage counts predate the current 520-test state.
 
 ## Deployment and gate gaps
 
@@ -257,8 +258,8 @@ The remaining weaknesses are:
 
 ### P1 — source and data-quality reconciliation
 
-1. Repair Central Alliance teacher parsing and the New Taipei/Kaohsiung normalization gaps.
-2. Resolve the 292 normalization-gap events and 8 normalized-not-published Hakka events; separately disposition the WDASEC historical payload cost and oversized Hakka audio before treating them as releasable coverage. The 275 policy-excluded events must remain evidence-backed.
+1. Repair Central Alliance teacher parsing and investigate the Kaohsiung normalization gap/source endpoint.
+2. Resolve the 291 normalization-gap events and 8 normalized-not-published Hakka events; separately disposition the WDASEC historical payload cost and oversized Hakka audio before treating them as releasable coverage. The 275 policy-excluded events must remain evidence-backed.
 3. Reconcile the 667 mixed legacy groups requiring split and document the current physical/logical distinction: 2,421 physical assets, 2,418 logical IDs, with the policy-aware expected logical set equal to the site set.
 4. Decide ownership of the exact 370-record/370-checksum duplication between `moea_recruit` and `taipower_recruit`.
 5. Refresh stale provider specifications and the human registry so documented source scope, current year ranges, and test counts match executable state.
@@ -304,7 +305,7 @@ The completeness goal should be considered achieved only when all of the followi
 - **Publication policy:** Should valid single-year bundles be public, or is the current multi-year default policy still intentional? This directly affects how source coverage and public coverage are reported.
 - **Legal posture:** Is there an approved basis for redistributing official PDFs/audio in GitHub releases, or should the project store metadata/links only for some providers?
 - **Release capacity:** Is the current GitHub Release/Pages architecture acceptable as the archive grows toward the 900-asset safety target and tens of gigabytes of local operational state? The official Hakka audio blocker and WDASEC historical refresh make this a current scope decision, not a future-only concern?
-- **Integrity gate:** The strict event-level audit still fails on 292 normalization gaps and 8 normalized-not-published Hakka events; download and parser gaps are 0, and 275 events are explicitly policy-excluded. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
+- **Integrity gate:** The strict event-level audit still fails on 291 normalization gaps and 8 normalized-not-published Hakka events; download and parser gaps are 0, and 275 events are explicitly policy-excluded. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
 - **Branch integration:** Should the local commits unique to `agent/exam-coverage-and-mirror-dedup` be intentionally ported onto latest `origin/main`, or should implementation start from latest main and preserve this branch only as an audit reference?
 
 ## Safest branch and release strategy
