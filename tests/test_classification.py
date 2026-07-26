@@ -48,6 +48,18 @@ class ExamIdentityClassificationTests(unittest.TestCase):
         self.assertIn("cross-strait-group-2", group_two.variant_ids)
         self.assertNotEqual(group_one.bundle_id, group_two.bundle_id)
 
+    def test_source_event_marker_resolves_worker_promotion_level(self) -> None:
+        worker_promotion = classify(
+            "常務工",
+            "082年交通事業鐵路人員差工晉升士級考試",
+            source="082040",
+        )
+
+        self.assertEqual(worker_promotion.exam_series_id, "civil-promotion")
+        self.assertEqual(worker_promotion.level_id, "promotion-worker-rank")
+        self.assertEqual(worker_promotion.confidence, "medium")
+        self.assertIn("source event marker", worker_promotion.reason)
+
     def test_non_moex_levels_use_provider_specific_hierarchy(self) -> None:
         gept = classify("中高級", "全民英檢", provider="gept_cert", canonical="gept-cert", subject="中高級")
         jlpt = classify("N2", "日本語能力試驗", provider="jlpt_cert", canonical="jlpt-cert", subject="N2")

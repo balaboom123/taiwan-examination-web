@@ -20,6 +20,7 @@
     {"id": "moex.civil.elementary", "match": ["初等考試", "初考"], "level_id": "elementary", "confidence": "high"},
     {"id": "moex.promotion.rank", "match": ["薦任", "委任", "簡任", "高員級", "員級", "佐級"], "level_id": "provider-specific rank id", "confidence": "high"},
     {"id": "moex.promotion.transition", "match": ["士晉佐", "佐晉員", "員晉高員"], "level_id": "provider-specific transition id", "confidence": "high"},
+    {"id": "moex.promotion.worker-rank", "match": ["晉升士級"], "level_id": "promotion-worker-rank", "confidence": "medium", "source": "official event title marker", "source_event_ids": ["082040", "082260", "084190", "084200", "084230", "085050", "085300", "086250"]},
     {"id": "moex.qualification", "match": ["高等檢定", "普通檢定", "中醫師檢定"], "level_id": "qualification level id", "confidence": "high"},
     {"id": "moex.professional.high", "match": ["專門職業及技術人員高等考試", "高考_專業類科"], "level_id": "professional-high", "confidence": "high"},
     {"id": "moex.professional.screening", "match": ["檢覈筆試", "專技檢覈"], "level_id": "professional-screening", "confidence": "medium"},
