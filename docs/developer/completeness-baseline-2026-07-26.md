@@ -56,13 +56,13 @@ Remote information was fetched with `git fetch --all --prune`; local work was no
 | Tracked upstream at audit start | `origin/agent/exam-coverage-and-mirror-dedup`; divergence `0 ahead / 0 behind` |
 | Latest fetched main | `origin/main` / `origin/HEAD` at `d3af20f` (`chore: refresh CEEC AST provider data`, 2026-07-25) |
 | Current branch vs latest main at audit start | `5 ahead / 6 behind` |
-| Unique current-branch commits | 10 commits ahead of origin/main at final handoff; see git log for the reviewable commit list |
+| Unique current-branch commits | 11 commits ahead of origin/main at final handoff; see git log for the reviewable commit list |
 | Unique latest-main commits | `d3af20f`, `4168bea`, `59ed533`, `b197b3f`, `306f10c`, `de3f461` |
 | Corrective-cycle change set | CI/workflow gates, app bundling/publication/history/state logic, the MOEX 2023 provider state and review queue, default-site generated indexes, scripts/validate_publication.py, focused regression tests, and this report; intentionally not published remotely |
 | Untracked files at audit baseline | `PLAN.md` only; it remains intentionally preserved and excluded from the corrective-cycle commit |
 | Large ignored operational state | data/ about 301 MB; mirror/ about 52 GB; bundles/ about 78 GB |
 
-At audit start the branch had no unpushed commits relative to its own upstream but was five commits ahead and six behind the fetched latest main. The four corrective commits and this final report update are kept as local reviewable commits; at final handoff the branch is 5 commits ahead of its tracked upstream and 10 ahead / 6 behind origin/main. Do not merge, rebase, reset, or cherry-pick until the divergence has been reviewed.
+At audit start the branch had no unpushed commits relative to its own upstream but was five commits ahead and six behind the fetched latest main. At final handoff the branch is 6 commits ahead of its tracked upstream and 11 ahead / 6 behind origin/main. The checkpoint is local and reviewable; do not merge, rebase, reset, or cherry-pick until the divergence has been reviewed.
 
 The attempted full local republish was interrupted before the Hakka bundle completed because it was consuming substantial ignored disk state; no tracked site metadata was damaged by that attempt. The subsequent targeted plans completed, and an unreferenced ignored Hakka base ZIP remains alongside the referenced multipart assets; it was not deleted. The final targeted MOEX plan was rerun with identity-derived bundle keys after the defect fix.
 
@@ -299,7 +299,7 @@ The completeness goal should be considered achieved only when all of the followi
 - **Legal posture:** Is there an approved basis for redistributing official PDFs/audio in GitHub releases, or should the project store metadata/links only for some providers?
 - **Release capacity:** Is the current GitHub Release/Pages architecture acceptable as the archive grows toward the 900-asset safety target and tens of gigabytes of local operational state?
 - **Integrity gate:** The strict event-level audit still fails on 292 normalization gaps and 8 normalized-not-published Hakka events; download and parser gaps are 0, and 275 events are explicitly policy-excluded. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
-- **Branch integration:** Should the ten commits unique to `agent/exam-coverage-and-mirror-dedup` be intentionally ported onto latest `origin/main`, or should implementation start from latest main and preserve this branch only as an audit reference?
+- **Branch integration:** Should the eleven commits unique to `agent/exam-coverage-and-mirror-dedup` be intentionally ported onto latest `origin/main`, or should implementation start from latest main and preserve this branch only as an audit reference?
 
 ## Safest branch and release strategy
 
