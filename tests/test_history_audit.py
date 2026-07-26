@@ -49,7 +49,7 @@ class HistoryAuditTests(unittest.TestCase):
                 category_code="101",
                 source_exam_id="115030",
                 subject_code="0101",
-                storage_key="providers/moex/115/115030/101/0101/question.pdf",
+                storage_key="115/115030/101/0101/question.pdf",
             )
             write_provider_state(
                 provider,
@@ -59,7 +59,7 @@ class HistoryAuditTests(unittest.TestCase):
                 failures=[],
                 manifest=None,
             )
-            mirror_path = root / "mirror" / paper.storage_key
+            mirror_path = root / "mirror" / "providers" / "moex" / paper.storage_key
             mirror_path.parent.mkdir(parents=True, exist_ok=True)
             mirror_path.write_bytes(b"paper")
             write_site_state(site_paths(root, "default"), [], [])

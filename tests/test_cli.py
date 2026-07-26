@@ -857,9 +857,11 @@ class CliCommandTests(unittest.TestCase):
                         storage_key="bundles/sites/default/nurse.zip",
                         asset_name="nurse.zip",
                         legacy_asset_names=["nurse-display.zip"],
+                        bundle_id="bundle-nurse",
+                        schema_version=2,
                     )
                 ],
-                {"nurse"},
+                {"bundle-nurse"},
                 "default-bundles-001",
             )
 

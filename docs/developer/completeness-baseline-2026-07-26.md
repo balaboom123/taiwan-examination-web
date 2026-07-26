@@ -1,19 +1,19 @@
 # Completeness Baseline — 2026-07-26
 
-This report records the baseline and two bounded corrective cycles. Baseline inspection was read-only; the cycle then regenerated only the targeted default-site publication projection and added validation/deployment gates. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
+This report records the baseline, two bounded corrective cycles, and a final targeted source/identity reconciliation. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.
 
 ## Executive result
 
 The repository has a working provider-to-frontend pipeline, but the archive is not complete under the requested definition. The current snapshot has:
 
-- 35 registered providers and 147,514 normalized paper records.
-- 2,410 physical site/release bundle assets, represented as 2,407 logical frontend rows, across 8 release shards after targeted MOEX reconciliation.
-- 0 current sync-failure records, but 649 current MOEX review-queue entries and 2,989 review-confidence records isolated by event.
-- 489 event-level download gaps, 299 normalization gaps, 8 normalized-but-not-published events, and 18 explicit publication-policy exclusions after the HCE and MOEX targeted repairs. The policy-aware provider-to-site check still finds 2,407 expected and 2,407 actual logical site IDs, with zero missing or extra IDs.
+- 35 registered providers and 148,994 normalized paper records.
+- 2,421 physical site/release bundle assets, represented as 2,418 logical frontend rows, across 9 release shards after targeted MOEX reconciliation.
+- 0 current sync-failure records, but 653 current MOEX review-queue entries and 2,989 review-confidence records isolated by event.
+- 0 event-level download gaps, 292 normalization gaps, 8 normalized-but-not-published events, and 275 explicit publication-policy exclusions after the HCE and MOEX targeted repairs. The policy-aware provider-to-site check finds 2,418 expected and 2,418 actual logical site IDs, with zero missing or extra IDs.
 - only one checked-in source manifest: `data/providers/moex/source-manifest.json`.
 - no completed live source probe: the serial probe was stopped after it blocked at the CEEC GSAT discovery request.
 
-The current source state and the current public projection are therefore different completeness questions. MOEX 2025 and 2026 data are present locally, all policy-eligible multi-year groups are now in the site inventory, and 517 records remain excluded by the documented two-year public-bundle policy. Generated-manifest agreement alone is not evidence that every official source item is public or that the source itself has been exhaustively discovered.
+The current source state and the current public projection are therefore different completeness questions. MOEX 2025 and 2026 data are present locally; the remaining 2025-2026 groups absent from the site are 35 and 13 one-year groups containing 339 and 105 records, respectively, under the documented two-year public-bundle policy. Separate normalization gaps remain. Generated-manifest agreement alone is not evidence that every official source item is public or that the source itself has been exhaustively discovered.
 
 The practical definition of complete for this project is:
 
@@ -39,9 +39,9 @@ Official/public access is not the same as a redistribution license. The reposito
 | Official source discovery | app/providers/base.py defines discovery, page fetch, HEAD, and download contracts. Provider clients implement source-specific HTML/API/WebForms parsing. MOEX has a versioned source manifest; the other 34 providers do not. | Without a manifest or equivalent discovery evidence for every provider, missing years and newly published files cannot be distinguished from intentional scope. |
 | Probe and change detection | `app/probe.py` and `app/history_audit.py` compare source events and local state. `history-audit --probe-sources` can call live discovery. | The live run was stopped at `ceec_gsat` after a 60-second URL-opening wait; there is no complete current external-source inventory. |
 | Mirroring | `app/sync.py` validates file signatures, records checksums, reuses valid files, and writes provider-scoped mirrors. `app/storage.py` uses SHA-256 and a dedupe index. | The mirror is about 52 GB and is ignored operational state. Current failure queues are empty, but historical failure provenance must be retained separately. |
-| Normalization and identity | `app/normalizer.py` emits `NormalizedPaper` records and review candidates. `app/classification.py` derives exam identity v2 dimensions and isolates unresolved evidence by event. | 2,989 records still have review confidence; 299 events have normalization gaps. A passing review-isolation audit means records are safely separated, not semantically resolved. |
+| Normalization and identity | app/normalizer.py emits NormalizedPaper records and review candidates. app/classification.py derives exam identity v2 dimensions and isolates unresolved evidence by event. | 2,989 records still have review confidence; 292 events have normalization gaps. A passing review-isolation audit means records are safely separated, not semantically resolved. |
 | Bundling | `app/bundler.py` groups by v2 bundle ID, preserves legacy entries, validates mirror inputs, splits oversized archives, and applies site year policy. | The current default site is deliberately multi-year for most bundles. Provider state can contain valid single-year or unprojected bundles that are not public. |
-| Site publication and release projection | `app/publisher.py` aggregates the 35 providers, filters by site policy, assigns v2 release tags, and writes `data/sites/default/`. `app/bundler.py` and `scripts/validate_publication.py` now share the public-year eligibility rule. `app/release_tags.py` targets 900 physical assets and hard-fails at 1,000. | The current snapshot has zero provider-derived logical IDs missing from or extra in the site inventory, but event-level history gaps remain. Local release planning does not verify that remote GitHub release assets actually exist. |
+| Site publication and release projection | app/publisher.py aggregates the 35 providers, filters by site policy, assigns v2 release tags, and writes data/sites/default/. app/bundler.py and scripts/validate_publication.py share the public-year eligibility rule. Targeted state selection now uses bundle_id for v2 records and canonical_id only for legacy records; a regression covers shared legacy IDs across independent v2 groups. | The current snapshot has zero provider-derived logical IDs missing from or extra in the site inventory, but event-level history gaps remain. Local release planning does not verify that remote GitHub release assets actually exist. |
 | Frontend display | `frontend/src/` consumes `frontend-bundles.json`; `frontend/build/` contains generated-feed and pure-logic tests. `App.tsx` supplies search, filters, sorting, pagination, and download rows. | There are no source-level component tests, browser tests, accessibility tests, or end-to-end tests. |
 | CI and deployment | .github/workflows/ci.yml runs Python tests, strict catalog/history audits, publication/release checks, and frontend test/lint/build. GitHub Pages is canonical production; Netlify is preview-only. deploy-pages.yml repeats those data gates and frontend test/lint before upload. | Provider-specific refresh workflows still do not all run aggregate publication gates, and the strict history gate correctly blocks deployment on unresolved event gaps. |
 
@@ -58,24 +58,24 @@ Remote information was fetched with `git fetch --all --prune`; local work was no
 | Current branch vs latest main at audit start | `5 ahead / 6 behind` |
 | Unique current-branch commits | 10 commits ahead of origin/main at final handoff; see git log for the reviewable commit list |
 | Unique latest-main commits | `d3af20f`, `4168bea`, `59ed533`, `b197b3f`, `306f10c`, `de3f461` |
-| Corrective-cycle change set | .github/workflows/{ci.yml,deploy-pages.yml}, app/{bundler.py,history_audit.py,publisher.py}, data/sites/default/{bundles.json,frontend-bundles.json,release-assets.json}, scripts/validate_publication.py, three test files, and this report; intentionally not published remotely |
+| Corrective-cycle change set | CI/workflow gates, app bundling/publication/history/state logic, the MOEX 2023 provider state and review queue, default-site generated indexes, scripts/validate_publication.py, focused regression tests, and this report; intentionally not published remotely |
 | Untracked files at audit baseline | `PLAN.md` only; it remains intentionally preserved and excluded from the corrective-cycle commit |
 | Large ignored operational state | data/ about 301 MB; mirror/ about 52 GB; bundles/ about 78 GB |
 
 At audit start the branch had no unpushed commits relative to its own upstream but was five commits ahead and six behind the fetched latest main. The four corrective commits and this final report update are kept as local reviewable commits; at final handoff the branch is 5 commits ahead of its tracked upstream and 10 ahead / 6 behind origin/main. Do not merge, rebase, reset, or cherry-pick until the divergence has been reviewed.
 
-The attempted full local republish was interrupted before the Hakka bundle completed because it was consuming substantial ignored disk state; no tracked site metadata was damaged by that attempt. The subsequent targeted plans completed, and an unreferenced ignored Hakka base ZIP remains alongside the referenced multipart assets; it was not deleted.
+The attempted full local republish was interrupted before the Hakka bundle completed because it was consuming substantial ignored disk state; no tracked site metadata was damaged by that attempt. The subsequent targeted plans completed, and an unreferenced ignored Hakka base ZIP remains alongside the referenced multipart assets; it was not deleted. The final targeted MOEX plan was rerun with identity-derived bundle keys after the defect fix.
 
 ## Validation baseline
 
 | Check | Result | Interpretation |
 | --- | --- | --- |
-| `uv run pytest -q` | **518 passed, 70 subtests passed** in 1.81 s | Python functional baseline is green. |
-| Standard-library trace over the Python suite | **9,773/9,773 executable app lines** across 116/117 app modules | 100% line signal for the traced app modules; `app/__main__.py` was not exercised. This provides no branch coverage and no live-source coverage. |
-| `python3 scripts/validate_publication.py` | **Pass after reconciliation and policy gate**: 2,410 site bundles, 2,407 frontend bundles, 2,410 release assets, 10 schemas; expected and actual logical site IDs both 2,407 | Generated publication shapes and provider-derived public eligibility agree. This is not official-source completeness. |
-| `python3 -m app plan-release --site-id default ...` | **Pass after reconciliation**: 2,410 physical bundles across 8 shards | Local release capacity is within the 900 target and 1,000 hard limit. It does not prove remote release assets exist. |
-| `python3 -m app audit-catalog --site-id default ...` | **Pass after reconciliation**: 147,514 records; 2,989 review records; 649 queue entries; 667 legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
-| `python3 -m app history-audit --site-id default ...` | Policy-aware non-strict **pass**; strict **fails** on 489 download gaps, 299 normalization gaps, and 8 normalized-not-published events; 18 events are explicitly excluded by publication policy; parser gaps 0 | This is the most direct current provider-state/publication gap signal. |
+| uv run pytest -q | **519 passed, 70 subtests passed** in 6.22 s | Python functional baseline is green. |
+| Standard-library trace over the Python suite | **9,848/9,848 reported app lines** across 101/117 imported app modules | All imported app lines were executed; 16 app modules were not imported, app/__main__.py is not exercised, and this provides no branch coverage or live-source coverage. |
+| python3 scripts/validate_publication.py | **Pass**: 2,421 site bundles, 2,418 frontend bundles, 2,421 release assets, 10 schemas; expected and actual logical site IDs both 2,418 | Generated publication shapes and provider-derived public eligibility agree. This is not official-source completeness. |
+| python3 -m app plan-release | **Pass**: 2,421 physical bundles across 9 release shards | Local release capacity is within the 900 target and 1,000 hard limit. It does not prove remote release assets exist. |
+| python3 -m app audit-catalog | **Pass**: 148,994 records; 2,989 review records; 653 queue entries; 667 mixed legacy groups requiring split | Strict mode passes because all review records have event-specific isolation and no review record is unapproved. It is an identity-safety result, not an archive-completeness result. |
+| python3 -m app history-audit | Policy-aware non-strict **pass**; strict **fails** on 292 normalization gaps and 8 normalized-not-published events; 275 events are explicitly excluded by publication policy; download and parser gaps are both 0 | This is the most direct current provider-state/publication gap signal. |
 | `python3 -m app migrate-legacy-state --provider moex --mode verify` | **Pass** | Legacy state verification is green. It does not validate current official-source discovery. |
 | `bash -n .github/scripts/*.sh && git diff --check` | **Pass** | Shell syntax and whitespace gates are green. |
 | Direct Node test runner | **11 passed, 2 failed of 13** | The two failures are `exam-classification` and `search-state`, both unable to import `typescript` because dependencies are not installed. |
@@ -93,7 +93,7 @@ Python linting is not configured in `pyproject.toml` or CI. The repository has P
 
 | Provider | Official source URL | Category and declared source scope | Source availability evidenced in repo | Local coverage (`raw → papers`) | Status | Restrictions / notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| `moex` | https://wwwq.moex.gov.tw/exam/ | Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations | 1992-2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes | 1992-2026, 28 year buckets; 694 → 141,504 | **Partial / P0** | ASP.NET/official PDF endpoints; current source-manifest covers only 2025-2026. The 2025-2026 repair and a second 636-ID year-set reconciliation removed eligible publication gaps; the remaining 10 MOEX events are explicitly excluded because every unpublished bundle is single-year under the documented two-year policy. Download and normalization gaps remain separate. |
+| `moex` | https://wwwq.moex.gov.tw/exam/ | Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations | 1992-2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes | 1992-2026, 28 year buckets; 694 → 142,984 | **Partial / P0** | ASP.NET/official PDF endpoints; current source-manifest covers only 2025-2026. The latest bounded refresh covered 112010 plus six ROC-112 events (836 paper rows and 1,358 mirrored files) with zero provider failures. Current MOEX history status is 148 normalization-gap events and 267 policy-excluded events; the source is not complete. |
 | `ceec_gsat` | `https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634` | CEEC 學科能力測驗 / GSAT archive | 2011–2026 observed in provider state; live discovery was not completed | 2011–2026, 16 buckets; 94 → 367 | **Covered in declared scope; live verification blocked** | Public CEEC pages/PDFs, conservative pacing; no paid publications or browser automation. |
 | `ceec_ast` | `https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650` | CEEC 分科測驗 general-paper archive | 2022–2026 in current state; provider spec is stale at 2022–2025 | 2022–2026; 30 → 169 | **Partial** | Public static/PDF source; special-paper and special-answer-sheet pages are intentionally excluded. History audit classifies 2 single-year events as excluded by publication policy. |
 | `cpc_recruit` | `https://www.cpc.com.tw/News.aspx?n=32&sms=8969` | CPC Corporation company recruitment written papers | 2009–2025 observed | 2009–2025, 14 buckets; 14 → 17 | **Covered in declared scope** | Official CPC pages and linked files; the joint/MOEA page redirects to a Taipower archive handled by `moea_recruit`, so it must not be duplicated here. |
@@ -178,13 +178,13 @@ The named “missing MOEX 2025 data / empty 2025–2026 exam-code lists” sympt
 - 2025 manifest: 21 exam codes, 21 raw exam pages, 6,479 paper records.
 - 2026 manifest: 8 exam codes, 8 raw exam pages, 2,559 paper records.
 
-The actual current issue was publication reconciliation. The first targeted repair added the missing 2025-2026 logical groups; a second policy-aware plan rebuilt 636 MOEX groups whose normalized year sets were only partially represented in the site bundles. A targeted publication plan for the 153 MOEX 2025–2026 bundle IDs absent from the site was run through the normal publisher:
+A subsequent bounded source refresh also confirmed official current rows for 112010 and six ROC-112 events; all 1,480 new normalized paper records are mirrored with zero provider failures. The remaining publication discrepancy is the documented single-year policy, not an empty code-list symptom.
 
-- 2025 now has 709 normalized bundle groups; 666 are in the site inventory, and the remaining 43 groups contain 412 records, all single-year groups.
-- 2026 now has 298 normalized bundle groups; 285 are in the site inventory, and the remaining 13 groups contain 105 records, all single-year groups.
-- Publication validation now reports 2,410 site assets, 2,407 frontend rows, and 2,410 release assets; the provider-derived expected logical set and site logical set are both 2,407 with zero difference.
+- 2025 has 709 normalized bundle groups; 674 are represented in the site for ROC year 114, and the remaining 35 groups contain 339 records, all single-year groups.
+- 2026 has 298 normalized bundle groups; 285 are represented in the site for ROC year 115, and the remaining 13 groups contain 105 records, all single-year groups.
+- Publication validation now reports 2,421 site assets, 2,418 frontend rows, and 2,421 release assets; the provider-derived expected logical set and site logical set are both 2,418 with zero difference.
 
-The stale multi-year projection and the 636 eligible partial year sets are resolved. The remaining decision is whether the default site should expose a narrow current-year exception for these 517 single-year records; enabling all MOEX single-year groups would add approximately 2,552 historical groups and exceed the current release design, so a broad `moex-*` one-year override is unsafe.
+The stale multi-year projection and the eligible multi-year targeted publication gaps are resolved. The remaining decision is whether the default site should expose a narrow current-year exception for these 444 single-year MOEX records; enabling a broad MOEX one-year override would expand the release beyond the current design, so it remains an explicit scope decision.
 
 ### Historical MOEX failures and reviews
 
@@ -243,17 +243,17 @@ The remaining weaknesses are:
 
 ### P0 — establish trustworthy completeness accounting
 
-1. Decide and document whether the 517 current-year MOEX records excluded by the two-year site policy are intentionally outside the public scope or need a narrow current-year publication exception. Preserve all source records; do not reset or prune while investigating.
+1. Decide and document whether the 444 current-year MOEX records excluded by the two-year site policy are intentionally outside the public scope or need a narrow current-year publication exception. Preserve all source records; do not reset or prune while investigating.
 2. Add a provider-scoped discovery/manifest contract for every active provider, including source URL, probe timestamp, discovered years/events, file-level eligibility, blocked response evidence, and explicit exclusions.
 3. Keep the event-level completeness ledger as the denominator for history-audit strict mode: covered, blocked, or explicitly excluded, with no unknown events.
-4. Resolve the 149 still-valid historical review keys and the current review queue through authoritative mappings or explicit documented isolation decisions. Do not merge review records into confident bundles merely to make a count green.
+4. Resolve the 149 still-valid historical review keys and the current 653-entry review queue through authoritative mappings or explicit documented isolation decisions. Do not merge review records into confident bundles merely to make a count green.
 5. Add aggregate publication and integrity gates to provider refresh workflows, or make them produce a clearly marked pending-publication change that cannot be mistaken for a released catalog.
 
 ### P1 — source and data-quality reconciliation
 
 1. Repair Central Alliance teacher parsing and the New Taipei/Kaohsiung normalization gaps.
-2. Resolve the 299 normalization-gap events and 8 normalized-not-published Hakka events; the 18 policy-excluded events are now separately measured and must remain evidence-backed.
-3. Reconcile the 667 legacy groups requiring split and document the current physical/logical distinction: 2,410 physical assets, 2,407 logical IDs, with the policy-aware expected logical set equal to the site set.
+2. Resolve the 292 normalization-gap events and 8 normalized-not-published Hakka events; the 275 policy-excluded events are now separately measured and must remain evidence-backed.
+3. Reconcile the 667 mixed legacy groups requiring split and document the current physical/logical distinction: 2,421 physical assets, 2,418 logical IDs, with the policy-aware expected logical set equal to the site set.
 4. Decide ownership of the exact 370-record/370-checksum duplication between `moea_recruit` and `taipower_recruit`.
 5. Refresh stale provider specifications and the human registry so documented source scope, current year ranges, and test counts match executable state.
 6. Establish a legal/takedown record for each source family before expanding release scope.
@@ -298,7 +298,7 @@ The completeness goal should be considered achieved only when all of the followi
 - **Publication policy:** Should valid single-year bundles be public, or is the current multi-year default policy still intentional? This directly affects how source coverage and public coverage are reported.
 - **Legal posture:** Is there an approved basis for redistributing official PDFs/audio in GitHub releases, or should the project store metadata/links only for some providers?
 - **Release capacity:** Is the current GitHub Release/Pages architecture acceptable as the archive grows toward the 900-asset safety target and tens of gigabytes of local operational state?
-- **Integrity gate:** The strict event-level audit still fails on 489 download gaps, 299 normalization gaps, and 8 normalized-not-published Hakka events. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
+- **Integrity gate:** The strict event-level audit still fails on 292 normalization gaps and 8 normalized-not-published Hakka events; download and parser gaps are 0, and 275 events are explicitly policy-excluded. Which historical items may be explicitly blocked/excluded, and which must be repaired before deployment is allowed?
 - **Branch integration:** Should the ten commits unique to `agent/exam-coverage-and-mirror-dedup` be intentionally ported onto latest `origin/main`, or should implementation start from latest main and preserve this branch only as an audit reference?
 
 ## Safest branch and release strategy

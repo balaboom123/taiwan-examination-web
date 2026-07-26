@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 from typing import Any, Iterable
 
-from app.bundler import public_bundle_ids
+from app.bundler import _resolve_mirror_source_path, public_bundle_ids
 from app.models import NormalizedCatalog
 from app.paths import provider_paths, site_paths
 from app.providers.registry import get_provider
@@ -143,7 +143,7 @@ def build_history_coverage_audit(
                 {
                     paper.storage_key or f"{paper.paper_code}:{paper.file_type}"
                     for paper in papers
-                    if not paper.storage_key or not (repo_root / "mirror" / paper.storage_key).is_file()
+                    if _resolve_mirror_source_path(repo_root / "mirror", paper) is None
                 }
             )
             required_bundle_ids = {paper.bundle_id or paper.canonical_id for paper in papers}

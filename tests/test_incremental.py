@@ -140,6 +140,80 @@ class IncrementalStateTests(unittest.TestCase):
         self.assertEqual(affected_canonical_ids, {"nurse"})
         self.assertEqual(canonical_aliases, {})
 
+    def test_merge_incremental_state_uses_v2_bundle_ids_for_targeted_publication(self) -> None:
+        def paper(source_exam_id: str, year_roc: int, bundle_id: str, checksum: str) -> NormalizedPaper:
+            return NormalizedPaper(
+                canonical_id="canonical-shared",
+                canonical_name="共享科目",
+                year_roc=year_roc,
+                exam_name_raw="exam",
+                category_raw="共享科目",
+                subject_name_raw="subject",
+                paper_code="101-0101-question",
+                file_type="question",
+                download_url_source="https://source.example/paper.pdf",
+                category_code="101",
+                source_exam_id=source_exam_id,
+                subject_code="0101",
+                storage_key=f"{year_roc}/{source_exam_id}/101/0101/question.pdf",
+                checksum=checksum,
+                bundle_id=bundle_id,
+                schema_version=2,
+            )
+
+        refreshed_page = SourceExamPage(
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="exam",
+            attachments=[],
+            papers=[],
+        )
+        existing_catalog = NormalizedCatalog(
+            papers=[
+                paper("115030", 115, "bundle-old", "old"),
+                paper("114030", 114, "bundle-historical", "historical"),
+            ],
+            review_queue=[],
+        )
+        refreshed_catalog = NormalizedCatalog(
+            papers=[paper("115030", 115, "bundle-new", "new")],
+            review_queue=[],
+        )
+        existing_bundles = [
+            BundleAsset(
+                canonical_id="canonical-shared",
+                canonical_name="共享科目",
+                years=[115],
+                file_count=1,
+                storage_key="bundles/bundle-old.zip",
+                asset_name="bundle-old.zip",
+                bundle_id="bundle-old",
+                schema_version=2,
+            ),
+            BundleAsset(
+                canonical_id="canonical-shared",
+                canonical_name="共享科目",
+                years=[114],
+                file_count=1,
+                storage_key="bundles/bundle-historical.zip",
+                asset_name="bundle-historical.zip",
+                bundle_id="bundle-historical",
+                schema_version=2,
+            ),
+        ]
+
+        _, _, preserved_bundles, affected_canonical_ids, _ = merge_incremental_state(
+            existing_raw_pages=[refreshed_page],
+            existing_catalog=existing_catalog,
+            existing_bundles=existing_bundles,
+            refreshed_raw_pages=[refreshed_page],
+            refreshed_catalog=refreshed_catalog,
+        )
+
+        self.assertEqual(affected_canonical_ids, {"bundle-old", "bundle-new"})
+        self.assertEqual({bundle.bundle_id for bundle in preserved_bundles}, {"bundle-historical"})
+
     def test_merge_incremental_state_migrates_previous_canonical_family_to_refreshed_id(self) -> None:
         existing_raw_pages = [
             SourceExamPage(source_exam_id="114030", year_ad=2025, year_roc=114, exam_name_raw="old 114", attachments=[], papers=[]),

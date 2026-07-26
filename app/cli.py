@@ -201,7 +201,8 @@ def _download_affected_bundles(
 ) -> None:
     bundle_dir.mkdir(parents=True, exist_ok=True)
     for bundle in existing_bundles:
-        if bundle.canonical_id not in affected_canonical_ids:
+        bundle_keys = {bundle.bundle_id, bundle.canonical_id, *bundle.legacy_canonical_ids}
+        if not bundle_keys.intersection(affected_canonical_ids):
             continue
         resolved_release_tag = bundle.release_tag or release_tag
         if not resolved_release_tag:
