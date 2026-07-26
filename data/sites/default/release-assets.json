@@ -54294,7 +54294,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-0058b7bb8611--6a44b680a47f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-0058b7bb8611--6a44b680a47f.zip",
-      "checksum": "330dad144522fca0b209e65541d3ea42ecc9b3dc3da1606179b912196b9d1a9f",
+      "checksum": "5c2a7f3a2920bfe0313ad259ce2b3eeb72174d706a67b5824ef8ae9f9c68511c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-0058b7bb8611.zip",
         "wdasec-skill-skill-certification-class-a-skill-0058b7bb8611.zip"
@@ -54313,7 +54313,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-0bc83b562a28--285757265211.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-0bc83b562a28--285757265211.zip",
-      "checksum": "aa28d6c92671e7be87d1ba5d225523c0587720996fef214ef40ab2e3c3c15ac2",
+      "checksum": "1e486f3950791d00414238ad3e8c5bc1d2f9aac95fca33c9bf663c363aa649c0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-0bc83b562a28.zip",
         "wdasec-skill-skill-certification-class-a-skill-0bc83b562a28.zip"
@@ -54332,7 +54332,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-0c444f22ee1a--676cd351d15b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-0c444f22ee1a--676cd351d15b.zip",
-      "checksum": "95bcd11d5855068d63f0f0ba4ae55daba301dfb56babf3827854a5ab4cca0790",
+      "checksum": "08474b04b0cc60ec700a4c75315c4b559a0993fcf39c017a3e8105fdf3a3d913",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-0c444f22ee1a.zip",
         "wdasec-skill-skill-certification-class-a-skill-0c444f22ee1a.zip"
@@ -54351,7 +54351,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-1393827f803f--42d16d47723d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-1393827f803f--42d16d47723d.zip",
-      "checksum": "b4b83905f3a06852df61c0c74cbdf4bc54bc83606496fff5e15f4c9494ffe8aa",
+      "checksum": "45ee64ff15b1d2d3b462b9ba2c4be3797502667ff0b0cf3ba02ab7bf2290dc72",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-1393827f803f.zip",
         "wdasec-skill-skill-certification-class-a-skill-1393827f803f.zip"
@@ -54370,7 +54370,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-17808743a93b--570c39d95c8c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-17808743a93b--570c39d95c8c.zip",
-      "checksum": "33d052d85772e84772439b444f4de2190306e6725f851af97f06bd01cb6d7bf5",
+      "checksum": "11fd07854358cb41826f70085c51f32d6c2befbdb65c12fde9f826188c2afcbd",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-17808743a93b.zip",
         "wdasec-skill-skill-certification-class-a-skill-17808743a93b.zip"
@@ -54386,10 +54386,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-2972562e4ec6--b99ab7613994.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-2972562e4ec6--b99ab7613994.zip",
+      "checksum": "76b5a378840dbbc9ae14c1f452c5c6803e2008d60831fd17167dddf13f31b132",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-2972562e4ec6.zip",
+        "wdasec-skill-skill-certification-class-a-skill-2972562e4ec6.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-2972562e4ec6",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-2972562e4ec6",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-2a97f39439ec--59971d95a970.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-2a97f39439ec--59971d95a970.zip",
-      "checksum": "3d454a29ecaf9f0b449442544a668be1ee8294c8f3bf4579115603d4e7f56501",
+      "checksum": "258948eeeee545d0c1424544bd487cded38324b1b8bf56ec62c84368ff9e4e38",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-2a97f39439ec.zip",
         "wdasec-skill-skill-certification-class-a-skill-2a97f39439ec.zip"
@@ -54408,7 +54427,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-3763acc5227e--af6de9f2c8df.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-3763acc5227e--af6de9f2c8df.zip",
-      "checksum": "2f1184fb646916a8a59e9a73b9ec5fe74ebd0f231f3fb85d23519c5eaf4bcb69",
+      "checksum": "c7475159a4accef84a86da82b88ee9aa23d4cd7c0b8a84d114666091e484cf1d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-3763acc5227e.zip",
         "wdasec-skill-skill-certification-class-a-skill-3763acc5227e.zip"
@@ -54427,7 +54446,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9--16cc09573dc6.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9--16cc09573dc6.zip",
-      "checksum": "aa1c738337a33518bf7d65dfe91f2ebc0f52aca9c3f3759f96044aa3b7b63c55",
+      "checksum": "b466a5ee9ce81a7a329fd550590566f19cdd132db33359a54adbe9763ce78318",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9.zip",
         "wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9.zip"
@@ -54462,10 +54481,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-688858f9c6e4--ce242fdc0294.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-688858f9c6e4--ce242fdc0294.zip",
+      "checksum": "d0b46594fdb940a75f131bae303974a1b1e61d75276817cdfd2cae0a32477b66",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-688858f9c6e4.zip",
+        "wdasec-skill-skill-certification-class-a-skill-688858f9c6e4.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-688858f9c6e4",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-688858f9c6e4",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-6a3aaace417f--c3eb83f1e8fb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-6a3aaace417f--c3eb83f1e8fb.zip",
-      "checksum": "d952ff0ce79948f3c1e0c5ef23cb65c6b2848bed6847268041148dd8756f98d3",
+      "checksum": "4cae1145129ac379eaee914b8813a378ae4a88affe585062452327c386a417d3",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-6a3aaace417f.zip",
         "wdasec-skill-skill-certification-class-a-skill-6a3aaace417f.zip"
@@ -54484,7 +54522,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-73d81c8a0c58--61b852965590.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-73d81c8a0c58--61b852965590.zip",
-      "checksum": "be3deb7289710ff63275f2e25864d8ecdd996b2221186ee344e33397ba629e57",
+      "checksum": "19fdae12f8327a6d8eeac67689759682299ce17575f76973aa9ec75dfda6fe4a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-73d81c8a0c58.zip",
         "wdasec-skill-skill-certification-class-a-skill-73d81c8a0c58.zip"
@@ -54500,10 +54538,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-73e74cf63a98--a93268e7665d.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-73e74cf63a98--a93268e7665d.zip",
+      "checksum": "8d7ffbf7c6990b9b291f72d343a5829b66051ea552e056be37558b14ab0ee4e0",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-73e74cf63a98.zip",
+        "wdasec-skill-skill-certification-class-a-skill-73e74cf63a98.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-73e74cf63a98",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-73e74cf63a98",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-8717d82095ba--ccba8471a556.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-8717d82095ba--ccba8471a556.zip",
-      "checksum": "c7bba665491da3b5aa1dad389d28dc8bc12d8c28f852413f43e19efd7debc959",
+      "checksum": "49cd258d35953e74cc4cd59f4edfd58bbf469cbfded51afdd857f8314fdaf1c6",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-8717d82095ba.zip",
         "wdasec-skill-skill-certification-class-a-skill-8717d82095ba.zip"
@@ -54522,7 +54579,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-91149e972673--78148748bf91.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-91149e972673--78148748bf91.zip",
-      "checksum": "396dc551cee29d3b75a099c116c122aee6187044d06d57ed1f89b8b3624ebd5d",
+      "checksum": "f03292ddaaa70f817d0abac3612a941684b340b4341ec6eaf91bd52cdf19c209",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-91149e972673.zip",
         "wdasec-skill-skill-certification-class-a-skill-91149e972673.zip"
@@ -54541,7 +54598,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-a3e595a35a93--407f51db5688.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-a3e595a35a93--407f51db5688.zip",
-      "checksum": "a71e12d2639cf1f5791f611d72011902dce35472598dc2af0db42ee8354907ed",
+      "checksum": "1162ce96993aed20c05223d5454d4cfa5f38f1d1f5968a50e9b02cdabb6feef4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-a3e595a35a93.zip",
         "wdasec-skill-skill-certification-class-a-skill-a3e595a35a93.zip"
@@ -54557,10 +54614,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-a66261366dd8--18fc83df75ed.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-a66261366dd8--18fc83df75ed.zip",
+      "checksum": "729da15aeeb164735f6667098a51ef527bc399123c9679b59614a206a735c8de",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-a66261366dd8.zip",
+        "wdasec-skill-skill-certification-class-a-skill-a66261366dd8.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-a66261366dd8",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-a66261366dd8",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-a912e8398d5d--ca3b511f3c0e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-a912e8398d5d--ca3b511f3c0e.zip",
-      "checksum": "0a9dd7e8056013c4c466f280796731645044d41c574161ac8caef5220b74f8c1",
+      "checksum": "aa3c4b5b1c99104da4e4a6a2f2ce22778f5641621b746763ae25013b66c466e1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-a912e8398d5d.zip",
         "wdasec-skill-skill-certification-class-a-skill-a912e8398d5d.zip"
@@ -54579,7 +54655,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-bf83533aafc4--5cfc2d31ac92.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-bf83533aafc4--5cfc2d31ac92.zip",
-      "checksum": "edf0d13007b99e4d30326fc4397c4bc7e694d6ddaf7b5b26d41bfeddbc9e153c",
+      "checksum": "ea1cad230b738847c76f9e95b715f66526e274ebf47cbc54f0f93bef28b55cae",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-bf83533aafc4.zip",
         "wdasec-skill-skill-certification-class-a-skill-bf83533aafc4.zip"
@@ -54595,10 +54671,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-dd154932cedd--34dada5c33b7.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-dd154932cedd--34dada5c33b7.zip",
+      "checksum": "7cdfb74a4c1911fa17a1607f69409be33672bb49c570e94083955bbf8fbc84be",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-dd154932cedd.zip",
+        "wdasec-skill-skill-certification-class-a-skill-dd154932cedd.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-dd154932cedd",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-dd154932cedd",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-e6bfb7fefaf6--2010f3eaa152.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-e6bfb7fefaf6--2010f3eaa152.zip",
+      "checksum": "6ee81c819d87c61330fc3b75cc8740280ce2f6bd7faa5299fa8eee66ba809d5f",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-e6bfb7fefaf6.zip",
+        "wdasec-skill-skill-certification-class-a-skill-e6bfb7fefaf6.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-e6bfb7fefaf6",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-e6bfb7fefaf6",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-ee02fd7cbb32--4ba89b85f40b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-ee02fd7cbb32--4ba89b85f40b.zip",
-      "checksum": "da49adafeb6abecad6b5bb93f09c0db9292ac1debf00be8578b7d626607d9367",
+      "checksum": "0dbccb47014fd319bc8d1227c0f9f4836efc95405166a00b89f98df3f48909ba",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-ee02fd7cbb32.zip",
         "wdasec-skill-skill-certification-class-a-skill-ee02fd7cbb32.zip"
@@ -54614,10 +54728,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-f10ec26b028a--13d9a4d375d1.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-a-skill-f10ec26b028a--13d9a4d375d1.zip",
+      "checksum": "32a46931374a48c0f789d03afe692020a9cbdf3bddd47bec9cbf19fb1a574c31",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-f10ec26b028a.zip",
+        "wdasec-skill-skill-certification-class-a-skill-f10ec26b028a.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-a-skill-f10ec26b028a",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-a",
+      "track_id": "skill-f10ec26b028a",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-f81c39a55aed--04e28b1c0c80.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-f81c39a55aed--04e28b1c0c80.zip",
-      "checksum": "bf343ec5f46b49bb3ebea7d900e22d9c4396b7b01f27659a6a094f4c211e96f9",
+      "checksum": "df5daad24587b54fbecba8ef4144e651c268c0597c243568e5fe8af0edfeab38",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-f81c39a55aed.zip",
         "wdasec-skill-skill-certification-class-a-skill-f81c39a55aed.zip"
@@ -54636,7 +54769,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-a-skill-fbe06eaaa0e7--1067feb31431.zip",
       "asset_name": "wdasec-skill-skill-certification-class-a-skill-fbe06eaaa0e7--1067feb31431.zip",
-      "checksum": "2ebf86b6a299081e8a9d085f4a4b8190565a25e20aa89612ed433a2dbf8ba613",
+      "checksum": "636ccced481eeeccf4aed8ef9eec2db17fea2cb8d92c7875105a4e8650849f9e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜甲級__wdasec-skill-skill-certification-class-a-skill-fbe06eaaa0e7.zip",
         "wdasec-skill-skill-certification-class-a-skill-fbe06eaaa0e7.zip"
@@ -54652,10 +54785,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-c--b5d78827801c.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-b-c--b5d78827801c.zip",
+      "checksum": "51c9c717b3115b3d06870b8e4730de5712f006eb4928bc5f4f4fe4f6eb164a4f",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-c.zip",
+        "wdasec-skill-skill-certification-class-b-c.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-b-c",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-b",
+      "track_id": "c",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-cnc--7925e7f8ad0a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-cnc--7925e7f8ad0a.zip",
-      "checksum": "38401c3a0928062fa872899139dd86f8b036f0b77ca79d2187e24a6474668385",
+      "checksum": "3d091e4499d92a7cd91242d077450f3f81f417c23971a226cae70c71aca701a9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-cnc.zip",
         "wdasec-skill-skill-certification-class-b-cnc.zip"
@@ -54671,10 +54823,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-java--6b5bd762f8b1.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-b-java--6b5bd762f8b1.zip",
+      "checksum": "e31cbb04ff30b478841f9161742f9e37c290a053d6fe51932ce40437e55b3f5b",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-java.zip",
+        "wdasec-skill-skill-certification-class-b-java.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-b-java",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-b",
+      "track_id": "java",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-mac--1ca262a89faf.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-mac--1ca262a89faf.zip",
-      "checksum": "9f43aad2a04a25f590752dc304b69490c64d0d6b809b924aa20b68abb23c31f7",
+      "checksum": "97f1409588becc42ebffda47df9ec32c89be760509a33f7a6de8b0a4bf346734",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-mac.zip",
         "wdasec-skill-skill-certification-class-b-mac.zip"
@@ -54693,7 +54864,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-pc--845aa5172a40.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-pc--845aa5172a40.zip",
-      "checksum": "784ce3b3e5b78a72539ef528b70d42fab16177306f3c7b48bb2249c62f9d7ca6",
+      "checksum": "eadb64b1bfc89e92026c0086361b43cb70bb90e5a0fdd8932fb8fb124da4d990",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-pc.zip",
         "wdasec-skill-skill-certification-class-b-pc.zip"
@@ -54712,7 +54883,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-02033a2b9222--2e8f1b6a036c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-02033a2b9222--2e8f1b6a036c.zip",
-      "checksum": "a0d3b7f16c47b23cf113a12b9232347d7fd1a52dda738a3c80ee3898805044a4",
+      "checksum": "75ea0f3c9b228edf947a68a46252c9aa03434bf39d7f7ef62d9941d14ac98b34",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-02033a2b9222.zip",
         "wdasec-skill-skill-certification-class-b-skill-02033a2b9222.zip"
@@ -54731,7 +54902,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-02246840c86d--90df3ba39602.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-02246840c86d--90df3ba39602.zip",
-      "checksum": "eff0ff5900c76efa037b83c2c5b21ec098f2e3b75196a270a9d7fec97365b1e3",
+      "checksum": "d83926a05b8767c8e87235b83215a3489a595d885045638de5246cf56f047a2c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-02246840c86d.zip",
         "wdasec-skill-skill-certification-class-b-skill-02246840c86d.zip"
@@ -54750,7 +54921,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-0243e4946f58--92fa9dc479c5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-0243e4946f58--92fa9dc479c5.zip",
-      "checksum": "0b701ad8ea79aa042f0e7a4d3a53926240d6981e049853feceba59cd00f84d34",
+      "checksum": "9d2fb59ea50a77e86df1effc2d80c4873f5393cdba840914cab80776f675fde6",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-0243e4946f58.zip",
         "wdasec-skill-skill-certification-class-b-skill-0243e4946f58.zip"
@@ -54769,7 +54940,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-02f0e5286bba--93b73327ad81.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-02f0e5286bba--93b73327ad81.zip",
-      "checksum": "e3e17a2a9752e47087b1c4b10b3ece629a38c16dee2965d16716b189f9a05d8a",
+      "checksum": "69ec2859c022a68afb6d7761c6a885e552d44840eb776d4acd733e7efe7131d3",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-02f0e5286bba.zip",
         "wdasec-skill-skill-certification-class-b-skill-02f0e5286bba.zip"
@@ -54788,7 +54959,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-08db74ae44de--1bb4d749805a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-08db74ae44de--1bb4d749805a.zip",
-      "checksum": "cd4b9e4f9b92ac8a1f253d39742a6c7a08189ba3783af599eab214a35883d824",
+      "checksum": "b0047a0e59c5a903e5b79e9c94f51fd93cc79ad166cf04190cc7e0be1b965ae4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-08db74ae44de.zip",
         "wdasec-skill-skill-certification-class-b-skill-08db74ae44de.zip"
@@ -54807,7 +54978,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-0adbe6caf372--fa15cc1dc1e1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-0adbe6caf372--fa15cc1dc1e1.zip",
-      "checksum": "745dd4998455764ff7e306260342367a695dc5c5617fbdd53148198cddfc3b42",
+      "checksum": "67b3053f3eca802a101bd8ae39f1160e2d21938d3ae12e2d851be5ce549ccea0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-0adbe6caf372.zip",
         "wdasec-skill-skill-certification-class-b-skill-0adbe6caf372.zip"
@@ -54826,7 +54997,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-0c97a49ea37c--66223cce504a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-0c97a49ea37c--66223cce504a.zip",
-      "checksum": "2644832a0b8eb27e59faf12479f524486d02bab3a8ab68552f2952c96d554fdf",
+      "checksum": "587a688b6cc24d26c7fdf9d8d5d7816dc8b4338be577a3d0e978800f7a7cbdee",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-0c97a49ea37c.zip",
         "wdasec-skill-skill-certification-class-b-skill-0c97a49ea37c.zip"
@@ -54845,7 +55016,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-0cf20479db64--bf8052a4864b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-0cf20479db64--bf8052a4864b.zip",
-      "checksum": "ba849122db734067d111004d43c754304b00e35334e044457a152b3010ccdfdd",
+      "checksum": "7946dd3f51a06da44649ec7699dbb5a19351e6e7fafe1cae2fc1a3a5c0ee58a9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-0cf20479db64.zip",
         "wdasec-skill-skill-certification-class-b-skill-0cf20479db64.zip"
@@ -54864,7 +55035,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-1291ef7f0e90--780c4c1502b9.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-1291ef7f0e90--780c4c1502b9.zip",
-      "checksum": "2a89715e8060b77dd494d007dce446d52793a788b02202853177335a57ad9d82",
+      "checksum": "537a26a7c5cfedebdeb091122ddc63b660e8efb94ff65f5083b033474ea68c4d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-1291ef7f0e90.zip",
         "wdasec-skill-skill-certification-class-b-skill-1291ef7f0e90.zip"
@@ -54883,7 +55054,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-14553c6f1194--0eafd1d4ff7f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-14553c6f1194--0eafd1d4ff7f.zip",
-      "checksum": "aab69a0b1ee42a447fa1232bc4d1c7be7afdc2667738c22c48dd69e3931ee19e",
+      "checksum": "d39a06acb4f009d3bea853d2deb933a3d7cc49b1c7ebe5710e05a63596852c42",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-14553c6f1194.zip",
         "wdasec-skill-skill-certification-class-b-skill-14553c6f1194.zip"
@@ -54902,7 +55073,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-173ba322b454--0714608c8f90.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-173ba322b454--0714608c8f90.zip",
-      "checksum": "69fcb3e98776f771efdcb4b7f74faa1a609a26b53b9a0915a6070115827b3781",
+      "checksum": "e1c8910d8c15981701b2c7861307ceacf04ce96a3d73fdb126f76354e78032e4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-173ba322b454.zip",
         "wdasec-skill-skill-certification-class-b-skill-173ba322b454.zip"
@@ -54921,7 +55092,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-178d9cd1f949--fe5d97f306da.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-178d9cd1f949--fe5d97f306da.zip",
-      "checksum": "c92a503eb77ff9ea248f336f1ef9b30bd6f3879c8a70b24c61c55124442627f1",
+      "checksum": "51fcc74dac657748bc895bfa00e07f6b2da23a6abeb17fe773be7a4cf66727bb",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-178d9cd1f949.zip",
         "wdasec-skill-skill-certification-class-b-skill-178d9cd1f949.zip"
@@ -54940,7 +55111,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-178efd52c409--17b78c0bca51.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-178efd52c409--17b78c0bca51.zip",
-      "checksum": "9b5b5ae9d77548aafee8f0a0e97d4ec8a1ded8f471f3b4a066099ab636146e34",
+      "checksum": "c729c47bd62f21dd60832ea008660a4879b54ebb2e667b10e3b333eb7bac0532",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-178efd52c409.zip",
         "wdasec-skill-skill-certification-class-b-skill-178efd52c409.zip"
@@ -54959,7 +55130,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-19af147c5756--c93e86e93c05.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-19af147c5756--c93e86e93c05.zip",
-      "checksum": "cea8c537106fc0d20282bae5c489a32442a87cfd03a770330feb8b20a6a970db",
+      "checksum": "0a77adc25ecad684d5d831a2f76001878494fd5d6dc3d9359f9d55c6108e769a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-19af147c5756.zip",
         "wdasec-skill-skill-certification-class-b-skill-19af147c5756.zip"
@@ -54978,7 +55149,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-1a424dcdd1fd--cf7aee7b97fe.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-1a424dcdd1fd--cf7aee7b97fe.zip",
-      "checksum": "17a90aee729799a63d259160f53aaf2e62284e22e2c517f1310c799a8867d59c",
+      "checksum": "5fe85d4999d9e8f8dac2608d74a10d7d5e082b3fe8d7dd3ba5af34a27fb0b7bc",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-1a424dcdd1fd.zip",
         "wdasec-skill-skill-certification-class-b-skill-1a424dcdd1fd.zip"
@@ -54997,7 +55168,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-1d1548e47155--86c996793c40.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-1d1548e47155--86c996793c40.zip",
-      "checksum": "5a5acc4576ac9e3f43c98d88552d491b865f9570fe00856b9626357f0dbf4d78",
+      "checksum": "ff169028b4443ab66fb94d7e0801d4f28e3fa72ffd11b1200d84081daec54e75",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-1d1548e47155.zip",
         "wdasec-skill-skill-certification-class-b-skill-1d1548e47155.zip"
@@ -55016,7 +55187,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-1f266e4e7cc0--ee5393e774b3.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-1f266e4e7cc0--ee5393e774b3.zip",
-      "checksum": "08bfca84a76aefcee86a3d957f55136f32331f38b18089c7b45ce66ffa6386cf",
+      "checksum": "7389b951e69078ccb4f26f4eae3fc27803a349a2b53e8d6b09e2e54a9a5b6274",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-1f266e4e7cc0.zip",
         "wdasec-skill-skill-certification-class-b-skill-1f266e4e7cc0.zip"
@@ -55035,7 +55206,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8--7a897d63744c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8--7a897d63744c.zip",
-      "checksum": "a372dd38c86aeca1326609f5a48088b363656d6b8936744067018903fce732a3",
+      "checksum": "e1f9663bf26c1afb1651d121d84d68b1616ca27bb0e47db03b20f0dcc1794f70",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8.zip",
         "wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8.zip"
@@ -55054,7 +55225,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-24ea68b9c43b--8b83f2bdadb0.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-24ea68b9c43b--8b83f2bdadb0.zip",
-      "checksum": "0e3ada4e6228e14528198017a7b1e842dbb0a962c64798917e8dd6b818a9159e",
+      "checksum": "4299eba75c900f9cf6899007eff0de4c3128f2907f56e89b4d2837874dd8acf4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-24ea68b9c43b.zip",
         "wdasec-skill-skill-certification-class-b-skill-24ea68b9c43b.zip"
@@ -55073,7 +55244,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-25836341c966--26ea7c5e5c2a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-25836341c966--26ea7c5e5c2a.zip",
-      "checksum": "06b917f30b42d9232b7823fd31282662ab9b703c92a61d74c5c31351ee68b5fc",
+      "checksum": "9a1b4b6b6e6a69c7da896d978821a35bb2f0316f3e971387480d305ef7069263",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-25836341c966.zip",
         "wdasec-skill-skill-certification-class-b-skill-25836341c966.zip"
@@ -55092,7 +55263,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-25d1ee1beb03--ac09c5537a0b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-25d1ee1beb03--ac09c5537a0b.zip",
-      "checksum": "e92fd486329a09523c8173c246ca70b242e15f75273dd0d667ea128d5a8745c6",
+      "checksum": "0690f8ad6b9d974943c72e9b4ea65f2260ea488aa442ecd830fbcf472dd3eb5d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-25d1ee1beb03.zip",
         "wdasec-skill-skill-certification-class-b-skill-25d1ee1beb03.zip"
@@ -55111,7 +55282,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-2842d1b60e5c--33e875943036.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-2842d1b60e5c--33e875943036.zip",
-      "checksum": "c9fb206f55cd56d5bf1878f1e522b33f98e853af0e1e1aa3f0256042b6b5f4d4",
+      "checksum": "587e469da701683ad3944e583ed3bc41339c0f08117beeb7f6a4549b23eb21a8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-2842d1b60e5c.zip",
         "wdasec-skill-skill-certification-class-b-skill-2842d1b60e5c.zip"
@@ -55130,7 +55301,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-289ae0ca1b0b--8fbeeccaf6cb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-289ae0ca1b0b--8fbeeccaf6cb.zip",
-      "checksum": "9854892b4543da27ab3899750013d41aece9761fec73d5cd78a9a2001778d7c5",
+      "checksum": "b99a44aa8453334cd33d5e9af3e1127e98dd2c9de038c50f2982580eafe5acf1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-289ae0ca1b0b.zip",
         "wdasec-skill-skill-certification-class-b-skill-289ae0ca1b0b.zip"
@@ -55149,7 +55320,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-2f63f30235a3--b7d32574c80f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-2f63f30235a3--b7d32574c80f.zip",
-      "checksum": "6dc4f2de3d3f715154580428e9c44e05fc8e5a35dec9b3995112075491b1bd38",
+      "checksum": "c01813a4ded384b59786cbc4f1e70f0ab0fbeecc1d390a5b025177828a35adfa",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-2f63f30235a3.zip",
         "wdasec-skill-skill-certification-class-b-skill-2f63f30235a3.zip"
@@ -55165,10 +55336,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-30ac98b7d119--f9a4b85457b1.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-b-skill-30ac98b7d119--f9a4b85457b1.zip",
+      "checksum": "049c626550b679ccac409d525dd9eb21c72df6ec6ee7d84779231e46d6cc080c",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-30ac98b7d119.zip",
+        "wdasec-skill-skill-certification-class-b-skill-30ac98b7d119.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-b-skill-30ac98b7d119",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-b",
+      "track_id": "skill-30ac98b7d119",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2--1c49f3b762de.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2--1c49f3b762de.zip",
-      "checksum": "a17a7ee14978ddf8ade6ab6c9e1d632ed0a81860efb81da9d93307f72b16c09b",
+      "checksum": "d38eedb91f3552c2f0a59664f227b1eac326c8bb034e7508b92d6ee60c906f7e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2.zip",
         "wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2.zip"
@@ -55187,7 +55377,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e--707fe49f8f76.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e--707fe49f8f76.zip",
-      "checksum": "f41de77e772141fd5cc35666858401ca13570bf80b8f1218c47187b19efa36aa",
+      "checksum": "863147e0d00ca28e908a4757a83480450bf8c3cf04b3c3483cfb6b0b98748fb7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e.zip",
         "wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e.zip"
@@ -55206,7 +55396,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-3768e9577deb--c66237fa32cb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-3768e9577deb--c66237fa32cb.zip",
-      "checksum": "56f947532633240b7830a23ae44f697988266be5e4d1ceb0671869615b6ae7ec",
+      "checksum": "9b4b8521ed6b3c59a99d7095a10b972db548e6e8310d82003f4e7ee153c662d8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-3768e9577deb.zip",
         "wdasec-skill-skill-certification-class-b-skill-3768e9577deb.zip"
@@ -55225,7 +55415,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-388d3e1f5ca4--8ca963c58a9f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-388d3e1f5ca4--8ca963c58a9f.zip",
-      "checksum": "445894a495c508f42fc56b7fce722cc30c6a0f471a1e8279f51300c1d6d42c11",
+      "checksum": "0b2e246fd37f341d419d4297cba9feb527312fd62680ed462ed5794993cd0815",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-388d3e1f5ca4.zip",
         "wdasec-skill-skill-certification-class-b-skill-388d3e1f5ca4.zip"
@@ -55241,10 +55431,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-38e44e3311c8--dbdabe982321.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-b-skill-38e44e3311c8--dbdabe982321.zip",
+      "checksum": "2dab6cb2a20894eb169de50407f3f8e8e99320696c4a1d3668be9c858d1b9476",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-38e44e3311c8.zip",
+        "wdasec-skill-skill-certification-class-b-skill-38e44e3311c8.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-b-skill-38e44e3311c8",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-b",
+      "track_id": "skill-38e44e3311c8",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-401f9ca6c740--de05a78fb0f1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-401f9ca6c740--de05a78fb0f1.zip",
-      "checksum": "f90cce5a239e64cec50968c6100079685f7e98e590fc94c17b54b21cd6dc0112",
+      "checksum": "fd7b0c32dcf9e3ad72d02e5d34479baa3bca70654a6e465f09a6a8cc92d109ce",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-401f9ca6c740.zip",
         "wdasec-skill-skill-certification-class-b-skill-401f9ca6c740.zip"
@@ -55263,7 +55472,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-414c30e59b60--4151a6ccb834.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-414c30e59b60--4151a6ccb834.zip",
-      "checksum": "dec3519c53e96aac93910df8902a76a4ffc6fc632eec1231fd95805851ba089b",
+      "checksum": "431a375f3fbc52f2030682668de5b4601237a2ad9766cc37d0cd20a93385fe83",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-414c30e59b60.zip",
         "wdasec-skill-skill-certification-class-b-skill-414c30e59b60.zip"
@@ -55282,7 +55491,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-4f268a13fa93--8214ebeaffd9.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-4f268a13fa93--8214ebeaffd9.zip",
-      "checksum": "9fcd01ac0f188fc24cab9b77629f499ca392fbc44f46b370805e48accddf0fd2",
+      "checksum": "8df51366b696638424eba7f30bced2df704cff16db8412010a02bd75f8c85a25",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-4f268a13fa93.zip",
         "wdasec-skill-skill-certification-class-b-skill-4f268a13fa93.zip"
@@ -55301,7 +55510,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-52ebee243ae2--182ec09bee60.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-52ebee243ae2--182ec09bee60.zip",
-      "checksum": "d424742a580b4ed8ff8a0b144d0905530050aa21b8a6e02889ffd8d7814af789",
+      "checksum": "0ea97beb7c2e458536e99a54b702d6bd388c98e4472248a678cd606276d4a721",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-52ebee243ae2.zip",
         "wdasec-skill-skill-certification-class-b-skill-52ebee243ae2.zip"
@@ -55320,7 +55529,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-532c58e092d8--91d1b8e77e38.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-532c58e092d8--91d1b8e77e38.zip",
-      "checksum": "f37b67964e5e3e795a3e83ab23fd22d2d89c23ce18e557ba8676385bd46001a9",
+      "checksum": "cbbb3c2640e3f7c52e30dade5eaea799795c29e32962845ce8485d848e267fb1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-532c58e092d8.zip",
         "wdasec-skill-skill-certification-class-b-skill-532c58e092d8.zip"
@@ -55339,7 +55548,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-53a674a6cbfc--d6f020ba8c03.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-53a674a6cbfc--d6f020ba8c03.zip",
-      "checksum": "05c52d06739e70beeaf407c4b1fa857eab2880097ab0576ded508084c2cafed0",
+      "checksum": "57582913a370f80e35bafc4bca85cf5d1a2d5c4166937ff07193acb013f71e41",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-53a674a6cbfc.zip",
         "wdasec-skill-skill-certification-class-b-skill-53a674a6cbfc.zip"
@@ -55358,7 +55567,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-53c9c8beb66c--c4bfc4db7026.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-53c9c8beb66c--c4bfc4db7026.zip",
-      "checksum": "c23560b526cd895424ccd0ad8578c593cfbc6b970b42d13ae037a73d8a6820ef",
+      "checksum": "e5f7e923afc66a71fa8aabd99df20bbde34cbac0a8c33509972a338db02593a2",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-53c9c8beb66c.zip",
         "wdasec-skill-skill-certification-class-b-skill-53c9c8beb66c.zip"
@@ -55377,7 +55586,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-545fcb6af226--8f0e33f5a7ff.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-545fcb6af226--8f0e33f5a7ff.zip",
-      "checksum": "6b1fe90edceb030d3ca810c36ecf8377c88984de3c86713654d2d7261cd14c63",
+      "checksum": "93dbe2d251d54605cf40c0e063006a8c6901ab352e55ce13a217913815bbb209",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-545fcb6af226.zip",
         "wdasec-skill-skill-certification-class-b-skill-545fcb6af226.zip"
@@ -55396,7 +55605,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-572ccf999c3a--ea95a79ff838.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-572ccf999c3a--ea95a79ff838.zip",
-      "checksum": "dc140b09ed22652a1a436a3cb0b2a8e89a936c7c5208df19df317ccd0a6967b9",
+      "checksum": "0d4c7579cbabea9e518bad8b27b1c6466ca10cdfbf24d56e99ab6d488ca263ed",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-572ccf999c3a.zip",
         "wdasec-skill-skill-certification-class-b-skill-572ccf999c3a.zip"
@@ -55415,7 +55624,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-59f3358f87c2--b823309af2bb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-59f3358f87c2--b823309af2bb.zip",
-      "checksum": "041ea6bb52e97a6689652bef087233c31e61e838f08df4f8fb527d89f077bcbc",
+      "checksum": "6ef213c1c6ff63880a63d7d56dcd9d596773c56e92dc3c7d5a05e89ceb644df2",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-59f3358f87c2.zip",
         "wdasec-skill-skill-certification-class-b-skill-59f3358f87c2.zip"
@@ -55434,7 +55643,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-5bb195b6fc71--8739411803f6.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-5bb195b6fc71--8739411803f6.zip",
-      "checksum": "45e2428025cccd07c48eea1fd62b611adea042678ae972ff5ffc237a2eb37b28",
+      "checksum": "20dddcde235257c0909540334dc1e675375b4fd84ed5de63674bf6306ea3d551",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-5bb195b6fc71.zip",
         "wdasec-skill-skill-certification-class-b-skill-5bb195b6fc71.zip"
@@ -55453,7 +55662,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-5e354f77a5e7--35b386c494f9.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-5e354f77a5e7--35b386c494f9.zip",
-      "checksum": "550de1bb4f83915c14da0656d696a46ea483294e6556d49cbada587131719143",
+      "checksum": "f183055ae17ca66a930faf3fb766482d932d354602ba34a18ecd9b4775d29017",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-5e354f77a5e7.zip",
         "wdasec-skill-skill-certification-class-b-skill-5e354f77a5e7.zip"
@@ -55472,7 +55681,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-61a61647c0a5--fcccf6b67e57.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-61a61647c0a5--fcccf6b67e57.zip",
-      "checksum": "213fc74a15aa9ebc451e7a26b087d647a1c1e38bd6b15d4386d6701aee93d3a4",
+      "checksum": "d2fe4c0ad14430821eed19536ad7350aced36394fa58f6767d0f21d8eb59b138",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-61a61647c0a5.zip",
         "wdasec-skill-skill-certification-class-b-skill-61a61647c0a5.zip"
@@ -55510,7 +55719,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-65b94f0debf4--af98bff28a72.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-65b94f0debf4--af98bff28a72.zip",
-      "checksum": "2f03a0436ac6f8fa7d00e0290d247a60da403f82227e03f16596ef5e3671d30e",
+      "checksum": "fc8e612e7d27479d0eadd5bbd67f785026fea428551b2a640f4f69381e9ec080",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-65b94f0debf4.zip",
         "wdasec-skill-skill-certification-class-b-skill-65b94f0debf4.zip"
@@ -55529,7 +55738,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-71a16f620aa2--f8c392e5fb7d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-71a16f620aa2--f8c392e5fb7d.zip",
-      "checksum": "5aec81f47dda9e5b016db60b2fbf8a4b24be3fd5900da94e92aa1e499d739424",
+      "checksum": "27fb10ddfb214a27ff2080c43e9e52ec78a7423bcddcd9bf6b645546fc8337d6",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-71a16f620aa2.zip",
         "wdasec-skill-skill-certification-class-b-skill-71a16f620aa2.zip"
@@ -55548,7 +55757,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9--25408cadb0fe.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9--25408cadb0fe.zip",
-      "checksum": "812dc2944bc91e88bb1ffa2d17d0f2bd86067183585c2a84a39b2179d0fa5efe",
+      "checksum": "62dc5650e24dbf0441c2d88362a48f9aa48e749d451b029cb2eacb4adfa6c0b8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9.zip",
         "wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9.zip"
@@ -55564,10 +55773,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-774b3110d78d--82fe1e017f30.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-b-skill-774b3110d78d--82fe1e017f30.zip",
+      "checksum": "c8bf8b56e0595c8c9686ce8c9a0da95c65b29d15bd4b3493b1b2194ef5b819b5",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-774b3110d78d.zip",
+        "wdasec-skill-skill-certification-class-b-skill-774b3110d78d.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-b-skill-774b3110d78d",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-b",
+      "track_id": "skill-774b3110d78d",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-7954f39a2543--9d6ffa293133.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-7954f39a2543--9d6ffa293133.zip",
-      "checksum": "710e423d4946166eb0e0f5cdee3aa05e8ad725072e891bf34700010aa55ab18d",
+      "checksum": "a76140860e7904616b13919c0df971dbce0dd68b604c7793fcb356bb29ee09ac",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-7954f39a2543.zip",
         "wdasec-skill-skill-certification-class-b-skill-7954f39a2543.zip"
@@ -55586,7 +55814,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-7ac3f3a459a4--7436f7483ba1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-7ac3f3a459a4--7436f7483ba1.zip",
-      "checksum": "f087fef774ab7623ae28e9334a850cce516b898f4b79918f95aae2879bfc7d64",
+      "checksum": "11bb06d1decc639c96b0a4d42bdab92bc257bd13bf6d976aa83b8c68533c09c0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-7ac3f3a459a4.zip",
         "wdasec-skill-skill-certification-class-b-skill-7ac3f3a459a4.zip"
@@ -55605,7 +55833,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-7fc13d660f1e--2bdf21d861b7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-7fc13d660f1e--2bdf21d861b7.zip",
-      "checksum": "877b988a3440acf776353ce6d8181973e91da264e8ce698a478a2c76530a2023",
+      "checksum": "6d446713685b05a84b23b59feee551dfdcdf284dd776870a4357eefe7606fca5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-7fc13d660f1e.zip",
         "wdasec-skill-skill-certification-class-b-skill-7fc13d660f1e.zip"
@@ -55624,7 +55852,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-820b5f15ec10--03e9e802de22.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-820b5f15ec10--03e9e802de22.zip",
-      "checksum": "b393bbbdb9e7934e4165b35976aeb7d4dda3c921df870dd7781fe3f02874ecfb",
+      "checksum": "a3656932da4ed153691c63f18d3c254c7b89c8f87a1294f0f60df925f362901f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-820b5f15ec10.zip",
         "wdasec-skill-skill-certification-class-b-skill-820b5f15ec10.zip"
@@ -55643,7 +55871,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-856b542eaa1d--a2504747734a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-856b542eaa1d--a2504747734a.zip",
-      "checksum": "fd3da67daf6ee38643bf9281378e7d13533192f1af2f26c4f531b99c167a9ebd",
+      "checksum": "b1ac780ddea17d01e01923fa2d19851124cb5dff5651c10c956b0472b5ad1a41",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-856b542eaa1d.zip",
         "wdasec-skill-skill-certification-class-b-skill-856b542eaa1d.zip"
@@ -55662,7 +55890,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-87fdb3bd5892--fccb8b06b588.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-87fdb3bd5892--fccb8b06b588.zip",
-      "checksum": "ce65d18f4b7de22052d0c03131dc39ea602e1a41d746c3ebcb1a67cbb1e713a2",
+      "checksum": "4695e825d58226a5337e7f72e931eb232ae9e4c2067c2168338d9787a0ffcf95",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-87fdb3bd5892.zip",
         "wdasec-skill-skill-certification-class-b-skill-87fdb3bd5892.zip"
@@ -55681,7 +55909,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-895fb66dc455--d462229794cb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-895fb66dc455--d462229794cb.zip",
-      "checksum": "373636401169631de20299a2f168e6381ca7e1ee12b6d83c02a86a5838d07a98",
+      "checksum": "a3eab50aa9bee55cae18eba1dff2f78f0db0e8ad47ab30ac3af9508777df9256",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-895fb66dc455.zip",
         "wdasec-skill-skill-certification-class-b-skill-895fb66dc455.zip"
@@ -55700,7 +55928,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-89cea900f73a--a6ae2045d44f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-89cea900f73a--a6ae2045d44f.zip",
-      "checksum": "c77e674a31ab7a944ee9757db0c411e0d3e9b7a84557b267974d33041d38496d",
+      "checksum": "509e823964f341624ddb264bb273a611566a64dc3804b04a920bd68c2efd6151",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-89cea900f73a.zip",
         "wdasec-skill-skill-certification-class-b-skill-89cea900f73a.zip"
@@ -55719,7 +55947,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-8c01ece8e945--967b2e56f74d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-8c01ece8e945--967b2e56f74d.zip",
-      "checksum": "fdfa749f3ae9d3066c859b2b165f94c4a4ef77a5a9227410bac544a0ceb7bbf1",
+      "checksum": "6baf2c8787cf460f66f892885b4bb5c4a382cc0e81b028eea71211d693ffe9d9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-8c01ece8e945.zip",
         "wdasec-skill-skill-certification-class-b-skill-8c01ece8e945.zip"
@@ -55738,7 +55966,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-8e205ba352e8--62ee319bc82f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-8e205ba352e8--62ee319bc82f.zip",
-      "checksum": "8e3e64ab0f8dc9f0dde5c694311635b0f142e7771534df21490e96f5899bfee2",
+      "checksum": "3725e274418977a9fb4655552b70040f7393e62ed04c992aa73e5a36f04c644d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-8e205ba352e8.zip",
         "wdasec-skill-skill-certification-class-b-skill-8e205ba352e8.zip"
@@ -55757,7 +55985,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-905a7c2d67e3--35f47c27de91.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-905a7c2d67e3--35f47c27de91.zip",
-      "checksum": "bf0a5b3d2a182e56e9765762f804a4c45a03d86b9a0fc76cf81eed86fc38075d",
+      "checksum": "70e59aaad1df722573f4491abb121bf2c05c257b231ec8bb0dd03f0a835361c5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-905a7c2d67e3.zip",
         "wdasec-skill-skill-certification-class-b-skill-905a7c2d67e3.zip"
@@ -55776,7 +56004,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-915b33da9328--daf66613c748.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-915b33da9328--daf66613c748.zip",
-      "checksum": "8e2e7bfd46569dd3dabda362753bf2a0ff6008d6b4ff3e6cb6623f89d4ba7606",
+      "checksum": "41f356c051ea2f2d15bed256b9a3d9a8061ca89bde04d391b79ae3814f8fd401",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-915b33da9328.zip",
         "wdasec-skill-skill-certification-class-b-skill-915b33da9328.zip"
@@ -55795,7 +56023,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-9367bb22d958--eea562d2b0cc.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-9367bb22d958--eea562d2b0cc.zip",
-      "checksum": "d6b0865f045c2dce61e4b2c744311b2c981b0388d6c50a98200c7855e146fd5e",
+      "checksum": "2d644c49dfe2d198868397ff10e397d37aeb83ea213021e47a4bc3f207f5cc12",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-9367bb22d958.zip",
         "wdasec-skill-skill-certification-class-b-skill-9367bb22d958.zip"
@@ -55814,7 +56042,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-93910accdbbb--57da7b274572.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-93910accdbbb--57da7b274572.zip",
-      "checksum": "c9b74b80056de857700162c4a4e57753fdc54d707f27a07059fcaaa0d15d03d4",
+      "checksum": "c66f65c756820b158faa52f21d261eeef69f8dbb4f62ca98d356d106c759b502",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-93910accdbbb.zip",
         "wdasec-skill-skill-certification-class-b-skill-93910accdbbb.zip"
@@ -55833,7 +56061,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-992e71552a91--b11f44b184d4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-992e71552a91--b11f44b184d4.zip",
-      "checksum": "7825e376ac5ba8dabdd001e284f9d9f7480d479b0474b893f065732f377b41c2",
+      "checksum": "2e94ef12dae1a1be794ec09f77be7cf2637a564b4819d0da6b65340742707017",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-992e71552a91.zip",
         "wdasec-skill-skill-certification-class-b-skill-992e71552a91.zip"
@@ -55852,7 +56080,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-9934a6b1012e--ab136134f232.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-9934a6b1012e--ab136134f232.zip",
-      "checksum": "698ebe0c38cfdcb9cd0b2fa4e042b81c5d3be110fed544612e2ebc2df6f4c83d",
+      "checksum": "6ed37e61030e30fb8b44a1611c98d52089daaac51786c14f9cd79334dca242ce",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-9934a6b1012e.zip",
         "wdasec-skill-skill-certification-class-b-skill-9934a6b1012e.zip"
@@ -55871,7 +56099,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-998adbb4aba6--24a979f1c3c8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-998adbb4aba6--24a979f1c3c8.zip",
-      "checksum": "1b78ef9b52ee09ceb6ebce5c2f29da202c3a8da1dc7aa9f554a90755964595c2",
+      "checksum": "2fac554c6f814137212eb1a3c3ae509098999b48fb64b8594a367daa1718d1fc",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-998adbb4aba6.zip",
         "wdasec-skill-skill-certification-class-b-skill-998adbb4aba6.zip"
@@ -55890,7 +56118,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-9993538d72c1--c63300c71c73.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-9993538d72c1--c63300c71c73.zip",
-      "checksum": "a2cf5f3bcc2355f41e3437623dade0ea0d790ee3afc33c9cd94147fc54b6dd7c",
+      "checksum": "2d1f7de130e2f247d07ebb469021dbc879c56d36de57ebda1370dfa1a7c1de8d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-9993538d72c1.zip",
         "wdasec-skill-skill-certification-class-b-skill-9993538d72c1.zip"
@@ -55909,7 +56137,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-9a421b2b4adc--8271ceff3c41.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-9a421b2b4adc--8271ceff3c41.zip",
-      "checksum": "044845f20948b9872fcec84531f4db6205a3aa53ab69d873813e34cdfb4d3775",
+      "checksum": "fed677aa27bbcbcb2ce5009f1cd067aac740c44b1996271a38518b6a476703df",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-9a421b2b4adc.zip",
         "wdasec-skill-skill-certification-class-b-skill-9a421b2b4adc.zip"
@@ -55928,7 +56156,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-a0b505f0e821--55d38a2e5950.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-a0b505f0e821--55d38a2e5950.zip",
-      "checksum": "ed4e4de112093c1681585ac81037f9bbb77a779cb1160056514d608297a1d048",
+      "checksum": "02e6270f375f29dcb7a83946abcfb1befa1baa31255794c68cfd50ead6270a2f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-a0b505f0e821.zip",
         "wdasec-skill-skill-certification-class-b-skill-a0b505f0e821.zip"
@@ -55947,7 +56175,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-a35ba878dde5--082396233b54.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-a35ba878dde5--082396233b54.zip",
-      "checksum": "77b005cc6e580f047be72ec9e2e6a1f43a3d17eedb19b7b5dac9014013fe2280",
+      "checksum": "a380c890e6398e2d40b8e2ecc93fe2e3ac8fad27a17e1d916a3016a9c942de8c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-a35ba878dde5.zip",
         "wdasec-skill-skill-certification-class-b-skill-a35ba878dde5.zip"
@@ -55966,7 +56194,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-a890c31ec786--52e072dfe7d0.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-a890c31ec786--52e072dfe7d0.zip",
-      "checksum": "edd040360427287fee31f195d628ace653bc00b66693feb62d22d073e4c6d390",
+      "checksum": "0ee1a5d64c1967003c46ad2bdbb8dce28a199910c21de2c71387fed9c6d4b76c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-a890c31ec786.zip",
         "wdasec-skill-skill-certification-class-b-skill-a890c31ec786.zip"
@@ -55985,7 +56213,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-ab9ad669f1a1--58900bf86325.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-ab9ad669f1a1--58900bf86325.zip",
-      "checksum": "6c66141914b15bd18bbae80af65f2397f1d93fb3b9992d993829e93f8f9fb2e5",
+      "checksum": "c20aa1382374bed8eb30ec9f7ac0059ddc9426be0f282eb8c65963772a914d07",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-ab9ad669f1a1.zip",
         "wdasec-skill-skill-certification-class-b-skill-ab9ad669f1a1.zip"
@@ -56004,7 +56232,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-ad6628edd53d--1f977341a22a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-ad6628edd53d--1f977341a22a.zip",
-      "checksum": "0184311ddbadd2508821dc30a121c309d9ccf35ef1e1593bc0718cb01505ad43",
+      "checksum": "5dd155d4f18a1385781a4b7b9f73fbf00a5817163dbacc9e4228166f3d89dfdf",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-ad6628edd53d.zip",
         "wdasec-skill-skill-certification-class-b-skill-ad6628edd53d.zip"
@@ -56023,7 +56251,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-af8e9568fc53--1d17c695a32b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-af8e9568fc53--1d17c695a32b.zip",
-      "checksum": "d74caac46569e01414802ac7ee1a5177a2c5ad6a56fb0a2c42b8a87daac1b4b9",
+      "checksum": "c600ab592e969f0d08d348b17156e1f7530c50a3ae0c4923e6f0dc73ca180b03",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-af8e9568fc53.zip",
         "wdasec-skill-skill-certification-class-b-skill-af8e9568fc53.zip"
@@ -56042,7 +56270,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-af93d1e87de9--6fed798832f1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-af93d1e87de9--6fed798832f1.zip",
-      "checksum": "1be9e05403bce81a29b7de861bb8333a6c07d85afa625401337fb7e3f49700bc",
+      "checksum": "8e934eebccd504ac0ac8341d9eec8bfc4446dec164af3817a84777a458641633",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-af93d1e87de9.zip",
         "wdasec-skill-skill-certification-class-b-skill-af93d1e87de9.zip"
@@ -56061,7 +56289,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-b74cffb8a9b2--1d904b1072f5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-b74cffb8a9b2--1d904b1072f5.zip",
-      "checksum": "338ee19a26d893cd91c967fb84a482298e951e0bbe72ea5cf9e28c3bce157d04",
+      "checksum": "543ee21db669f69faa90ebfa21b82558d6c82fef18989f4e3bfc2a6f76bb9b08",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-b74cffb8a9b2.zip",
         "wdasec-skill-skill-certification-class-b-skill-b74cffb8a9b2.zip"
@@ -56080,7 +56308,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-be321c978226--22914adc4526.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-be321c978226--22914adc4526.zip",
-      "checksum": "c589cbfab79cb814464231b6312ef996cd355fd7c9e356b9f47a0987324981a5",
+      "checksum": "9ca892d58de32c00ac4c6c7c470bc1270719e8a0465e5ac36060e1bb3db0d8be",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-be321c978226.zip",
         "wdasec-skill-skill-certification-class-b-skill-be321c978226.zip"
@@ -56099,7 +56327,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-bef5377c1451--3c253a9b7052.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-bef5377c1451--3c253a9b7052.zip",
-      "checksum": "378e909be1132569317a9c1a34690649f3b5e3bf35f23c92d270a3be08f291d0",
+      "checksum": "0666e4f2cd8f81d541b34df2d409a0464edfb2e715814f342cdaa98d5f16079b",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-bef5377c1451.zip",
         "wdasec-skill-skill-certification-class-b-skill-bef5377c1451.zip"
@@ -56118,7 +56346,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-c05650da23a4--c543ee0159a7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-c05650da23a4--c543ee0159a7.zip",
-      "checksum": "d3a9b196e1edc58ff29d3160e705aef288f2bffb2efd05c01df347c572196a40",
+      "checksum": "62e450ce7d977856775c96f74ee38bbc7677788cd3c3fb67e637b93c25c5bd9f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-c05650da23a4.zip",
         "wdasec-skill-skill-certification-class-b-skill-c05650da23a4.zip"
@@ -56137,7 +56365,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-c3fb3d92bcc7--f6b1b5e32759.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-c3fb3d92bcc7--f6b1b5e32759.zip",
-      "checksum": "b62df83328aec2090edfa8523849e19467f31e473151deebad6d048b9cb2262b",
+      "checksum": "9c65232dba12058686b8948121f483c2fe44759847126d4429d0c73f9b7f49a0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-c3fb3d92bcc7.zip",
         "wdasec-skill-skill-certification-class-b-skill-c3fb3d92bcc7.zip"
@@ -56156,7 +56384,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-c55d886d734e--dd0708923da1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-c55d886d734e--dd0708923da1.zip",
-      "checksum": "f9b719438bab74918bf4bc1b1ab381b5a5b605ac1e14f06683aefa44d3e11969",
+      "checksum": "5f89838e81dffa50231b34b0e68b4596f0f01757cdb982cb22599f08dfccaa86",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-c55d886d734e.zip",
         "wdasec-skill-skill-certification-class-b-skill-c55d886d734e.zip"
@@ -56175,7 +56403,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-c63fe21282dd--d763c6360d75.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-c63fe21282dd--d763c6360d75.zip",
-      "checksum": "d02adc9b3c819349b3cd3716a67d8fdda306cbce7a49546c5b0df2860197c7c7",
+      "checksum": "d8924ee7e1f9e841dc846a4c16b1471f36c20ee43f2b6689c4c299ea8e7c04d9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-c63fe21282dd.zip",
         "wdasec-skill-skill-certification-class-b-skill-c63fe21282dd.zip"
@@ -56194,7 +56422,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-c75157ba7b9f--0da190256112.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-c75157ba7b9f--0da190256112.zip",
-      "checksum": "9314c5bb8b9374dec032561deb2c89c4289020a4864a51c5e2607067c9dcbfb6",
+      "checksum": "384580be3f3811592133347627c2f1b00b1952221a2ba4d5f73960328a06380c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-c75157ba7b9f.zip",
         "wdasec-skill-skill-certification-class-b-skill-c75157ba7b9f.zip"
@@ -56213,7 +56441,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-cc2db540fabd--d94a2202642a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-cc2db540fabd--d94a2202642a.zip",
-      "checksum": "996a15286996e55d35d5e4c4633253183b0bb534ce6ce1e7246c893977dd20da",
+      "checksum": "3e3e94db5d01337a1b0ebad066c10e25d3412b741a13adc8d4ea2242c558f84a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-cc2db540fabd.zip",
         "wdasec-skill-skill-certification-class-b-skill-cc2db540fabd.zip"
@@ -56232,7 +56460,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-cce6441261b1--ba6b28a6dddf.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-cce6441261b1--ba6b28a6dddf.zip",
-      "checksum": "7091c20e51a9ba0adeaa4e68b2afe3ff8ad3b1d9c5023c0692ec20e8d917e29d",
+      "checksum": "f3aad590cec08f2fd1683fda9368315bc4ba2dbce51afcddf186015d6be2a42d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-cce6441261b1.zip",
         "wdasec-skill-skill-certification-class-b-skill-cce6441261b1.zip"
@@ -56251,7 +56479,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-cde69a7a6156--b658ae8ce2f2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-cde69a7a6156--b658ae8ce2f2.zip",
-      "checksum": "1a3f404896c0e447df1b93ee61717b163056c31431cc1c89b38be0cebdd554df",
+      "checksum": "6a5162a525a90a349ac16b9d63775300e706f7a71e1a13f5d7241f70954c57bd",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-cde69a7a6156.zip",
         "wdasec-skill-skill-certification-class-b-skill-cde69a7a6156.zip"
@@ -56270,7 +56498,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-ce56e13980e7--fb9ad846797f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-ce56e13980e7--fb9ad846797f.zip",
-      "checksum": "a8863ed94f5c734d20eb1c620f23cb0f6e6af087ac1d42136f5a0e07336e1913",
+      "checksum": "7fb024febc0eff33e1da8bfccaa0a2127ea533dab5c2efece39339d0beb1b2f5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-ce56e13980e7.zip",
         "wdasec-skill-skill-certification-class-b-skill-ce56e13980e7.zip"
@@ -56289,7 +56517,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-d71d422d503f--d37737fc19d5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-d71d422d503f--d37737fc19d5.zip",
-      "checksum": "4d82043f801530ecab28d8c4429cbcdd98a5cd6eba630a3897c667abdccd41de",
+      "checksum": "40b6efdb1a5786e78f53c5b238501282ed68161c4311f59d9bfcd7281eda5389",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-d71d422d503f.zip",
         "wdasec-skill-skill-certification-class-b-skill-d71d422d503f.zip"
@@ -56308,7 +56536,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-d7ad6fa8605b--fbe58b1205e6.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-d7ad6fa8605b--fbe58b1205e6.zip",
-      "checksum": "9017f338db9b8160b0ec2ea19ffa1ccf51297c1c257d430887f49fd60fab0320",
+      "checksum": "ee18597aa3be92bf739725e83db85eb0f57fb1c1e373ef4f5d723d838c248ccb",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-d7ad6fa8605b.zip",
         "wdasec-skill-skill-certification-class-b-skill-d7ad6fa8605b.zip"
@@ -56327,7 +56555,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-d8c2eb748488--5557c879d8f0.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-d8c2eb748488--5557c879d8f0.zip",
-      "checksum": "bf95f917249f8da967dac43632818381aac498c4d4e3684dce93c18f195634cd",
+      "checksum": "299516c7e39e512a639496ebee2d06c3a3ce6cbc23e78ff0749817032cb370dc",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-d8c2eb748488.zip",
         "wdasec-skill-skill-certification-class-b-skill-d8c2eb748488.zip"
@@ -56346,7 +56574,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-e056d33c5e7c--a62a02d50fc4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-e056d33c5e7c--a62a02d50fc4.zip",
-      "checksum": "f37d73e167df029202049c97d46c4e6f90952f8e87ca7733b464f8fd416caed7",
+      "checksum": "2b10f8cd7c261ae5d0dc07681f31c3f9b9d8fa73aba3abd74e4b209b78814130",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-e056d33c5e7c.zip",
         "wdasec-skill-skill-certification-class-b-skill-e056d33c5e7c.zip"
@@ -56365,7 +56593,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-e209db527886--9b31e2efbc02.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-e209db527886--9b31e2efbc02.zip",
-      "checksum": "0beccd580f2ffb67cae6310c133a1440789a50294a3be081073ae693bbb024d3",
+      "checksum": "3b1ee63073e05e68721d2d544d199175f45d106d60f8ac5face2c3a0b59a95cf",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-e209db527886.zip",
         "wdasec-skill-skill-certification-class-b-skill-e209db527886.zip"
@@ -56384,7 +56612,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-e4b8976395a3--4c71c2922240.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-e4b8976395a3--4c71c2922240.zip",
-      "checksum": "f723ebeafe79ee88225740c6a308a73a32074e50a82398888e0a7a8ecf7a2d20",
+      "checksum": "98a36b3740cda4c16a0d8163cba3771611b0771e16829d01a57a28fe5f7bb988",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-e4b8976395a3.zip",
         "wdasec-skill-skill-certification-class-b-skill-e4b8976395a3.zip"
@@ -56403,7 +56631,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-e62cdeed446f--e29004b77691.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-e62cdeed446f--e29004b77691.zip",
-      "checksum": "d567806c775599c49b6af60ba08e504856ad6afa320b10c5202f3c316867cd30",
+      "checksum": "722da463866cbcc92dbfda6b3e467a2c8a3ac18936b52b4315373ab1af514447",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-e62cdeed446f.zip",
         "wdasec-skill-skill-certification-class-b-skill-e62cdeed446f.zip"
@@ -56422,7 +56650,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-e6fdfaec50c6--9fecf7fdb21e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-e6fdfaec50c6--9fecf7fdb21e.zip",
-      "checksum": "7b1ebc48fa0ec726238b4f5499e370b64e39c12cbab861f9f4d6f5229ec5b85a",
+      "checksum": "f1a9171c908e3239fc288bb7e3d6129531fda1e78ac78a910a5f290a5a35d8be",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-e6fdfaec50c6.zip",
         "wdasec-skill-skill-certification-class-b-skill-e6fdfaec50c6.zip"
@@ -56441,7 +56669,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-eac7a896a927--c41dea7f704e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-eac7a896a927--c41dea7f704e.zip",
-      "checksum": "ccde963275515983c9b4cd94ada9d0de04f6f59b1acb04e2e8ead0f05cf403a4",
+      "checksum": "34652d73951f3ac52f6c607489da68e097e5727b47edba88f8886bc5b278a592",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-eac7a896a927.zip",
         "wdasec-skill-skill-certification-class-b-skill-eac7a896a927.zip"
@@ -56460,7 +56688,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-eccf63a30723--f08ba85dbd7d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-eccf63a30723--f08ba85dbd7d.zip",
-      "checksum": "7477bc346f6af88023f431da4f516cb5c47ab4063023a6bee5d46fc63b22eb92",
+      "checksum": "f48dc0f3ce1dc1f1719f6de697fb87c06fe8d4c637a1893a7fed9e0b62132704",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-eccf63a30723.zip",
         "wdasec-skill-skill-certification-class-b-skill-eccf63a30723.zip"
@@ -56479,7 +56707,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-ed4064ead964--c6919ca04f20.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-ed4064ead964--c6919ca04f20.zip",
-      "checksum": "9c964a7070490083d749b95da1359ef62671dfd7014d59177cc346b1d0376de0",
+      "checksum": "e9884e8cb8dd9427bb931031552d542903a438f5489bc41288ce1e36ce2ff0cc",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-ed4064ead964.zip",
         "wdasec-skill-skill-certification-class-b-skill-ed4064ead964.zip"
@@ -56498,7 +56726,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-f1d4ec8032db--1c316a23df43.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-f1d4ec8032db--1c316a23df43.zip",
-      "checksum": "9a7e8bc198701c87bda59b988d90c20cad112dc16393d7c7842f491a6826e089",
+      "checksum": "f0432b437465576ce959ef12e544be3a1dab516c0e5ba1c37555b22ef55ebab3",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-f1d4ec8032db.zip",
         "wdasec-skill-skill-certification-class-b-skill-f1d4ec8032db.zip"
@@ -56517,7 +56745,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-f59283922cf2--2d608be7b3fc.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-f59283922cf2--2d608be7b3fc.zip",
-      "checksum": "ffd8db6fdbb18eb286d71b170ba91967853ad278d5fa20ffcf7705eac72ab2eb",
+      "checksum": "878dcbea63f74501d2778f696456122990b7cb7b59aeb3262eeeb91988421e2a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-f59283922cf2.zip",
         "wdasec-skill-skill-certification-class-b-skill-f59283922cf2.zip"
@@ -56536,7 +56764,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e--0ca882b73239.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e--0ca882b73239.zip",
-      "checksum": "df00225d5fea50492fd8d5e9659d50bd99e8662e9f7e6731eabf7458e64a15eb",
+      "checksum": "2b3e57fb94788141a8fa4c2bb8e29362cae00d775bb7d5095e3cc2b4533401e5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e.zip",
         "wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e.zip"
@@ -56555,7 +56783,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-fb729c3c458a--180de7684f6a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-fb729c3c458a--180de7684f6a.zip",
-      "checksum": "0808286c40aae3852323b1a9a7517e0dcd9825f684e57713971cf9b8b341ff46",
+      "checksum": "0259262b839779a9b5488a3aca80cd8a9347cdd5d65bc63307183f34022016d9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-fb729c3c458a.zip",
         "wdasec-skill-skill-certification-class-b-skill-fb729c3c458a.zip"
@@ -56574,7 +56802,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-fdf31af72122--77cfe75889d4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-fdf31af72122--77cfe75889d4.zip",
-      "checksum": "0fb962cdf9449333ab49a72748174e64841dcf3eb50f9d884df81b31c5e081e5",
+      "checksum": "93c2d214b73c2e5b1ecce0cb486371c145b6a2f48f10a1aebf515ca5baa07148",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-fdf31af72122.zip",
         "wdasec-skill-skill-certification-class-b-skill-fdf31af72122.zip"
@@ -56593,7 +56821,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-b-skill-ffeec6539939--9953dd3326de.zip",
       "asset_name": "wdasec-skill-skill-certification-class-b-skill-ffeec6539939--9953dd3326de.zip",
-      "checksum": "b57e73e45368d4fe9c9b2acc3dd805ee4867c9f7e10b51e98cbe1b27e414bd1f",
+      "checksum": "656f43a6ab42135f74adc11f6b0bdf4f1cfad552c4a88a12e66132976c439cd8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜乙級__wdasec-skill-skill-certification-class-b-skill-ffeec6539939.zip",
         "wdasec-skill-skill-certification-class-b-skill-ffeec6539939.zip"
@@ -56612,7 +56840,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-mac--ea4f44603927.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-mac--ea4f44603927.zip",
-      "checksum": "161bed1039222fc4bc0c9a680ce386a6e3f3bdbb4028990042b7a30f869ad553",
+      "checksum": "dc17edd461b9dab1564ca6d2b22519e083f296447ef28006bea891249c1534af",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-mac.zip",
         "wdasec-skill-skill-certification-class-c-mac.zip"
@@ -56631,7 +56859,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-pc--e6aca92db0c3.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-pc--e6aca92db0c3.zip",
-      "checksum": "aabd44b9e4d1af98b12f1ea8911b29fd0baac56afe703b5fb3b430afaaf1cb61",
+      "checksum": "bb8595cd05f52d8238460688429e81941faf9e16bec12bde6acfe2fcd6d96ac5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-pc.zip",
         "wdasec-skill-skill-certification-class-c-pc.zip"
@@ -56650,7 +56878,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-00f35441e498--0cdd39a719d8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-00f35441e498--0cdd39a719d8.zip",
-      "checksum": "93cd41fcb5f663fc1813f5437a2e6e59fe8a4d36aad29f84f091ea17a681c93a",
+      "checksum": "5f61801f8e6916bc0daece4d0190424e89adfec8383be2a0bfd5f4d4b92a35e9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-00f35441e498.zip",
         "wdasec-skill-skill-certification-class-c-skill-00f35441e498.zip"
@@ -56669,7 +56897,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-046da9896bf2--bd1a56f7a09f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-046da9896bf2--bd1a56f7a09f.zip",
-      "checksum": "6e7659f27461bf18dffff8ae8968790454f11cc06c08dc66fab2b8472716881a",
+      "checksum": "9c4e49989d9ac77808ba8c4502d11dc5a44b4c2ecd7efdc049b3ad4283c332ea",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-046da9896bf2.zip",
         "wdasec-skill-skill-certification-class-c-skill-046da9896bf2.zip"
@@ -56688,7 +56916,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-06eb81317ad1--ef7fca8b4643.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-06eb81317ad1--ef7fca8b4643.zip",
-      "checksum": "65e0dd06c390eee6f9600f2cea747c6f170c8cf20fce6534056d3579362769be",
+      "checksum": "72a140f27ffbb0bbe8932b3b76c5de24acd798aae055073c5d321bffa674ce02",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-06eb81317ad1.zip",
         "wdasec-skill-skill-certification-class-c-skill-06eb81317ad1.zip"
@@ -56707,7 +56935,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-0831ceffac0e--7389d9104244.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-0831ceffac0e--7389d9104244.zip",
-      "checksum": "e3c9d68e9be180f24b0afa5244e46dc69313379c00ed0d7177c0e0503f40eff5",
+      "checksum": "0d260e4b7e0fab95c536688c6986d46cbb0c89f5c9f36ba4a7d848cdd222ded4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-0831ceffac0e.zip",
         "wdasec-skill-skill-certification-class-c-skill-0831ceffac0e.zip"
@@ -56726,7 +56954,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-083f7cb4e9f7--f9c3c5504cbd.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-083f7cb4e9f7--f9c3c5504cbd.zip",
-      "checksum": "43ee0f669c2f2552a92ec1e57250dec4cefe0b5935010b12fcc9a840431b2ae1",
+      "checksum": "34709202cb8a8faf92980ced0d3af1bb7dfd520bd7547060b9640265b9127ff4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-083f7cb4e9f7.zip",
         "wdasec-skill-skill-certification-class-c-skill-083f7cb4e9f7.zip"
@@ -56745,7 +56973,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-090b73ffcf0f--258863e5970c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-090b73ffcf0f--258863e5970c.zip",
-      "checksum": "ad62fd513eb2ddac3233936a10758bba3c5750ea52a2c75be66aab1d2eb2e821",
+      "checksum": "1b1bc4f02a6a59751e3aadbf66e93a8d894b7eff38b6617587c15f8c760c7325",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-090b73ffcf0f.zip",
         "wdasec-skill-skill-certification-class-c-skill-090b73ffcf0f.zip"
@@ -56764,7 +56992,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-0c8c07ce0af1--8a2c4b9c204f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-0c8c07ce0af1--8a2c4b9c204f.zip",
-      "checksum": "a89b0319c6de3e24d43d351a3e6d88facd9d7045b0c4d4e20a7acdf8ab42471f",
+      "checksum": "485849c57858024839fdc508f56473450ed591016b523c7f790840c94b848890",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-0c8c07ce0af1.zip",
         "wdasec-skill-skill-certification-class-c-skill-0c8c07ce0af1.zip"
@@ -56783,7 +57011,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85--375d5fc2b050.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85--375d5fc2b050.zip",
-      "checksum": "4eea079bcc8e7f5df19ba8572c4805a00f2ad5b79b1e5d1033c6f4d734c5bc43",
+      "checksum": "f48e64038f8066709e98cdef562bbc9716b6321d397b826ad43724087c6cd786",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85.zip",
         "wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85.zip"
@@ -56802,7 +57030,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-11a7afc02b67--470f4326a1ee.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-11a7afc02b67--470f4326a1ee.zip",
-      "checksum": "7b78cddcd2893c99cf8d03546f78ee9e2ea28664414154a215100973a62497e5",
+      "checksum": "e165a5dab0cba3c8134e5d7542b0a405ea3777a41906397626459572e610a922",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-11a7afc02b67.zip",
         "wdasec-skill-skill-certification-class-c-skill-11a7afc02b67.zip"
@@ -56821,7 +57049,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-14f6ba525dc4--5b9894bb269e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-14f6ba525dc4--5b9894bb269e.zip",
-      "checksum": "9a87a74249beccda88b88082c3eb8721b967fe6d6799e4bbd4da1267aa01bc29",
+      "checksum": "1d459f3ab7aea5ccaa08ed5ad05e8dcb86cdbadb9f0401db155a38640168ec92",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-14f6ba525dc4.zip",
         "wdasec-skill-skill-certification-class-c-skill-14f6ba525dc4.zip"
@@ -56840,7 +57068,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1631780a7bd7--d59f8cf4920b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1631780a7bd7--d59f8cf4920b.zip",
-      "checksum": "994e28290055aa9a53f62dc78514cb9c48fd88a6a6b2ce2c95cd2016746f99ce",
+      "checksum": "de8c3ab469ca8c435585aa5c09b65db9a85da85b88aac6189da5e2d2bc39ff7c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1631780a7bd7.zip",
         "wdasec-skill-skill-certification-class-c-skill-1631780a7bd7.zip"
@@ -56859,7 +57087,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-16dd27292dad--875df701d1ca.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-16dd27292dad--875df701d1ca.zip",
-      "checksum": "3ba17f9e84ed48c02aef01f0a0e63a72fddf2bdd4cb5c45578ba0206e4239c88",
+      "checksum": "56d258c311c5cc939649e95ba242561c09ffbb0b8bd2949b74fb918cbb5ad64f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-16dd27292dad.zip",
         "wdasec-skill-skill-certification-class-c-skill-16dd27292dad.zip"
@@ -56878,7 +57106,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1718e1c21122--4af65ce6f2ce.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1718e1c21122--4af65ce6f2ce.zip",
-      "checksum": "5e0ae5a329fd3b7cef9327d8590e6f0db77f75b4121499c78a46a0d5a99bb280",
+      "checksum": "0e6d8add09064f3bb3595ec47a0c3c38f9560898f55f68574fe75796cde5d84f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1718e1c21122.zip",
         "wdasec-skill-skill-certification-class-c-skill-1718e1c21122.zip"
@@ -56897,7 +57125,7 @@
       "release_tag": "default-bundles-v2-010",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1bbdedb90cc5--23991776ad57.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1bbdedb90cc5--23991776ad57.zip",
-      "checksum": "b48991a1b06d4a623eba95b04ae5a4bc8008d30536da5d4662cde36045276f20",
+      "checksum": "608c5364a54134b99d3d275eec2dac051efb84a8d1bc06dc3fc165def813b776",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1bbdedb90cc5.zip",
         "wdasec-skill-skill-certification-class-c-skill-1bbdedb90cc5.zip"
@@ -56916,7 +57144,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1d71443f5e39--82e05afe7ecc.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1d71443f5e39--82e05afe7ecc.zip",
-      "checksum": "4de10f652b71deed51b621bf3f9209d88cc539e3a210e853cdfb773749ae3f27",
+      "checksum": "5cac3392ac74766346f59154b49b0e6c2ebdd2352e00345a35fdccbe744a50f4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1d71443f5e39.zip",
         "wdasec-skill-skill-certification-class-c-skill-1d71443f5e39.zip"
@@ -56935,7 +57163,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1ea97f8e29e2--5b562b45261e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1ea97f8e29e2--5b562b45261e.zip",
-      "checksum": "285b518241ac106ce388505787b64df910ca2803b1a0d70aeb9542ed6336debf",
+      "checksum": "bb3c03b644c1b4910cd74770e7c0f4b104bb720c3b4dcc46ae25e6c6cb3ef537",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1ea97f8e29e2.zip",
         "wdasec-skill-skill-certification-class-c-skill-1ea97f8e29e2.zip"
@@ -56954,7 +57182,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-1f44c18e4ff4--74b1498d1670.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-1f44c18e4ff4--74b1498d1670.zip",
-      "checksum": "60fd5c0df45df68454a3864b401321b05663002fea3bf5217ed9383fbbf5f929",
+      "checksum": "7d6f2b1a24eaf60efed43237edd2d275c1f0648a1640c156fb725cf66ed2b0da",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-1f44c18e4ff4.zip",
         "wdasec-skill-skill-certification-class-c-skill-1f44c18e4ff4.zip"
@@ -56973,7 +57201,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-22cf453e5e1f--2e6057ca8e79.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-22cf453e5e1f--2e6057ca8e79.zip",
-      "checksum": "f019004b67df931b0f264e139830e284074f4d6c6b6280a524b1b7e9eeacf85e",
+      "checksum": "a66dfdf57abe9fc3bd40908d71bd66ff4f511d2a7059b96d98be157d60c0635d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-22cf453e5e1f.zip",
         "wdasec-skill-skill-certification-class-c-skill-22cf453e5e1f.zip"
@@ -56992,7 +57220,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-26f2fc004983--19960b82dafe.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-26f2fc004983--19960b82dafe.zip",
-      "checksum": "6f6111778a07bbdea20476735ca0c206c487a50a1d3e0c388437b57ab2e252a5",
+      "checksum": "d9608bdd84c933ec31078ead75bac4cc30415d4e98135959d069ab57225ac09d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-26f2fc004983.zip",
         "wdasec-skill-skill-certification-class-c-skill-26f2fc004983.zip"
@@ -57011,7 +57239,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-2bb4fc13c168--38c93370bb6a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-2bb4fc13c168--38c93370bb6a.zip",
-      "checksum": "78835dc5269119aec3e949a7b22e268291e5177c649d684c6c675286dd4bbb6c",
+      "checksum": "4a6397fb13813e748de3cf24dd0d648eb3c5f39f90a4cedecf218cb9466200d5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-2bb4fc13c168.zip",
         "wdasec-skill-skill-certification-class-c-skill-2bb4fc13c168.zip"
@@ -57030,7 +57258,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-2d8b9cc47d02--f64a86bd264b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-2d8b9cc47d02--f64a86bd264b.zip",
-      "checksum": "32ce10b9478a58c5c474adabd2d50a91bf5ecd9fc2cd0bee05f3fba9fc239a1a",
+      "checksum": "93b7936478745e807ab43c37418a835f032c0f57c973ca1da212b2cd00e1cc9b",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-2d8b9cc47d02.zip",
         "wdasec-skill-skill-certification-class-c-skill-2d8b9cc47d02.zip"
@@ -57049,7 +57277,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-2e8275eb002a--69b9100a3789.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-2e8275eb002a--69b9100a3789.zip",
-      "checksum": "0032e632ac8e4714d3377d9814ccd10b92c415117b6dd968206c92f8bf936a2e",
+      "checksum": "6bb6ad0ec0563c8b60b2a6413a4f0c90fcab29fb7511ff4f4b282db05b3ca4c7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-2e8275eb002a.zip",
         "wdasec-skill-skill-certification-class-c-skill-2e8275eb002a.zip"
@@ -57068,7 +57296,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-323b3510d1f6--22594b3d42be.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-323b3510d1f6--22594b3d42be.zip",
-      "checksum": "446c6aa6c5da67d8a419e7148ff208bceb059587152dac823df7d378debbe0e1",
+      "checksum": "e49f4f32bf37d84d2dab10c59356affe61a159926fb5f28edf1c6324240558f7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-323b3510d1f6.zip",
         "wdasec-skill-skill-certification-class-c-skill-323b3510d1f6.zip"
@@ -57087,7 +57315,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-34532f21514f--20a7b615404d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-34532f21514f--20a7b615404d.zip",
-      "checksum": "6d5f0bbc4fc6070f5727ce4d1e16517e90510e5b61cc6862e2ecf47a9a6d5259",
+      "checksum": "6abbe27717ca18818352f5a0413ae4ec24a48659b748291247362190b8b1d1b4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-34532f21514f.zip",
         "wdasec-skill-skill-certification-class-c-skill-34532f21514f.zip"
@@ -57106,7 +57334,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-37d717dc8cf8--660af05e1a4a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-37d717dc8cf8--660af05e1a4a.zip",
-      "checksum": "d6bfadbff1bf3553bfd8766a9f899cacff21eb95f81f176683be5b9cc1c15bec",
+      "checksum": "57abc7c6891c6f8912e4f7d4721bc3c851642bb258411a4646e3882855eecf5d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-37d717dc8cf8.zip",
         "wdasec-skill-skill-certification-class-c-skill-37d717dc8cf8.zip"
@@ -57125,7 +57353,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-38345a76972d--35c69db7827e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-38345a76972d--35c69db7827e.zip",
-      "checksum": "3f749a9378d157b90e13ccd7768e2fc17ad6698469f1a61794e3217ca527ea8c",
+      "checksum": "aed851c74e223b55f7fdd98a2e51d50dd559a813fae581c771f3878e2e809c3c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-38345a76972d.zip",
         "wdasec-skill-skill-certification-class-c-skill-38345a76972d.zip"
@@ -57144,7 +57372,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-3a62f9393901--f51ab549d6e4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-3a62f9393901--f51ab549d6e4.zip",
-      "checksum": "15cf5f0266db7d7d16cf64782bd2d087047de0162b08aac43ee533f4608f5c99",
+      "checksum": "a2a8019747033628a7efe9a0482e7498a1e3cc5e003b0fe4f3701f36b58f52f6",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-3a62f9393901.zip",
         "wdasec-skill-skill-certification-class-c-skill-3a62f9393901.zip"
@@ -57163,7 +57391,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-3b828c9d3bd9--d0fc2a509c3b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-3b828c9d3bd9--d0fc2a509c3b.zip",
-      "checksum": "4a995e34ee6701b8df2de01e5d7123d7f45be0dfed3f7b06459d20457a0d2734",
+      "checksum": "6db6faad00c0f952a1d271baca64eca9546f77490008671143b3c2eb20ea3e96",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-3b828c9d3bd9.zip",
         "wdasec-skill-skill-certification-class-c-skill-3b828c9d3bd9.zip"
@@ -57182,7 +57410,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-3ecfbaadc824--5ee4eb344178.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-3ecfbaadc824--5ee4eb344178.zip",
-      "checksum": "cec5306e101e8881f6f6e6228f776cb94f2d231a8da07a8fdce4353d33c0ea94",
+      "checksum": "22cbb16e00d6ce22bc2c427d333f189680efba7c7b4eb1bdbe827a98fde09e54",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-3ecfbaadc824.zip",
         "wdasec-skill-skill-certification-class-c-skill-3ecfbaadc824.zip"
@@ -57201,7 +57429,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-41f67282318e--1dcbe258766a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-41f67282318e--1dcbe258766a.zip",
-      "checksum": "6204064f133fa042c023f638c8b04ee0d10cab991ff403385f30b366ebe73965",
+      "checksum": "b491ab303d7b08e29b8a59ffdddb72ab96c8bc2aef8b0f56269e97f4b31b93eb",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-41f67282318e.zip",
         "wdasec-skill-skill-certification-class-c-skill-41f67282318e.zip"
@@ -57220,7 +57448,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-42cedb117ffd--390c277e16d2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-42cedb117ffd--390c277e16d2.zip",
-      "checksum": "5fb72b9731117fb4433b42e2f98efe07122f77fb36bd878ac431ae8ed2d93434",
+      "checksum": "83eefe3cc4ac85b729015c9392d592d04d75af848c5d5f8a54d984748a8db353",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-42cedb117ffd.zip",
         "wdasec-skill-skill-certification-class-c-skill-42cedb117ffd.zip"
@@ -57239,7 +57467,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-44c72b4cbeda--dc93ca0f5432.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-44c72b4cbeda--dc93ca0f5432.zip",
-      "checksum": "076044f700d142d1157e06f0ac6bdeaec507496b01d380255d9fb257734c2f60",
+      "checksum": "06e2a6f32dbd7a7e40b64e75af547de8e8a5d5ee924b6630e192c2cad646699b",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-44c72b4cbeda.zip",
         "wdasec-skill-skill-certification-class-c-skill-44c72b4cbeda.zip"
@@ -57258,7 +57486,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-475cf210c98c--e723167302c4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-475cf210c98c--e723167302c4.zip",
-      "checksum": "bf0bdb2a6b34a8c6f071a28f8dfab92beb4a268d307bdb18f919b0ffdb7a3386",
+      "checksum": "0bc0926cc74487dea51bf64e5cd06c44d808390a4c859d020b1ea9c3e84ca181",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-475cf210c98c.zip",
         "wdasec-skill-skill-certification-class-c-skill-475cf210c98c.zip"
@@ -57277,7 +57505,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-48da8829ec3a--395b00817718.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-48da8829ec3a--395b00817718.zip",
-      "checksum": "5bac9b14064f3964e1ee2a637f77d4f1f755ba747030b08ca090bcf1bbe6b8ee",
+      "checksum": "946bf1b643917868f82ee0fe823da4048eb7ff16a4249ce8b4b06a3940bc0d90",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-48da8829ec3a.zip",
         "wdasec-skill-skill-certification-class-c-skill-48da8829ec3a.zip"
@@ -57296,7 +57524,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4b1ae7613f4c--d4964370b2a7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4b1ae7613f4c--d4964370b2a7.zip",
-      "checksum": "c2f559b88bd88c12c1cabab7c31914da61dc24063b040ddd1bf368a291998085",
+      "checksum": "dc85ecc39c6190d2f6cf89c5b7bc8e7e3fda622ec7b602ede4bfaf384324806a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4b1ae7613f4c.zip",
         "wdasec-skill-skill-certification-class-c-skill-4b1ae7613f4c.zip"
@@ -57315,7 +57543,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4b414606cd68--7ee78032d1a8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4b414606cd68--7ee78032d1a8.zip",
-      "checksum": "389f79402c4aa30131571953ed4389502930ec0dc79ff53cab8a873256136798",
+      "checksum": "17ffe148a70af0b39bfe0b65ffe89083e19cea0859e91823c8d4e22d5af3b42e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4b414606cd68.zip",
         "wdasec-skill-skill-certification-class-c-skill-4b414606cd68.zip"
@@ -57334,7 +57562,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4bc06fb95b2f--e1411fa42d2b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4bc06fb95b2f--e1411fa42d2b.zip",
-      "checksum": "33d2a542aebaa27b953abd9afbbfb59fc35234b12ee25c6839d924b0819a34e3",
+      "checksum": "6ba1e28a52ed3cf62bb7121976f429b72eb4f3bb5702d03c1b40ff4f0c1113b3",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4bc06fb95b2f.zip",
         "wdasec-skill-skill-certification-class-c-skill-4bc06fb95b2f.zip"
@@ -57353,7 +57581,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4c75a87f4859--c316fe46495d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4c75a87f4859--c316fe46495d.zip",
-      "checksum": "095fe15c021f5c442bba85f817dc817029725052fe5331fbe3074810d6c7e947",
+      "checksum": "d30f7115224c0db7bb67d375211f7138217debc9a5d74329a4c57056f035d075",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4c75a87f4859.zip",
         "wdasec-skill-skill-certification-class-c-skill-4c75a87f4859.zip"
@@ -57372,7 +57600,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4e2f7141b605--f61338b659d5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4e2f7141b605--f61338b659d5.zip",
-      "checksum": "ca776c3e1537a9ea1f6b145b242ca1054cf86e7169d0feed7d99b51ed1c61cd1",
+      "checksum": "a8c234c322cb7b7bf462a7fc6639d1a59620808a03d935de1aad9498711f712a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4e2f7141b605.zip",
         "wdasec-skill-skill-certification-class-c-skill-4e2f7141b605.zip"
@@ -57391,7 +57619,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-4ed2db72e36a--f82c65cee04f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-4ed2db72e36a--f82c65cee04f.zip",
-      "checksum": "1e22808b3e5a0293dec31db0ac7aa825cba41753c2881e55a6822610e90e27a0",
+      "checksum": "e104a4a13e313d1b9713b58c55d74fb5adcf9b613ce2172799a1c00e46f71026",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-4ed2db72e36a.zip",
         "wdasec-skill-skill-certification-class-c-skill-4ed2db72e36a.zip"
@@ -57410,7 +57638,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-52ebc77d2619--89cba60a32c9.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-52ebc77d2619--89cba60a32c9.zip",
-      "checksum": "08c0b30dfb82e172effa3396536c6cb292d51df315e56b152c61c944bdb665db",
+      "checksum": "c8903ddd2c48004b3daf47cd943501e46fdc404f843b6e262e0c4774f8f5a7bb",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-52ebc77d2619.zip",
         "wdasec-skill-skill-certification-class-c-skill-52ebc77d2619.zip"
@@ -57429,7 +57657,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-546967359b4d--6a5e796ec8ee.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-546967359b4d--6a5e796ec8ee.zip",
-      "checksum": "6dbc778ff8bb598198c52939b44d20624f8dc21ad5bf82158faf983cdb81df46",
+      "checksum": "0c33c4b3910e28616e8847c83b47331019ad58e3409aec334fa979d26f5349f8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-546967359b4d.zip",
         "wdasec-skill-skill-certification-class-c-skill-546967359b4d.zip"
@@ -57448,7 +57676,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-55f25ab4b15e--15ff334b9bf2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-55f25ab4b15e--15ff334b9bf2.zip",
-      "checksum": "36fce25b2896b69f3519cdaef34785013c03d8b10298c7ef3050634fed30d1de",
+      "checksum": "a4ce5781ebb5203cb657758b52f89ca2f8428954affa4ea99c26293e028ad288",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-55f25ab4b15e.zip",
         "wdasec-skill-skill-certification-class-c-skill-55f25ab4b15e.zip"
@@ -57467,7 +57695,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-5a693ffc2ae1--95ca5fc26b73.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-5a693ffc2ae1--95ca5fc26b73.zip",
-      "checksum": "316d7bf1372b24441396478af94c0f72672642efaac50c24d81c34e751a8ead6",
+      "checksum": "3b0d086b0fa1d90d3f84a0154938e397aebbc95444bcf4bf82909ee332441532",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-5a693ffc2ae1.zip",
         "wdasec-skill-skill-certification-class-c-skill-5a693ffc2ae1.zip"
@@ -57486,7 +57714,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-60aab18e0606--18529aebe8f3.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-60aab18e0606--18529aebe8f3.zip",
-      "checksum": "cb5a571d6f183522560d4bccb9bc8d6dc8e0f815783947ee612b8654cc588e87",
+      "checksum": "f621de22c8c6d38582d49a9507f8ffbe6ceb8e50c0eb4a19987b03cb6d8a7ee4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-60aab18e0606.zip",
         "wdasec-skill-skill-certification-class-c-skill-60aab18e0606.zip"
@@ -57505,7 +57733,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-6890ae3c9753--887e3030c2d5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-6890ae3c9753--887e3030c2d5.zip",
-      "checksum": "dc52dc0f53ab115d3de31e7992325794198c8d517e5bdd70bb57e8cd203cb6bb",
+      "checksum": "18c7398eb1dac67d7bd5a985711ee31a16e55d9887912fe53010919af9f1fb90",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-6890ae3c9753.zip",
         "wdasec-skill-skill-certification-class-c-skill-6890ae3c9753.zip"
@@ -57524,7 +57752,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-6a6c2d79f93b--e3f3ba131d8d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-6a6c2d79f93b--e3f3ba131d8d.zip",
-      "checksum": "5d7ba61588601c126a844fde614ac4b6fce65f585146a1689d24a8a393b07ded",
+      "checksum": "81c54660f325dbddf9fe66b58ebd366882dfd8cfbbc08bb8361910ced3bd2ee8",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-6a6c2d79f93b.zip",
         "wdasec-skill-skill-certification-class-c-skill-6a6c2d79f93b.zip"
@@ -57543,7 +57771,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-6bf4462056b3--cdfaefd8a9fb.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-6bf4462056b3--cdfaefd8a9fb.zip",
-      "checksum": "363a20eb2ec81c870a9fb326c51a1cc5b161a7b14e5c36bb090a43ccc678c7a9",
+      "checksum": "f13f706ce8709ef8da5c4428762c06c73c25355ebc1d509a2f421f8ae0c38f25",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-6bf4462056b3.zip",
         "wdasec-skill-skill-certification-class-c-skill-6bf4462056b3.zip"
@@ -57562,7 +57790,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-717879e58f24--8fed7f766454.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-717879e58f24--8fed7f766454.zip",
-      "checksum": "470b55e162494d2cb742db7dc7039dba8d7d945eae11358196074498801344b2",
+      "checksum": "63ccdef3eeea13e3dc1e26a7ed0ee9b7c92b50cc1b08f4a5f092d244500ce391",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-717879e58f24.zip",
         "wdasec-skill-skill-certification-class-c-skill-717879e58f24.zip"
@@ -57581,7 +57809,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7558f82bb791--c75b2d014681.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7558f82bb791--c75b2d014681.zip",
-      "checksum": "4982090187cc821de7d6156d51eefb18d6dc51548cc8b988e82fa40301dbd098",
+      "checksum": "b7ea8bef4609dbfb9f38326559bf82745142eb8058ac533e0ad6e012f32b23cd",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7558f82bb791.zip",
         "wdasec-skill-skill-certification-class-c-skill-7558f82bb791.zip"
@@ -57597,10 +57825,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7689fabf7586--eebb09e66751.zip",
+      "asset_name": "wdasec-skill-skill-certification-class-c-skill-7689fabf7586--eebb09e66751.zip",
+      "checksum": "dc8bd68c17595e2e74b9d71504fa0b6836877e617a6ee961aeabc1710151662d",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7689fabf7586.zip",
+        "wdasec-skill-skill-certification-class-c-skill-7689fabf7586.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-class-c-skill-7689fabf7586",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "class-c",
+      "track_id": "skill-7689fabf7586",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-77141472de1b--946357f88b25.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-77141472de1b--946357f88b25.zip",
-      "checksum": "0a24eedb9422f7f61fcde5eb3b44a168e8d4d8ccead07094e3f3ab1204580434",
+      "checksum": "1884bfb2d8ac6cf13b9ed65a7271671d6abfa336e5b15268707e52ead6eb132e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-77141472de1b.zip",
         "wdasec-skill-skill-certification-class-c-skill-77141472de1b.zip"
@@ -57619,7 +57866,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7781a64c8976--9f764962e2e2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7781a64c8976--9f764962e2e2.zip",
-      "checksum": "6331bbc49fd200308ca170679b8a8253ca89316691c6320227f9959d562d3fbd",
+      "checksum": "67bedc2e77bfc9cd1108cbd8d192aa997463b1bf7250def521f7415eb890f7b7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7781a64c8976.zip",
         "wdasec-skill-skill-certification-class-c-skill-7781a64c8976.zip"
@@ -57638,7 +57885,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7797bb3e9b54--c4369db2c8a5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7797bb3e9b54--c4369db2c8a5.zip",
-      "checksum": "27df6ea992ed9fc3955e7038d538f57a8d1d16501d6f6d5af18085f37d954ac7",
+      "checksum": "31eada0205fe871cd9d32c058b0123926f2253936edc717639106f0e5a7c1066",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7797bb3e9b54.zip",
         "wdasec-skill-skill-certification-class-c-skill-7797bb3e9b54.zip"
@@ -57657,7 +57904,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-78f181a9cbc4--aad5b90129a8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-78f181a9cbc4--aad5b90129a8.zip",
-      "checksum": "561ecf142fad6b149f31573262ba63434b375a2020cd244549f40f09993dcb53",
+      "checksum": "9fd1e487960aeac713f1087439ba520dc4a3aa1af1d0e4e7feb58d82ecaa99c9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-78f181a9cbc4.zip",
         "wdasec-skill-skill-certification-class-c-skill-78f181a9cbc4.zip"
@@ -57676,7 +57923,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-78f35226bd74--02f29c63aaca.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-78f35226bd74--02f29c63aaca.zip",
-      "checksum": "eb41a2c6489e56936cb9b1dc375d1b025215129244be15b21c6c180125f7cc11",
+      "checksum": "aaca9361282ae7bba60fc64d2b399b8097de675f0eee161170f75b634041fdf5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-78f35226bd74.zip",
         "wdasec-skill-skill-certification-class-c-skill-78f35226bd74.zip"
@@ -57695,7 +57942,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7941fbba5d8e--155a56d94d90.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7941fbba5d8e--155a56d94d90.zip",
-      "checksum": "fb6374e5d654769786e1b6a75365632a01554a46bd8f29b3ddde79aa0a52b5f4",
+      "checksum": "94cbf8dfa934c1924dd57dea0c7a0b63b6591dda204e22f06e66dc234c325573",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7941fbba5d8e.zip",
         "wdasec-skill-skill-certification-class-c-skill-7941fbba5d8e.zip"
@@ -57714,7 +57961,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-79f36f513a80--60a7ebd832d2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-79f36f513a80--60a7ebd832d2.zip",
-      "checksum": "4263fb02db20e7b211c531ab200765dbde11346cd5ce4c96b60dae55c840223f",
+      "checksum": "0dce80e2dfbd4c4c1d7b57a6f91b11c7a6a496933758477d5b06a7b60fa018ef",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-79f36f513a80.zip",
         "wdasec-skill-skill-certification-class-c-skill-79f36f513a80.zip"
@@ -57733,7 +57980,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7d2e9509ec36--e0b6a28c75c7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7d2e9509ec36--e0b6a28c75c7.zip",
-      "checksum": "9c44f402cc20e80abc8de43a89c53cace2486ef165c274caefe58ce5eb7c3b6b",
+      "checksum": "94cb2b5de1b74946d45b22e8ffc5958174e4b36b72ef13d81aa7a76adcadae50",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7d2e9509ec36.zip",
         "wdasec-skill-skill-certification-class-c-skill-7d2e9509ec36.zip"
@@ -57752,7 +57999,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-7fc1524fade0--6f4b1fb4cdf1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-7fc1524fade0--6f4b1fb4cdf1.zip",
-      "checksum": "b8d4e018943d4d4c1a7f3c16dbcf2e26bff2f19f112fb7a97255a18cc320c60a",
+      "checksum": "f2c8707b6ca2f30be6e0aff62fc8c292f61bdf73d0cd673723dc6cf35880241d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-7fc1524fade0.zip",
         "wdasec-skill-skill-certification-class-c-skill-7fc1524fade0.zip"
@@ -57771,7 +58018,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-829052fc3d05--08887f9fd40b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-829052fc3d05--08887f9fd40b.zip",
-      "checksum": "463064740ec3fcb934fb5a878aa11fec581f49c9a0567db81c8f00e7f7fb7ea7",
+      "checksum": "6be4ab834e50fdce7c52b1959f0e232573d6a3d279b1071a0f5cff05c9958073",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-829052fc3d05.zip",
         "wdasec-skill-skill-certification-class-c-skill-829052fc3d05.zip"
@@ -57790,7 +58037,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-8a55ee04da36--d68429644659.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-8a55ee04da36--d68429644659.zip",
-      "checksum": "ca56908d2a8b2aeb33d84d0305cdac5724684470a1992979cd47f2c24b8d7cef",
+      "checksum": "2291f9eafea877dccd9c2eaa32f95070a4601d66ead57a1125df1a72336683d9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-8a55ee04da36.zip",
         "wdasec-skill-skill-certification-class-c-skill-8a55ee04da36.zip"
@@ -57828,7 +58075,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-903561bfe77f--4f62d9059803.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-903561bfe77f--4f62d9059803.zip",
-      "checksum": "567bc6d2d05443b9fc68affa1bde4f4e97b7fcfae713eeb6ed9c23865845c892",
+      "checksum": "ea93c984160cf65cdc0a6836dcb5596d1728f99189a95a52d85cb3fc6f869488",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-903561bfe77f.zip",
         "wdasec-skill-skill-certification-class-c-skill-903561bfe77f.zip"
@@ -57847,7 +58094,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-937f291d1b4a--fdeb71d987f4.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-937f291d1b4a--fdeb71d987f4.zip",
-      "checksum": "0f754736c5aa8db34952676c8eb0845e4a8c0542c18a2c44c981d52a233c2a0b",
+      "checksum": "c54ebea69ba5a04c376c60d30eafa26d7cb308f52970bf08757710a479ac82a7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-937f291d1b4a.zip",
         "wdasec-skill-skill-certification-class-c-skill-937f291d1b4a.zip"
@@ -57866,7 +58113,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-93947cc21479--b065e9537ef8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-93947cc21479--b065e9537ef8.zip",
-      "checksum": "e5fd1d39a63c7a7026e3562bb5e634055452e18d412f885855d28189c416693d",
+      "checksum": "04dd4a087b9431170e38cc631b0c59067485efafcca63584a00045525f23e79e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-93947cc21479.zip",
         "wdasec-skill-skill-certification-class-c-skill-93947cc21479.zip"
@@ -57885,7 +58132,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-9638f5666f6e--76661b370e63.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-9638f5666f6e--76661b370e63.zip",
-      "checksum": "0da3344056fc6e60345dbde234cb34b335f41f47f8ed8838bb77d27ff03428ec",
+      "checksum": "f461a20fdfc89b70ff6cbf1a2f374271b691eab20e401897c948c9d9e3adb4f1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-9638f5666f6e.zip",
         "wdasec-skill-skill-certification-class-c-skill-9638f5666f6e.zip"
@@ -57904,7 +58151,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-978ed77f1a1a--030064383d31.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-978ed77f1a1a--030064383d31.zip",
-      "checksum": "41bd19e9ff3bc1a591ce323e40137a4570c756e8dea0317a286b8c8cc6fbf014",
+      "checksum": "3b4557bc04b064b196d5da92d5f8138559b3d2de9d7edce6a596938ad97fc677",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-978ed77f1a1a.zip",
         "wdasec-skill-skill-certification-class-c-skill-978ed77f1a1a.zip"
@@ -57923,7 +58170,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-98047ebc078c--c9e2cbfbc60e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-98047ebc078c--c9e2cbfbc60e.zip",
-      "checksum": "d884df7886f9bcd067c44dc24f48b4f9b9e254c93f6ca25e44517c2727547650",
+      "checksum": "05c883312cb2cbf131afca0d6ece087356b55e0018e1cd2bd6a6051353409e2a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-98047ebc078c.zip",
         "wdasec-skill-skill-certification-class-c-skill-98047ebc078c.zip"
@@ -57942,7 +58189,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-9e73fb6cee29--7e1c140af852.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-9e73fb6cee29--7e1c140af852.zip",
-      "checksum": "968c093f23fac783220ec1a7a74f46c0ed5fdb88b31e43395d208c94b6a1e10d",
+      "checksum": "63d8d9375862cb0360c0883157ad345b2164ffdaa50d2eb2f5d2dd9dba0d16c4",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-9e73fb6cee29.zip",
         "wdasec-skill-skill-certification-class-c-skill-9e73fb6cee29.zip"
@@ -57961,7 +58208,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-a90e91ae698f--86f5c60837d9.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-a90e91ae698f--86f5c60837d9.zip",
-      "checksum": "856aab99b8d3576e3e4459411b6eab8a1b99e2c2dfdbb56b91302df3c19ff48d",
+      "checksum": "cb288bb465425a9040983b67a0a8782b1f7f23c5c0dbb448550c9bb56187b6db",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-a90e91ae698f.zip",
         "wdasec-skill-skill-certification-class-c-skill-a90e91ae698f.zip"
@@ -57980,7 +58227,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-a9ea232fd913--44bdc432911d.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-a9ea232fd913--44bdc432911d.zip",
-      "checksum": "256acbea7f89b416a80c649f7710f687d2742a3978046e0a81ccca557664bba9",
+      "checksum": "21c8ff47e9e1cc5e68740b396f54b6cfa421c6faa355b0f35ddc0f947610215b",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-a9ea232fd913.zip",
         "wdasec-skill-skill-certification-class-c-skill-a9ea232fd913.zip"
@@ -57999,7 +58246,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-aa46a81a9209--b4051316ccc7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-aa46a81a9209--b4051316ccc7.zip",
-      "checksum": "48f6930e93d34aca0939d4d25036b0117a8cc6765375bc31a45cdac4ffe9f604",
+      "checksum": "197e942861ab08a6f2e360300f0b5ac268f721b00b00999eba7603798ced6ed7",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-aa46a81a9209.zip",
         "wdasec-skill-skill-certification-class-c-skill-aa46a81a9209.zip"
@@ -58018,7 +58265,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-acfabff896ba--06b507c1ec9f.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-acfabff896ba--06b507c1ec9f.zip",
-      "checksum": "f067438c3dffc4a67150c95a4d787d289cda7371cee5c8f3b639e354f7a7fc0d",
+      "checksum": "cb9c189cb5c359d2214340fb78fc7afdbadbf386485278f46337921e4cd79a92",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-acfabff896ba.zip",
         "wdasec-skill-skill-certification-class-c-skill-acfabff896ba.zip"
@@ -58037,7 +58284,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-ad94f9570dad--0826f3ff0552.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-ad94f9570dad--0826f3ff0552.zip",
-      "checksum": "414bd9b667bb59519917e65540c71ea288563d8980b0f81a3fe0bd09170d8297",
+      "checksum": "70f8716922c1b8505c0670bb0d26901cc4e610c711c27a21d356e79b30dfed56",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-ad94f9570dad.zip",
         "wdasec-skill-skill-certification-class-c-skill-ad94f9570dad.zip"
@@ -58056,7 +58303,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-af2172ba90ce--e2c58580d5ad.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-af2172ba90ce--e2c58580d5ad.zip",
-      "checksum": "a7cb6d0ba98aa47cd4d76d795bfc2f6c0d4f561f8d792694d81eecefd9a70f89",
+      "checksum": "126f3bb9ab3268e7ca49ff6b70eda8552928b85ba1659652a8072858d2bce97d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-af2172ba90ce.zip",
         "wdasec-skill-skill-certification-class-c-skill-af2172ba90ce.zip"
@@ -58075,7 +58322,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-b11816d2c305--b0381b4129c1.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-b11816d2c305--b0381b4129c1.zip",
-      "checksum": "4c3cc688ae5076bd918e9b0ef84455b0298b2e3db865efee85b2cd0078b0c441",
+      "checksum": "845068f6c37450371bb10cd68f02639395c3a76d8416b6523c6f0da26658e8b1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-b11816d2c305.zip",
         "wdasec-skill-skill-certification-class-c-skill-b11816d2c305.zip"
@@ -58094,7 +58341,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-b5ac9a7726ef--02c47a609471.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-b5ac9a7726ef--02c47a609471.zip",
-      "checksum": "d5bd612b3433c4c3ff530f8bbcd3c90bf6c9404e1a93957c77751770f319986d",
+      "checksum": "4636fa35d485f9e7fd5ec0359e405bcc3cba92b28b8cff0c3d5b944b9e807d82",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-b5ac9a7726ef.zip",
         "wdasec-skill-skill-certification-class-c-skill-b5ac9a7726ef.zip"
@@ -58113,7 +58360,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-b6400ac17910--1169de929162.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-b6400ac17910--1169de929162.zip",
-      "checksum": "49c3964ec2e272670aaf4f6153762e5e6b38bcec84f4dd6d6c30daabc40c3288",
+      "checksum": "6f4091e44100cd7e3b5a24cf85114f94d30505434a06a5899501b127dc11c56a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-b6400ac17910.zip",
         "wdasec-skill-skill-certification-class-c-skill-b6400ac17910.zip"
@@ -58132,7 +58379,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-b77e3e72baa6--c0853035581b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-b77e3e72baa6--c0853035581b.zip",
-      "checksum": "72f0020cad9225dee7acb94897e4a547477219dc05d89e9d4a8b215b84035378",
+      "checksum": "15ebaa4fb1ec1fa5f69be1300198519d383b951c713d54c7c91ba97e5988192e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-b77e3e72baa6.zip",
         "wdasec-skill-skill-certification-class-c-skill-b77e3e72baa6.zip"
@@ -58151,7 +58398,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-ba471f5f7bd6--fb7531886ee7.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-ba471f5f7bd6--fb7531886ee7.zip",
-      "checksum": "92324c3a612583e599375251674a6243d42e92ccbf185ab5cd9b7878fc1200a5",
+      "checksum": "dac6d8713e948b0bbce7d54c9205d0bff6d46b1876e74a2d09a0891dd0788485",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-ba471f5f7bd6.zip",
         "wdasec-skill-skill-certification-class-c-skill-ba471f5f7bd6.zip"
@@ -58170,7 +58417,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938--f0cf7daeb65a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938--f0cf7daeb65a.zip",
-      "checksum": "4d43898024c6014b0ec09c4bba19b99d0d9332bd516a2cc64967e105f2694ab7",
+      "checksum": "ded048922695b96d9786e5f544c796301b1e519759c17bd2512efbcf686678b6",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938.zip",
         "wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938.zip"
@@ -58189,7 +58436,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-bbcf0e9f1c91--10ee243d1a0a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-bbcf0e9f1c91--10ee243d1a0a.zip",
-      "checksum": "4a4a706c6d7b0430fb498c9c85b1622bc226244fdbd384a8e32566c1e8088628",
+      "checksum": "ee463d8380cd8233a1269b6923dfc58040cf976f89de1a6c1b22c2f49411e214",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-bbcf0e9f1c91.zip",
         "wdasec-skill-skill-certification-class-c-skill-bbcf0e9f1c91.zip"
@@ -58208,7 +58455,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-bd24e86ea68c--16ab400ef7a3.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-bd24e86ea68c--16ab400ef7a3.zip",
-      "checksum": "4f61b4425c75bdffaf9ad053c1fe1ade770c19e0c055d91dca110c3d75751b38",
+      "checksum": "94fa0f3c4046d1d05bf6e4e5845f9bfcb015a9914a7ca050e1dbcce2dd39e1e1",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-bd24e86ea68c.zip",
         "wdasec-skill-skill-certification-class-c-skill-bd24e86ea68c.zip"
@@ -58227,7 +58474,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-bdf335bcb358--f22fd4d25aaa.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-bdf335bcb358--f22fd4d25aaa.zip",
-      "checksum": "489e5238ad3d2e610b7cec680f6696282fae38d1e387ca7d98e6215168e86798",
+      "checksum": "f17f7066f60b314f2ef05a97ed0d0935689b70da01316ce3554bc54b40a5c5ca",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-bdf335bcb358.zip",
         "wdasec-skill-skill-certification-class-c-skill-bdf335bcb358.zip"
@@ -58246,7 +58493,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-c2fa764902ed--c759f2d5d713.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-c2fa764902ed--c759f2d5d713.zip",
-      "checksum": "e7d259277476d7c88ace9de93df72494ee27065c8f74ac58bcac4c80369f6337",
+      "checksum": "6bcc10e29a39fd1279ce4c0cad24ff7009f8a2cfc3d0e0e08bc30c8aacb95d10",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-c2fa764902ed.zip",
         "wdasec-skill-skill-certification-class-c-skill-c2fa764902ed.zip"
@@ -58265,7 +58512,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-c46fdc4b2e34--06cdc8354739.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-c46fdc4b2e34--06cdc8354739.zip",
-      "checksum": "7bb7d15074a96c1530885efbe77863067674565d2c8278ef461f29e7788eb81b",
+      "checksum": "c087a688aef745c5dc0ca0553fc3d6860a8b884953d57760e7961875b338190c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-c46fdc4b2e34.zip",
         "wdasec-skill-skill-certification-class-c-skill-c46fdc4b2e34.zip"
@@ -58284,7 +58531,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-c622d93d36b1--29b454d4da36.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-c622d93d36b1--29b454d4da36.zip",
-      "checksum": "4f5a63d4ed2baf877a51ac56666f2669159321e01373473e19ac737ecc865bb5",
+      "checksum": "83ea1a1b3723211ce711419d9e42fdab880a5394b6b1e4c395f08f80668f5f96",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-c622d93d36b1.zip",
         "wdasec-skill-skill-certification-class-c-skill-c622d93d36b1.zip"
@@ -58303,7 +58550,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-c8876cef9824--0c68c8069860.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-c8876cef9824--0c68c8069860.zip",
-      "checksum": "6870813485608b1178bb0e25b89ebec23f7758d1b63128122b617620338fcf3e",
+      "checksum": "23eb2829efbbd49abaa3e0b8f4c228dd7d6acf23c86b62d309c7851071064808",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-c8876cef9824.zip",
         "wdasec-skill-skill-certification-class-c-skill-c8876cef9824.zip"
@@ -58322,7 +58569,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-cfc6e3d9e5e4--4f12c56bcb09.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-cfc6e3d9e5e4--4f12c56bcb09.zip",
-      "checksum": "ec6f0cd507b5fc3b0c5992b37cd9c484bcc6cba25ad978f5916fb0f184e16e73",
+      "checksum": "941e30cbe1ae116143d565b5b7e85712c3527d9dcfbf5f129c934d55b52cc2da",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-cfc6e3d9e5e4.zip",
         "wdasec-skill-skill-certification-class-c-skill-cfc6e3d9e5e4.zip"
@@ -58341,7 +58588,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-d1fcd90a8d19--85e1c2c2547c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-d1fcd90a8d19--85e1c2c2547c.zip",
-      "checksum": "8a362098f4f8513be8a3645a227a97d76fcd5032822aa681ed005377c3dff6ec",
+      "checksum": "eff1789b7d2c71e410ef8ed0f5e3b03514e841c1e3ef6bb0047aa66ae5063152",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-d1fcd90a8d19.zip",
         "wdasec-skill-skill-certification-class-c-skill-d1fcd90a8d19.zip"
@@ -58360,7 +58607,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-d384aa26bf50--787997bf7051.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-d384aa26bf50--787997bf7051.zip",
-      "checksum": "197c44ac8d48bc9e52c8769844e8c19f6dc61e97b81eb8049b9881fd74b1ba3a",
+      "checksum": "e9e6b88472676db39ece3f00fc87d5438f7b2e28c3a21c32e1c544f6f9b13add",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-d384aa26bf50.zip",
         "wdasec-skill-skill-certification-class-c-skill-d384aa26bf50.zip"
@@ -58379,7 +58626,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-d62a66e69aab--e50d7b1d8bc3.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-d62a66e69aab--e50d7b1d8bc3.zip",
-      "checksum": "a28c6f989082950a7eac6e224282923d0427da09be49a7c5aa5f1d9e89266d17",
+      "checksum": "cf36462698a4f80d66e0f255c35f54c35e6b060b7908bd709efcd78dff4157ba",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-d62a66e69aab.zip",
         "wdasec-skill-skill-certification-class-c-skill-d62a66e69aab.zip"
@@ -58398,7 +58645,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-d71776db0ba9--05dd1160d4fa.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-d71776db0ba9--05dd1160d4fa.zip",
-      "checksum": "1cfefa56c80b256b06619366ba56c58a8dcb430fd63e1ff54d64796b40259fc3",
+      "checksum": "6db7b3f6f863f2254e7c714fe0380787df662836b1bd46e1c85b519833414e19",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-d71776db0ba9.zip",
         "wdasec-skill-skill-certification-class-c-skill-d71776db0ba9.zip"
@@ -58417,7 +58664,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-d9dfaa579a3d--b5de9e2c82a8.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-d9dfaa579a3d--b5de9e2c82a8.zip",
-      "checksum": "0e662aaf9fc6e773fdd11c0e1500754562b9a50e123171c49ce50a55cf3ba77b",
+      "checksum": "5886c06b3a63a8e206b52e579c8ed9e06e36af04337d28c8a19af898324c8a5c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-d9dfaa579a3d.zip",
         "wdasec-skill-skill-certification-class-c-skill-d9dfaa579a3d.zip"
@@ -58436,7 +58683,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e08ec3f64b0b--399f9275158b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e08ec3f64b0b--399f9275158b.zip",
-      "checksum": "d6470faa6d62b5f2d88c7e276a0a30b65f50021ec84cdfce7cc1483c53908701",
+      "checksum": "636af78fd7a23339f6a8b49748d7d71a91dff886398faa87bd12fb9749039220",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e08ec3f64b0b.zip",
         "wdasec-skill-skill-certification-class-c-skill-e08ec3f64b0b.zip"
@@ -58455,7 +58702,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e2c6bbdc580a--5ee487b9d7f5.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e2c6bbdc580a--5ee487b9d7f5.zip",
-      "checksum": "a4ac0054cd6c98c5f0d0e71d623c0c7d555decd392cce1fab5e4a4775ae8cf43",
+      "checksum": "480cc7e8079135e383c32df3af6dcb6f62ab8b7b36250b891cddd7b9855e1b6f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e2c6bbdc580a.zip",
         "wdasec-skill-skill-certification-class-c-skill-e2c6bbdc580a.zip"
@@ -58474,7 +58721,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e5d8c93276ee--6672e6ef305c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e5d8c93276ee--6672e6ef305c.zip",
-      "checksum": "7c91051b9a6d4414c9f0b9ab60d8effeac588d90cbf9855835cef52ec5f3786d",
+      "checksum": "9a0b12da525e627961dc62f70cec0bd1ff582499068a908a52995eed724dd7f0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e5d8c93276ee.zip",
         "wdasec-skill-skill-certification-class-c-skill-e5d8c93276ee.zip"
@@ -58493,7 +58740,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e65f643bd4fa--14fe7175e39a.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e65f643bd4fa--14fe7175e39a.zip",
-      "checksum": "4dbb31ad772321f54fa7ee6cc58386669167e3ba7ca61202720c24389039c21d",
+      "checksum": "8beb96de1c23ccb7b7354e62a917aa327c9a4656c5a78f0e92d3915a4e996739",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e65f643bd4fa.zip",
         "wdasec-skill-skill-certification-class-c-skill-e65f643bd4fa.zip"
@@ -58512,7 +58759,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e6ec3e93408b--5872d3715b31.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e6ec3e93408b--5872d3715b31.zip",
-      "checksum": "e5e147941ebc325edd64c819531538655a84f3f35800d9672ea32e64eec47aa1",
+      "checksum": "3d94282f115cc553f672c24162c94d12c6fe7fee5071fba2f2ad4b716a6d1046",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e6ec3e93408b.zip",
         "wdasec-skill-skill-certification-class-c-skill-e6ec3e93408b.zip"
@@ -58531,7 +58778,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e75901d8fe3d--016ee9b87a5c.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e75901d8fe3d--016ee9b87a5c.zip",
-      "checksum": "fbbff0e27b18894d75f2e6976d17d1b51c601bac4465c912c130235f5d8247f6",
+      "checksum": "6dec830b64d12d08dadd55310de97616a4426af573f4da846c1d0bc651bf4669",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e75901d8fe3d.zip",
         "wdasec-skill-skill-certification-class-c-skill-e75901d8fe3d.zip"
@@ -58550,7 +58797,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e7e278632fd5--fcd74c72d930.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e7e278632fd5--fcd74c72d930.zip",
-      "checksum": "977fe52a983d54c19458328db000d3129392ed204933aea547ae15986ad0bafb",
+      "checksum": "87a14445831a7df91a216f08b1dd8a47716c20cd75f69c86c225ac67d4f7aef2",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e7e278632fd5.zip",
         "wdasec-skill-skill-certification-class-c-skill-e7e278632fd5.zip"
@@ -58569,7 +58816,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e84d3f087617--9c84cc83851b.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e84d3f087617--9c84cc83851b.zip",
-      "checksum": "fbf9cd0cd1127af390df092aae7eb5dc4544619a370ee50e49d50f6423943d64",
+      "checksum": "27bb53486bd59e5145485e1c5e3df495bd8e675827a05853a16c80226dcae77f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e84d3f087617.zip",
         "wdasec-skill-skill-certification-class-c-skill-e84d3f087617.zip"
@@ -58588,7 +58835,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e93940e08459--3b037c99de52.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e93940e08459--3b037c99de52.zip",
-      "checksum": "9d2ad401d77c5c3342fba40c836830837d7e8299b9de453b91789117f8a70a93",
+      "checksum": "be1e1825c169f7c8ed6274be5b37f4e34f90b11af74815585a7395764592cf81",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e93940e08459.zip",
         "wdasec-skill-skill-certification-class-c-skill-e93940e08459.zip"
@@ -58607,7 +58854,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-e9908bafe6ef--05b45e05b2bd.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-e9908bafe6ef--05b45e05b2bd.zip",
-      "checksum": "f13e0ec006ce53a68b8b2fb2f6b4c826dc1abc97eaac4284c6cedce03eb78239",
+      "checksum": "643bf2f51ceb345b1f72bce4300406ddcb44d6489afcd1c606dbe5a74aa823e2",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-e9908bafe6ef.zip",
         "wdasec-skill-skill-certification-class-c-skill-e9908bafe6ef.zip"
@@ -58626,7 +58873,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-eb7127d3287e--72880a25b552.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-eb7127d3287e--72880a25b552.zip",
-      "checksum": "a338201b120e6746c067b1f12b4c1bda3c4f6900ccad97ba9bc7bd278475a2df",
+      "checksum": "af170f56e9e9feabc40d1ac94a5c5890e5d468191b0f1c1f4938e2e61d746f29",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-eb7127d3287e.zip",
         "wdasec-skill-skill-certification-class-c-skill-eb7127d3287e.zip"
@@ -58645,7 +58892,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-ed4878f2a973--1cb5c7683c5e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-ed4878f2a973--1cb5c7683c5e.zip",
-      "checksum": "2a410a6819e07d5726600014418e731dda8934a2eed53078bb11dd9ec5d7af95",
+      "checksum": "10d8b607ec2399b52f72d27521aeb5fa6c31a63343749c8ceedde7c905b45408",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-ed4878f2a973.zip",
         "wdasec-skill-skill-certification-class-c-skill-ed4878f2a973.zip"
@@ -58664,7 +58911,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-edbf77d81340--535bd28b0ede.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-edbf77d81340--535bd28b0ede.zip",
-      "checksum": "4c7cab8287ff0cf49e61594a944b1055f6f0d4158f2a353312d303978271ebfd",
+      "checksum": "d5043bb0b15e4579c19717a0bb9c692335b76b686b7afcfc5008e51a5c626bff",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-edbf77d81340.zip",
         "wdasec-skill-skill-certification-class-c-skill-edbf77d81340.zip"
@@ -58683,7 +58930,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-efa442db3ddc--d3dbb20046e2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-efa442db3ddc--d3dbb20046e2.zip",
-      "checksum": "dc61795f7cb48ffc6494521d8c6e5ce2aecdfc24238ebab6183659cbb0674ea7",
+      "checksum": "0bc2fee2077161418994b85966d9e50bab777b01f76a9cfdb128c0ed0375101c",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-efa442db3ddc.zip",
         "wdasec-skill-skill-certification-class-c-skill-efa442db3ddc.zip"
@@ -58702,7 +58949,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-f1deeced38e2--81a11bcdda61.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-f1deeced38e2--81a11bcdda61.zip",
-      "checksum": "23a7295ac0732f4d147154c9ddee69fd0caf922892e38031c97cad960620d367",
+      "checksum": "6a8969a28058acadecfe5487b41c5b187cf4aec73004785f6205d3719dd222f2",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-f1deeced38e2.zip",
         "wdasec-skill-skill-certification-class-c-skill-f1deeced38e2.zip"
@@ -58721,7 +58968,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-f4cda982ddba--37ec31cddc22.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-f4cda982ddba--37ec31cddc22.zip",
-      "checksum": "2afcd232032aef6b942f4f6f716b8ccba6c3e654faf80184dd51450f22925f6c",
+      "checksum": "f3af9f1f327e455f5391e79ac259c5f4a70829a4ecbc3281873584c23c6f5a35",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-f4cda982ddba.zip",
         "wdasec-skill-skill-certification-class-c-skill-f4cda982ddba.zip"
@@ -58740,7 +58987,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-f8ccdfcbbd2f--3e4971f070f2.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-f8ccdfcbbd2f--3e4971f070f2.zip",
-      "checksum": "0e7b3b9c58d1f2da02ddec8ef3cad82d09577f8306079545c7080591954e26eb",
+      "checksum": "1fc25638c3364e1f2b17523f0d195bfe895de43b770b6598cfca059aee71fe96",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-f8ccdfcbbd2f.zip",
         "wdasec-skill-skill-certification-class-c-skill-f8ccdfcbbd2f.zip"
@@ -58759,7 +59006,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-f974a4d9202a--3d7619b71532.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-f974a4d9202a--3d7619b71532.zip",
-      "checksum": "694c8f6f22bf2d190b0929e533ae46d436d40d8fa988c75997292f18a8cf2483",
+      "checksum": "b582b2467e72b53b734148eb3e497340048cab01c6e99d7955d10833c58545d3",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-f974a4d9202a.zip",
         "wdasec-skill-skill-certification-class-c-skill-f974a4d9202a.zip"
@@ -58778,7 +59025,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-fa7d04e68b83--fcb269563793.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-fa7d04e68b83--fcb269563793.zip",
-      "checksum": "408ceec42fe76742359ae724910f8a4a27090b26a99cc7fd2119e8d07c04a63b",
+      "checksum": "7344a170988b2a7888b875894284f695b8dc48a7abf1154f1c8c5c78426aecb0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-fa7d04e68b83.zip",
         "wdasec-skill-skill-certification-class-c-skill-fa7d04e68b83.zip"
@@ -58797,7 +59044,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-fc370bb98ac6--cd89136adb35.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-fc370bb98ac6--cd89136adb35.zip",
-      "checksum": "c73d57cfea6d4fbe4921a6cce684393acb289d158959fad680b52f15e783176e",
+      "checksum": "5c76992e1e02b63a4d7c417d64968a4afcbecdf965adb3456eca212c98b4949a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-fc370bb98ac6.zip",
         "wdasec-skill-skill-certification-class-c-skill-fc370bb98ac6.zip"
@@ -58816,7 +59063,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-class-c-skill-ff925cb9fbfd--170a24b9e07e.zip",
       "asset_name": "wdasec-skill-skill-certification-class-c-skill-ff925cb9fbfd--170a24b9e07e.zip",
-      "checksum": "52b5c680814d9d0ebbc0752069e0eb9683018ba5fc7a2ca2566a2b7afff19ab0",
+      "checksum": "92668bc505f375f371ebe73d733f5c944e8a01a2c1ad865a50e1ed8acf044656",
       "legacy_asset_names": [
         "全國技術士技能檢定｜丙級__wdasec-skill-skill-certification-class-c-skill-ff925cb9fbfd.zip",
         "wdasec-skill-skill-certification-class-c-skill-ff925cb9fbfd.zip"
@@ -58835,7 +59082,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-00a50fe2ef27--a2a289521ad5.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-00a50fe2ef27--a2a289521ad5.zip",
-      "checksum": "c9af21ac56acd9c1726a1bda0e92c55b4a70f7605088e4150f49b3ddbb3b21a6",
+      "checksum": "e95b55a36ef0cdc23ab4d09d2d074e9d27c5673816328f06740a8c9dab0de4c5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-00a50fe2ef27.zip",
         "wdasec-skill-skill-certification-single-skill-00a50fe2ef27.zip"
@@ -58854,7 +59101,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-0ca5ac1e5e73--4235242275d4.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-0ca5ac1e5e73--4235242275d4.zip",
-      "checksum": "d3db137d046c55c9557496e1e91ae775440dcbe09af66dc9534bd274e32cb5d1",
+      "checksum": "45a4172eb5ca576c7d85a8ce776259b32f4700be729e5a00a0ecb6a8cb5c59b9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-0ca5ac1e5e73.zip",
         "wdasec-skill-skill-certification-single-skill-0ca5ac1e5e73.zip"
@@ -58873,7 +59120,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-28d17b2fa6cd--eb9e0be5f2e3.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-28d17b2fa6cd--eb9e0be5f2e3.zip",
-      "checksum": "eb341767bc481fc08ce921f16f3dba2ea5f2e9cd53620b3c69599d6b5c9acf58",
+      "checksum": "715b2f3fa230563c0f08d0e855c09602a3945a433b84007e7019c9ad33b74b89",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-28d17b2fa6cd.zip",
         "wdasec-skill-skill-certification-single-skill-28d17b2fa6cd.zip"
@@ -58892,7 +59139,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-4d162efd7405--6632087d52fd.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-4d162efd7405--6632087d52fd.zip",
-      "checksum": "113dd54089c77f114c57bea4a14f1512453269fceec78f5bc52a94ddfa2d224b",
+      "checksum": "3074c58e88d3795e0ab4595a887b315b99f306b6198416190957d85e0319619f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-4d162efd7405.zip",
         "wdasec-skill-skill-certification-single-skill-4d162efd7405.zip"
@@ -58911,7 +59158,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-520d84214fb6--70be8c50da1d.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-520d84214fb6--70be8c50da1d.zip",
-      "checksum": "9b8a87eba3ac5b84d7ef7fe10337ba4e48dd77b485ea9b3b3978df9df87f94f9",
+      "checksum": "b9ab3c7bed1657a96d313c6f4128884fe1d1141165b38d6002d9cdfc41977631",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-520d84214fb6.zip",
         "wdasec-skill-skill-certification-single-skill-520d84214fb6.zip"
@@ -58930,7 +59177,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-59a174510461--32c92b8bcfe2.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-59a174510461--32c92b8bcfe2.zip",
-      "checksum": "5269cf60a1b550d6c81f2a166a27c0c4c1ff18f9fc36e3d482bcae386b1f8e07",
+      "checksum": "6166a58f5b78ca03f1c0041e820496e3c822c466f4bb4d62c3523c9b0ff7a24d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-59a174510461.zip",
         "wdasec-skill-skill-certification-single-skill-59a174510461.zip"
@@ -58949,7 +59196,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-60e53531298b--813dd0eca49a.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-60e53531298b--813dd0eca49a.zip",
-      "checksum": "f64b1145a917b16b945414691d183d838c315f587993b7d1a6b0e2739c98acb1",
+      "checksum": "b0385aa2900c1b76f22454b8eacd03b73c96ee54f8b767a0bf177874e2050464",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-60e53531298b.zip",
         "wdasec-skill-skill-certification-single-skill-60e53531298b.zip"
@@ -58965,10 +59212,29 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-89231c4123af--08132fede941.zip",
+      "asset_name": "wdasec-skill-skill-certification-single-skill-89231c4123af--08132fede941.zip",
+      "checksum": "a37712bf99e3e20804c46fed688bb2767237449f75e6ebb56cd3dc57ddec8d5c",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-89231c4123af.zip",
+        "wdasec-skill-skill-certification-single-skill-89231c4123af.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-single-skill-89231c4123af",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "single",
+      "track_id": "skill-89231c4123af",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-8df29372ebc3--c8474ad9e983.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-8df29372ebc3--c8474ad9e983.zip",
-      "checksum": "56eda411d03d7e35a208d4a13d01abedeef61a4bfd24464d7a5eb0090a0de2a8",
+      "checksum": "0b40fe6ae606546d09aeac13161bd23fe08d860c6de8bfea9f522b55254f4d8f",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-8df29372ebc3.zip",
         "wdasec-skill-skill-certification-single-skill-8df29372ebc3.zip"
@@ -58985,9 +59251,28 @@
     },
     {
       "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-a05bd349bad4--5eb5ea553167.zip",
+      "asset_name": "wdasec-skill-skill-certification-single-skill-a05bd349bad4--5eb5ea553167.zip",
+      "checksum": "d87d5dfdbc62b21458c131178ec218016f982635968c4fab79445077c141b809",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-a05bd349bad4.zip",
+        "wdasec-skill-skill-certification-single-skill-a05bd349bad4.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-single-skill-a05bd349bad4",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "single",
+      "track_id": "skill-a05bd349bad4",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-a5264c81984c--fdef77062479.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-a5264c81984c--fdef77062479.zip",
-      "checksum": "6fe432ee25871f501634dbd419d7430bba91854a47c994d269b36a3613d74bca",
+      "checksum": "c0bba6d1bac7f74e75975c9918eff0413f7647f1497d2090ea532105ec3aa913",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-a5264c81984c.zip",
         "wdasec-skill-skill-certification-single-skill-a5264c81984c.zip"
@@ -59006,7 +59291,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-a61ad5d927e0--1efb2638202e.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-a61ad5d927e0--1efb2638202e.zip",
-      "checksum": "04327ae0fdba9ae030388d2bab22815e48174103cdd061214b6bf31bf0368135",
+      "checksum": "8a362f5bc9b66b5d40218c38de7a5e68fb4a84bad517e72e2765daa9271c06f5",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-a61ad5d927e0.zip",
         "wdasec-skill-skill-certification-single-skill-a61ad5d927e0.zip"
@@ -59025,7 +59310,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-ad5425432828--c983e684c94d.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-ad5425432828--c983e684c94d.zip",
-      "checksum": "1ec3883af0023a6d025f0a3d47885fcda4cea39579732c2c2a7d5af61826e0ea",
+      "checksum": "2a0e7a6fbf49ba054c18290d6e55d3bc6cb7e00688c824a8376438797a5caf59",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-ad5425432828.zip",
         "wdasec-skill-skill-certification-single-skill-ad5425432828.zip"
@@ -59044,7 +59329,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-adc75ab53fc8--93f320f3946f.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-adc75ab53fc8--93f320f3946f.zip",
-      "checksum": "1b358392640e11c29d91206ad5b417876959d8fc72125484acfdc67e24bd981f",
+      "checksum": "06436c7a497a79192f19d2ca1f9d1e667bcadb3b2a319fd280d5b5c81207697a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-adc75ab53fc8.zip",
         "wdasec-skill-skill-certification-single-skill-adc75ab53fc8.zip"
@@ -59063,7 +59348,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-b26f5efed9fe--1c8ac8b71db2.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-b26f5efed9fe--1c8ac8b71db2.zip",
-      "checksum": "83df57b741232e29115af559863f3d7cfc6b4ec248b5ee815d1ddf60be973e95",
+      "checksum": "0092d5ef2aef31896bfe52a423492f1dd9a0ae4c306df2bbf626d7c4a3529b86",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-b26f5efed9fe.zip",
         "wdasec-skill-skill-certification-single-skill-b26f5efed9fe.zip"
@@ -59082,7 +59367,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-b80b13251d47--5b1d814615cb.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-b80b13251d47--5b1d814615cb.zip",
-      "checksum": "138eadb7ea96bcc1305c67ef06466bdc0495816b520596316c97d439ea98ae72",
+      "checksum": "4361eee0c0737662c12c683b7eec30b724bd5f36db7b1e525d11841535e6445e",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-b80b13251d47.zip",
         "wdasec-skill-skill-certification-single-skill-b80b13251d47.zip"
@@ -59120,7 +59405,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-c3dcf32dc7d7--3b79786618e3.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-c3dcf32dc7d7--3b79786618e3.zip",
-      "checksum": "49c12f5c37ff3649faacf4e6eebfe77d82108b4b2cfbee36aff02a40293f0d41",
+      "checksum": "97225093682613dcb5879ae2ab5836b5ffc4ff0206612d956c5da481e0b64d50",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-c3dcf32dc7d7.zip",
         "wdasec-skill-skill-certification-single-skill-c3dcf32dc7d7.zip"
@@ -59136,10 +59421,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-c5b1c781e967--d236c983f12c.zip",
+      "asset_name": "wdasec-skill-skill-certification-single-skill-c5b1c781e967--d236c983f12c.zip",
+      "checksum": "4750f857e6ade722ac3f1711d1e9fed0e7730ed15a261f2f615a3aab07ef5542",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-c5b1c781e967.zip",
+        "wdasec-skill-skill-certification-single-skill-c5b1c781e967.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-single-skill-c5b1c781e967",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "single",
+      "track_id": "skill-c5b1c781e967",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-011",
+      "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-cb56e8093c95--fe7b00b20052.zip",
+      "asset_name": "wdasec-skill-skill-certification-single-skill-cb56e8093c95--fe7b00b20052.zip",
+      "checksum": "04e70d7f3fc76a510185abaa57eb40f0b3aeb5e656398d8e4d69c8201ae5218c",
+      "legacy_asset_names": [
+        "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-cb56e8093c95.zip",
+        "wdasec-skill-skill-certification-single-skill-cb56e8093c95.zip"
+      ],
+      "bundle_id": "wdasec-skill-skill-certification-single-skill-cb56e8093c95",
+      "domain_id": "certification",
+      "exam_family_id": "skill-certification",
+      "exam_series_id": "skill-certification",
+      "level_id": "single",
+      "track_id": "skill-cb56e8093c95",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-daa972ff47bb--78ec5b5a8915.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-daa972ff47bb--78ec5b5a8915.zip",
-      "checksum": "2368f8a3e289646339b5f3eb3c4a039e9cc732b7b29721d2376669a21a969113",
+      "checksum": "06963a1792e851fd1750a390e45bff7aa3d22c11c4c63d6be17080a7d2da2e07",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-daa972ff47bb.zip",
         "wdasec-skill-skill-certification-single-skill-daa972ff47bb.zip"
@@ -59158,7 +59481,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-db57e842349e--5419fba98411.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-db57e842349e--5419fba98411.zip",
-      "checksum": "6e6f08600ef20f64ffdfcbde2cbcef55226a053181697999d8b09934b34f3084",
+      "checksum": "9e3580dc06bf37c5520aa7ee2e782e68064618c86c7ff999e634ebdd8c3b6826",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-db57e842349e.zip",
         "wdasec-skill-skill-certification-single-skill-db57e842349e.zip"
@@ -59177,7 +59500,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-e49f4067ea67--2f16d7d9ec25.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-e49f4067ea67--2f16d7d9ec25.zip",
-      "checksum": "c87cd3aa890c4471fde48b9a585fd59e402483138e11f919d75ce5031abd28c2",
+      "checksum": "7b270dbab403ca0a12ece171e280742f79c1c1df44f60eadd6b9f6924e1a43d9",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-e49f4067ea67.zip",
         "wdasec-skill-skill-certification-single-skill-e49f4067ea67.zip"
@@ -59196,7 +59519,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-e54c91282b19--8bf609bf30c3.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-e54c91282b19--8bf609bf30c3.zip",
-      "checksum": "2d59b37ffd1b76dba961606caf7747c090b5acbd74e6e00fd948e1b6fa0c952b",
+      "checksum": "04f24751190dec7aad42464da697cb80ca5036250ef41898bc200a69506f92c0",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-e54c91282b19.zip",
         "wdasec-skill-skill-certification-single-skill-e54c91282b19.zip"
@@ -59215,7 +59538,7 @@
       "release_tag": "default-bundles-v2-011",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-f1135900b10b--684dad3b12a4.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-f1135900b10b--684dad3b12a4.zip",
-      "checksum": "8332f49a1f31138430818a1cfdb9a24ad1c7b38c3cf2487b482e26b6597080b4",
+      "checksum": "2b0334f90ec698cfe27cab3a490acf731dd26f4817642eaa1c8121e38ad3078a",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-f1135900b10b.zip",
         "wdasec-skill-skill-certification-single-skill-f1135900b10b.zip"
@@ -59234,7 +59557,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-f842e02ce5f1--be8f7e41489b.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-f842e02ce5f1--be8f7e41489b.zip",
-      "checksum": "14652a90d17f35f4942d6e0575daafebf1ee5c885ad9f7b2729fa20172ba2b26",
+      "checksum": "bc2bfd4337dcb9b7a5f508e3f2a55939c299e7e32ca00f5780eb717b1782da3d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-f842e02ce5f1.zip",
         "wdasec-skill-skill-certification-single-skill-f842e02ce5f1.zip"
@@ -59253,7 +59576,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/wdasec-skill-skill-certification-single-skill-fa6ceda1754e--96ea6fe268f7.zip",
       "asset_name": "wdasec-skill-skill-certification-single-skill-fa6ceda1754e--96ea6fe268f7.zip",
-      "checksum": "3fe79647eb6b2527a8a6255877c229aedcd056a03e3097e62dd56f00a8e48d1f",
+      "checksum": "49379c4f114cdacf776857455e52b0294da4614a87daa803a566e5c51c1e329d",
       "legacy_asset_names": [
         "全國技術士技能檢定｜單一級__wdasec-skill-skill-certification-single-skill-fa6ceda1754e.zip",
         "wdasec-skill-skill-certification-single-skill-fa6ceda1754e.zip"

@@ -58,7 +58,7 @@ The primary operator command is:
 python -m app sync-full --provider wdasec_skill --site-id default
 ```
 
-Coverage checkpoint (2026-07-27): the provider retains 143 official sessions from AD 2001–2026 and 1,130 normalized paper records from AD 2024–2026. A targeted refresh of all six official AD 2024 sessions produced 453 papers and 422 valid mirrored PDFs with zero sync failures; the eligible multi-year groups are now represented in the local `default` site. The remaining 128 older events are documented normalization gaps, and seven single-year groups remain excluded by the site’s default two-year publication policy. Expanding the older events requires a reviewed storage/release decision.
+Coverage checkpoint (2026-07-27): the provider retains 143 official sessions from AD 2001–2026 and 1,577 normalized paper records from AD 2023–2026. Targeted refreshes of the five official AD 2023 sessions and six AD 2024 sessions produced 900 papers (447 and 453) with zero sync failures; four 2023 sessions and the eligible multi-year groups are represented in the local `default` site. One 2023 single-year bundle remains explicitly excluded by the site’s default two-year publication policy. The remaining 123 older events are documented normalization gaps, and six single-year groups remain excluded. Expanding older events requires a reviewed storage/release decision.
 
 ## Scraping Considerations
 
