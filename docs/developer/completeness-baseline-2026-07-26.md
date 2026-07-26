@@ -52,18 +52,18 @@ Remote information was fetched with `git fetch --all --prune`; local work was no
 | Item | Baseline |
 | --- | --- |
 | Current branch | `agent/exam-coverage-and-mirror-dedup` |
-| Current HEAD after the WDASEC 2024 cycle | `0e2bf3c` (`data: add WDASEC 2024 official papers`) |
+| Report-capture HEAD before the final documentation follow-up | `0e2bf3c` (`data: add WDASEC 2024 official papers`) |
 | WDASEC 2024 cycle start | `4176b97` (`reconcile generated review state and audit gate`) |
-| Current divergence vs latest fetched main | `6 behind / 21 ahead` (`origin/main...HEAD`) |
-| Current divergence vs tracked upstream | `0 behind / 16 ahead` (`@{upstream}...HEAD`) |
-| Current uncommitted tracked files | None |
-| Current untracked files | `PLAN.md` only (about 40 KB); it remains intentionally preserved and excluded from commits |
+| Divergence at report capture vs latest fetched main | `6 behind / 21 ahead` (`origin/main...HEAD`) |
+| Divergence at report capture vs tracked upstream | `0 behind / 16 ahead` (`@{upstream}...HEAD`) |
+| Uncommitted tracked files at report capture | None |
+| Untracked files at report capture | `PLAN.md` only (about 40 KB); it remains intentionally preserved and excluded from commits |
 | Large untracked files | None; the 52 GB mirror and 57 GB bundles are ignored operational state, not untracked Git files |
 | Audit starting HEAD | `1bf01863013dffbfc89b5b7d4b49702d38dbec7e` (`fix: repair workflow YAML command scalars`) |
 | Tracked upstream at audit start | `origin/agent/exam-coverage-and-mirror-dedup`; divergence `0 ahead / 0 behind` |
 | Latest fetched main | `origin/main` / `origin/HEAD` at `d3af20f` (`chore: refresh CEEC AST provider data`, 2026-07-25) |
 | Current branch vs latest main at audit start | `5 ahead / 6 behind` |
-| Unique current-branch commits at this checkpoint | 21 relative to latest `origin/main`; 16 relative to tracked upstream; see `git log` for the reviewable list |
+| Unique current-branch commits at report capture | 21 relative to latest `origin/main`; 16 relative to tracked upstream; see `git log` for the reviewable list |
 | Unique latest-main commits | `d3af20f`, `4168bea`, `59ed533`, `b197b3f`, `306f10c`, `de3f461` |
 | Corrective-cycle change set | CI/workflow gates, app bundling/publication/history/state logic, MOEX/TCTE/teacher/provider state, generated indexes, review-state reconciliation, focused tests, and completeness/operator reports; intentionally not published remotely |
 | Untracked files at audit baseline | `PLAN.md` only; it remains intentionally preserved and excluded from the corrective-cycle commit |
