@@ -216,12 +216,11 @@ def _split_bundle_archive(
         (paper, bundle_entries_by_paper_key[_paper_bundle_key(paper)])
         for paper in included_papers
     ]
-    for stale_part in bundle_path.parent.glob(f"{bundle_path.stem}--part-*.zip"):
-        stale_part.unlink(missing_ok=True)
-
     with zipfile.ZipFile(bundle_path, "r") as source:
         groups = _partition_bundle_entries(source, entries, max_bytes=max_bytes)
         base_manifest = json.loads(source.read("bundle.json").decode("utf-8"))
+        for stale_part in bundle_path.parent.glob(f"{bundle_path.stem}--part-*.zip"):
+            stale_part.unlink(missing_ok=True)
         part_paths: list[tuple[Path, str, list[NormalizedPaper]]] = []
         part_count = len(groups)
         for part_index, group in enumerate(groups, 1):
@@ -282,6 +281,26 @@ def _resolve_mirror_source_path(mirror_dir: Path, paper: NormalizedPaper) -> Pat
             return provider_scoped_path
 
     return None
+
+
+def _validate_source_entry_sizes(
+    mirror_dir: Path,
+    papers: list[NormalizedPaper],
+    arcnames: list[str],
+    *,
+    max_bytes: int,
+) -> None:
+    """Reject mirror entries that cannot fit in a release part before writing."""
+    for paper, arcname in zip(papers, arcnames):
+        source_path = _resolve_mirror_source_path(mirror_dir, paper)
+        if source_path is None:
+            continue
+        size = source_path.stat().st_size
+        if size + BUNDLE_PART_OVERHEAD > max_bytes:
+            raise ValueError(
+                f"bundle entry {arcname} is {size} bytes and exceeds the "
+                f"{max_bytes}-byte multipart target"
+            )
 
 
 def _load_existing_entries_by_canonical(
@@ -476,6 +495,12 @@ def build_bundles(
             key=lambda item: (-item.year_roc, item.source_exam_id, item.category_code, item.subject_code, item.file_type),
         )
         resolved_names = _resolve_arcnames(ordered)
+        _validate_source_entry_sizes(
+            mirror_dir,
+            ordered,
+            resolved_names,
+            max_bytes=max_bundle_bytes,
+        )
         existing_entries, existing_entries_by_key, preserved_archive = _preserve_rewrite_sources(
             bundle_path,
             existing_entries,

@@ -93,7 +93,7 @@ def validate_publication() -> tuple[int, int, int]:
         if not isinstance(row["file_count"], int) or row["file_count"] < 1:
             fail(f"{prefix} has an invalid file_count")
         if row["classification_confidence"] not in {"high", "medium"}:
-            fail(f"{prefix} is not launch-safe: confidence={row["classification_confidence"]}")
+            fail(f"{prefix} is not launch-safe: confidence={row['classification_confidence']}")
         for field in ("search_aliases", "subject_labels"):
             values = row.get(field, [])
             if not isinstance(values, list) or any(not isinstance(value, str) or "\n" in value or len(value) > 120 for value in values):
