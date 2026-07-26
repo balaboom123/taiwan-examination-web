@@ -5,7 +5,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from app.bundler import build_bundles
+from app.bundler import build_bundles, public_bundle_ids
 from app.models import NormalizedCatalog, NormalizedPaper
 
 
@@ -395,6 +395,14 @@ class BundlerTests(unittest.TestCase):
             )
 
             self.assertEqual([bundle.canonical_id for bundle in result.bundles], ["tii-aml"])
+            self.assertEqual(
+                public_bundle_ids(
+                    NormalizedCatalog(papers=[tii_paper, ceec_paper], review_queue=[]),
+                    min_years=2,
+                    min_years_by_canonical_prefix={"tii-": 1},
+                ),
+                {"tii-aml"},
+            )
             self.assertTrue((bundles_dir / "tii-aml.zip").exists())
             self.assertFalse((bundles_dir / "ceec-gsat.zip").exists())
             self.assertEqual(result.failures, [])

@@ -877,6 +877,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-elementary-elementary-household-registration--b72db7eaa781.zip",
+      "asset_name": "moex-civil-elementary-elementary-household-registration--b72db7eaa781.zip",
+      "checksum": "064b68a57b6fd3d79c7d796f083760cd389c039a04add63d28d925096f118e41",
+      "legacy_asset_names": [
+        "初等考試｜初等／初考｜戶政__moex-civil-elementary-elementary-household-registration.zip",
+        "moex-civil-elementary-elementary-household-registration.zip"
+      ],
+      "bundle_id": "moex-civil-elementary-elementary-household-registration",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-elementary",
+      "level_id": "elementary",
+      "track_id": "household-registration",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-elementary-elementary-land-administration--4e96d05e5766.zip",
       "asset_name": "moex-civil-elementary-elementary-land-administration--4e96d05e5766.zip",
@@ -1062,6 +1081,25 @@
       "exam_series_id": "civil-elementary",
       "level_id": "elementary",
       "track_id": "track-bfbba09f4bfb",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-elementary-elementary-track-c7fe95341c2d--c55f03eb6005.zip",
+      "asset_name": "moex-civil-elementary-elementary-track-c7fe95341c2d--c55f03eb6005.zip",
+      "checksum": "b6fc69a88a2e7fc903a5f40e873242fdb34deaecdf2ab3fc45a85116d98c5870",
+      "legacy_asset_names": [
+        "初等考試｜初等／初考｜一般民政__moex-civil-elementary-elementary-track-c7fe95341c2d.zip",
+        "moex-civil-elementary-elementary-track-c7fe95341c2d.zip"
+      ],
+      "bundle_id": "moex-civil-elementary-elementary-track-c7fe95341c2d",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-elementary",
+      "level_id": "elementary",
+      "track_id": "track-c7fe95341c2d",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -1697,6 +1735,28 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-2-cultural-administration-elective-language-1f767b834ae1-general-group--de7390e36ef0.zip",
+      "asset_name": "moex-civil-high-grade-2-cultural-administration-elective-language-1f767b834ae1-general-group--de7390e36ef0.zip",
+      "checksum": "dc1d0061c59b47d58e388ab6c681e9f7f7c69cc6c3ce49ec7985d9266d184726",
+      "legacy_asset_names": [
+        "高等考試｜二等／高考二級｜文化行政｜elective-language-1f767b834ae1、general-group__moex-civil-high-grade-2-cultural-administration-elective-language-1f767b834ae1-g.zip",
+        "moex-civil-high-grade-2-cultural-administration-elective-language-1f767b834ae1-g.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-2-cultural-administration-elective-language-1f767b834ae1-general-group",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-2",
+      "track_id": "cultural-administration",
+      "variant_ids": [
+        "elective-language-1f767b834ae1",
+        "general-group"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-2-cultural-administration-elective-language-2f0ccdf33145-general-group--5d8ea8787971.zip",
       "asset_name": "moex-civil-high-grade-2-cultural-administration-elective-language-2f0ccdf33145-general-group--5d8ea8787971.zip",
@@ -2111,6 +2171,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-2-track-330b5ead5ace--8432a6438c6d.zip",
+      "asset_name": "moex-civil-high-grade-2-track-330b5ead5ace--8432a6438c6d.zip",
+      "checksum": "4221d736cf5e96dc52aa7b17352bddd41329d233e9dcb3c8b6d069d20440d0d4",
+      "legacy_asset_names": [
+        "高等考試｜二等／高考二級｜環境工程__moex-civil-high-grade-2-track-330b5ead5ace.zip",
+        "moex-civil-high-grade-2-track-330b5ead5ace.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-2-track-330b5ead5ace",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-2",
+      "track_id": "track-330b5ead5ace",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-2-track-3392aef11175--d06bfe5fc845.zip",
       "asset_name": "moex-civil-high-grade-2-track-3392aef11175--d06bfe5fc845.zip",
@@ -2316,6 +2395,27 @@
       "level_id": "grade-2",
       "track_id": "track-7eb6667edca9",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-2-track-810cf5e87a79-general-group--4cd3612e148a.zip",
+      "asset_name": "moex-civil-high-grade-2-track-810cf5e87a79-general-group--4cd3612e148a.zip",
+      "checksum": "6552d8dc5ad0ac52adca8fc395aa7968117dca27280cf0aa7c6f747522fa0b6f",
+      "legacy_asset_names": [
+        "高等考試｜二等／高考二級｜漁業行政｜general-group__moex-civil-high-grade-2-track-810cf5e87a79-general-group.zip",
+        "moex-civil-high-grade-2-track-810cf5e87a79-general-group.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-2-track-810cf5e87a79-general-group",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-2",
+      "track_id": "track-810cf5e87a79",
+      "variant_ids": [
+        "general-group"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -2568,6 +2668,44 @@
       "exam_series_id": "civil-high",
       "level_id": "grade-2",
       "track_id": "track-c7fe95341c2d",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-2-track-d44405cc7ae7--7ae735e1454a.zip",
+      "asset_name": "moex-civil-high-grade-2-track-d44405cc7ae7--7ae735e1454a.zip",
+      "checksum": "db0189e854bc895ed1477a612570b120a498483b6aa4a00e3de0a6bdc852172d",
+      "legacy_asset_names": [
+        "高等考試｜二等／高考二級｜勞工行政__moex-civil-high-grade-2-track-d44405cc7ae7.zip",
+        "moex-civil-high-grade-2-track-d44405cc7ae7.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-2-track-d44405cc7ae7",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-2",
+      "track_id": "track-d44405cc7ae7",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-2-track-d9e6895d5ec8--bdd31b82f87b.zip",
+      "asset_name": "moex-civil-high-grade-2-track-d9e6895d5ec8--bdd31b82f87b.zip",
+      "checksum": "8cbb3334dc0a1729213a767e492fca370994fc662d988ae2382e5fb1bf85e0cf",
+      "legacy_asset_names": [
+        "高等考試｜二等／高考二級｜農產加工__moex-civil-high-grade-2-track-d9e6895d5ec8.zip",
+        "moex-civil-high-grade-2-track-d9e6895d5ec8.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-2-track-d9e6895d5ec8",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-2",
+      "track_id": "track-d9e6895d5ec8",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -3702,6 +3840,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-19f91901020c--b69737edc28d.zip",
+      "asset_name": "moex-civil-high-grade-3-track-19f91901020c--b69737edc28d.zip",
+      "checksum": "7d94abcdda436656a25022b42e940f0bd6c4d54b54e5f99e506445f4a9ead8fe",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜資通安全__moex-civil-high-grade-3-track-19f91901020c.zip",
+        "moex-civil-high-grade-3-track-19f91901020c.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-19f91901020c",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-19f91901020c",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-1a40d0a879ef--c025aefbed89.zip",
       "asset_name": "moex-civil-high-grade-3-track-1a40d0a879ef--c025aefbed89.zip",
@@ -4020,6 +4177,25 @@
       "exam_series_id": "civil-high",
       "level_id": "grade-3",
       "track_id": "track-2e8f8af8776b",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-2fc9801e602a--53d41bb108e9.zip",
+      "asset_name": "moex-civil-high-grade-3-track-2fc9801e602a--53d41bb108e9.zip",
+      "checksum": "5a2db9cf82620339bd39e7a409de075f2429e388877b5971618f34849655207d",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜昆蟲__moex-civil-high-grade-3-track-2fc9801e602a.zip",
+        "moex-civil-high-grade-3-track-2fc9801e602a.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-2fc9801e602a",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-2fc9801e602a",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -5855,6 +6031,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-9c574e06db09--8cc7eaa5b7e5.zip",
+      "asset_name": "moex-civil-high-grade-3-track-9c574e06db09--8cc7eaa5b7e5.zip",
+      "checksum": "fd8db42f66b31d79b94255975e12b1f42a4aab9b5c11f9d375256061c865c323",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜海洋技術__moex-civil-high-grade-3-track-9c574e06db09.zip",
+        "moex-civil-high-grade-3-track-9c574e06db09.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-9c574e06db09",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-9c574e06db09",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-9de5adfec653-stage-1--644041350ce0.zip",
       "asset_name": "moex-civil-high-grade-3-track-9de5adfec653-stage-1--644041350ce0.zip",
@@ -6156,6 +6351,25 @@
       "exam_series_id": "civil-high",
       "level_id": "grade-3",
       "track_id": "track-b2882f399a34",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-b29836910be0--cb57e7dca1a4.zip",
+      "asset_name": "moex-civil-high-grade-3-track-b29836910be0--cb57e7dca1a4.zip",
+      "checksum": "7b20df7824c1529efca64b12af98fefb2c2e0b378fd58370c153c5fa0722e23c",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜植物病理__moex-civil-high-grade-3-track-b29836910be0.zip",
+        "moex-civil-high-grade-3-track-b29836910be0.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-b29836910be0",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-b29836910be0",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -6981,6 +7195,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-d326d4352c9b--7e262c5d461b.zip",
+      "asset_name": "moex-civil-high-grade-3-track-d326d4352c9b--7e262c5d461b.zip",
+      "checksum": "d834036bef5e8b83875aa51a734e9440ee10e16ebcc84901b65b6c43fb0711b5",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜港灣工程__moex-civil-high-grade-3-track-d326d4352c9b.zip",
+        "moex-civil-high-grade-3-track-d326d4352c9b.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-d326d4352c9b",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-d326d4352c9b",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-d44405cc7ae7--e2bf11d1ca47.zip",
       "asset_name": "moex-civil-high-grade-3-track-d44405cc7ae7--e2bf11d1ca47.zip",
@@ -7800,6 +8033,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-f563d9ecee93--64d90dff67bc.zip",
+      "asset_name": "moex-civil-high-grade-3-track-f563d9ecee93--64d90dff67bc.zip",
+      "checksum": "14a4b4ceb57a0e5ef233c06adf38264b6886c4707789a5f93d75375f2b66b0af",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜職業安全衛生__moex-civil-high-grade-3-track-f563d9ecee93.zip",
+        "moex-civil-high-grade-3-track-f563d9ecee93.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-f563d9ecee93",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-f563d9ecee93",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-f60e8a16f8d6--8f6c700a3bae.zip",
       "asset_name": "moex-civil-high-grade-3-track-f60e8a16f8d6--8f6c700a3bae.zip",
@@ -7903,6 +8155,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-79c47e429d52--e0ebbaabba82.zip",
+      "asset_name": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-79c47e429d52--e0ebbaabba82.zip",
+      "checksum": "ab7e4487fdf1d6f7578f3cf83fe44090fa38ad77be13da4196739640e92d7dbb",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜僑務行政｜elective-language-79c47e429d52__moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-79c47e429d52.zip",
+        "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-79c47e429d52.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-79c47e429d52",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-fa49c203c6c9",
+      "variant_ids": [
+        "elective-language-79c47e429d52"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-7d5a7ada1e31--f0708cc1ef8b.zip",
+      "asset_name": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-7d5a7ada1e31--f0708cc1ef8b.zip",
+      "checksum": "e007c9d9665264c6bf970c5b00298eaf021948af675b81233f0947b257f94147",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜僑務行政｜elective-language-7d5a7ada1e31__moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-7d5a7ada1e31.zip",
+        "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-7d5a7ada1e31.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-7d5a7ada1e31",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-fa49c203c6c9",
+      "variant_ids": [
+        "elective-language-7d5a7ada1e31"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-b939ca7b397e--dd99d41db679.zip",
       "asset_name": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-b939ca7b397e--dd99d41db679.zip",
@@ -7963,6 +8257,27 @@
         "elective-language-cb25397603c9"
       ],
       "stage_id": "stage-1",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-ffb5f47363d4--81efe497deaf.zip",
+      "asset_name": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-ffb5f47363d4--81efe497deaf.zip",
+      "checksum": "ab4ada822f744aa1fddfe5ca47e5cb749a95ac8b612f780340ec9877657e2e3a",
+      "legacy_asset_names": [
+        "高等考試｜三等／高考三級｜僑務行政｜elective-language-ffb5f47363d4__moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-ffb5f47363d4.zip",
+        "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-ffb5f47363d4.zip"
+      ],
+      "bundle_id": "moex-civil-high-grade-3-track-fa49c203c6c9-elective-language-ffb5f47363d4",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-high",
+      "level_id": "grade-3",
+      "track_id": "track-fa49c203c6c9",
+      "variant_ids": [
+        "elective-language-ffb5f47363d4"
+      ],
+      "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
@@ -9619,6 +9934,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-6c67b6e1c4ad--3b5126dce245.zip",
+      "asset_name": "moex-civil-ordinary-ordinary-track-6c67b6e1c4ad--3b5126dce245.zip",
+      "checksum": "5ae746575e72bdfd3ecf2fb253f368430de363623932d2c8e5fdeac022a2ade4",
+      "legacy_asset_names": [
+        "普通考試｜普通／普考｜動物技術__moex-civil-ordinary-ordinary-track-6c67b6e1c4ad.zip",
+        "moex-civil-ordinary-ordinary-track-6c67b6e1c4ad.zip"
+      ],
+      "bundle_id": "moex-civil-ordinary-ordinary-track-6c67b6e1c4ad",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-ordinary",
+      "level_id": "ordinary",
+      "track_id": "track-6c67b6e1c4ad",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-6f03abc056fe--38728ee4b53b.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-6f03abc056fe--38728ee4b53b.zip",
@@ -10110,6 +10444,27 @@
       "track_id": "track-9c200fe1150d",
       "variant_ids": [
         "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4--e45b1984d4d1.zip",
+      "asset_name": "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4--e45b1984d4d1.zip",
+      "checksum": "23c74ac0951623503dab700636692878596783203db5d58a1a7b1d33afe8ebae",
+      "legacy_asset_names": [
+        "普通考試｜普通／普考｜新聞｜elective-language-ffb5f47363d4__moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4.zip",
+        "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4.zip"
+      ],
+      "bundle_id": "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-ordinary",
+      "level_id": "ordinary",
+      "track_id": "track-9c200fe1150d",
+      "variant_ids": [
+        "elective-language-ffb5f47363d4"
       ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -11233,6 +11588,25 @@
       "track_id": "track-f34bc97a2c52",
       "variant_ids": [],
       "stage_id": "stage-2",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-f563d9ecee93--d6f0157f1c87.zip",
+      "asset_name": "moex-civil-ordinary-ordinary-track-f563d9ecee93--d6f0157f1c87.zip",
+      "checksum": "6d2c817fbd517b6c08e2d56de18ac414a0f0ae86a1db53c39f41fafa249e0ca8",
+      "legacy_asset_names": [
+        "普通考試｜普通／普考｜職業安全衛生__moex-civil-ordinary-ordinary-track-f563d9ecee93.zip",
+        "moex-civil-ordinary-ordinary-track-f563d9ecee93.zip"
+      ],
+      "bundle_id": "moex-civil-ordinary-ordinary-track-f563d9ecee93",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "civil-ordinary",
+      "level_id": "ordinary",
+      "track_id": "track-f563d9ecee93",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
@@ -14620,6 +14994,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-associate-to-employee-track-de5410d203c9-elective-language-2671cb98716e--b015a6de904a.zip",
+      "asset_name": "moex-civil-promotion-promotion-associate-to-employee-track-de5410d203c9-elective-language-2671cb98716e--b015a6de904a.zip",
+      "checksum": "cc4a37bb0c3b78c338fb5d7337a0fb1f2aa4f3a6278795afbd8a6cf8bfc999ba",
+      "legacy_asset_names": [
+        "升官等／升等考試｜佐級晉員級｜技術類-臺灣港務公司｜elective-language-2671cb98716e__moex-civil-promotion-promotion-associate-to-employee-track-de5410d203c9-elective.zip",
+        "moex-civil-promotion-promotion-associate-to-employee-track-de5410d203c9-elective.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-associate-to-employee-track-de5410d203c9-elective-language-2671cb98716e",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-associate-to-employee",
+      "track_id": "track-de5410d203c9",
+      "variant_ids": [
+        "elective-language-2671cb98716e"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-003",
       "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-associate-to-employee-track-decdeb9c3cb6--4da39ce71df9.zip",
       "asset_name": "moex-civil-promotion-promotion-associate-to-employee-track-decdeb9c3cb6--4da39ce71df9.zip",
@@ -15525,6 +15920,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-af7f5a7e0f7b-elective-language-b9d1be0d892f--e1b9191a0c96.zip",
+      "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-af7f5a7e0f7b-elective-language-b9d1be0d892f--e1b9191a0c96.zip",
+      "checksum": "ed1e86ba4ecdb4e14a514af4734b3ce8cb972976dc88c635feeddac603bf9fdb",
+      "legacy_asset_names": [
+        "升官等／升等考試｜員級晉高員級｜技術類-航港局｜elective-language-b9d1be0d892f__moex-civil-promotion-promotion-employee-to-senior-track-af7f5a7e0f7b-elective-la.zip",
+        "moex-civil-promotion-promotion-employee-to-senior-track-af7f5a7e0f7b-elective-la.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-employee-to-senior-track-af7f5a7e0f7b-elective-language-b9d1be0d892f",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-employee-to-senior",
+      "track_id": "track-af7f5a7e0f7b",
+      "variant_ids": [
+        "elective-language-b9d1be0d892f"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-003",
       "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-b1019d63b79e--1afc301ba035.zip",
       "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-b1019d63b79e--1afc301ba035.zip",
@@ -15733,6 +16149,86 @@
       "level_id": "promotion-employee-to-senior",
       "track_id": "track-da4169f88c0c",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-92e9d7ed6452--a555b18ee0f1.zip",
+      "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-92e9d7ed6452--a555b18ee0f1.zip",
+      "checksum": "6efa250d20bb4629dad948d11b9d3d18b8d8811dd7c27d50ebdbef7f0a1ade68",
+      "legacy_asset_names": [
+        "升官等／升等考試｜員級晉高員級｜技術類-臺灣港務公司｜elective-language-92e9d7ed6452__moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-la.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-92e9d7ed6452",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-employee-to-senior",
+      "track_id": "track-de5410d203c9",
+      "variant_ids": [
+        "elective-language-92e9d7ed6452"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-9c9fe8602722--320616ede549.zip",
+      "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-9c9fe8602722--320616ede549.zip",
+      "checksum": "779f4674a58afdbae5a1d8ae3652bd4b170128e92308ceab9f74c633f0f9e715",
+      "legacy_asset_names": [
+        "升官等／升等考試｜員級晉高員級｜技術類-臺灣港務公司｜elective-language-9c9fe8602722__moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-la.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-9c9fe8602722",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-employee-to-senior",
+      "track_id": "track-de5410d203c9",
+      "variant_ids": [
+        "elective-language-9c9fe8602722"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-b9d1be0d892f--fa5d8c6652de.zip",
+      "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-b9d1be0d892f--fa5d8c6652de.zip",
+      "checksum": "41da7d54da4323624a3c5ba1c618fb781a21c6111a4d0cf61c38cf1e63de01aa",
+      "legacy_asset_names": [
+        "升官等／升等考試｜員級晉高員級｜技術類-臺灣港務公司｜elective-language-b9d1be0d892f__moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-la.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-b9d1be0d892f",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-employee-to-senior",
+      "track_id": "track-de5410d203c9",
+      "variant_ids": [
+        "elective-language-b9d1be0d892f"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-ccd6b60764bc--b6d2b7f42589.zip",
+      "asset_name": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-ccd6b60764bc--b6d2b7f42589.zip",
+      "checksum": "7254615f54f864903d092861d411a928a29378a014bdb8b32541631f39354a10",
+      "legacy_asset_names": [
+        "升官等／升等考試｜員級晉高員級｜技術類-臺灣港務公司｜elective-language-ccd6b60764bc__moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-la.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-promotion-employee-to-senior-track-de5410d203c9-elective-language-ccd6b60764bc",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "promotion-employee-to-senior",
+      "track_id": "track-de5410d203c9",
+      "variant_ids": [
+        "elective-language-ccd6b60764bc"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -17348,6 +17844,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-recommended-rank-track-13a8e2f06eca--87e170255877.zip",
+      "asset_name": "moex-civil-promotion-recommended-rank-track-13a8e2f06eca--87e170255877.zip",
+      "checksum": "4b71383039a9a7b0b937c32f2d5768563702c505d7ee1e87a600baf33a81537c",
+      "legacy_asset_names": [
+        "升官等／升等考試｜薦任｜消防與災害防救__moex-civil-promotion-recommended-rank-track-13a8e2f06eca.zip",
+        "moex-civil-promotion-recommended-rank-track-13a8e2f06eca.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-recommended-rank-track-13a8e2f06eca",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "recommended-rank",
+      "track_id": "track-13a8e2f06eca",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-003",
       "storage_key": "bundles/sites/default/moex-civil-promotion-recommended-rank-track-145d36af1aaa--817cb4d8dcce.zip",
       "asset_name": "moex-civil-promotion-recommended-rank-track-145d36af1aaa--817cb4d8dcce.zip",
@@ -18255,6 +18770,25 @@
       "exam_series_id": "civil-promotion",
       "level_id": "recommended-rank",
       "track_id": "track-6acf013fe245",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-recommended-rank-track-6c67b6e1c4ad--6bd15d5ed659.zip",
+      "asset_name": "moex-civil-promotion-recommended-rank-track-6c67b6e1c4ad--6bd15d5ed659.zip",
+      "checksum": "feadc0de7b6d3ffdf991f5e89a9c5e5bb04cec27d53428606d533c44a0120766",
+      "legacy_asset_names": [
+        "升官等／升等考試｜薦任｜動物技術__moex-civil-promotion-recommended-rank-track-6c67b6e1c4ad.zip",
+        "moex-civil-promotion-recommended-rank-track-6c67b6e1c4ad.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-recommended-rank-track-6c67b6e1c4ad",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "recommended-rank",
+      "track_id": "track-6c67b6e1c4ad",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -19775,6 +20309,25 @@
       "exam_series_id": "civil-promotion",
       "level_id": "recommended-rank",
       "track_id": "track-f34bc97a2c52",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-civil-promotion-recommended-rank-track-f563d9ecee93--4d46a166fba3.zip",
+      "asset_name": "moex-civil-promotion-recommended-rank-track-f563d9ecee93--4d46a166fba3.zip",
+      "checksum": "3d704f52111e2ae9199476d810c97412746af9b0276df866e27577872a7a270b",
+      "legacy_asset_names": [
+        "升官等／升等考試｜薦任｜職業安全衛生__moex-civil-promotion-recommended-rank-track-f563d9ecee93.zip",
+        "moex-civil-promotion-recommended-rank-track-f563d9ecee93.zip"
+      ],
+      "bundle_id": "moex-civil-promotion-recommended-rank-track-f563d9ecee93",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-promotion",
+      "exam_series_id": "civil-promotion",
+      "level_id": "recommended-rank",
+      "track_id": "track-f563d9ecee93",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -22590,6 +23143,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-1376e1c374dc--518218861c29.zip",
+      "asset_name": "moex-professional-high-professional-high-track-1376e1c374dc--518218861c29.zip",
+      "checksum": "77510a7843aa568790f277c4d62ee613817de492b8a6d6ead3515cbfa2faa521",
+      "legacy_asset_names": [
+        "專技高考｜專技高考｜大地工程技師(二)__moex-professional-high-professional-high-track-1376e1c374dc.zip",
+        "moex-professional-high-professional-high-track-1376e1c374dc.zip"
+      ],
+      "bundle_id": "moex-professional-high-professional-high-track-1376e1c374dc",
+      "domain_id": "professional",
+      "exam_family_id": "professional-exam",
+      "exam_series_id": "professional-high",
+      "level_id": "professional-high",
+      "track_id": "track-1376e1c374dc",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-15ad8ceb94ce--e8a339719250.zip",
       "asset_name": "moex-professional-high-professional-high-track-15ad8ceb94ce--e8a339719250.zip",
@@ -23573,6 +24145,25 @@
       "exam_series_id": "professional-high",
       "level_id": "professional-high",
       "track_id": "track-cbba729d67c6",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-cd9f59bc93d3--2f8e16731b63.zip",
+      "asset_name": "moex-professional-high-professional-high-track-cd9f59bc93d3--2f8e16731b63.zip",
+      "checksum": "c06849eb8d2d2f846eac9a8906c58b5123387af8d68e977260cc408eaa2cd5aa",
+      "legacy_asset_names": [
+        "專技高考｜專技高考｜職業衛生技師__moex-professional-high-professional-high-track-cd9f59bc93d3.zip",
+        "moex-professional-high-professional-high-track-cd9f59bc93d3.zip"
+      ],
+      "bundle_id": "moex-professional-high-professional-high-track-cd9f59bc93d3",
+      "domain_id": "professional",
+      "exam_family_id": "professional-exam",
+      "exam_series_id": "professional-high",
+      "level_id": "professional-high",
+      "track_id": "track-cd9f59bc93d3",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -25516,6 +26107,44 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-professional-special-combined-track-143473320332--8c07cbd0b57e.zip",
+      "asset_name": "moex-professional-special-combined-track-143473320332--8c07cbd0b57e.zip",
+      "checksum": "bcbda3c8d679e946bc52be4035bc6188d98ae3865b2e8e47fe6135c3fe1eabc1",
+      "legacy_asset_names": [
+        "專技特考｜合併／制度待審核｜大地工程技師考試分階段考試(第一階段考試)__moex-professional-special-combined-track-143473320332.zip",
+        "moex-professional-special-combined-track-143473320332.zip"
+      ],
+      "bundle_id": "moex-professional-special-combined-track-143473320332",
+      "domain_id": "professional",
+      "exam_family_id": "professional-exam",
+      "exam_series_id": "professional-special",
+      "level_id": "combined",
+      "track_id": "track-143473320332",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-professional-special-combined-track-16441b9a84bc--c446b3d46097.zip",
+      "asset_name": "moex-professional-special-combined-track-16441b9a84bc--c446b3d46097.zip",
+      "checksum": "e5a61bd0949b89e0e6214ae23f94119fd2098174426c0b8ea6fe6cf162f18910",
+      "legacy_asset_names": [
+        "專技特考｜合併／制度待審核｜甲種引水人(臺北港)__moex-professional-special-combined-track-16441b9a84bc.zip",
+        "moex-professional-special-combined-track-16441b9a84bc.zip"
+      ],
+      "bundle_id": "moex-professional-special-combined-track-16441b9a84bc",
+      "domain_id": "professional",
+      "exam_family_id": "professional-exam",
+      "exam_series_id": "professional-special",
+      "level_id": "combined",
+      "track_id": "track-16441b9a84bc",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-professional-special-combined-track-1e63398a1504--915a7e075c6d.zip",
       "asset_name": "moex-professional-special-combined-track-1e63398a1504--915a7e075c6d.zip",
@@ -27093,6 +27722,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-3-track-2558d547f4cb--180fb80384f1.zip",
+      "asset_name": "moex-special-coast-guard-grade-3-track-2558d547f4cb--180fb80384f1.zip",
+      "checksum": "5191b3a64cc623bedc857f14dcffeef7d9285afc4e378f652a750c44562619cc",
+      "legacy_asset_names": [
+        "海巡特考｜三等／高考三級｜海巡行政科__moex-special-coast-guard-grade-3-track-2558d547f4cb.zip",
+        "moex-special-coast-guard-grade-3-track-2558d547f4cb.zip"
+      ],
+      "bundle_id": "moex-special-coast-guard-grade-3-track-2558d547f4cb",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-coast-guard",
+      "level_id": "grade-3",
+      "track_id": "track-2558d547f4cb",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-3-track-35c8e3001b6a--3ab08df3815f.zip",
       "asset_name": "moex-special-coast-guard-grade-3-track-35c8e3001b6a--3ab08df3815f.zip",
@@ -27264,6 +27912,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-8cca6e8501b9--a28859871e43.zip",
+      "asset_name": "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-8cca6e8501b9--a28859871e43.zip",
+      "checksum": "60f478289816763dbfe52f0014ceb7e09f5690079e7cb29d0c0ee5236e4e81a8",
+      "legacy_asset_names": [
+        "關務特考｜簡任｜技術類｜elective-language-8cca6e8501b9__moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-8cca6e8.zip",
+        "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-8cca6e8.zip"
+      ],
+      "bundle_id": "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-8cca6e8501b9",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "appointed-rank",
+      "track_id": "track-e86f40a659a2",
+      "variant_ids": [
+        "elective-language-8cca6e8501b9"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-a2cfc521ac5f--ae89abd43299.zip",
+      "asset_name": "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-a2cfc521ac5f--ae89abd43299.zip",
+      "checksum": "4372c1402ab17fb0d9cea112071c36986ec0007df3cebade796056b202c6b27a",
+      "legacy_asset_names": [
+        "關務特考｜簡任｜技術類｜elective-language-a2cfc521ac5f__moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-a2cfc52.zip",
+        "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-a2cfc52.zip"
+      ],
+      "bundle_id": "moex-special-customs-appointed-rank-track-e86f40a659a2-elective-language-a2cfc521ac5f",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "appointed-rank",
+      "track_id": "track-e86f40a659a2",
+      "variant_ids": [
+        "elective-language-a2cfc521ac5f"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-appointed-rank-track-fb576bc1f8da--051b7ae3e979.zip",
       "asset_name": "moex-special-customs-appointed-rank-track-fb576bc1f8da--051b7ae3e979.zip",
@@ -27302,6 +27992,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-information-processing-elective-language-348ea84c6046--b36058b241b8.zip",
+      "asset_name": "moex-special-customs-grade-3-information-processing-elective-language-348ea84c6046--b36058b241b8.zip",
+      "checksum": "01592a9b505e4e0e17f1460b230425a9f6fe28371874c44aab3813745fa50fcb",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜資訊處理｜elective-language-348ea84c6046__moex-special-customs-grade-3-information-processing-elective-language-348ea84c60.zip",
+        "moex-special-customs-grade-3-information-processing-elective-language-348ea84c60.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-information-processing-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "information-processing",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-mechanical-engineering--cbf68b51d65f.zip",
       "asset_name": "moex-special-customs-grade-3-mechanical-engineering--cbf68b51d65f.zip",
@@ -27321,6 +28032,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-mechanical-engineering-elective-language-348ea84c6046--e8b81afeb09f.zip",
+      "asset_name": "moex-special-customs-grade-3-mechanical-engineering-elective-language-348ea84c6046--e8b81afeb09f.zip",
+      "checksum": "511e71a91b5f6d97989c34f814444f0a318d2603484539092d6b89f68b430934",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜機械工程｜elective-language-348ea84c6046__moex-special-customs-grade-3-mechanical-engineering-elective-language-348ea84c60.zip",
+        "moex-special-customs-grade-3-mechanical-engineering-elective-language-348ea84c60.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-mechanical-engineering-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "mechanical-engineering",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-tax-administration--2912d8bee730.zip",
       "asset_name": "moex-special-customs-grade-3-tax-administration--2912d8bee730.zip",
@@ -27336,6 +28068,48 @@
       "level_id": "grade-3",
       "track_id": "tax-administration",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-tax-administration-elective-language-348ea84c6046--d43e0a6f06b6.zip",
+      "asset_name": "moex-special-customs-grade-3-tax-administration-elective-language-348ea84c6046--d43e0a6f06b6.zip",
+      "checksum": "a2a24bf63853b994854c62e3f60796cb80259b7737d473b9c3679c337b432a5d",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜財稅行政｜elective-language-348ea84c6046__moex-special-customs-grade-3-tax-administration-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-tax-administration-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-tax-administration-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "tax-administration",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-tax-administration-elective-language-ffb5f47363d4--dd8c9a7e79aa.zip",
+      "asset_name": "moex-special-customs-grade-3-tax-administration-elective-language-ffb5f47363d4--dd8c9a7e79aa.zip",
+      "checksum": "3f46c1b9e4618740d174098ae1dbc5bbe1eea1dc15c858f275605efa3c808ad8",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜財稅行政｜elective-language-ffb5f47363d4__moex-special-customs-grade-3-tax-administration-elective-language-ffb5f47363d4.zip",
+        "moex-special-customs-grade-3-tax-administration-elective-language-ffb5f47363d4.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-tax-administration-elective-language-ffb5f47363d4",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "tax-administration",
+      "variant_ids": [
+        "elective-language-ffb5f47363d4"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27397,6 +28171,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-0b4b7dd1299d-elective-language-348ea84c6046--f1076f2119ac.zip",
+      "asset_name": "moex-special-customs-grade-3-track-0b4b7dd1299d-elective-language-348ea84c6046--f1076f2119ac.zip",
+      "checksum": "3e099cf074f3a2e5f5c65ced4838061af1e52c62b9350f86615b4b944c3a7225",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜紡織工程｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-0b4b7dd1299d-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-0b4b7dd1299d-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-0b4b7dd1299d-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-0b4b7dd1299d",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-1d6aa847ddc2--8bc2a1346f78.zip",
       "asset_name": "moex-special-customs-grade-3-track-1d6aa847ddc2--8bc2a1346f78.zip",
@@ -27435,6 +28230,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-281bda5933d1-elective-language-348ea84c6046--3452486b07e8.zip",
+      "asset_name": "moex-special-customs-grade-3-track-281bda5933d1-elective-language-348ea84c6046--3452486b07e8.zip",
+      "checksum": "5b06231c196914fb4da62c9dc9a1eb724792402b22922df8412dbdb91de46faa",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜關稅法務｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-281bda5933d1-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-281bda5933d1-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-281bda5933d1-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-281bda5933d1",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-281bda5933d1-elective-language-ffb5f47363d4--723d560d713d.zip",
+      "asset_name": "moex-special-customs-grade-3-track-281bda5933d1-elective-language-ffb5f47363d4--723d560d713d.zip",
+      "checksum": "e81f77c5a20bec74c8cf2815e4b59730067107636d4cc9b54fcd470650bea13d",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜關稅法務｜elective-language-ffb5f47363d4__moex-special-customs-grade-3-track-281bda5933d1-elective-language-ffb5f47363d4.zip",
+        "moex-special-customs-grade-3-track-281bda5933d1-elective-language-ffb5f47363d4.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-281bda5933d1-elective-language-ffb5f47363d4",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-281bda5933d1",
+      "variant_ids": [
+        "elective-language-ffb5f47363d4"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-59293c5a1f22--228c1965ee75.zip",
       "asset_name": "moex-special-customs-grade-3-track-59293c5a1f22--228c1965ee75.zip",
@@ -27450,6 +28287,27 @@
       "level_id": "grade-3",
       "track_id": "track-59293c5a1f22",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-59293c5a1f22-elective-language-348ea84c6046--b60dcbb9ff6d.zip",
+      "asset_name": "moex-special-customs-grade-3-track-59293c5a1f22-elective-language-348ea84c6046--b60dcbb9ff6d.zip",
+      "checksum": "ed4c0e3ae7ddefe0616340c466e42e89cbf5fc35f620e6914685a93460cf02d6",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜電機工程｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-59293c5a1f22-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-59293c5a1f22-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-59293c5a1f22-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-59293c5a1f22",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27473,6 +28331,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-64dcb95f665a-elective-language-348ea84c6046--576a6918ce2e.zip",
+      "asset_name": "moex-special-customs-grade-3-track-64dcb95f665a-elective-language-348ea84c6046--576a6918ce2e.zip",
+      "checksum": "100f3765e10e3c63a4b41db100b53ed851b04c8225d6abbafcd000462299ab75",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜藥事｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-64dcb95f665a-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-64dcb95f665a-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-64dcb95f665a-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-64dcb95f665a",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-7eb6667edca9--3499b386c6fb.zip",
       "asset_name": "moex-special-customs-grade-3-track-7eb6667edca9--3499b386c6fb.zip",
@@ -27488,6 +28367,27 @@
       "level_id": "grade-3",
       "track_id": "track-7eb6667edca9",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-7eb6667edca9-elective-language-348ea84c6046--90a499483c04.zip",
+      "asset_name": "moex-special-customs-grade-3-track-7eb6667edca9-elective-language-348ea84c6046--90a499483c04.zip",
+      "checksum": "bb2c114489fd81f846c9be1a10d20574d4e1b70ebff1c06c5cee54c6d86d62c5",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜化學工程｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-7eb6667edca9-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-7eb6667edca9-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-7eb6667edca9-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-7eb6667edca9",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27549,6 +28449,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-8f7d5af5ecaa-elective-language-348ea84c6046--837a5e2496d9.zip",
+      "asset_name": "moex-special-customs-grade-3-track-8f7d5af5ecaa-elective-language-348ea84c6046--837a5e2496d9.zip",
+      "checksum": "29f480eb56f2c7a3aa6e5a4889be2259594906ad501d9ad2c00ee2843a2ce83a",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜關稅會計｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-8f7d5af5ecaa-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-8f7d5af5ecaa-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-8f7d5af5ecaa-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-8f7d5af5ecaa",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-c0784b4ff620--06cf6b474384.zip",
       "asset_name": "moex-special-customs-grade-3-track-c0784b4ff620--06cf6b474384.zip",
@@ -27587,6 +28508,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-c8e069573159-elective-language-348ea84c6046--f4b2cf74c90d.zip",
+      "asset_name": "moex-special-customs-grade-3-track-c8e069573159-elective-language-348ea84c6046--f4b2cf74c90d.zip",
+      "checksum": "281a8d6a3828bcbd15d6fa2b04eb3a64e2f8b69b354daf92627e1772923d1cb2",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜關稅統計｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-c8e069573159-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-c8e069573159-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-c8e069573159-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-c8e069573159",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-cedaea304cbc--a19d8622eb0d.zip",
       "asset_name": "moex-special-customs-grade-3-track-cedaea304cbc--a19d8622eb0d.zip",
@@ -27602,6 +28544,27 @@
       "level_id": "grade-3",
       "track_id": "track-cedaea304cbc",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-3-track-cedaea304cbc-elective-language-348ea84c6046--eaa16d310ac2.zip",
+      "asset_name": "moex-special-customs-grade-3-track-cedaea304cbc-elective-language-348ea84c6046--eaa16d310ac2.zip",
+      "checksum": "77614013d5d378a93fd410f1d6a54fd6e78b49b99e8f84f86e31bbfef6977249",
+      "legacy_asset_names": [
+        "關務特考｜三等／高考三級｜輻射安全技術工程｜elective-language-348ea84c6046__moex-special-customs-grade-3-track-cedaea304cbc-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-3-track-cedaea304cbc-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-3-track-cedaea304cbc-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-3",
+      "track_id": "track-cedaea304cbc",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27625,6 +28588,48 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-general-administration-elective-language-348ea84c6046--4d95ce928c1e.zip",
+      "asset_name": "moex-special-customs-grade-4-general-administration-elective-language-348ea84c6046--4d95ce928c1e.zip",
+      "checksum": "ac44dddbde4db95c127296c0a27a0b21a9c674ca73963b26eb16f10b1ce9a4af",
+      "legacy_asset_names": [
+        "關務特考｜四等｜一般行政｜elective-language-348ea84c6046__moex-special-customs-grade-4-general-administration-elective-language-348ea84c60.zip",
+        "moex-special-customs-grade-4-general-administration-elective-language-348ea84c60.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-general-administration-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "general-administration",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-general-administration-elective-language-ffb5f47363d4--1137ec4a383c.zip",
+      "asset_name": "moex-special-customs-grade-4-general-administration-elective-language-ffb5f47363d4--1137ec4a383c.zip",
+      "checksum": "8e8a3e8ec4e6f3ea31192a87a9fd202457c864a3f4290b6cf62f10fc155c1208",
+      "legacy_asset_names": [
+        "關務特考｜四等｜一般行政｜elective-language-ffb5f47363d4__moex-special-customs-grade-4-general-administration-elective-language-ffb5f47363.zip",
+        "moex-special-customs-grade-4-general-administration-elective-language-ffb5f47363.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-general-administration-elective-language-ffb5f47363d4",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "general-administration",
+      "variant_ids": [
+        "elective-language-ffb5f47363d4"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-4-information-processing--a9f76a6e5ad5.zip",
       "asset_name": "moex-special-customs-grade-4-information-processing--a9f76a6e5ad5.zip",
@@ -27640,6 +28645,27 @@
       "level_id": "grade-4",
       "track_id": "information-processing",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-information-processing-elective-language-348ea84c6046--4178dc2bcb3b.zip",
+      "asset_name": "moex-special-customs-grade-4-information-processing-elective-language-348ea84c6046--4178dc2bcb3b.zip",
+      "checksum": "90d3348e3040867582a54e95b19b23722911e95253623f6dc8bdefa87234a9d4",
+      "legacy_asset_names": [
+        "關務特考｜四等｜資訊處理｜elective-language-348ea84c6046__moex-special-customs-grade-4-information-processing-elective-language-348ea84c60.zip",
+        "moex-special-customs-grade-4-information-processing-elective-language-348ea84c60.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-information-processing-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "information-processing",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27663,6 +28689,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-mechanical-engineering-elective-language-348ea84c6046--a6c9d7d8a21d.zip",
+      "asset_name": "moex-special-customs-grade-4-mechanical-engineering-elective-language-348ea84c6046--a6c9d7d8a21d.zip",
+      "checksum": "b56d1d72e448cb9472786632c697f273f13c3af5e0f8e9b1af6a72b66c2d325f",
+      "legacy_asset_names": [
+        "關務特考｜四等｜機械工程｜elective-language-348ea84c6046__moex-special-customs-grade-4-mechanical-engineering-elective-language-348ea84c60.zip",
+        "moex-special-customs-grade-4-mechanical-engineering-elective-language-348ea84c60.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-mechanical-engineering-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "mechanical-engineering",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-0b4b7dd1299d--88c3cc482275.zip",
       "asset_name": "moex-special-customs-grade-4-track-0b4b7dd1299d--88c3cc482275.zip",
@@ -27678,6 +28725,27 @@
       "level_id": "grade-4",
       "track_id": "track-0b4b7dd1299d",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-0b4b7dd1299d-elective-language-348ea84c6046--f9f99ffc6df9.zip",
+      "asset_name": "moex-special-customs-grade-4-track-0b4b7dd1299d-elective-language-348ea84c6046--f9f99ffc6df9.zip",
+      "checksum": "fb7e28bd5c114f8938852d377b824db01b57c34fbbc58af6024864b2ca9dbb92",
+      "legacy_asset_names": [
+        "關務特考｜四等｜紡織工程｜elective-language-348ea84c6046__moex-special-customs-grade-4-track-0b4b7dd1299d-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-4-track-0b4b7dd1299d-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-track-0b4b7dd1299d-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "track-0b4b7dd1299d",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27701,6 +28769,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-59293c5a1f22-elective-language-348ea84c6046--6d21b09669e3.zip",
+      "asset_name": "moex-special-customs-grade-4-track-59293c5a1f22-elective-language-348ea84c6046--6d21b09669e3.zip",
+      "checksum": "7b566861e3417b41e194876234d30b7e206ae64742a03054d706271a663c731e",
+      "legacy_asset_names": [
+        "關務特考｜四等｜電機工程｜elective-language-348ea84c6046__moex-special-customs-grade-4-track-59293c5a1f22-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-4-track-59293c5a1f22-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-track-59293c5a1f22-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "track-59293c5a1f22",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-7eb6667edca9--fa852da11a09.zip",
       "asset_name": "moex-special-customs-grade-4-track-7eb6667edca9--fa852da11a09.zip",
@@ -27716,6 +28805,27 @@
       "level_id": "grade-4",
       "track_id": "track-7eb6667edca9",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-7eb6667edca9-elective-language-348ea84c6046--d862c920614a.zip",
+      "asset_name": "moex-special-customs-grade-4-track-7eb6667edca9-elective-language-348ea84c6046--d862c920614a.zip",
+      "checksum": "93ed712387539062aa2acc17ef3649b59f52d841528e39d1cd8459e6f9452a2b",
+      "legacy_asset_names": [
+        "關務特考｜四等｜化學工程｜elective-language-348ea84c6046__moex-special-customs-grade-4-track-7eb6667edca9-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-4-track-7eb6667edca9-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-track-7eb6667edca9-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "track-7eb6667edca9",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27758,6 +28868,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-8f7d5af5ecaa-elective-language-348ea84c6046--c1b14e9951c2.zip",
+      "asset_name": "moex-special-customs-grade-4-track-8f7d5af5ecaa-elective-language-348ea84c6046--c1b14e9951c2.zip",
+      "checksum": "b533e42cf61939067971f60cdcdb66b193b12ef7a09dba2dc2d42b9c1cef8784",
+      "legacy_asset_names": [
+        "關務特考｜四等｜關稅會計｜elective-language-348ea84c6046__moex-special-customs-grade-4-track-8f7d5af5ecaa-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-4-track-8f7d5af5ecaa-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-track-8f7d5af5ecaa-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "track-8f7d5af5ecaa",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-c8e069573159--b64965eca9db.zip",
       "asset_name": "moex-special-customs-grade-4-track-c8e069573159--b64965eca9db.zip",
@@ -27773,6 +28904,27 @@
       "level_id": "grade-4",
       "track_id": "track-c8e069573159",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-grade-4-track-c8e069573159-elective-language-348ea84c6046--b79c2713f484.zip",
+      "asset_name": "moex-special-customs-grade-4-track-c8e069573159-elective-language-348ea84c6046--b79c2713f484.zip",
+      "checksum": "e0c3fc79fb24db50cb5dc95814f88cd8bcf9924a911f429d96cdfe7ae1e39ca2",
+      "legacy_asset_names": [
+        "關務特考｜四等｜關稅統計｜elective-language-348ea84c6046__moex-special-customs-grade-4-track-c8e069573159-elective-language-348ea84c6046.zip",
+        "moex-special-customs-grade-4-track-c8e069573159-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-customs-grade-4-track-c8e069573159-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "grade-4",
+      "track_id": "track-c8e069573159",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -27834,6 +28986,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-2d1a7e138de0--f6e4e680edf3.zip",
+      "asset_name": "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-2d1a7e138de0--f6e4e680edf3.zip",
+      "checksum": "13a01503221eff3834910adf9dee9ad065c8527681dcc83d69c079d8201d68bd",
+      "legacy_asset_names": [
+        "關務特考｜薦任｜技術類｜elective-language-2d1a7e138de0__moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-2d1a7.zip",
+        "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-2d1a7.zip"
+      ],
+      "bundle_id": "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-2d1a7e138de0",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "recommended-rank",
+      "track_id": "track-e86f40a659a2",
+      "variant_ids": [
+        "elective-language-2d1a7e138de0"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-560cb6b5109b--79e316ebc210.zip",
       "asset_name": "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-560cb6b5109b--79e316ebc210.zip",
@@ -27850,6 +29023,27 @@
       "track_id": "track-e86f40a659a2",
       "variant_ids": [
         "elective-language-560cb6b5109b"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-57d4973d3b33--c772fe5ea07d.zip",
+      "asset_name": "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-57d4973d3b33--c772fe5ea07d.zip",
+      "checksum": "266d62eb4591bb1e5397b49b1ec4abd0429c02177c3ba94e762874346ca6ed8f",
+      "legacy_asset_names": [
+        "關務特考｜薦任｜技術類｜elective-language-57d4973d3b33__moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-57d49.zip",
+        "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-57d49.zip"
+      ],
+      "bundle_id": "moex-special-customs-recommended-rank-track-e86f40a659a2-elective-language-57d4973d3b33",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-customs",
+      "level_id": "recommended-rank",
+      "track_id": "track-e86f40a659a2",
+      "variant_ids": [
+        "elective-language-57d4973d3b33"
       ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -30300,6 +31494,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-disability-grade-4-track-2e8f8af8776b--4e5b00191369.zip",
+      "asset_name": "moex-special-disability-grade-4-track-2e8f8af8776b--4e5b00191369.zip",
+      "checksum": "6a0206d085df27de882707c1219a530c6fb7f215438218c17323f8d2f17a4590",
+      "legacy_asset_names": [
+        "身心障礙特考｜四等｜林業技術__moex-special-disability-grade-4-track-2e8f8af8776b.zip",
+        "moex-special-disability-grade-4-track-2e8f8af8776b.zip"
+      ],
+      "bundle_id": "moex-special-disability-grade-4-track-2e8f8af8776b",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-disability",
+      "level_id": "grade-4",
+      "track_id": "track-2e8f8af8776b",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-disability-grade-4-track-447b9c32f6d9--ddbc94210cd8.zip",
       "asset_name": "moex-special-disability-grade-4-track-447b9c32f6d9--ddbc94210cd8.zip",
@@ -31614,6 +32827,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-indigenous-grade-3-track-4321489c2fd8--30ab267f1d75.zip",
+      "asset_name": "moex-special-indigenous-grade-3-track-4321489c2fd8--30ab267f1d75.zip",
+      "checksum": "5126e542c7fdfef4ea19489557446cff9a993626adaf50b706f6f623355208c6",
+      "legacy_asset_names": [
+        "原住民族特考｜三等／高考三級｜體育行政__moex-special-indigenous-grade-3-track-4321489c2fd8.zip",
+        "moex-special-indigenous-grade-3-track-4321489c2fd8.zip"
+      ],
+      "bundle_id": "moex-special-indigenous-grade-3-track-4321489c2fd8",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-indigenous",
+      "level_id": "grade-3",
+      "track_id": "track-4321489c2fd8",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-indigenous-grade-3-track-5d104b3d1962--dd058ca76fa4.zip",
       "asset_name": "moex-special-indigenous-grade-3-track-5d104b3d1962--dd058ca76fa4.zip",
@@ -31917,6 +33149,25 @@
       "exam_series_id": "special-indigenous",
       "level_id": "grade-3",
       "track_id": "track-c7fe95341c2d",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-indigenous-grade-3-track-cd6d5207b1db--ae68ad2616d2.zip",
+      "asset_name": "moex-special-indigenous-grade-3-track-cd6d5207b1db--ae68ad2616d2.zip",
+      "checksum": "bc991f589998af694ccc7a5e91af780b1a523fe41f3cbb6f706f1edb099d80c1",
+      "legacy_asset_names": [
+        "原住民族特考｜三等／高考三級｜飛航檢查__moex-special-indigenous-grade-3-track-cd6d5207b1db.zip",
+        "moex-special-indigenous-grade-3-track-cd6d5207b1db.zip"
+      ],
+      "bundle_id": "moex-special-indigenous-grade-3-track-cd6d5207b1db",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-indigenous",
+      "level_id": "grade-3",
+      "track_id": "track-cd6d5207b1db",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -33009,6 +34260,44 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-0cc543c67005--4d548ce3394a.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-0cc543c67005--4d548ce3394a.zip",
+      "checksum": "0c30a04f63bc257f0d5f029aa4c5303bb308e37714555198afbc4b6257d6f2f1",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜檢察事務官類科偵查實務組__moex-special-judicial-grade-3-track-0cc543c67005.zip",
+        "moex-special-judicial-grade-3-track-0cc543c67005.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-0cc543c67005",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-0cc543c67005",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-0e03ad8f16d1--41ae585f1658.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-0e03ad8f16d1--41ae585f1658.zip",
+      "checksum": "c7fd401d1762c2a8e65b947a92c729774b8d31bbce306a0f15cbe8e43a64c241",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法行政__moex-special-judicial-grade-3-track-0e03ad8f16d1.zip",
+        "moex-special-judicial-grade-3-track-0e03ad8f16d1.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-0e03ad8f16d1",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-0e03ad8f16d1",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-1cad1b7c293b--5c2089569cf7.zip",
       "asset_name": "moex-special-judicial-grade-3-track-1cad1b7c293b--5c2089569cf7.zip",
@@ -33104,6 +34393,44 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-3ba81e0e2cbc--83bfb4519b56.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-3ba81e0e2cbc--83bfb4519b56.zip",
+      "checksum": "71725483a2496ae73e4d1b05ec919547450ba45f340e50267121ada36260e85e",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜檢察事務官類科電子資訊組__moex-special-judicial-grade-3-track-3ba81e0e2cbc.zip",
+        "moex-special-judicial-grade-3-track-3ba81e0e2cbc.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-3ba81e0e2cbc",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-3ba81e0e2cbc",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-40b6bfcf899c--e6e1c2046113.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-40b6bfcf899c--e6e1c2046113.zip",
+      "checksum": "56ae01201b4898b64682644f4151b3f6bb3fe2f3bc1f2ab28d0aa1c1a638db4b",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜檢察事務官類科營繕工程組__moex-special-judicial-grade-3-track-40b6bfcf899c.zip",
+        "moex-special-judicial-grade-3-track-40b6bfcf899c.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-40b6bfcf899c",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-40b6bfcf899c",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-4a1d08ac767d--137e069b104c.zip",
       "asset_name": "moex-special-judicial-grade-3-track-4a1d08ac767d--137e069b104c.zip",
@@ -33156,6 +34483,25 @@
       "exam_series_id": "special-judicial",
       "level_id": "grade-3",
       "track_id": "track-566d02399326",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-5ed4b84b951b--bf1f4d275592.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-5ed4b84b951b--bf1f4d275592.zip",
+      "checksum": "57b404b158ff8731d7e3e6aeda729e8850279433a75a9af0dc0f65cbaf949091",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法事務官類科法律事務組__moex-special-judicial-grade-3-track-5ed4b84b951b.zip",
+        "moex-special-judicial-grade-3-track-5ed4b84b951b.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-5ed4b84b951b",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-5ed4b84b951b",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -33234,6 +34580,25 @@
       "exam_series_id": "special-judicial",
       "level_id": "grade-3",
       "track_id": "track-855d8de4f3d0",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-85beb7580dee--93efa6977728.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-85beb7580dee--93efa6977728.zip",
+      "checksum": "3a422d0dee771a87ab2f54c194dd335d0d5da3adfb4f8ad280f4fe1086715caf",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜檢察事務官類科財經實務組__moex-special-judicial-grade-3-track-85beb7580dee.zip",
+        "moex-special-judicial-grade-3-track-85beb7580dee.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-85beb7580dee",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-85beb7580dee",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -33333,6 +34698,90 @@
       "track_id": "track-a75ba3f43ea8",
       "variant_ids": [],
       "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-0ebfea3a15dc-stage-2--adbb1c14d452.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-0ebfea3a15dc-stage-2--adbb1c14d452.zip",
+      "checksum": "cd01bfbd2db4fe94359d5032fadf822272568b653066b3c256f911ab1b4f85fd",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法官及律師｜elective-language-0ebfea3a15dc｜stage-2__moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-0ebfea3a15dc-.zip",
+        "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-0ebfea3a15dc-.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-0ebfea3a15dc-stage-2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-a8efdc0e1bb3",
+      "variant_ids": [
+        "elective-language-0ebfea3a15dc"
+      ],
+      "stage_id": "stage-2",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-35742b820d2a-stage-2--03a19798edb6.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-35742b820d2a-stage-2--03a19798edb6.zip",
+      "checksum": "94d41418b1d10f0c4f12b702c8867b570d94f31567eed4b36f0a0c22ca962e93",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法官及律師｜elective-language-35742b820d2a｜stage-2__moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-35742b820d2a-.zip",
+        "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-35742b820d2a-.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-35742b820d2a-stage-2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-a8efdc0e1bb3",
+      "variant_ids": [
+        "elective-language-35742b820d2a"
+      ],
+      "stage_id": "stage-2",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-704c38f7605b-stage-2--73e9f802e1c2.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-704c38f7605b-stage-2--73e9f802e1c2.zip",
+      "checksum": "4932a4fd85261b2f8646bd0eb97f4bf9b9504bce2c1e630c636e8c46c89ffcfb",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法官及律師｜elective-language-704c38f7605b｜stage-2__moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-704c38f7605b-.zip",
+        "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-704c38f7605b-.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-704c38f7605b-stage-2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-a8efdc0e1bb3",
+      "variant_ids": [
+        "elective-language-704c38f7605b"
+      ],
+      "stage_id": "stage-2",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-f6d293ea424f-stage-2--c381f86a6d57.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-f6d293ea424f-stage-2--c381f86a6d57.zip",
+      "checksum": "0ee1ead1fdbece3c3873e26c52a0eb29cb9388ca6b7ec1abfa4917667318e895",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法官及律師｜elective-language-f6d293ea424f｜stage-2__moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-f6d293ea424f-.zip",
+        "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-f6d293ea424f-.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-elective-language-f6d293ea424f-stage-2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-a8efdc0e1bb3",
+      "variant_ids": [
+        "elective-language-f6d293ea424f"
+      ],
+      "stage_id": "stage-2",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
@@ -39563,6 +41012,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-2-track-185ec48431c3--de534a56577a.zip",
+      "asset_name": "moex-special-police-grade-2-track-185ec48431c3--de534a56577a.zip",
+      "checksum": "a4ea1c3c899c8f7814022b34d85c0d8e564771eed202cff9c5f65e87be855705",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜二等／高考二級｜刑事警察人員類別數位鑑識組__moex-special-police-grade-2-track-185ec48431c3.zip",
+        "moex-special-police-grade-2-track-185ec48431c3.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-2-track-185ec48431c3",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-2",
+      "track_id": "track-185ec48431c3",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-2-track-240a2ab5b7a4--0494156f134b.zip",
       "asset_name": "moex-special-police-grade-2-track-240a2ab5b7a4--0494156f134b.zip",
@@ -39658,6 +41126,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-06cf22a7b779--e9f83cc4d220.zip",
+      "asset_name": "moex-special-police-grade-3-track-06cf22a7b779--e9f83cc4d220.zip",
+      "checksum": "e69f44d9004666d79dea43036e037516ac0da1587d2b3b07c1304ba56b590602",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜刑事警察人員類別__moex-special-police-grade-3-track-06cf22a7b779.zip",
+        "moex-special-police-grade-3-track-06cf22a7b779.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-06cf22a7b779",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-06cf22a7b779",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-09c4088d60d2--535a74c6508c.zip",
       "asset_name": "moex-special-police-grade-3-track-09c4088d60d2--535a74c6508c.zip",
@@ -39691,6 +41178,44 @@
       "exam_series_id": "special-police",
       "level_id": "grade-3",
       "track_id": "track-416b75d32bfc",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-4c91b8a825a6--5514bd911198.zip",
+      "asset_name": "moex-special-police-grade-3-track-4c91b8a825a6--5514bd911198.zip",
+      "checksum": "64065ef6319d9508fcb29d3ba6aa2d8ba80bf6b88cdd3a023d5e8546e3dd1f85",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜警察資訊管理人員類別__moex-special-police-grade-3-track-4c91b8a825a6.zip",
+        "moex-special-police-grade-3-track-4c91b8a825a6.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-4c91b8a825a6",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-4c91b8a825a6",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-4e0b3a2240fd--a04465abc086.zip",
+      "asset_name": "moex-special-police-grade-3-track-4e0b3a2240fd--a04465abc086.zip",
+      "checksum": "9d36ad9745fb2556cfa61d3f8e5cf25941d34c953e0c0c4aaa31dd3549f555e0",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜公共安全人員類別__moex-special-police-grade-3-track-4e0b3a2240fd.zip",
+        "moex-special-police-grade-3-track-4e0b3a2240fd.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-4e0b3a2240fd",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-4e0b3a2240fd",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -39734,6 +41259,46 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-790b86e46b25-elective-language-348ea84c6046--ea1f05d8fd69.zip",
+      "asset_name": "moex-special-police-grade-3-track-790b86e46b25-elective-language-348ea84c6046--ea1f05d8fd69.zip",
+      "checksum": "f382a57b836e717ec925a788f8e438dbbeaceb6c0908fe6f01a675f99f586e8d",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜政經組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-790b86e46b25-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-790b86e46b25-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-790b86e46b25-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-790b86e46b25",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-7ad6f2989cf2--7489334e8354.zip",
+      "asset_name": "moex-special-police-grade-3-track-7ad6f2989cf2--7489334e8354.zip",
+      "checksum": "4c327c337bb7f3a73356b3d35e248bc5577cdbad3682efafb3234b0184b5c930",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜水上警察人員類別__moex-special-police-grade-3-track-7ad6f2989cf2.zip",
+        "moex-special-police-grade-3-track-7ad6f2989cf2.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-7ad6f2989cf2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-7ad6f2989cf2",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-7f52080fde7f--c15e98ce8494.zip",
       "asset_name": "moex-special-police-grade-3-track-7f52080fde7f--c15e98ce8494.zip",
@@ -39753,6 +41318,67 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-833da9a07b03-elective-language-57b8fc274f10--020878da9e91.zip",
+      "asset_name": "moex-special-police-grade-3-track-833da9a07b03-elective-language-57b8fc274f10--020878da9e91.zip",
+      "checksum": "5a584c959689f458dc250ba71b098b9c3f2783407b3261a8716b95510140b88b",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜外事警察人員類別｜elective-language-57b8fc274f10__moex-special-police-grade-3-track-833da9a07b03-elective-language-57b8fc274f10.zip",
+        "moex-special-police-grade-3-track-833da9a07b03-elective-language-57b8fc274f10.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-833da9a07b03-elective-language-57b8fc274f10",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-833da9a07b03",
+      "variant_ids": [
+        "elective-language-57b8fc274f10"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-8a493d75cf90--26e982b8f594.zip",
+      "asset_name": "moex-special-police-grade-3-track-8a493d75cf90--26e982b8f594.zip",
+      "checksum": "aa1c4ef98f877123dc4be2526e6a18a6ab956c90ad07da81e6c8961baceacc50",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜行政警察人員類別__moex-special-police-grade-3-track-8a493d75cf90.zip",
+        "moex-special-police-grade-3-track-8a493d75cf90.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-8a493d75cf90",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-8a493d75cf90",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-8a809b0f3f8d-elective-language-348ea84c6046--b14e2357f02a.zip",
+      "asset_name": "moex-special-police-grade-3-track-8a809b0f3f8d-elective-language-348ea84c6046--b14e2357f02a.zip",
+      "checksum": "9e33c8a1a241186089da1054983cd1f7dc55052ff5bcb9da6f7d172e06ce43f5",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜數理組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-8a809b0f3f8d-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-8a809b0f3f8d-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-8a809b0f3f8d-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-8a809b0f3f8d",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-8f347e025609--e1468a62150b.zip",
       "asset_name": "moex-special-police-grade-3-track-8f347e025609--e1468a62150b.zip",
@@ -39767,6 +41393,25 @@
       "exam_series_id": "special-police",
       "level_id": "grade-3",
       "track_id": "track-8f347e025609",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-94cc5f42da07--822687b23e5c.zip",
+      "asset_name": "moex-special-police-grade-3-track-94cc5f42da07--822687b23e5c.zip",
+      "checksum": "b8c95c56e722b6cefeb249de5e6c73d375aeef2aaf644540d30763ba99d5730e",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜警察法制人員類別__moex-special-police-grade-3-track-94cc5f42da07.zip",
+        "moex-special-police-grade-3-track-94cc5f42da07.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-94cc5f42da07",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-94cc5f42da07",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -39810,6 +41455,44 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-ace76a78f513--0543abdb6bf7.zip",
+      "asset_name": "moex-special-police-grade-3-track-ace76a78f513--0543abdb6bf7.zip",
+      "checksum": "d6c9fd3f2aba7c59edc302102fe36fff9cc0f4575b825ec63445faa2e6b81caa",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜交通警察人員類別交通組__moex-special-police-grade-3-track-ace76a78f513.zip",
+        "moex-special-police-grade-3-track-ace76a78f513.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-ace76a78f513",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-ace76a78f513",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-ad227f97f216--cf726ebe0e75.zip",
+      "asset_name": "moex-special-police-grade-3-track-ad227f97f216--cf726ebe0e75.zip",
+      "checksum": "9751d986ef188a9251dba4fee8929117a21bb51865e8b9d4e33ee4371323396e",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜行政管理人員類別__moex-special-police-grade-3-track-ad227f97f216.zip",
+        "moex-special-police-grade-3-track-ad227f97f216.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-ad227f97f216",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-ad227f97f216",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-be4f57dc708d--e5fc6a2e5333.zip",
       "asset_name": "moex-special-police-grade-3-track-be4f57dc708d--e5fc6a2e5333.zip",
@@ -39829,6 +41512,27 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-c06cc991dbb2-elective-language-348ea84c6046--66d561304b7d.zip",
+      "asset_name": "moex-special-police-grade-3-track-c06cc991dbb2-elective-language-348ea84c6046--66d561304b7d.zip",
+      "checksum": "462d1a5810bb3025189972598cdaad083506a18545b55d0152406b104b3b9687",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜國際組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-c06cc991dbb2-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-c06cc991dbb2-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-c06cc991dbb2-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-c06cc991dbb2",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-c0784b4ff620--89456776c2f9.zip",
       "asset_name": "moex-special-police-grade-3-track-c0784b4ff620--89456776c2f9.zip",
@@ -39844,6 +41548,27 @@
       "level_id": "grade-3",
       "track_id": "track-c0784b4ff620",
       "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-c99f7a8d4436-elective-language-348ea84c6046--7b59edc5e0eb.zip",
+      "asset_name": "moex-special-police-grade-3-track-c99f7a8d4436-elective-language-348ea84c6046--7b59edc5e0eb.zip",
+      "checksum": "bf26f1f09b54b070682d1eb44b01da7ce18101adde01ee2242d2a436dd2f642b",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜電子組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-c99f7a8d4436-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-c99f7a8d4436-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-c99f7a8d4436-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-c99f7a8d4436",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
     },
@@ -39928,6 +41653,124 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-dc5e3898e9fd--74df13f6aa8d.zip",
+      "asset_name": "moex-special-police-grade-3-track-dc5e3898e9fd--74df13f6aa8d.zip",
+      "checksum": "2915e5d35417f548f793ab0a7f48c54c8b71fb4e90a9fa17d3b5f3653ee2aba8",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜刑事鑑識人員類別__moex-special-police-grade-3-track-dc5e3898e9fd.zip",
+        "moex-special-police-grade-3-track-dc5e3898e9fd.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-dc5e3898e9fd",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-dc5e3898e9fd",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-e30b2d33b82e-elective-language-348ea84c6046--09e87a90946f.zip",
+      "asset_name": "moex-special-police-grade-3-track-e30b2d33b82e-elective-language-348ea84c6046--09e87a90946f.zip",
+      "checksum": "7ab3338fa21e74ed5391f8843f9b3e8c311ec219210ff791b2591cefdbc3d5ba",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜情報組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-e30b2d33b82e-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-e30b2d33b82e-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-e30b2d33b82e-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-e30b2d33b82e",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-e53110ee9e6b--ae5e4c1bd866.zip",
+      "asset_name": "moex-special-police-grade-3-track-e53110ee9e6b--ae5e4c1bd866.zip",
+      "checksum": "f71d665b50a54c55869bd6e7030df88df6e0350c592858f1e8b360c97df02adb",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜國境警察人員類別__moex-special-police-grade-3-track-e53110ee9e6b.zip",
+        "moex-special-police-grade-3-track-e53110ee9e6b.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-e53110ee9e6b",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-e53110ee9e6b",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-f1b20b71cea5-elective-language-348ea84c6046--ca6f7a35e423.zip",
+      "asset_name": "moex-special-police-grade-3-track-f1b20b71cea5-elective-language-348ea84c6046--ca6f7a35e423.zip",
+      "checksum": "1c1bc4e686b53eb3717478469ee7f6e01eff3b9bf766cdda6f0a79d2288a60f2",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜資訊組｜elective-language-348ea84c6046__moex-special-police-grade-3-track-f1b20b71cea5-elective-language-348ea84c6046.zip",
+        "moex-special-police-grade-3-track-f1b20b71cea5-elective-language-348ea84c6046.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-f1b20b71cea5-elective-language-348ea84c6046",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-f1b20b71cea5",
+      "variant_ids": [
+        "elective-language-348ea84c6046"
+      ],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-fabff51160d6--b6b9f6341832.zip",
+      "asset_name": "moex-special-police-grade-3-track-fabff51160d6--b6b9f6341832.zip",
+      "checksum": "71e5b8556ef7d482c863e64cea2b12c958a78cda3855d7e7fdd76a8d9deba012",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜犯罪防治人員類別預防組__moex-special-police-grade-3-track-fabff51160d6.zip",
+        "moex-special-police-grade-3-track-fabff51160d6.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-fabff51160d6",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-fabff51160d6",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-3-track-fe33b90f1b6c--50984787a47a.zip",
+      "asset_name": "moex-special-police-grade-3-track-fe33b90f1b6c--50984787a47a.zip",
+      "checksum": "9c7e1d1f711f39aeedb128ec1d6b6d0d0901200c451cbb5a38fb6f0460d3d536",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜三等／高考三級｜消防警察人員類別__moex-special-police-grade-3-track-fe33b90f1b6c.zip",
+        "moex-special-police-grade-3-track-fe33b90f1b6c.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-3-track-fe33b90f1b6c",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-3",
+      "track_id": "track-fe33b90f1b6c",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-574547ee7c1b--331a66e9a26d.zip",
       "asset_name": "moex-special-police-grade-4-track-574547ee7c1b--331a66e9a26d.zip",
@@ -39985,6 +41828,25 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-8a493d75cf90--84e54269d79a.zip",
+      "asset_name": "moex-special-police-grade-4-track-8a493d75cf90--84e54269d79a.zip",
+      "checksum": "c7c27c8a1e45d1f7a6e5b40f10a28d209077011fd206cdd1b15d3537a65dcfb1",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜四等｜行政警察人員類別__moex-special-police-grade-4-track-8a493d75cf90.zip",
+        "moex-special-police-grade-4-track-8a493d75cf90.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-4-track-8a493d75cf90",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-4",
+      "track_id": "track-8a493d75cf90",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-8f347e025609--55490e2b9747.zip",
       "asset_name": "moex-special-police-grade-4-track-8f347e025609--55490e2b9747.zip",
@@ -40004,6 +41866,63 @@
       "bundle_policy_id": "default-bundle-policy-v2"
     },
     {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-914ad6783a4e--f3b78803fe54.zip",
+      "asset_name": "moex-special-police-grade-4-track-914ad6783a4e--f3b78803fe54.zip",
+      "checksum": "7651469a1013b33bc8f69447e810b1fbf15c77e1c257827cc53f1c065a31f534",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜四等｜交通警察人員類別__moex-special-police-grade-4-track-914ad6783a4e.zip",
+        "moex-special-police-grade-4-track-914ad6783a4e.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-4-track-914ad6783a4e",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-4",
+      "track_id": "track-914ad6783a4e",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-a05ef9e7eff2--10067f737707.zip",
+      "asset_name": "moex-special-police-grade-4-track-a05ef9e7eff2--10067f737707.zip",
+      "checksum": "4215646cb920cc057d89c9d08b4d1cfa6b26cf2e395119b3cf1a110db823bc85",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜四等｜水上警察人員類別航海組__moex-special-police-grade-4-track-a05ef9e7eff2.zip",
+        "moex-special-police-grade-4-track-a05ef9e7eff2.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-4-track-a05ef9e7eff2",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-4",
+      "track_id": "track-a05ef9e7eff2",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-a48933883521--358a5dac11cd.zip",
+      "asset_name": "moex-special-police-grade-4-track-a48933883521--358a5dac11cd.zip",
+      "checksum": "ecdbc6c1cd4a338830715b707afc48c0d1291bc1a509fc915a51a9e409dde6d8",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜四等｜水上警察人員類別輪機組__moex-special-police-grade-4-track-a48933883521.zip",
+        "moex-special-police-grade-4-track-a48933883521.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-4-track-a48933883521",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-4",
+      "track_id": "track-a48933883521",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
       "release_tag": "default-bundles-v2-007",
       "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-be4f57dc708d--5ba80ef4f384.zip",
       "asset_name": "moex-special-police-grade-4-track-be4f57dc708d--5ba80ef4f384.zip",
@@ -40018,6 +41937,25 @@
       "exam_series_id": "special-police",
       "level_id": "grade-4",
       "track_id": "track-be4f57dc708d",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-police-grade-4-track-fe33b90f1b6c--bbc8f5157390.zip",
+      "asset_name": "moex-special-police-grade-4-track-fe33b90f1b6c--bbc8f5157390.zip",
+      "checksum": "fd25d6f4e4cf0843b2f8fd5f02d7891ef15e4aec7299a8a87c97280e29e03efd",
+      "legacy_asset_names": [
+        "警察／一般警察特考｜四等｜消防警察人員類別__moex-special-police-grade-4-track-fe33b90f1b6c.zip",
+        "moex-special-police-grade-4-track-fe33b90f1b6c.zip"
+      ],
+      "bundle_id": "moex-special-police-grade-4-track-fe33b90f1b6c",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-police",
+      "level_id": "grade-4",
+      "track_id": "track-fe33b90f1b6c",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -40879,6 +42817,82 @@
     },
     {
       "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-retired-military-grade-3-general-administration--bbc484b50b13.zip",
+      "asset_name": "moex-special-retired-military-grade-3-general-administration--bbc484b50b13.zip",
+      "checksum": "bfc9949ccd85f05b4ba7ae72ac877695ee9a2719881686faf379159622469bf4",
+      "legacy_asset_names": [
+        "退除役軍人轉任考試｜三等／高考三級｜一般行政__moex-special-retired-military-grade-3-general-administration.zip",
+        "moex-special-retired-military-grade-3-general-administration.zip"
+      ],
+      "bundle_id": "moex-special-retired-military-grade-3-general-administration",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-retired-military",
+      "level_id": "grade-3",
+      "track_id": "general-administration",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-retired-military-grade-3-personnel-administration--a378ce529c2a.zip",
+      "asset_name": "moex-special-retired-military-grade-3-personnel-administration--a378ce529c2a.zip",
+      "checksum": "9c900d948abf3b6f49e52124b250f5397b99521e39a28683f18e91ba4cd23765",
+      "legacy_asset_names": [
+        "退除役軍人轉任考試｜三等／高考三級｜人事行政__moex-special-retired-military-grade-3-personnel-administration.zip",
+        "moex-special-retired-military-grade-3-personnel-administration.zip"
+      ],
+      "bundle_id": "moex-special-retired-military-grade-3-personnel-administration",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-retired-military",
+      "level_id": "grade-3",
+      "track_id": "personnel-administration",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-retired-military-grade-3-track-52efc7f58601--2fc4d27fee0d.zip",
+      "asset_name": "moex-special-retired-military-grade-3-track-52efc7f58601--2fc4d27fee0d.zip",
+      "checksum": "81447598fb922a65f174121d15691cd4f41494a90614128486208fd9c6edbc4f",
+      "legacy_asset_names": [
+        "退除役軍人轉任考試｜三等／高考三級｜法律廉政__moex-special-retired-military-grade-3-track-52efc7f58601.zip",
+        "moex-special-retired-military-grade-3-track-52efc7f58601.zip"
+      ],
+      "bundle_id": "moex-special-retired-military-grade-3-track-52efc7f58601",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-retired-military",
+      "level_id": "grade-3",
+      "track_id": "track-52efc7f58601",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-retired-military-grade-3-track-93d79eca1516--2edd8003b456.zip",
+      "asset_name": "moex-special-retired-military-grade-3-track-93d79eca1516--2edd8003b456.zip",
+      "checksum": "a023b9d7a6b27b964dc981524811cd40b16545324a0a289adad74ad36a7ef366",
+      "legacy_asset_names": [
+        "退除役軍人轉任考試｜三等／高考三級｜社會行政__moex-special-retired-military-grade-3-track-93d79eca1516.zip",
+        "moex-special-retired-military-grade-3-track-93d79eca1516.zip"
+      ],
+      "bundle_id": "moex-special-retired-military-grade-3-track-93d79eca1516",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-retired-military",
+      "level_id": "grade-3",
+      "track_id": "track-93d79eca1516",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-retired-military-grade-4-general-administration--23e05b451a81.zip",
       "asset_name": "moex-special-retired-military-grade-4-general-administration--23e05b451a81.zip",
       "checksum": "f48bfb45d60c29ac3a37dc0f2d25a5d6c63e2ed76733529cd8eaf7500dca2808",
@@ -40892,6 +42906,25 @@
       "exam_series_id": "special-retired-military",
       "level_id": "grade-4",
       "track_id": "general-administration",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-008",
+      "storage_key": "bundles/sites/default/moex-special-retired-military-grade-4-personnel-administration--f20d8acf2d77.zip",
+      "asset_name": "moex-special-retired-military-grade-4-personnel-administration--f20d8acf2d77.zip",
+      "checksum": "90c750e72e396ecfc2a24f06c564b82a4056a88b8ffedc585c436ed982d54223",
+      "legacy_asset_names": [
+        "退除役軍人轉任考試｜四等｜人事行政__moex-special-retired-military-grade-4-personnel-administration.zip",
+        "moex-special-retired-military-grade-4-personnel-administration.zip"
+      ],
+      "bundle_id": "moex-special-retired-military-grade-4-personnel-administration",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-retired-military",
+      "level_id": "grade-4",
+      "track_id": "personnel-administration",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"

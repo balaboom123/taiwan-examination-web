@@ -347,6 +347,66 @@ def _preserve_rewrite_sources(
     )
 
 
+def _is_legacy_projection(papers: list[NormalizedPaper]) -> bool:
+    paper = papers[0]
+    return (
+        paper.schema_version != 2
+        and not paper.bundle_id
+        and not paper.domain_id
+        and not paper.exam_series_id
+        and bool(paper.canonical_name)
+        and paper.canonical_name.isascii()
+        and len({item.canonical_id for item in papers}) == 1
+    )
+
+
+def _required_years_for_group(
+    canonical_id: str,
+    papers: list[NormalizedPaper],
+    *,
+    min_years: int,
+    min_years_by_canonical_prefix: dict[str, int] | None,
+) -> int:
+    required_years = min_years
+    provider_hint = papers[0].provider_id
+    legacy_hint = papers[0].canonical_id
+    for prefix, prefix_min_years in (min_years_by_canonical_prefix or {}).items():
+        if canonical_id.startswith(prefix) or provider_hint.startswith(prefix) or legacy_hint.startswith(prefix):
+            required_years = prefix_min_years
+            break
+    return required_years
+
+
+def public_bundle_ids(
+    normalized: NormalizedCatalog,
+    *,
+    min_years: int = 1,
+    min_years_by_canonical_prefix: dict[str, int] | None = None,
+) -> set[str]:
+    """Return logical bundle IDs eligible for a public site projection.
+
+    This is intentionally the same grouping and year policy used by
+    build_bundles; publication validation can therefore detect stale
+    generated inventories without inventing a second eligibility rule.
+    """
+    grouped: dict[str, list[NormalizedPaper]] = {}
+    for paper in normalized.papers:
+        grouped.setdefault(paper.bundle_id or paper.canonical_id, []).append(paper)
+
+    public_ids: set[str] = set()
+    for canonical_id, papers in grouped.items():
+        required_years = _required_years_for_group(
+            canonical_id,
+            papers,
+            min_years=min_years,
+            min_years_by_canonical_prefix=min_years_by_canonical_prefix,
+        )
+        if len({paper.year_roc for paper in papers}) < required_years:
+            continue
+        public_ids.add(papers[0].canonical_id if _is_legacy_projection(papers) else canonical_id)
+    return public_ids
+
+
 def build_bundles(
     bundle_dir: Path,
     mirror_dir: Path,
@@ -377,23 +437,14 @@ def build_bundles(
         # Legacy fixtures and hand-authored v1 records often use an ASCII
         # display label with no official identity evidence. Keep their public
         # asset name stable; real catalog records use the structured ID.
-        legacy_projection = (
-            papers[0].schema_version != 2
-            and not papers[0].bundle_id
-            and not papers[0].domain_id
-            and not papers[0].exam_series_id
-            and bool(papers[0].canonical_name)
-            and papers[0].canonical_name.isascii()
-            and len({paper.canonical_id for paper in papers}) == 1
-        )
+        legacy_projection = _is_legacy_projection(papers)
         public_bundle_id = papers[0].canonical_id if legacy_projection else canonical_id
-        required_years = min_years
-        provider_hint = papers[0].provider_id
-        legacy_hint = papers[0].canonical_id
-        for prefix, prefix_min_years in (min_years_by_canonical_prefix or {}).items():
-            if canonical_id.startswith(prefix) or provider_hint.startswith(prefix) or legacy_hint.startswith(prefix):
-                required_years = prefix_min_years
-                break
+        required_years = _required_years_for_group(
+            canonical_id,
+            papers,
+            min_years=min_years,
+            min_years_by_canonical_prefix=min_years_by_canonical_prefix,
+        )
         if required_years > 1:
             distinct_years = {p.year_roc for p in papers}
             if len(distinct_years) < required_years:

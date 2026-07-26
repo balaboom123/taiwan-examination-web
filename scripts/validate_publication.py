@@ -8,6 +8,13 @@ from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from app.bundler import public_bundle_ids
+from app.publisher import load_site_catalog
+from app.site_registry import get_site_config
+
 SITE_DIR = ROOT / "data" / "sites" / "default"
 GENERIC_SUBJECT_PREFIXES = ("wdasec-skill-", "ceec-gsat-", "ceec-ast-", "tcte-tve-")
 
@@ -21,6 +28,33 @@ def load_json(path: Path):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid JSON {path.relative_to(ROOT)}: {exc}")
+
+
+def validate_provider_site_coverage(site_bundle_ids: set[str]) -> None:
+    site_config = get_site_config("default")
+    normalized, failures = load_site_catalog(ROOT, site_id=site_config.site_id)
+    if failures:
+        details = ", ".join(
+            f"{failure.provider_id}:{failure.stage}:{failure.source_exam_id}"
+            for failure in failures[:5]
+        )
+        suffix = " ..." if len(failures) > 5 else ""
+        fail(f"provider state contains {len(failures)} unresolved sync failures ({details}{suffix})")
+
+    expected_ids = public_bundle_ids(
+        normalized,
+        min_years=site_config.public_min_years,
+        min_years_by_canonical_prefix=site_config.public_min_years_by_canonical_prefix,
+    )
+    missing = sorted(expected_ids - site_bundle_ids)
+    extra = sorted(site_bundle_ids - expected_ids)
+    if missing or extra:
+        samples = []
+        if missing:
+            samples.append(f"missing={len(missing)} ({', '.join(missing[:5])})")
+        if extra:
+            samples.append(f"extra={len(extra)} ({', '.join(extra[:5])})")
+        fail("normalized catalog and public site eligibility differ: " + "; ".join(samples))
 
 
 def validate_publication() -> tuple[int, int, int]:
@@ -93,6 +127,8 @@ def validate_publication() -> tuple[int, int, int]:
         fail("release inventory contains duplicate asset names")
     if any(not tag or count > 900 for tag, count in release_counts.items()):
         fail(f"release shard safety target exceeded: {dict(release_counts)}")
+
+    validate_provider_site_coverage(site_bundle_ids)
 
     feed_ids = []
     for index, row in enumerate(feed_rows):
