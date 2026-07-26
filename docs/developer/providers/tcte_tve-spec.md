@@ -45,7 +45,8 @@ python -m app sync-full --provider tcte_tve --site-id default
 - provider package: `app/providers/tcte_tve/`
 - focused tests: `tests/test_tcte_tve.py`
 - published bundle: `tcte-tve`
-- local synced coverage: 95-115學年度 / 2006-2026, 2536 files
+- local synced coverage: ROC 92-115 / AD 2003-2026, 2,956 normalized paper records
+- ROC 90-91 raw pages remain retained but outside normalized paper scope pending an explicit answer-surface decision: ROC 90 has direct question links plus a non-downloadable HTML answer matrix; ROC 91 has direct question links plus a combined answer PDF.
 
 ## Normalization Rules
 

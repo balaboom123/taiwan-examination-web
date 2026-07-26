@@ -108574,9 +108574,12 @@
         98,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 568,
+      "fileCount": 874,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-common-subject--ee88b8f6a849.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -109764,9 +109767,12 @@
         98,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 126,
+      "fileCount": 144,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-51--43993bfa2550.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -109832,9 +109838,12 @@
         98,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 126,
+      "fileCount": 144,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-52--f5aa30f60cd5.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -109896,9 +109905,12 @@
         102,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 102,
+      "fileCount": 120,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-53--8495056e58d2.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -109931,7 +109943,9 @@
         "102學年度四技二專統一入學測驗",
         "97學年度四技二專統一入學測驗",
         "96學年度四技二專統一入學測驗",
-        "95學年度四技二專統一入學測驗"
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗"
       ],
       "subjectLabels": [
         "53商管外語群(一)",
@@ -109958,9 +109972,12 @@
         102,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 102,
+      "fileCount": 120,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-54--51bd7c0064e3.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -109993,7 +110010,9 @@
         "102學年度四技二專統一入學測驗",
         "97學年度四技二專統一入學測驗",
         "96學年度四技二專統一入學測驗",
-        "95學年度四技二專統一入學測驗"
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗"
       ],
       "subjectLabels": [
         "54商管外語群(二)",
@@ -110020,9 +110039,12 @@
         102,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 108,
+      "fileCount": 132,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-55--ac3baf794d6d.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -110055,7 +110077,9 @@
         "102學年度四技二專統一入學測驗",
         "97學年度四技二專統一入學測驗",
         "96學年度四技二專統一入學測驗",
-        "95學年度四技二專統一入學測驗"
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗"
       ],
       "subjectLabels": [
         "55商管外語群(三)",
@@ -110082,9 +110106,12 @@
         102,
         97,
         96,
-        95
+        95,
+        94,
+        93,
+        92
       ],
-      "fileCount": 130,
+      "fileCount": 148,
       "url": "https://github.com/example/repo/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-56--8f568d82b2d2.zip",
       "domainId": "admissions",
       "examFamilyId": "technical-admission",
@@ -110117,7 +110144,9 @@
         "102學年度四技二專統一入學測驗",
         "97學年度四技二專統一入學測驗",
         "96學年度四技二專統一入學測驗",
-        "95學年度四技二專統一入學測驗"
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗"
       ],
       "subjectLabels": [
         "56商管外語群(四)",

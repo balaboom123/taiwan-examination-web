@@ -52,6 +52,32 @@ YEAR_HTML = """
 """
 
 
+ANCHOR_YEAR_HTML = """
+<html><body>
+<table>
+  <tr>
+    <td rowspan="3">共同科目</td>
+    <td>數學科</td>
+    <td><a href="math-question.pdf">試題</a></td>
+    <td>
+      <table>
+        <tr><td><a href="math-a-answer.pdf">數學(A)答案</a></td></tr>
+        <tr><td><a href="math-b-answer.pdf">數學(B)答案</a></td></tr>
+        <tr><td><a href="math-c-answer.pdf">數學(C)答案</a></td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="2">01機械類</td>
+    <td>專業科目(一)</td>
+    <td><a href="pro-question.pdf">試題</a></td>
+    <td><a href="pro-answer.pdf">標準答案</a></td>
+  </tr>
+</table>
+</body></html>
+"""
+
+
 class TcteTveParserTests(unittest.TestCase):
     def test_parse_listing_page_extracts_year_page(self) -> None:
         pages = parse_listing_page(LISTING_HTML)
@@ -73,6 +99,25 @@ class TcteTveParserTests(unittest.TestCase):
         self.assertNotIn("feature", papers[0].files)
         self.assertEqual(papers[1].category_code, "01")
         self.assertEqual(papers[1].subject_code, "professional-1")
+
+
+    def test_parse_year_page_supports_historical_anchor_links_and_shared_math_answers(self) -> None:
+        papers = parse_year_page(ANCHOR_YEAR_HTML, "https://web1.tcte.edu.tw/EXAM/094_4y/")
+
+        self.assertEqual(len(papers), 4)
+        math_papers = [paper for paper in papers if paper.subject_code.startswith("math-")]
+        self.assertEqual([paper.subject_code for paper in math_papers], ["math-a", "math-b", "math-c"])
+        self.assertEqual({paper.files["question"] for paper in math_papers}, {"https://web1.tcte.edu.tw/EXAM/094_4y/math-question.pdf"})
+        self.assertEqual(
+            [paper.files["answer"] for paper in math_papers],
+            [
+                "https://web1.tcte.edu.tw/EXAM/094_4y/math-a-answer.pdf",
+                "https://web1.tcte.edu.tw/EXAM/094_4y/math-b-answer.pdf",
+                "https://web1.tcte.edu.tw/EXAM/094_4y/math-c-answer.pdf",
+            ],
+        )
+        self.assertEqual(papers[-1].subject_code, "professional-1")
+        self.assertEqual(papers[-1].files["answer"], "https://web1.tcte.edu.tw/EXAM/094_4y/pro-answer.pdf")
 
     def test_fetch_exam_page_turns_year_page_into_one_source_page(self) -> None:
         def fake_fetch(url: str) -> str:

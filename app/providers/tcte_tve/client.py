@@ -43,6 +43,7 @@ class TcteYearPage:
 class _Cell:
     text_parts: list[str] = field(default_factory=list)
     links: list[str] = field(default_factory=list)
+    link_labels: list[str] = field(default_factory=list)
 
     @property
     def text(self) -> str:
@@ -70,37 +71,63 @@ class _TableParser(HTMLParser):
         self.rows: list[list[_Cell]] = []
         self._row: list[_Cell] | None = None
         self._cell: _Cell | None = None
+        self._link_label_parts: list[str] | None = None
+        self._table_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        if tag == "tr":
+        if tag == "table":
+            self._table_depth += 1
+            return
+        if tag == "tr" and self._table_depth == 1:
             self._close_row()
             self._row = []
             return
-        if tag in {"td", "th"} and self._row is not None:
+        if tag in {"td", "th"} and self._row is not None and self._table_depth == 1:
             self._close_cell()
             self._cell = _Cell()
+            return
+        if tag == "a" and self._cell is not None:
+            self._finish_link()
+            href = dict(attrs).get("href", "") or ""
+            if href:
+                self._cell.links.append(urljoin(self.base_url, href))
+                self._cell.link_labels.append("")
+                self._link_label_parts = []
             return
         if tag == "input" and self._cell is not None:
             onclick = dict(attrs).get("onclick", "") or ""
             match = _ONCLICK_RE.search(onclick)
             if match is not None:
                 self._cell.links.append(urljoin(self.base_url, match.group("href")))
+                self._cell.link_labels.append("")
 
     def handle_data(self, data: str) -> None:
         if self._cell is not None:
             self._cell.text_parts.append(data)
+            if self._link_label_parts is not None:
+                self._link_label_parts.append(data)
 
     def handle_endtag(self, tag: str) -> None:
-        if tag in {"td", "th"}:
+        if tag == "table":
+            self._table_depth = max(0, self._table_depth - 1)
+        elif tag == "a":
+            self._finish_link()
+        elif tag in {"td", "th"} and self._table_depth == 1:
             self._close_cell()
-        elif tag == "tr":
+        elif tag == "tr" and self._table_depth == 1:
             self._close_row()
 
     def close(self) -> None:
         self._close_row()
         super().close()
 
+    def _finish_link(self) -> None:
+        if self._cell is not None and self._link_label_parts is not None:
+            self._cell.link_labels[-1] = _normalize_text(" ".join(self._link_label_parts))
+        self._link_label_parts = None
+
     def _close_cell(self) -> None:
+        self._finish_link()
         if self._row is not None and self._cell is not None:
             self._row.append(self._cell)
         self._cell = None
@@ -159,6 +186,55 @@ def parse_listing_page(html: str) -> list[TcteYearPage]:
     return sorted(pages, key=lambda page: page.year_ad, reverse=True)
 
 
+_MATH_VARIANT_RE = re.compile(r"數學\s*[（(]\s*([ABC])\s*[）)]")
+
+
+def _math_variant(label: str) -> str:
+    match = _MATH_VARIANT_RE.search(_normalize_text(label))
+    return f"數學({match.group(1).upper()})" if match else ""
+
+
+def _cell_link_label(cell: _Cell, index: int) -> str:
+    return cell.link_labels[index] if index < len(cell.link_labels) else ""
+
+
+def _paper_links(question_cell: _Cell, answer_cell: _Cell, base_subject: str) -> list[tuple[str, str, str | None]]:
+    """Pair old anchor-based paper links with answer links.
+
+    The 2002–2005 pages use anchors instead of the newer JavaScript inputs.
+    Some years publish one shared mathematics question with three variant
+    answer links, while 2005 publishes three matching question/answer links.
+    """
+    question_links = list(enumerate(question_cell.links))
+    answer_links = list(enumerate(answer_cell.links))
+    if not question_links:
+        return []
+
+    question_variants = {
+        _math_variant(_cell_link_label(question_cell, index)): index
+        for index, _url in question_links
+        if _math_variant(_cell_link_label(question_cell, index))
+    }
+    answer_variants = {
+        _math_variant(_cell_link_label(answer_cell, index)): index
+        for index, _url in answer_links
+        if _math_variant(_cell_link_label(answer_cell, index))
+    }
+    variants = list(dict.fromkeys([*question_variants, *answer_variants]))
+    if not variants:
+        question_url = question_links[0][1]
+        answer_url = answer_links[0][1] if answer_links else None
+        return [(base_subject, question_url, answer_url)]
+
+    paired: list[tuple[str, str, str | None]] = []
+    for variant in variants:
+        question_index = question_variants.get(variant, question_links[0][0])
+        answer_index = answer_variants.get(variant)
+        answer_url = answer_links[answer_index][1] if answer_index is not None else None
+        paired.append((variant, question_cell.links[question_index], answer_url))
+    return paired
+
+
 def parse_year_page(html: str, base_url: str) -> list[ParsedPaper]:
     parser = _TableParser(base_url)
     parser.feed(html)
@@ -178,20 +254,21 @@ def parse_year_page(html: str, base_url: str) -> list[ParsedPaper]:
             subject, question_cell, answer_cell = cells[0], cells[1], cells[2]
         if not current_group or not question_cell.links:
             continue
-        subject_name = subject.text
-        files = {"question": question_cell.links[0]}
-        if answer_cell.links:
-            files["answer"] = answer_cell.links[0]
+        base_subject = subject.text
         code = _category_code(current_group)
-        papers.append(
-            ParsedPaper(
-                category_raw=_TCTE_CATEGORY_NAME,
-                category_code=code,
-                subject_code=_subject_slug(subject_name),
-                subject_name_raw=f"{current_group} {subject_name}",
-                files=files,
+        for subject_name, question_url, answer_url in _paper_links(question_cell, answer_cell, base_subject):
+            files = {"question": question_url}
+            if answer_url:
+                files["answer"] = answer_url
+            papers.append(
+                ParsedPaper(
+                    category_raw=_TCTE_CATEGORY_NAME,
+                    category_code=code,
+                    subject_code=_subject_slug(subject_name),
+                    subject_name_raw=f"{current_group} {subject_name}",
+                    files=files,
+                )
             )
-        )
     return papers
 
 
