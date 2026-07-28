@@ -18,11 +18,13 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(report["candidate_count"], 10)
         self.assertEqual(report["discovery_manifests_present"], 1)
         self.assertEqual(len(report["discovery_manifests_missing"]), 34)
-        self.assertEqual(report["discovery_manifests_incomplete"], ["moex"])
+        self.assertEqual(report["discovery_manifests_incomplete"], [])
+        self.assertEqual(report["manifest_unrepresented_events"][0]["provider_id"], "moex")
+        self.assertEqual(len(report["manifest_unrepresented_events"][0]["events"]), 152)
         self.assertEqual(report["local_state_drift"], [])
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
-        with self.assertRaisesRegex(ValueError, "complete source discovery manifests missing"):
+        with self.assertRaisesRegex(ValueError, "complete source discovery remains unresolved"):
             validate_source_inventory(ROOT, require_discovery_manifests=True)
 
     def test_inventory_loader_rejects_unsupported_status(self) -> None:

@@ -7,8 +7,8 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from app.manifest import SourceManifest
-from app.cli import _download_affected_bundles, build_parser, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
+from app.manifest import SourceManifest, write_source_manifest
+from app.cli import _download_affected_bundles, build_parser, command_discover, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage, SyncFailure
 from app.paths import provider_paths, site_paths
@@ -142,6 +142,68 @@ class CliCommandTests(unittest.TestCase):
         self.assertEqual(args.site_id, "default")
         self.assertEqual(args.repository, "example/repo")
         self.assertEqual(args.publish_plan, Path(".tmp/site-publish-plan.json"))
+
+    def test_discover_can_write_manifest_without_clobbering_probe_fields(self) -> None:
+        class DiscoveryClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2025, 2024]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                year_roc = year_ad - 1911
+                return [
+                    ExamOption(
+                        code=f"{year_roc}010",
+                        year_ad=year_ad,
+                        year_roc=year_roc,
+                        label=f"Official {year_ad}",
+                    )
+                ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            write_source_manifest(
+                path,
+                SourceManifest(
+                    provider_id="moex",
+                    years={
+                        "2025": {
+                            "head_content_length": 123,
+                            "exam_codes": ["114010", "old"],
+                        }
+                    },
+                    exams={"114010": {"paper_count": 7}, "old": {"paper_count": 1}},
+                ),
+            )
+            args = build_parser().parse_args(
+                [
+                    "discover",
+                    "--provider",
+                    "moex",
+                    "--years",
+                    "2025",
+                    "2024",
+                    "--manifest",
+                    str(path),
+                    "--write-manifest",
+                ]
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = command_discover(args, client=DiscoveryClient())
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(output.getvalue())
+            self.assertEqual([row["year_ad"] for row in payload], [2025, 2024])
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["years"]["2025"]["head_content_length"], 123)
+            self.assertEqual(manifest["years"]["2025"]["exam_codes"], ["114010"])
+            self.assertNotIn("old", manifest["exams"])
+            self.assertEqual(manifest["exams"]["114010"]["paper_count"], 7)
+            self.assertEqual(manifest["exams"]["113010"]["exam_label"], "Official 2024")
+            self.assertEqual(manifest["probe_policy"]["discovery_mode"], "official-year-exam-listing")
 
     def test_publish_site_command_aggregates_provider_outputs_for_default_site(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

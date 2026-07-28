@@ -43,7 +43,7 @@ These commands are implemented in `python -m app` today:
 
 | Command | Purpose | Typical Output |
 | --- | --- | --- |
-| `discover` | list available exams for the selected provider grouped by year (MOEX by default) | JSON discovery payload |
+| `discover` | list available exams for the selected provider grouped by year (MOEX by default); optionally persist an official discovery snapshot | JSON discovery payload; optional provider source manifest |
 | `probe-latest` | cheaply inspect recent source changes | `.tmp/source-probe.json`, optional `data/providers/<provider_id>/source-manifest.json` |
 | `sync-targeted` | refresh only exams identified by a probe result | updated generated data and bundles for affected categories |
 | `sync-incremental` | refresh a recent year window | updated generated data with safe partial merge |

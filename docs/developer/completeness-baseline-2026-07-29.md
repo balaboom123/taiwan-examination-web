@@ -6,12 +6,12 @@ This is the current baseline for the long-running completeness goal. It records 
 
 The repository has a functioning source → mirror → normalize → bundle → frontend pipeline, but the archive is not complete under the agreed definition.
 
-- 35 providers are registered in the default site. Current retained state contains 1,292 raw event pages and 195,212 normalized paper records.
-- The local default projection contains 3,277 physical site/release assets, 3,274 frontend logical rows, and 11 planned release shards.
+- 35 providers are registered in the default site. Current retained state contains 1,316 raw event pages and 202,816 normalized paper records after recovering MOEX AD 2021 and newly listed AD 2026 events.
+- The local default projection contains 3,293 physical site/release assets, 3,290 frontend logical rows, and 11 planned release shards.
 - Current generated state has five MOEX download failures. All five are exact, reviewed file-level placeholder exceptions; they are not ignored failures. Three affected events retain 377 valid normalized records.
-- The strict history audit reports 936 published-complete events, 15 event-level blocked exceptions, 3 partially blocked events, 329 publication-policy exclusions, and 8 normalized-but-not-published Hakka events. It reports zero parser gaps, zero normalization gaps, zero unclassified failure rows, and zero orphaned coverage exceptions.
-- The current MOEX review queue is 631 entries; the catalog audit isolates 4,283 review-confidence records with no unapproved review records. These are identity-safety results, not proof of semantic completeness.
-- A reviewed machine-readable scope inventory now covers all 35 registered providers and 10 candidate/watch sources. Its validator matches exact local years, raw event counts, normalized record counts, and failure counts; it explicitly reports that only MOEX has a manifest, that manifest is partial, and the other 34 providers lack current discovery snapshots.
+- The strict history audit reports 957 published-complete events, 15 event-level blocked exceptions, 3 partially blocked events, 332 publication-policy exclusions, and 8 normalized-but-not-published Hakka events. It reports zero parser gaps, zero normalization gaps, zero unclassified failure rows, and zero orphaned coverage exceptions.
+- The current MOEX review queue is 636 entries; the catalog audit isolates 4,303 review-confidence records with no stale/missing queue keys and no unapproved review records. These are identity-safety results, not proof of semantic completeness.
+- A reviewed machine-readable scope inventory now covers all 35 registered providers and 10 candidate/watch sources. Its validator matches exact local years, raw event counts, normalized record counts, and failure counts; MOEX now has a complete 35-year/870-code official discovery manifest, while the other 34 providers lack current discovery snapshots and 152 MOEX-listed events remain unrepresented locally.
 - The inventory currently classifies registered providers as 22 covered, 12 partial, and 1 blocked; candidate/watch rows are 5 blocked and 5 intentionally out of scope. Every row has an official-source field, availability note, restriction, and evidence reference.
 
 The practical completion definition is:
@@ -24,15 +24,17 @@ The current archive fails that definition because source discovery is not yet ex
 
 | Stage | Current implementation | Remaining completeness risk |
 | --- | --- | --- |
-| Official discovery | Provider contracts and adapters in `app/providers/`; reviewed scope is machine-validated by `catalog/source-inventory.json` and `scripts/validate_source_inventory.py`; MOEX discovery/probe state is manifest-backed. | 34 providers have no equivalent current manifest, and MOEX’s manifest covers only recent years; a passing generated manifest can still omit an official source. |
+| Official discovery | Provider contracts and adapters in `app/providers/`; reviewed scope is machine-validated by `catalog/source-inventory.json` and `scripts/validate_source_inventory.py`; MOEX discovery/probe state is manifest-backed. | 34 providers have no equivalent current manifest. MOEX’s 870-code manifest identifies 152 official event codes not yet represented locally; a manifest is not archive coverage by itself. |
 | Probe and change detection | `app/probe.py` and `app/history_audit.py`; source probing is optional and read-only. | A complete serial live probe was not achieved because an upstream request stalled; bounded source checks are provider-specific. |
 | Fetch and mirroring | `app/sync.py`, `app/storage.py`, provider-scoped mirrors, checksums, payload-signature validation. | Current HTML placeholders correctly become failures; the five current failures are evidence-backed but still unavailable. |
 | Reviewed coverage accounting | `catalog/source-coverage/<provider_id>.json` records narrow event/file blockers and intentional exclusions. Strict audit matches exact current raw events/failures and flags conflicts/orphans. | Evidence has to be refreshed when a source changes; the ledger is not a substitute for discovery. |
-| Normalization | `app/normalizer.py` and identity-v2 classification produce normalized records and review queues. | 4,283 review-confidence records and 631 MOEX queue entries still need disposition; isolation is not semantic approval. |
+| Normalization | `app/normalizer.py` and identity-v2 classification produce normalized records and review queues. | 4,303 review-confidence records and 636 MOEX queue entries still need disposition; isolation is not semantic approval. |
 | Bundling | `app/bundler.py` builds v2 identity bundles and validates mirrors. | Valid records can remain single-year or too large for the current public release model. |
 | Site and release projection | `app/publisher.py`, `data/sites/default/`, `scripts/validate_publication.py`, `plan-release`. | Local metadata does not prove remote GitHub release assets exist; Hakka audio exceeds current size assumptions. |
 | Frontend display | `frontend/src/` consumes generated `frontend-bundles.json`; build/logic checks exist. | No source-level component, browser, accessibility, responsive, or end-to-end coverage. |
 | CI/deployment | CI and Pages workflows run Python/data/frontend gates, but most provider-only workflows stop before aggregate publication. | A provider refresh can wait for publication unless aggregate gates are required at the workflow boundary. |
+
+The workflow audit found that `.github/workflows/ci.yml` and `.github/workflows/deploy-pages.yml` run the Python tests, strict catalog/history audits, publication validation, source-inventory (non-strict) validation, release planning, frontend tests, lint, and build. They do not provide browser, accessibility, or release-download E2E gates. The provider refresh workflows (`sync-*.yml`) generally sync and commit their provider state without those aggregate checks; MOEX incremental/full workflows also publish or upload before a complete post-refresh gate. `discover.yml` produces a read-only artifact and does not write a durable manifest. `sync-full.yml` retains an explicit hosted-bootstrap bypass input, which is a controlled operational escape hatch requiring a policy decision.
 
 ## Git and worktree baseline
 
@@ -56,16 +58,18 @@ The audit checkpoints are local and reviewable. No remote branch, release, deplo
 
 | Check | Current result | Interpretation |
 | --- | --- | --- |
-| Focused new/audit/CLI tests | **47 passed, 7 subtests passed** | Exact source-exception matching, conflict/orphan handling, strict targeted partial mode, and existing audit behavior are covered. |
-| Full Python tests | **530 passed, 72 subtests passed** in 14.88 s via `uv run pytest -q` | Python functional baseline is green. |
-| `python3 scripts/validate_publication.py` | **Pass**: 3,277 site bundles, 3,274 frontend bundles, 3,277 release assets, 18 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
-| `python3 -m app plan-release` | **Pass**: 3,277 bundles across 11 shards | Local shard capacity is within the 900 safety target; it does not verify remote releases. |
-| `python3 scripts/validate_source_inventory.py` | **Pass**: 35 providers and 10 candidates; local state matches the reviewed inventory; 1 partial and 34 missing discovery manifests are reported | This is a scope/state-drift gate, not proof of live source completeness. `--require-discovery-manifests` remains intentionally failing until authoritative snapshots exist. |
+| Focused new/audit/CLI tests | **56 passed** | Discovery-manifest writing, exact source-exception matching, conflict/orphan handling, strict targeted partial mode, and existing audit behavior are covered. |
+| Full Python tests | **531 passed, 72 subtests passed** in 15.43 s via `uv run pytest -q` | Python functional baseline is green. |
+| `python3 scripts/validate_publication.py` | **Pass**: 3,293 site bundles, 3,290 frontend bundles, 3,293 release assets, 18 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
+| `python3 -m app plan-release` | **Pass**: 3,293 bundles across 11 shards | Local shard capacity is within the 900 safety target; it does not verify remote releases. |
+| `python3 scripts/validate_source_inventory.py` | **Pass**: 35 providers and 10 candidates; local state matches the reviewed inventory; 1 discovery manifest is present, 34 are missing, and 152 manifest events are unrepresented | This is a scope/state-drift gate, not proof of live source completeness. `--require-discovery-manifests` remains intentionally failing until the 34 provider snapshots and 152 MOEX events are resolved. |
+| `python3 scripts/validate_source_inventory.py --require-discovery-manifests` | **Exit 1**: complete discovery remains unresolved for 35 providers (34 missing manifests plus MOEX’s 152 unrepresented events) | This is the authoritative completeness blocker; it prevents a manifest-only completeness claim. |
 | `python3 -m app history-audit --strict` | **Exit 1**: only the 8 Hakka `normalized_not_published` events remain unresolved; 15 blocked and 3 partial events are evidence-backed | The gate no longer hides the five current MOEX download failures and rejects coverage-exception conflicts/orphans. |
-| `python3 -m app audit-catalog --strict` | **Pass**: 195,212 records; 4,283 review records; 631 queue entries; 771 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
+| `python3 -m app audit-catalog --strict` | **Pass**: 202,816 records; 4,303 review records; 636 queue entries; 771 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
+| Python line coverage | **83.66% executed lines**: 10,416/12,451 across 103 `app` modules, measured with standard-library `trace` | No branch coverage or threshold is configured; this is a reproducible measurement, not a CI gate. |
 | Python lint | **No configured gate** | No Ruff/Black/mypy/pylint/flake8 command exists in the repository. |
-| Frontend direct tests | **11 passed, 2 failed** in the available baseline | Two failures cannot import `typescript`; dependencies are absent. |
-| Frontend coverage | **95.29% line, 80.23% branch, 100% function** over loaded generated `frontend/build` modules | Not source-level React/TSX coverage; failing modules were not loaded. |
+| Frontend direct tests | **11 passed, 2 failed** via the existing Node entrypoint | Two test modules cannot import `typescript`; npm dependencies are absent. The passing subset is 11 tests. |
+| Frontend coverage | **95.29% line, 80.23% branch, 100% function** over the two runnable generated `frontend/build` modules using Node’s built-in coverage | Not source-level React/TSX coverage; the two failing TypeScript-transpilation modules were not loaded. |
 | `npm ci`, frontend test/lint/build | **Not runnable in the baseline environment** | `npm` is unavailable and `frontend/node_modules`/`frontend/dist` are absent; no dependency install was attempted. |
 | Browser/UI/accessibility/E2E | **Missing** | No real-browser, keyboard/focus, WCAG/axe, responsive, shared-link, or release-download smoke gate exists. |
 
@@ -79,7 +83,7 @@ The matrix below preserves the repository’s documented 35-provider scope and c
 
 | Provider | Official source URL | Category and declared source scope | Source availability evidenced in repo | Local coverage (`raw → papers`) | Status | Restrictions / notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| `moex` | https://wwwq.moex.gov.tw/exam/ | Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations | 1992–2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes | 1992–2026, 28 year buckets; 694 → 178,763 | **Partial / P0** | ASP.NET/official PDF endpoints; only 2025–2026 has a checked-in source manifest. Eight official historical result pages are documented as no-result blockers, and five exact file URLs return the same HTML placeholder; three of those events retain 377 valid normalized records. Current history status is 8 MOEX event blockers plus 3 partial events; the archive is not complete. |
+| `moex` | https://wwwq.moex.gov.tw/exam/ | Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations | 1992–2026 official listing captured; 35 years and 870 exam codes | 1992–2026, 29 year buckets; 718 → 186,367 | **Partial / P0** | ASP.NET/official PDF endpoints; the official discovery manifest is complete for the current 870-code listing, but 152 listed historical events remain unsynced in 1994, 1998, 2007, 2017, and 2019–2020. Eight historical result pages are documented as no-result blockers, and five exact file URLs return the same HTML placeholder; three affected events retain 377 valid normalized records. |
 | `ceec_gsat` | `https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634` | CEEC 學科能力測驗 / GSAT archive | 2011–2026 observed in provider state; live discovery was not completed | 2011–2026, 16 buckets; 94 → 367 | **Covered in declared scope; live verification blocked** | Public CEEC pages/PDFs, conservative pacing; no paid publications or browser automation. |
 | `ceec_ast` | `https://www.ceec.edu.tw/xmfile?xsmsid=0J052427632928416650` | CEEC 分科測驗 general-paper archive | 2022–2026 in current state; provider spec is stale at 2022–2025 | 2022–2026; 30 → 169 | **Partial** | Public static/PDF source; special-paper and special-answer-sheet pages are intentionally excluded. History audit classifies 2 single-year events as excluded by publication policy. |
 | `cpc_recruit` | `https://www.cpc.com.tw/News.aspx?n=32&sms=8969` | CPC Corporation company recruitment written papers | 2009–2025 observed | 2009–2025, 14 buckets; 14 → 17 | **Covered in declared scope** | Official CPC pages and linked files; the joint/MOEA page redirects to a Taipower archive handled by `moea_recruit`, so it must not be duplicated here. |
@@ -148,16 +152,17 @@ TOPIK remains blocked pending a stable official direct-download paper archive. i
 
 ### MOEX 2025–2026 and historical failures
 
-The named missing-MOEX symptom does not reproduce in current state: the checked-in manifest contains 21 exam codes for AD 2025 and 8 for AD 2026, and current raw/paper state is present for those years. The remaining 35 AD 2025 and 13 AD 2026 one-year groups (339 and 105 records in the prior reconciliation) are excluded by the current multi-year public policy, not by empty code lists. Whether to publish them is a scope/capacity decision.
+The named missing-MOEX symptom is resolved for the current listing: the official discovery snapshot contains 21 AD 2025 codes and 10 AD 2026 codes, with 21/21 and 10/10 local raw events and 6,479/2,820 normalized records. The remaining 35 AD 2025 and 13 AD 2026 one-year groups (339 and 105 records in the prior reconciliation) are excluded by the current multi-year public policy, not by empty code lists. The official listing now covers 35 years and 870 codes; 2021 was recovered with 22 events and 7,343 records, while 152 historical listed events remain unrepresented locally. Whether to publish single-year groups is a scope/capacity decision.
 
 The historical 5,403 MOEX failure records and 972 review records remain reconciled as follows:
 
 - all 5,403 historical failure keys have current normalized/mirrored counterparts; none is a current mirror failure;
-- 5,375 map to public groups and 28 map to valid records whose groups remain excluded by publication policy;
+- all 5,403 historical failure events are present in the current 870-event MOEX discovery manifest;
+- 5,375 map to current generated public bundle identities and 28 map to valid records whose groups remain excluded by publication policy;
 - the 972 historical review rows reduce to 166 semantic keys; 165 are represented by current normalized records and one exact key remains unresolved;
-- the current 631-entry queue and 4,283 review-confidence records are broader current populations and must not be counted as complete merely because they are isolated.
+- the current 636-entry queue and 4,303 review-confidence records are broader current populations and must not be counted as complete merely because they are isolated.
 
-The current bounded MOEX refresh recovered 377 valid records from three previously affected events. It also produced five exact HTML-placeholder download failures. Eight no-result event pages and those five file failures are now represented in `catalog/source-coverage/moex.json`; strict audit reports them as blocked/partial rather than silently dropping them.
+The current bounded MOEX refresh recovered 377 valid records from three previously affected events, 261 records from the two newly listed 2026 events, and 7,343 records from the newly recovered 2021 year. It also produced no new failures: the same five exact HTML-placeholder download failures remain. Eight no-result event pages and those five file failures are represented in `catalog/source-coverage/moex.json`; strict audit reports them as blocked/partial rather than silently dropping them.
 
 The one historical semantic key that still intersects the current review queue is `086080` / `專門職業及技術人員土地登記專業`. The retained official event title is `086年特種考試土地登記專業代理人考試、第一次土地登記專業代理人檢覈`; its 11 paper records use category codes `001` and `002`, and the source exposes no separate authoritative level label for those codes. The classifier therefore sees two source-event markers—`特種考試` and `檢覈`—and deliberately keeps both category groups review-isolated. The same collision affects the related 084270 and 085100 land-registration events; 093030 has a different multi-marker conflict. This is a valid ambiguity record, not a parser failure or a missing mirror. Resolving it requires an explicit official mapping from category/code to exam level, or an approved decision to retain event-specific review isolation.
 
@@ -171,11 +176,11 @@ WDASEC AD 2001–2024 refreshes remain mirrored and normalized with zero sync fa
 
 ### P0 — completeness accounting and release safety
 
-1. Complete a provider-scoped manifest or equivalent authoritative discovery snapshot for every active provider, with years, events, source URLs, probe date, file eligibility, blocked evidence, and intentional exclusions. The reviewed inventory and local-state drift gate are now in place, but they do not replace live discovery.
+1. Complete a provider-scoped manifest or equivalent authoritative discovery snapshot for the remaining 34 active providers, then recover or explicitly block the 152 official MOEX events listed without local state. The reviewed inventory, MOEX discovery writer, and local-state/event-coverage gate are now in place, but they do not replace source recovery.
 2. Resolve the eight Hakka normalized-but-not-published events through an approved storage/release or scope decision; do not count local normalization as public coverage.
 3. Decide whether the 444 current-year MOEX single-year records should remain outside the public site policy or receive a narrow approved exception.
-4. Disposition the one unresolved historical MOEX semantic review key and the broader 631/4,283 current review populations through authoritative mappings or explicitly approved isolation scope.
-5. Make aggregate publication, strict history, catalog, release-plan, frontend, and build gates mandatory after provider refresh workflows, not only at deployment.
+4. Disposition the one unresolved historical MOEX semantic review key and the broader 636/4,303 current review populations through authoritative mappings or explicitly approved isolation scope.
+5. Make aggregate publication, strict history, catalog, release-plan, frontend, and build gates mandatory after provider refresh workflows, not only at deployment; current provider sync workflows commit/publish without these aggregate checks.
 
 ### P1 — source and data quality
 

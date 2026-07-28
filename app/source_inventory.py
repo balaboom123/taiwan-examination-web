@@ -213,6 +213,7 @@ def validate_source_inventory(
     not_applicable_manifests: list[str] = []
     incomplete_manifests: list[str] = []
     manifest_event_gaps: list[dict[str, Any]] = []
+    manifest_unrepresented_events: list[dict[str, Any]] = []
     for provider_id in site_config.provider_ids:
         entry = entries[provider_id]
         observation = _local_observation(repo_root, provider_id)
@@ -253,6 +254,14 @@ def validate_source_inventory(
                         "missing_events": [[code, year] for code, year in missing_events],
                     }
                 )
+            unrepresented_events = sorted(manifest_events - observation["event_ids"])
+            if unrepresented_events:
+                manifest_unrepresented_events.append(
+                    {
+                        "provider_id": provider_id,
+                        "events": [[code, year] for code, year in unrepresented_events],
+                    }
+                )
             if discovery["coverage"] != "complete":
                 incomplete_manifests.append(provider_id)
         elif discovery["status"] == "missing":
@@ -272,11 +281,34 @@ def validate_source_inventory(
             "source discovery manifest omits local events for "
             f"{len(enforced_manifest_event_gaps)} provider(s)"
         )
-    if require_discovery_manifests and (missing_manifests or not_applicable_manifests or incomplete_manifests):
-        unresolved = sorted(set(missing_manifests) | set(not_applicable_manifests) | set(incomplete_manifests))
+    if require_discovery_manifests and (
+        missing_manifests
+        or not_applicable_manifests
+        or incomplete_manifests
+        or manifest_unrepresented_events
+    ):
+        unresolved = sorted(
+            set(missing_manifests)
+            | set(not_applicable_manifests)
+            | set(incomplete_manifests)
+            | {item["provider_id"] for item in manifest_unrepresented_events}
+        )
+        coverage_gaps = ", ".join(
+            f"{item['provider_id']} ({len(item['events'])} unrepresented event(s))"
+            for item in manifest_unrepresented_events
+        )
+        details = []
+        if missing_manifests:
+            details.append(f"missing manifests: {', '.join(missing_manifests)}")
+        if not_applicable_manifests:
+            details.append(f"not-applicable manifests: {', '.join(not_applicable_manifests)}")
+        if incomplete_manifests:
+            details.append(f"incomplete manifests: {', '.join(incomplete_manifests)}")
+        if coverage_gaps:
+            details.append(f"local source coverage gaps: {coverage_gaps}")
         raise ValueError(
-            "complete source discovery manifests missing for "
-            f"{len(unresolved)} provider(s): {', '.join(unresolved)}"
+            "complete source discovery remains unresolved for "
+            f"{len(unresolved)} provider(s): {'; '.join(details)}"
         )
 
     return {
@@ -291,4 +323,5 @@ def validate_source_inventory(
         "require_discovery_manifests": require_discovery_manifests,
         "local_state_drift": local_state_drift,
         "manifest_event_gaps": manifest_event_gaps,
+        "manifest_unrepresented_events": manifest_unrepresented_events,
     }

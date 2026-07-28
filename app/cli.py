@@ -3,20 +3,21 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import time
 from datetime import datetime
 from pathlib import Path
 
 from app.audit import audit_exit_code, build_catalog_audit, build_release_plan, write_catalog_audit, write_release_plan
 from app.history_audit import build_history_coverage_audit, history_audit_exit_code, write_history_coverage_audit
 from app.bundler import build_bundles
-from app.crawler import year_ad_from_code
+from app.crawler import make_result_url, make_year_search_url, year_ad_from_code
 from app.manifest import load_source_manifest, source_manifest_from_data, write_source_manifest
 from app.migration import migrate_legacy_state
 from app.models import BundleAsset, NormalizedCatalog, SyncFailure
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import ProviderPaths, provider_paths, site_paths
 from app.publisher import publish_site, write_data_files, write_provider_state
-from app.probe import probe_latest
+from app.probe import hash_exam_codes, probe_latest
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 from app.state import load_existing_state, load_provider_state, load_site_bundles, merge_incremental_state, merge_targeted_state
@@ -134,18 +135,109 @@ def _targeted_exam_codes_from_probe(probe: dict[str, object], provider_id: str) 
     return resolved_exam_codes
 
 
-def command_discover(args: argparse.Namespace) -> int:
-    client = _provider_for_args(args)
+def _resolve_discovery_manifest_path(args: argparse.Namespace, provider_id: str) -> Path:
+    if args.manifest is not None:
+        return args.manifest
+    return _default_repo_root() / "data" / "providers" / provider_id / "source-manifest.json"
+
+
+def _discovery_url_builders(client: SourceProvider, provider_id: str):
+    year_builder = getattr(client, "build_probe_year_url", None)
+    exam_builder = getattr(client, "build_probe_exam_url", None)
+    if callable(year_builder) and callable(exam_builder):
+        return year_builder, exam_builder
+    if provider_id == "moex":
+        return make_year_search_url, make_result_url
+    return None, None
+
+
+def _merge_discovery_manifest(
+    manifest,
+    discoveries: list[tuple[int, list]],
+    *,
+    captured_at: str,
+    year_url_builder,
+    exam_url_builder,
+):
+    manifest.probe_policy["discovery_mode"] = "official-year-exam-listing"
+    manifest.probe_policy["last_discovery_at"] = captured_at
+    for year_ad, exams in discoveries:
+        year_key = str(year_ad)
+        current_codes = [exam.code for exam in exams]
+        existing_year = dict(manifest.years.get(year_key, {}))
+        previous_codes = set(existing_year.get("exam_codes", []))
+        existing_year.update(
+            {
+                "year_ad": year_ad,
+                "year_roc": year_ad - 1911,
+                "search_url": year_url_builder(year_ad),
+                "exam_codes": current_codes,
+                "exam_codes_hash": hash_exam_codes(current_codes),
+                "discovered_at": captured_at,
+            }
+        )
+        manifest.years[year_key] = existing_year
+        for removed_code in previous_codes - set(current_codes):
+            manifest.exams.pop(removed_code, None)
+        for exam in exams:
+            existing_exam = dict(manifest.exams.get(exam.code, {}))
+            existing_exam.update(
+                {
+                    "source_exam_id": exam.code,
+                    "year_ad": exam.year_ad,
+                    "year_roc": exam.year_roc,
+                    "result_url": exam_url_builder(exam.code, exam.year_ad),
+                    "exam_label": exam.label,
+                    "discovered_at": captured_at,
+                }
+            )
+            manifest.exams[exam.code] = existing_exam
+    return manifest
+
+
+def command_discover(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
+    client = _provider_for_args(args, client)
+    provider_id = _provider_id_for_args(args, client)
+    write_manifest = bool(getattr(args, "write_manifest", False))
+    manifest = None
+    if write_manifest:
+        year_url_builder, exam_url_builder = _discovery_url_builders(client, provider_id)
+        if year_url_builder is None or exam_url_builder is None:
+            print(f"--write-manifest is not supported for provider {provider_id}: missing source URL model", flush=True)
+            return 1
+        manifest_path = _resolve_discovery_manifest_path(args, provider_id)
+        manifest = load_source_manifest(manifest_path, provider_id=provider_id)
+    else:
+        year_url_builder = exam_url_builder = None
+
     years = _discover_years(client, args.years)
     payload = []
-    for year in years:
+    discoveries = []
+    delay_seconds = float(getattr(args, "delay_seconds", 0.0))
+    if delay_seconds < 0:
+        print("--delay-seconds must not be negative", flush=True)
+        return 1
+    for index, year in enumerate(years):
+        if index and delay_seconds:
+            time.sleep(delay_seconds)
+        exams = client.discover_exams(year)
+        discoveries.append((year, exams))
         payload.append(
             {
                 "year_ad": year,
                 "year_roc": year - 1911,
-                "exams": [exam.__dict__ for exam in client.discover_exams(year)],
+                "exams": [exam.__dict__ for exam in exams],
             }
         )
+    if manifest is not None:
+        _merge_discovery_manifest(
+            manifest,
+            discoveries,
+            captured_at=datetime.now().astimezone().isoformat(),
+            year_url_builder=year_url_builder,
+            exam_url_builder=exam_url_builder,
+        )
+        write_source_manifest(manifest_path, manifest)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0
 
@@ -748,6 +840,9 @@ def build_parser() -> argparse.ArgumentParser:
     discover = subparsers.add_parser("discover", help="Discover available exams grouped by year.")
     discover.add_argument("--provider", default="moex")
     discover.add_argument("--years", nargs="*", type=int, default=None)
+    discover.add_argument("--manifest", type=Path, default=None)
+    discover.add_argument("--write-manifest", action="store_true")
+    discover.add_argument("--delay-seconds", type=float, default=0.0)
     discover.set_defaults(handler=command_discover)
 
     probe_parser = subparsers.add_parser("probe-latest", help="Probe recent source changes without downloading files.")

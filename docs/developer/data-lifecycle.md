@@ -24,7 +24,8 @@ The current and future lifecycle is:
 Current behavior:
 
 - `discover` asks the selected provider (MOEX by default) for available years and exam codes.
-- discovery is read-only and produces JSON output for inspection.
+- discovery is read-only by default and produces JSON output for inspection.
+- `discover --write-manifest` persists the official year/exam listing into the provider-scoped source manifest; operators should use a positive `--delay-seconds` value for broad source captures.
 
 Future rule:
 

@@ -24,11 +24,12 @@ Public deployment output:
 
 Manual input:
 
-- `data/aliases.json`
+- `data/providers/<provider_id>/aliases.json`
 
 ## Commands
 
 ```bash
+python -m app discover --provider moex --manifest data/providers/moex/source-manifest.json --write-manifest --delay-seconds 1
 python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest
 python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json
 python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
@@ -73,7 +74,7 @@ Example:
 
 ## Alias Rules
 
-Use `data/aliases.json` to merge cross-year naming variants into the same canonical bucket.
+Use `data/providers/<provider_id>/aliases.json` to merge cross-year naming variants into the same canonical bucket.
 
 Example:
 

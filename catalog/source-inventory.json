@@ -218,11 +218,11 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "1992–2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes",
+        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 29 year buckets.",
         "start_ad": 1992
       },
       "discovery_snapshot": {
-        "coverage": "partial",
+        "coverage": "complete",
         "manifest_path": "data/providers/moex/source-manifest.json",
         "status": "present"
       },
@@ -233,8 +233,8 @@
       ],
       "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
       "local_state": {
-        "normalized_paper_records": 178763,
-        "raw_event_pages": 694,
+        "normalized_paper_records": 186367,
+        "raw_event_pages": 718,
         "sync_failures": 5
       },
       "local_years": [
@@ -261,6 +261,7 @@
         2015,
         2016,
         2018,
+        2021,
         2022,
         2023,
         2024,
@@ -272,10 +273,11 @@
       ],
       "provider_id": "moex",
       "restrictions": [
-        "ASP.NET/official PDF endpoints; only 2025–2026 has a checked-in source manifest. Eight official historical result pages are documented as no-result blockers, and five exact file URLs return the same HTML placeholder; three of those events retain 377 valid normalized records. Current history status is 8 MOEX event blockers plus 3 partial events; the archive is not complete."
+        "Official 35-year discovery snapshot contains 870 exam codes; 152 listed codes remain absent from local retained state in 1994, 1998, 2007, 2017, and 2019–2020 and require bounded historical recovery.",
+        "Five exact file URLs return the same HTML placeholder; three affected events retain valid normalized records. Eight historical result-page blockers remain evidence-backed in catalog/source-coverage/moex.json."
       ],
       "status": "partial",
-      "status_reason": "Partial / P0; source availability: 1992–2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes; local coverage: 1992–2026, 28 year buckets; 694 → 178,763"
+      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 29 buckets; 718 → 186,367; 152 listed codes remain unsynced."
     },
     {
       "available_years": {
