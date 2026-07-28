@@ -51,6 +51,7 @@ Run from the repo root.
 | Command | Use it when | Main outputs |
 | --- | --- | --- |
 | `python -m app discover --provider moex` | you want to inspect MOEX source inventory | stdout JSON |
+| `python scripts/validate_source_inventory.py` | you want to verify the reviewed source scope and local provider-state observations | provider/candidate counts and missing live-manifest report |
 | `python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest` | you want to check if recent MOEX data changed | `.tmp/source-probe.json`, `data/providers/moex/source-manifest.json` |
 | `python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json` | the MOEX probe found changes and you want the smallest repair path | refreshed MOEX provider state |
 | `python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json` | you want a broader recent-year MOEX refresh | refreshed MOEX provider state |

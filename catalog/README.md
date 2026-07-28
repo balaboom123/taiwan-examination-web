@@ -9,6 +9,7 @@ This directory contains reviewed, versioned domain knowledge used to classify ex
 - mappings/provider-policies.json: provider-specific publication and minimum-history policy.
 - mappings/<provider>/: future provider-specific mappings when shared rules are insufficient.
 - source-coverage/<provider_id>.json: reviewed evidence for official source events/files that are blocked or intentionally out of scope; these are manual inputs, not generated crawl state.
+- source-inventory.json: reviewed source-scope matrix with status/evidence and exact local-state observations; it is not proof of live source completeness.
 
 ## Change protocol
 

@@ -11,7 +11,8 @@ The repository has a functioning source → mirror → normalize → bundle → 
 - Current generated state has five MOEX download failures. All five are exact, reviewed file-level placeholder exceptions; they are not ignored failures. Three affected events retain 377 valid normalized records.
 - The strict history audit reports 936 published-complete events, 15 event-level blocked exceptions, 3 partially blocked events, 329 publication-policy exclusions, and 8 normalized-but-not-published Hakka events. It reports zero parser gaps, zero normalization gaps, zero unclassified failure rows, and zero orphaned coverage exceptions.
 - The current MOEX review queue is 631 entries; the catalog audit isolates 4,283 review-confidence records with no unapproved review records. These are identity-safety results, not proof of semantic completeness.
-- Only MOEX has a checked-in source manifest. The other 34 providers still lack equivalent current discovery manifests or signed discovery snapshots.
+- A reviewed machine-readable scope inventory now covers all 35 registered providers and 10 candidate/watch sources. Its validator matches exact local years, raw event counts, normalized record counts, and failure counts; it explicitly reports that only MOEX has a manifest, that manifest is partial, and the other 34 providers lack current discovery snapshots.
+- The inventory currently classifies registered providers as 22 covered, 12 partial, and 1 blocked; candidate/watch rows are 5 blocked and 5 intentionally out of scope. Every row has an official-source field, availability note, restriction, and evidence reference.
 
 The practical completion definition is:
 
@@ -23,7 +24,7 @@ The current archive fails that definition because source discovery is not yet ex
 
 | Stage | Current implementation | Remaining completeness risk |
 | --- | --- | --- |
-| Official discovery | Provider contracts and adapters in `app/providers/`; MOEX discovery/probe state is manifest-backed. | 34 providers have no equivalent current manifest; a passing generated manifest can still omit an official source. |
+| Official discovery | Provider contracts and adapters in `app/providers/`; reviewed scope is machine-validated by `catalog/source-inventory.json` and `scripts/validate_source_inventory.py`; MOEX discovery/probe state is manifest-backed. | 34 providers have no equivalent current manifest, and MOEX’s manifest covers only recent years; a passing generated manifest can still omit an official source. |
 | Probe and change detection | `app/probe.py` and `app/history_audit.py`; source probing is optional and read-only. | A complete serial live probe was not achieved because an upstream request stalled; bounded source checks are provider-specific. |
 | Fetch and mirroring | `app/sync.py`, `app/storage.py`, provider-scoped mirrors, checksums, payload-signature validation. | Current HTML placeholders correctly become failures; the five current failures are evidence-backed but still unavailable. |
 | Reviewed coverage accounting | `catalog/source-coverage/<provider_id>.json` records narrow event/file blockers and intentional exclusions. Strict audit matches exact current raw events/failures and flags conflicts/orphans. | Evidence has to be refreshed when a source changes; the ledger is not a substitute for discovery. |
@@ -43,8 +44,8 @@ Remote metadata was fetched with `git fetch --all --prune`; no reset, rebase, ov
 | Initial audit checkpoint | `254aa70` (`audit source coverage blockers and baseline`) |
 | Final report handoff | Normal follow-up documentation commit after the initial checkpoint; history is preserved, not rewritten |
 | Latest fetched `origin/main` | `8be0e4f` (`chore: refresh TABF cert provider data`, 2026-07-27) |
-| Divergence from `origin/main` at final handoff | 7 behind / 51 ahead |
-| Divergence from tracked upstream at final handoff | 0 behind / 46 ahead; all are unpushed |
+| Divergence from `origin/main` at baseline capture before this cycle | 7 behind / 52 ahead |
+| Divergence from tracked upstream at baseline capture before this cycle | 0 behind / 47 ahead; all are unpushed |
 | Tracked uncommitted files at final handoff | None |
 | Untracked user work at final handoff | `PLAN.md` only; preserved and excluded from both checkpoints |
 | Large untracked files | None. Ignored operational trees are approximately 396 MB `data/`, 57 GB `mirror/`, and 61 GB `bundles/`; size is not release evidence. |
@@ -55,10 +56,11 @@ The audit checkpoints are local and reviewable. No remote branch, release, deplo
 
 | Check | Current result | Interpretation |
 | --- | --- | --- |
-| Focused new/audit/CLI tests | **47 passed** | Exact source-exception matching, conflict/orphan handling, strict targeted partial mode, and existing audit behavior are covered. |
-| Full Python tests | **527 passed, 71 subtests passed** in 1.87 s via `uv run pytest -q` | Python functional baseline is green. |
-| `python3 scripts/validate_publication.py` | **Pass**: 3,277 site bundles, 3,274 frontend bundles, 3,277 release assets, 16 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
+| Focused new/audit/CLI tests | **47 passed, 7 subtests passed** | Exact source-exception matching, conflict/orphan handling, strict targeted partial mode, and existing audit behavior are covered. |
+| Full Python tests | **530 passed, 72 subtests passed** in 14.88 s via `uv run pytest -q` | Python functional baseline is green. |
+| `python3 scripts/validate_publication.py` | **Pass**: 3,277 site bundles, 3,274 frontend bundles, 3,277 release assets, 18 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
 | `python3 -m app plan-release` | **Pass**: 3,277 bundles across 11 shards | Local shard capacity is within the 900 safety target; it does not verify remote releases. |
+| `python3 scripts/validate_source_inventory.py` | **Pass**: 35 providers and 10 candidates; local state matches the reviewed inventory; 1 partial and 34 missing discovery manifests are reported | This is a scope/state-drift gate, not proof of live source completeness. `--require-discovery-manifests` remains intentionally failing until authoritative snapshots exist. |
 | `python3 -m app history-audit --strict` | **Exit 1**: only the 8 Hakka `normalized_not_published` events remain unresolved; 15 blocked and 3 partial events are evidence-backed | The gate no longer hides the five current MOEX download failures and rejects coverage-exception conflicts/orphans. |
 | `python3 -m app audit-catalog --strict` | **Pass**: 195,212 records; 4,283 review records; 631 queue entries; 771 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
 | Python lint | **No configured gate** | No Ruff/Black/mypy/pylint/flake8 command exists in the repository. |
@@ -169,7 +171,7 @@ WDASEC AD 2001–2024 refreshes remain mirrored and normalized with zero sync fa
 
 ### P0 — completeness accounting and release safety
 
-1. Add a provider-scoped manifest or equivalent discovery snapshot for every active provider, with years, events, source URLs, probe date, file eligibility, blocked evidence, and intentional exclusions.
+1. Complete a provider-scoped manifest or equivalent authoritative discovery snapshot for every active provider, with years, events, source URLs, probe date, file eligibility, blocked evidence, and intentional exclusions. The reviewed inventory and local-state drift gate are now in place, but they do not replace live discovery.
 2. Resolve the eight Hakka normalized-but-not-published events through an approved storage/release or scope decision; do not count local normalization as public coverage.
 3. Decide whether the 444 current-year MOEX single-year records should remain outside the public site policy or receive a narrow approved exception.
 4. Disposition the one unresolved historical MOEX semantic review key and the broader 631/4,283 current review populations through authoritative mappings or explicitly approved isolation scope.
@@ -203,7 +205,7 @@ WDASEC AD 2001–2024 refreshes remain mirrored and normalized with zero sync fa
 Completion requires all of the following for an explicitly approved scope:
 
 1. The source matrix names every discoverable official source, provider owner, category, official URL, available range, local range, legal/technical restriction, and status. Every row is `covered`, `blocked with evidence`, or `intentionally out of scope with a reason`; no row is `unknown`.
-2. Every active provider has a current manifest or equivalent discovery snapshot. Each event and file can be traced through raw page, eligible source files, mirror checksum, normalized identity, public bundle, and release asset—or to a precise, current blocked/excluded ledger entry.
+2. Every active provider has a current authoritative manifest or equivalent discovery snapshot. The reviewed inventory must match local state, and each event/file can be traced through raw page, eligible source files, mirror checksum, normalized identity, public bundle, and release asset—or to a precise, current blocked/excluded ledger entry.
 3. `history-audit --strict` passes with zero `download_gap`, `sync_failure_recorded`, `normalization_gap`, `coverage_exception_conflict`, `coverage_exception_orphan`, `normalized_not_published`, and `parser_gap`. `blocked`, `partially_blocked`, and `excluded_by_publication_policy` are allowed only when backed by current evidence and approved scope.
 4. `audit-catalog --strict` passes with no unapproved review records, stale/missing review keys, or unexplained identity splits; every review-confidence record has a documented disposition.
 5. Provider state, mirrors, site bundles, frontend feed, release metadata, and actual remote release assets agree exactly for covered records; local generated-manifest agreement alone is insufficient.
@@ -228,7 +230,7 @@ Completion requires all of the following for an explicitly approved scope:
 
 ## Safest branch/release strategy
 
-1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; it is already 7 behind and 51 ahead of fetched `origin/main`, and contains 46 local commits beyond its tracked upstream.
+1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; at baseline capture before this cycle it was 7 behind and 52 ahead of fetched `origin/main`, with 47 local commits beyond its tracked upstream.
 2. Finish this preparation as one reviewable local commit (or two clearly separated commits: pipeline/audit code and generated MOEX/site state), explicitly excluding pre-existing untracked `PLAN.md`.
 3. Create a fresh implementation branch from fetched `origin/main` after review. Port only the source-coverage ledger, strict gate, focused tests, and intentionally selected data changes by review/cherry-pick; do not merge generated state blindly.
 4. Implement one provider/source family at a time. Keep source-scope decisions, manifests, generated mirrors, publication changes, and frontend changes reviewable separately.

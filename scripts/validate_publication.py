@@ -16,6 +16,7 @@ from app.coverage_exceptions import failure_exception_for, load_coverage_excepti
 from app.paths import provider_paths
 from app.publisher import load_site_catalog
 from app.site_registry import get_site_config
+from app.source_inventory import validate_source_inventory
 from app.state import load_provider_state
 
 SITE_DIR = ROOT / "data" / "sites" / "default"
@@ -147,6 +148,7 @@ def validate_publication() -> tuple[int, int, int]:
         fail(f"release shard safety target exceeded: {dict(release_counts)}")
 
     validate_provider_site_coverage(site_bundle_ids)
+    validate_source_inventory(ROOT, site_id="default")
 
     feed_ids = []
     for index, row in enumerate(feed_rows):

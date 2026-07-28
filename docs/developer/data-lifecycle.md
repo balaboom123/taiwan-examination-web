@@ -23,7 +23,7 @@ The current and future lifecycle is:
 
 Current behavior:
 
-- `discover` asks MOEX for available years and exam codes.
+- `discover` asks the selected provider (MOEX by default) for available years and exam codes.
 - discovery is read-only and produces JSON output for inspection.
 
 Future rule:
@@ -35,7 +35,7 @@ Future rule:
 
 Current behavior:
 
-- `probe-latest` uses `data/source-manifest.json`
+- `probe-latest` uses `data/providers/<provider_id>/source-manifest.json` for providers that implement the probe URL model
 - it compares current year or exam HEAD responses to prior manifest entries
 - it fetches full exam pages only when a HEAD comparison indicates change
 
@@ -96,8 +96,8 @@ A reviewed exception is therefore an evidence-backed denominator decision, not a
 Current behavior:
 
 - provider raw pages become `NormalizedPaper` records
-- `data/aliases.json` is applied during normalization
-- unresolved naming cases are emitted to `data/review-queue.json`
+- provider-scoped alias rules under `data/providers/<provider_id>/aliases.json` are applied during normalization
+- unresolved naming cases are emitted to `data/providers/<provider_id>/review-queue.json`
 
 Future rule:
 
@@ -124,8 +124,8 @@ Why this matters:
 Current behavior:
 
 - bundle generation reads normalized papers and mirrored files
-- generated bundle metadata is written to `data/bundles.json`
-- release asset inventory is written to `data/release-assets.json`
+- generated site bundle metadata is written to `data/sites/<site_id>/bundles.json`
+- release asset inventory is written to `data/sites/<site_id>/release-assets.json`
 - legacy alias asset names may be preserved for compatibility
 
 Future rule:
@@ -185,24 +185,25 @@ Future rule:
 
 Manual inputs today:
 
-- `data/aliases.json`
+- `data/providers/<provider_id>/aliases.json`
 - `catalog/source-coverage/<provider_id>.json` reviewed evidence for blocked or intentionally excluded official sources
+- `catalog/source-inventory.json` reviewed source scope/status/evidence and exact local-state observations
 
 Generated outputs today:
 
-- `data/exams/**`
-- `data/papers/**`
-- `data/bundles.json`
-- `data/review-queue.json`
-- `data/sync-failures.json`
-- `data/source-manifest.json`
-- `data/release-assets.json`
+- `data/providers/<provider_id>/exams/**`
+- `data/providers/<provider_id>/papers/**`
+- `data/providers/<provider_id>/review-queue.json`
+- `data/providers/<provider_id>/sync-failures.json`
+- `data/providers/<provider_id>/source-manifest.json` when supported
+- `data/sites/<site_id>/bundles.json`
+- `data/sites/<site_id>/release-assets.json`
 - `data/sites/<site_id>/*` publication indexes
 
 Operators and developers MUST treat generated outputs as derived state. Manual edits to generated files are temporary recovery actions only and MUST be followed by a rebuilding command or code fix.
 
 ## Expansion Rules
 
-- New providers MUST own their own manifests, review queues, failure logs, and source-coverage evidence where an official source is blocked or intentionally excluded.
+- New providers MUST own their own manifests, review queues, failure logs, and source-coverage evidence where an official source is blocked or intentionally excluded. The reviewed source inventory must also gain a provider row before the provider is treated as in scope.
 - New sites MUST own their own bundle metadata and release asset inventory.
 - Shared schemas MAY evolve, but provider-specific fields MUST NOT leak into site-facing bundle feeds without an explicit contract update.

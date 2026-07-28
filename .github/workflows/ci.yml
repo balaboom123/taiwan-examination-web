@@ -43,6 +43,9 @@ jobs:
       - name: Validate publication and schemas
         run: python scripts/validate_publication.py
 
+      - name: Validate source scope inventory
+        run: python scripts/validate_source_inventory.py
+
       - name: Audit event-level coverage
         run: python -m app history-audit --repo-root . --site-id default --strict --output .tmp/history-audit.json
 

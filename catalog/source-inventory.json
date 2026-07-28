@@ -1,0 +1,1695 @@
+{
+  "candidates": [
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Unknown",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "ISU post-baccalaureate medicine entrance",
+      "official_source_urls": [
+        "https://www.isu.edu.tw/admissions"
+      ],
+      "restrictions": [
+        "Official admissions pages exposed admission information but no public full-paper archive or direct paper/answer downloads."
+      ],
+      "source_id": "hce-isu",
+      "status": "blocked",
+      "status_reason": "Blocked / missing; available range: Unknown; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Unknown",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "KMU post-baccalaureate medicine entrance",
+      "official_source_urls": [
+        "https://enr.kmu.edu.tw/bac/bacm005.php"
+      ],
+      "restrictions": [
+        "Official page exposed brief/schedule material, not a full-paper archive."
+      ],
+      "source_id": "hce-kmu",
+      "status": "blocked",
+      "status_reason": "Blocked / missing; available range: Unknown; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Unknown",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "NCHU post-baccalaureate medicine entrance",
+      "official_source_urls": [
+        "https://recruit.nchu.edu.tw/college-exam/medicine/index-medicine.aspx?examc=F"
+      ],
+      "restrictions": [
+        "Official paths exposed forms, schedules, and dispute notices, not a full-paper archive."
+      ],
+      "source_id": "hce-nchu",
+      "status": "blocked",
+      "status_reason": "Blocked / missing; available range: Unknown; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Browser practice/current flows; no stable paper range established",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "Korean-language proficiency exam",
+      "official_source_urls": [
+        "https://www.topik.go.kr/"
+      ],
+      "restrictions": [
+        "Repository source proof found streamed/browser practice but no stable direct downloadable PDF/past-paper archive."
+      ],
+      "source_id": "topik",
+      "status": "blocked",
+      "status_reason": "Blocked; available range: Browser practice/current flows; no stable paper range established; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Resource years, not exam years",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "Competency standards and resource platform",
+      "official_source_urls": [
+        "https://icap.wda.gov.tw/"
+      ],
+      "restrictions": [
+        "Official resources are not an exam-paper archive. Add only if non-paper competency-resource bundles become an explicit product requirement."
+      ],
+      "source_id": "icap",
+      "status": "intentionally_out_of_scope",
+      "status_reason": "Intentionally out of scope; available range: Resource years, not exam years; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Unknown",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "Military recruitment examinations",
+      "official_source_urls": [],
+      "restrictions": [
+        "No stable official public historical/sample-paper archive was verified."
+      ],
+      "source_id": "military-recruitment",
+      "status": "blocked",
+      "status_reason": "Blocked; available range: Unknown; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "No paper archive",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "National teacher openings/announcements",
+      "official_source_urls": [
+        "https://personnel.k12ea.gov.tw/tsn/"
+      ],
+      "restrictions": [
+        "Official portal exposes vacancies/news rather than downloadable past papers."
+      ],
+      "source_id": "k-12-teacher-selection-portal",
+      "status": "intentionally_out_of_scope",
+      "status_reason": "Intentionally excluded; available range: No paper archive; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "No paper archive",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "National teacher openings/search",
+      "official_source_urls": [
+        "https://tjn.moe.edu.tw/EduJin/Opening/Index"
+      ],
+      "restrictions": [
+        "Official portal is a job/opening search surface, not a paper archive."
+      ],
+      "source_id": "moe-teacher-opening-portal",
+      "status": "intentionally_out_of_scope",
+      "status_reason": "Intentionally excluded; available range: No paper archive; local coverage: None"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "One current year",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "Teacher recruitment provenance/watch sources",
+      "official_source_urls": [
+        "https://txg115-ts-e.twrecruit.com.tw/doubt.php",
+        "https://psexam.kl.edu.tw/Home/Index_Ann",
+        "https://prsteacher.hcc.edu.tw/Module/Bulletin/Index.php"
+      ],
+      "restrictions": [
+        "Their official notices point candidates to the Central Alliance paper site; annual vendor domains are not assumed to be historical archives."
+      ],
+      "source_id": "taichung-keelung-hsinchu-teacher-sites",
+      "status": "intentionally_out_of_scope",
+      "status_reason": "Intentionally not separate providers; available range: One current year; local coverage: Covered indirectly by Central Alliance provenance"
+    },
+    {
+      "available_years": {
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "Not an official source",
+        "start_ad": null
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md"
+      ],
+      "exam_category": "Third-party coverage index",
+      "official_source_urls": [
+        "https://www.shuati.tw/exams"
+      ],
+      "restrictions": [
+        "Used only as a discovery checklist; the pipeline must not mirror third-party files."
+      ],
+      "source_id": "shuati-coverage-reference",
+      "status": "intentionally_out_of_scope",
+      "status_reason": "Intentionally out of scope as a source; available range: Not an official source; local coverage: None"
+    }
+  ],
+  "captured_at": "2026-07-29",
+  "inventory_version": "source-scope-v1",
+  "providers": [
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "1992–2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes",
+        "start_ad": 1992
+      },
+      "discovery_snapshot": {
+        "coverage": "partial",
+        "manifest_path": "data/providers/moex/source-manifest.json",
+        "status": "present"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md",
+        "catalog/source-coverage/moex.json"
+      ],
+      "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
+      "local_state": {
+        "normalized_paper_records": 178763,
+        "raw_event_pages": 694,
+        "sync_failures": 5
+      },
+      "local_years": [
+        1992,
+        1993,
+        1995,
+        1996,
+        1997,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2018,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://wwwq.moex.gov.tw/exam/"
+      ],
+      "provider_id": "moex",
+      "restrictions": [
+        "ASP.NET/official PDF endpoints; only 2025–2026 has a checked-in source manifest. Eight official historical result pages are documented as no-result blockers, and five exact file URLs return the same HTML placeholder; three of those events retain 377 valid normalized records. Current history status is 8 MOEX event blockers plus 3 partial events; the archive is not complete."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / P0; source availability: 1992–2026 retained in current raw state; 2025/2026 manifest has 21/8 exam codes; local coverage: 1992–2026, 28 year buckets; 694 → 178,763"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2011–2026 observed in provider state; live discovery was not completed",
+        "start_ad": 2011
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/ceec_gsat/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/ceec_gsat-spec.md"
+      ],
+      "exam_category": "CEEC 學科能力測驗 / GSAT archive",
+      "local_state": {
+        "normalized_paper_records": 367,
+        "raw_event_pages": 94,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634"
+      ],
+      "provider_id": "ceec_gsat",
+      "restrictions": [
+        "Public CEEC pages/PDFs, conservative pacing; no paid publications or browser automation."
+      ],
+      "status": "partial",
+      "status_reason": "Covered in declared scope; live verification blocked; source availability: 2011–2026 observed in provider state; live discovery was not completed; local coverage: 2011–2026, 16 buckets; 94 → 367"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2022–2026 in current state; provider spec is stale at 2022–2025",
+        "start_ad": 2022
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/ceec_ast/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/ceec_ast-spec.md"
+      ],
+      "exam_category": "CEEC 分科測驗 general-paper archive",
+      "local_state": {
+        "normalized_paper_records": 169,
+        "raw_event_pages": 30,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427632928416650"
+      ],
+      "provider_id": "ceec_ast",
+      "restrictions": [
+        "Public static/PDF source; special-paper and special-answer-sheet pages are intentionally excluded. History audit classifies 2 single-year events as excluded by publication policy."
+      ],
+      "status": "partial",
+      "status_reason": "Partial; source availability: 2022–2026 in current state; provider spec is stale at 2022–2025; local coverage: 2022–2026; 30 → 169"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "2009–2025 observed",
+        "start_ad": 2009
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/cpc_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/cpc_recruit-spec.md"
+      ],
+      "exam_category": "CPC Corporation company recruitment written papers",
+      "local_state": {
+        "normalized_paper_records": 17,
+        "raw_event_pages": 14,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2009,
+        2011,
+        2012,
+        2013,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025
+      ],
+      "official_source_urls": [
+        "https://www.cpc.com.tw/News.aspx?n=32&sms=8969"
+      ],
+      "provider_id": "cpc_recruit",
+      "restrictions": [
+        "Official CPC pages and linked files; the joint/MOEA page redirects to a Taipower archive handled by `moea_recruit`, so it must not be duplicated here."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2009–2025 observed; local coverage: 2009–2025, 14 buckets; 14 → 17"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current-year material scope; current state 2026",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/gept_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/gept_cert-spec.md"
+      ],
+      "exam_category": "GEPT official practice and listening materials by proficiency level",
+      "local_state": {
+        "normalized_paper_records": 34,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"
+      ],
+      "provider_id": "gept_cert",
+      "restrictions": [
+        "Practice materials, PDFs/ZIPs, and MP3s, not a full historical exam archive. Public source; reuse license not established."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: Current-year material scope; current state 2026; local coverage: 2026; 1 → 34"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2018–2026 observed across paginated official downloads",
+        "start_ad": 2018
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/hakka_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/hakka_cert-spec.md"
+      ],
+      "exam_category": "Hakka certification vocabulary/question-bank and audio materials",
+      "local_state": {
+        "normalized_paper_records": 156,
+        "raw_event_pages": 11,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://elearning.hakka.gov.tw/hakka/download-files"
+      ],
+      "provider_id": "hakka_cert",
+      "restrictions": [
+        "PDFs and listening ZIPs are mirrored. Eight historical events remain normalized-but-not-published. A 2,094,415,387-byte official audio ZIP exceeds the 1.9 GB multipart target, so the current GitHub-release projection cannot publish the complete bundle without a scope or storage decision."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / release-capacity blocker; source availability: 2018–2026 observed across paginated official downloads; local coverage: 2018–2026, 9 buckets; 11 → 156"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2021–2026 in current state",
+        "start_ad": 2021
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/hce_cmu/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/hce_cmu-spec.md"
+      ],
+      "exam_category": "CMU post-baccalaureate Chinese medicine entrance papers",
+      "local_state": {
+        "normalized_paper_records": 30,
+        "raw_event_pages": 6,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://spbcm.cmu.edu.tw/page/384"
+      ],
+      "provider_id": "hce_cmu",
+      "restrictions": [
+        "Public university pages/PDFs; the six retained events now publish all 30 mirrored papers."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2021–2026 in current state; local coverage: 2021–2026; 6 → 30"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2022–2026 in current state",
+        "start_ad": 2022
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/hce_nsysu/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/hce_nsysu-spec.md"
+      ],
+      "exam_category": "NSYSU post-baccalaureate medicine entrance papers",
+      "local_state": {
+        "normalized_paper_records": 5,
+        "raw_event_pages": 5,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw"
+      ],
+      "provider_id": "hce_nsysu",
+      "restrictions": [
+        "Official university/library archive; source availability still needs a bounded live verification."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2022–2026 in current state; local coverage: 2022–2026; 5 → 5"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2022–2026 in current state",
+        "start_ad": 2022
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/hce_nthu/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/hce_nthu-spec.md"
+      ],
+      "exam_category": "NTHU post-baccalaureate medicine entrance papers",
+      "local_state": {
+        "normalized_paper_records": 24,
+        "raw_event_pages": 5,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://adms.site.nthu.edu.tw/p/403-1207-6125-1.php?Lang=zh-tw"
+      ],
+      "provider_id": "hce_nthu",
+      "restrictions": [
+        "Public admissions archive; the five retained events now publish all 24 mirrored papers."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2022–2026 in current state; local coverage: 2022–2026; 5 → 24"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 source scope",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/hce_tcu/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/hce_tcu-spec.md"
+      ],
+      "exam_category": "Tzu Chi University post-baccalaureate Chinese medicine entrance papers",
+      "local_state": {
+        "normalized_paper_records": 8,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://admissions.tcu.edu.tw/?page_id=62"
+      ],
+      "provider_id": "hce_tcu",
+      "restrictions": [
+        "Public university source; historical archive not established."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-year scope; source availability: Current 2026 source scope; local coverage: 2026; 1 → 8"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current-year scope; 2026 observed",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/ipas_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/ipas_cert-spec.md"
+      ],
+      "exam_category": "iPAS professional certification learning/question materials",
+      "local_state": {
+        "normalized_paper_records": 62,
+        "raw_event_pages": 4,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://ipd.nat.gov.tw/ipas/"
+      ],
+      "provider_id": "ipas_cert",
+      "restrictions": [
+        "ISE/AIAP/OIA/AIOT source resources; some codes expose learning guides rather than past questions."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: Current-year scope; 2026 observed; local coverage: 2026; 4 → 62"
+    },
+    {
+      "available_years": {
+        "end_ad": 2018,
+        "mode": "observed_range",
+        "note": "Official sample sections for 2012 and 2018 observed",
+        "start_ad": 2012
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/jlpt_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/jlpt_cert-spec.md"
+      ],
+      "exam_category": "JLPT official sample workbook and listening materials",
+      "local_state": {
+        "normalized_paper_records": 116,
+        "raw_event_pages": 2,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2012,
+        2018
+      ],
+      "official_source_urls": [
+        "https://www.jlpt.jp/e/samples/sampleindex.html"
+      ],
+      "provider_id": "jlpt_cert",
+      "restrictions": [
+        "Not a historical archive of every JLPT sitting; includes PDF/audio. Official source, no blanket redistribution license verified."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, sample-materials scope; source availability: Official sample sections for 2012 and 2018 observed; local coverage: 2012 and 2018; 2 → 116"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2001–2026 observed",
+        "start_ad": 2001
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/moea_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/moea_recruit-spec.md"
+      ],
+      "exam_category": "Ministry of Economic Affairs state-owned-enterprise joint recruitment papers",
+      "local_state": {
+        "normalized_paper_records": 370,
+        "raw_event_pages": 21,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2001,
+        2003,
+        2005,
+        2006,
+        2007,
+        2008,
+        2010,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://service.taipower.com.tw/exam/info.aspx"
+      ],
+      "provider_id": "moea_recruit",
+      "restrictions": [
+        "All 370 checksums are identical to `taipower_recruit`; decide whether these are two official exam families or duplicate source ownership before claiming coverage."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / ownership review; source availability: 2001–2026 observed; local coverage: 2001–2026, 21 buckets; 21 → 370"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "2023–2025 accepted in provider spec",
+        "start_ad": 2023
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/post_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/post_recruit-spec.md"
+      ],
+      "exam_category": "Chunghwa Post first-test recruitment papers on an explicitly commissioned TABF host",
+      "local_state": {
+        "normalized_paper_records": 112,
+        "raw_event_pages": 3,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "official_source_urls": [
+        "https://svc.tabf.org.tw/115post02//Paper/Year"
+      ],
+      "provider_id": "post_recruit",
+      "restrictions": [
+        "Third-party mirrors are rejected; current-year source availability and commissioning evidence need refresh."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / refresh pending; source availability: 2023–2025 accepted in provider spec; local coverage: 2023–2025; 3 → 112"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2013–2026 observed",
+        "start_ad": 2013
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/rcpet_cap/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/rcpet_cap-spec.md"
+      ],
+      "exam_category": "RCPET CAP / teacher-education screening exam papers",
+      "local_state": {
+        "normalized_paper_records": 136,
+        "raw_event_pages": 15,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://cap.rcpet.edu.tw/examination.html"
+      ],
+      "provider_id": "rcpet_cap",
+      "restrictions": [
+        "Public page uses per-year iframe links; conservative scheduled sync."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2013–2026 observed; local coverage: 2013–2026, 14 buckets; 15 → 136"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2025–2026 observed",
+        "start_ad": 2025
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/sfi_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md"
+      ],
+      "exam_category": "Securities and Futures Institute certification materials",
+      "local_state": {
+        "normalized_paper_records": 30,
+        "raw_event_pages": 15,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.sfi.org.tw/Node?id=217"
+      ],
+      "provider_id": "sfi_cert",
+      "restrictions": [
+        "Certification exam PDFs; scope and redistribution permissions remain provider-specific."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 15 → 30"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2013–2026 documented",
+        "start_ad": 2013
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/special_admission/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/special_admission-spec.md"
+      ],
+      "exam_category": "University special-admission / special-selection papers in the accepted 大學組 / 共同 scope",
+      "local_state": {
+        "normalized_paper_records": 216,
+        "raw_event_pages": 14,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question"
+      ],
+      "provider_id": "special_admission",
+      "restrictions": [
+        "No third-party mirrors; only accepted subjects and official paper assets."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: 2013–2026 documented; local coverage: 2013–2026, 14 buckets; 14 → 216"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2025–2026 observed",
+        "start_ad": 2025
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/tabf_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md"
+      ],
+      "exam_category": "TABF banking/finance certification sample and historical materials",
+      "local_state": {
+        "normalized_paper_records": 252,
+        "raw_event_pages": 99,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.tabf.org.tw/LicenseHistoryExam.aspx?PHID=424"
+      ],
+      "provider_id": "tabf_cert",
+      "restrictions": [
+        "Paginated official source; source taxonomy is certification material, not a universal exam archive."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 99 → 252"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 material scope",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/taigi_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md"
+      ],
+      "exam_category": "Ministry of Education Taiwanese-language certification sample papers/audio",
+      "local_state": {
+        "normalized_paper_records": 35,
+        "raw_event_pages": 3,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://ttg.moe.edu.tw/tmt/view.php?page=resource"
+      ],
+      "provider_id": "taigi_cert",
+      "restrictions": [
+        "A/B/C forms, PDFs/MP3s/ZIPs; source scope is sample materials."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: Current 2026 material scope; local coverage: 2026; 3 → 35"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "ROC 90 onward / AD 2001 through recent administrations",
+        "start_ad": 2001
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/taipower_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/taipower_recruit-spec.md"
+      ],
+      "exam_category": "Taipower recruitment written papers and answer keys",
+      "local_state": {
+        "normalized_paper_records": 370,
+        "raw_event_pages": 21,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2001,
+        2003,
+        2005,
+        2006,
+        2007,
+        2008,
+        2010,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.taipower.com.tw/2289/2544/2554/2557/simpleList"
+      ],
+      "provider_id": "taipower_recruit",
+      "restrictions": [
+        "Exact checksum duplicate of all `moea_recruit` paper records; multiple sessions can occur in a year."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / ownership review; source availability: ROC 90 onward / AD 2001 through recent administrations; local coverage: 2001–2026, 21 buckets; 21 → 370"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "2025 observed",
+        "start_ad": 2025
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/taisugar_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/taisugar_recruit-spec.md"
+      ],
+      "exam_category": "Taisugar recruitment paper announcements",
+      "local_state": {
+        "normalized_paper_records": 1,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2025
+      ],
+      "official_source_urls": [
+        "https://www.taisugar.com.tw/chinese/News_Index.aspx?p=3&n=10080"
+      ],
+      "provider_id": "taisugar_recruit",
+      "restrictions": [
+        "Listing mixes recruitment notices and exam material; one event is normalized but not published."
+      ],
+      "status": "partial",
+      "status_reason": "Partial; source availability: 2025 observed; local coverage: 2025; 1 → 1"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "Raw listing 2001–2026; ROC 90/91 direct pages rechecked 2026-07-29 and returned HTTP 404",
+        "start_ad": 2001
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/tcte_tve/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/tcte_tve-spec.md",
+        "catalog/source-coverage/tcte_tve.json"
+      ],
+      "exam_category": "TCTE 四技二專統一入學測驗 / TVE archive",
+      "local_state": {
+        "normalized_paper_records": 2956,
+        "raw_event_pages": 26,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y"
+      ],
+      "provider_id": "tcte_tve",
+      "restrictions": [
+        "ROC 90/91 are retained raw events with reviewed 404 evidence in `catalog/source-coverage/tcte_tve.json`; ROC 92–94 and later paper/answer surfaces remain covered in declared scope."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / blocked historical events; source availability: Raw listing 2001–2026; ROC 90/91 direct pages rechecked 2026-07-29 and returned HTTP 404; local coverage: raw 2001–2026; papers 2003–2026, 24 buckets; 26 → 2,956"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "Source selector ROC 094–115 / AD 2005–2026",
+        "start_ad": 2005
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_qual/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/teacher_qual-spec.md"
+      ],
+      "exam_category": "National teacher qualification exam",
+      "local_state": {
+        "normalized_paper_records": 23,
+        "raw_event_pages": 23,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx"
+      ],
+      "provider_id": "teacher_qual",
+      "restrictions": [
+        "ASP.NET WebForms postbacks; 2018 is a format transition and 2017 is sample-only. Those semantics must remain visible in any completeness metric."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared scope; source availability: Source selector ROC 094–115 / AD 2005–2026; local coverage: 2005–2026, 22 buckets; 23 → 23"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 115 school year / AD 2026; three official categories rechecked 2026-07-29",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_central_alliance/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md",
+        "catalog/source-coverage/teacher_recruit_central_alliance.json"
+      ],
+      "exam_category": "Central-region annual teacher-selection question/answer site",
+      "local_state": {
+        "normalized_paper_records": 0,
+        "raw_event_pages": 3,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php"
+      ],
+      "provider_id": "teacher_recruit_central_alliance",
+      "restrictions": [
+        "All subject/final page pairs returned HTTP 200, `已截止`, and no links; fingerprints and category mapping are recorded in `catalog/source-coverage/teacher_recruit_central_alliance.json`. Provenance remains official through Taichung, Keelung, and Hsinchu notices."
+      ],
+      "status": "blocked",
+      "status_reason": "Blocked / source expired; source availability: Current 115 school year / AD 2026; three official categories rechecked 2026-07-29; local coverage: 2026; 3 → 0"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 scope; regular and special endpoints rechecked 2026-07-29",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_kaohsiung/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md",
+        "catalog/source-coverage/teacher_recruit_kaohsiung.json"
+      ],
+      "exam_category": "Kaohsiung city elementary and special-education teacher recruitment",
+      "local_state": {
+        "normalized_paper_records": 2,
+        "raw_event_pages": 2,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://exam.kh.edu.tw/teaexam/"
+      ],
+      "provider_id": "teacher_recruit_kaohsiung",
+      "restrictions": [
+        "Regular endpoint returned HTTP 404 (993 bytes) and special endpoint HTTP 404 (146 bytes); exact hashes are in `catalog/source-coverage/teacher_recruit_kaohsiung.json`. Special local papers remain covered; the elementary event is explicitly blocked."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / source endpoint blocker; source availability: Current 2026 scope; regular and special endpoints rechecked 2026-07-29; local coverage: 2026; 2 → 2"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 scope",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_newtaipei/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/teacher_recruit_newtaipei-spec.md"
+      ],
+      "exam_category": "New Taipei education-personnel joint-selection written papers",
+      "local_state": {
+        "normalized_paper_records": 5,
+        "raw_event_pages": 4,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://career.ntpc.edu.tw/module/newtea/module/newtea/ap/out-announce?c=01"
+      ],
+      "provider_id": "teacher_recruit_newtaipei",
+      "restrictions": [
+        "Public list/detail/token API; the targeted 2026 senior-teacher paper refresh now leaves all four retained events complete. Teaching-demo, score, and list notices remain intentionally skipped."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 4 → 5"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 scope",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_tainan/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/teacher_recruit_tainan-spec.md"
+      ],
+      "exam_category": "Tainan elementary and pre-K special-ed teacher recruitment",
+      "local_state": {
+        "normalized_paper_records": 3,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://qualify.tn.edu.tw/trexamps/"
+      ],
+      "provider_id": "teacher_recruit_tainan",
+      "restrictions": [
+        "Historical reconstruction is intentionally excluded until a stable official archive is found."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 1 → 3"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "Reviewed 114 school year / AD 2025",
+        "start_ad": 2025
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_taipei_elementary/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/teacher_recruit_taipei_elementary-spec.md"
+      ],
+      "exam_category": "Taipei elementary teacher joint recruitment",
+      "local_state": {
+        "normalized_paper_records": 12,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2025
+      ],
+      "official_source_urls": [
+        "https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2"
+      ],
+      "provider_id": "teacher_recruit_taipei_elementary",
+      "restrictions": [
+        "Fixed official article map; city-wide news listing is not treated as an archive."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, reviewed current-year scope; source availability: Reviewed 114 school year / AD 2025; local coverage: 2025; 1 → 12"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "Reviewed 2024–2025",
+        "start_ad": 2024
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_taipei_junior/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/teacher_recruit_taipei_junior-spec.md"
+      ],
+      "exam_category": "Taipei junior-high formal teacher recruitment",
+      "local_state": {
+        "normalized_paper_records": 68,
+        "raw_event_pages": 2,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2024,
+        2025
+      ],
+      "official_source_urls": [
+        "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48"
+      ],
+      "provider_id": "teacher_recruit_taipei_junior",
+      "restrictions": [
+        "Fixed official article map; no automatic future-year discovery until a stable endpoint exists."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in reviewed scope; source availability: Reviewed 2024–2025; local coverage: 2024–2025; 2 → 68"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "current_scope",
+        "note": "Current 2026 scope",
+        "start_ad": 2026
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/teacher_recruit_taoyuan_elementary/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md"
+      ],
+      "exam_category": "Taoyuan elementary teacher joint recruitment",
+      "local_state": {
+        "normalized_paper_records": 21,
+        "raw_event_pages": 1,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2026
+      ],
+      "official_source_urls": [
+        "https://elementary.tyc.edu.tw/web/answer.aspx?openExternalBrowser=1"
+      ],
+      "provider_id": "teacher_recruit_taoyuan_elementary",
+      "restrictions": [
+        "Direct question/suggested/final answer files; appeal, score/list, and venue material skipped."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 1 → 21"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2025–2026 observed",
+        "start_ad": 2025
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/tii_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/provider-site-registry.md"
+      ],
+      "exam_category": "Taiwan Insurance Institute certification materials",
+      "local_state": {
+        "normalized_paper_records": 5,
+        "raw_event_pages": 3,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://edu.tii.org.tw/exam/users/exam_intro/1"
+      ],
+      "provider_id": "tii_cert",
+      "restrictions": [
+        "Multiple official exam-intro pages; historical breadth not established."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 3 → 5"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2022, 2024, and 2026 resource years observed",
+        "start_ad": 2022
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/tocfl_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/tocfl_cert-spec.md"
+      ],
+      "exam_category": "TOCFL reference and official mock-test question/audio/answer/script materials",
+      "local_state": {
+        "normalized_paper_records": 95,
+        "raw_event_pages": 3,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2022,
+        2024,
+        2026
+      ],
+      "official_source_urls": [
+        "https://tocfl.edu.tw/tocfl/index.php/exam/download"
+      ],
+      "provider_id": "tocfl_cert",
+      "restrictions": [
+        "This is not a complete archive of every administered TOCFL exam; direct mock downloads are public."
+      ],
+      "status": "covered",
+      "status_reason": "Covered, reference/mock scope; source availability: 2022, 2024, and 2026 resource years observed; local coverage: 2022–2026, 3 buckets; 3 → 95"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "2015–2026 observed",
+        "start_ad": 2015
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/tqc_cert/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/tqc_cert-spec.md"
+      ],
+      "exam_category": "TQC certification sample-paper archive",
+      "local_state": {
+        "normalized_paper_records": 44,
+        "raw_event_pages": 11,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://www.tqc.org.tw/TQCNet/ExamPaper.aspx"
+      ],
+      "provider_id": "tqc_cert",
+      "restrictions": [
+        "Paginated public source; sample papers rather than a complete sitting archive."
+      ],
+      "status": "covered",
+      "status_reason": "Covered in declared sample scope; source availability: 2015–2026 observed; local coverage: 2015–2026, 11 buckets; 11 → 44"
+    },
+    {
+      "available_years": {
+        "end_ad": 2025,
+        "mode": "observed_range",
+        "note": "ROC 103–114 / AD 2014–2025, with source-list gaps documented",
+        "start_ad": 2014
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/twc_recruit/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/twc_recruit-spec.md"
+      ],
+      "exam_category": "Taiwan Water Corporation recruitment papers",
+      "local_state": {
+        "normalized_paper_records": 10,
+        "raw_event_pages": 10,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2025
+      ],
+      "official_source_urls": [
+        "https://www.water.gov.tw/ch/Subject/Detail/59619?nodeId=715"
+      ],
+      "provider_id": "twc_recruit",
+      "restrictions": [
+        "Provider documents missing listing years as source sparsity, not automatically as parser failures. Current-year availability needs re-probe."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / sparse official archive; source availability: ROC 103–114 / AD 2014–2025, with source-list gaps documented; local coverage: 2014–2025, 10 buckets; 10 → 10"
+    },
+    {
+      "available_years": {
+        "end_ad": 2026,
+        "mode": "observed_range",
+        "note": "Raw sessions 2001–2026; usable paper records 2001–2026 after the 2026-07-28 refresh",
+        "start_ad": 2001
+      },
+      "discovery_snapshot": {
+        "coverage": "unknown",
+        "manifest_path": "data/providers/wdasec_skill/source-manifest.json",
+        "status": "missing"
+      },
+      "evidence": [
+        "docs/developer/completeness-baseline-2026-07-29.md",
+        "docs/developer/providers/wdasec_skill-spec.md",
+        "catalog/source-coverage/wdasec_skill.json"
+      ],
+      "exam_category": "Workforce Development Agency skills-evaluation past questions",
+      "local_state": {
+        "normalized_paper_records": 10695,
+        "raw_event_pages": 143,
+        "sync_failures": 0
+      },
+      "local_years": [
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "official_source_urls": [
+        "https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx"
+      ],
+      "provider_id": "wdasec_skill",
+      "restrictions": [
+        "Official AD 2001–2024 refreshes produced 10,018 records with zero sync failures; policy exclusions remain explicit. Event `201309140001` is now represented as a reviewed blocked empty result with 2026-07-29 evidence in `catalog/source-coverage/wdasec_skill.json`."
+      ],
+      "status": "partial",
+      "status_reason": "Partial / storage and scope blocker; source availability: Raw sessions 2001–2026; usable paper records 2001–2026 after the 2026-07-28 refresh; local coverage: raw 2001–2026; papers 2001–2026, 26 buckets; 143 → 10,695"
+    }
+  ],
+  "schema_version": 1,
+  "site_id": "default"
+}

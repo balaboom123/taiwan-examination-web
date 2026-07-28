@@ -150,6 +150,7 @@ class WorkflowTests(unittest.TestCase):
             "python -m app audit-catalog",
             "python -m app history-audit",
             "python scripts/validate_publication.py",
+            "python scripts/validate_source_inventory.py",
             "python -m app plan-release",
             "npm test",
             "npm run lint",

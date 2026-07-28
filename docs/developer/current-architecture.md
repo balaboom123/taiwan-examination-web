@@ -1,19 +1,23 @@
-Status: transition snapshot. This page describes the original MOEX-first paths and remains useful for locating legacy files. It is not authoritative for exam identity, bundle purity, or release capacity; use exam-identity-v2.md, contracts.md, and operator/catalog-audit.md for those topics. Do not copy its old single-provider or one-release assumptions into new code.\n\n# Current Architecture
+Status: transition snapshot. This page describes the original MOEX-first paths and remains useful for locating legacy files. It is not authoritative for exam identity, bundle purity, or release capacity; use exam-identity-v2.md, contracts.md, and operator/catalog-audit.md for those topics. Do not copy its old single-provider or one-release assumptions into new code.
+
+# Current Architecture
 
 This document describes the repository as it exists today. It is descriptive, not aspirational.
 
 ## Scope
 
-The current implementation is a single-provider, mostly single-site system centered on MOEX exam content.
+The repository has a provider-registry and default-site implementation. Legacy root-level descriptions in this transition document remain for migration context; the current completeness baseline and provider specs are authoritative for scope.
 
 Current major characteristics:
 
-- source/provider: MOEX
-- generated data stored under root-level `data/`
-- mirrored files stored under `mirror/`
-- downloadable ZIP bundles stored under `bundles/`
+- source/provider: 35 registered providers in the `default` site, with MOEX-specific and provider-specific adapters
+- reviewed source scope: `catalog/source-inventory.json`; local drift gate: `scripts/validate_source_inventory.py`
+- generated provider data stored under `data/providers/<provider_id>/`
+- mirrored files stored under `mirror/providers/<provider_id>/`
+- downloadable ZIP bundles stored under `bundles/sites/default/`
+- site publication indexes stored under `data/sites/default/`
 - modern frontend app stored under `frontend/`
-- release assets managed on one GitHub release tag, currently `moex-bundles`
+- release assets managed across the default site’s planned `default-bundles-*` shards
 
 ## Current Repo Boundaries
 
@@ -24,8 +28,11 @@ Current major characteristics:
 | `app/sync.py` | mirroring, payload validation, and normalized input preparation |
 | `app/state.py` | incremental and targeted merge logic against existing generated state |
 | `app/publisher.py` | write generated site-scoped publication JSON files |
-| `app/manifest.py` | source manifest read/write for probe state |
+| `app/manifest.py` | provider source manifest read/write for probe state |
 | `app/probe.py` | probe recent source changes without full download |
+| `app/source_inventory.py` | validate reviewed source scope against the provider registry and local state |
+| `catalog/source-inventory.json` | reviewed official-source scope/status/evidence input |
+| `scripts/validate_source_inventory.py` | CI/operator gate for source-scope and local-state drift |
 | `.github/workflows/` | scheduled and manual automation |
 | `.github/scripts/release_assets.py` | release asset ensure, coverage, upload, and prune logic |
 | `frontend/` | Vite/React frontend consuming generated bundle data |
@@ -36,29 +43,31 @@ These commands are implemented in `python -m app` today:
 
 | Command | Purpose | Typical Output |
 | --- | --- | --- |
-| `discover` | list available MOEX exams grouped by year | JSON discovery payload |
-| `probe-latest` | cheaply inspect recent source changes | `.tmp/source-probe.json`, optional `data/source-manifest.json` |
+| `discover` | list available exams for the selected provider grouped by year (MOEX by default) | JSON discovery payload |
+| `probe-latest` | cheaply inspect recent source changes | `.tmp/source-probe.json`, optional `data/providers/<provider_id>/source-manifest.json` |
 | `sync-targeted` | refresh only exams identified by a probe result | updated generated data and bundles for affected categories |
 | `sync-incremental` | refresh a recent year window | updated generated data with safe partial merge |
 | `sync-full` | rebuild from the live source | full generated data and bundles |
-| `build-bundles` | rebuild ZIP bundles from existing local state only | updated `bundles/`, `data/bundles.json` |
+| `build-bundles` | rebuild ZIP bundles from existing local state only | updated `bundles/sites/default/`, `data/sites/default/bundles.json` |
 
 ## Current Generated Data
 
-The repo currently writes these root-level artifacts:
+The current provider/site outputs are scoped as follows:
 
 | Path | Status | Notes |
 | --- | --- | --- |
-| `data/exams/YYYY.json` | generated | parsed source exam pages |
-| `data/papers/YYYY.json` | generated | normalized paper records |
-| `data/bundles.json` | generated | canonical bundle metadata used by publication layers |
-| `data/review-queue.json` | generated | unresolved normalization candidates |
-| `data/sync-failures.json` | generated | download/build failures |
-| `data/source-manifest.json` | generated | probe state for cheap incremental checks |
-| `data/release-assets.json` | generated | expected release asset inventory |
-| `data/aliases.json` | manual input | alias rules maintained by developers/operators |
+| `data/providers/<provider_id>/exams/YYYY.json` | generated | parsed source exam pages |
+| `data/providers/<provider_id>/papers/YYYY.json` | generated | normalized paper records |
+| `data/providers/<provider_id>/review-queue.json` | generated | unresolved normalization candidates |
+| `data/providers/<provider_id>/sync-failures.json` | generated | download/build failures |
+| `data/providers/<provider_id>/source-manifest.json` | generated when a provider supports it | source discovery/probe state; current coverage is incomplete for most providers |
+| `data/sites/default/bundles.json` | generated | site publication inventory |
+| `data/sites/default/frontend-bundles.json` | generated | frontend feed |
+| `data/sites/default/release-assets.json` | generated | expected release asset inventory |
+| `catalog/source-inventory.json` | manual reviewed input | official-source scope, status, evidence, and exact local-state observations |
+| `data/providers/<provider_id>/aliases.json` | manual provider input | alias rules maintained by developers/operators |
 
-`data/aliases.json` is the only intended manual normalization input in the current `data/` tree. Everything else is generated.
+Generated provider and site files must not be manually edited as the implementation mechanism. The reviewed catalog input and aliases are the intentional manual sources of truth.
 
 ## Current Publication Surfaces
 
@@ -71,8 +80,8 @@ There is one supported public output surface today:
 
 ## Current End-To-End Flow
 
-1. `discover` or `probe-latest` inspects MOEX availability.
-2. `sync-*` commands fetch exam pages and download files into `mirror/`.
+1. Provider-specific `discover` or `probe-latest` inspects official availability; the reviewed source inventory records scope and evidence separately.
+2. `sync-*` commands fetch exam pages and download files into provider-scoped mirrors.
 3. `app/sync.py` validates downloaded payloads and rejects HTML placeholders or wrong binary types.
 4. `app/normalizer.py` and alias rules produce normalized paper records.
 5. `app/state.py` merges refreshed state with existing generated state for incremental and targeted runs.
