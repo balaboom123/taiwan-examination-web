@@ -12,7 +12,7 @@ A topic is implementable when the source is official, public, downloadable witho
 
 | Topic | Decision | Provider work |
 |---|---|---|
-| 技術士技能檢定 | Implemented | Fixed `wdasec_skill` WebForms postback replay, refreshed official AD 2006–2024 sessions alongside existing 2025–2026 state, and published eligible `wdasec-skill` groups; 25 older events remain normalization gaps. |
+| 技術士技能檢定 | Implemented | Fixed `wdasec_skill` WebForms postback replay, refreshed official AD 2005–2024 sessions alongside existing 2025–2026 state, and published eligible `wdasec-skill` groups; 22 older events remain normalization gaps. |
 | TOCFL 模擬試題 | Implemented | Extended `tocfl_cert` from reference downloads to official downloadable question/audio/answer/script assets. |
 | 客語能力認證 audio | Implemented | Extended `hakka_cert` to include official audio ZIPs as `listening_audio` and published level bundles. |
 | JLPT | Implemented | Added `jlpt_cert` for official JLPT practice workbook PDFs and listening audio from `https://www.jlpt.jp/e/samples/sampleindex.html`. |
