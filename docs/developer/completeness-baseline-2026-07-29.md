@@ -44,13 +44,14 @@ Remote metadata was fetched with `git fetch --all --prune`; no reset, rebase, ov
 | --- | --- |
 | Branch | `agent/exam-coverage-and-mirror-dedup` |
 | Initial audit checkpoint | `254aa70` (`audit source coverage blockers and baseline`) |
-| Final report handoff | Normal follow-up documentation commit after the initial checkpoint; history is preserved, not rewritten |
+| Preparation commit | `b579bc6` (`data: recover MOEX discovery and 2021 coverage`) |
+| Final report handoff | Documentation follow-up after the preparation commit; history is preserved, not rewritten |
 | Latest fetched `origin/main` | `8be0e4f` (`chore: refresh TABF cert provider data`, 2026-07-27) |
-| Divergence from `origin/main` at baseline capture before this cycle | 7 behind / 52 ahead |
-| Divergence from tracked upstream at baseline capture before this cycle | 0 behind / 47 ahead; all are unpushed |
+| Divergence from `origin/main` at final handoff | 7 behind / 55 ahead |
+| Divergence from tracked upstream at final handoff | 0 behind / 50 ahead; all are unpushed |
 | Tracked uncommitted files at final handoff | None |
 | Untracked user work at final handoff | `PLAN.md` only; preserved and excluded from both checkpoints |
-| Large untracked files | None. Ignored operational trees are approximately 396 MB `data/`, 57 GB `mirror/`, and 61 GB `bundles/`; size is not release evidence. |
+| Large untracked files | None after the preparation commit. Ignored operational trees are approximately 412 MB `data/`, 57 GB `mirror/`, and 62 GB `bundles/`; size is not release evidence. |
 
 The audit checkpoints are local and reviewable. No remote branch, release, deployment, credential state, or history was rewritten.
 
