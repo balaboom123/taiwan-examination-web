@@ -157,6 +157,8 @@ The historical 5,403 MOEX failure records and 972 review records remain reconcil
 
 The current bounded MOEX refresh recovered 377 valid records from three previously affected events. It also produced five exact HTML-placeholder download failures. Eight no-result event pages and those five file failures are now represented in `catalog/source-coverage/moex.json`; strict audit reports them as blocked/partial rather than silently dropping them.
 
+The one historical semantic key that still intersects the current review queue is `086080` / `專門職業及技術人員土地登記專業`. The retained official event title is `086年特種考試土地登記專業代理人考試、第一次土地登記專業代理人檢覈`; its 11 paper records use category codes `001` and `002`, and the source exposes no separate authoritative level label for those codes. The classifier therefore sees two source-event markers—`特種考試` and `檢覈`—and deliberately keeps both category groups review-isolated. The same collision affects the related 084270 and 085100 land-registration events; 093030 has a different multi-marker conflict. This is a valid ambiguity record, not a parser failure or a missing mirror. Resolving it requires an explicit official mapping from category/code to exam level, or an approved decision to retain event-specific review isolation.
+
 ### Hakka and WDASEC
 
 Eight Hakka events are normalized but not published because one official audio ZIP is approximately 2,094,415,387 bytes, beyond the current release/storage target. This needs an approved storage or scope decision.
@@ -226,7 +228,7 @@ Completion requires all of the following for an explicitly approved scope:
 
 ## Safest branch/release strategy
 
-1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; it is already 7 behind and 49 ahead of fetched `origin/main`, and contains 44 local commits beyond its tracked upstream.
+1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; it is already 7 behind and 51 ahead of fetched `origin/main`, and contains 46 local commits beyond its tracked upstream.
 2. Finish this preparation as one reviewable local commit (or two clearly separated commits: pipeline/audit code and generated MOEX/site state), explicitly excluding pre-existing untracked `PLAN.md`.
 3. Create a fresh implementation branch from fetched `origin/main` after review. Port only the source-coverage ledger, strict gate, focused tests, and intentionally selected data changes by review/cherry-pick; do not merge generated state blindly.
 4. Implement one provider/source family at a time. Keep source-scope decisions, manifests, generated mirrors, publication changes, and frontend changes reviewable separately.
