@@ -40,15 +40,16 @@ Remote metadata was fetched with `git fetch --all --prune`; no reset, rebase, ov
 | Item | Current observation |
 | --- | --- |
 | Branch | `agent/exam-coverage-and-mirror-dedup` |
-| Local HEAD | `783e0a7` (`docs: record final git handoff`) |
+| Initial audit checkpoint | `254aa70` (`audit source coverage blockers and baseline`) |
+| Final report handoff | Normal follow-up documentation commit after the initial checkpoint; history is preserved, not rewritten |
 | Latest fetched `origin/main` | `8be0e4f` (`chore: refresh TABF cert provider data`, 2026-07-27) |
-| Divergence from `origin/main` | 7 behind / 49 ahead |
-| Divergence from tracked upstream | 0 behind / 44 ahead |
-| Preparation worktree before local checkpoint | 23 tracked modified files plus 6 untracked paths (the five new ledger/schema/test/report paths and pre-existing `PLAN.md`) |
-| Untracked user work | `PLAN.md` only; preserved and excluded from the checkpoint |
+| Divergence from `origin/main` at final handoff | 7 behind / 51 ahead |
+| Divergence from tracked upstream at final handoff | 0 behind / 46 ahead; all are unpushed |
+| Tracked uncommitted files at final handoff | None |
+| Untracked user work at final handoff | `PLAN.md` only; preserved and excluded from both checkpoints |
 | Large untracked files | None. Ignored operational trees are approximately 396 MB `data/`, 57 GB `mirror/`, and 61 GB `bundles/`; size is not release evidence. |
 
-The tracked changes are intentionally local. `PLAN.md` is pre-existing user work and must remain untracked.
+The audit checkpoints are local and reviewable. No remote branch, release, deployment, credential state, or history was rewritten.
 
 ## Validation baseline
 
@@ -58,7 +59,7 @@ The tracked changes are intentionally local. `PLAN.md` is pre-existing user work
 | Full Python tests | **527 passed, 71 subtests passed** in 1.87 s via `uv run pytest -q` | Python functional baseline is green. |
 | `python3 scripts/validate_publication.py` | **Pass**: 3,277 site bundles, 3,274 frontend bundles, 3,277 release assets, 16 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
 | `python3 -m app plan-release` | **Pass**: 3,277 bundles across 11 shards | Local shard capacity is within the 900 safety target; it does not verify remote releases. |
-| `python3 -m app history-audit --strict` | **Expected non-zero**: only the 8 Hakka `normalized_not_published` events remain unresolved; 15 blocked and 3 partial events are evidence-backed | The gate no longer hides the five current MOEX download failures and rejects coverage-exception conflicts/orphans. |
+| `python3 -m app history-audit --strict` | **Exit 1**: only the 8 Hakka `normalized_not_published` events remain unresolved; 15 blocked and 3 partial events are evidence-backed | The gate no longer hides the five current MOEX download failures and rejects coverage-exception conflicts/orphans. |
 | `python3 -m app audit-catalog --strict` | **Pass**: 195,212 records; 4,283 review records; 631 queue entries; 771 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
 | Python lint | **No configured gate** | No Ruff/Black/mypy/pylint/flake8 command exists in the repository. |
 | Frontend direct tests | **11 passed, 2 failed** in the available baseline | Two failures cannot import `typescript`; dependencies are absent. |
