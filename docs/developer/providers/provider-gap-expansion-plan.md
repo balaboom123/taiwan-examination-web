@@ -2,7 +2,7 @@
 
 ## Completed
 
-1. `wdasec_skill`: fixed WebForms postback hidden-field replay, refreshed the official 2003–2024 sessions alongside existing 2025–2026 state, and published eligible `wdasec-skill` groups; 121 events are complete, seven are explicitly excluded by site policy, and 15 older events through AD 2002 remain normalization gaps.
+1. `wdasec_skill`: fixed WebForms postback hidden-field replay, refreshed the official 2002–2024 sessions alongside existing 2025–2026 state, and published eligible `wdasec-skill` groups; 128 events are complete, eight are explicitly excluded by site policy, and seven older events through AD 2001 remain normalization gaps, including one official zero-paper event.
 2. `tocfl_cert`: added official mock-test question/audio/answer/script downloads and published `tocfl-cert`.
 3. `hakka_cert`: added official audio ZIPs as `listening_audio` and published level bundles.
 4. `jlpt_cert`: added official JLPT practice workbook PDFs/MP3s and published `jlpt-cert`.
