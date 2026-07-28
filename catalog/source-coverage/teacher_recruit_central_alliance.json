@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "provider_id": "teacher_recruit_central_alliance",
+  "exceptions": [
+    {
+      "scope": "event",
+      "provider_id": "teacher_recruit_central_alliance",
+      "source_exam_id": "teacher-recruit-central-alliance-115-kindergarten",
+      "year_ad": 2026,
+      "status": "blocked",
+      "reason_code": "official_closed_no_files",
+      "reason": "The official subject and final-answer pages are marked 已截止 and expose no paper or answer links.",
+      "source_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=C",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 6913,
+        "response_sha256": "8fb6cb851845dc1d2c2582ce46be50ecdb6476fa1772a21cf32f06c2df2d4d01",
+        "observation": "已截止; parser found zero paper links.",
+        "parser_rows": 0,
+        "related_urls": [
+          {
+            "url": "https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php?cate=C",
+            "http_status": 200,
+            "response_bytes": 6138,
+            "response_sha256": "dda831863eb2e668fdbc77324d0f1bcb1546945d0405187128134a1e59391688"
+          }
+        ]
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "teacher_recruit_central_alliance",
+      "source_exam_id": "teacher-recruit-central-alliance-115-elementary",
+      "year_ad": 2026,
+      "status": "blocked",
+      "reason_code": "official_closed_no_files",
+      "reason": "The official subject and final-answer pages are marked 已截止 and expose no paper or answer links.",
+      "source_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=A",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 3451,
+        "response_sha256": "a8e577a908eb4bbf3c242a7572d6d12c62481cc34be3bcf7245fca9a305bf3cd",
+        "observation": "已截止; parser found zero paper links.",
+        "parser_rows": 0,
+        "related_urls": [
+          {
+            "url": "https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php?cate=A",
+            "http_status": 200,
+            "response_bytes": 3378,
+            "response_sha256": "42feab4b89e50355f9564713d26194490e5965746418afece70237e1c45444a3"
+          }
+        ]
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "teacher_recruit_central_alliance",
+      "source_exam_id": "teacher-recruit-central-alliance-115-junior",
+      "year_ad": 2026,
+      "status": "blocked",
+      "reason_code": "official_closed_no_files",
+      "reason": "The official subject and final-answer pages are marked 已截止 and expose no paper or answer links.",
+      "source_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=B",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 4490,
+        "response_sha256": "7802719d7c7a51bddfd07c3a208308b16ea5d14184d75f853cb713c273d27f47",
+        "observation": "已截止; parser found zero paper links.",
+        "parser_rows": 0,
+        "related_urls": [
+          {
+            "url": "https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php?cate=B",
+            "http_status": 200,
+            "response_bytes": 4222,
+            "response_sha256": "896f485be9cc619da181901e1c92c9fd7abc816cb5b1d8912f746e21d4fe2b0b"
+          }
+        ]
+      }
+    }
+  ]
+}

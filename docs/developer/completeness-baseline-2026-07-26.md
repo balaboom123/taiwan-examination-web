@@ -1,3 +1,5 @@
+> Superseded current snapshot: see [completeness-baseline-2026-07-29.md](completeness-baseline-2026-07-29.md). This file is retained as the 2026-07-28 historical checkpoint.
+
 # Completeness Baseline — 2026-07-28
 
 This report records the baseline and bounded corrective cycles, including the MOEX source/identity reconciliation and the targeted WDASEC 2001–2024 historical refreshes. Baseline inspection was read-only; the cycles regenerated only targeted provider/site state, added validation/deployment gates, and fixed one v2 targeted-publication keying defect, and reconciled generated review state. No provider-source data was fabricated, no public upload/deploy was performed, and no history was rewritten.

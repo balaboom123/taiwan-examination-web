@@ -1287,6 +1287,89 @@ class CliCommandTests(unittest.TestCase):
             self.assertIn("temporary download failure", output.getvalue())
             self.assertEqual((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"), original_papers)
 
+    def test_run_sync_targeted_allow_partial_writes_valid_subset_and_failure_record(self) -> None:
+        class PartialTargetedClient:
+            provider_id = "moex"
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                return SourceExamPage(
+                    provider_id="moex",
+                    source_exam_id=exam_code,
+                    year_ad=year_ad,
+                    year_roc=year_ad - 1911,
+                    exam_name_raw="Exam 115030",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="nurse raw",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="Subject",
+                            files={
+                                "question": "https://example.test/question.pdf",
+                                "answer": "https://example.test/answer.pdf",
+                            },
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                if url.endswith("answer.pdf"):
+                    raise RuntimeError("official answer placeholder")
+                return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            aliases_path = root / "data" / "aliases.json"
+            aliases_path.parent.mkdir(parents=True, exist_ok=True)
+            aliases_path.write_text(json.dumps({"rules": []}), encoding="utf-8")
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir(parents=True, exist_ok=True)
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "moex",
+                        "changed_exam_codes": ["115030"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"115030": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "moex",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(aliases_path),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--allow-partial",
+                ]
+            )
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = run_sync_targeted(args, client=PartialTargetedClient())
+
+            provider = provider_paths(root, "moex")
+            raw_pages, catalog, failures = load_provider_state(provider)
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Committed partial targeted state", output.getvalue())
+        self.assertEqual([page.source_exam_id for page in raw_pages], ["115030"])
+        self.assertEqual([paper.file_type for paper in catalog.papers], ["question"])
+        self.assertEqual(len(failures), 1)
+        self.assertEqual(failures[0].source_exam_id, "115030")
+        self.assertEqual(failures[0].file_type, "answer")
+
     def test_run_sync_targeted_writes_probe_manifest_after_successful_sync(self) -> None:
         class SuccessfulTargetedClient:
             def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:

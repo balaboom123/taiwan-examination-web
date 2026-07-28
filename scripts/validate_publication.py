@@ -12,8 +12,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from app.bundler import public_bundle_ids
+from app.coverage_exceptions import failure_exception_for, load_coverage_exceptions
+from app.paths import provider_paths
 from app.publisher import load_site_catalog
 from app.site_registry import get_site_config
+from app.state import load_provider_state
 
 SITE_DIR = ROOT / "data" / "sites" / "default"
 GENERIC_SUBJECT_PREFIXES = ("wdasec-skill-", "ceec-gsat-", "ceec-ast-", "tcte-tve-")
@@ -32,14 +35,29 @@ def load_json(path: Path):
 
 def validate_provider_site_coverage(site_bundle_ids: set[str]) -> None:
     site_config = get_site_config("default")
-    normalized, failures = load_site_catalog(ROOT, site_id=site_config.site_id)
-    if failures:
-        details = ", ".join(
-            f"{failure.provider_id}:{failure.stage}:{failure.source_exam_id}"
-            for failure in failures[:5]
+    normalized, _all_failures = load_site_catalog(ROOT, site_id=site_config.site_id)
+    unresolved_failures = []
+    for provider_id in site_config.provider_ids:
+        provider = provider_paths(ROOT, provider_id)
+        if not provider.data_dir.exists():
+            continue
+        _raw_pages, _provider_catalog, provider_failures = load_provider_state(provider)
+        exceptions = load_coverage_exceptions(ROOT, provider_id)
+        unresolved_failures.extend(
+            (provider_id, failure)
+            for failure in provider_failures
+            if failure_exception_for(provider_id, failure, exceptions) is None
         )
-        suffix = " ..." if len(failures) > 5 else ""
-        fail(f"provider state contains {len(failures)} unresolved sync failures ({details}{suffix})")
+    if unresolved_failures:
+        details = ", ".join(
+            f"{provider_id}:{failure.stage}:{failure.source_exam_id}"
+            for provider_id, failure in unresolved_failures[:5]
+        )
+        suffix = " ..." if len(unresolved_failures) > 5 else ""
+        fail(
+            f"provider state contains {len(unresolved_failures)} unresolved sync failures "
+            f"({details}{suffix})"
+        )
 
     expected_ids = public_bundle_ids(
         normalized,

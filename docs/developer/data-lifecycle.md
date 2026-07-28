@@ -83,6 +83,14 @@ Why this matters:
 - source systems sometimes return an HTML page or placeholder instead of the file
 - bundle generation MUST NOT consume invalid mirrored content
 
+## Reviewed Source-Coverage Exceptions
+
+Manual source evidence belongs in `catalog/source-coverage/<provider_id>.json`, not in generated provider state. An entry may be event-scoped (`blocked` or `intentionally_out_of_scope`) or file-scoped (`blocked`). Each entry records the official URL, capture date, response fingerprint, observation, and reason.
+
+`history-audit` matches event entries to the current raw event and file entries to the exact current download failure: provider, exam ID, AD year, paper code, file type, download URL, and `download` stage must all agree. An event exception conflicts if the current raw page has papers or attachments, normalized records exist, or any failure is recorded. An unmatched exception is an orphan. Both conditions fail strict audit. The publication validator ignores only exact file exceptions; all other provider failures remain blocking.
+
+A reviewed exception is therefore an evidence-backed denominator decision, not a generated-manifest shortcut. When the source changes or a file becomes available, the old entry becomes an orphan or conflict and must be removed or re-probed.
+
 ### 5. Normalize
 
 Current behavior:
@@ -168,7 +176,7 @@ Future rule:
 | --- | --- | --- | --- |
 | `discover` | no | n/a | read-only |
 | `probe-latest` | yes, only output file and optional manifest | yes | returns a probe result even when no sync is needed |
-| `sync-targeted` | yes, if successful | no for provider refresh failures | aborts on any download or bundle failure for targeted exams |
+| `sync-targeted` | yes, if successful; `--allow-partial` may commit the valid subset | no by default; explicit partial mode is opt-in | default aborts on any failure; partial mode retains successful records and failure rows, returns non-zero, and requires follow-up audit/publication |
 | `sync-incremental` | yes | yes, safe subset only | preserves existing state for failed exam IDs and returns non-zero if failures remain |
 | `sync-full` | yes | yes | writes full regenerated outputs and returns non-zero if failures remain |
 | `build-bundles` | yes | no | local rebuild path; returns non-zero if failures exist |
@@ -178,6 +186,7 @@ Future rule:
 Manual inputs today:
 
 - `data/aliases.json`
+- `catalog/source-coverage/<provider_id>.json` reviewed evidence for blocked or intentionally excluded official sources
 
 Generated outputs today:
 
@@ -188,11 +197,12 @@ Generated outputs today:
 - `data/sync-failures.json`
 - `data/source-manifest.json`
 - `data/release-assets.json`
+- `data/sites/<site_id>/*` publication indexes
 
 Operators and developers MUST treat generated outputs as derived state. Manual edits to generated files are temporary recovery actions only and MUST be followed by a rebuilding command or code fix.
 
 ## Expansion Rules
 
-- New providers MUST own their own manifests, review queues, and failure logs.
+- New providers MUST own their own manifests, review queues, failure logs, and source-coverage evidence where an official source is blocked or intentionally excluded.
 - New sites MUST own their own bundle metadata and release asset inventory.
 - Shared schemas MAY evolve, but provider-specific fields MUST NOT leak into site-facing bundle feeds without an explicit contract update.

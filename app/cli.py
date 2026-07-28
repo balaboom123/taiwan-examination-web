@@ -328,8 +328,11 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         mirror_base_url="",
         download_attachments=args.download_attachments,
     )
-    # Abort on any failure: targeted sync only handles known-changed exams, partial writes are not safe
-    if sync_failures:
+    allow_partial = bool(getattr(args, "allow_partial", False))
+    # Targeted sync remains fail-closed by default.  The explicit partial mode
+    # is for source pages where some files are valid and others are proven
+    # unavailable; it writes the valid subset and retains every failure.
+    if sync_failures and not allow_partial:
         _print_failures(sync_failures)
         return 1
     provider_state = _provider_state_paths(args.data_dir, args.mirror_dir, provider_id)
@@ -370,6 +373,15 @@ def run_sync_targeted(args: argparse.Namespace, client: SourceProvider | None = 
         manifest=_provider_manifest_from_probe(probe),
     )
     _write_probe_manifest_if_present(probe, _resolve_sync_manifest_path(args, provider_id))
+    if sync_failures:
+        _print_failures(sync_failures)
+        if allow_partial:
+            print(
+                "Committed partial targeted state; successful files were retained and "
+                "source failures remain recorded for follow-up.",
+                flush=True,
+            )
+        return 1
     return 0
 
 
@@ -756,6 +768,12 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--bundle-base-url", default="")
     targeted.add_argument("--mirror-base-url", default="")
     targeted.add_argument("--download-attachments", action="store_true", default=False)
+    targeted.add_argument(
+        "--allow-partial",
+        action="store_true",
+        default=False,
+        help="Write successfully mirrored records while retaining source failures; exits non-zero until they are resolved.",
+    )
     targeted.add_argument("--download-affected-bundles", action="store_true", default=False)
     targeted.add_argument("--publish-plan-output", type=Path, default=None)
     targeted.add_argument("--provider", default=None)

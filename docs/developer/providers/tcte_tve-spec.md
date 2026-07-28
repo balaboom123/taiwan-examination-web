@@ -46,7 +46,7 @@ python -m app sync-full --provider tcte_tve --site-id default
 - focused tests: `tests/test_tcte_tve.py`
 - published bundle: `tcte-tve`
 - local synced coverage: ROC 92-115 / AD 2003-2026, 2,956 normalized paper records
-- ROC 90-91 raw pages remain retained but outside normalized paper scope pending an explicit answer-surface decision: ROC 90 has direct question links plus a non-downloadable HTML answer matrix; ROC 91 has direct question links plus a combined answer PDF.
+- ROC 90-91 raw pages remain retained but outside normalized paper scope: the documented direct pages `https://web1.tcte.edu.tw/EXAM/90_4y/` and `https://web1.tcte.edu.tw/EXAM/91_4y/` returned HTTP 404 (236 bytes, SHA-256 `9448f8a1159c9b14e3e1b9d8eab1a6ddf88d26e1f888a34cef430c756e4e6e1e`) on 2026-07-29. The reviewed event blockers are recorded in `catalog/source-coverage/tcte_tve.json`; ROC 90/91 remain outside the per-subject denominator until a current official replacement is verified.
 
 ## Normalization Rules
 

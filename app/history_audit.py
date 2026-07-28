@@ -14,6 +14,11 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from app.bundler import _resolve_mirror_source_path, public_bundle_ids
+from app.coverage_exceptions import (
+    event_exception_for,
+    failure_exception_for,
+    load_coverage_exceptions,
+)
 from app.models import NormalizedCatalog
 from app.paths import provider_paths, site_paths
 from app.providers.registry import get_provider
@@ -122,6 +127,7 @@ def build_history_coverage_audit(
     for provider_id in selected_provider_ids:
         provider = provider_paths(repo_root, provider_id)
         raw_pages, catalog, failures = load_provider_state(provider)
+        coverage_exceptions = load_coverage_exceptions(repo_root, provider_id)
         all_normalized_papers.extend(catalog.papers)
         raw_by_event = {
             _event_key(page.source_exam_id, page.year_ad): page
@@ -136,9 +142,21 @@ def build_history_coverage_audit(
 
         event_keys = set(raw_by_event) | set(papers_by_event) | set(failures_by_event)
         events: list[dict[str, Any]] = []
+        matched_exception_keys: set[tuple[str, str, int, str, str]] = set()
         for source_exam_id, year_ad in sorted(event_keys, key=lambda item: (-item[1], item[0])):
-            papers = papers_by_event[_event_key(source_exam_id, year_ad)]
-            event_failures = failures_by_event[_event_key(source_exam_id, year_ad)]
+            event_key = _event_key(source_exam_id, year_ad)
+            raw_page = raw_by_event.get(event_key)
+            papers = papers_by_event[event_key]
+            event_failures = failures_by_event[event_key]
+            event_exception = event_exception_for(coverage_exceptions, source_exam_id, year_ad)
+            if event_exception is not None:
+                matched_exception_keys.add(event_exception.key)
+            matched_file_exceptions = []
+            for failure in event_failures:
+                exception = failure_exception_for(provider_id, failure, coverage_exceptions)
+                if exception is not None:
+                    matched_file_exceptions.append(exception)
+                    matched_exception_keys.add(exception.key)
             missing_mirror_files = sorted(
                 {
                     paper.storage_key or f"{paper.paper_code}:{paper.file_type}"
@@ -164,11 +182,21 @@ def build_history_coverage_audit(
                 )
             )
             failure_status = _failure_status(event_failures)
-            if missing_mirror_files:
+            has_current_material = bool(papers or event_failures)
+            if raw_page is not None:
+                has_current_material = has_current_material or bool(raw_page.papers or raw_page.attachments)
+            if event_exception is not None:
+                # An event exception is valid only for a retained event with no
+                # currently materialized records.  It must not hide new data or
+                # a changed failure state.
+                status = "coverage_exception_conflict" if has_current_material else event_exception.status
+            elif missing_mirror_files:
                 status = "download_gap"
+            elif event_failures and len(matched_file_exceptions) == len(event_failures):
+                status = "partially_blocked" if has_current_material else "blocked"
             elif failure_status is not None:
                 status = failure_status
-            elif not papers and _event_key(source_exam_id, year_ad) in raw_by_event:
+            elif not papers and event_key in raw_by_event:
                 status = "normalization_gap"
             elif papers and unpublished_bundle_ids:
                 status = "normalized_not_published"
@@ -182,16 +210,26 @@ def build_history_coverage_audit(
                     "source_exam_id": source_exam_id,
                     "year_ad": year_ad,
                     "year_roc": year_ad - 1911,
-                    "raw_page_present": _event_key(source_exam_id, year_ad) in raw_by_event,
+                    "raw_page_present": event_key in raw_by_event,
                     "normalized_paper_records": len(papers),
                     "missing_mirror_files": missing_mirror_files,
                     "published_bundle_ids": published_bundle_ids,
                     "unpublished_bundle_ids": unpublished_bundle_ids,
                     "failure_count": len(event_failures),
                     "failure_stages": sorted({failure.stage for failure in event_failures}),
+                    "coverage_exception": event_exception.as_dict() if event_exception else None,
+                    "matched_file_coverage_exceptions": [exception.as_dict() for exception in matched_file_exceptions],
                     "status": status,
                 }
             )
+
+        orphan_coverage_exceptions = [
+            exception.as_dict()
+            for exception in coverage_exceptions
+            if exception.key not in matched_exception_keys
+        ]
+        if orphan_coverage_exceptions:
+            status_counts["coverage_exception_orphan"] += len(orphan_coverage_exceptions)
 
         source_probe = {"status": "not_requested", "available_years": [], "source_event_count": 0, "source_only_events": [], "year_errors": []}
         if probe_sources:
@@ -207,6 +245,8 @@ def build_history_coverage_audit(
                 "raw_exam_pages": len(raw_pages),
                 "normalized_paper_records": len(catalog.papers),
                 "sync_failure_count": len(failures),
+                "coverage_exception_count": len(coverage_exceptions),
+                "orphan_coverage_exceptions": orphan_coverage_exceptions,
                 "events": events,
                 "source_probe": source_probe,
             }
@@ -257,9 +297,12 @@ def history_audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
             summary.get(status, 0)
             for status in (
                 "download_gap",
+                "sync_failure_recorded",
                 "normalization_gap",
                 "normalized_not_published",
                 "bundle_repair_needed",
+                "coverage_exception_conflict",
+                "coverage_exception_orphan",
                 "parser_gap",
             )
         )

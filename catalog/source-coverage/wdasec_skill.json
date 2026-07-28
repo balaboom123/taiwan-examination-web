@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "provider_id": "wdasec_skill",
+  "exceptions": [
+    {
+      "scope": "event",
+      "provider_id": "wdasec_skill",
+      "source_exam_id": "201309140001",
+      "year_ad": 2002,
+      "status": "blocked",
+      "reason_code": "official_empty_result",
+      "reason": "The official listing row is present, but the current detail page returns no data and exposes no downloadable records.",
+      "source_url": "https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 9402,
+        "response_sha256": "66ea45bb8e00d0be4e780796adcce473e6515ce2498cbf6ee4cfba0a43ef6dc0",
+        "observation": "查無資料，請確定輸入資料並重新查詢",
+        "parser_rows": 0,
+        "listing_page": 9,
+        "listing_row": 10
+      }
+    }
+  ]
+}
