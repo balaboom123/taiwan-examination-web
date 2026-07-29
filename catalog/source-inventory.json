@@ -1234,9 +1234,9 @@
         "start_ad": 2026
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_central_alliance/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1257,7 +1257,7 @@
       ],
       "provider_id": "teacher_recruit_central_alliance",
       "restrictions": [
-        "All subject/final page pairs returned HTTP 200, `已截止`, and no links; fingerprints and category mapping are recorded in `catalog/source-coverage/teacher_recruit_central_alliance.json`. Provenance remains official through Taichung, Keelung, and Hsinchu notices."
+        "The 2026-07-29 snapshot represents all three declared events with corrected category mapping (kindergarten A, elementary B, junior C). All subject/final page pairs returned HTTP 200, `已截止`, and no links; exact fingerprints remain in `catalog/source-coverage/teacher_recruit_central_alliance.json`. Provenance remains official through Taichung, Keelung, and Hsinchu notices."
       ],
       "status": "blocked",
       "status_reason": "Blocked / source expired; source availability: Current 115 school year / AD 2026; three official categories rechecked 2026-07-29; local coverage: 2026; 3 → 0"

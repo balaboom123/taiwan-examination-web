@@ -3,6 +3,7 @@
 import unittest
 
 from app.providers.teacher_recruit_central_alliance.client import (
+    BASE_URL,
     CentralAllianceRecruitClient,
     parse_final_answer_page,
     parse_subject_page,
@@ -47,6 +48,25 @@ class CentralAllianceRecruitParserTests(unittest.TestCase):
 
 
 class CentralAllianceRecruitClientTests(unittest.TestCase):
+    def test_discovery_urls_preserve_the_official_level_mapping(self) -> None:
+        client = CentralAllianceRecruitClient()
+
+        self.assertEqual(client.build_discovery_year_url(2026), f"{BASE_URL}/Subject/news.php")
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-central-alliance-115-kindergarten", 2026),
+            f"{BASE_URL}/Subject/news.php?cate=A",
+        )
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-central-alliance-115-elementary", 2026),
+            f"{BASE_URL}/Subject/news.php?cate=B",
+        )
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-central-alliance-115-junior", 2026),
+            f"{BASE_URL}/Subject/news.php?cate=C",
+        )
+        with self.assertRaisesRegex(ValueError, "Unexpected Central Alliance discovery level"):
+            client.build_discovery_exam_url("teacher-recruit-central-alliance-115-senior", 2026)
+
     def test_fetch_exam_page_merges_subject_and_final_answer_downloads(self) -> None:
         client = CentralAllianceRecruitClient(subject_html_by_level={"elementary": SUBJECT_HTML}, final_html_by_level={"elementary": FINAL_HTML})
 

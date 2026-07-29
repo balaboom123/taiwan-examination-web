@@ -5,7 +5,7 @@
     {
       "scope": "event",
       "provider_id": "teacher_recruit_central_alliance",
-      "source_exam_id": "teacher-recruit-central-alliance-115-kindergarten",
+      "source_exam_id": "teacher-recruit-central-alliance-115-junior",
       "year_ad": 2026,
       "status": "blocked",
       "reason_code": "official_closed_no_files",
@@ -31,7 +31,7 @@
     {
       "scope": "event",
       "provider_id": "teacher_recruit_central_alliance",
-      "source_exam_id": "teacher-recruit-central-alliance-115-elementary",
+      "source_exam_id": "teacher-recruit-central-alliance-115-kindergarten",
       "year_ad": 2026,
       "status": "blocked",
       "reason_code": "official_closed_no_files",
@@ -57,7 +57,7 @@
     {
       "scope": "event",
       "provider_id": "teacher_recruit_central_alliance",
-      "source_exam_id": "teacher-recruit-central-alliance-115-junior",
+      "source_exam_id": "teacher-recruit-central-alliance-115-elementary",
       "year_ad": 2026,
       "status": "blocked",
       "reason_code": "official_closed_no_files",

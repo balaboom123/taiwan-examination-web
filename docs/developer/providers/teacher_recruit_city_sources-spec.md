@@ -159,6 +159,15 @@ Ans2/download.php?seq=<opaque>&type=finalanswer
 
 This is a vendor domain, so the provider must preserve official provenance in docs and metadata. The source is accepted because official Taichung, Keelung, and Hsinchu County selection pages point candidates to it for papers or answer appeals. The `qa115-*` host is annual; do not assume `qa114-*` or older hosts exist.
 
+The 2026-07-29 read-only snapshot records three declared official categories with exact mapping: kindergarten `cate=A`, elementary `cate=B`, and junior high `cate=C`. All six subject/final pages still return HTTP 200 but are marked `已截止` and expose zero files. Generate or refresh the event snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_central_alliance --years 2026 \
+  --manifest data/providers/teacher_recruit_central_alliance/source-manifest.json --write-manifest
+```
+
+The manifest proves only that all three declared current-year events are represented locally. File coverage remains blocked by the exact evidence ledger; the snapshot does not turn those empty events into covered data or imply historical host availability.
+
 ## Output Model
 
 | provider_id | canonical bundle | canonical name | default exam id pattern |
