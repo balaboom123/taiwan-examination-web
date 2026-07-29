@@ -6534,6 +6534,72 @@
     "reason": "no authoritative level marker in category/event: 少將轉任_一般行政(退輔會)"
   },
   {
+    "raw_category": "上校轉任考試上校轉任_一般行政(轉任國防部)",
+    "normalized_candidate": "一般行政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-military-transfer|unknown|general-administration|destination-destination-7407bc151b40|not-applicable",
+    "bundle_id": "moex-special-military-transfer-unknown-general-administration-destination-destination-7407bc151b40-event-106050",
+    "reason": "no authoritative level marker in category/event: 上校轉任考試上校轉任_一般行政(轉任國防部)"
+  },
+  {
+    "raw_category": "上校轉任考試上校轉任_一般行政(轉任退輔會)",
+    "normalized_candidate": "一般行政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-military-transfer|unknown|general-administration|destination-destination-901903fb6ff5|not-applicable",
+    "bundle_id": "moex-special-military-transfer-unknown-general-administration-destination-destination-901903fb6ff5-event-106050",
+    "reason": "no authoritative level marker in category/event: 上校轉任考試上校轉任_一般行政(轉任退輔會)"
+  },
+  {
+    "raw_category": "上校轉任考試上校轉任_人事行政(轉任退輔會)",
+    "normalized_candidate": "人事行政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-military-transfer|unknown|personnel-administration|destination-destination-901903fb6ff5|not-applicable",
+    "bundle_id": "moex-special-military-transfer-unknown-personnel-administration-destination-destination-901903fb6ff5-event-106050",
+    "reason": "no authoritative level marker in category/event: 上校轉任考試上校轉任_人事行政(轉任退輔會)"
+  },
+  {
+    "raw_category": "上校轉任考試上校轉任_廉政(轉任退輔會)",
+    "normalized_candidate": "廉政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-military-transfer|unknown|track-2e42e0f9a4aa|destination-destination-901903fb6ff5|not-applicable",
+    "bundle_id": "moex-special-military-transfer-unknown-track-2e42e0f9a4aa-destination-destination-901903fb6ff5-event-106050",
+    "reason": "no authoritative level marker in category/event: 上校轉任考試上校轉任_廉政(轉任退輔會)"
+  },
+  {
+    "raw_category": "上校轉任考試上校轉任_社會行政(轉任退輔會)",
+    "normalized_candidate": "社會行政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-military-transfer|unknown|track-93d79eca1516|destination-destination-901903fb6ff5|not-applicable",
+    "bundle_id": "moex-special-military-transfer-unknown-track-93d79eca1516-destination-destination-901903fb6ff5-event-106050",
+    "reason": "no authoritative level marker in category/event: 上校轉任考試上校轉任_社會行政(轉任退輔會)"
+  },
+  {
+    "raw_category": "國軍轉任考試少將轉任_一般行政(轉任退輔會)",
+    "normalized_candidate": "一般行政",
+    "source_exam_id": "106050",
+    "year_roc": 106,
+    "provider_id": "moex",
+    "raw_exam_name": "106年公務人員特種考試關務人員考試、106年公務人員特種考試身心障礙人員考試、106年國軍上校以上軍官轉任公務人員考試",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-disability|unknown|general-administration|destination-destination-901903fb6ff5|not-applicable",
+    "bundle_id": "moex-special-disability-unknown-general-administration-destination-destination-901903fb6ff5-event-106050",
+    "reason": "no authoritative level marker in category/event: 國軍轉任考試少將轉任_一般行政(轉任退輔會)"
+  },
+  {
     "raw_category": "軍官轉任考試上校轉任_一般行政(轉任退輔會)",
     "normalized_candidate": "一般行政",
     "source_exam_id": "107050",
