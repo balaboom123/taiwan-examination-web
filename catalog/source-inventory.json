@@ -218,7 +218,7 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 34 year buckets.",
+        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 35 year buckets.",
         "start_ad": 1992
       },
       "discovery_snapshot": {
@@ -233,13 +233,14 @@
       ],
       "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
       "local_state": {
-        "normalized_paper_records": 222482,
-        "raw_event_pages": 838,
+        "normalized_paper_records": 228022,
+        "raw_event_pages": 870,
         "sync_failures": 5
       },
       "local_years": [
         1992,
         1993,
+        1994,
         1995,
         1996,
         1997,
@@ -278,11 +279,11 @@
       ],
       "provider_id": "moex",
       "restrictions": [
-        "Official 35-year discovery snapshot contains 870 exam codes; 32 listed codes remain absent from local retained state in 1994 and require bounded historical recovery.",
+        "Official 35-year discovery snapshot contains 870 exam codes; all 870 currently listed event IDs are represented in local retained state.",
         "Five exact file URLs return the same HTML placeholder; three affected events retain valid normalized records. Eight historical result-page blockers remain evidence-backed in catalog/source-coverage/moex.json."
       ],
       "status": "partial",
-      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 34 buckets; 838 → 222,482; 32 listed codes remain unsynced."
+      "status_reason": "Partial / source-blocked; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 35 buckets; 870 → 228,022; 0 listed codes remain unsynced; eight event pages and five file URLs remain blocked at the official source."
     },
     {
       "available_years": {
