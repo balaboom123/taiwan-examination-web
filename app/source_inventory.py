@@ -22,7 +22,7 @@ INVENTORY_SCHEMA_VERSION = 1
 INVENTORY_PATH = Path("catalog/source-inventory.json")
 _ALLOWED_STATUSES = {"covered", "partial", "blocked", "intentionally_out_of_scope"}
 _ALLOWED_AVAILABILITY_MODES = {"observed_range", "current_scope", "unknown"}
-_ALLOWED_DISCOVERY_STATUSES = {"present", "missing", "not_applicable"}
+_ALLOWED_DISCOVERY_STATUSES = {"present", "missing", "blocked", "not_applicable"}
 _ALLOWED_DISCOVERY_COVERAGE = {"complete", "partial", "unknown"}
 
 
@@ -126,6 +126,14 @@ def _validate_entry(value: Any, *, path: Path, provider: bool) -> dict[str, Any]
     discovery_coverage = _require_text(discovery.get("coverage"), "discovery_snapshot.coverage", path=path)
     if discovery_coverage not in _ALLOWED_DISCOVERY_COVERAGE:
         raise _error(path, f"unsupported discovery_snapshot.coverage {discovery_coverage!r}")
+    if discovery_status == "blocked":
+        if status not in {"partial", "blocked"}:
+            raise _error(path, "blocked discovery requires a partial or blocked provider")
+        if discovery_coverage != "unknown":
+            raise _error(path, "blocked discovery coverage must be unknown")
+        expected_ledger = f"catalog/source-coverage/{value['provider_id']}.json"
+        if expected_ledger not in value["evidence"]:
+            raise _error(path, f"blocked discovery requires exact provider coverage ledger {expected_ledger}")
     return dict(value)
 
 
@@ -210,6 +218,7 @@ def validate_source_inventory(
 
     local_state_drift: list[dict[str, Any]] = []
     missing_manifests: list[str] = []
+    blocked_discoveries: list[str] = []
     not_applicable_manifests: list[str] = []
     incomplete_manifests: list[str] = []
     manifest_event_gaps: list[dict[str, Any]] = []
@@ -268,6 +277,10 @@ def validate_source_inventory(
             if manifest_path.exists():
                 raise ValueError(f"source inventory marks an existing manifest as missing: {provider_id}")
             missing_manifests.append(provider_id)
+        elif discovery["status"] == "blocked":
+            if manifest_path.exists():
+                raise ValueError(f"source inventory blocked discovery has a manifest: {provider_id}")
+            blocked_discoveries.append(provider_id)
         elif discovery["status"] == "not_applicable":
             if manifest_path.exists():
                 raise ValueError(f"source inventory marks an existing manifest as not applicable: {provider_id}")
@@ -316,8 +329,9 @@ def validate_source_inventory(
         "site_id": site_id,
         "provider_count": len(entries),
         "candidate_count": len(inventory["candidates"]),
-        "discovery_manifests_present": len(entries) - len(missing_manifests) - len(not_applicable_manifests),
+        "discovery_manifests_present": len(entries) - len(missing_manifests) - len(blocked_discoveries) - len(not_applicable_manifests),
         "discovery_manifests_missing": missing_manifests,
+        "discovery_manifests_blocked": blocked_discoveries,
         "discovery_manifests_not_applicable": not_applicable_manifests,
         "discovery_manifests_incomplete": incomplete_manifests,
         "require_discovery_manifests": require_discovery_manifests,

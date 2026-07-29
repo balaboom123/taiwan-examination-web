@@ -116,7 +116,7 @@ Current paper downloads are direct PDFs under `/special/upload/`, including:
 
 Skip admission lists, venue maps, duplicate URL-encoded copies, teaching-demo topics, and brochure files.
 
-Bounded live evidence on 2026-07-26: both documented Kaohsiung page URLs returned HTTP 404. Preserve the last known local state and do not invent a new endpoint; the provider remains blocked until an official replacement or restored page is reviewed.
+Bounded live evidence refreshed 2026-07-29: the regular URL returned HTTP 404 with 993 bytes and SHA-256 `25d3409669519deee0adb32c70906510d0d85f8174025bb6b6a0ab1954bb0621`; the special URL returned HTTP 404 with 146 bytes and SHA-256 `55f7d9e99b8e2d4e0e193b2f0275501e6d9c1ebd29cadbea6a0da48a8587e3e0`. Preserve the last known local state and do not generate a discovery manifest from hard-coded event IDs while both source boards are unavailable. The inventory records an evidence-backed blocked discovery state until an official replacement or restored page is reviewed.
 
 ### Central Alliance
 

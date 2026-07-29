@@ -1272,7 +1272,7 @@
       "discovery_snapshot": {
         "coverage": "unknown",
         "manifest_path": "data/providers/teacher_recruit_kaohsiung/source-manifest.json",
-        "status": "missing"
+        "status": "blocked"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1289,11 +1289,12 @@
         2026
       ],
       "official_source_urls": [
-        "https://exam.kh.edu.tw/teaexam/"
+        "https://exam.kh.edu.tw/teaexam/",
+        "https://exam.kh.edu.tw/special/index.jsp"
       ],
       "provider_id": "teacher_recruit_kaohsiung",
       "restrictions": [
-        "Regular endpoint returned HTTP 404 (993 bytes) and special endpoint HTTP 404 (146 bytes); exact hashes are in `catalog/source-coverage/teacher_recruit_kaohsiung.json`. Special local papers remain covered; the elementary event is explicitly blocked."
+        "Discovery is evidence-blocked without a fabricated manifest: the regular endpoint returned HTTP 404 (993 bytes, SHA-256 25d3409669519deee0adb32c70906510d0d85f8174025bb6b6a0ab1954bb0621) and the special endpoint HTTP 404 (146 bytes, SHA-256 55f7d9e99b8e2d4e0e193b2f0275501e6d9c1ebd29cadbea6a0da48a8587e3e0). The elementary event has an exact coverage-ledger exception; retained special papers remain covered but cannot currently be rediscovered."
       ],
       "status": "partial",
       "status_reason": "Partial / source endpoint blocker; source availability: Current 2026 scope; regular and special endpoints rechecked 2026-07-29; local coverage: 2026; 2 → 2"

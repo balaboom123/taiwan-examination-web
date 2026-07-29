@@ -28,6 +28,7 @@ def main() -> int:
         f"validated {report['provider_count']} providers and {report['candidate_count']} candidates; "
         f"discovery manifests present={report['discovery_manifests_present']} "
         f"missing={len(report['discovery_manifests_missing'])} "
+        f"blocked={len(report['discovery_manifests_blocked'])} "
         f"not_applicable={len(report['discovery_manifests_not_applicable'])} "
         f"incomplete={len(report['discovery_manifests_incomplete'])} "
         f"unrepresented={sum(len(item['events']) for item in report['manifest_unrepresented_events'])}"
