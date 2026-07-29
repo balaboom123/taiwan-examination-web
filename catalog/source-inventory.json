@@ -218,7 +218,7 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 30 year buckets.",
+        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 31 year buckets.",
         "start_ad": 1992
       },
       "discovery_snapshot": {
@@ -233,8 +233,8 @@
       ],
       "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
       "local_state": {
-        "normalized_paper_records": 192737,
-        "raw_event_pages": 739,
+        "normalized_paper_records": 201257,
+        "raw_event_pages": 759,
         "sync_failures": 5
       },
       "local_years": [
@@ -261,6 +261,7 @@
         2015,
         2016,
         2018,
+        2019,
         2020,
         2021,
         2022,
@@ -274,11 +275,11 @@
       ],
       "provider_id": "moex",
       "restrictions": [
-        "Official 35-year discovery snapshot contains 870 exam codes; 131 listed codes remain absent from local retained state in 1994, 1998, 2007, 2017, and 2019 and require bounded historical recovery.",
+        "Official 35-year discovery snapshot contains 870 exam codes; 111 listed codes remain absent from local retained state in 1994, 1998, 2007, and 2017 and require bounded historical recovery.",
         "Five exact file URLs return the same HTML placeholder; three affected events retain valid normalized records. Eight historical result-page blockers remain evidence-backed in catalog/source-coverage/moex.json."
       ],
       "status": "partial",
-      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 30 buckets; 739 → 192,737; 131 listed codes remain unsynced."
+      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 31 buckets; 759 → 201,257; 111 listed codes remain unsynced."
     },
     {
       "available_years": {

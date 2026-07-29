@@ -20,7 +20,7 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(len(report["discovery_manifests_missing"]), 34)
         self.assertEqual(report["discovery_manifests_incomplete"], [])
         self.assertEqual(report["manifest_unrepresented_events"][0]["provider_id"], "moex")
-        self.assertEqual(len(report["manifest_unrepresented_events"][0]["events"]), 131)
+        self.assertEqual(len(report["manifest_unrepresented_events"][0]["events"]), 111)
         self.assertEqual(report["local_state_drift"], [])
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
