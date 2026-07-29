@@ -218,7 +218,7 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 32 year buckets.",
+        "note": "Official current listing captured 2026-07-29: 1992–2026, 35 years and 870 exam codes; local history contains 33 year buckets.",
         "start_ad": 1992
       },
       "discovery_snapshot": {
@@ -233,8 +233,8 @@
       ],
       "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
       "local_state": {
-        "normalized_paper_records": 209838,
-        "raw_event_pages": 781,
+        "normalized_paper_records": 216541,
+        "raw_event_pages": 808,
         "sync_failures": 5
       },
       "local_years": [
@@ -251,6 +251,7 @@
         2004,
         2005,
         2006,
+        2007,
         2008,
         2009,
         2010,
@@ -276,11 +277,11 @@
       ],
       "provider_id": "moex",
       "restrictions": [
-        "Official 35-year discovery snapshot contains 870 exam codes; 89 listed codes remain absent from local retained state in 1994, 1998, and 2007 and require bounded historical recovery.",
+        "Official 35-year discovery snapshot contains 870 exam codes; 62 listed codes remain absent from local retained state in 1994 and 1998 and require bounded historical recovery.",
         "Five exact file URLs return the same HTML placeholder; three affected events retain valid normalized records. Eight historical result-page blockers remain evidence-backed in catalog/source-coverage/moex.json."
       ],
       "status": "partial",
-      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 32 buckets; 781 → 209,838; 89 listed codes remain unsynced."
+      "status_reason": "Partial / P0; official listing: 1992–2026, 870 codes; local coverage: 1992–2026, 33 buckets; 808 → 216,541; 62 listed codes remain unsynced."
     },
     {
       "available_years": {
