@@ -1178,9 +1178,9 @@
         "start_ad": 2005
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_qual/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1221,7 +1221,7 @@
       ],
       "provider_id": "teacher_qual",
       "restrictions": [
-        "ASP.NET WebForms postbacks; 2018 is a format transition and 2017 is sample-only. Those semantics must remain visible in any completeness metric."
+        "The 2026-07-29 official selector snapshot has 22 years and all 23 retained events. ASP.NET WebForms postbacks are required; AD 2018 is sample-only and AD 2019 is the two-order format transition. Those semantics remain visible in the manifest and completeness metric."
       ],
       "status": "covered",
       "status_reason": "Covered in declared scope; source availability: Source selector ROC 094–115 / AD 2005–2026; local coverage: 2005–2026, 22 buckets; 23 → 23"

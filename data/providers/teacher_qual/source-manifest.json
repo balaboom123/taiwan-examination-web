@@ -1,0 +1,418 @@
+{
+  "exams": {
+    "teacher-qual-100": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "100年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-100",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "teacher-qual-101": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "101年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-101",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "teacher-qual-102": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "102年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "teacher-qual-103": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "103年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "teacher-qual-104": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "104年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "teacher-qual-105": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "105年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "teacher-qual-106": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "106年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "teacher-qual-107": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "107年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "teacher-qual-108-1": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "108年教師資格考試第一次考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-108-1",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "teacher-qual-108-2": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "108年教師資格考試第二次考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-108-2",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "teacher-qual-109": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "109年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "teacher-qual-110": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "110年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "teacher-qual-111": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "111年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "teacher-qual-112": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "112年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "teacher-qual-113": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "113年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "teacher-qual-114": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "114年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "teacher-qual-115": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "115年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-qual-94": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "94年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-94",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "teacher-qual-95": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "95年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-95",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "teacher-qual-96": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "96年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-96",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "teacher-qual-97": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "97年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-97",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "teacher-qual-98": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "98年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-98",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "teacher-qual-99": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_label": "99年教師資格考試歷屆試題及參考答案",
+      "result_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "source_exam_id": "teacher-qual-99",
+      "year_ad": 2010,
+      "year_roc": 99
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:27:42.065120+08:00"
+  },
+  "provider_id": "teacher_qual",
+  "schema_version": 1,
+  "years": {
+    "2005": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-94"
+      ],
+      "exam_codes_hash": "sha256:13cd145901d23120f901c822c5bab733d3a98c4293b17b8d58c5b0bdd1084fdb",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "2006": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-95"
+      ],
+      "exam_codes_hash": "sha256:1f8c6119ff6385fcc3e33406f89692f56e77536df30c65967659741e7066985f",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "2007": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-96"
+      ],
+      "exam_codes_hash": "sha256:3bfd6c1b0172fa4bf94fc83a7b5eb782787ff813f69c4f54c7a7c0e8137d419b",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "2008": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-97"
+      ],
+      "exam_codes_hash": "sha256:2e535eec5b7ae344e4c1f06a210eb53a47999db469db92423572465cc7047ba9",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "2009": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-98"
+      ],
+      "exam_codes_hash": "sha256:2fcd44111556d41e5bfe3610f4871e7dd38c69a447a662553f85dc31b51b5f75",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "2010": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-99"
+      ],
+      "exam_codes_hash": "sha256:7271f9306f618012b2a516124f018459c06bf5f7037a68019dd45821d795ed48",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "2011": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-100"
+      ],
+      "exam_codes_hash": "sha256:7e1581595d2f7a5e613a169b4d45275063d348166646322ec41ecfb1fe007b35",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "2012": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-101"
+      ],
+      "exam_codes_hash": "sha256:ffe8d5dde6b1fa52fa535e38fb76c733c7a96ed9af073fb025f0d8f8ae8519e0",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "2013": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-102"
+      ],
+      "exam_codes_hash": "sha256:9baf15b121ea1a27ce919c72312ccfe292828a091b9f0a22c897b53cd846d5bf",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-103"
+      ],
+      "exam_codes_hash": "sha256:4ffc529d5d76f7c7192228169a65133e3b3b37dac700d40560504328514b1d61",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-104"
+      ],
+      "exam_codes_hash": "sha256:f1542e3f99e8de2a8140e432c63ec70f92487020dff2b6419dce4273b7e5d83e",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-105"
+      ],
+      "exam_codes_hash": "sha256:2eaaac0d0f977b8edce780547dc6c8f6291ef832c225a27dae3092c2e2f2e7cc",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-106"
+      ],
+      "exam_codes_hash": "sha256:4d3a801cc3bd8543963c8c0a2389ce4046d016759aa460c0be58fd08d8a8cb49",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-107"
+      ],
+      "exam_codes_hash": "sha256:03766aebee37612d67d8feaa37d05d2838cd453292c62ae76eda7613ff1f2db5",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-108-1",
+        "teacher-qual-108-2"
+      ],
+      "exam_codes_hash": "sha256:f1cb44683348519bf0de396932460b5c88cdf4563ab50dd6556c433fbe7d9064",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-109"
+      ],
+      "exam_codes_hash": "sha256:64182bc4e6584450794a1189f8df14a0f3f5ed832f19fb350b29d95326c7ac96",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-110"
+      ],
+      "exam_codes_hash": "sha256:ab6df09f3c6eb4417699cdcaf232392d9c9e6cfe04d0789b5166cb691a7b68cf",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-111"
+      ],
+      "exam_codes_hash": "sha256:9723f3d6b584945d3fc86735ac9c4d75a691da237251639546b2b6609972bbcf",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-112"
+      ],
+      "exam_codes_hash": "sha256:ad0ee6495ff7ca9f8d93ca9b7ab65fcc9fb0375a572ddac95007bf4d905cf9b1",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-113"
+      ],
+      "exam_codes_hash": "sha256:8b3fa68935e50f3706079d2197103b3284b27656714eaae43c786a7a18300c78",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-114"
+      ],
+      "exam_codes_hash": "sha256:4c273fce51bd240076ba2cea255f5baf4b2e915fc11a6a641ee36baecacc7e02",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "discovered_at": "2026-07-29T21:27:42.065120+08:00",
+      "exam_codes": [
+        "teacher-qual-115"
+      ],
+      "exam_codes_hash": "sha256:cbd2e6e209571929d6cc21616fe2d349dafc1f338fdad4ec5467e9709460bff9",
+      "search_url": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}
