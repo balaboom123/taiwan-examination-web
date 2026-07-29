@@ -3,6 +3,7 @@
 import unittest
 
 from app.providers.teacher_recruit_taipei_junior.client import (
+    ARTICLE_URLS_BY_YEAR,
     TaipeiJuniorRecruitClient,
     parse_downloads,
 )
@@ -55,6 +56,13 @@ class TaipeiJuniorRecruitClientTests(unittest.TestCase):
 
         self.assertEqual(client.discover_available_years(), [2025, 2024])
         self.assertEqual(client.discover_exams(2025)[0].code, "teacher-recruit-taipei-junior-114")
+        self.assertEqual(client.build_discovery_year_url(2024), ARTICLE_URLS_BY_YEAR[2024])
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-taipei-junior-114", 2025),
+            ARTICLE_URLS_BY_YEAR[2025],
+        )
+        with self.assertRaisesRegex(ValueError, "Unexpected Taipei junior discovery exam code"):
+            client.build_discovery_exam_url("teacher-recruit-taipei-junior-113", 2025)
 
 
 if __name__ == "__main__":

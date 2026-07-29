@@ -1411,9 +1411,9 @@
         "start_ad": 2024
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_taipei_junior/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1430,11 +1430,12 @@
         2025
       ],
       "official_source_urls": [
-        "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48"
+        "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48",
+        "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=01ADD0497C10AC9C"
       ],
       "provider_id": "teacher_recruit_taipei_junior",
       "restrictions": [
-        "Fixed official article map; no automatic future-year discovery until a stable endpoint exists."
+        "The 2026-07-29 two-article snapshot has 68 matching retained URLs across two events. The map is reviewed and fixed; no automatic future-year discovery occurs until a stable endpoint exists."
       ],
       "status": "covered",
       "status_reason": "Covered in reviewed scope; source availability: Reviewed 2024–2025; local coverage: 2024–2025; 2 → 68"

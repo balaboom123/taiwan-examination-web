@@ -1,0 +1,49 @@
+{
+  "exams": {
+    "teacher-recruit-taipei-junior-113": {
+      "discovered_at": "2026-07-29T21:09:15.167481+08:00",
+      "exam_label": "113學年度臺北市國中教師甄試",
+      "result_url": "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=01ADD0497C10AC9C",
+      "source_exam_id": "teacher-recruit-taipei-junior-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "teacher-recruit-taipei-junior-114": {
+      "discovered_at": "2026-07-29T21:09:15.167481+08:00",
+      "exam_label": "114學年度臺北市國中教師甄試",
+      "result_url": "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48",
+      "source_exam_id": "teacher-recruit-taipei-junior-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:09:15.167481+08:00"
+  },
+  "provider_id": "teacher_recruit_taipei_junior",
+  "schema_version": 1,
+  "years": {
+    "2024": {
+      "discovered_at": "2026-07-29T21:09:15.167481+08:00",
+      "exam_codes": [
+        "teacher-recruit-taipei-junior-113"
+      ],
+      "exam_codes_hash": "sha256:214f5decb784511ad1329e64bb2790f08b887ff0385fc87e3a93e64026a55b4d",
+      "search_url": "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=01ADD0497C10AC9C",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "discovered_at": "2026-07-29T21:09:15.167481+08:00",
+      "exam_codes": [
+        "teacher-recruit-taipei-junior-114"
+      ],
+      "exam_codes_hash": "sha256:3455c251c7cc139c9549cee0e93a686e18c9057c4a23eb82704966afda54cc34",
+      "search_url": "https://www.doe.gov.taipei/News_Content.aspx?n=E831CA0A5CD0193D&sms=78D644F2755ACCAA&s=4A85C1A3A3BD7C48",
+      "year_ad": 2025,
+      "year_roc": 114
+    }
+  }
+}
