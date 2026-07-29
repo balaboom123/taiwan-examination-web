@@ -1,0 +1,1921 @@
+{
+  "exams": {
+    "gsat-100-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "100學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-100-english",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "gsat-100-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "100學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-100-science",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "gsat-100-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "100學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-100-social",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "gsat-100-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "100學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-100-subject-e59c8be69687",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "gsat-100-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "100學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-100-subject-e695b8e5adb8",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "gsat-101-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "101學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-101-english",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "gsat-101-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "101學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-101-science",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "gsat-101-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "101學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-101-social",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "gsat-101-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "101學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-101-subject-e59c8be69687",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "gsat-101-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "101學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-101-subject-e695b8e5adb8",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "gsat-102-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "102學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-102-english",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "gsat-102-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "102學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-102-science",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "gsat-102-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "102學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-102-social",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "gsat-102-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "102學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-102-subject-e59c8be69687",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "gsat-102-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "102學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-102-subject-e695b8e5adb8",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "gsat-103-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "103學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-103-english",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "gsat-103-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "103學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-103-science",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "gsat-103-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "103學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-103-social",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "gsat-103-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "103學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-103-subject-e59c8be69687",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "gsat-103-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "103學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-103-subject-e695b8e5adb8",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "gsat-104-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "104學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-104-english",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "gsat-104-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "104學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-104-science",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "gsat-104-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "104學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-104-social",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "gsat-104-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "104學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-104-subject-e59c8be69687",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "gsat-104-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "104學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-104-subject-e695b8e5adb8",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "gsat-105-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "105學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-105-english",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "gsat-105-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "105學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-105-science",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "gsat-105-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "105學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-105-social",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "gsat-105-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "105學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-105-subject-e59c8be69687",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "gsat-105-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "105學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-105-subject-e695b8e5adb8",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "gsat-106-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "106學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-106-english",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "gsat-106-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "106學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-106-science",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "gsat-106-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "106學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-106-social",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "gsat-106-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "106學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-106-subject-e59c8be69687",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "gsat-106-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "106學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-106-subject-e695b8e5adb8",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "gsat-107-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-english",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-107-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-guoxie",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-107-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-science",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-107-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-social",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-107-subject-e59c8be69687efbc": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－國文（選擇題）",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-subject-e59c8be69687efbc",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-107-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "107學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-107-subject-e695b8e5adb8",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "gsat-108-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-english",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-108-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-guoxie",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-108-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-science",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-108-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-social",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-108-subject-e59c8be69687efbc": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－國文（選擇題）",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-subject-e59c8be69687efbc",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-108-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "108學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-108-subject-e695b8e5adb8",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "gsat-109-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-english",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-109-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-guoxie",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-109-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-science",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-109-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-social",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-109-subject-e59c8be69687efbc": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－國文（選擇題）",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-subject-e59c8be69687efbc",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-109-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "109學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-109-subject-e695b8e5adb8",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "gsat-110-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-english",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-110-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-guoxie",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-110-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-science",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-110-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-social",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-110-subject-e59c8be69687efbc": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－國文（選擇題）",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-subject-e59c8be69687efbc",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-110-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "110學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-110-subject-e695b8e5adb8",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "gsat-111-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-english",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-guoxie",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-guozong": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－國綜",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-guozong",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-math-a": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－數學A",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-math-a",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-math-b": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－數學B",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-math-b",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-science",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-111-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "111學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-111-social",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "gsat-112-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-english",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-guoxie",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-guozong": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－國綜",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-guozong",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-math-a": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－數學A",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-math-a",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-math-b": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－數學B",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-math-b",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-science",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-112-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "112學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-112-social",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "gsat-113-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-english",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-guoxie",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-guozong": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－國綜",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-guozong",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-math-a": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－數學A",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-math-a",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-math-b": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－數學B",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-math-b",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-science",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-113-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "113學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-113-social",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "gsat-114-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-english",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-guoxie",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-guozong": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－國綜",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-guozong",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-math-a": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－數學A",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-math-a",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-math-b": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－數學B",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-math-b",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-science",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-114-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "114學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-114-social",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "gsat-115-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-english",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-guoxie": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－國寫",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-guoxie",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-guozong": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－國綜",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-guozong",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-math-a": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－數學A",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-math-a",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-math-b": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－數學B",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-math-b",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-science",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-115-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "115學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-115-social",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "gsat-83-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "83學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-83-english",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "gsat-83-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "83學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-83-science",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "gsat-83-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "83學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-83-social",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "gsat-83-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "83學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-83-subject-e59c8be69687",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "gsat-83-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "83學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-83-subject-e695b8e5adb8",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "gsat-84-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "84學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-84-english",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "gsat-84-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "84學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-84-science",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "gsat-84-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "84學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-84-social",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "gsat-84-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "84學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-84-subject-e59c8be69687",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "gsat-84-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "84學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-84-subject-e695b8e5adb8",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "gsat-85-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "85學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-85-english",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "gsat-85-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "85學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-85-science",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "gsat-85-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "85學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-85-social",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "gsat-85-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "85學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-85-subject-e59c8be69687",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "gsat-85-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "85學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-85-subject-e695b8e5adb8",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "gsat-86-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "86學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-86-english",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "gsat-86-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "86學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-86-science",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "gsat-86-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "86學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-86-social",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "gsat-86-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "86學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-86-subject-e59c8be69687",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "gsat-86-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "86學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-86-subject-e695b8e5adb8",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "gsat-87-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "87學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-87-english",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "gsat-87-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "87學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-87-science",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "gsat-87-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "87學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-87-social",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "gsat-87-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "87學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-87-subject-e59c8be69687",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "gsat-87-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "87學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-87-subject-e695b8e5adb8",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "gsat-88-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "88學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-88-english",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "gsat-88-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "88學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-88-science",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "gsat-88-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "88學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-88-social",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "gsat-88-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "88學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-88-subject-e59c8be69687",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "gsat-88-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "88學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-88-subject-e695b8e5adb8",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "gsat-89-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "89學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-89-english",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "gsat-89-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "89學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-89-science",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "gsat-89-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "89學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-89-social",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "gsat-89-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "89學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-89-subject-e59c8be69687",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "gsat-89-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "89學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-89-subject-e695b8e5adb8",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "gsat-90-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "90學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-90-english",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "gsat-90-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "90學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-90-science",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "gsat-90-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "90學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-90-social",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "gsat-90-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "90學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-90-subject-e59c8be69687",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "gsat-90-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "90學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-90-subject-e695b8e5adb8",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "gsat-91-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "91學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-91-english",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "gsat-91-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "91學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-91-science",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "gsat-91-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "91學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-91-social",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "gsat-91-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "91學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-91-subject-e59c8be69687",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "gsat-91-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "91學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-91-subject-e695b8e5adb8",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "gsat-92-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "92學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-92-english",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "gsat-92-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "92學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-92-science",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "gsat-92-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "92學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-92-social",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "gsat-92-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "92學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-92-subject-e59c8be69687",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "gsat-92-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "92學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-92-subject-e695b8e5adb8",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "gsat-93-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "93學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-93-english",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "gsat-93-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "93學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-93-science",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "gsat-93-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "93學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-93-social",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "gsat-93-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "93學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-93-subject-e59c8be69687",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "gsat-93-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "93學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-93-subject-e695b8e5adb8",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "gsat-94-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "94學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-94-english",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "gsat-94-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "94學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-94-science",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "gsat-94-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "94學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-94-social",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "gsat-94-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "94學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-94-subject-e59c8be69687",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "gsat-94-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "94學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-94-subject-e695b8e5adb8",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "gsat-95-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "95學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-95-english",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "gsat-95-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "95學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-95-science",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "gsat-95-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "95學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-95-social",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "gsat-95-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "95學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-95-subject-e59c8be69687",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "gsat-95-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "95學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-95-subject-e695b8e5adb8",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "gsat-96-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "96學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-96-english",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "gsat-96-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "96學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-96-science",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "gsat-96-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "96學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-96-social",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "gsat-96-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "96學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-96-subject-e59c8be69687",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "gsat-96-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "96學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-96-subject-e695b8e5adb8",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "gsat-97-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "97學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-97-english",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "gsat-97-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "97學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-97-science",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "gsat-97-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "97學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-97-social",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "gsat-97-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "97學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-97-subject-e59c8be69687",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "gsat-97-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "97學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-97-subject-e695b8e5adb8",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "gsat-98-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "98學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-98-english",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "gsat-98-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "98學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-98-science",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "gsat-98-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "98學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-98-social",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "gsat-98-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "98學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-98-subject-e59c8be69687",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "gsat-98-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "98學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-98-subject-e695b8e5adb8",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "gsat-99-english": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "99學年度學科能力測驗－英文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-99-english",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "gsat-99-science": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "99學年度學科能力測驗－自然",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-99-science",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "gsat-99-social": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "99學年度學科能力測驗－社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-99-social",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "gsat-99-subject-e59c8be69687": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "99學年度學科能力測驗－國文",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-99-subject-e59c8be69687",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "gsat-99-subject-e695b8e5adb8": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_label": "99學年度學科能力測驗－數學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "source_exam_id": "gsat-99-subject-e695b8e5adb8",
+      "year_ad": 2010,
+      "year_roc": 99
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:51:16.377651+08:00"
+  },
+  "provider_id": "ceec_gsat",
+  "schema_version": 1,
+  "years": {
+    "1994": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-83-subject-e59c8be69687",
+        "gsat-83-english",
+        "gsat-83-subject-e695b8e5adb8",
+        "gsat-83-social",
+        "gsat-83-science"
+      ],
+      "exam_codes_hash": "sha256:58e5432775bcbfde625e8b68dec7b882b965676f6de31a439bffaf2d5d08af17",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1994,
+      "year_roc": 83
+    },
+    "1995": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-84-subject-e59c8be69687",
+        "gsat-84-english",
+        "gsat-84-subject-e695b8e5adb8",
+        "gsat-84-social",
+        "gsat-84-science"
+      ],
+      "exam_codes_hash": "sha256:876ca1870af50fce4c362aadd638bfe1789a8a0c0e63c0344985c461ee231e91",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1995,
+      "year_roc": 84
+    },
+    "1996": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-85-subject-e59c8be69687",
+        "gsat-85-english",
+        "gsat-85-subject-e695b8e5adb8",
+        "gsat-85-social",
+        "gsat-85-science"
+      ],
+      "exam_codes_hash": "sha256:c58e09a9c705bf5676bb9e39de76d5232caf99a72138b8a987116750a6aca2e6",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1996,
+      "year_roc": 85
+    },
+    "1997": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-86-subject-e59c8be69687",
+        "gsat-86-english",
+        "gsat-86-subject-e695b8e5adb8",
+        "gsat-86-social",
+        "gsat-86-science"
+      ],
+      "exam_codes_hash": "sha256:0825d30585cd66171642126e301832fff195db7aac44ca18d3975b6ef80a44a4",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1997,
+      "year_roc": 86
+    },
+    "1998": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-87-subject-e59c8be69687",
+        "gsat-87-english",
+        "gsat-87-subject-e695b8e5adb8",
+        "gsat-87-social",
+        "gsat-87-science"
+      ],
+      "exam_codes_hash": "sha256:eefb69b7a98b3bcdb454e1bd162314548145565ae8865ec3ee57e280c02c1965",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1998,
+      "year_roc": 87
+    },
+    "1999": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-88-subject-e59c8be69687",
+        "gsat-88-english",
+        "gsat-88-subject-e695b8e5adb8",
+        "gsat-88-social",
+        "gsat-88-science"
+      ],
+      "exam_codes_hash": "sha256:7e677698d877b4c658d987940f50f4b06d298679ca6331dcb61e25ef1c14edca",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 1999,
+      "year_roc": 88
+    },
+    "2000": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-89-subject-e59c8be69687",
+        "gsat-89-english",
+        "gsat-89-subject-e695b8e5adb8",
+        "gsat-89-social",
+        "gsat-89-science"
+      ],
+      "exam_codes_hash": "sha256:d42c72e93763e82b38045dbca28fea21143f8cb7f5b9461f56178312b2233199",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2000,
+      "year_roc": 89
+    },
+    "2001": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-90-subject-e59c8be69687",
+        "gsat-90-english",
+        "gsat-90-subject-e695b8e5adb8",
+        "gsat-90-social",
+        "gsat-90-science"
+      ],
+      "exam_codes_hash": "sha256:ef0902626d68df967be5975fd7eabcd6168a3facfe46cb12c3d46471577c8b9e",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "2002": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-91-subject-e59c8be69687",
+        "gsat-91-english",
+        "gsat-91-subject-e695b8e5adb8",
+        "gsat-91-social",
+        "gsat-91-science"
+      ],
+      "exam_codes_hash": "sha256:eee748fd97ae4812c17f9202d36979aced5b68d3eed655a62bf3e419e54e8063",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "2003": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-92-subject-e59c8be69687",
+        "gsat-92-english",
+        "gsat-92-subject-e695b8e5adb8",
+        "gsat-92-social",
+        "gsat-92-science"
+      ],
+      "exam_codes_hash": "sha256:b15b60a233103500519e3f04e5b6265ed8f746b397d63985ee882aaf3a47e7a2",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "2004": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-93-subject-e59c8be69687",
+        "gsat-93-english",
+        "gsat-93-subject-e695b8e5adb8",
+        "gsat-93-social",
+        "gsat-93-science"
+      ],
+      "exam_codes_hash": "sha256:3a3c2cee8eb41eac3c435f8dc0fa490a7b462a901ac43cb0056d359fb25d6f42",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "2005": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-94-subject-e59c8be69687",
+        "gsat-94-english",
+        "gsat-94-subject-e695b8e5adb8",
+        "gsat-94-social",
+        "gsat-94-science"
+      ],
+      "exam_codes_hash": "sha256:864dea4944b9aed1ff0f3f1a4dbe1f73f2fa37b29937ff646a93917af866eec9",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "2006": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-95-subject-e59c8be69687",
+        "gsat-95-english",
+        "gsat-95-subject-e695b8e5adb8",
+        "gsat-95-social",
+        "gsat-95-science"
+      ],
+      "exam_codes_hash": "sha256:fb2dc1cc2c19851e10d13b76b3432c9bae4aa2750d1dc556c0486441637d6feb",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "2007": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-96-subject-e59c8be69687",
+        "gsat-96-english",
+        "gsat-96-subject-e695b8e5adb8",
+        "gsat-96-social",
+        "gsat-96-science"
+      ],
+      "exam_codes_hash": "sha256:bbe23169c4b8890869cf0b9d7b0f20454924237cd059db868e44d8347aa382fe",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "2008": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-97-subject-e59c8be69687",
+        "gsat-97-english",
+        "gsat-97-subject-e695b8e5adb8",
+        "gsat-97-social",
+        "gsat-97-science"
+      ],
+      "exam_codes_hash": "sha256:b6359c8d2d9fc180b4a81b360371e2a340194167d9cf9eaaa9f5978bc16b66e6",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "2009": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-98-subject-e59c8be69687",
+        "gsat-98-english",
+        "gsat-98-subject-e695b8e5adb8",
+        "gsat-98-social",
+        "gsat-98-science"
+      ],
+      "exam_codes_hash": "sha256:e6ef49f893bedea14a1890851b8af16594817804a06d120d32a36e7bcf50dea2",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "2010": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-99-subject-e59c8be69687",
+        "gsat-99-english",
+        "gsat-99-subject-e695b8e5adb8",
+        "gsat-99-social",
+        "gsat-99-science"
+      ],
+      "exam_codes_hash": "sha256:f57f6cfea74e317eebd76aa8e27ff4a45495c52587a914ef173812ec0eda195b",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "2011": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-100-subject-e59c8be69687",
+        "gsat-100-english",
+        "gsat-100-subject-e695b8e5adb8",
+        "gsat-100-social",
+        "gsat-100-science"
+      ],
+      "exam_codes_hash": "sha256:544f907360426c81c55ef5fbe3bbd90d66e6bb3f36bc13d4dc726009ff8cace6",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "2012": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-101-subject-e59c8be69687",
+        "gsat-101-english",
+        "gsat-101-subject-e695b8e5adb8",
+        "gsat-101-social",
+        "gsat-101-science"
+      ],
+      "exam_codes_hash": "sha256:40ff1028accd19fc98f2bb09b418a53aa2011b064badf544d663d7bbf188ef74",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "2013": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-102-subject-e59c8be69687",
+        "gsat-102-english",
+        "gsat-102-subject-e695b8e5adb8",
+        "gsat-102-social",
+        "gsat-102-science"
+      ],
+      "exam_codes_hash": "sha256:98e4abbd36fcfd58f8e99d2fb09678e002fdffa7b21749eb9c603b7c9a006a42",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-103-subject-e59c8be69687",
+        "gsat-103-english",
+        "gsat-103-subject-e695b8e5adb8",
+        "gsat-103-social",
+        "gsat-103-science"
+      ],
+      "exam_codes_hash": "sha256:7d579dad1d69c3ebcfb5893604a427b6efdeb640cad5c04cc85a79afbdf13b6b",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-104-subject-e59c8be69687",
+        "gsat-104-english",
+        "gsat-104-subject-e695b8e5adb8",
+        "gsat-104-social",
+        "gsat-104-science"
+      ],
+      "exam_codes_hash": "sha256:65a1cf26399a4dded9199dfbb8d8a0b2a7f444dac6ea781434d148ef46d005be",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-105-subject-e59c8be69687",
+        "gsat-105-english",
+        "gsat-105-subject-e695b8e5adb8",
+        "gsat-105-social",
+        "gsat-105-science"
+      ],
+      "exam_codes_hash": "sha256:3f73294b5ac06487cefa315460bccc2f6722b1952626fcb1340dfe93aa7dce96",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-106-subject-e59c8be69687",
+        "gsat-106-english",
+        "gsat-106-subject-e695b8e5adb8",
+        "gsat-106-social",
+        "gsat-106-science"
+      ],
+      "exam_codes_hash": "sha256:6ec4954bd98732bd76eb615e43b77fe53ffb73ba613b5b2478a8e95b4fe2aeeb",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-107-subject-e59c8be69687efbc",
+        "gsat-107-guoxie",
+        "gsat-107-english",
+        "gsat-107-subject-e695b8e5adb8",
+        "gsat-107-social",
+        "gsat-107-science"
+      ],
+      "exam_codes_hash": "sha256:a4e9fee8e0dd7d56b57af1ceab28cd95b66b28ebc45211321a434b8cb355eb67",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-108-subject-e59c8be69687efbc",
+        "gsat-108-guoxie",
+        "gsat-108-english",
+        "gsat-108-subject-e695b8e5adb8",
+        "gsat-108-social",
+        "gsat-108-science"
+      ],
+      "exam_codes_hash": "sha256:b0e7355ff4298d8cec446dd2dd7d1f1f30f7b4963fcb5487480d5d9f75ec9bcc",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-109-subject-e59c8be69687efbc",
+        "gsat-109-guoxie",
+        "gsat-109-english",
+        "gsat-109-subject-e695b8e5adb8",
+        "gsat-109-social",
+        "gsat-109-science"
+      ],
+      "exam_codes_hash": "sha256:5ef7f9857d33d4a65c79640bd68d7b0219cbde2f699850db752c35e620f81732",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-110-subject-e59c8be69687efbc",
+        "gsat-110-guoxie",
+        "gsat-110-english",
+        "gsat-110-subject-e695b8e5adb8",
+        "gsat-110-social",
+        "gsat-110-science"
+      ],
+      "exam_codes_hash": "sha256:5d0722b73cf9d8f338dde188fe09aa8faa3a7e06a9d5d4864e2fe5656c8a03f9",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-111-guozong",
+        "gsat-111-guoxie",
+        "gsat-111-english",
+        "gsat-111-math-a",
+        "gsat-111-math-b",
+        "gsat-111-social",
+        "gsat-111-science"
+      ],
+      "exam_codes_hash": "sha256:5b096f7d65eaa059e4e57a43cb7039614717ca6d4944e349465d825bd49489b7",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-112-guozong",
+        "gsat-112-guoxie",
+        "gsat-112-english",
+        "gsat-112-math-a",
+        "gsat-112-math-b",
+        "gsat-112-social",
+        "gsat-112-science"
+      ],
+      "exam_codes_hash": "sha256:620ade5e7053fecf9c1627f3d83686ffc16dfd8f21ba6e2f8684c640af894bce",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-113-guozong",
+        "gsat-113-guoxie",
+        "gsat-113-english",
+        "gsat-113-math-a",
+        "gsat-113-math-b",
+        "gsat-113-social",
+        "gsat-113-science"
+      ],
+      "exam_codes_hash": "sha256:ca479127b7429c7b2ff171bfa4732932c1dcca3ae09bb6a91badf2b3ef1e072c",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-114-guozong",
+        "gsat-114-guoxie",
+        "gsat-114-english",
+        "gsat-114-math-a",
+        "gsat-114-math-b",
+        "gsat-114-social",
+        "gsat-114-science"
+      ],
+      "exam_codes_hash": "sha256:69050c86115fcf74995001492e4516dc6efb71e96cb01d066e3bf7e78cb0a118",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "discovered_at": "2026-07-29T21:51:16.377651+08:00",
+      "exam_codes": [
+        "gsat-115-guozong",
+        "gsat-115-guoxie",
+        "gsat-115-english",
+        "gsat-115-math-a",
+        "gsat-115-math-b",
+        "gsat-115-social",
+        "gsat-115-science"
+      ],
+      "exam_codes_hash": "sha256:0c387c85d4a52c84dc622a959cbb4d11d9cdbe65eb0c24a3ccf16a86dbcd16e3",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

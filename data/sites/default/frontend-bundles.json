@@ -6,12 +6,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-044c38871952",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-044c38871952--4ba649350e31.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -24,6 +25,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "數學甲",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "math-a",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－數學甲",
         "114",
         "math-a-01",
@@ -46,12 +51,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4--0a0e97ef4797.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -64,6 +70,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "地理",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "geography",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－地理",
         "114",
         "geography-01",
@@ -86,12 +96,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-431d61e540ce",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-431d61e540ce--75265f773993.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -104,6 +115,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "生物",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "biology",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－生物",
         "114",
         "biology-01",
@@ -123,15 +138,52 @@
       ]
     },
     {
+      "id": "ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26",
+      "name": "分科測驗",
+      "years": [
+        115,
+        114
+      ],
+      "fileCount": 9,
+      "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-012/ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26--95c62ffecfce.zip",
+      "domainId": "admissions",
+      "examFamilyId": "university-admission",
+      "seriesId": "admission-ast",
+      "levelId": "not-applicable",
+      "trackId": "subject-8c5b43521d26",
+      "variantIds": [],
+      "stageId": "not-applicable",
+      "examClass": "升學測驗",
+      "examSubclass": "分科測驗",
+      "searchAliases": [
+        "數學乙",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "math-b",
+        "115學年度分科測驗各考科非選擇題評分原則",
+        "114學年度分科測驗－數學乙",
+        "114",
+        "math-b-01",
+        "math-b-02",
+        "math-b-03",
+        "math-b-04",
+        "math-b-05"
+      ],
+      "subjectLabels": [
+        "數學乙"
+      ]
+    },
+    {
       "id": "ceec-ast-admission-ast-not-applicable-subject-917794ac4b09",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-917794ac4b09--68950075e733.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -144,6 +196,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "化學",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "chemistry",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－化學",
         "114",
         "chemistry-01",
@@ -166,12 +222,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19--16385dcc909d.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -184,6 +241,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "物理",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "physics",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－物理",
         "114",
         "physics-01",
@@ -206,12 +267,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-b231957e76b1",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-b231957e76b1--2d9778e9a58c.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -224,6 +286,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "歷史",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "history",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－歷史",
         "114",
         "history-01",
@@ -246,12 +312,13 @@
       "id": "ceec-ast-admission-ast-not-applicable-subject-fcc037220b94",
       "name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "fileCount": 20,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-fcc037220b94--a924917d4e47.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -264,6 +331,10 @@
       "examSubclass": "分科測驗",
       "searchAliases": [
         "公民與社會",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "civics-society",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－公民與社會",
         "114",
         "civics-society-01",
@@ -522,9 +593,26 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "fileCount": 58,
+      "fileCount": 111,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59--cba44faad127.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -537,6 +625,7 @@
       "examSubclass": "學科能力測驗",
       "searchAliases": [
         "自然",
+        "自然 封面",
         "115學年度學科能力測驗－自然",
         "115",
         "science-01",
@@ -558,11 +647,11 @@
         "109",
         "108學年度學科能力測驗－自然",
         "108",
-        "107學年度學科能力測驗－自然",
-        "107"
+        "107學年度學科能力測驗－自然"
       ],
       "subjectLabels": [
-        "自然"
+        "自然",
+        "自然 封面"
       ]
     },
     {
@@ -584,9 +673,26 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "fileCount": 58,
+      "fileCount": 111,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67--de40b3c4a427.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -599,6 +705,7 @@
       "examSubclass": "學科能力測驗",
       "searchAliases": [
         "社會",
+        "社會 封面",
         "115學年度學科能力測驗－社會",
         "115",
         "social-01",
@@ -620,11 +727,11 @@
         "109",
         "108學年度學科能力測驗－社會",
         "108",
-        "107學年度學科能力測驗－社會",
-        "107"
+        "107學年度學科能力測驗－社會"
       ],
       "subjectLabels": [
-        "社會"
+        "社會",
+        "社會 封面"
       ]
     },
     {
@@ -637,9 +744,26 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "fileCount": 29,
+      "fileCount": 91,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60--b0f1eed0893c.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -654,6 +778,7 @@
         "國文",
         "國文 非選擇題評分說明",
         "國文 非選擇題評分標準",
+        "國文 封面",
         "106學年度學科能力測驗－國文",
         "106",
         "subject-e59c8be69687-01",
@@ -672,12 +797,14 @@
         "101學年度學科能力測驗－國文",
         "101",
         "100學年度學科能力測驗－國文",
-        "100"
+        "100",
+        "99學年度學科能力測驗－國文"
       ],
       "subjectLabels": [
         "國文",
         "國文 非選擇題評分說明",
-        "國文 非選擇題評分標準"
+        "國文 非選擇題評分標準",
+        "國文 封面"
       ]
     },
     {
@@ -699,9 +826,26 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "fileCount": 70,
+      "fileCount": 128,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980--04ee75c3b738.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -716,6 +860,7 @@
         "英文",
         "英文 非選擇題評分說明",
         "英文 非選擇題評分標準",
+        "英文 封面",
         "115學年度學科能力測驗－英文",
         "115",
         "english-01",
@@ -735,13 +880,13 @@
         "110",
         "109學年度學科能力測驗－英文",
         "109",
-        "108學年度學科能力測驗－英文",
-        "108"
+        "108學年度學科能力測驗－英文"
       ],
       "subjectLabels": [
         "英文",
         "英文 非選擇題評分說明",
-        "英文 非選擇題評分標準"
+        "英文 非選擇題評分標準",
+        "英文 封面"
       ]
     },
     {
@@ -758,9 +903,26 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "fileCount": 33,
+      "fileCount": 88,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7--23f16d56824d.zip",
       "domainId": "admissions",
       "examFamilyId": "university-admission",
@@ -773,6 +935,7 @@
       "examSubclass": "學科能力測驗",
       "searchAliases": [
         "數學",
+        "數學 封面",
         "110學年度學科能力測驗－數學",
         "110",
         "subject-e695b8e5adb8-01",
@@ -794,11 +957,11 @@
         "103",
         "102學年度學科能力測驗－數學",
         "102",
-        "101學年度學科能力測驗－數學",
-        "101"
+        "101學年度學科能力測驗－數學"
       ],
       "subjectLabels": [
-        "數學"
+        "數學",
+        "數學 封面"
       ]
     },
     {

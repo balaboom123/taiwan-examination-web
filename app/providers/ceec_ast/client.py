@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import parse_qs, unquote, urlencode, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -25,7 +25,11 @@ _YEAR_BLOCK_RE = re.compile("選擇年度(?P<body>.*?)(?:※本試題為PDF|發�
 _YEAR_RE = re.compile(r"\b(\d{2,3})\b")
 _CEEC_CATEGORY_NAME = "分科測驗"
 _PAGINATION_LABELS = {"第一頁", "上一頁", "下一頁", "最後頁"}
-_AST_NOTICE_TITLE_RE = re.compile(r"(?P<roc_year>\d{3})\s*學年度分科測驗試題\s*/\s*答題卷\s*/\s*參考答案")
+_AST_NOTICE_TITLE_PATTERNS = (
+    ("notice", re.compile(r"(?P<roc_year>\d{3})\s*學年度分科測驗試題\s*/\s*答題卷\s*/\s*參考答案")),
+    ("confirmed", re.compile(r"(?P<roc_year>\d{3})\s*學年度分科測驗各考科選擇[（(]填[）)]題答案確定")),
+    ("guidelines", re.compile(r"(?P<roc_year>\d{3})\s*學年度分科測驗各考科非選擇題評分原則")),
+)
 _SUBJECT_SLUGS = {
     "國文": "chinese",
     "英文": "english",
@@ -280,23 +284,36 @@ def parse_notice_listing(html: str) -> list[CeecAstNotice]:
     parser = _ListingTokenParser()
     parser.feed(unescape(html))
     notices: list[CeecAstNotice] = []
-    seen: set[int] = set()
+    seen: set[tuple[int, str]] = set()
     for token_type, token_text, token_href in parser.tokens:
         if token_type != "link":
             continue
-        match = _AST_NOTICE_TITLE_RE.search(token_text)
-        if match is None:
+        matched = next(
+            ((kind, match) for kind, pattern in _AST_NOTICE_TITLE_PATTERNS if (match := pattern.search(token_text))),
+            None,
+        )
+        if matched is None:
             continue
+        kind, match = matched
         roc_year = int(match.group("roc_year"))
-        if roc_year in seen:
+        key = (roc_year, kind)
+        if key in seen:
             continue
-        seen.add(roc_year)
+        seen.add(key)
+        resolved_url = urljoin(BASE_URL, token_href)
+        parsed_url = urlparse(resolved_url)
+        query = parse_qs(parsed_url.query)
+        if parsed_url.path == "/xmdoc" and query.get("sid") and query.get("xsmsid"):
+            resolved_url = urljoin(
+                BASE_URL,
+                f"xmdoc/cont?{urlencode((('sid', query['sid'][0]), ('xsmsid', query['xsmsid'][0])))}",
+            )
         notices.append(
             CeecAstNotice(
-                source_exam_id=f"ceec-ast-notice-{roc_year}",
+                source_exam_id=f"ceec-ast-{kind}-{roc_year}",
                 year_ad=roc_year + 1911,
                 title=_normalize_text(token_text),
-                url=urljoin(BASE_URL, token_href),
+                url=resolved_url,
             )
         )
     return sorted(notices, key=lambda notice: notice.year_ad, reverse=True)
@@ -351,6 +368,44 @@ def parse_notice_papers(html: str, *, base_url: str, year_ad: int) -> list[Parse
             )
     if not papers:
         raise CeecAstSourceQualityError("CEEC AST notice contains no subject download rows")
+    return papers
+
+
+def parse_guideline_papers(html: str, *, base_url: str, year_ad: int) -> list[ParsedPaper]:
+    parser = _NoticeTableParser()
+    parser.feed(unescape(html))
+    header = next(
+        (
+            (row_index, subject_index, guideline_index)
+            for row_index, row in enumerate(parser.rows)
+            for subject_index, subject_cell in enumerate(row)
+            for guideline_index, guideline_cell in enumerate(row)
+            if "科目" in subject_cell.text and "評分原則" in guideline_cell.text
+        ),
+        None,
+    )
+    if header is None:
+        raise CeecAstSourceQualityError("CEEC AST notice is missing the 科目/評分原則 table")
+    header_row_index, subject_index, guideline_index = header
+    papers: list[ParsedPaper] = []
+    for row in parser.rows[header_row_index + 1 :]:
+        if len(row) <= max(subject_index, guideline_index):
+            continue
+        subject = row[subject_index].text
+        links = row[guideline_index].links
+        if not subject or not links:
+            continue
+        papers.append(
+            ParsedPaper(
+                category_raw=_CEEC_CATEGORY_NAME,
+                category_code=str(year_ad - 1911),
+                subject_code=_slug_from_subject(subject),
+                subject_name_raw=subject,
+                files={"corrected_answer": urljoin(base_url, links[0].url)},
+            )
+        )
+    if not papers:
+        raise CeecAstSourceQualityError("CEEC AST notice contains no scoring-principle download rows")
     return papers
 
 
@@ -415,10 +470,7 @@ class CeecAstClient:
         return list(self._notices_cache)
 
     def discover_available_years(self) -> list[int]:
-        first_page_html = self._fetch_text(LISTING_URL)
-        years = set(_available_years_from_text(_plain_text_from_html(first_page_html)))
-        if not years:
-            years.update(entry.year_ad for entry in parse_listing_page(first_page_html).entries)
+        years = {entry.year_ad for entry in self._iter_entries()}
         years.update(notice.year_ad for notice in self._iter_notices())
         return sorted(years, reverse=True)
 
@@ -435,19 +487,43 @@ class CeecAstClient:
             if entry.year_ad == year_ad
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if any(notice.year_ad == year_ad for notice in self._iter_notices()):
+            return AST_NOTICE_URL
+        if any(entry.year_ad == year_ad for entry in self._iter_entries()):
+            return LISTING_URL
+        raise ValueError(f"Unknown CEEC AST discovery year: {year_ad}")
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        notice = next(
+            (item for item in self._iter_notices() if item.source_exam_id == exam_code and item.year_ad == year_ad),
+            None,
+        )
+        if notice is not None:
+            return notice.url
+        if any(item.source_exam_id == exam_code and item.year_ad == year_ad for item in self._iter_entries()):
+            return LISTING_URL
+        raise ValueError(f"Unknown CEEC AST discovery exam: {exam_code} ({year_ad})")
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         notice = next(
             (item for item in self._iter_notices() if item.source_exam_id == exam_code and item.year_ad == year_ad),
             None,
         )
         if notice is not None:
+            html = self._fetch_text(notice.url)
+            papers = (
+                parse_guideline_papers(html, base_url=notice.url, year_ad=notice.year_ad)
+                if notice.source_exam_id.startswith("ceec-ast-guidelines-")
+                else parse_notice_papers(html, base_url=notice.url, year_ad=notice.year_ad)
+            )
             return SourceExamPage(
                 source_exam_id=notice.source_exam_id,
                 year_ad=notice.year_ad,
                 year_roc=notice.year_ad - 1911,
                 exam_name_raw=notice.title,
                 attachments=[],
-                papers=parse_notice_papers(self._fetch_text(notice.url), base_url=notice.url, year_ad=notice.year_ad),
+                papers=papers,
                 provider_id=self.provider_id,
             )
 

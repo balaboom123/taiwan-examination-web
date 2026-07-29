@@ -6,17 +6,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-044c38871952--4ba649350e31.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-044c38871952--4ba649350e31.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-044c38871952--4ba649350e31.zip",
-      "checksum": "719be64c24de71d1b4dbf90d6c92854e0c5e898c18316d2fc691a72dd88d72a1",
+      "checksum": "89abb50c8b6585b1be7a21e4260f566eee4af8730c079b5040e003553d796443",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-044c38871952.zip",
         "ceec-ast-admission-ast-not-applicable-subject-044c38871952.zip"
@@ -38,6 +39,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "數學甲",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "math-a",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－數學甲",
         "114",
         "math-a-01",
@@ -61,17 +66,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4--0a0e97ef4797.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4--0a0e97ef4797.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4--0a0e97ef4797.zip",
-      "checksum": "1d3f4424703c73784dc27960efea94703d81e5731ee992eabebd55605d7721cf",
+      "checksum": "8f6a75425b1c40dd2c9f2ddee68026023123ef4d161a8f962bb8a552c232f45c",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4.zip",
         "ceec-ast-admission-ast-not-applicable-subject-1d962a4964f4.zip"
@@ -93,6 +99,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "地理",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "geography",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－地理",
         "114",
         "geography-01",
@@ -116,17 +126,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-431d61e540ce--75265f773993.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-431d61e540ce--75265f773993.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-431d61e540ce--75265f773993.zip",
-      "checksum": "24838fe1ac35798d1f8bbfbe3b000ca71332403dccddc3133d17896dd0f711f9",
+      "checksum": "f12bf4695f6817857cba81c44ae9bc04f7278589048c88b26fc96e244f9c0d7d",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-431d61e540ce.zip",
         "ceec-ast-admission-ast-not-applicable-subject-431d61e540ce.zip"
@@ -148,6 +159,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "生物",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "biology",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－生物",
         "114",
         "biology-01",
@@ -171,17 +186,69 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
+        114
+      ],
+      "file_count": 9,
+      "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26--95c62ffecfce.zip",
+      "asset_name": "ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26--95c62ffecfce.zip",
+      "release_tag": "default-bundles-v2-012",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-012/ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26--95c62ffecfce.zip",
+      "checksum": "da442963886e272f7f22589266be1326d040e3fbf3f9e709d451c2b6e388c828",
+      "legacy_asset_names": [
+        "分科測驗__ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26.zip",
+        "ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "ceec-ast-admission-ast-not-applicable-subject-8c5b43521d26",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "university-admission",
+      "exam_series_id": "admission-ast",
+      "level_id": "not-applicable",
+      "track_id": "subject-8c5b43521d26",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "分科測驗",
+      "search_aliases": [
+        "數學乙",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "math-b",
+        "115學年度分科測驗各考科非選擇題評分原則",
+        "114學年度分科測驗－數學乙",
+        "114",
+        "math-b-01",
+        "math-b-02",
+        "math-b-03",
+        "math-b-04",
+        "math-b-05"
+      ],
+      "subject_labels": [
+        "數學乙"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "ceec-ast",
+      "canonical_name": "分科測驗",
+      "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-917794ac4b09--68950075e733.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-917794ac4b09--68950075e733.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-917794ac4b09--68950075e733.zip",
-      "checksum": "4522eb77ef9deae8ce8da99c9d6cdbee9820e32552516ab2c66b115f1d8d1879",
+      "checksum": "91a5786974775dd7161babf6c05fdcdc7a870e76a783d3196872a497b66d178b",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-917794ac4b09.zip",
         "ceec-ast-admission-ast-not-applicable-subject-917794ac4b09.zip"
@@ -203,6 +270,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "化學",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "chemistry",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－化學",
         "114",
         "chemistry-01",
@@ -226,17 +297,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19--16385dcc909d.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19--16385dcc909d.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19--16385dcc909d.zip",
-      "checksum": "8b1efbf934b100dfc7ad7ef3b1cee8200a3bf7b14c4cd07fdb9116b941346473",
+      "checksum": "2e497373fd1763de4b3c724be19a215d16830e94afdf4d59792258449480f008",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19.zip",
         "ceec-ast-admission-ast-not-applicable-subject-96e681cf7c19.zip"
@@ -258,6 +330,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "物理",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "physics",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－物理",
         "114",
         "physics-01",
@@ -281,17 +357,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-b231957e76b1--2d9778e9a58c.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-b231957e76b1--2d9778e9a58c.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-b231957e76b1--2d9778e9a58c.zip",
-      "checksum": "fbb525f18460fac261642fb03eca82b5d1a4b06a6772d94dfef561b7b8e88ccd",
+      "checksum": "c8707bee2b50e36f70ed4f1b755b71dadc8cd21169b719abccd4ff96d1494f68",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-b231957e76b1.zip",
         "ceec-ast-admission-ast-not-applicable-subject-b231957e76b1.zip"
@@ -313,6 +390,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "歷史",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "history",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－歷史",
         "114",
         "history-01",
@@ -336,17 +417,18 @@
       "canonical_id": "ceec-ast",
       "canonical_name": "分科測驗",
       "years": [
+        115,
         114,
         113,
         112,
         111
       ],
-      "file_count": 20,
+      "file_count": 24,
       "storage_key": "bundles/sites/default/ceec-ast-admission-ast-not-applicable-subject-fcc037220b94--a924917d4e47.zip",
       "asset_name": "ceec-ast-admission-ast-not-applicable-subject-fcc037220b94--a924917d4e47.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-ast-admission-ast-not-applicable-subject-fcc037220b94--a924917d4e47.zip",
-      "checksum": "ea63934b32c242a6334e3457494583571809d9cdae6bb1c800453e4673abb3a8",
+      "checksum": "7af3d60a521424601fa880c1ffee332a413c1e93d811ce9d9c16e40bdcf604cf",
       "legacy_asset_names": [
         "分科測驗__ceec-ast-admission-ast-not-applicable-subject-fcc037220b94.zip",
         "ceec-ast-admission-ast-not-applicable-subject-fcc037220b94.zip"
@@ -368,6 +450,10 @@
       "exam_subclass": "分科測驗",
       "search_aliases": [
         "公民與社會",
+        "115學年度分科測驗各考科選擇(填)題答案確定",
+        "115",
+        "civics-society",
+        "115學年度分科測驗各考科非選擇題評分原則",
         "114學年度分科測驗－公民與社會",
         "114",
         "civics-society-01",
@@ -402,7 +488,7 @@
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-a--144d9e574c13.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-a--144d9e574c13.zip",
-      "checksum": "eb2761e3c7783f59f3769d4168aa72c97f00ceda2e65f88189964fe7e380bfcc",
+      "checksum": "1efffb4bb1a153e58fcbc03fcddf06544ed45364e6c2eb62f8b2f1043fe7ed04",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-a.zip",
         "ceec-gsat-admission-gsat-not-applicable-a.zip"
@@ -460,7 +546,7 @@
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-b--39275642d062.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-b--39275642d062.zip",
-      "checksum": "9d904f24a5a1221c7194f2227dd8429d4d71db49d3c5d37265e0bbed4df0ef81",
+      "checksum": "6d864e3a11b323afaa68b757061374dc79019fde686c6f68ff8d4d3e06ccb381",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-b.zip",
         "ceec-gsat-admission-gsat-not-applicable-b.zip"
@@ -518,7 +604,7 @@
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-01dffb930c30--87af6e466871.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-01dffb930c30--87af6e466871.zip",
-      "checksum": "e0f3b7cced0435d5fca0a780c196873f3766ed9d5f1d2b65a66d416a7e3fd7d6",
+      "checksum": "12f1092366128d39f107a8d370ba07fcb5f49dcc6ca6a2962a778792230dd232",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-01dffb930c30.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-01dffb930c30.zip"
@@ -575,7 +661,7 @@
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-1c55e344c4f7--b2ae72f140f9.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-1c55e344c4f7--b2ae72f140f9.zip",
-      "checksum": "cbff457ef2c5535ea4f3d54d0cd0a2c9c5b1868b7ede3bf8af197db67028fdfa",
+      "checksum": "e0989bce8a6c0e0c45125add7609fca9f79813875be2c27a153084ba85504a64",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-1c55e344c4f7.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-1c55e344c4f7.zip"
@@ -633,7 +719,7 @@
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-816698368d7b--3b60d368981b.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-816698368d7b--3b60d368981b.zip",
-      "checksum": "0253565304977fe865aa370ed206bd9fe78cbda216f7b057ba01e313efe36c3c",
+      "checksum": "14e8072a74a2afd125a0924d20ae162b936760629cd1a1679ed92fc1786b5f75",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-816698368d7b.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-816698368d7b.zip"
@@ -702,14 +788,31 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "file_count": 58,
+      "file_count": 111,
       "storage_key": "bundles/sites/default/ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59--cba44faad127.zip",
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59--cba44faad127.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59--cba44faad127.zip",
-      "checksum": "2f62d2fd595b6b41656133c348625a61eb9043dd62fc1ebc584a5e29c0521719",
+      "checksum": "7d3322c84192434053599504a603575bc9103f083518de0fe988ddf28454a188",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-8b5fcb869b59.zip"
@@ -731,6 +834,7 @@
       "exam_subclass": "學科能力測驗",
       "search_aliases": [
         "自然",
+        "自然 封面",
         "115學年度學科能力測驗－自然",
         "115",
         "science-01",
@@ -752,11 +856,11 @@
         "109",
         "108學年度學科能力測驗－自然",
         "108",
-        "107學年度學科能力測驗－自然",
-        "107"
+        "107學年度學科能力測驗－自然"
       ],
       "subject_labels": [
-        "自然"
+        "自然",
+        "自然 封面"
       ],
       "legacy_canonical_ids": []
     },
@@ -779,14 +883,31 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "file_count": 58,
+      "file_count": 111,
       "storage_key": "bundles/sites/default/ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67--de40b3c4a427.zip",
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67--de40b3c4a427.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67--de40b3c4a427.zip",
-      "checksum": "f5f2583e2c08623a611459c1ec71ef4d2e795d8461fb5fbd869a58c32fef7db4",
+      "checksum": "a251271e25c442d437c6359a060e35e3b40b24581255ca9f2132073612dc35e9",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-9da19f227e67.zip"
@@ -808,6 +929,7 @@
       "exam_subclass": "學科能力測驗",
       "search_aliases": [
         "社會",
+        "社會 封面",
         "115學年度學科能力測驗－社會",
         "115",
         "social-01",
@@ -829,11 +951,11 @@
         "109",
         "108學年度學科能力測驗－社會",
         "108",
-        "107學年度學科能力測驗－社會",
-        "107"
+        "107學年度學科能力測驗－社會"
       ],
       "subject_labels": [
-        "社會"
+        "社會",
+        "社會 封面"
       ],
       "legacy_canonical_ids": []
     },
@@ -847,14 +969,31 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "file_count": 29,
+      "file_count": 91,
       "storage_key": "bundles/sites/default/ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60--b0f1eed0893c.zip",
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60--b0f1eed0893c.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60--b0f1eed0893c.zip",
-      "checksum": "5f4d264000c1734f2c225d7dc2a1cb79e231b68edfbbafc30f2958e94a64b969",
+      "checksum": "8d8b681e34ab440bd50f48d18783e5ea05a7c70e2b1a168acd8c48ead6ede7ec",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-cbe0bd0abe60.zip"
@@ -878,6 +1017,7 @@
         "國文",
         "國文 非選擇題評分說明",
         "國文 非選擇題評分標準",
+        "國文 封面",
         "106學年度學科能力測驗－國文",
         "106",
         "subject-e59c8be69687-01",
@@ -896,12 +1036,14 @@
         "101學年度學科能力測驗－國文",
         "101",
         "100學年度學科能力測驗－國文",
-        "100"
+        "100",
+        "99學年度學科能力測驗－國文"
       ],
       "subject_labels": [
         "國文",
         "國文 非選擇題評分說明",
-        "國文 非選擇題評分標準"
+        "國文 非選擇題評分標準",
+        "國文 封面"
       ],
       "legacy_canonical_ids": []
     },
@@ -924,14 +1066,31 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "file_count": 70,
+      "file_count": 128,
       "storage_key": "bundles/sites/default/ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980--04ee75c3b738.zip",
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980--04ee75c3b738.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980--04ee75c3b738.zip",
-      "checksum": "10610dc252d68d98f6ace35d507b3b1cf8b76fd70ae8b7e7d5984cf2f10c76b4",
+      "checksum": "afba5b9f76d1e4e6e687927355e791cef1ef304bf1eb33804d1a51d6ce6702b9",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-ce65f52bc980.zip"
@@ -955,6 +1114,7 @@
         "英文",
         "英文 非選擇題評分說明",
         "英文 非選擇題評分標準",
+        "英文 封面",
         "115學年度學科能力測驗－英文",
         "115",
         "english-01",
@@ -974,13 +1134,13 @@
         "110",
         "109學年度學科能力測驗－英文",
         "109",
-        "108學年度學科能力測驗－英文",
-        "108"
+        "108學年度學科能力測驗－英文"
       ],
       "subject_labels": [
         "英文",
         "英文 非選擇題評分說明",
-        "英文 非選擇題評分標準"
+        "英文 非選擇題評分標準",
+        "英文 封面"
       ],
       "legacy_canonical_ids": []
     },
@@ -998,14 +1158,31 @@
         103,
         102,
         101,
-        100
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83
       ],
-      "file_count": 33,
+      "file_count": 88,
       "storage_key": "bundles/sites/default/ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7--23f16d56824d.zip",
       "asset_name": "ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7--23f16d56824d.zip",
       "release_tag": "default-bundles-v2-001",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7--23f16d56824d.zip",
-      "checksum": "3ff674b21a445054a69d6dd7e3e84beec63b7ac960e7c816dfadfd33b497df13",
+      "checksum": "69e86e044d2b8fa7f57f57659904db045606cb739b299d704f0ed3c6e2ce8b48",
       "legacy_asset_names": [
         "學科能力測驗__ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7.zip",
         "ceec-gsat-admission-gsat-not-applicable-subject-d2fdb2ed2cb7.zip"
@@ -1027,6 +1204,7 @@
       "exam_subclass": "學科能力測驗",
       "search_aliases": [
         "數學",
+        "數學 封面",
         "110學年度學科能力測驗－數學",
         "110",
         "subject-e695b8e5adb8-01",
@@ -1048,11 +1226,11 @@
         "103",
         "102學年度學科能力測驗－數學",
         "102",
-        "101學年度學科能力測驗－數學",
-        "101"
+        "101學年度學科能力測驗－數學"
       ],
       "subject_labels": [
-        "數學"
+        "數學",
+        "數學 封面"
       ],
       "legacy_canonical_ids": []
     },

@@ -28,7 +28,7 @@ EXPECTED_EXTENSIONS = {
     "question_alt": (".pdf", ".docx", ".doc", ".xls", ".xlsx", ".ods", ".zip", ".rar"),
     "answer": (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ods", ".zip", ".rar"),
     "answer_sheet": (".pdf",),
-    "corrected_answer": (".pdf", ".zip"),
+    "corrected_answer": (".pdf", ".doc", ".zip"),
     "all_answers": (".pdf",),
     "accessible_bundle": (".zip",),
     "listening_audio": (".mp3", ".zip", ".rar"),

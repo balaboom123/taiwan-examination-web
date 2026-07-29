@@ -72,6 +72,35 @@ class ExamIdentityClassificationTests(unittest.TestCase):
         self.assertEqual(skill.level_id, "class-a")
         self.assertEqual(skill.exam_series_id, "skill-certification")
 
+    def test_ast_multi_subject_notices_reuse_historical_subject_tracks(self) -> None:
+        historical = classify(
+            "分科測驗",
+            "114學年度分科測驗－物理",
+            source="ceec-ast-114-physics",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理 試題內容",
+        )
+        confirmed = classify(
+            "分科測驗",
+            "115學年度分科測驗各考科選擇(填)題答案確定",
+            source="ceec-ast-confirmed-115",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理",
+        )
+        guidelines = classify(
+            "分科測驗",
+            "115學年度分科測驗各考科非選擇題評分原則",
+            source="ceec-ast-guidelines-115",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理",
+        )
+
+        self.assertEqual(confirmed.track_id, historical.track_id)
+        self.assertEqual(guidelines.bundle_id, historical.bundle_id)
+
     def test_ambiguous_level_is_review_isolated_per_source_event(self) -> None:
         first = classify("一般行政", "其他特種考試", source="unknown-1")
         second = classify("一般行政", "其他特種考試", source="unknown-2")

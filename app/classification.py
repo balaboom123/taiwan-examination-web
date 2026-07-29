@@ -300,6 +300,10 @@ def _track_details(
     if provider_id in {"ceec_gsat", "ceec_ast"}:
         value = normalize_text(exam_name).split("－", 1)[-1]
         value = re.sub(r"^\d+(?:學年度|年度)?\s*", "", value)
+        if provider_id == "ceec_ast" and not re.search(r"分科測驗\s*[-－]", normalize_text(exam_name)):
+            subject = normalize_text(subject_name)
+            if subject:
+                value = f"分科測驗-{subject}"
         value = value or normalize_text(subject_name)
         return _slug(value, prefix="subject"), value
     if provider_id == "rcpet_cap":
