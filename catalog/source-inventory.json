@@ -1447,13 +1447,14 @@
         "start_ad": 2026
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_taoyuan_elementary/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md"
+        "docs/developer/provider-site-registry.md",
+        "docs/developer/providers/teacher_recruit_city_sources-spec.md"
       ],
       "exam_category": "Taoyuan elementary teacher joint recruitment",
       "local_state": {
@@ -1469,7 +1470,7 @@
       ],
       "provider_id": "teacher_recruit_taoyuan_elementary",
       "restrictions": [
-        "Direct question/suggested/final answer files; appeal, score/list, and venue material skipped."
+        "The 2026-07-29 official current-year snapshot has one event and 21 matching retained URLs across seven subjects. Direct question/suggested/final answer files are in scope; appeal, score/list, and venue material is skipped."
       ],
       "status": "covered",
       "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 1 → 21"

@@ -65,6 +65,15 @@ The page exposes direct `download_file.aspx?ids=<hash>` links for:
 
 Use the anchor text as the official filename because the download URL uses opaque IDs.
 
+The read-only discovery command records this official answer page as both year and event evidence. The 2026-07-29 snapshot contains one ROC 115 / AD 2026 event and 21 files: seven subjects with question, suggested-answer, and corrected-answer roles. All 21 URLs exactly match retained normalized state. Refresh it with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_taoyuan_elementary --years 2026 \
+  --manifest data/providers/teacher_recruit_taoyuan_elementary/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the declared current-year source scope. Discovery returns no years when the page has no recognizable official year marker; it does not invent a fallback year or enable HEAD-based `probe-latest` support.
+
 ### Kaohsiung
 
 The source owner is Kaohsiung City. Use one provider because the regular elementary and special-education sites share the same owner and annual exam-site pattern.

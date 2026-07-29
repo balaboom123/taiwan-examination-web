@@ -3,6 +3,7 @@
 import unittest
 
 from app.providers.teacher_recruit_taoyuan_elementary.client import (
+    ANSWER_URL,
     TaoyuanElementaryRecruitClient,
     parse_answer_page,
 )
@@ -30,6 +31,20 @@ class TaoyuanElementaryRecruitParserTests(unittest.TestCase):
 
 
 class TaoyuanElementaryRecruitClientTests(unittest.TestCase):
+    def test_discovery_is_source_backed_and_preserves_the_official_page(self) -> None:
+        client = TaoyuanElementaryRecruitClient(answer_html=ANSWER_HTML)
+
+        self.assertEqual(client.discover_available_years(), [2026])
+        self.assertEqual(client.build_discovery_year_url(2026), ANSWER_URL)
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-taoyuan-elementary-115", 2026),
+            ANSWER_URL,
+        )
+        with self.assertRaisesRegex(ValueError, "Unexpected Taoyuan discovery exam code"):
+            client.build_discovery_exam_url("teacher-recruit-taoyuan-elementary-114", 2026)
+
+        self.assertEqual(TaoyuanElementaryRecruitClient(answer_html="<html></html>").discover_available_years(), [])
+
     def test_fetch_exam_page_builds_subject_papers(self) -> None:
         client = TaoyuanElementaryRecruitClient(answer_html=ANSWER_HTML)
 
