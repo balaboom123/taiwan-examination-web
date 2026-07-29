@@ -151,6 +151,15 @@ class TainanTeacherRecruitClient:
             )
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return LISTING_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"teacher-recruit-tainan-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(f"Unexpected Tainan discovery exam code for {year_ad}: {exam_code}")
+        return LISTING_URL
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
         files: dict[str, str] = {}

@@ -3,6 +3,7 @@
 import unittest
 
 from app.providers.teacher_recruit_tainan.client import (
+    LISTING_URL,
     TainanTeacherRecruitClient,
     parse_announcement_links,
     parse_available_years,
@@ -101,6 +102,17 @@ class TainanTeacherRecruitParserTests(unittest.TestCase):
 
 
 class TainanTeacherRecruitClientTests(unittest.TestCase):
+    def test_discovery_urls_preserve_the_official_current_year_listing(self) -> None:
+        client = TainanTeacherRecruitClient()
+
+        self.assertEqual(client.build_discovery_year_url(2026), LISTING_URL)
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-tainan-115", 2026),
+            LISTING_URL,
+        )
+        with self.assertRaisesRegex(ValueError, "Unexpected Tainan discovery exam code"):
+            client.build_discovery_exam_url("teacher-recruit-tainan-114", 2026)
+
     def test_fetch_exam_page_builds_current_year_recruitment_paper(self) -> None:
         client = TainanTeacherRecruitClient()
         pages = {

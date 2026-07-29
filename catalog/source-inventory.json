@@ -1341,9 +1341,9 @@
         "start_ad": 2026
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_tainan/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1363,7 +1363,7 @@
       ],
       "provider_id": "teacher_recruit_tainan",
       "restrictions": [
-        "Historical reconstruction is intentionally excluded until a stable official archive is found."
+        "The 2026-07-29 official current-year snapshot has one in-scope event whose three question/answer URLs match retained state. Historical reconstruction is intentionally excluded until a stable official archive is found."
       ],
       "status": "covered",
       "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 1 → 3"
