@@ -1,0 +1,31 @@
+{
+  "exams": {
+    "teacher-recruit-taipei-elementary-114": {
+      "discovered_at": "2026-07-29T21:12:54.541022+08:00",
+      "exam_label": "114學年度臺北市國小教師甄試",
+      "result_url": "https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2",
+      "source_exam_id": "teacher-recruit-taipei-elementary-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:12:54.541022+08:00"
+  },
+  "provider_id": "teacher_recruit_taipei_elementary",
+  "schema_version": 1,
+  "years": {
+    "2025": {
+      "discovered_at": "2026-07-29T21:12:54.541022+08:00",
+      "exam_codes": [
+        "teacher-recruit-taipei-elementary-114"
+      ],
+      "exam_codes_hash": "sha256:b63d1b15c8f3f68fb49c14b853afc387be21516c05cf9c671e1cb8ef724e1beb",
+      "search_url": "https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2",
+      "year_ad": 2025,
+      "year_roc": 114
+    }
+  }
+}

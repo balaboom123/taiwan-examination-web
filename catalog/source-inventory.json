@@ -1376,9 +1376,9 @@
         "start_ad": 2025
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_taipei_elementary/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1398,7 +1398,7 @@
       ],
       "provider_id": "teacher_recruit_taipei_elementary",
       "restrictions": [
-        "Fixed official article map; city-wide news listing is not treated as an archive."
+        "The 2026-07-29 reviewed-article snapshot has one event and 12 matching retained URLs. The city-wide news listing is not treated as an archive."
       ],
       "status": "covered",
       "status_reason": "Covered, reviewed current-year scope; source availability: Reviewed 114 school year / AD 2025; local coverage: 2025; 1 → 12"

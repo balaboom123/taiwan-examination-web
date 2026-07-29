@@ -48,6 +48,15 @@ The stable paper surface is the article's direct `Download.ashx` links on `www-w
 
 Treat the source as current-year scoped. The city-wide Taipei news listing is not a stable teacher-paper archive.
 
+The read-only discovery command records the reviewed official article as both year and event evidence. On 2026-07-29 it exposed 12 combined question/answer PDFs, all exactly matching retained normalized state. Refresh the snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_taipei_elementary --years 2025 \
+  --manifest data/providers/teacher_recruit_taipei_elementary/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the single reviewed article. It is not evidence of an exhaustive Taipei archive and does not enable automatic future-year or HEAD-based `probe-latest` discovery.
+
 ### Taoyuan Elementary
 
 The source is the official 桃園市115年度國民小學教師聯合甄選 site. The stable paper surface is:
