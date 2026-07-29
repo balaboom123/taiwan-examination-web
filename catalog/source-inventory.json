@@ -1306,9 +1306,9 @@
         "start_ad": 2026
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/teacher_recruit_newtaipei/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1328,7 +1328,7 @@
       ],
       "provider_id": "teacher_recruit_newtaipei",
       "restrictions": [
-        "Public list/detail/token API; the targeted 2026 senior-teacher paper refresh now leaves all four retained events complete. Teaching-demo, score, and list notices remain intentionally skipped."
+        "Public list/detail/token API; the 2026-07-29 official discovery snapshot contains four in-scope notices and all four match retained local events. Teaching-demo, score, and list notices remain intentionally skipped."
       ],
       "status": "covered",
       "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 4 → 5"

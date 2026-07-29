@@ -142,6 +142,10 @@ def _resolve_discovery_manifest_path(args: argparse.Namespace, provider_id: str)
 
 
 def _discovery_url_builders(client: SourceProvider, provider_id: str):
+    year_builder = getattr(client, "build_discovery_year_url", None)
+    exam_builder = getattr(client, "build_discovery_exam_url", None)
+    if callable(year_builder) and callable(exam_builder):
+        return year_builder, exam_builder
     year_builder = getattr(client, "build_probe_year_url", None)
     exam_builder = getattr(client, "build_probe_exam_url", None)
     if callable(year_builder) and callable(exam_builder):

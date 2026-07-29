@@ -1,0 +1,58 @@
+{
+  "exams": {
+    "teacher-recruit-newtaipei-115-elementary-kindergarten": {
+      "discovered_at": "2026-07-29T20:52:54.840432+08:00",
+      "exam_label": "115學年度新北市教師甄試_新北市115學年度國民小學暨幼兒園教師甄選",
+      "result_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_edu/uuid/3422a2b28bfa4f1991e01883f38c52ac",
+      "source_exam_id": "teacher-recruit-newtaipei-115-elementary-kindergarten",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-recruit-newtaipei-115-junior": {
+      "discovered_at": "2026-07-29T20:52:54.840432+08:00",
+      "exam_label": "115學年度新北市教師甄試_新北市立國民中學115學年度教師聯合甄選",
+      "result_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_edu/uuid/32f7f6c59afa4f0f815f8bbe2d30a45d",
+      "source_exam_id": "teacher-recruit-newtaipei-115-junior",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-recruit-newtaipei-115-preschool": {
+      "discovered_at": "2026-07-29T20:52:54.840432+08:00",
+      "exam_label": "115學年度新北市教師甄試_新北市115學年度公立幼兒園契約進用教保員甄選",
+      "result_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_edu/uuid/048d7ed73c7b474cb40ac25d143e932c",
+      "source_exam_id": "teacher-recruit-newtaipei-115-preschool",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-recruit-newtaipei-115-senior": {
+      "discovered_at": "2026-07-29T20:52:54.840432+08:00",
+      "exam_label": "115學年度新北市教師甄試_新北市公立高級中等學校115學年度教師聯合甄選",
+      "result_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_edu/uuid/8d203dc579e54995b4ee42069f693bf1",
+      "source_exam_id": "teacher-recruit-newtaipei-115-senior",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T20:52:54.840432+08:00"
+  },
+  "provider_id": "teacher_recruit_newtaipei",
+  "schema_version": 1,
+  "years": {
+    "2026": {
+      "discovered_at": "2026-07-29T20:52:54.840432+08:00",
+      "exam_codes": [
+        "teacher-recruit-newtaipei-115-elementary-kindergarten",
+        "teacher-recruit-newtaipei-115-junior",
+        "teacher-recruit-newtaipei-115-preschool",
+        "teacher-recruit-newtaipei-115-senior"
+      ],
+      "exam_codes_hash": "sha256:714132cd14157317c175174a22cd2dfb770f19c0778424bfd74c2d8be3367859",
+      "search_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_newtea_list",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

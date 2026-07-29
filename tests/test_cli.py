@@ -205,6 +205,56 @@ class CliCommandTests(unittest.TestCase):
             self.assertEqual(manifest["exams"]["113010"]["exam_label"], "Official 2024")
             self.assertEqual(manifest["probe_policy"]["discovery_mode"], "official-year-exam-listing")
 
+    def test_discover_uses_discovery_only_url_model_for_non_probe_provider(self) -> None:
+        class DiscoveryOnlyClient:
+            provider_id = "teacher_recruit_newtaipei"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [
+                    ExamOption(
+                        code="teacher-recruit-newtaipei-115-junior",
+                        year_ad=year_ad,
+                        year_roc=115,
+                        label="115學年度新北市教師甄試_國中",
+                    )
+                ]
+
+            def build_discovery_year_url(self, year_ad: int) -> str:
+                return "https://official.example.test/notices"
+
+            def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+                return f"https://official.example.test/notices/{exam_code}"
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            args = build_parser().parse_args(
+                [
+                    "discover",
+                    "--provider",
+                    "teacher_recruit_newtaipei",
+                    "--years",
+                    "2026",
+                    "--manifest",
+                    str(path),
+                    "--write-manifest",
+                ]
+            )
+
+            with redirect_stdout(io.StringIO()):
+                exit_code = command_discover(args, client=DiscoveryOnlyClient())
+
+            self.assertEqual(exit_code, 0)
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["provider_id"], "teacher_recruit_newtaipei")
+            self.assertEqual(manifest["years"]["2026"]["search_url"], "https://official.example.test/notices")
+            self.assertEqual(
+                manifest["exams"]["teacher-recruit-newtaipei-115-junior"]["result_url"],
+                "https://official.example.test/notices/teacher-recruit-newtaipei-115-junior",
+            )
+
     def test_publish_site_command_aggregates_provider_outputs_for_default_site(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
