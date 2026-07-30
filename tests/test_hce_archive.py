@@ -221,6 +221,21 @@ class HceArchiveProviderTests(unittest.TestCase):
         sleep.assert_called_once_with(7.0)
         self.assertEqual(client._last_request_at, 110.0)
 
+    def test_nsysu_provider_exposes_manifest_discovery_urls(self) -> None:
+        with patch.object(HceArchiveClient, "_fetch_text", return_value=NSYSU_LISTING_HTML) as fetch:
+            provider = get_provider("hce_nsysu")
+
+            self.assertEqual(
+                provider.build_discovery_year_url(2026),
+                "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf",
+            )
+            self.assertEqual(
+                provider.build_discovery_exam_url("hce-nsysu-115", 2026),
+                "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf",
+            )
+
+        self.assertEqual(fetch.call_count, 1)
+
     def test_nsysu_client_uses_combined_pdf_as_one_paper(self) -> None:
         with patch.object(HceArchiveClient, "_fetch_text", return_value=NSYSU_LISTING_HTML):
             page = HceArchiveClient(HCE_CONFIGS["hce_nsysu"]).fetch_exam_page("hce-nsysu-115", 2026)

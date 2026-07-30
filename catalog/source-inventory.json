@@ -565,13 +565,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2022–2026 in current state",
+        "note": "Official library archive exposes 2022–2026; 5 combined PDFs rechecked 2026-07-30",
         "start_ad": 2022
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/hce_nsysu/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -591,14 +591,17 @@
         2026
       ],
       "official_source_urls": [
-        "https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw"
+        "https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw",
+        "https://lis.nsysu.edu.tw/p/412-1001-23442.php?Lang=zh-tw"
       ],
       "provider_id": "hce_nsysu",
       "restrictions": [
-        "Official university/library archive; source availability still needs a bounded live verification."
+        "The official library archive intentionally provides one combined question-and-answer PDF per year rather than subject-level files.",
+        "robots.txt allows the archive and default TLS verification succeeds.",
+        "All five live PDFs match retained checksums, but no explicit redistribution license or copyright terms were linked from the archive pages."
       ],
       "status": "covered",
-      "status_reason": "Covered in declared scope; source availability: 2022–2026 in current state; local coverage: 2022–2026; 5 → 5"
+      "status_reason": "Covered in declared combined-PDF scope; official archive and all 5 live files rechecked 2026-07-30; local coverage: 2022–2026; 5 → 5"
     },
     {
       "available_years": {
