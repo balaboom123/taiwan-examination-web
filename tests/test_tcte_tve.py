@@ -78,6 +78,35 @@ ANCHOR_YEAR_HTML = """
 """
 
 
+HISTORICAL_90_HTML = """
+<html><body><table>
+  <tr><td><a href="answer.htm">各類科試題解答</a></td></tr>
+  <tr><td>◎ 共同科數學 <a href="math/p1.jpg">p.1</a>/<a href="math/p2.jpg">p.2</a></td></tr>
+  <tr><td>◎化工類專一 <a href="chem/p1.jpg">p.1</a>/<a href="chem/p2.jpg">p.2</a></td></tr>
+  <tr><td><a href="202114_2.pdf">◎商業類專二</a></td></tr>
+  <tr><td><a href="202114_2.pdf">◎語文類英文組專二</a></td></tr>
+</table></body></html>
+"""
+
+HISTORICAL_91_HTML = """
+<html><body>
+<table><tr><td>各類科標準答案
+  <a href="91-4y-answer-new.xls">Excel檔案格式</a>
+  <a href="91-4y-answer-new.pdf">PDF檔案格式</a>
+</td></tr>
+<tr><td>◎ 共同科目
+  <a href="91-c.pdf">國文</a>
+  <a href="91-e.pdf">英文(update)</a>
+  <a href="91-m.pdf">數學</a>
+  <table><tr><td>◎ 01機械類
+    <a href="91-01-1.pdf">專業科目一</a>
+    <a href="91-01-2.pdf">專業科目二</a>
+  </td></tr></table>
+</td></tr></table>
+</body></html>
+"""
+
+
 class TcteTveParserTests(unittest.TestCase):
     def test_parse_listing_page_extracts_year_page(self) -> None:
         pages = parse_listing_page(LISTING_HTML)
@@ -118,6 +147,70 @@ class TcteTveParserTests(unittest.TestCase):
         )
         self.assertEqual(papers[-1].subject_code, "professional-1")
         self.assertEqual(papers[-1].files["answer"], "https://web1.tcte.edu.tw/EXAM/094_4y/pro-answer.pdf")
+
+    def test_parse_roc_90_page_keeps_multipart_images_html_answers_and_shared_questions(self) -> None:
+        papers = parse_year_page(HISTORICAL_90_HTML, "https://web1.tcte.edu.tw/EXAM/090_4y/")
+        by_key = {(paper.category_code, paper.subject_code): paper for paper in papers}
+
+        self.assertEqual(
+            list(by_key[("common", "math")].files),
+            ["question_page_01", "question_page_02"],
+        )
+        self.assertEqual(
+            by_key[("05", "professional-1")].files["question_page_02"],
+            "https://web1.tcte.edu.tw/EXAM/090_4y/chem/p2.jpg",
+        )
+        self.assertEqual(
+            by_key[("14", "professional-2")].files["question"],
+            by_key[("20", "professional-2")].files["question"],
+        )
+        self.assertEqual(
+            by_key[("common", "all")].files,
+            {"answer_table": "https://web1.tcte.edu.tw/EXAM/090_4y/answer.htm"},
+        )
+
+    def test_parse_roc_91_page_keeps_questions_and_preferred_pdf_answer(self) -> None:
+        papers = parse_year_page(HISTORICAL_91_HTML, "https://web1.tcte.edu.tw/EXAM/091_4y/")
+        by_key = {(paper.category_code, paper.subject_code): paper for paper in papers}
+
+        self.assertEqual(
+            {key for key in by_key},
+            {
+                ("common", "chinese"),
+                ("common", "english"),
+                ("common", "math"),
+                ("common", "all"),
+                ("01", "professional-1"),
+                ("01", "professional-2"),
+            },
+        )
+        self.assertEqual(
+            by_key[("common", "all")].files,
+            {"all_answers": "https://web1.tcte.edu.tw/EXAM/091_4y/91-4y-answer-new.pdf"},
+        )
+        self.assertNotIn("91-4y-answer-new.xls", {url for paper in papers for url in paper.files.values()})
+
+    def test_discovery_builders_reuse_one_listing_fetch(self) -> None:
+        with patch.object(TcteTveClient, "_fetch_text", return_value=LISTING_HTML) as fetch:
+            client = TcteTveClient()
+
+            self.assertEqual(client.discover_available_years(), [2026])
+            self.assertEqual(client.build_discovery_year_url(2026), "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y")
+            self.assertEqual(
+                client.build_discovery_exam_url("tcte-tve-115", 2026),
+                "https://web1.tcte.edu.tw/EXAM/115_4y/",
+            )
+            self.assertEqual(client.discover_exams(2026)[0].code, "tcte-tve-115")
+
+        self.assertEqual(fetch.call_count, 1)
+
+    def test_discovery_builders_reject_unknown_year_and_exam(self) -> None:
+        with patch.object(TcteTveClient, "_fetch_text", return_value=LISTING_HTML):
+            client = TcteTveClient()
+            with self.assertRaisesRegex(ValueError, "Unknown TCTE TVE year"):
+                client.build_discovery_year_url(2025)
+            with self.assertRaisesRegex(ValueError, "Unknown TCTE TVE exam"):
+                client.build_discovery_exam_url("tcte-tve-114", 2026)
 
     def test_fetch_exam_page_turns_year_page_into_one_source_page(self) -> None:
         def fake_fetch(url: str) -> str:

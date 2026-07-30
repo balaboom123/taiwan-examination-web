@@ -23,6 +23,31 @@ _COMMON_SUBJECT_SLUGS = {
     "數學(B)": "math-b",
     "數學(C)": "math-c",
 }
+_HISTORICAL_GROUPS = {
+    "工程與管理類工程組": ("09", "工程與管理類工程組"),
+    "工程與管理類管理組": ("10", "工程與管理類管理組"),
+    "語文類英文組": ("20", "語文類英文組"),
+    "語文類日文組": ("21", "語文類日文組"),
+    "土木建築": ("07", "土木建築類"),
+    "工業設計": ("08", "工業設計類"),
+    "海事水產": ("13", "海事水產類"),
+    "商業設計": ("15", "商業設計類"),
+    "機械": ("01", "機械類"),
+    "汽車": ("02", "汽車類"),
+    "電機": ("03", "電機類"),
+    "電子": ("04", "電子類"),
+    "化工": ("05", "化工類"),
+    "衛生": ("06", "衛生類"),
+    "護理": ("11", "護理類"),
+    "食品": ("12", "食品類"),
+    "商業": ("14", "商業類"),
+    "幼保": ("16", "幼保類"),
+    "美容": ("17", "美容類"),
+    "家政": ("18", "家政類"),
+    "農業": ("19", "農業類"),
+    "餐旅": ("22", "餐旅類"),
+}
+_HISTORICAL_YEAR_RE = re.compile(r"/0?(?P<roc_year>90|91)_4y/")
 
 
 @dataclass(frozen=True)
@@ -139,6 +164,52 @@ class _TableParser(HTMLParser):
         self._row = None
 
 
+class _HistoricalCellParser(HTMLParser):
+    def __init__(self, base_url: str) -> None:
+        super().__init__()
+        self.base_url = base_url
+        self.cells: list[_Cell] = []
+        self._stack: list[_Cell] = []
+        self._link_label_parts: list[str] | None = None
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "td":
+            self._finish_link()
+            self._stack.append(_Cell())
+            return
+        if tag == "a" and self._stack:
+            self._finish_link()
+            href = dict(attrs).get("href", "") or ""
+            if href:
+                self._stack[-1].links.append(urljoin(self.base_url, href))
+                self._stack[-1].link_labels.append("")
+                self._link_label_parts = []
+
+    def handle_data(self, data: str) -> None:
+        if self._stack:
+            self._stack[-1].text_parts.append(data)
+            if self._link_label_parts is not None:
+                self._link_label_parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "a":
+            self._finish_link()
+        elif tag == "td" and self._stack:
+            self._finish_link()
+            self.cells.append(self._stack.pop())
+
+    def close(self) -> None:
+        self._finish_link()
+        while self._stack:
+            self.cells.append(self._stack.pop())
+        super().close()
+
+    def _finish_link(self) -> None:
+        if self._stack and self._link_label_parts is not None:
+            self._stack[-1].link_labels[-1] = _normalize_text(" ".join(self._link_label_parts))
+        self._link_label_parts = None
+
+
 def _normalize_text(text: str) -> str:
     return " ".join(unescape(text).split())
 
@@ -235,7 +306,104 @@ def _paper_links(question_cell: _Cell, answer_cell: _Cell, base_subject: str) ->
     return paired
 
 
+def _historical_group(text: str) -> tuple[str, str] | None:
+    for marker, value in _HISTORICAL_GROUPS.items():
+        if marker in text:
+            return value
+    return None
+
+
+def _historical_professional_part(text: str) -> int | None:
+    if "專業科目一" in text or "專一" in text:
+        return 1
+    if "專業科目二" in text or "專二" in text:
+        return 2
+    return None
+
+
+def _historical_question_files(urls: list[str]) -> dict[str, str]:
+    if len(urls) == 1:
+        return {"question": urls[0]}
+    return {f"question_page_{index:02d}": url for index, url in enumerate(urls, start=1)}
+
+
+def _historical_common_subject(text: str) -> tuple[str, str] | None:
+    if "國文" in text:
+        return "chinese", "國文科"
+    if "英文" in text:
+        return "english", "英文科"
+    if "數學" in text:
+        return "math", "數學科"
+    return None
+
+
+def parse_historical_year_page(html: str, base_url: str, year_roc: int) -> list[ParsedPaper]:
+    parser = _HistoricalCellParser(base_url)
+    parser.feed(html)
+    parser.close()
+    grouped: dict[tuple[str, str, str], list[str]] = {}
+    answer_url = ""
+
+    for cell in parser.cells:
+        cell_text = cell.text
+        for index, url in enumerate(cell.links):
+            label = _cell_link_label(cell, index)
+            lower_path = urlparse(url).path.lower()
+            if year_roc == 90 and lower_path.endswith("/answer.htm"):
+                answer_url = url
+                continue
+            if year_roc == 91 and lower_path.endswith("answer-new.pdf"):
+                answer_url = url
+                continue
+            if not lower_path.endswith((".pdf", ".jpg", ".jpeg", ".png")):
+                continue
+
+            common = _historical_common_subject(label) if "共同科" in cell_text else None
+            if common is None and "共同科" in cell_text:
+                common = _historical_common_subject(cell_text)
+            if common is not None:
+                subject_code, subject_name = common
+                key = ("common", subject_code, f"共同科目 {subject_name}")
+                grouped.setdefault(key, []).append(url)
+                continue
+
+            group = _historical_group(cell_text)
+            part = _historical_professional_part(label) or _historical_professional_part(cell_text)
+            if group is None or part is None:
+                continue
+            category_code, group_name = group
+            subject_code = f"professional-{part}"
+            numeral = "一" if part == 1 else "二"
+            subject_name = f"{category_code}{group_name} 專業科目({numeral})"
+            grouped.setdefault((category_code, subject_code, subject_name), []).append(url)
+
+    papers = [
+        ParsedPaper(
+            category_raw=_TCTE_CATEGORY_NAME,
+            category_code=category_code,
+            subject_code=subject_code,
+            subject_name_raw=subject_name,
+            files=_historical_question_files(urls),
+        )
+        for (category_code, subject_code, subject_name), urls in grouped.items()
+    ]
+    if answer_url:
+        papers.append(
+            ParsedPaper(
+                category_raw=_TCTE_CATEGORY_NAME,
+                category_code="common",
+                subject_code="all",
+                subject_name_raw="各科標準答案",
+                files={"answer_table" if year_roc == 90 else "all_answers": answer_url},
+            )
+        )
+    return papers
+
+
 def parse_year_page(html: str, base_url: str) -> list[ParsedPaper]:
+    historical_match = _HISTORICAL_YEAR_RE.search(base_url)
+    if historical_match is not None:
+        return parse_historical_year_page(html, base_url, int(historical_match.group("roc_year")))
     parser = _TableParser(base_url)
     parser.feed(html)
     parser.close()
@@ -275,6 +443,9 @@ def parse_year_page(html: str, base_url: str) -> list[ParsedPaper]:
 class TcteTveClient:
     provider_id = "tcte_tve"
 
+    def __init__(self) -> None:
+        self._year_pages_cache: tuple[TcteYearPage, ...] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
@@ -303,7 +474,21 @@ class TcteTveClient:
             )
 
     def _year_pages(self) -> list[TcteYearPage]:
-        return parse_listing_page(self._fetch_text(LISTING_URL))
+        if self._year_pages_cache is None:
+            self._year_pages_cache = tuple(parse_listing_page(self._fetch_text(LISTING_URL)))
+        return list(self._year_pages_cache)
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if not any(page.year_ad == year_ad for page in self._year_pages()):
+            raise ValueError(f"Unknown TCTE TVE year: {year_ad}")
+        return LISTING_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        try:
+            page = next(page for page in self._year_pages() if page.code == exam_code and page.year_ad == year_ad)
+        except StopIteration as exc:
+            raise ValueError(f"Unknown TCTE TVE exam: {exam_code} ({year_ad})") from exc
+        return page.url + "/"
 
     def discover_available_years(self) -> list[int]:
         return [page.year_ad for page in self._year_pages()]

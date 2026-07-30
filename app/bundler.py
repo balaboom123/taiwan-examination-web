@@ -9,7 +9,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 from app.normalizer import hashed_fallback_canonical_id, legacy_fallback_canonical_id
-from app.models import BundleAsset, BundleBuildResult, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
+from app.models import BundleAsset, BundleBuildResult, NormalizedCatalog, NormalizedPaper, SyncFailure, file_type_label, to_plain_data
 from app.publication_metadata import derive_public_metadata
 
 WINDOWS_RESERVED_NAMES = {
@@ -49,7 +49,7 @@ def _bundle_arcname(paper: NormalizedPaper) -> str:
             _safe_segment(paper.category_code or "category", max_length=24),
             _safe_segment(paper.subject_code or "subject", max_length=24),
             _safe_segment(paper.subject_name_raw or "subject", max_length=60),
-            _safe_segment(FILE_TYPE_LABELS.get(paper.file_type, paper.file_type or "file"), max_length=20),
+            _safe_segment(file_type_label(paper.file_type), max_length=20),
         ]
     )
     return f"{paper.year_roc}/{file_name}{suffix}"

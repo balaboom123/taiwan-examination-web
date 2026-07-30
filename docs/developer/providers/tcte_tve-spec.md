@@ -13,7 +13,7 @@
 
 - source domain: `www.tcte.edu.tw`
 - source page: `https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y`
-- yearly paper pages: `https://web1.tcte.edu.tw/EXAM/<roc_year>_4y/`
+- yearly paper pages: `https://web1.tcte.edu.tw/EXAM/<roc_year:03d>_4y/`
 - source access: public web pages plus linked Word/PDF files
 - source cadence: yearly archive updates after the exam and answer-confirmation process
 - authentication: none
@@ -45,8 +45,12 @@ python -m app sync-full --provider tcte_tve --site-id default
 - provider package: `app/providers/tcte_tve/`
 - focused tests: `tests/test_tcte_tve.py`
 - published bundle: `tcte-tve`
-- local synced coverage: ROC 92-115 / AD 2003-2026, 2,956 normalized paper records
-- ROC 90-91 raw pages remain retained but outside normalized paper scope: the documented direct pages `https://web1.tcte.edu.tw/EXAM/90_4y/` and `https://web1.tcte.edu.tw/EXAM/91_4y/` returned HTTP 404 (236 bytes, SHA-256 `9448f8a1159c9b14e3e1b9d8eab1a6ddf88d26e1f888a34cef430c756e4e6e1e`) on 2026-07-29. The reviewed event blockers are recorded in `catalog/source-coverage/tcte_tve.json`; ROC 90/91 remain outside the per-subject denominator until a current official replacement is verified.
+- source manifest: 26 official listing events for ROC 90-115 / AD 2001-2026, captured 2026-07-30
+- local synced coverage: ROC 90-115 / AD 2001-2026, 26 events and 3,079 normalized asset records
+- all ROC 92-115 event metadata and paper/file URLs reconcile exactly with the current official pages
+- ROC 90 resolves at the official padded path `https://web1.tcte.edu.tw/EXAM/090_4y/`: 46 parsed paper groups and 75 asset references (72 unique URLs), including multipart JPEG questions and the official HTML answer table
+- ROC 91 resolves at `https://web1.tcte.edu.tw/EXAM/091_4y/`: 48 retained PDF question/answer asset records. The duplicate XLS representation of the same all-subject answer is intentionally excluded in favor of the official PDF.
+- the former ROC 90/91 blockers tested unpadded `/90_4y/` and `/91_4y/` paths, which still return HTTP 404. They were retired after the current official listing proved the padded paths and both padded pages returned HTTP 200 on 2026-07-30.
 
 ## Normalization Rules
 

@@ -211,7 +211,7 @@
       "status_reason": "Intentionally out of scope as a source; available range: Not an official source; local coverage: None"
     }
   ],
-  "captured_at": "2026-07-29",
+  "captured_at": "2026-07-30",
   "inventory_version": "source-scope-v1",
   "providers": [
     {
@@ -1133,13 +1133,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "Raw listing 2001–2026; ROC 90/91 direct pages rechecked 2026-07-29 and returned HTTP 404",
+        "note": "Official listing exposes ROC 90–115 / AD 2001–2026; the exact padded ROC 90/91 pages were rechecked 2026-07-30 and returned HTTP 200",
         "start_ad": 2001
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/tcte_tve/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1148,7 +1148,7 @@
       ],
       "exam_category": "TCTE 四技二專統一入學測驗 / TVE archive",
       "local_state": {
-        "normalized_paper_records": 2956,
+        "normalized_paper_records": 3079,
         "raw_event_pages": 26,
         "sync_failures": 0
       },
@@ -1185,10 +1185,11 @@
       ],
       "provider_id": "tcte_tve",
       "restrictions": [
-        "ROC 90/91 are retained raw events with reviewed 404 evidence in `catalog/source-coverage/tcte_tve.json`; ROC 92–94 and later paper/answer surfaces remain covered in declared scope."
+        "The ROC 91 XLS answer is intentionally excluded as a duplicate format of the retained official PDF.",
+        "The official archive says historical papers and answers are reference material; no explicit redistribution license is recorded."
       ],
-      "status": "partial",
-      "status_reason": "Partial / blocked historical events; source availability: Raw listing 2001–2026; ROC 90/91 direct pages rechecked 2026-07-29 and returned HTTP 404; local coverage: raw 2001–2026; papers 2003–2026, 24 buckets; 26 → 2,956"
+      "status": "covered",
+      "status_reason": "Covered in declared paper/answer scope; 26/26 official listing events are manifest-represented and local, with 3,079 mirrored normalized assets across AD 2001–2026 and zero failures"
     },
     {
       "available_years": {

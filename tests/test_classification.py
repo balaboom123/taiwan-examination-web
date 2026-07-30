@@ -72,6 +72,20 @@ class ExamIdentityClassificationTests(unittest.TestCase):
         self.assertEqual(skill.level_id, "class-a")
         self.assertEqual(skill.exam_series_id, "skill-certification")
 
+    def test_historical_tcte_classes_are_professional_tracks(self) -> None:
+        identity = classify(
+            "四技二專統一入學測驗",
+            "90學年度四技二專統一入學測驗",
+            source="tcte-tve-90",
+            provider="tcte_tve",
+            canonical="tcte-tve",
+            subject="01機械類 專業科目(一)",
+        )
+
+        self.assertEqual(identity.exam_series_id, "admission-tcte")
+        self.assertEqual(identity.track_id, "tcte-group-01")
+        self.assertEqual(identity.track_label, "01機械類")
+
     def test_ast_multi_subject_notices_reuse_historical_subject_tracks(self) -> None:
         historical = classify(
             "分科測驗",

@@ -365,6 +365,45 @@ class AnswerArchiveClient:
         return DownloadedFile(data=b"PK\x03\x04zip payload", content_type="application/zip", file_name=Path(url).name)
 
 
+class TcteHistoricalAssetClient:
+    provider_id = "tcte_tve"
+
+    def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+        return SourceExamPage(
+            source_exam_id=exam_code,
+            year_ad=year_ad,
+            year_roc=year_ad - 1911,
+            exam_name_raw="90學年度四技二專統一入學測驗",
+            attachments=[],
+            papers=[
+                ParsedPaper(
+                    category_raw="四技二專統一入學測驗",
+                    category_code="common",
+                    subject_code="math",
+                    subject_name_raw="共同科目 數學科",
+                    files={
+                        "question_page_01": "https://example.test/math-p1.jpg",
+                        "answer_table": "https://example.test/answer.htm",
+                    },
+                )
+            ],
+            provider_id=self.provider_id,
+        )
+
+    def download_file(self, url: str) -> DownloadedFile:
+        if url.endswith(".jpg"):
+            return DownloadedFile(
+                data=b"\xff\xd8\xff\xe0jpeg payload",
+                content_type="image/jpeg",
+                file_name="math-p1.jpg",
+            )
+        return DownloadedFile(
+            data=b"<html><table><tr><td>A</td></tr></table></html>",
+            content_type="text/html; charset=utf-8",
+            file_name="answer.htm",
+        )
+
+
 class SyncExamPagesTests(unittest.TestCase):
     def test_moex_provider_implements_source_provider_contract(self) -> None:
         self.assertIsInstance(MoexProvider(), SourceProvider)
@@ -480,6 +519,30 @@ class SyncExamPagesTests(unittest.TestCase):
         self.assertEqual(normalized.papers, [])
         self.assertEqual(len(failures), 1)
         self.assertIn("HTML placeholder", failures[0].message)
+
+    def test_sync_exam_pages_accepts_tcte_question_images_and_intentional_answer_html(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            raw_pages, normalized, failures = sync_exam_pages(
+                client=TcteHistoricalAssetClient(),
+                exam_codes=[("tcte-tve-90", 2001)],
+                mirror_store=MirrorStore(Path(tmp_dir)),
+                alias_rules=[],
+                mirror_base_url="",
+            )
+
+        self.assertEqual(
+            sorted(paper.file_type for paper in normalized.papers),
+            ["answer_table", "question_page_01"],
+        )
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["question_page_01"]["storage_key"],
+            "providers/tcte_tve/90/tcte-tve-90/common/math/question_page_01.jpg",
+        )
+        self.assertEqual(
+            raw_pages[0].papers[0].mirror_files["answer_table"]["storage_key"],
+            "providers/tcte_tve/90/tcte-tve-90/common/math/answer_table.htm",
+        )
+        self.assertEqual(failures, [])
 
     def test_sync_exam_pages_retries_transient_download_failures(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

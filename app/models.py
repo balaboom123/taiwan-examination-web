@@ -199,9 +199,17 @@ FILE_TYPE_LABELS = {
     "answer": "答案",
     "corrected_answer": "更正答案",
     "all_answers": "全部答案",
+    "answer_table": "答案表",
     "accessible_bundle": "無障礙題本",
     "listening_audio": "聽力音檔",
 }
+
+
+def file_type_label(file_type: str) -> str:
+    if file_type.startswith("question_page_"):
+        page = file_type.removeprefix("question_page_").lstrip("0") or "0"
+        return f"試題第{page}頁"
+    return FILE_TYPE_LABELS.get(file_type, file_type or "file")
 
 
 def to_plain_data(value: Any) -> Any:

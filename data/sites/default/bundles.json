@@ -204501,14 +204501,16 @@
         95,
         94,
         93,
-        92
+        92,
+        91,
+        90
       ],
-      "file_count": 874,
+      "file_count": 196,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-common-subject--ee88b8f6a849.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-common-subject--ee88b8f6a849.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-common-subject--ee88b8f6a849.zip",
-      "checksum": "dcd930815983cdf90888f266e5697fa76e413d382f24536acc75844f5a27907e",
+      "checksum": "9b9826ebc96ab7db9a6e95b8150e40ffa3d52429f103f537f7590e3dd0568610",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-common-subject.zip",
         "tcte-tve-admission-tcte-not-applicable-common-subject.zip"
@@ -204529,8 +204531,6 @@
       "exam_class": "升學測驗",
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
-        "08工程與管理類",
-        "10衛生與護理類",
         "共同科目 國文科",
         "共同科目 英文科",
         "共同科目 數學(A)",
@@ -204538,29 +204538,31 @@
         "共同科目 數學(C)",
         "共同科目 數學(S)",
         "共同科目 數學科",
-        "01機械類",
-        "02汽車類",
-        "03電機類",
-        "04電子類",
-        "05化工類",
-        "06衛生類",
-        "07土木建築類",
-        "08工業設計類",
-        "09工程與管理類工程組",
-        "10工程與管理類管理組",
-        "11護理類",
-        "12食品類",
-        "13商業類",
-        "14商業設計類",
-        "15幼保類"
+        "各科標準答案",
+        "115學年度四技二專統一入學測驗",
+        "common",
+        "chinese",
+        "english",
+        "math-a",
+        "math-b",
+        "math-c",
+        "114學年度四技二專統一入學測驗",
+        "113學年度四技二專統一入學測驗",
+        "112學年度四技二專統一入學測驗",
+        "111學年度四技二專統一入學測驗",
+        "110學年度四技二專統一入學測驗",
+        "s",
+        "109學年度四技二專統一入學測驗",
+        "subject-e695b8e5adb8",
+        "108學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "08工程與管理類",
-        "10衛生與護理類",
         "共同科目 國文科",
         "共同科目 英文科",
         "共同科目 數學(A)",
-        "共同科目 數學(B)"
+        "共同科目 數學(B)",
+        "共同科目 數學(C)",
+        "共同科目 數學(S)"
       ],
       "legacy_canonical_ids": []
     },
@@ -204585,14 +204587,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-01--582e4714b8a9.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-01--582e4714b8a9.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-01--582e4714b8a9.zip",
-      "checksum": "a050c006fcfb74874d002e915c03a091c14a183491df9118f56e76d825fb1800",
+      "checksum": "5208e810a73a242cab3b775b8c13fdd22354b74199ac8a42c021d66786c6ceae",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-01.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-01.zip"
@@ -204614,6 +204624,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "01機械群",
+        "01機械類",
         "115學年度四技二專統一入學測驗",
         "01",
         "professional-1",
@@ -204634,10 +204645,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "01機械群"
+        "01機械群",
+        "01機械類"
       ],
       "legacy_canonical_ids": []
     },
@@ -204662,14 +204675,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-02--f04afe7d3155.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-02--f04afe7d3155.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-02--f04afe7d3155.zip",
-      "checksum": "b0f08f333daa5d48eb0a71582810336dabd4747a5d1b05e32f0ce23df6586b7c",
+      "checksum": "4ebdb12fe49d7089719abf3dce72a5874d6b7b2c1cf921cea5f433bdb2e5792a",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-02.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-02.zip"
@@ -204691,6 +204712,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "02動力機械群",
+        "02汽車類",
         "115學年度四技二專統一入學測驗",
         "02",
         "professional-1",
@@ -204711,10 +204733,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "02動力機械群"
+        "02動力機械群",
+        "02汽車類"
       ],
       "legacy_canonical_ids": []
     },
@@ -204739,14 +204763,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-03--5bb4c3003bfa.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-03--5bb4c3003bfa.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-03--5bb4c3003bfa.zip",
-      "checksum": "89142ec1d2d991e3e2970a082d42f8defd1923f2312ad3fddde068d9cc0e0019",
+      "checksum": "2ac14e1bada450ad6cae8bbe7d9bd995edc6d1d0db718327c7b5a736986fb235",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-03.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-03.zip"
@@ -204768,6 +204800,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "03電機與電子群電機類",
+        "03電機類",
         "115學年度四技二專統一入學測驗",
         "03",
         "professional-1",
@@ -204788,10 +204821,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "03電機與電子群電機類"
+        "03電機與電子群電機類",
+        "03電機類"
       ],
       "legacy_canonical_ids": []
     },
@@ -204816,14 +204851,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-04--cd14ba97be41.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-04--cd14ba97be41.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-04--cd14ba97be41.zip",
-      "checksum": "5b38c212ac5ad5a9a71d99556406bc70cda81e1daf2381a5d7ce6f4f3ec3510f",
+      "checksum": "7009f0a0d9273a8544c459a1d87a4d8d36c359e6488fd7ddcfc48c0df8ae66ec",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-04.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-04.zip"
@@ -204846,6 +204889,7 @@
       "search_aliases": [
         "04電機與電子群資電類",
         "04電機與電子群電子類",
+        "04電子類",
         "115學年度四技二專統一入學測驗",
         "04",
         "professional-1",
@@ -204870,7 +204914,8 @@
       ],
       "subject_labels": [
         "04電機與電子群資電類",
-        "04電機與電子群電子類"
+        "04電機與電子群電子類",
+        "04電子類"
       ],
       "legacy_canonical_ids": []
     },
@@ -204895,14 +204940,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 109,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-05--64b8c226c74d.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-05--64b8c226c74d.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-05--64b8c226c74d.zip",
-      "checksum": "111f1bc07d1e66fdf917cc7815259dbdf4115df98da808f1d3d675492f7c14cc",
+      "checksum": "ac1a23dcad75e4d2a73db1a16ec3eddab135b572804974d3c2b44d2f121f3da6",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-05.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-05.zip"
@@ -204924,6 +204977,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "05化工群",
+        "05化工類",
         "115學年度四技二專統一入學測驗",
         "05",
         "professional-1",
@@ -204944,10 +204998,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "05化工群"
+        "05化工群",
+        "05化工類"
       ],
       "legacy_canonical_ids": []
     },
@@ -204972,14 +205028,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-06--44aa6c70e849.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-06--44aa6c70e849.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-06--44aa6c70e849.zip",
-      "checksum": "a62b2e402ba80ff8ab3ad9fdbf9313c9c4d4c7695a0b4848d93a1f1496a54aad",
+      "checksum": "40e9b2ddbbfc6e5dec6cee6f7c1277bc334a107abd9758c6ad5d01c9255578c5",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-06.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-06.zip"
@@ -205001,6 +205065,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "06土木與建築群",
+        "06衛生類",
         "115學年度四技二專統一入學測驗",
         "06",
         "professional-1",
@@ -205021,10 +205086,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "06土木與建築群"
+        "06土木與建築群",
+        "06衛生類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205049,14 +205116,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 54,
+      "file_count": 82,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-07--e5a3e5212848.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-07--e5a3e5212848.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-07--e5a3e5212848.zip",
-      "checksum": "1b2ba939c73396d5eb8e9d8586647ad8eaeddd0a56ff61ece4678eab0be201a4",
+      "checksum": "b713b13ee24f06cad6d321ad987754c811cf92f8d96e7b05c7b38c1128530a43",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-07.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-07.zip"
@@ -205078,6 +205153,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "07設計群",
+        "07土木建築類",
         "115學年度四技二專統一入學測驗",
         "07",
         "professional-1",
@@ -205098,10 +205174,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "07設計群"
+        "07設計群",
+        "07土木建築類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205126,14 +205204,110 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 98,
+      "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-08--1f566e4c87dd.zip",
+      "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-08--1f566e4c87dd.zip",
+      "release_tag": "default-bundles-v2-012",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-012/tcte-tve-admission-tcte-not-applicable-tcte-group-08--1f566e4c87dd.zip",
+      "checksum": "83aa6ae0913dda77d9ab98535847fc31deb4fa1971083498956b0a700c1465f5",
+      "legacy_asset_names": [
+        "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-08.zip",
+        "tcte-tve-admission-tcte-not-applicable-tcte-group-08.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "tcte-tve-admission-tcte-not-applicable-tcte-group-08",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "technical-admission",
+      "exam_series_id": "admission-tcte",
+      "level_id": "not-applicable",
+      "track_id": "tcte-group-08",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "四技二專統一入學測驗",
+      "search_aliases": [
+        "08工程與管理類",
+        "08工業設計類",
+        "115學年度四技二專統一入學測驗",
+        "08",
+        "professional-1",
+        "professional-2",
+        "114學年度四技二專統一入學測驗",
+        "113學年度四技二專統一入學測驗",
+        "112學年度四技二專統一入學測驗",
+        "111學年度四技二專統一入學測驗",
+        "110學年度四技二專統一入學測驗",
+        "109學年度四技二專統一入學測驗",
+        "108學年度四技二專統一入學測驗",
+        "107學年度四技二專統一入學測驗",
+        "106學年度四技二專統一入學測驗",
+        "105學年度四技二專統一入學測驗",
+        "104學年度四技二專統一入學測驗",
+        "103學年度四技二專統一入學測驗",
+        "102學年度四技二專統一入學測驗",
+        "101學年度四技二專統一入學測驗",
+        "100學年度四技二專統一入學測驗",
+        "99學年度四技二專統一入學測驗",
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
+      ],
+      "subject_labels": [
+        "08工程與管理類",
+        "08工業設計類"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "tcte-tve",
+      "canonical_name": "四技二專統一入學測驗",
+      "years": [
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
+      ],
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-09--cc59f09111b5.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-09--cc59f09111b5.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-09--cc59f09111b5.zip",
-      "checksum": "6f3ed81328c301eb715145cc10de58aea7484fca5b9829c00e591b1f4c366d43",
+      "checksum": "8cc2baf758977351596225d03501aae2f88d8f8044978662f23348b87120ed3b",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-09.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-09.zip"
@@ -205156,6 +205330,7 @@
       "search_aliases": [
         "09商業與管理群",
         "09商管群",
+        "09工程與管理類工程組",
         "115學年度四技二專統一入學測驗",
         "09",
         "professional-1",
@@ -205180,7 +205355,8 @@
       ],
       "subject_labels": [
         "09商業與管理群",
-        "09商管群"
+        "09商管群",
+        "09工程與管理類工程組"
       ],
       "legacy_canonical_ids": []
     },
@@ -205205,14 +205381,110 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
+      "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-10--b3d94289a4c1.zip",
+      "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-10--b3d94289a4c1.zip",
+      "release_tag": "default-bundles-v2-013",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-013/tcte-tve-admission-tcte-not-applicable-tcte-group-10--b3d94289a4c1.zip",
+      "checksum": "7d8d47487300a31b1205c4bdb4554e8d83b63a05fce7089195d92881c6c2c795",
+      "legacy_asset_names": [
+        "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-10.zip",
+        "tcte-tve-admission-tcte-not-applicable-tcte-group-10.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "tcte-tve-admission-tcte-not-applicable-tcte-group-10",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "technical-admission",
+      "exam_series_id": "admission-tcte",
+      "level_id": "not-applicable",
+      "track_id": "tcte-group-10",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "四技二專統一入學測驗",
+      "search_aliases": [
+        "10衛生與護理類",
+        "10工程與管理類管理組",
+        "115學年度四技二專統一入學測驗",
+        "10",
+        "professional-1",
+        "professional-2",
+        "114學年度四技二專統一入學測驗",
+        "113學年度四技二專統一入學測驗",
+        "112學年度四技二專統一入學測驗",
+        "111學年度四技二專統一入學測驗",
+        "110學年度四技二專統一入學測驗",
+        "109學年度四技二專統一入學測驗",
+        "108學年度四技二專統一入學測驗",
+        "107學年度四技二專統一入學測驗",
+        "106學年度四技二專統一入學測驗",
+        "105學年度四技二專統一入學測驗",
+        "104學年度四技二專統一入學測驗",
+        "103學年度四技二專統一入學測驗",
+        "102學年度四技二專統一入學測驗",
+        "101學年度四技二專統一入學測驗",
+        "100學年度四技二專統一入學測驗",
+        "99學年度四技二專統一入學測驗",
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
+      ],
+      "subject_labels": [
+        "10衛生與護理類",
+        "10工程與管理類管理組"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "tcte-tve",
+      "canonical_name": "四技二專統一入學測驗",
+      "years": [
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        107,
+        106,
+        105,
+        104,
+        103,
+        102,
+        101,
+        100,
+        99,
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
+      ],
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-11--e72a96f5fff1.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-11--e72a96f5fff1.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-11--e72a96f5fff1.zip",
-      "checksum": "e2c7b14e3faf70f9d70384d690ab18c587ba1126ee1f18a10af290fdc95d4b01",
+      "checksum": "267af9f871af3b0cd23ff282dbe4a024ea3dc9641b834eddd4436f152d733a50",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-11.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-11.zip"
@@ -205234,6 +205506,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "11食品群",
+        "11護理類",
         "115學年度四技二專統一入學測驗",
         "11",
         "professional-1",
@@ -205254,10 +205527,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "11食品群"
+        "11食品群",
+        "11護理類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205282,14 +205557,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-12--b0cc31e3a968.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-12--b0cc31e3a968.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-12--b0cc31e3a968.zip",
-      "checksum": "69df3ed195e302f152d1f42b9928ff0a6da6d34dc727d72e28bf8e8d990466fa",
+      "checksum": "580db34a664aad6445332b1966d8b3a5dbe279051c2b2eb02b23c4c3ab96cbc1",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-12.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-12.zip"
@@ -205311,6 +205594,7 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "12家政群幼保類",
+        "12食品類",
         "115學年度四技二專統一入學測驗",
         "12",
         "professional-1",
@@ -205331,10 +205615,12 @@
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
         "99學年度四技二專統一入學測驗",
-        "98學年度四技二專統一入學測驗"
+        "98學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "12家政群幼保類"
+        "12家政群幼保類",
+        "12食品類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205359,14 +205645,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 103,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-13--ef49e54f6e90.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-13--ef49e54f6e90.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-13--ef49e54f6e90.zip",
-      "checksum": "751d8065551ba4f775f68a7f0c9f83cd37582ddb70f8629bd73db62adc72dce8",
+      "checksum": "44a91dace8c67cf6198a82dea0ad9020201a74bfb5b6b411b4b1917d78f22c55",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-13.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-13.zip"
@@ -205388,6 +205682,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "13家政群生活應用類",
+        "13商業類",
+        "13海事水產類",
         "115學年度四技二專統一入學測驗",
         "13",
         "professional-1",
@@ -205411,7 +205707,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "13家政群生活應用類"
+        "13家政群生活應用類",
+        "13商業類",
+        "13海事水產類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205436,14 +205734,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 98,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-14--49aac4f6acd2.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-14--49aac4f6acd2.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-14--49aac4f6acd2.zip",
-      "checksum": "f50d767cb3e5051b69553e64fe3feb72c2ea4d397bdf58debe39a8f8d047f2b8",
+      "checksum": "0633d5e93bda83da241482626820ecca96c60c2373c8fb34fb2bda75ee1f5dfa",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-14.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-14.zip"
@@ -205465,6 +205771,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "14農業群",
+        "14商業設計類",
+        "14商業類",
         "115學年度四技二專統一入學測驗",
         "14",
         "professional-1",
@@ -205488,7 +205796,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "14農業群"
+        "14農業群",
+        "14商業設計類",
+        "14商業類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205513,14 +205823,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-15--e6b039e7722a.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-15--e6b039e7722a.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-15--e6b039e7722a.zip",
-      "checksum": "29bb37b30ac8bc95f86a7362d72b1f379265c2e7c01afcf0947235ea51fbd36c",
+      "checksum": "a64bb3288f4634d600049b781f6ca7fb56be3ed6b7fe1d46c4800d0e761f7fce",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-15.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-15.zip"
@@ -205542,6 +205860,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "15外語群英語類",
+        "15幼保類",
+        "15商業設計類",
         "115學年度四技二專統一入學測驗",
         "15",
         "professional-1",
@@ -205565,7 +205885,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "15外語群英語類"
+        "15外語群英語類",
+        "15幼保類",
+        "15商業設計類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205590,14 +205912,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-16--de683165ecbd.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-16--de683165ecbd.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-16--de683165ecbd.zip",
-      "checksum": "d7f2ff3618d5bd068364cab3e0ebe6bff241702dedf79edbefe42c0e0579c866",
+      "checksum": "0a5d0e4e61a6a769336478a4458a5dede00ce0df46c5482d056b2e93365eccba",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-16.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-16.zip"
@@ -205619,6 +205949,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "16外語群日語類",
+        "16美容類",
+        "16幼保類",
         "115學年度四技二專統一入學測驗",
         "16",
         "professional-1",
@@ -205642,7 +205974,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "16外語群日語類"
+        "16外語群日語類",
+        "16美容類",
+        "16幼保類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205667,14 +206001,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-17--907bee4fd417.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-17--907bee4fd417.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-17--907bee4fd417.zip",
-      "checksum": "91b44345499d72711a4066e1e6a375c64ac9101729c11e09108e18d31bb1d937",
+      "checksum": "1889a890bc6fe7c286673c44718594261aba36cdf8548220155f08076d0a244e",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-17.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-17.zip"
@@ -205696,6 +206038,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "17餐旅群",
+        "17家政類",
+        "17美容類",
         "115學年度四技二專統一入學測驗",
         "17",
         "professional-1",
@@ -205719,7 +206063,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "17餐旅群"
+        "17餐旅群",
+        "17家政類",
+        "17美容類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205744,14 +206090,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-18--41257d1a3e2a.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-18--41257d1a3e2a.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-18--41257d1a3e2a.zip",
-      "checksum": "71cf3140df730d2da9f8f068cce8f27f447905a4e707f2ce4259f89dd916b48c",
+      "checksum": "f26d9206433b88fa1545d4e8eaa120e62ba511557d64ccc0aa05fab3816b107b",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-18.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-18.zip"
@@ -205773,6 +206127,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "18海事群",
+        "18農業類",
+        "18家政類",
         "115學年度四技二專統一入學測驗",
         "18",
         "professional-1",
@@ -205796,7 +206152,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "18海事群"
+        "18海事群",
+        "18農業類",
+        "18家政類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205821,14 +206179,22 @@
         101,
         100,
         99,
-        98
+        98,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 72,
+      "file_count": 100,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-19--7d15856a249d.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-19--7d15856a249d.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-19--7d15856a249d.zip",
-      "checksum": "33667d87c5f8a989d1d9eb99cb6d784ad758d6a12f52f2bd87e66d0e2b650d4b",
+      "checksum": "908c42e93a60805fbecfc4f0c51ca97e73da1cd71ccab429c467e6710d8251bb",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-19.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-19.zip"
@@ -205850,6 +206216,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "19水產群",
+        "19語文類英文組",
+        "19農業類",
         "115學年度四技二專統一入學測驗",
         "19",
         "professional-1",
@@ -205873,7 +206241,9 @@
         "98學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "19水產群"
+        "19水產群",
+        "19語文類英文組",
+        "19農業類"
       ],
       "legacy_canonical_ids": []
     },
@@ -205897,14 +206267,22 @@
         102,
         101,
         100,
-        99
+        99,
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
       ],
-      "file_count": 68,
+      "file_count": 96,
       "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-20--cffb549b705a.zip",
       "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-20--cffb549b705a.zip",
       "release_tag": "default-bundles-v2-008",
       "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/tcte-tve-admission-tcte-not-applicable-tcte-group-20--cffb549b705a.zip",
-      "checksum": "809619bca118362a8c0308658e6f9ec82cf097704621dedd3227a0f1a293bf13",
+      "checksum": "7636bfa57564992312242877acc4248bf34a97d904074fa667d5b68cc2cf15c9",
       "legacy_asset_names": [
         "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-20.zip",
         "tcte-tve-admission-tcte-not-applicable-tcte-group-20.zip"
@@ -205926,6 +206304,8 @@
       "exam_subclass": "四技二專統一入學測驗",
       "search_aliases": [
         "20藝術群影視類",
+        "20語文類日文組",
+        "20語文類英文組",
         "115學年度四技二專統一入學測驗",
         "20",
         "professional-1",
@@ -205945,10 +206325,182 @@
         "102學年度四技二專統一入學測驗",
         "101學年度四技二專統一入學測驗",
         "100學年度四技二專統一入學測驗",
-        "99學年度四技二專統一入學測驗"
+        "99學年度四技二專統一入學測驗",
+        "97學年度四技二專統一入學測驗"
       ],
       "subject_labels": [
-        "20藝術群影視類"
+        "20藝術群影視類",
+        "20語文類日文組",
+        "20語文類英文組"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "tcte-tve",
+      "canonical_name": "四技二專統一入學測驗",
+      "years": [
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91,
+        90
+      ],
+      "file_count": 39,
+      "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-21--10026c628e19.zip",
+      "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-21--10026c628e19.zip",
+      "release_tag": "default-bundles-v2-013",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-013/tcte-tve-admission-tcte-not-applicable-tcte-group-21--10026c628e19.zip",
+      "checksum": "86187676c310115281ad0cabc8cff0f196dcf5c27e7193c6d9f5ec8bb9d66285",
+      "legacy_asset_names": [
+        "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-21.zip",
+        "tcte-tve-admission-tcte-not-applicable-tcte-group-21.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "tcte-tve-admission-tcte-not-applicable-tcte-group-21",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "technical-admission",
+      "exam_series_id": "admission-tcte",
+      "level_id": "not-applicable",
+      "track_id": "tcte-group-21",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "四技二專統一入學測驗",
+      "search_aliases": [
+        "21餐旅類",
+        "21語文類日文組",
+        "97學年度四技二專統一入學測驗",
+        "21",
+        "professional-1",
+        "professional-2",
+        "96學年度四技二專統一入學測驗",
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗",
+        "92學年度四技二專統一入學測驗",
+        "91學年度四技二專統一入學測驗",
+        "90學年度四技二專統一入學測驗"
+      ],
+      "subject_labels": [
+        "21餐旅類",
+        "21語文類日文組"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "tcte-tve",
+      "canonical_name": "四技二專統一入學測驗",
+      "years": [
+        97,
+        96,
+        95,
+        94,
+        93,
+        92,
+        91
+      ],
+      "file_count": 26,
+      "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-22--d50e7107e6b7.zip",
+      "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-22--d50e7107e6b7.zip",
+      "release_tag": "default-bundles-v2-013",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-013/tcte-tve-admission-tcte-not-applicable-tcte-group-22--d50e7107e6b7.zip",
+      "checksum": "9cae61efed52949bcddd43911a4fe2975727dbe4a6984b4af30612a185e6f9f4",
+      "legacy_asset_names": [
+        "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-22.zip",
+        "tcte-tve-admission-tcte-not-applicable-tcte-group-22.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "tcte-tve-admission-tcte-not-applicable-tcte-group-22",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "technical-admission",
+      "exam_series_id": "admission-tcte",
+      "level_id": "not-applicable",
+      "track_id": "tcte-group-22",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "四技二專統一入學測驗",
+      "search_aliases": [
+        "22海事類",
+        "22餐旅類",
+        "97學年度四技二專統一入學測驗",
+        "22",
+        "professional-1",
+        "professional-2",
+        "96學年度四技二專統一入學測驗",
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗",
+        "92學年度四技二專統一入學測驗",
+        "91學年度四技二專統一入學測驗"
+      ],
+      "subject_labels": [
+        "22海事類",
+        "22餐旅類"
+      ],
+      "legacy_canonical_ids": []
+    },
+    {
+      "canonical_id": "tcte-tve",
+      "canonical_name": "四技二專統一入學測驗",
+      "years": [
+        97,
+        96,
+        95,
+        94,
+        93,
+        92
+      ],
+      "file_count": 24,
+      "storage_key": "bundles/sites/default/tcte-tve-admission-tcte-not-applicable-tcte-group-23--6fcba7ca947d.zip",
+      "asset_name": "tcte-tve-admission-tcte-not-applicable-tcte-group-23--6fcba7ca947d.zip",
+      "release_tag": "default-bundles-v2-013",
+      "download_url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-013/tcte-tve-admission-tcte-not-applicable-tcte-group-23--6fcba7ca947d.zip",
+      "checksum": "20a825f9bb019e57c8aa2963e0b4ad6b8fcdd2596b38cc2899b959e0a86084a9",
+      "legacy_asset_names": [
+        "四技二專統一入學測驗__tcte-tve-admission-tcte-not-applicable-tcte-group-23.zip",
+        "tcte-tve-admission-tcte-not-applicable-tcte-group-23.zip"
+      ],
+      "schema_version": 2,
+      "bundle_id": "tcte-tve-admission-tcte-not-applicable-tcte-group-23",
+      "catalog_version": "exam-identity-v2",
+      "domain_id": "admissions",
+      "exam_family_id": "technical-admission",
+      "exam_series_id": "admission-tcte",
+      "level_id": "not-applicable",
+      "track_id": "tcte-group-23",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2",
+      "classification_confidence": "medium",
+      "classification_reason": "provider policy declares no level dimension",
+      "exam_class": "升學測驗",
+      "exam_subclass": "四技二專統一入學測驗",
+      "search_aliases": [
+        "23水產類",
+        "97學年度四技二專統一入學測驗",
+        "23",
+        "professional-1",
+        "professional-2",
+        "96學年度四技二專統一入學測驗",
+        "95學年度四技二專統一入學測驗",
+        "94學年度四技二專統一入學測驗",
+        "93學年度四技二專統一入學測驗",
+        "92學年度四技二專統一入學測驗"
+      ],
+      "subject_labels": [
+        "23水產類"
       ],
       "legacy_canonical_ids": []
     },

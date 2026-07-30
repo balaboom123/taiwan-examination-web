@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import time
 from pathlib import Path
 from urllib.error import HTTPError
@@ -30,6 +31,7 @@ EXPECTED_EXTENSIONS = {
     "answer_sheet": (".pdf",),
     "corrected_answer": (".pdf", ".doc", ".zip"),
     "all_answers": (".pdf",),
+    "answer_table": (".html", ".htm"),
     "accessible_bundle": (".zip",),
     "listening_audio": (".mp3", ".zip", ".rar"),
 }
@@ -71,6 +73,12 @@ def _looks_like_html(data: bytes) -> bool:
     return head.startswith(b"<!doctype html") or head.startswith(b"<html") or head.startswith(b"<!doctype")
 
 
+def _expected_extensions(file_type: str) -> tuple[str, ...]:
+    if re.fullmatch(r"question_page_\d{2}", file_type):
+        return (".jpg", ".jpeg", ".png")
+    return EXPECTED_EXTENSIONS.get(file_type, ())
+
+
 def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
     head = _strip_bom_prefix(data[:8])
     if expected_extension == ".pdf":
@@ -85,13 +93,19 @@ def _matches_expected_binary(data: bytes, expected_extension: str) -> bool:
         return any(data.startswith(signature) for signature in RAR_SIGNATURES)
     if expected_extension == ".mp3":
         return data.startswith(b"ID3") or any(head.startswith(signature) for signature in MP3_FRAME_SYNC_PREFIXES)
+    if expected_extension in {".jpg", ".jpeg"}:
+        return head.startswith(b"\xff\xd8\xff")
+    if expected_extension == ".png":
+        return head.startswith(b"\x89PNG\r\n\x1a\n")
+    if expected_extension in {".html", ".htm"}:
+        return _looks_like_html(data)
     return False
 
 
 def _validated_extension(file_type: str, data: bytes, content_type: str, file_name: str) -> str:
-    expected_extensions = EXPECTED_EXTENSIONS.get(file_type, ())
+    expected_extensions = _expected_extensions(file_type)
     resolved_extension = _extension_for(content_type, file_name).lower()
-    if _looks_like_html(data):
+    if _looks_like_html(data) and file_type != "answer_table":
         joined_extensions = " or ".join(expected_extensions) if expected_extensions else resolved_extension
         raise RuntimeError(f"Downloaded HTML placeholder instead of {joined_extensions} for {file_type}")
     if expected_extensions:
@@ -106,7 +120,7 @@ def _validated_extension(file_type: str, data: bytes, content_type: str, file_na
 
 
 def _is_valid_stored_file(path: Path, file_type: str) -> bool:
-    expected_extensions = EXPECTED_EXTENSIONS.get(file_type, ())
+    expected_extensions = _expected_extensions(file_type)
     actual_extension = path.suffix.lower()
     if not expected_extensions or actual_extension not in expected_extensions:
         return False

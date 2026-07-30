@@ -1,40 +1,5 @@
 {
   "schema_version": 1,
   "provider_id": "tcte_tve",
-  "exceptions": [
-    {
-      "scope": "event",
-      "provider_id": "tcte_tve",
-      "source_exam_id": "tcte-tve-90",
-      "year_ad": 2001,
-      "status": "blocked",
-      "reason_code": "official_page_not_found",
-      "reason": "The official historical page now returns HTTP 404; no replacement public source was identified.",
-      "source_url": "https://web1.tcte.edu.tw/EXAM/90_4y/",
-      "evidence": {
-        "captured_at": "2026-07-29",
-        "http_status": 404,
-        "response_bytes": 236,
-        "response_sha256": "9448f8a1159c9b14e3e1b9d8eab1a6ddf88d26e1f888a34cef430c756e4e6e1e",
-        "observation": "Official historical page returned HTTP 404."
-      }
-    },
-    {
-      "scope": "event",
-      "provider_id": "tcte_tve",
-      "source_exam_id": "tcte-tve-91",
-      "year_ad": 2002,
-      "status": "blocked",
-      "reason_code": "official_page_not_found",
-      "reason": "The official historical page now returns HTTP 404; no replacement public source was identified.",
-      "source_url": "https://web1.tcte.edu.tw/EXAM/91_4y/",
-      "evidence": {
-        "captured_at": "2026-07-29",
-        "http_status": 404,
-        "response_bytes": 236,
-        "response_sha256": "9448f8a1159c9b14e3e1b9d8eab1a6ddf88d26e1f888a34cef430c756e4e6e1e",
-        "observation": "Official historical page returned HTTP 404."
-      }
-    }
-  ]
+  "exceptions": []
 }

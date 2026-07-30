@@ -291,7 +291,7 @@ def _track_details(
         value = re.sub(r"\s*(?:甲級|乙級|丙級|單一級|學科|術科)\s*$", "", value)
         return _slug(value, prefix="skill"), value
     if provider_id == "tcte_tve":
-        match = re.search(r"(\d{2}[^ ]*群)", normalize_text(subject_name))
+        match = re.search(r"(\d{2}[^ ]*(?:群|類))", normalize_text(subject_name))
         if match:
             value = match.group(1)
             group_code = value[:2]
