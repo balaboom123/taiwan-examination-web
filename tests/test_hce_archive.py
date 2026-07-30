@@ -48,6 +48,15 @@ NTHU_ARTICLE_HTML = """
 </body></html>
 """
 
+NTHU_PAGINATION_HTML = """
+<script>
+var option = {
+  urlPrefix: 'https://adms.site.nthu.edu.tw/p/403-1207-6125-PAGE.php?Lang=zh-tw',
+  totalPage: 4
+}
+</script>
+"""
+
 NSYSU_LISTING_HTML = """
 <html><body>
   <a href="https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf">115年</a>
@@ -75,6 +84,42 @@ class HceArchiveParserTests(unittest.TestCase):
                 "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm&page=2",
             ],
         )
+
+    def test_parse_listing_page_urls_reads_bounded_nthu_embedded_pagination(self) -> None:
+        urls = parse_listing_page_urls(
+            NTHU_PAGINATION_HTML,
+            HCE_CONFIGS["hce_nthu"].listing_url,
+            HCE_CONFIGS["hce_nthu"],
+        )
+
+        self.assertEqual(
+            urls,
+            [
+                "https://adms.site.nthu.edu.tw/p/403-1207-6125-2.php?Lang=zh-tw",
+                "https://adms.site.nthu.edu.tw/p/403-1207-6125-3.php?Lang=zh-tw",
+                "https://adms.site.nthu.edu.tw/p/403-1207-6125-4.php?Lang=zh-tw",
+            ],
+        )
+
+    def test_nthu_embedded_pagination_rejects_source_growth_beyond_bound(self) -> None:
+        html = NTHU_PAGINATION_HTML.replace("totalPage: 4", "totalPage: 9")
+
+        with self.assertRaisesRegex(ValueError, "exceeds configured bound"):
+            parse_listing_page_urls(
+                html,
+                HCE_CONFIGS["hce_nthu"].listing_url,
+                HCE_CONFIGS["hce_nthu"],
+            )
+
+    def test_nthu_embedded_pagination_requires_complete_metadata(self) -> None:
+        html = NTHU_PAGINATION_HTML.replace("totalPage: 4", "")
+
+        with self.assertRaisesRegex(ValueError, "Missing embedded listing pagination metadata"):
+            parse_listing_page_urls(
+                html,
+                HCE_CONFIGS["hce_nthu"].listing_url,
+                HCE_CONFIGS["hce_nthu"],
+            )
 
     def test_cmu_short_historical_file_labels_become_questions_and_all_answers(self) -> None:
         html = """
@@ -245,8 +290,12 @@ class HceArchiveProviderTests(unittest.TestCase):
         self.assertEqual(page.papers[0].subject_code, "all")
         self.assertEqual(page.papers[0].files["question_answer"], "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf")
 
-    def test_nthu_config_includes_verified_historical_article_pages(self) -> None:
-        self.assertEqual([page.year_roc for page in HCE_CONFIGS["hce_nthu"].historical_year_pages], [114, 113, 112, 111])
+    def test_nthu_config_uses_live_bounded_pagination(self) -> None:
+        config = HCE_CONFIGS["hce_nthu"]
+
+        self.assertEqual(config.historical_year_pages, ())
+        self.assertEqual(config.embedded_pagination_placeholder, "PAGE")
+        self.assertEqual(config.max_listing_pages, 8)
 
     def test_registry_returns_hce_providers(self) -> None:
         for provider_id in ("hce_cmu", "hce_tcu", "hce_nsysu", "hce_nthu"):

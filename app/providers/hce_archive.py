@@ -38,6 +38,7 @@ class HceArchiveConfig:
     listing_pattern: re.Pattern[str]
     combined_pdf_listing: bool = False
     pagination_param: str | None = None
+    embedded_pagination_placeholder: str | None = None
     max_listing_pages: int = 1
     historical_year_pages: tuple[HceYearPage, ...] = ()
     crawl_delay_seconds: float = 0.0
@@ -118,6 +119,30 @@ def parse_listing_page_urls(html: str, base_url: str, config: HceArchiveConfig) 
     crawl into a site crawl, so pagination is intentionally opt-in per
     provider configuration.
     """
+    if config.embedded_pagination_placeholder:
+        prefix_match = re.search(r"urlPrefix\s*:\s*['\"](?P<url>[^'\"]+)['\"]", html)
+        total_match = re.search(r"totalPage\s*:\s*(?P<total>\d+)", html)
+        if prefix_match is None or total_match is None:
+            raise ValueError("Missing embedded listing pagination metadata")
+        placeholder = config.embedded_pagination_placeholder
+        template = unescape(prefix_match.group("url"))
+        total_pages = int(total_match.group("total"))
+        if template.count(placeholder) != 1:
+            raise ValueError("Invalid embedded listing pagination template")
+        if total_pages > config.max_listing_pages:
+            raise ValueError(
+                f"Official listing pagination exceeds configured bound: {total_pages} > {config.max_listing_pages}"
+            )
+        base = urlparse(base_url)
+        urls = []
+        for page_number in range(2, total_pages + 1):
+            url = urljoin(base_url, template.replace(placeholder, str(page_number)))
+            candidate = urlparse(url)
+            if (candidate.scheme, candidate.netloc) != (base.scheme, base.netloc):
+                raise ValueError("Embedded listing pagination leaves the official host")
+            urls.append(url)
+        return urls
+
     if not config.pagination_param:
         return []
 
@@ -435,23 +460,7 @@ HCE_CONFIGS = {
             "進階物理與線性代數": "advanced-physics-linear-algebra",
         },
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後醫學系.*各科試題及參考答案"),
-        historical_year_pages=(
-            HceYearPage(
-                year_ad=2025,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-286149%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2024,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-266837%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2023,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-246483%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2022,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-227566%2Cr6125.php?Lang=zh-tw",
-            ),
-        ),
+        embedded_pagination_placeholder="PAGE",
+        max_listing_pages=8,
     ),
 }
