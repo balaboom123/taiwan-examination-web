@@ -12,6 +12,8 @@ from app.models import ExamOption, ParsedPaper, SourceExamPage
 from app.providers.base import DownloadedFile, ResponseMetadata
 
 YEAR_URL = "https://svc.tabf.org.tw/115post02//Paper/Year"
+PRIOR_YEAR_URL = "https://svc.tabf.org.tw/114post01//Paper/Year"
+YEAR_URLS = (YEAR_URL, PRIOR_YEAR_URL)
 USER_AGENT = "Mozilla/5.0 (compatible; post-recruit-mirror/1.0)"
 _CATEGORY_NAME = "中華郵政職階人員甄試"
 _YEAR_LABEL_RE = re.compile(r"(?P<roc_year>\d{3})年$")
@@ -22,6 +24,7 @@ _TITLE_RE = re.compile(r"^(?P<roc_year>\d{3})年-(?P<title>.+)$")
 class PostRecruitYear:
     year_ad: int
     url: str
+    listing_url: str
 
     @property
     def year_roc(self) -> int:
@@ -88,7 +91,7 @@ def parse_year_page(html: str, base_url: str) -> list[PostRecruitYear]:
         if year_roc in seen:
             continue
         seen.add(year_roc)
-        years.append(PostRecruitYear(year_ad=year_roc + 1911, url=url))
+        years.append(PostRecruitYear(year_ad=year_roc + 1911, url=url, listing_url=base_url))
     return sorted(years, key=lambda year: year.year_ad, reverse=True)
 
 
@@ -148,7 +151,17 @@ class PostRecruitClient:
             )
 
     def _years(self) -> list[PostRecruitYear]:
-        return parse_year_page(self._fetch_text(YEAR_URL), YEAR_URL)
+        years_by_ad: dict[int, PostRecruitYear] = {}
+        for listing_url in YEAR_URLS:
+            for year in parse_year_page(self._fetch_text(listing_url), listing_url):
+                years_by_ad.setdefault(year.year_ad, year)
+        return sorted(years_by_ad.values(), key=lambda year: year.year_ad, reverse=True)
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return next(year.listing_url for year in self._years() if year.year_ad == year_ad)
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        return next(year.url for year in self._years() if year.code == exam_code and year.year_ad == year_ad)
 
     def discover_available_years(self) -> list[int]:
         return [year.year_ad for year in self._years()]

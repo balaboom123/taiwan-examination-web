@@ -812,38 +812,45 @@
       "available_years": {
         "end_ad": 2025,
         "mode": "observed_range",
-        "note": "2023–2025 accepted in provider spec",
-        "start_ad": 2023
+        "note": "AD 2022–2025 currently enumerable across two live nationwide general-recruitment history indexes; AD 2026 public paper access remains login-gated",
+        "start_ad": 2022
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/post_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/post_recruit-spec.md"
+        "docs/developer/providers/post_recruit-spec.md",
+        "data/providers/post_recruit/source-manifest.json"
       ],
       "exam_category": "Chunghwa Post first-test recruitment papers on an explicitly commissioned TABF host",
       "local_state": {
-        "normalized_paper_records": 112,
-        "raw_event_pages": 3,
+        "normalized_paper_records": 167,
+        "raw_event_pages": 4,
         "sync_failures": 0
       },
       "local_years": [
+        2022,
         2023,
         2024,
         2025
       ],
       "official_source_urls": [
-        "https://svc.tabf.org.tw/115post02//Paper/Year"
+        "https://www.post.gov.tw/post/internet/Group/index.jsp?ID=1467343194090",
+        "https://svc.tabf.org.tw/115post02//Paper/Year",
+        "https://svc.tabf.org.tw/114post01//Paper/Year"
       ],
       "provider_id": "post_recruit",
       "restrictions": [
-        "Third-party mirrors are rejected; current-year source availability and commissioning evidence need refresh."
+        "The public AD 2026 paper lookup redirects to login and the history index currently stops at AD 2025.",
+        "Known pre-AD 2022 listing/history pages return HTTP 404 while some orphaned official PDFs still return HTTP 200, so older assets are not authoritatively enumerable.",
+        "The checked 115post01 specialist history contributes no unique files: all 19 PDFs are byte-identical subsets of the accepted general-cycle inventory; separate ad-hoc/local/special-purpose recruitments remain outside this provider unless reviewed.",
+        "No redistribution grant was found; Chunghwa Post states that reproduction or reposting of site content requires prior written consent, so public redistribution requires legal review."
       ],
       "status": "partial",
-      "status_reason": "Partial / refresh pending; source availability: 2023–2025 accepted in provider spec; local coverage: 2023–2025; 3 → 112"
+      "status_reason": "Partial / bounded live-index coverage; source availability: AD 2022–2025 currently enumerable; local coverage: AD 2022–2025; 4 → 167; AD 2026 is login-gated and pre-2022 history is non-enumerable"
     },
     {
       "available_years": {
