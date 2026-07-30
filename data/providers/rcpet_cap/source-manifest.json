@@ -1,0 +1,274 @@
+{
+  "exams": {
+    "cap-102": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "102年試辦國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/102/102exam.html",
+      "source_exam_id": "cap-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "cap-103": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "103年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/103/103exam.html",
+      "source_exam_id": "cap-103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "cap-104": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "104年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/104/104exam.html",
+      "source_exam_id": "cap-104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "cap-105": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "105年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/105/105exam.html",
+      "source_exam_id": "cap-105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "cap-106": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "106年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/106/106exam.html",
+      "source_exam_id": "cap-106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "cap-107": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "107年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/107/107exam.html",
+      "source_exam_id": "cap-107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "cap-108": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "108年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/108/108exam.html",
+      "source_exam_id": "cap-108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "cap-109": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "109年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/109/109exam.html",
+      "source_exam_id": "cap-109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "cap-110": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "110年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/110/110exam.html",
+      "source_exam_id": "cap-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "cap-111": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "111年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/111/111exam.html",
+      "source_exam_id": "cap-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "cap-111c": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "111年參考試題本",
+      "result_url": "https://cap.rcpet.edu.tw/exam/111c/111practice.html",
+      "source_exam_id": "cap-111c",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "cap-112": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "112年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/112/112exam.html",
+      "source_exam_id": "cap-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "cap-113": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "113年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/113/113exam.html",
+      "source_exam_id": "cap-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "cap-114": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "114年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/114/114exam.html",
+      "source_exam_id": "cap-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "cap-115": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_label": "115年國中教育會考",
+      "result_url": "https://cap.rcpet.edu.tw/exam/115/115exam.html",
+      "source_exam_id": "cap-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T22:25:38.476249+08:00"
+  },
+  "provider_id": "rcpet_cap",
+  "schema_version": 1,
+  "years": {
+    "2013": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-102"
+      ],
+      "exam_codes_hash": "sha256:f02d20a0c4d4d62706376898289ca1dd63aeed1e4cb72ba84bda706262e6bfa4",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-103"
+      ],
+      "exam_codes_hash": "sha256:822fd37a5703bb401c6f3f388ead302ef3fd3e5743e0cc2cd538963c244e6f8a",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-104"
+      ],
+      "exam_codes_hash": "sha256:752616e7251e1e599c536d7ee9e88cade3a0cf907c3496e86b4027c33cafd162",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-105"
+      ],
+      "exam_codes_hash": "sha256:0b86aa8e1c57728b5245cba009814aaefec3161d49d2423b48adbe9bdb86171c",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-106"
+      ],
+      "exam_codes_hash": "sha256:83c931da9e23953e7bd0845ec25e42c0608dce3915ea31dfd6b69820fd979f3a",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-107"
+      ],
+      "exam_codes_hash": "sha256:0cbd0c13989e87753cea6da61ff30a86b77957bcbbc7b333b581119410064a3b",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-108"
+      ],
+      "exam_codes_hash": "sha256:09a61dfd3c9e9693c0e7e8b47ee7c81ccd817fbddcd0aec57e4c400d39b7520a",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-109"
+      ],
+      "exam_codes_hash": "sha256:5a067a832cbe2eb4b4f73135ea93be9d0932c53ada6d7f03f09b3282e61189c6",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-110"
+      ],
+      "exam_codes_hash": "sha256:0db1b4a9b8cbc9dd43fbec16a1d677dab26b895153548d500705f0de9e5b139d",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-111",
+        "cap-111c"
+      ],
+      "exam_codes_hash": "sha256:33fc3e6166d029791fd38341494250c29923f81936dafc1e940f472ed2bc7b76",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-112"
+      ],
+      "exam_codes_hash": "sha256:0569e9f28742f1ceb89b94f9dc44661717a7078412f758f092943ec66981994e",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-113"
+      ],
+      "exam_codes_hash": "sha256:2a9a6d3402baf2e5cb807d576fd794f0f86aaf8adb01d5a2cde77a4ebf2b3605",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-114"
+      ],
+      "exam_codes_hash": "sha256:1a0a345619ca82a74f5ed8fd0e6cdd839d38827db8ffc7f61d8f0c428f64625c",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "discovered_at": "2026-07-29T22:25:38.476249+08:00",
+      "exam_codes": [
+        "cap-115"
+      ],
+      "exam_codes_hash": "sha256:17f1315c7ee29ea6ec3fceedfc1f9cc2a93f4f8f630cf32594b3abfd77769c74",
+      "search_url": "https://cap.rcpet.edu.tw/examination.html",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

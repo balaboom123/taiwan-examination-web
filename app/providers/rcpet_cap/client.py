@@ -251,6 +251,9 @@ def parse_year_page(html: str, year_roc: int, base_url: str = "", year_dir: str 
 class RcpetCapClient:
     provider_id = "rcpet_cap"
 
+    def __init__(self) -> None:
+        self._dropdown_entries_cache: tuple[DropdownEntry, ...] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
@@ -290,8 +293,11 @@ class RcpetCapClient:
             return DownloadedFile(data=data, content_type=content_type, file_name=file_name)
 
     def _get_dropdown_entries(self) -> list[DropdownEntry]:
+        if self._dropdown_entries_cache is not None:
+            return list(self._dropdown_entries_cache)
         html = self._fetch_text(MAIN_PAGE_URL)
-        return parse_dropdown(html)
+        self._dropdown_entries_cache = tuple(parse_dropdown(html))
+        return list(self._dropdown_entries_cache)
 
     def discover_available_years(self) -> list[int]:
         entries = self._get_dropdown_entries()
@@ -309,6 +315,24 @@ class RcpetCapClient:
             for e in entries
             if e.year_ad == year_ad
         ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if any(entry.year_ad == year_ad for entry in self._get_dropdown_entries()):
+            return MAIN_PAGE_URL
+        raise ValueError(f"Unknown RCPET CAP discovery year: {year_ad}")
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        entry = next(
+            (
+                item
+                for item in self._get_dropdown_entries()
+                if f"cap-{item.year_dir}" == exam_code and item.year_ad == year_ad
+            ),
+            None,
+        )
+        if entry is None:
+            raise ValueError(f"Unknown RCPET CAP discovery exam: {exam_code} ({year_ad})")
+        return urljoin(BASE_URL, entry.page_url)
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         entries = self._get_dropdown_entries()

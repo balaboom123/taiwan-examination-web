@@ -842,9 +842,9 @@
         "start_ad": 2013
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/rcpet_cap/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -877,10 +877,12 @@
       ],
       "provider_id": "rcpet_cap",
       "restrictions": [
-        "Public page uses per-year iframe links; conservative scheduled sync."
+        "Public page uses per-year iframe links and official files hosted on Google Drive; file IDs can be replaced without changing an event identity.",
+        "Pilot-year and reference-test materials are intentionally included in this provider scope.",
+        "Materials are publicly downloadable, but no explicit redistribution license is recorded in the repository."
       ],
       "status": "covered",
-      "status_reason": "Covered in declared scope; source availability: 2013–2026 observed; local coverage: 2013–2026, 14 buckets; 15 → 136"
+      "status_reason": "Covered in declared scope; the 2026-07-29 official dropdown manifest contains 14 year buckets and 15 events, all represented by 136 local records"
     },
     {
       "available_years": {
