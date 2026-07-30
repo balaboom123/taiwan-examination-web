@@ -1,0 +1,202 @@
+{
+  "exams": {
+    "hce-tcu-115": {
+      "discovered_at": "2026-07-30T21:04:22.863892+08:00",
+      "exam_label": "115學年度慈濟大學學士後中醫學系",
+      "result_url": "https://admissions.tcu.edu.tw/?p=26534",
+      "source_exam_id": "hce-tcu-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/biology/answer.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__biology__answer.pdf",
+      "bytes": 63486,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "answer",
+      "sha256": "207eae543c680d782e80282ddf1a08896722579fcb358e818c4fee4e4d8ddfc0",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115生物學_參考答案.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/biology/answer.pdf",
+      "subject_code": "biology",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/biology/question.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__biology__question.pdf",
+      "bytes": 757781,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "question",
+      "sha256": "b9fd9a8424c6c2c3467dd50f7fac5bda07370387cb18b245b7aa37bee6fa77cd",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115生物學試題.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/biology/question.pdf",
+      "subject_code": "biology",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chemistry/answer.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__chemistry__answer.pdf",
+      "bytes": 122047,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "answer",
+      "sha256": "bb89c665e6fee46871037375625e83de50fda4873e4568d655b363f6601b1533",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115化學_參考答案.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chemistry/answer.pdf",
+      "subject_code": "chemistry",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chemistry/question.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__chemistry__question.pdf",
+      "bytes": 1507843,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "question",
+      "sha256": "b5713e55ec3477b1a673f0a75e8c160e0e6f38ed3ab0145c85f1936a522bd3bb",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115化學試題.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chemistry/question.pdf",
+      "subject_code": "chemistry",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chinese/answer.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__chinese__answer.pdf",
+      "bytes": 67123,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "answer",
+      "sha256": "f03fc906be2447a8a3f35bdf0ff86b40a746cc8a3a36e56ad16252d95e78ac4d",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115國文_參考答案.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chinese/answer.pdf",
+      "subject_code": "chinese",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chinese/question.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__chinese__question.pdf",
+      "bytes": 854342,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "question",
+      "sha256": "eb4e132c6e6e7a6c178ddb6a57ddcd893bd106477873f35da9e7aae143d8e590",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115國文試題.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/chinese/question.pdf",
+      "subject_code": "chinese",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/english/answer.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__english__answer.pdf",
+      "bytes": 64065,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "answer",
+      "sha256": "687133c3d05ad7803bad9d29ac34a5721cf1bdee7d3412276089170d81c21311",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115英文_參考答案.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/english/answer.pdf",
+      "subject_code": "english",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/english/question.pdf": {
+      "asset_name": "providers__hce_tcu__115__hce-tcu-115__post-bacc-chinese-medicine__english__question.pdf",
+      "bytes": 526382,
+      "category_code": "post-bacc-chinese-medicine",
+      "content_type": "application/pdf",
+      "file_type": "question",
+      "sha256": "a8019d21c93f3c3cc4ebff3c5e4c2a9ad0de269196f7563d4d2c77716f802e1f",
+      "source_exam_id": "hce-tcu-115",
+      "source_url": "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115英文試題.pdf",
+      "storage_key": "providers/hce_tcu/115/hce-tcu-115/post-bacc-chinese-medicine/english/question.pdf",
+      "subject_code": "english",
+      "verified_at": "2026-07-30T21:05:32.755555+08:00",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "probe_policy": {
+    "accepted_asset_count": 8,
+    "accepted_scope": "all question and reference-answer PDFs on every paper event currently exposed by the official TCU HCE category",
+    "asset_bytes": 3963069,
+    "asset_reconciliation_at": "2026-07-30T21:05:32.755555+08:00",
+    "category_listing_bytes": 58092,
+    "category_listing_sha256": "8d382ad283aab26a4869dffc8aabc47b3b3d2a19057227cd06d208ec3a9a1350",
+    "category_paper_event_count": 1,
+    "discovery_mode": "official-year-exam-listing",
+    "discovery_scope_note": "complete for the current official category/API listing, not a claim of historical archive completeness",
+    "historical_removed_asset_evidence": [
+      {
+        "body_bytes": 214,
+        "body_sha256": "e0b25db21b6541ee5d10d24f0c88e275ed2b3a66ba224eabc6b4310fe64bb616",
+        "location": "https://admissions.tcu.edu.tw/",
+        "status": 302,
+        "url": "https://admissions.tcu.edu.tw/wp-content/uploads/2025/04/114%E5%BE%8C%E4%B8%AD%E9%86%AB_%E5%9C%8B%E6%96%87%E8%A9%A6%E9%A1%8C-%E5%85%AC%E5%91%8A%E7%89%88.pdf"
+      },
+      {
+        "body_bytes": 214,
+        "body_sha256": "e0b25db21b6541ee5d10d24f0c88e275ed2b3a66ba224eabc6b4310fe64bb616",
+        "location": "https://admissions.tcu.edu.tw/",
+        "status": 302,
+        "url": "https://admissions.tcu.edu.tw/wp-content/uploads/2025/04/114%E5%BE%8C%E4%B8%AD%E9%86%AB_%E7%94%9F%E7%89%A9%E5%AD%B8%E8%A9%A6%E9%A1%8C-%E5%85%AC%E5%91%8A%E7%89%88.pdf"
+      },
+      {
+        "body_bytes": 214,
+        "body_sha256": "e0b25db21b6541ee5d10d24f0c88e275ed2b3a66ba224eabc6b4310fe64bb616",
+        "location": "https://admissions.tcu.edu.tw/",
+        "status": 302,
+        "url": "https://admissions.tcu.edu.tw/wp-content/uploads/2025/04/114%E5%AD%B8%E5%A3%AB%E5%BE%8C%E4%B8%AD%E9%86%AB-%E9%87%8B%E7%96%91%E5%85%AC%E5%91%8A.pdf"
+      }
+    ],
+    "historical_source_status": "known AD 2025 official question/clarification URLs now redirect to the homepage and the current category/API exposes no 2025 paper event",
+    "html_fingerprint_scope": "capture evidence only; accepted_asset_urls_hash and live file SHA-256 records are drift keys",
+    "last_discovery_at": "2026-07-30T21:04:22.863892+08:00",
+    "license_status": "no explicit redistribution license or copyright terms linked from the archive pages",
+    "listing_url": "https://admissions.tcu.edu.tw/?cat=23",
+    "provenance_bytes": 46605,
+    "provenance_sha256": "ac689d6b305cdbef5f35211c43dc8b819f067b1e7935af36e05ad7ec3e57501d",
+    "provenance_url": "https://admissions.tcu.edu.tw/?page_id=62",
+    "robots_policy": "no machine-readable policy: /robots.txt returns the WordPress homepage as text/html",
+    "transport_security": "default TLS verification succeeds",
+    "wordpress_category_post_count": 9,
+    "wordpress_rest_url": "https://admissions.tcu.edu.tw/index.php?rest_route=%2Fwp%2Fv2%2Fposts&categories=23&per_page=100&_fields=id%2Cdate%2Clink%2Ctitle"
+  },
+  "provider_id": "hce_tcu",
+  "schema_version": 1,
+  "years": {
+    "2026": {
+      "accepted_asset_count": 8,
+      "accepted_asset_urls_hash": "sha256:6e6cb73bbf04d7bff53ba99728222c207c0e8c53ba42730e9910d92c2e47fbae",
+      "accepted_paper_group_count": 4,
+      "asset_bytes": 3963069,
+      "asset_reconciled_at": "2026-07-30T21:05:32.755555+08:00",
+      "discovered_at": "2026-07-30T21:04:22.863892+08:00",
+      "event_page_bytes": 43436,
+      "event_page_sha256": "865d2f161bed99437175d995ee8b6028c08ccb75a7eb0ff7dd6783ad9797db0e",
+      "exam_codes": [
+        "hce-tcu-115"
+      ],
+      "exam_codes_hash": "sha256:7e9c7b952255cf8f9aee070bc202f4be259b685b7116a72734138e3618b07b55",
+      "live_file_inventory_hash": "sha256:f12545bdee0a412a9e457080df5caca013be4598393d80cdc44e553be4bc8783",
+      "search_url": "https://admissions.tcu.edu.tw/?p=26534",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

@@ -40,6 +40,12 @@ TCU_ARTICLE_HTML = """
 </body></html>
 """
 
+TCU_LISTING_HTML = """
+<html><body>
+  <a href="/?p=26534">115學年度學士後中醫學系招生考試各科試題及參考答案</a>
+</body></html>
+"""
+
 NTHU_ARTICLE_HTML = """
 <html><body>
   <a href="/app/index.php?Action=downloadfile&amp;file=english&amp;fname=x">[下載] 115學士後醫試題【0101英文】.pdf</a>
@@ -147,6 +153,18 @@ class HceArchiveParserTests(unittest.TestCase):
         self.assertEqual(papers[0].files["answer"], "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115國文_參考答案.pdf")
         self.assertEqual(papers[1].subject_code, "chemistry")
         self.assertEqual(papers[1].files["question"], "https://admissions.tcu.edu.tw/wp-content/uploads/2026/04/115化學試題.pdf")
+
+    def test_tcu_article_listing_extracts_current_official_event(self) -> None:
+        pages = parse_article_listing(
+            TCU_LISTING_HTML,
+            HCE_CONFIGS["hce_tcu"].listing_url,
+            HCE_CONFIGS["hce_tcu"],
+        )
+
+        self.assertEqual(
+            [(page.year_ad, page.url) for page in pages],
+            [(2026, "https://admissions.tcu.edu.tw/?p=26534")],
+        )
 
     def test_nthu_subject_file_page_keeps_all_answers_asset(self) -> None:
         papers = HCE_CONFIGS["hce_nthu"].parse_papers(
@@ -277,6 +295,21 @@ class HceArchiveProviderTests(unittest.TestCase):
             self.assertEqual(
                 provider.build_discovery_exam_url("hce-nsysu-115", 2026),
                 "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf",
+            )
+
+        self.assertEqual(fetch.call_count, 1)
+
+    def test_tcu_provider_exposes_manifest_discovery_urls(self) -> None:
+        with patch.object(HceArchiveClient, "_fetch_text", return_value=TCU_LISTING_HTML) as fetch:
+            provider = get_provider("hce_tcu")
+
+            self.assertEqual(
+                provider.build_discovery_year_url(2026),
+                "https://admissions.tcu.edu.tw/?p=26534",
+            )
+            self.assertEqual(
+                provider.build_discovery_exam_url("hce-tcu-115", 2026),
+                "https://admissions.tcu.edu.tw/?p=26534",
             )
 
         self.assertEqual(fetch.call_count, 1)

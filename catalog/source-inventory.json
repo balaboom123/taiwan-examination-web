@@ -648,13 +648,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "current_scope",
-        "note": "Current 2026 source scope",
+        "note": "Current official category/API exposes 2026; known 2025 official assets are no longer served",
         "start_ad": 2026
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/hce_tcu/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -670,14 +670,17 @@
         2026
       ],
       "official_source_urls": [
-        "https://admissions.tcu.edu.tw/?page_id=62"
+        "https://admissions.tcu.edu.tw/?page_id=62",
+        "https://admissions.tcu.edu.tw/?cat=23"
       ],
       "provider_id": "hce_tcu",
       "restrictions": [
-        "Public university source; historical archive not established."
+        "The current official category and WordPress API expose nine HCE posts but exactly one paper event (2026); all eight live question/answer PDFs total 3,963,069 bytes and match retained SHA-256 checksums.",
+        "Three known official 2025 question/clarification URLs now return HTTP 302 to the homepage, and the current category/API exposes no 2025 paper event; historical coverage is source-removed rather than complete.",
+        "The site publishes no machine-readable robots policy because /robots.txt returns the WordPress homepage as text/html; default TLS verification succeeds, but no explicit redistribution license or copyright terms were linked from the archive pages."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-year scope; source availability: Current 2026 source scope; local coverage: 2026; 1 → 8"
+      "status": "partial",
+      "status_reason": "Partial / historical source removed; current official category snapshot and all 8 live 2026 assets rechecked 2026-07-30; local coverage: 2026; 1 → 8"
     },
     {
       "available_years": {

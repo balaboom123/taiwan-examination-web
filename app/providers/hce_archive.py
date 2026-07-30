@@ -427,7 +427,7 @@ HCE_CONFIGS = {
     "hce_tcu": HceArchiveConfig(
         provider_id="hce_tcu",
         canonical_slug="hce-tcu",
-        listing_url="https://admissions.tcu.edu.tw/?page_id=62",
+        listing_url="https://admissions.tcu.edu.tw/?cat=23",
         exam_name="慈濟大學學士後中醫學系",
         category_code="post-bacc-chinese-medicine",
         category_name="慈濟大學學士後中醫學系",
