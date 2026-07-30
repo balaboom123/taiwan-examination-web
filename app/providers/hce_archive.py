@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import ssl
+import time
 from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
@@ -39,6 +40,7 @@ class HceArchiveConfig:
     pagination_param: str | None = None
     max_listing_pages: int = 1
     historical_year_pages: tuple[HceYearPage, ...] = ()
+    crawl_delay_seconds: float = 0.0
 
     def parse_listing(self, html: str, base_url: str | None = None) -> list[HceYearPage]:
         resolved_base_url = base_url or self.listing_url
@@ -132,10 +134,13 @@ def parse_listing_page_urls(html: str, base_url: str, config: HceArchiveConfig) 
         page_values = candidate_query.pop(config.pagination_param, [])
         if not page_values or not all(value.isdigit() and int(value) >= 0 for value in page_values):
             continue
-        if candidate_query != base_query or link.url in seen:
+        candidate_url = urlunsplit(
+            (candidate.scheme, candidate.netloc, candidate.path, candidate.query, "")
+        )
+        if candidate_query != base_query or candidate_url in seen:
             continue
-        seen.add(link.url)
-        urls.append(link.url)
+        seen.add(candidate_url)
+        urls.append(candidate_url)
     return urls
 
 
@@ -232,7 +237,7 @@ def _combined_pdf_paper(config: HceArchiveConfig, url: str) -> ParsedPaper:
 
 def _ssl_context_for(url: str) -> ssl.SSLContext | None:
     host = urlparse(url).hostname or ""
-    if host.endswith("cmu.edu.tw"):
+    if host == "adm21.cmu.edu.tw":
         return ssl._create_unverified_context()
     return None
 
@@ -263,8 +268,20 @@ class HceArchiveClient:
         self.config = config
         self.provider_id = config.provider_id
         self._year_pages_cache: tuple[HceYearPage, ...] | None = None
+        self._last_request_at: float | None = None
+
+    def _wait_for_request_slot(self) -> None:
+        delay = self.config.crawl_delay_seconds
+        now = time.monotonic()
+        if self._last_request_at is not None:
+            remaining = self._last_request_at + delay - now
+            if remaining > 0:
+                time.sleep(remaining)
+                now += remaining
+        self._last_request_at = now
 
     def _open(self, url: str, *, method: str = "GET", timeout: int = 60):
+        self._wait_for_request_slot()
         request = Request(_request_url(url), headers={"User-Agent": USER_AGENT}, method=method)
         context = _ssl_context_for(url)
         if context is None:
@@ -312,6 +329,18 @@ class HceArchiveClient:
             for page in self._year_pages()
             if page.year_ad == year_ad
         ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        try:
+            return next(page.url for page in self._year_pages() if page.year_ad == year_ad)
+        except StopIteration as exc:
+            raise ValueError(f"Unknown {self.provider_id} discovery year: {year_ad}") from exc
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"{self.config.canonical_slug}-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(f"Unknown {self.provider_id} discovery exam: {exam_code} ({year_ad})")
+        return self.build_discovery_year_url(year_ad)
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_page = next(
@@ -368,6 +397,7 @@ HCE_CONFIGS = {
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後中醫學系.*試題及參考答案"),
         pagination_param="page",
         max_listing_pages=8,
+        crawl_delay_seconds=10.0,
     ),
     "hce_tcu": HceArchiveConfig(
         provider_id="hce_tcu",

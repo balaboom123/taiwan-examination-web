@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 14)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 20)
+        self.assertEqual(report["discovery_manifests_present"], 15)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 19)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(report["discovery_manifests_incomplete"], [])
         self.assertEqual(report["manifest_unrepresented_events"], [])

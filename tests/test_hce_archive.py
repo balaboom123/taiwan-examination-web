@@ -4,7 +4,15 @@ from unittest.mock import patch
 from app.models import NormalizedCatalog
 from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
-from app.providers.hce_archive import HCE_CONFIGS, HceArchiveClient, _request_url, parse_article_listing, parse_combined_pdf_listing, parse_listing_page_urls
+from app.providers.hce_archive import (
+    HCE_CONFIGS,
+    HceArchiveClient,
+    _request_url,
+    _ssl_context_for,
+    parse_article_listing,
+    parse_combined_pdf_listing,
+    parse_listing_page_urls,
+)
 from app.providers.registry import get_provider
 
 
@@ -17,6 +25,7 @@ CMU_LISTING_HTML = """
 CMU_PAGINATION_HTML = """
 <html><body>
   <a href="/?q=zh-hant/news_spbcm&amp;page=1">第 2 頁</a>
+  <a href="/?q=zh-hant/news_spbcm&amp;page=1#main-content">第 2 頁內容</a>
   <a href="/?q=zh-hant/news_spbcm&amp;page=2">第 3 頁</a>
   <a href="/?q=zh-hant/news_spbcm&amp;topic=other&amp;page=3">Other archive</a>
   <a href="/?q=zh-hant/node/641">115公告</a>
@@ -124,6 +133,11 @@ class HceArchiveParserTests(unittest.TestCase):
 
         self.assertEqual([page.year_roc for page in pages], [115])
 
+    def test_unverified_tls_context_is_limited_to_failing_cmu_archive_host(self) -> None:
+        self.assertIsNotNone(_ssl_context_for("https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm"))
+        self.assertIsNone(_ssl_context_for("https://spbcm.cmu.edu.tw/page/384"))
+        self.assertIsNone(_ssl_context_for("https://example.cmu.edu.tw/"))
+
     def test_request_url_quotes_non_ascii_download_paths(self) -> None:
         self.assertEqual(
             _request_url("https://example.edu/files/115國文試題.pdf"),
@@ -170,6 +184,42 @@ class HceArchiveProviderTests(unittest.TestCase):
             self.assertEqual([exam.code for exam in client.discover_exams(2025)], ["hce-cmu-114"])
 
         self.assertEqual(len(calls), 3)
+
+    def test_cmu_discovery_builders_reuse_cached_year_pages(self) -> None:
+        with patch.object(HceArchiveClient, "_fetch_text", return_value=CMU_LISTING_HTML) as fetch:
+            client = HceArchiveClient(HCE_CONFIGS["hce_cmu"])
+
+            self.assertEqual(
+                client.build_discovery_year_url(2026),
+                "https://adm21.cmu.edu.tw/?q=zh-hant/node/641",
+            )
+            self.assertEqual(
+                client.build_discovery_exam_url("hce-cmu-115", 2026),
+                "https://adm21.cmu.edu.tw/?q=zh-hant/node/641",
+            )
+            self.assertEqual(client.discover_exams(2026)[0].code, "hce-cmu-115")
+
+        self.assertEqual(fetch.call_count, 1)
+
+    def test_cmu_discovery_builders_reject_unknown_events(self) -> None:
+        with patch.object(HceArchiveClient, "_fetch_text", return_value=CMU_LISTING_HTML):
+            client = HceArchiveClient(HCE_CONFIGS["hce_cmu"])
+            with self.assertRaisesRegex(ValueError, "Unknown hce_cmu discovery year"):
+                client.build_discovery_year_url(2025)
+            with self.assertRaisesRegex(ValueError, "Unknown hce_cmu discovery exam"):
+                client.build_discovery_exam_url("hce-cmu-114", 2026)
+
+    def test_cmu_client_respects_robots_crawl_delay(self) -> None:
+        client = HceArchiveClient(HCE_CONFIGS["hce_cmu"])
+        client._last_request_at = 100.0
+
+        with patch("app.providers.hce_archive.time.monotonic", return_value=103.0), patch(
+            "app.providers.hce_archive.time.sleep"
+        ) as sleep:
+            client._wait_for_request_slot()
+
+        sleep.assert_called_once_with(7.0)
+        self.assertEqual(client._last_request_at, 110.0)
 
     def test_nsysu_client_uses_combined_pdf_as_one_paper(self) -> None:
         with patch.object(HceArchiveClient, "_fetch_text", return_value=NSYSU_LISTING_HTML):

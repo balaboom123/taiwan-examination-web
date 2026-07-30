@@ -522,13 +522,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2021–2026 in current state",
+        "note": "Official four-page archive exposes 2021–2026; 6 events rechecked 2026-07-30",
         "start_ad": 2021
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/hce_cmu/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -549,14 +549,17 @@
         2026
       ],
       "official_source_urls": [
-        "https://spbcm.cmu.edu.tw/page/384"
+        "https://spbcm.cmu.edu.tw/page/384",
+        "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm"
       ],
       "provider_id": "hce_cmu",
       "restrictions": [
-        "Public university pages/PDFs; the six retained events now publish all 30 mirrored papers."
+        "The official archive robots.txt specifies Crawl-delay: 10; the adapter now honors it and deduplicates fragment-only pagination links.",
+        "Default CA verification fails for adm21.cmu.edu.tw in this environment; the existing shared adapter uses an unverified TLS context only for adm21.cmu.edu.tw, so transport authenticity requires an explicit remediation or risk decision.",
+        "All six retained events publish all 30 mirrored papers, but no explicit redistribution license or copyright terms were linked from the archive pages."
       ],
       "status": "covered",
-      "status_reason": "Covered in declared scope; source availability: 2021–2026 in current state; local coverage: 2021–2026; 6 → 30"
+      "status_reason": "Covered in declared scope; official four-page archive and all 30 accepted assets rechecked 2026-07-30; local coverage: 2021–2026; 6 → 30"
     },
     {
       "available_years": {
