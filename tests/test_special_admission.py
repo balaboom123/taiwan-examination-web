@@ -63,6 +63,31 @@ class SpecialAdmissionParserTests(unittest.TestCase):
         self.assertEqual(page.exam_name_raw, "114學年度身心障礙學生升學大專校院甄試")
         self.assertEqual(len(page.papers), 1)
 
+    def test_discovery_builders_reuse_one_listing_fetch(self) -> None:
+        with patch.object(SpecialAdmissionClient, "_fetch_text", return_value=QUESTION_HTML) as fetch:
+            client = SpecialAdmissionClient()
+
+            self.assertEqual(client.discover_available_years(), [2026, 2025])
+            self.assertEqual(
+                client.build_discovery_year_url(2025),
+                "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=114",
+            )
+            self.assertEqual(
+                client.build_discovery_exam_url("special-admission-114", 2025),
+                "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=114",
+            )
+            self.assertEqual(client.discover_exams(2025)[0].code, "special-admission-114")
+
+        self.assertEqual(fetch.call_count, 1)
+
+    def test_discovery_builders_reject_unknown_year_and_exam(self) -> None:
+        with patch.object(SpecialAdmissionClient, "_fetch_text", return_value=QUESTION_HTML):
+            client = SpecialAdmissionClient()
+            with self.assertRaisesRegex(ValueError, "Unknown special-admission year"):
+                client.build_discovery_year_url(2024)
+            with self.assertRaisesRegex(ValueError, "Unknown special-admission exam"):
+                client.build_discovery_exam_url("special-admission-113", 2025)
+
     def test_registry_returns_special_admission_provider(self) -> None:
         provider = get_provider("special_admission")
 

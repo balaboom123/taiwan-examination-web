@@ -147,6 +147,9 @@ def parse_question_page(html: str, base_url: str) -> list[ParsedPaper]:
 class SpecialAdmissionClient:
     provider_id = "special_admission"
 
+    def __init__(self) -> None:
+        self._available_years_cache: tuple[int, ...] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
@@ -174,12 +177,28 @@ class SpecialAdmissionClient:
                 file_name=Path(unquote(urlparse(url).path)).name,
             )
 
+    def _available_years(self) -> list[int]:
+        if self._available_years_cache is None:
+            self._available_years_cache = tuple(parse_available_years(self._fetch_text(QUESTION_URL)))
+        return list(self._available_years_cache)
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if year_ad not in self._available_years():
+            raise ValueError(f"Unknown special-admission year: {year_ad}")
+        return _question_url(year_ad - 1911)
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"special-admission-{year_ad - 1911}"
+        if exam_code != expected_code or year_ad not in self._available_years():
+            raise ValueError(f"Unknown special-admission exam: {exam_code} ({year_ad})")
+        return _question_url(year_ad - 1911)
+
     def discover_available_years(self) -> list[int]:
-        return parse_available_years(self._fetch_text(QUESTION_URL))
+        return self._available_years()
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
         year_roc = year_ad - 1911
-        if year_ad not in self.discover_available_years():
+        if year_ad not in self._available_years():
             return []
         return [
             ExamOption(
@@ -192,12 +211,13 @@ class SpecialAdmissionClient:
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
+        page_url = self.build_discovery_exam_url(exam_code, year_ad)
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=year_roc,
             exam_name_raw=f"{year_roc}學年度{_CATEGORY_NAME}",
             attachments=[],
-            papers=parse_question_page(self._fetch_text(_question_url(year_roc)), _question_url(year_roc)),
+            papers=parse_question_page(self._fetch_text(page_url), page_url),
             provider_id=self.provider_id,
         )

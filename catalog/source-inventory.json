@@ -924,13 +924,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2013–2026 documented",
+        "note": "Official selector exposes 2013–2026; 14 events rechecked 2026-07-30",
         "start_ad": 2013
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/special_admission/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -963,10 +963,12 @@
       ],
       "provider_id": "special_admission",
       "restrictions": [
-        "No third-party mirrors; only accepted subjects and official paper assets."
+        "Declared scope is only 大學組 / 共同 and nine Shuati-listed subjects; official 二技組 and 四技二專組 rows are intentionally excluded because they belong to different archive families.",
+        "robots.txt explicitly allows /EnableSys/, but no blanket redistribution license or copyright terms were linked from the archive page; retain official-source attribution and takedown readiness.",
+        "No third-party mirrors are accepted."
       ],
       "status": "covered",
-      "status_reason": "Covered in declared scope; source availability: 2013–2026 documented; local coverage: 2013–2026, 14 buckets; 14 → 216"
+      "status_reason": "Covered in declared scope; official selector and all 216 accepted assets rechecked 2026-07-30; local coverage: 2013–2026, 14 buckets; 14 → 216"
     },
     {
       "available_years": {
