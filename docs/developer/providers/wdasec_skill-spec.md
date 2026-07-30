@@ -6,15 +6,16 @@
 - status: active
 - target site: `default`
 - source family: Workforce Development Agency Skills Evaluation Center past-exam archive
-- publication shape: one canonical bundle asset owned by the `default` site
+- publication shape: identity-v2 bundle assets split by skill/trade and level under the `default` site
 
 ## Source Overview
 
 - source domain: `owinform.wdasec.gov.tw`
 - source URL: `https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx`
 - source access: public ASP.NET web application with dynamically rendered content
-- source cadence: three exam administrations per year (roughly March, July, November) with archives updated after each session
+- source cadence: regular administrations plus separately listed massage and exceptional/rescheduled sessions; the listing changes throughout the year
 - authentication: none
+- licensing: public download access is verified, but the repository records no explicit redistribution license; release use still needs the source-family legal/takedown decision
 - rate-limit posture: conservative; the page is ASP.NET WebForms with ViewState — each category/level selection triggers a postback, so requests must be serialized and paced
 
 ## Discovery Model
@@ -25,7 +26,7 @@ The provider interacts with the ASP.NET past-exam page via a three-step postback
 2. **Listing pagination** — a `gvData` GridView shows exam sessions (year + session title + PLAID key), navigated via `__doPostBack('gvData', 'Page$N')`
 3. **Detail view** — clicking a row via `__doPostBack('gvData', 'order$N')` opens a `gvFile` GridView showing all trades for that session
 
-The detail table groups rows by trade — the first row shows trade code and name, subsequent rows for the same trade leave those columns empty (inherited by the parser).
+The detail table groups rows by trade — the first row shows trade code and name, subsequent rows for the same trade leave those columns empty (inherited by the parser). The listing is cached once per client process. Each PLAID also has a stable official detail route, `PastQuestions.aspx?yserno=<PLAID>`, which the provider uses for event evidence and direct detail fetching after listing discovery.
 
 Available certification levels:
 
@@ -52,27 +53,31 @@ The scheduled workflow for routine refresh is:
 
 That workflow is provider-only. It refreshes `data/providers/wdasec_skill/` and does not publish the aggregated `default` site on its own.
 
-The primary operator command is:
+The primary operator commands are:
 
 ```bash
+python -m app discover --provider wdasec_skill \
+  --manifest data/providers/wdasec_skill/source-manifest.json --write-manifest
 python -m app sync-full --provider wdasec_skill --site-id default
 ```
 
-Coverage checkpoint (2026-07-29): the provider retains 143 official sessions from AD 2001–2026 and 10,695 normalized paper records from AD 2001–2026. Targeted refreshes of the six official AD 2001 sessions, nine official AD 2002 sessions, four official AD 2003 sessions, three official AD 2004 sessions, three official AD 2005 sessions, three AD 2006 sessions, five AD 2007 sessions, five AD 2008 sessions, six AD 2009 sessions, seven AD 2010 sessions, six AD 2011 sessions, seven AD 2012 sessions, six AD 2013 sessions, six AD 2014 sessions, six AD 2015 sessions, six AD 2016 sessions, six AD 2017 sessions, six AD 2018 sessions, six AD 2019 sessions, six AD 2020 sessions, six AD 2021 sessions, five AD 2022 sessions, five AD 2023 sessions, and six AD 2024 sessions produced 10,018 papers (242, 284, 322, 303, 319, 376, 582, 342, 342, 369, 400, 426, 499, 479, 498, 534, 519, 534, 412, 437, 443, 456, 447, and 453) with zero sync failures; 134 event records are published complete and eight are explicitly excluded by site policy, with 12 unpublished bundle IDs across those exclusions. Eight of nine 2002 event records are complete and one remains a zero-paper normalization gap; five of six 2001 event records are complete and one is explicitly excluded; two of four 2003 event records are complete and two are explicitly excluded; two of three 2004 event records are explicitly excluded and one is complete; two of three 2005 event records are complete and one remains explicitly excluded; two of three 2006 event records are complete and one remains explicitly excluded; two of five 2007 event records are complete and three remain explicitly excluded; four of five 2008 event records are complete and one remains explicitly excluded; all six 2009 event records are complete; six of seven 2010 event records are complete and one remains explicitly excluded; three of six 2011 event records are complete and three remain explicitly excluded; five of seven 2012 event records are complete and two remain explicitly excluded; one 2015 event remains excluded alongside the existing policy exclusions. Eligible multi-year groups are represented in the local `default` site. The remaining raw event is the official AD 2002 source event `201309140001`, whose 2026-07-28 detail capture matched the title, parsed zero detail rows, and displayed `查無資料，請確定輸入資料並重新查詢`; the captured 9,402-byte detail response has SHA-256 `66ea45bb8e00d0be4e780796adcce473e6515ce2498cbf6ee4cfba0a43ef6dc0`. This is source-side no-data evidence, not a download failure. It is represented by the reviewed event exception in `catalog/source-coverage/wdasec_skill.json`; the strict history audit now reports it as `blocked` while retaining the raw page and evidence. Expanding older events requires a reviewed storage/release decision.
+Coverage checkpoint (2026-07-30): the official category listing contains 145 sessions across AD 2001–2026, and `data/providers/wdasec_skill/source-manifest.json` represents all 145 exact PLAID event identities with stable detail URLs. Local state contains 145 raw events and 10,809 normalized paper records with zero sync failures and zero review-queue entries. The two newly listed AD 2026 second-session events (`202607060001` and `202607090001`) contributed 114 current official files. Event-level history accounting reports 136 published-complete events, eight explicit publication-policy exclusions, and one reviewed blocked event.
+
+The blocked AD 2002 event `201309140001` remains in both the official listing and the manifest, but its stable detail page returns HTTP 200, zero detail rows, and `查無資料，請確定輸入資料並重新查詢`. It was rechecked on 2026-07-30; capture evidence is in `catalog/source-coverage/wdasec_skill.json`. Full ASP.NET response hashes are capture-specific because hidden ViewState fields change, so the status, stable event URL, zero parsed rows, and exact no-data marker are the durable evidence. The manifest proves listing/event representation, not that every historical file was freshly re-downloaded; the AD 2001–2024 files were separately refreshed on 2026-07-28 with zero failures. Eight valid events remain outside the public projection under the current publication policy, so this provider remains partial rather than being declared complete from manifest agreement alone.
 
 ## Scraping Considerations
 
 The source page is an ASP.NET WebForms application. Key implementation constraints:
 
-- every interaction (category selection, pagination, detail navigation) is a full postback carrying `__VIEWSTATE`, `__EVENTVALIDATION`, and `__VIEWSTATEGENERATOR` fields
+- category selection and listing pagination are serialized postbacks carrying `__VIEWSTATE`, `__EVENTVALIDATION`, and `__VIEWSTATEGENERATOR`; detail pages use stable direct `?yserno=` routes after listing identity is verified
 - the scraper must parse and replay these hidden fields on each request to maintain server-side session state
-- pagination and row selection fire `__doPostBack` — the scraper must replicate the event target and argument
+- listing pagination fires `__doPostBack`; the scraper replicates that event target/argument once per page and caches the resulting 145-row listing
 - a WAF guards the server; requests require proper `Referer` and `Origin` headers plus session cookies via `http.cookiejar.CookieJar`
 
 ## Normalization Rules
 
 - all normalized records carry `provider_id = "wdasec_skill"`
-- all public records map into one canonical bundle
+- all public records share the `wdasec-skill` canonical source family and split into identity-v2 bundles by trade/skill and level
 - canonical bundle identity:
   - `canonical_id`: `wdasec-skill`
   - `canonical_name`: `全國技術士技能檢定`

@@ -1663,13 +1663,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "Raw sessions 2001–2026; usable paper records 2001–2026 after the 2026-07-28 refresh",
+        "note": "Official listing captured 2026-07-30: 145 sessions across 2001–2026; usable paper records span 2001–2026",
         "start_ad": 2001
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/wdasec_skill/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1678,8 +1678,8 @@
       ],
       "exam_category": "Workforce Development Agency skills-evaluation past questions",
       "local_state": {
-        "normalized_paper_records": 10695,
-        "raw_event_pages": 143,
+        "normalized_paper_records": 10809,
+        "raw_event_pages": 145,
         "sync_failures": 0
       },
       "local_years": [
@@ -1715,10 +1715,12 @@
       ],
       "provider_id": "wdasec_skill",
       "restrictions": [
-        "Official AD 2001–2024 refreshes produced 10,018 records with zero sync failures; policy exclusions remain explicit. Event `201309140001` is now represented as a reviewed blocked empty result with 2026-07-29 evidence in `catalog/source-coverage/wdasec_skill.json`."
+        "The ASP.NET listing requires serialized ViewState postbacks; stable `?yserno=` URLs provide event-level detail evidence.",
+        "Eight retained events remain explicit publication-policy exclusions, and event `201309140001` is a reviewed official empty result rechecked 2026-07-30.",
+        "Official PDFs are publicly downloadable, but no explicit redistribution license is recorded in the repository."
       ],
       "status": "partial",
-      "status_reason": "Partial / storage and scope blocker; source availability: Raw sessions 2001–2026; usable paper records 2001–2026 after the 2026-07-28 refresh; local coverage: raw 2001–2026; papers 2001–2026, 26 buckets; 143 → 10,695"
+      "status_reason": "Partial / source and publication-policy constraints; the 2026-07-30 manifest contains 145 official sessions across 26 years, all represented locally by 10,809 records or the exact reviewed empty-result blocker"
     }
   ],
   "schema_version": 1,

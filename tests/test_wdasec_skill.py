@@ -1,9 +1,11 @@
 import unittest
+from unittest.mock import patch
 from urllib.parse import parse_qs
 
 from app.providers.wdasec_skill.client import (
     DetailRow,
     ListingRow,
+    PAGE_URL,
     WdasecSkillClient,
     parse_detail_rows,
     parse_hidden_fields,
@@ -248,6 +250,54 @@ class DetailParserTests(unittest.TestCase):
 
         self.assertEqual(rows[4].trade_code, "00700")
         self.assertEqual(rows[4].level, "乙級")
+
+
+class WdasecSkillClientDiscoveryTests(unittest.TestCase):
+    def test_listing_discovery_is_cached_within_one_client(self) -> None:
+        client = WdasecSkillClient()
+        with (
+            patch.object(client, "fetch_category_listing", return_value=CATEGORY_LISTING_HTML) as fetch,
+            patch("app.providers.wdasec_skill.client.parse_page_count", return_value=1),
+        ):
+            self.assertEqual(len(client.discover_all_listing_rows()), 3)
+            self.assertEqual(len(client.discover_all_listing_rows()), 3)
+
+        fetch.assert_called_once_with()
+
+    def test_discovery_urls_use_main_listing_and_stable_detail_route(self) -> None:
+        client = WdasecSkillClient()
+        client._listing_rows_cache = (
+            ListingRow(
+                year_roc=115,
+                title="115年度全國技術士技能檢定第1梯次學科試題暨答案",
+                plaid="202603160001",
+                row_index=0,
+            ),
+        )
+
+        self.assertEqual(client.build_discovery_year_url(2026), PAGE_URL)
+        self.assertEqual(
+            client.build_discovery_exam_url("202603160001", 2026),
+            f"{PAGE_URL}?yserno=202603160001",
+        )
+
+    def test_fetch_exam_page_uses_direct_detail_route(self) -> None:
+        client = WdasecSkillClient()
+        client._listing_rows_cache = (
+            ListingRow(
+                year_roc=115,
+                title="115年度全國技術士技能檢定第1梯次學科試題暨答案",
+                plaid="202603160001",
+                row_index=0,
+            ),
+        )
+        with patch.object(client, "_get", return_value=DETAIL_PAGE_HTML) as fetch:
+            page = client.fetch_exam_page("202603160001", 2026)
+
+        fetch.assert_called_once_with(f"{PAGE_URL}?yserno=202603160001")
+        self.assertEqual(page.source_exam_id, "202603160001")
+        self.assertEqual(page.year_ad, 2026)
+        self.assertEqual(len(page.papers), 6)
 
 
 class WdasecSkillProviderTests(unittest.TestCase):

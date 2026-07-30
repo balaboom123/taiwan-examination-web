@@ -6,12 +6,12 @@ This is the current baseline for the long-running completeness goal. It records 
 
 The repository has a functioning source → mirror → normalize → bundle → frontend pipeline, but the archive is not complete under the agreed definition.
 
-- 35 providers are registered in the default site. Current retained state contains 1,554 raw event pages and 244,760 normalized paper records after recovering GSAT AD 1994–2010 and refreshing current AST materials in addition to the earlier MOEX recoveries.
+- 35 providers are registered in the default site. Current retained state contains 1,556 raw event pages and 244,874 normalized paper records after recovering GSAT AD 1994–2010 and refreshing current AST materials in addition to the earlier MOEX recoveries.
 - The local default projection contains 3,628 physical site/release assets, 3,625 frontend logical rows, and 12 planned release shards.
 - Current generated state has five MOEX download failures. All five are exact, reviewed file-level placeholder exceptions; they are not ignored failures. Three affected events retain 377 valid normalized records.
-- The strict history audit reports 1,156 published-complete events, 15 event-level blocked exceptions, 3 partially blocked events, 371 publication-policy exclusions, and 8 normalized-but-not-published Hakka events. It reports zero parser gaps, zero normalization gaps, zero unclassified failure rows, and zero orphaned coverage exceptions.
+- The strict history audit reports 1,158 published-complete events, 15 event-level blocked exceptions, 3 partially blocked events, 371 publication-policy exclusions, and 8 normalized-but-not-published Hakka events. It reports zero parser gaps, zero normalization gaps, zero unclassified failure rows, and zero orphaned coverage exceptions.
 - The current MOEX review queue is 772 entries; the catalog audit isolates 5,033 review-confidence records with no stale/missing queue keys and no unapproved review records. These are identity-safety results, not proof of semantic completeness.
-- A reviewed machine-readable scope inventory now covers all 35 registered providers and 10 candidate/watch sources. Its validator matches exact local years, raw event counts, normalized record counts, and failure counts; MOEX now has a complete 35-year/870-code official discovery manifest and all 870 listed events are represented locally, New Taipei, Tainan, Taoyuan elementary, Taipei elementary, the reviewed 2024–2025 Taipei junior-high map, and Central Alliance also have complete declared-event snapshots, the national teacher-qualification selector also has a complete declared-scope snapshot, and RCPET CAP now has an exact 14-year/15-event live snapshot, while 23 providers still lack current discovery snapshots. Central Alliance’s files remain explicitly source-blocked, and Kaohsiung discovery is separately evidence-blocked because both official boards return 404.
+- A reviewed machine-readable scope inventory now covers all 35 registered providers and 10 candidate/watch sources. Its validator matches exact local years, raw event counts, normalized record counts, and failure counts; MOEX now has a complete 35-year/870-code official discovery manifest and all 870 listed events are represented locally, New Taipei, Tainan, Taoyuan elementary, Taipei elementary, the reviewed 2024–2025 Taipei junior-high map, and Central Alliance also have complete declared-event snapshots, the national teacher-qualification selector also has a complete declared-scope snapshot, RCPET CAP has an exact 14-year/15-event live snapshot, and WDASEC now has an exact 26-year/145-event live snapshot, while 22 providers still lack current discovery snapshots. Central Alliance’s files remain explicitly source-blocked, and Kaohsiung discovery is separately evidence-blocked because both official boards return 404.
 - The inventory currently classifies registered providers as 24 covered, 10 partial, and 1 blocked; candidate/watch rows are 5 blocked and 5 intentionally out of scope. Every row has an official-source field, availability note, restriction, and evidence reference.
 
 The practical completion definition is:
@@ -24,7 +24,7 @@ The current archive fails that definition because source discovery is not yet ex
 
 | Stage | Current implementation | Remaining completeness risk |
 | --- | --- | --- |
-| Official discovery | Provider contracts and adapters in `app/providers/`; reviewed scope is machine-validated by `catalog/source-inventory.json` and `scripts/validate_source_inventory.py`; MOEX discovery/probe state is manifest-backed. | 23 providers still lack a snapshot; Kaohsiung is instead evidence-blocked without a fabricated manifest. MOEX has 870/870 local event representation, six teacher-recruitment snapshots match declared local scope, teacher qualification has 23/23, and RCPET CAP has 15/15; source blockers remain and none of this proves repository-wide archive completeness. |
+| Official discovery | Provider contracts and adapters in `app/providers/`; reviewed scope is machine-validated by `catalog/source-inventory.json` and `scripts/validate_source_inventory.py`; MOEX discovery/probe state is manifest-backed. | 22 providers still lack a snapshot; Kaohsiung is instead evidence-blocked without a fabricated manifest. MOEX has 870/870 local event representation, six teacher-recruitment snapshots match declared local scope, teacher qualification has 23/23, RCPET CAP has 15/15, and WDASEC has 145/145; source blockers remain and none of this proves repository-wide archive completeness. |
 | Probe and change detection | `app/probe.py` and `app/history_audit.py`; source probing is optional and read-only. | A complete serial live probe was not achieved because an upstream request stalled; bounded source checks are provider-specific. |
 | Fetch and mirroring | `app/sync.py`, `app/storage.py`, provider-scoped mirrors, checksums, payload-signature validation. | Current HTML placeholders correctly become failures; the five current failures are evidence-backed but still unavailable. |
 | Reviewed coverage accounting | `catalog/source-coverage/<provider_id>.json` records narrow event/file blockers and intentional exclusions. Strict audit matches exact current raw events/failures and flags conflicts/orphans. | Evidence has to be refreshed when a source changes; the ledger is not a substitute for discovery. |
@@ -46,12 +46,13 @@ Remote metadata was fetched with `git fetch --all --prune`; no reset, rebase, ov
 | Initial audit checkpoint | `254aa70` (`audit source coverage blockers and baseline`) |
 | Preparation commit | `b579bc6` (`data: recover MOEX discovery and 2021 coverage`) |
 | CEEC discovery checkpoint | `854bfe3` (`data: complete CEEC source discovery`) |
-| RCPET discovery checkpoint | This commit (`data: complete RCPET CAP discovery`); history is preserved, not rewritten |
+| RCPET discovery checkpoint | `5f9ac42` (`data: complete RCPET CAP discovery`) |
+| WDASEC discovery checkpoint | This commit (`data: complete WDASEC source discovery`); history is preserved, not rewritten |
 | Latest fetched `origin/main` | `1970a70` (`chore: refresh Hakka cert provider data`, 2026-07-29) |
-| Divergence from `origin/main` after the RCPET checkpoint | 8 behind / 72 ahead |
-| Divergence from tracked upstream after the RCPET checkpoint | 0 behind / 67 ahead; all are unpushed |
-| Tracked uncommitted files after the RCPET checkpoint | None |
-| Untracked user work after the RCPET checkpoint | `PLAN.md` only; preserved and excluded from all checkpoints |
+| Divergence from `origin/main` after the WDASEC checkpoint | 8 behind / 73 ahead |
+| Divergence from tracked upstream after the WDASEC checkpoint | 0 behind / 68 ahead; all are unpushed |
+| Tracked uncommitted files after the WDASEC checkpoint | None |
+| Untracked user work after the WDASEC checkpoint | `PLAN.md` only; preserved and excluded from all checkpoints |
 | Large untracked files | None after the preparation commit. Ignored operational trees are approximately 412 MB `data/`, 57 GB `mirror/`, and 62 GB `bundles/`; size is not release evidence. |
 
 The audit checkpoints are local and reviewable. No remote branch, release, deployment, credential state, or history was rewritten.
@@ -61,14 +62,14 @@ The audit checkpoints are local and reviewable. No remote branch, release, deplo
 | Check | Current result | Interpretation |
 | --- | --- | --- |
 | Focused new/audit/CLI tests | **56 passed** | Discovery-manifest writing, exact source-exception matching, conflict/orphan handling, strict targeted partial mode, and existing audit behavior are covered. |
-| Full Python tests | **544 passed, 72 subtests passed** in 18.76 s via `uv run pytest -q` | Python functional baseline is green. |
+| Full Python tests | **547 passed, 72 subtests passed** in 20.92 s via `uv run pytest -q` | Python functional baseline is green. |
 | `python3 scripts/validate_publication.py` | **Pass**: 3,628 site bundles, 3,625 frontend bundles, 3,628 release assets, 18 JSON schema/catalog files | Generated publication and provider-derived public eligibility agree. This does not prove official-source completeness or remote-asset existence. |
 | `python3 -m app plan-release` | **Pass**: 3,628 bundles across 12 shards | Local shard capacity is within the 900 safety target; it does not verify remote releases. |
-| `python3 scripts/validate_source_inventory.py` | **Pass**: 35 providers and 10 candidates; local state matches the reviewed inventory; 11 discovery manifests are present, 23 are missing, 1 is evidence-blocked, and 0 manifest events are unrepresented | This is a scope/state-drift gate, not proof of live source completeness. `--require-discovery-manifests` remains intentionally failing until the 23 unresolved provider snapshots are resolved. |
-| `python3 scripts/validate_source_inventory.py --require-discovery-manifests` | **Exit 1**: complete discovery remains unresolved for 23 providers with missing manifests; GSAT has 179/179, AST 31/31, and RCPET CAP 15/15 local event representation in addition to the earlier complete snapshots; Kaohsiung remains an evidence-backed discovery blocker | This is the authoritative completeness gate; it accepts neither manifest-only coverage claims nor fabricated snapshots for unavailable sources. |
+| `python3 scripts/validate_source_inventory.py` | **Pass**: 35 providers and 10 candidates; local state matches the reviewed inventory; 12 discovery manifests are present, 22 are missing, 1 is evidence-blocked, and 0 manifest events are unrepresented | This is a scope/state-drift gate, not proof of live source completeness. `--require-discovery-manifests` remains intentionally failing until the 22 unresolved provider snapshots are resolved. |
+| `python3 scripts/validate_source_inventory.py --require-discovery-manifests` | **Exit 1**: complete discovery remains unresolved for 22 providers with missing manifests; GSAT has 179/179, AST 31/31, RCPET CAP 15/15, and WDASEC 145/145 local event representation in addition to the earlier complete snapshots; Kaohsiung remains an evidence-backed discovery blocker | This is the authoritative completeness gate; it accepts neither manifest-only coverage claims nor fabricated snapshots for unavailable sources. |
 | `python3 -m app history-audit --strict` | **Exit 1**: only the 8 Hakka `normalized_not_published` events remain unresolved; 15 blocked and 3 partial events are evidence-backed | The gate no longer hides the five current MOEX download failures and rejects coverage-exception conflicts/orphans. |
-| `python3 -m app audit-catalog --strict` | **Pass**: 244,760 records; 5,033 review records; 772 queue entries; 816 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
-| Python line coverage | **83.64% executed lines**: 10,596/12,668 across 118 traced `app` modules, measured with standard-library `trace` | No branch coverage or threshold is configured; this is a reproducible measurement, not a CI gate. |
+| `python3 -m app audit-catalog --strict` | **Pass**: 244,874 records; 5,033 review records; 772 queue entries; 816 mixed legacy groups; 0 stale/missing queue keys; 0 unapproved review records | Identity/review state is fail-safe, not a claim that every official source is covered. |
+| Python line coverage | **84.01% executed lines**: 10,653/12,680 across 118 traced `app` modules, measured with standard-library `trace` | No branch coverage or threshold is configured; this is a reproducible measurement, not a CI gate. |
 | Python lint | **No configured gate** | No Ruff/Black/mypy/pylint/flake8 command exists in the repository. |
 | Frontend direct tests | **11 passed, 2 failed** via the existing Node entrypoint | Two test modules cannot import `typescript`; npm dependencies are absent. The passing subset is 11 tests. |
 | Frontend coverage | **95.29% line, 80.23% branch, 100% function** over the two runnable generated `frontend/build` modules using Node’s built-in coverage | Not source-level React/TSX coverage; the two failing TypeScript-transpilation modules were not loaded. |
@@ -119,7 +120,7 @@ The matrix below preserves the repository’s documented 35-provider scope and c
 | `tocfl_cert` | `https://tocfl.edu.tw/tocfl/index.php/exam/download` | TOCFL reference and official mock-test question/audio/answer/script materials | 2022, 2024, and 2026 resource years observed | 2022–2026, 3 buckets; 3 → 95 | **Covered, reference/mock scope** | This is not a complete archive of every administered TOCFL exam; direct mock downloads are public. |
 | `tqc_cert` | `https://www.tqc.org.tw/TQCNet/ExamPaper.aspx` | TQC certification sample-paper archive | 2015–2026 observed | 2015–2026, 11 buckets; 11 → 44 | **Covered in declared sample scope** | Paginated public source; sample papers rather than a complete sitting archive. |
 | `twc_recruit` | `https://www.water.gov.tw/ch/Subject/Detail/59619?nodeId=715` | Taiwan Water Corporation recruitment papers | ROC 103–114 / AD 2014–2025, with source-list gaps documented | 2014–2025, 10 buckets; 10 → 10 | **Partial / sparse official archive** | Provider documents missing listing years as source sparsity, not automatically as parser failures. Current-year availability needs re-probe. |
-| `wdasec_skill` | `https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx` | Workforce Development Agency skills-evaluation past questions | Raw sessions 2001–2026; usable paper records 2001–2026 after the 2026-07-28 refresh | raw 2001–2026; papers 2001–2026, 26 buckets; 143 → 10,695 | **Partial / storage and scope blocker** | Official AD 2001–2024 refreshes produced 10,018 records with zero sync failures; policy exclusions remain explicit. Event `201309140001` is now represented as a reviewed blocked empty result with 2026-07-29 evidence in `catalog/source-coverage/wdasec_skill.json`. |
+| `wdasec_skill` | `https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx` | Workforce Development Agency skills-evaluation past questions | Official listing: 145 sessions across 2001–2026, captured 2026-07-30 | 2001–2026, 26 buckets; 145 → 10,809 | **Partial / source and publication-policy constraints** | The manifest represents 145/145 listing events. Two new AD 2026 second-session events added 114 files. History reports 136 published complete, 8 explicit policy exclusions, and the exact AD 2002 official empty-result blocker; no explicit redistribution license is recorded. |
 
 ### Known candidates, exclusions, and watch sources
 
@@ -172,13 +173,13 @@ The one historical semantic key that still intersects the current review queue i
 
 Eight Hakka events are normalized but not published because one official audio ZIP is approximately 2,094,415,387 bytes, beyond the current release/storage target. This needs an approved storage or scope decision.
 
-WDASEC AD 2001–2024 refreshes remain mirrored and normalized with zero sync failures. The AD 2002 event `201309140001` is an official empty result with a retained raw page and a 2026-07-29 evidence capture; it is now a reviewed `blocked` event, not an unresolved normalization gap. The remaining WDASEC policy exclusions continue to be explicit and measurable.
+WDASEC now has a 26-year/145-event official manifest and 145/145 local event representation. The two AD 2026 second-session events added 114 current files, bringing local state to 10,809 normalized records with zero failures/reviews. The AD 2002 event `201309140001` remains an official empty result and was rechecked through its stable detail URL on 2026-07-30; it is a reviewed `blocked` event, not a normalization gap. Eight other events remain explicit publication-policy exclusions. Manifest agreement therefore does not make this provider complete.
 
 ## Prioritized backlog
 
 ### P0 — completeness accounting and release safety
 
-1. Complete a provider-scoped manifest or equivalent authoritative discovery snapshot for the remaining 23 unresolved active providers; keep Kaohsiung in its evidence-backed blocked state until an official board recovers. MOEX now has 870/870 local representation for its current official manifest, but its event/file blockers and future source drift still require explicit evidence and revalidation. The reviewed inventory, MOEX discovery writer, and local-state/event-coverage gate are now in place, but they do not replace source recovery.
+1. Complete a provider-scoped manifest or equivalent authoritative discovery snapshot for the remaining 22 unresolved active providers; keep Kaohsiung in its evidence-backed blocked state until an official board recovers. MOEX now has 870/870 local representation for its current official manifest, but its event/file blockers and future source drift still require explicit evidence and revalidation. The reviewed inventory, MOEX discovery writer, and local-state/event-coverage gate are now in place, but they do not replace source recovery.
 2. Resolve the eight Hakka normalized-but-not-published events through an approved storage/release or scope decision; do not count local normalization as public coverage.
 3. Decide whether the 444 current-year MOEX single-year records should remain outside the public site policy or receive a narrow approved exception.
 4. Disposition the one unresolved historical MOEX semantic review key and the broader 772/5,033 current review populations through authoritative mappings or explicitly approved isolation scope.
@@ -233,12 +234,12 @@ Completion requires all of the following for an explicitly approved scope:
 - Should TOPIK, iCAP, and military recruitment remain blocked/out of scope until direct-download evidence is found?
 - What legal basis permits redistributing official PDFs, ZIPs, audio, and answer keys in GitHub releases?
 - Should MOEA/Taipower byte-identical records remain separate official categories or share one canonical owner?
-- Should the 23 unresolved providers be required to produce current discovery snapshots before any completeness claim, while evidence-backed blockers such as Kaohsiung remain acceptable terminal states?
+- Should the 22 unresolved providers be required to produce current discovery snapshots before any completeness claim, while evidence-backed blockers such as Kaohsiung remain acceptable terminal states?
 
 ## Safest branch/release strategy
 
-1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; after the RCPET checkpoint it is 8 behind and 72 ahead of fetched `origin/main`, with 67 local commits beyond its tracked upstream.
-2. Review `854bfe3` as the coherent CEEC code/data/site checkpoint, `3788eb7` as its documentation follow-up, and the RCPET discovery checkpoint separately. Pre-existing untracked `PLAN.md` remains excluded.
+1. Keep `agent/exam-coverage-and-mirror-dedup` as a local audit/reference branch. Do not rebase it in place; after the WDASEC checkpoint it is 8 behind and 73 ahead of fetched `origin/main`, with 68 local commits beyond its tracked upstream.
+2. Review `854bfe3` as the coherent CEEC code/data/site checkpoint, `3788eb7` as its documentation follow-up, the RCPET discovery checkpoint, and the WDASEC discovery checkpoint separately. Pre-existing untracked `PLAN.md` remains excluded.
 3. Create a fresh implementation branch from fetched `origin/main` at `1970a70` after review. Port only selected coherent checkpoints by review/cherry-pick; do not merge generated state blindly.
 4. Implement one provider/source family at a time. Keep source-scope decisions, manifests, generated mirrors, publication changes, and frontend changes reviewable separately.
 5. Require the aggregate gates on every provider refresh before treating a change as releasable. Run release upload/deploy only in an approved CI/operator environment after legal and remote-asset checks pass.

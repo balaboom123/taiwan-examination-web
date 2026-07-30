@@ -156153,6 +156153,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-0058b7bb8611",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -156179,7 +156180,7 @@
         91,
         90
       ],
-      "fileCount": 34,
+      "fileCount": 35,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-a-skill-0058b7bb8611--6a44b680a47f.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -156193,9 +156194,10 @@
       "searchAliases": [
         "女裝",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第1梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "04800",
         "04800-class_a-question",
+        "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "113年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -156213,8 +156215,7 @@
         "106年度全國技術士技能檢定第3梯次學科試題暨答案",
         "105年度全國技術士技能檢定第2梯次學科試題暨答案",
         "105年度全國技術士技能檢定第3梯次學科測試試題暨答案",
-        "104年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "103年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "104年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "女裝"
@@ -156543,6 +156544,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-17808743a93b",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -156569,7 +156571,7 @@
         91,
         90
       ],
-      "fileCount": 29,
+      "fileCount": 30,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-a-skill-17808743a93b--570c39d95c8c.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -156583,9 +156585,10 @@
       "searchAliases": [
         "工業用管配管",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12100",
         "12100-class_a-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -156603,8 +156606,7 @@
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "工業用管配管"
@@ -156770,6 +156772,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-261084565f50",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -156787,7 +156790,7 @@
         91,
         90
       ],
-      "fileCount": 19,
+      "fileCount": 20,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-a-skill-261084565f50--13bdd6c00c97.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -156801,9 +156804,10 @@
       "searchAliases": [
         "門窗木工",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "03900",
         "03900-class_a-question",
+        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -157256,7 +157260,7 @@
         105,
         104
       ],
-      "fileCount": 70,
+      "fileCount": 72,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-3763acc5227e--af6de9f2c8df.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -157274,6 +157278,7 @@
         "22100",
         "22100-class_a-practical",
         "22100-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -157290,8 +157295,7 @@
         "110年度全國技術士技能檢定第1梯次學科試題暨答案",
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "職業衛生管理"
@@ -157394,6 +157398,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -157415,7 +157420,7 @@
         96,
         95
       ],
-      "fileCount": 46,
+      "fileCount": 47,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-a-skill-4e919d3f9bb9--16cc09573dc6.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -157429,10 +157434,11 @@
       "searchAliases": [
         "營造工程管理",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "18000",
-        "18000-class_a-practical",
         "18000-class_a-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "18000-class_a-practical",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -157449,8 +157455,7 @@
         "105年度全國技術士技能檢定第1梯次學科試題暨答案",
         "105年度全國技術士技能檢定第2梯次學科試題暨答案",
         "104年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "103年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "103年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "營造工程管理"
@@ -157876,6 +157881,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-68c9caea845d",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -157893,7 +157899,7 @@
         91,
         90
       ],
-      "fileCount": 18,
+      "fileCount": 19,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-a-skill-68c9caea845d--4eb9c5c6eab3.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -157907,9 +157913,10 @@
       "searchAliases": [
         "泥水",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "00900",
         "00900-class_a-question",
+        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -157949,7 +157956,7 @@
         105,
         104
       ],
-      "fileCount": 70,
+      "fileCount": 72,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-6a3aaace417f--c3eb83f1e8fb.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -157967,6 +157974,7 @@
         "22000",
         "22000-class_a-practical",
         "22000-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -157983,8 +157991,7 @@
         "110年度全國技術士技能檢定第1梯次學科試題暨答案",
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "職業安全管理"
@@ -158021,7 +158028,7 @@
         91,
         90
       ],
-      "fileCount": 58,
+      "fileCount": 59,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-73d81c8a0c58--61b852965590.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -158038,6 +158045,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00100",
         "00100-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -158055,8 +158063,7 @@
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "冷凍空調裝修"
@@ -158291,7 +158298,7 @@
         91,
         90
       ],
-      "fileCount": 42,
+      "fileCount": 43,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-91149e972673--78148748bf91.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -158308,6 +158315,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "04000",
         "04000-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -158325,8 +158333,7 @@
         "109年度全國技術士技能檢定第3梯次學科試題暨答案",
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "108年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "配電線路裝修"
@@ -158668,6 +158675,7 @@
       "id": "wdasec-skill-skill-certification-class-a-skill-bf83533aafc4",
       "name": "全國技術士技能檢定｜甲級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -158694,7 +158702,7 @@
         91,
         90
       ],
-      "fileCount": 34,
+      "fileCount": 35,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-a-skill-bf83533aafc4--5cfc2d31ac92.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -158708,9 +158716,10 @@
       "searchAliases": [
         "數位電子",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第3梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "11700",
         "11700-class_a-question",
+        "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第3梯次學科試題暨答案",
         "112年度全國技術士技能檢定第3梯次學科試題暨答案",
         "111年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -158728,8 +158737,7 @@
         "104年度全國技術士技能檢定第3梯次學科試題暨答案",
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "101年度全國技能檢定第4梯次學科試題暨答案"
+        "102年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "數位電子"
@@ -159159,7 +159167,7 @@
         91,
         90
       ],
-      "fileCount": 50,
+      "fileCount": 51,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-ee02fd7cbb32--4ba89b85f40b.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -159176,6 +159184,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00700",
         "00700-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -159193,8 +159202,7 @@
         "108年度全國技術士技能檢定第1梯次學科試題暨答案",
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "108年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "室內配線─屋內線路裝修"
@@ -159350,7 +159358,7 @@
         91,
         90
       ],
-      "fileCount": 48,
+      "fileCount": 49,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-f81c39a55aed--04e28b1c0c80.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -159367,6 +159375,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06900",
         "06900-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "06900-class_a-practical",
@@ -159384,8 +159393,7 @@
         "104年度全國技術士技能檢定第1梯次學科試題暨答案",
         "104年度全國技術士技能檢定第2梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "101年度全國技能檢定第2梯次學科試題暨答案"
+        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "建築工程管理"
@@ -159468,7 +159476,7 @@
         105,
         104
       ],
-      "fileCount": 24,
+      "fileCount": 25,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-a-skill-fbe06eaaa0e7--1067feb31431.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -159485,6 +159493,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "22400",
         "22400-class_a-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -159502,8 +159511,7 @@
         "109年度全國技術士技能檢定第3梯次學科試題暨答案",
         "108年度全國技術士技能檢定第1梯次學科試題暨答案",
         "108年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "化學性因子作業環境監測"
@@ -159958,7 +159966,7 @@
         106,
         105
       ],
-      "fileCount": 21,
+      "fileCount": 22,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-b-skill-02246840c86d--90df3ba39602.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -159975,6 +159983,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "21000",
         "21000-class_b-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -159992,8 +160001,7 @@
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "太陽光電設置"
@@ -160030,7 +160038,7 @@
         91,
         90
       ],
-      "fileCount": 71,
+      "fileCount": 72,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-b-skill-0243e4946f58--92fa9dc479c5.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -160047,6 +160055,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00100",
         "00100-class_b-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -160064,8 +160073,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "冷凍空調裝修"
@@ -160822,6 +160830,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-173ba322b454",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -160848,7 +160857,7 @@
         91,
         90
       ],
-      "fileCount": 40,
+      "fileCount": 41,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-173ba322b454--0714608c8f90.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -160862,9 +160871,10 @@
       "searchAliases": [
         "升降機裝修",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "06400",
         "06400-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -160882,8 +160892,7 @@
         "105年度全國技術士技能檢定第2梯次學科試題暨答案",
         "105年度全國技術士技能檢定第3梯次學科測試試題暨答案",
         "104年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "104年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "升降機裝修"
@@ -161358,6 +161367,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -161369,7 +161379,7 @@
         106,
         105
       ],
-      "fileCount": 14,
+      "fileCount": 15,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-2237ec24a8f8--7a897d63744c.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -161383,9 +161393,10 @@
       "searchAliases": [
         "西餐烹調",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "14000",
         "14000-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -161571,6 +161582,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-25836341c966",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -161596,7 +161608,7 @@
         92,
         91
       ],
-      "fileCount": 29,
+      "fileCount": 30,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-25836341c966--26ea7c5e5c2a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -161610,9 +161622,10 @@
       "searchAliases": [
         "輸電架空線路裝修",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "16900",
         "16900-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -161630,8 +161643,7 @@
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "輸電架空線路裝修"
@@ -161992,6 +162004,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-2f63f30235a3",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -162018,7 +162031,7 @@
         91,
         90
       ],
-      "fileCount": 31,
+      "fileCount": 32,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-2f63f30235a3--b7d32574c80f.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -162032,9 +162045,10 @@
       "searchAliases": [
         "泥水─粉刷",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "00902",
         "00902-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -162052,8 +162066,7 @@
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "101年度全國技能檢定第2梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "101年度全國技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─粉刷"
@@ -162242,6 +162255,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -162262,7 +162276,7 @@
         97,
         96
       ],
-      "fileCount": 43,
+      "fileCount": 44,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-33bd2c1b79b2--1c49f3b762de.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -162276,10 +162290,11 @@
       "searchAliases": [
         "營造工程管理",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "18000",
-        "18000-class_b-practical",
         "18000-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "18000-class_b-practical",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -162296,8 +162311,7 @@
         "104年度全國技術士技能檢定第2梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "101年度全國技能檢定第2梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "101年度全國技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "營造工程管理"
@@ -162307,6 +162321,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -162332,7 +162347,7 @@
         92,
         91
       ],
-      "fileCount": 39,
+      "fileCount": 40,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-33f4cc6d770e--707fe49f8f76.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -162346,9 +162361,10 @@
       "searchAliases": [
         "化工",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12300",
         "12300-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -162366,8 +162382,7 @@
         "105年度全國技術士技能檢定第2梯次學科試題暨答案",
         "105年度全國技術士技能檢定第3梯次學科測試試題暨答案",
         "104年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "104年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "化工"
@@ -162377,6 +162392,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-3768e9577deb",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -162401,7 +162417,7 @@
         93,
         92
       ],
-      "fileCount": 27,
+      "fileCount": 28,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-3768e9577deb--c66237fa32cb.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -162415,9 +162431,10 @@
       "searchAliases": [
         "輸電地下電纜裝修",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "16800",
         "16800-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -162435,8 +162452,7 @@
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "輸電地下電纜裝修"
@@ -162715,6 +162731,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-414c30e59b60",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -162736,7 +162753,7 @@
         93,
         92
       ],
-      "fileCount": 21,
+      "fileCount": 22,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-414c30e59b60--4151a6ccb834.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -162750,9 +162767,10 @@
       "searchAliases": [
         "職業潛水",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "09800",
         "09800-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -162770,8 +162788,7 @@
         "96年度全國技能檢定暨勞安衛第1梯次學科試題暨答案",
         "95年度全國檢定第1梯次學科試題暨答案",
         "94年度全國檢定第1梯次學科試題暨答案",
-        "93年度全國技能檢定及勞安衛第3梯學科試題暨答案",
-        "92年度全國技能檢定第一梯次學科試題暨答案"
+        "93年度全國技能檢定及勞安衛第3梯學科試題暨答案"
       ],
       "subjectLabels": [
         "職業潛水"
@@ -163435,7 +163452,7 @@
         91,
         90
       ],
-      "fileCount": 57,
+      "fileCount": 58,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-b-skill-5bb195b6fc71--8739411803f6.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -163452,6 +163469,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "03100",
         "03100-class_b-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -163469,8 +163487,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "鍋爐操作"
@@ -164032,6 +164049,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-72fab3732fde",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -164049,7 +164067,7 @@
         91,
         90
       ],
-      "fileCount": 22,
+      "fileCount": 23,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-b-skill-72fab3732fde--155243874237.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -164063,9 +164081,10 @@
       "searchAliases": [
         "門窗木工",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "03900",
         "03900-class_b-question",
+        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -164083,8 +164102,7 @@
         "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "94年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "93年度全國技能檢定第1梯次學科試題暨答案",
-        "92年度全國技能檢定第一梯次學科試題暨答案",
-        "92年度全國檢定第1梯次學科試題暨答案"
+        "92年度全國技能檢定第一梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "門窗木工"
@@ -164145,6 +164163,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -164171,7 +164190,7 @@
         91,
         90
       ],
-      "fileCount": 34,
+      "fileCount": 35,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-74b7fa1502e9--25408cadb0fe.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -164185,9 +164204,10 @@
       "searchAliases": [
         "工業用管配管",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12100",
         "12100-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -164205,8 +164225,7 @@
         "104年度全國技術士技能檢定第3梯次學科試題暨答案",
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "103年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "103年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "工業用管配管"
@@ -164333,6 +164352,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-7954f39a2543",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -164359,7 +164379,7 @@
         91,
         90
       ],
-      "fileCount": 34,
+      "fileCount": 35,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-7954f39a2543--9d6ffa293133.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -164373,9 +164393,10 @@
       "searchAliases": [
         "泥水─砌磚",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "00901",
         "00901-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -164393,8 +164414,7 @@
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
         "103年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "102年度全國技能檢定第1梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "102年度全國技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─砌磚"
@@ -164404,13 +164424,14 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-7a7c6c73a12c",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         113,
         111,
         109,
         107,
         105
       ],
-      "fileCount": 5,
+      "fileCount": 6,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-b-skill-7a7c6c73a12c--c17cdb67423d.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -164424,9 +164445,10 @@
       "searchAliases": [
         "製鞋─製配底",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第1梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07102",
         "07102-class_b-question",
+        "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "111年度全國技術士技能檢定第1梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -164805,6 +164827,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-856b542eaa1d",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -164831,7 +164854,7 @@
         91,
         90
       ],
-      "fileCount": 32,
+      "fileCount": 33,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-856b542eaa1d--a2504747734a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -164845,9 +164868,10 @@
       "searchAliases": [
         "泥水─面材舖貼",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "00903",
         "00903-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -164865,8 +164889,7 @@
         "104年度全國技術士技能檢定第2梯次學科試題暨答案",
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "101年度全國技能檢定第2梯次學科試題暨答案"
+        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─面材舖貼"
@@ -165292,6 +165315,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-8b5409fe3208",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -165311,7 +165335,7 @@
         92,
         91
       ],
-      "fileCount": 18,
+      "fileCount": 19,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-b-skill-8b5409fe3208--a209dc12e47a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -165325,9 +165349,10 @@
       "searchAliases": [
         "工程泵(幫浦)類檢修",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "16500",
         "16500-class_b-question",
+        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -165641,6 +165666,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-915b33da9328",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -165667,7 +165693,7 @@
         91,
         90
       ],
-      "fileCount": 46,
+      "fileCount": 48,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-915b33da9328--daf66613c748.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -165681,10 +165707,11 @@
       "searchAliases": [
         "建築工程管理",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "06900",
-        "06900-class_b-practical",
         "06900-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "06900-class_b-practical",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -165701,8 +165728,7 @@
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "建築工程管理"
@@ -166476,6 +166502,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-ad6628edd53d",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -166491,7 +166518,7 @@
         102,
         101
       ],
-      "fileCount": 34,
+      "fileCount": 35,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-ad6628edd53d--1f977341a22a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -166505,9 +166532,10 @@
       "searchAliases": [
         "氣體燃料導管配管",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12200",
         "12200-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -166525,8 +166553,7 @@
         "108年度全國技術士技能檢定第3梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "氣體燃料導管配管"
@@ -166557,7 +166584,7 @@
         97,
         96
       ],
-      "fileCount": 82,
+      "fileCount": 84,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-b-skill-af8e9568fc53--1d17c695a32b.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -166575,6 +166602,7 @@
         "20000",
         "20000-class_b-practical",
         "20000-class_b-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -166591,8 +166619,7 @@
         "108年度全國技術士技能檢定第1梯次學科試題暨答案",
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "國貿業務"
@@ -166888,6 +166915,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-bef5377c1451",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -166911,7 +166939,7 @@
         94,
         93
       ],
-      "fileCount": 57,
+      "fileCount": 58,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-bef5377c1451--3c253a9b7052.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -166925,9 +166953,10 @@
       "searchAliases": [
         "建築物室內設計",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12500",
         "12500-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -166945,8 +166974,7 @@
         "104年度全國技術士技能檢定第2梯次學科試題暨答案",
         "103年度全國技術士技能檢定第1梯次學科試題暨答案",
         "103年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "102年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "102年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "建築物室內設計"
@@ -166977,7 +167005,7 @@
         97,
         96
       ],
-      "fileCount": 109,
+      "fileCount": 111,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-b-skill-c05650da23a4--c543ee0159a7.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -166995,6 +167023,7 @@
         "19500",
         "19500-class_b-practical",
         "19500-class_b-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -167011,8 +167040,7 @@
         "110年度全國技術士技能檢定第1梯次學科試題暨答案",
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "就業服務"
@@ -168170,6 +168198,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-e4b8976395a3",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -168183,7 +168212,7 @@
         104,
         103
       ],
-      "fileCount": 18,
+      "fileCount": 19,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-e4b8976395a3--4c71c2922240.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -168197,9 +168226,10 @@
       "searchAliases": [
         "網頁設計",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "17300",
         "17300-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -168590,6 +168620,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-f0e663e1867b",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -168597,7 +168628,7 @@
         105,
         90
       ],
-      "fileCount": 6,
+      "fileCount": 7,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-b-skill-f0e663e1867b--36cb1a92206f.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -168611,9 +168642,10 @@
       "searchAliases": [
         "製鞋─製面",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第1梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07101",
         "07101-class_b-question",
+        "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "111年度全國技術士技能檢定第1梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -168768,6 +168800,7 @@
       "id": "wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e",
       "name": "全國技術士技能檢定｜乙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -168794,7 +168827,7 @@
         91,
         90
       ],
-      "fileCount": 39,
+      "fileCount": 40,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-b-skill-f7d71f3c663e--0ca882b73239.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -168808,9 +168841,10 @@
       "searchAliases": [
         "美容",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "10000",
         "10000-class_b-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -168828,8 +168862,7 @@
         "105年度全國技術士技能檢定第2梯次學科試題暨答案",
         "105年度全國技術士技能檢定第3梯次學科測試試題暨答案",
         "104年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "104年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "104年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "美容"
@@ -169198,7 +169231,7 @@
         91,
         90
       ],
-      "fileCount": 54,
+      "fileCount": 55,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-00f35441e498--0cdd39a719d8.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -169215,6 +169248,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "01600",
         "01600-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -169232,8 +169266,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "自來水管配管"
@@ -169333,6 +169366,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-046da9896bf2",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -169354,7 +169388,7 @@
         93,
         92
       ],
-      "fileCount": 22,
+      "fileCount": 23,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-c-skill-046da9896bf2--bd1a56f7a09f.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -169368,9 +169402,10 @@
       "searchAliases": [
         "職業潛水",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "09800",
         "09800-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -169388,8 +169423,7 @@
         "97年度全國技能檢定暨勞安衛第1梯次學科試題暨答案.",
         "96年度全國技能檢定暨勞安衛第1梯次學科試題暨答案",
         "95年度全國檢定第1梯次學科試題暨答案",
-        "94年度全國檢定第1梯次學科試題暨答案",
-        "93年度全國技能檢定及勞安衛第3梯學科試題暨答案"
+        "94年度全國檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "職業潛水"
@@ -169583,7 +169617,7 @@
         94,
         93
       ],
-      "fileCount": 63,
+      "fileCount": 65,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-0831ceffac0e--7389d9104244.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -169600,6 +169634,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "17500",
         "17500-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -169617,8 +169652,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "混凝土"
@@ -169876,7 +169910,7 @@
         106,
         105
       ],
-      "fileCount": 17,
+      "fileCount": 18,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-0c8c07ce0af1--8a2c4b9c204f.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -169893,6 +169927,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "21500",
         "21500-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -169956,6 +169991,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -169973,7 +170009,7 @@
         100,
         99
       ],
-      "fileCount": 22,
+      "fileCount": 23,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-c-skill-0f32ceaebd85--375d5fc2b050.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -169987,9 +170023,10 @@
       "searchAliases": [
         "飲料調製",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "20600",
         "20600-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -170007,8 +170044,7 @@
         "102年度全國技術士技能檢定第3梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第4梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "飲料調製"
@@ -170018,6 +170054,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-11a7afc02b67",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -170039,7 +170076,7 @@
         91,
         90
       ],
-      "fileCount": 20,
+      "fileCount": 21,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-010/wdasec-skill-skill-certification-class-c-skill-11a7afc02b67--470f4326a1ee.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -170053,9 +170090,10 @@
       "searchAliases": [
         "工業用管配管",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12100",
         "12100-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -170073,8 +170111,7 @@
         "94年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "93年度全國技能檢定及勞安衛第2梯學科試題暨答案",
         "92年度全國檢定第2梯次學科試題暨答案",
-        "91年度全國檢定第2梯次學科試題暨答案",
-        "90年度全國檢定第2梯次學科試題暨答案"
+        "91年度全國檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "工業用管配管"
@@ -170788,6 +170825,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-26f2fc004983",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -170814,7 +170852,7 @@
         91,
         90
       ],
-      "fileCount": 52,
+      "fileCount": 53,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-26f2fc004983--19960b82dafe.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -170828,9 +170866,10 @@
       "searchAliases": [
         "鍋爐操作",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "03100",
         "03100-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -170848,8 +170887,7 @@
         "109年度全國技術士技能檢定第3梯次學科試題暨答案",
         "108年度全國技術士技能檢定第1梯次學科試題暨答案",
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "108年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "鍋爐操作"
@@ -171133,7 +171171,7 @@
         97,
         96
       ],
-      "fileCount": 118,
+      "fileCount": 119,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-2e8275eb002a--69b9100a3789.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -171150,6 +171188,7 @@
         "115年度全國技術士技能檢定第1梯次按摩職類學科試題暨答案",
         "07200",
         "07200-class_c-question",
+        "115年度全國技術士技能檢定第2梯次按摩職類學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次按摩職類學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次按摩職類學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次按摩職類學科試題暨答案",
@@ -171167,8 +171206,7 @@
         "109年度全國技術士技能檢定第2梯次按摩職類學科試題暨答案",
         "109年度全國技術士技能檢定第3梯次按摩職類學科試題暨答案",
         "108年度全國技術士技能檢定第1梯次按摩職類學科試題暨答案",
-        "108年度全國技術士技能檢定第2梯次按摩職類學科試題暨答案",
-        "108年度全國技術士技能檢定第3梯次按摩職類學科試題暨答案"
+        "108年度全國技術士技能檢定第2梯次按摩職類學科試題暨答案"
       ],
       "subjectLabels": [
         "按摩"
@@ -171889,6 +171927,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-42cedb117ffd",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -171915,7 +171954,7 @@
         91,
         90
       ],
-      "fileCount": 29,
+      "fileCount": 30,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-42cedb117ffd--390c277e16d2.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -171929,9 +171968,10 @@
       "searchAliases": [
         "化工",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "12300",
         "12300-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -171949,8 +171989,7 @@
         "102年度全國技術士技能檢定第3梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "化工"
@@ -172373,6 +172412,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-4b414606cd68",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -172392,7 +172432,7 @@
         91,
         90
       ],
-      "fileCount": 21,
+      "fileCount": 22,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-4b414606cd68--7ee78032d1a8.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -172406,9 +172446,10 @@
       "searchAliases": [
         "製鞋",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07100",
         "07100-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
         "112年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -172426,8 +172467,7 @@
         "95年度全國技能檢定暨勞安衛第3梯次學科試題暨答案",
         "93年度全國技能檢定第1梯次學科試題暨答案",
         "92年度全國技能檢定第一梯次學科試題暨答案",
-        "92年度全國檢定第1梯次學科試題暨答案",
-        "91年度全國檢定第1梯次學科試題暨答案"
+        "92年度全國檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "製鞋"
@@ -173237,7 +173277,7 @@
         91,
         90
       ],
-      "fileCount": 51,
+      "fileCount": 52,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-5a693ffc2ae1--95ca5fc26b73.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -173254,6 +173294,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00903",
         "00903-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -173271,8 +173312,7 @@
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
         "106年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "105年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─面材舖貼"
@@ -173763,6 +173803,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-717879e58f24",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -173784,7 +173825,7 @@
         93,
         92
       ],
-      "fileCount": 23,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-717879e58f24--8fed7f766454.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -173798,9 +173839,10 @@
       "searchAliases": [
         "網頁設計",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "17300",
         "17300-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -173818,8 +173860,7 @@
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
         "96年度全國技能檢定暨勞安衛第1梯次學科試題暨答案",
         "96年度全國技能檢定暨勞安衛第3梯次學科試題暨答案",
-        "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
-        "94年度全國技能檢定暨勞安衛第2梯次學科試題暨答案"
+        "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "網頁設計"
@@ -174038,7 +174079,7 @@
         93,
         92
       ],
-      "fileCount": 71,
+      "fileCount": 73,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-77141472de1b--946357f88b25.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -174055,6 +174096,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "10000",
         "10000-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -174072,8 +174114,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "美容"
@@ -174083,6 +174124,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-7781a64c8976",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -174108,7 +174150,7 @@
         92,
         91
       ],
-      "fileCount": 27,
+      "fileCount": 29,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-7781a64c8976--9f764962e2e2.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -174122,9 +174164,10 @@
       "searchAliases": [
         "西餐烹調",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "14000",
         "14000-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -174142,8 +174185,7 @@
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
         "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "97年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "西餐烹調"
@@ -174290,7 +174332,7 @@
         91,
         90
       ],
-      "fileCount": 51,
+      "fileCount": 52,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-78f35226bd74--02f29c63aaca.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -174307,6 +174349,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00901",
         "00901-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -174324,8 +174367,7 @@
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
         "106年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "105年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─砌磚"
@@ -174615,7 +174657,7 @@
         91,
         90
       ],
-      "fileCount": 38,
+      "fileCount": 39,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-7d2e9509ec36--e0b6a28c75c7.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -174632,6 +174674,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06400",
         "06400-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -174649,8 +174692,7 @@
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "106年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "升降機裝修"
@@ -174853,6 +174895,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-8a55ee04da36",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -174865,7 +174908,7 @@
         105,
         104
       ],
-      "fileCount": 12,
+      "fileCount": 13,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-8a55ee04da36--d68429644659.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -174879,9 +174922,10 @@
       "searchAliases": [
         "水產食品加工-煉製品類",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "13204",
         "13204-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -174986,7 +175030,7 @@
         92,
         91
       ],
-      "fileCount": 52,
+      "fileCount": 53,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-903561bfe77f--4f62d9059803.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -175003,6 +175047,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "01800",
         "01800-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -175020,8 +175065,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "108年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "鋼筋"
@@ -175031,6 +175075,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-937f291d1b4a",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -175054,7 +175099,7 @@
         91,
         90
       ],
-      "fileCount": 24,
+      "fileCount": 25,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-937f291d1b4a--fdeb71d987f4.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -175068,9 +175113,10 @@
       "searchAliases": [
         "電腦軟體設計",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "11900",
         "11900-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -175088,8 +175134,7 @@
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
         "96年度全國技能檢定暨勞安衛第1梯次學科試題暨答案",
         "96年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
-        "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
-        "94年度全國技能檢定暨勞安衛第2梯次學科試題暨答案"
+        "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "電腦軟體設計"
@@ -175399,13 +175444,14 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-9a9158b073fb",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         96,
         95,
         94,
         93,
         92
       ],
-      "fileCount": 6,
+      "fileCount": 7,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-9a9158b073fb--9959b48c0558.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -175419,9 +175465,10 @@
       "searchAliases": [
         "輸電地下電纜裝修",
         "全國技術士技能檢定",
-        "96年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "16800",
         "16800-class_c-question",
+        "96年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "94年度全國檢定第1梯次學科試題暨答案",
         "93年度全國技能檢定第1梯次學科試題暨答案",
@@ -175559,7 +175606,7 @@
         91,
         90
       ],
-      "fileCount": 51,
+      "fileCount": 52,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-9e73fb6cee29--7e1c140af852.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -175576,6 +175623,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00902",
         "00902-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -175593,8 +175641,7 @@
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
         "106年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "105年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "105年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "泥水─粉刷"
@@ -175910,7 +175957,7 @@
         106,
         105
       ],
-      "fileCount": 17,
+      "fileCount": 19,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-ad94f9570dad--0826f3ff0552.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -175927,6 +175974,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "21600",
         "21600-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -176352,6 +176400,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -176373,7 +176422,7 @@
         96,
         95
       ],
-      "fileCount": 28,
+      "fileCount": 29,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-baa3d8ae1938--f0cf7daeb65a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -176387,9 +176436,10 @@
       "searchAliases": [
         "室內配線─屋內線路裝修",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第3梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "00700",
         "00700-class_c-question",
+        "114年度全國技術士技能檢定第3梯次學科試題暨答案",
         "113年度全國技術士技能檢定第3梯次學科試題暨答案",
         "112年度全國技術士技能檢定第3梯次學科試題暨答案",
         "111年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -176407,8 +176457,7 @@
         "101年度全國技能檢定第1梯次學科試題暨答案",
         "101年度全國技能檢定第3梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第3梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第1梯次學科試題暨答案",
-        "99年度全國技能檢定暨勞安衛第3梯次學科試題暨答案."
+        "100年度全國技能檢定暨勞安衛第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "室內配線─屋內線路裝修"
@@ -176502,7 +176551,7 @@
         105,
         104
       ],
-      "fileCount": 44,
+      "fileCount": 46,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-bd24e86ea68c--16ab400ef7a3.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -176519,6 +176568,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "07602",
         "07602-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -176536,8 +176586,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "中餐烹調─葷食"
@@ -176595,6 +176644,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-c2fa764902ed",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -176602,7 +176652,7 @@
         110,
         109
       ],
-      "fileCount": 7,
+      "fileCount": 8,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-c2fa764902ed--c759f2d5d713.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -176616,9 +176666,10 @@
       "searchAliases": [
         "水產食品加工-燻製、醃漬品類",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "13207",
         "13207-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -176661,7 +176712,7 @@
         91,
         90
       ],
-      "fileCount": 44,
+      "fileCount": 45,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-c46fdc4b2e34--06cdc8354739.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -176678,6 +176729,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "01900",
         "01900-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -176695,8 +176747,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "108年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "模板"
@@ -176881,6 +176932,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-c98f2b358163",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         113,
         111,
         109,
@@ -176898,7 +176950,7 @@
         91,
         90
       ],
-      "fileCount": 18,
+      "fileCount": 19,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-c98f2b358163--770fb3274324.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -176912,9 +176964,10 @@
       "searchAliases": [
         "門窗木工",
         "全國技術士技能檢定",
-        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "03900",
         "03900-class_c-question",
+        "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "111年度全國技術士技能檢定第2梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -177282,6 +177335,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-d29a9a3fc028",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         96,
         95,
@@ -177290,7 +177344,7 @@
         92,
         91
       ],
-      "fileCount": 10,
+      "fileCount": 11,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-d29a9a3fc028--d30f9322d8ef.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -177304,9 +177358,10 @@
       "searchAliases": [
         "輸電架空線路裝修",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "16900",
         "16900-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "96年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
         "95年度全國技能檢定暨勞安衛第2梯次學科試題暨答案",
@@ -177999,7 +178054,7 @@
         105,
         104
       ],
-      "fileCount": 39,
+      "fileCount": 40,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-e6ec3e93408b--5872d3715b31.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -178016,6 +178071,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "07601",
         "07601-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -178033,8 +178089,7 @@
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
         "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "中餐烹調─素食"
@@ -178245,6 +178300,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-e93940e08459",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -178257,7 +178313,7 @@
         105,
         104
       ],
-      "fileCount": 13,
+      "fileCount": 14,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-e93940e08459--3b037c99de52.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -178271,9 +178327,10 @@
       "searchAliases": [
         "水產食品加工-乾製、調味品類",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第1梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "13201",
         "13201-class_c-question",
+        "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -178316,7 +178373,7 @@
         97,
         96
       ],
-      "fileCount": 79,
+      "fileCount": 81,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-e9908bafe6ef--05b45e05b2bd.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -178334,6 +178391,7 @@
         "20000",
         "20000-class_c-practical",
         "20000-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -178350,8 +178408,7 @@
         "108年度全國技術士技能檢定第1梯次學科試題暨答案",
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "107年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "國貿業務"
@@ -179163,7 +179220,7 @@
         91,
         90
       ],
-      "fileCount": 30,
+      "fileCount": 31,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-f8ccdfcbbd2f--3e4971f070f2.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179180,6 +179237,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "11800",
         "11800-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "113年度全國技術士技能檢定第1梯次學科試題暨答案",
@@ -179197,8 +179255,7 @@
         "102年度全國技術士技能檢定第2梯次學科試題暨答案",
         "102年度全國技術士技能檢定第3梯次學科試題暨答案",
         "101年度全國技能檢定第1梯次學科試題暨答案",
-        "101年度全國技能檢定第4梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第1梯次學科試題暨答案"
+        "101年度全國技能檢定第4梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "電腦軟體應用"
@@ -179208,6 +179265,7 @@
       "id": "wdasec-skill-skill-certification-class-c-skill-f974a4d9202a",
       "name": "全國技術士技能檢定｜丙級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -179232,7 +179290,7 @@
         93,
         92
       ],
-      "fileCount": 28,
+      "fileCount": 29,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-class-c-skill-f974a4d9202a--3d7619b71532.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179246,9 +179304,10 @@
       "searchAliases": [
         "電腦輔助立體製圖",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "15200",
         "15200-class_c-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -179266,8 +179325,7 @@
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第4梯次學科試題暨答案",
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "98年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "電腦輔助立體製圖"
@@ -179405,7 +179463,7 @@
         92,
         91
       ],
-      "fileCount": 36,
+      "fileCount": 37,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-class-c-skill-fc370bb98ac6--cd89136adb35.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179422,6 +179480,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06000",
         "06000-class_c-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -179439,8 +179498,7 @@
         "108年度全國技術士技能檢定第3梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "男子理髮"
@@ -179576,6 +179634,7 @@
       "id": "wdasec-skill-skill-certification-single-skill-00a50fe2ef27",
       "name": "全國技術士技能檢定｜單一級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -179601,7 +179660,7 @@
         91,
         90
       ],
-      "fileCount": 35,
+      "fileCount": 37,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-single-skill-00a50fe2ef27--a2a289521ad5.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179615,9 +179674,10 @@
       "searchAliases": [
         "重機械操作─挖掘機",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07002",
         "07002-single-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -179635,8 +179695,7 @@
         "102年度全國技術士技能檢定第3梯次學科試題暨答案",
         "101年度全國技能檢定第2梯次學科試題暨答案",
         "101年度全國技能檢定第4梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第3梯次學科試題暨答案",
-        "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
+        "100年度全國技能檢定暨勞安衛第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "重機械操作─挖掘機"
@@ -179712,7 +179771,7 @@
         105,
         104
       ],
-      "fileCount": 49,
+      "fileCount": 51,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-0ca5ac1e5e73--4235242275d4.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179729,6 +179788,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06105",
         "06105-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -179746,8 +179806,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "固定式起重機操作─架空式(地面操作)"
@@ -179819,6 +179878,7 @@
       "id": "wdasec-skill-skill-certification-single-skill-28d17b2fa6cd",
       "name": "全國技術士技能檢定｜單一級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -179831,7 +179891,7 @@
         105,
         104
       ],
-      "fileCount": 12,
+      "fileCount": 13,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-single-skill-28d17b2fa6cd--eb9e0be5f2e3.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179845,9 +179905,10 @@
       "searchAliases": [
         "固定式起重機操作─伸臂式",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "06102",
         "06102-single-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -179952,7 +180013,7 @@
         91,
         90
       ],
-      "fileCount": 65,
+      "fileCount": 67,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-4d162efd7405--6632087d52fd.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -179969,6 +180030,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "09100",
         "09100-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -179986,8 +180048,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "氬氣鎢極電銲"
@@ -180022,7 +180083,7 @@
         91,
         90
       ],
-      "fileCount": 68,
+      "fileCount": 70,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-520d84214fb6--70be8c50da1d.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180039,6 +180100,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "00400",
         "00400-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180056,8 +180118,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "一般手工電銲"
@@ -180087,7 +180148,7 @@
         98,
         97
       ],
-      "fileCount": 45,
+      "fileCount": 46,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-59a174510461--32c92b8bcfe2.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180104,6 +180165,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "15400",
         "15400-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180121,8 +180183,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案",
-        "108年度全國技術士技能檢定第1梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "托育人員"
@@ -180152,7 +180213,7 @@
         98,
         97
       ],
-      "fileCount": 41,
+      "fileCount": 43,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-60e53531298b--813dd0eca49a.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180169,6 +180230,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "17800",
         "17800-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180186,8 +180248,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "照顧服務員"
@@ -180349,7 +180410,7 @@
         106,
         104
       ],
-      "fileCount": 17,
+      "fileCount": 18,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-8df29372ebc3--c8474ad9e983.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180366,6 +180427,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06202",
         "06202-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180433,6 +180495,7 @@
       "id": "wdasec-skill-skill-certification-single-skill-a5264c81984c",
       "name": "全國技術士技能檢定｜單一級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -180458,7 +180521,7 @@
         91,
         90
       ],
-      "fileCount": 29,
+      "fileCount": 31,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-single-skill-a5264c81984c--fdef77062479.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180472,9 +180535,10 @@
       "searchAliases": [
         "重機械操作─推土機",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07001",
         "07001-single-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -180492,8 +180556,7 @@
         "100年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
         "99年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
         "98年度全國技能檢定暨勞安衛第3梯次學科試題暨答案.",
-        "97年度全國技能檢定暨勞安衛第2梯次學科試題暨答案.",
-        "96年度全國技能檢定暨勞安衛第1梯次學科試題暨答案"
+        "97年度全國技能檢定暨勞安衛第2梯次學科試題暨答案."
       ],
       "subjectLabels": [
         "重機械操作─推土機"
@@ -180503,6 +180566,7 @@
       "id": "wdasec-skill-skill-certification-single-skill-a61ad5d927e0",
       "name": "全國技術士技能檢定｜單一級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -180519,7 +180583,7 @@
         101,
         100
       ],
-      "fileCount": 19,
+      "fileCount": 21,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-single-skill-a61ad5d927e0--1efb2638202e.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180533,9 +180597,10 @@
       "searchAliases": [
         "重機械操作─鏟裝機",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07004",
         "07004-single-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -180569,7 +180634,7 @@
         111,
         110
       ],
-      "fileCount": 11,
+      "fileCount": 12,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-ad5425432828--c983e684c94d.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180586,6 +180651,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "07006",
         "07006-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -180705,7 +180771,7 @@
         105,
         104
       ],
-      "fileCount": 28,
+      "fileCount": 30,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-b26f5efed9fe--1c8ac8b71db2.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180722,6 +180788,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06201",
         "06201-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180739,8 +180806,7 @@
         "108年度全國技術士技能檢定第2梯次學科試題暨答案",
         "107年度全國技術士技能檢定第1梯次學科試題暨答案",
         "107年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "106年度全國技術士技能檢定第2梯次學科試題暨答案"
+        "106年度全國技術士技能檢定第1梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "移動式起重機操作─伸臂可伸縮"
@@ -180769,7 +180835,7 @@
         99,
         98
       ],
-      "fileCount": 46,
+      "fileCount": 47,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-b80b13251d47--5b1d814615cb.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180786,6 +180852,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "09900",
         "09900-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -180803,8 +180870,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "第一種壓力容器操作"
@@ -180978,7 +181044,7 @@
         111,
         110
       ],
-      "fileCount": 13,
+      "fileCount": 14,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-daa972ff47bb--78ec5b5a8915.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -180995,6 +181061,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06203",
         "06203-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -181022,7 +181089,7 @@
         112,
         111
       ],
-      "fileCount": 10,
+      "fileCount": 11,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-db57e842349e--5419fba98411.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181039,6 +181106,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06107",
         "06107-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
@@ -181083,7 +181151,7 @@
         91,
         90
       ],
-      "fileCount": 68,
+      "fileCount": 70,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-e49f4067ea67--2f16d7d9ec25.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181100,6 +181168,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "09700",
         "09700-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -181117,8 +181186,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "半自動電銲"
@@ -181154,7 +181222,7 @@
         91,
         90
       ],
-      "fileCount": 77,
+      "fileCount": 79,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-e54c91282b19--8bf609bf30c3.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181171,6 +181239,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "15100",
         "15100-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -181188,8 +181257,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "堆高機操作"
@@ -181199,6 +181267,7 @@
       "id": "wdasec-skill-skill-certification-single-skill-f1135900b10b",
       "name": "全國技術士技能檢定｜單一級",
       "years": [
+        115,
         114,
         113,
         112,
@@ -181215,7 +181284,7 @@
         101,
         100
       ],
-      "fileCount": 22,
+      "fileCount": 24,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-011/wdasec-skill-skill-certification-single-skill-f1135900b10b--684dad3b12a4.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181229,9 +181298,10 @@
       "searchAliases": [
         "重機械操作─一般裝載機",
         "全國技術士技能檢定",
-        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "07005",
         "07005-single-question",
+        "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
         "113年度全國技術士技能檢定第2梯次學科試題暨答案",
         "112年度全國技術士技能檢定第2梯次學科試題暨答案",
@@ -181272,7 +181342,7 @@
         105,
         104
       ],
-      "fileCount": 40,
+      "fileCount": 41,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-f842e02ce5f1--be8f7e41489b.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181289,6 +181359,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06104",
         "06104-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案（受丹娜絲颱風影響延期辦理考區）",
@@ -181306,8 +181377,7 @@
         "110年度全國技術士技能檢定第2梯次學科試題暨答案",
         "110年度全國技術士技能檢定第3梯次學科試題暨答案",
         "109年度全國技術士技能檢定第1梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第2梯次學科試題暨答案",
-        "109年度全國技術士技能檢定第3梯次學科試題暨答案"
+        "109年度全國技術士技能檢定第2梯次學科試題暨答案"
       ],
       "subjectLabels": [
         "固定式起重機操作─架空式(機上操作)"
@@ -181323,7 +181393,7 @@
         112,
         111
       ],
-      "fileCount": 10,
+      "fileCount": 11,
       "url": "https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-008/wdasec-skill-skill-certification-single-skill-fa6ceda1754e--96ea6fe268f7.zip",
       "domainId": "certification",
       "examFamilyId": "skill-certification",
@@ -181340,6 +181410,7 @@
         "115年度全國技術士技能檢定第1梯次學科試題暨答案",
         "06106",
         "06106-single-question",
+        "115年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第1梯次學科試題暨答案",
         "114年度全國技術士技能檢定第2梯次學科試題暨答案",
         "114年度全國技術士技能檢定第3梯次學科試題暨答案",
