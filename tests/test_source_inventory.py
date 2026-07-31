@@ -17,12 +17,56 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 19)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 15)
+        self.assertEqual(report["discovery_manifests_present"], 20)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 14)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
-        self.assertEqual(report["discovery_manifests_incomplete"], [])
+        self.assertEqual(report["discovery_manifests_incomplete"], ["cpc_recruit"])
+        self.assertEqual(
+            report["manifest_event_gaps"],
+            [{
+                "provider_id": "cpc_recruit",
+                "enforced": False,
+                "missing_events": [
+                    ["cpc-recruit-104", 2015],
+                    ["cpc-recruit-105", 2016],
+                    ["cpc-recruit-106", 2017],
+                    ["cpc-recruit-107", 2018],
+                    ["cpc-recruit-109", 2020],
+                    ["cpc-recruit-110", 2021],
+                    ["cpc-recruit-111", 2022],
+                    ["cpc-recruit-113", 2024],
+                    ["cpc-recruit-114", 2025],
+                ],
+            }],
+        )
         self.assertEqual(report["manifest_unrepresented_events"], [])
         self.assertEqual(report["local_state_drift"], [])
+
+    def test_cpc_manifest_records_verified_scope_and_contamination(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/cpc_recruit/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(sorted(map(int, manifest["years"])), [2009, 2011, 2012, 2013, 2019])
+        self.assertEqual(len(manifest["exams"]), 5)
+        self.assertEqual(len(manifest["files"]), 5)
+        self.assertEqual(
+            sum(item["bytes"] for item in manifest["files"].values()),
+            14_071_292,
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["accepted_asset_count"], 5)
+        self.assertEqual(policy["excluded_brochure_archive"]["asset_count"], 15)
+        self.assertEqual(
+            policy["retained_local_contamination"]["normalized_brochure_records"],
+            12,
+        )
+        self.assertEqual(
+            policy["contracted_source_blockers"][0]["status"],
+            "login_required",
+        )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
         with self.assertRaisesRegex(ValueError, "complete source discovery remains unresolved") as context:

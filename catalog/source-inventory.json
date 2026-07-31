@@ -211,7 +211,7 @@
       "status_reason": "Intentionally out of scope as a source; available range: Not an official source; local coverage: None"
     }
   ],
-  "captured_at": "2026-07-30",
+  "captured_at": "2026-07-31",
   "inventory_version": "source-scope-v1",
   "providers": [
     {
@@ -396,19 +396,20 @@
       "available_years": {
         "end_ad": 2025,
         "mode": "observed_range",
-        "note": "2009–2025 observed",
+        "note": "The static doctoral archive lists exactly AD 2009, 2011, 2012, 2013, and 2019; official contractor evidence also exists for 2024–2025, but those paper routes are not currently enumerable.",
         "start_ad": 2009
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/cpc_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/cpc_recruit-spec.md"
+        "docs/developer/providers/cpc_recruit-spec.md",
+        "data/providers/cpc_recruit/source-manifest.json"
       ],
-      "exam_category": "CPC Corporation company recruitment written papers",
+      "exam_category": "CPC doctoral and company-specific recruitment written papers",
       "local_state": {
         "normalized_paper_records": 17,
         "raw_event_pages": 14,
@@ -431,14 +432,20 @@
         2025
       ],
       "official_source_urls": [
-        "https://www.cpc.com.tw/News.aspx?n=32&sms=8969"
+        "https://www.cpc.com.tw/News.aspx?n=32&sms=8969",
+        "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+        "https://cpc114.twrecruit.com.tw/news/"
       ],
       "provider_id": "cpc_recruit",
       "restrictions": [
-        "Official CPC pages and linked files; the joint/MOEA page redirects to a Taipower archive handled by `moea_recruit`, so it must not be duplicated here."
+        "The static CPC doctoral archive exposes exactly five paper packages for AD 2009, 2011, 2012, 2013, and 2019; all five live files are byte-identical to the retained mirror.",
+        "The adjacent operational archive contains 15 recruitment brochures, not papers. Twelve were historically normalized and published as questions: nine brochure-only events and three mixed events remain pending a separate reviewed data migration.",
+        "The AD 2025 contractor paper routes redirect to login, and the retired AD 2024 doctoral contractor is not publicly enumerable and currently fails default TLS hostname validation; no access control is bypassed.",
+        "The CPC MOEA-joint page delegates to Taipower and is owned by moea_recruit, so it is not duplicated here.",
+        "CPC's open-data declaration permits broad attributed reuse for material within CPC's copyright but does not establish third-party rights for every archived item."
       ],
-      "status": "covered",
-      "status_reason": "Covered in declared scope; source availability: 2009–2025 observed; local coverage: 2009–2025, 14 buckets; 14 → 17"
+      "status": "partial",
+      "status_reason": "Partial: 5/5 packages on the static doctoral-paper page are manifest-backed and byte-verified, but the broader contracted source family is not enumerable and the current 14-event/17-record local publication still contains 12 recruitment brochures misclassified as question papers."
     },
     {
       "available_years": {
