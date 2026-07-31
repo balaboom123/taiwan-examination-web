@@ -17,29 +17,57 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 20)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 14)
+        self.assertEqual(report["discovery_manifests_present"], 21)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 13)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
-        self.assertEqual(report["discovery_manifests_incomplete"], ["cpc_recruit"])
+        self.assertEqual(
+            report["discovery_manifests_incomplete"],
+            ["cpc_recruit", "moea_recruit"],
+        )
         self.assertEqual(
             report["manifest_event_gaps"],
+            [
+                {
+                    "provider_id": "cpc_recruit",
+                    "enforced": False,
+                    "missing_events": [
+                        ["cpc-recruit-104", 2015],
+                        ["cpc-recruit-105", 2016],
+                        ["cpc-recruit-106", 2017],
+                        ["cpc-recruit-107", 2018],
+                        ["cpc-recruit-109", 2020],
+                        ["cpc-recruit-110", 2021],
+                        ["cpc-recruit-111", 2022],
+                        ["cpc-recruit-113", 2024],
+                        ["cpc-recruit-114", 2025],
+                    ],
+                },
+                {
+                    "provider_id": "moea_recruit",
+                    "enforced": False,
+                    "missing_events": [
+                        ["moea-recruit-115", 2026],
+                        ["moea-recruit-90", 2001],
+                        ["moea-recruit-92", 2003],
+                        ["moea-recruit-94", 2005],
+                        ["moea-recruit-99", 2010],
+                    ],
+                },
+            ],
+        )
+        self.assertEqual(
+            report["manifest_unrepresented_events"],
             [{
-                "provider_id": "cpc_recruit",
-                "enforced": False,
-                "missing_events": [
-                    ["cpc-recruit-104", 2015],
-                    ["cpc-recruit-105", 2016],
-                    ["cpc-recruit-106", 2017],
-                    ["cpc-recruit-107", 2018],
-                    ["cpc-recruit-109", 2020],
-                    ["cpc-recruit-110", 2021],
-                    ["cpc-recruit-111", 2022],
-                    ["cpc-recruit-113", 2024],
-                    ["cpc-recruit-114", 2025],
+                "provider_id": "moea_recruit",
+                "events": [
+                    ["moea-recruit-100", 2011],
+                    ["moea-recruit-107", 2018],
+                    ["moea-recruit-91", 2002],
+                    ["moea-recruit-93", 2004],
+                    ["moea-recruit-98", 2009],
                 ],
             }],
         )
-        self.assertEqual(report["manifest_unrepresented_events"], [])
         self.assertEqual(report["local_state_drift"], [])
 
     def test_cpc_manifest_records_verified_scope_and_contamination(self) -> None:
@@ -66,6 +94,60 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             policy["contracted_source_blockers"][0]["status"],
             "login_required",
+        )
+
+    def test_moea_manifest_records_exact_listing_and_contamination(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/moea_recruit/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(
+            sorted(map(int, manifest["years"])),
+            [
+                2002, 2004, 2006, 2007, 2008, 2009, 2011,
+                2012, 2013, 2014, 2015, 2016, 2017, 2018,
+                2019, 2020, 2021, 2022, 2023, 2024, 2025,
+            ],
+        )
+        self.assertEqual(len(manifest["exams"]), 21)
+        self.assertEqual(manifest["files"], {})
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["subject_group_count"], 515)
+        self.assertEqual(policy["listed_asset_count"], 1_486)
+        self.assertEqual(
+            sum(item["subject_group_count"] for item in manifest["years"].values()),
+            515,
+        )
+        self.assertEqual(
+            sum(item["asset_count"] for item in manifest["years"].values()),
+            1_486,
+        )
+        contamination = policy["retained_local_contamination"]
+        self.assertEqual(contamination["normalized_records"], 370)
+        self.assertTrue(contamination["all_records_are_taipower_hiring_material"])
+        self.assertTrue(contamination["exact_taipower_source_url_set_duplicate"])
+        self.assertTrue(contamination["exact_taipower_checksum_set_duplicate"])
+        self.assertEqual(
+            contamination["source_only_events"],
+            [
+                ["moea-recruit-100", 2011],
+                ["moea-recruit-107", 2018],
+                ["moea-recruit-91", 2002],
+                ["moea-recruit-93", 2004],
+                ["moea-recruit-98", 2009],
+            ],
+        )
+        self.assertEqual(
+            contamination["local_only_events"],
+            [
+                ["moea-recruit-115", 2026],
+                ["moea-recruit-90", 2001],
+                ["moea-recruit-92", 2003],
+                ["moea-recruit-94", 2005],
+                ["moea-recruit-99", 2010],
+            ],
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:

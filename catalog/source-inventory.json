@@ -762,19 +762,20 @@
     },
     {
       "available_years": {
-        "end_ad": 2026,
+        "end_ad": 2025,
         "mode": "observed_range",
-        "note": "2001–2026 observed",
-        "start_ad": 2001
+        "note": "The official year tabs enumerate exactly AD 2002, 2004, 2006–2009, and 2011–2025.",
+        "start_ad": 2002
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/moea_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/moea_recruit-spec.md"
+        "docs/developer/providers/moea_recruit-spec.md",
+        "data/providers/moea_recruit/source-manifest.json"
       ],
       "exam_category": "Ministry of Economic Affairs state-owned-enterprise joint recruitment papers",
       "local_state": {
@@ -806,14 +807,19 @@
         2026
       ],
       "official_source_urls": [
-        "https://service.taipower.com.tw/exam/info.aspx"
+        "https://service.taipower.com.tw/exam/info.aspx",
+        "https://www.taipower.com.tw/2289/2544/2554/2556/",
+        "https://www.taipower.com.tw/tc/download.aspx?mid=261"
       ],
       "provider_id": "moea_recruit",
       "restrictions": [
-        "All 370 checksums are identical to `taipower_recruit`; decide whether these are two official exam families or duplicate source ownership before claiming coverage."
+        "The 21 official year tabs currently enumerate 515 subject groups and 1,486 unique public PDF URLs; pagination is fail-closed, but the assets are listing-verified rather than byte-reconciled.",
+        "All 370 retained MOEA records are Taipower new-hire or training-class material: their source-URL and checksum sets exactly duplicate taipower_recruit, and the generated MOEA bundle still publishes them.",
+        "Five official MOEA events are absent locally and five local events are absent from the official MOEA manifest; replacement or quarantine requires a reviewed destructive provider-state and publication migration.",
+        "Taipower's open-data declaration permits attributed reuse within Taipower-owned rights with exclusions; it does not independently prove ownership of every exam item. No machine-readable robots policy was found."
       ],
       "status": "partial",
-      "status_reason": "Partial / ownership review; source availability: 2001–2026 observed; local coverage: 2001–2026, 21 buckets; 21 → 370"
+      "status_reason": "Partial / contaminated publication: official listing discovery covers 21 events, 515 subject groups, and 1,486 unique URLs, but none is represented by correct retained MOEA data; all 370 current records duplicate Taipower hiring material."
     },
     {
       "available_years": {
