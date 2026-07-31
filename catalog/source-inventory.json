@@ -1132,15 +1132,15 @@
     },
     {
       "available_years": {
-        "end_ad": 2025,
+        "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2025 observed",
-        "start_ad": 2025
+        "note": "Current public archive exposes ROC 106–112 and 114 / AD 2017–2023 and 2025 paper events; ROC 115 / AD 2026 is an official contractor cycle whose paper route redirects to login",
+        "start_ad": 2017
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/taisugar_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1160,10 +1160,13 @@
       ],
       "provider_id": "taisugar_recruit",
       "restrictions": [
-        "Listing mixes recruitment notices and exam material; one event is normalized but not published."
+        "The official ASP.NET archive has 35 rows over two postback pages; query-string page values are ignored. Eight new-worker paper events expose 49 byte-verified PDF/ZIP files totaling 69,909,204 bytes.",
+        "Only ROC 114 is retained locally. Seven public paper events and 48 public files are absent; the retained 6,060,841-byte ZIP exactly matches its live SHA-256.",
+        "The ROC 115 contractor paper route redirects unauthenticated users to login, and no ROC 115 paper announcement is yet present in the Taiwan Sugar archive. No access control was bypassed.",
+        "Two doctoral-paper rows are intentionally excluded from the new-worker identity. Taiwan Sugar's CC0 declaration has intellectual-property, personal-data, specially excluded work, moral-rights, integrity, and endorsement caveats."
       ],
       "status": "partial",
-      "status_reason": "Partial; source availability: 2025 observed; local coverage: 2025; 1 → 1"
+      "status_reason": "Partial: current public source discovery is byte-reconciled for eight worker-paper events/49 files, but local state has only ROC 114 / one file, ROC 115 papers are login-gated, and the sole retained event is excluded by publication policy."
     },
     {
       "available_years": {

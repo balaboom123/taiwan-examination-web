@@ -17,12 +17,12 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 22)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 12)
+        self.assertEqual(report["discovery_manifests_present"], 23)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 11)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
-            ["cpc_recruit", "moea_recruit", "taipower_recruit"],
+            ["cpc_recruit", "moea_recruit", "taipower_recruit", "taisugar_recruit"],
         )
         self.assertEqual(
             report["manifest_event_gaps"],
@@ -73,6 +73,18 @@ class SourceInventoryTests(unittest.TestCase):
                     "events": [
                         ["taipower-recruit-107-12", 2018],
                         ["taipower-recruit-107-5", 2018],
+                    ],
+                },
+                {
+                    "provider_id": "taisugar_recruit",
+                    "events": [
+                        ["taisugar-recruit-106", 2017],
+                        ["taisugar-recruit-107", 2018],
+                        ["taisugar-recruit-108", 2019],
+                        ["taisugar-recruit-109", 2020],
+                        ["taisugar-recruit-110", 2021],
+                        ["taisugar-recruit-111", 2022],
+                        ["taisugar-recruit-112", 2023],
                     ],
                 },
             ],
@@ -191,6 +203,29 @@ class SourceInventoryTests(unittest.TestCase):
         )
         self.assertEqual(policy["stale_mirror_files"]["count"], 8)
         self.assertEqual(policy["stale_mirror_files"]["bytes"], 3_570_035)
+
+    def test_taisugar_manifest_records_public_assets_and_login_blocker(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/taisugar_recruit/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(len(manifest["years"]), 8)
+        self.assertEqual(len(manifest["exams"]), 8)
+        self.assertEqual(len(manifest["files"]), 49)
+        self.assertEqual(
+            sum(item["bytes"] for item in manifest["files"].values()),
+            69_909_204,
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["listing_evidence"]["declared_row_count"], 35)
+        self.assertEqual(policy["current_cycle_blocker"]["status"], "login_required")
+        self.assertEqual(len(policy["excluded_paper_rows"]), 2)
+        self.assertTrue(
+            policy["retained_local_state"]["retained_asset_matches_live_sha256"]
+        )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
         with self.assertRaisesRegex(ValueError, "complete source discovery remains unresolved") as context:
