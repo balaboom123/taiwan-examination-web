@@ -17,12 +17,12 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 21)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 13)
+        self.assertEqual(report["discovery_manifests_present"], 22)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 12)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
-            ["cpc_recruit", "moea_recruit"],
+            ["cpc_recruit", "moea_recruit", "taipower_recruit"],
         )
         self.assertEqual(
             report["manifest_event_gaps"],
@@ -57,16 +57,25 @@ class SourceInventoryTests(unittest.TestCase):
         )
         self.assertEqual(
             report["manifest_unrepresented_events"],
-            [{
-                "provider_id": "moea_recruit",
-                "events": [
-                    ["moea-recruit-100", 2011],
-                    ["moea-recruit-107", 2018],
-                    ["moea-recruit-91", 2002],
-                    ["moea-recruit-93", 2004],
-                    ["moea-recruit-98", 2009],
-                ],
-            }],
+            [
+                {
+                    "provider_id": "moea_recruit",
+                    "events": [
+                        ["moea-recruit-100", 2011],
+                        ["moea-recruit-107", 2018],
+                        ["moea-recruit-91", 2002],
+                        ["moea-recruit-93", 2004],
+                        ["moea-recruit-98", 2009],
+                    ],
+                },
+                {
+                    "provider_id": "taipower_recruit",
+                    "events": [
+                        ["taipower-recruit-107-12", 2018],
+                        ["taipower-recruit-107-5", 2018],
+                    ],
+                },
+            ],
         )
         self.assertEqual(report["local_state_drift"], [])
 
@@ -149,6 +158,39 @@ class SourceInventoryTests(unittest.TestCase):
                 ["moea-recruit-99", 2010],
             ],
         )
+
+    def test_taipower_manifest_records_event_scope_and_truncation(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/taipower_recruit/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(len(manifest["years"]), 22)
+        self.assertEqual(len(manifest["exams"]), 23)
+        self.assertEqual(manifest["files"], {})
+        self.assertEqual(
+            manifest["years"]["2018"]["exam_codes"],
+            ["taipower-recruit-107-12", "taipower-recruit-107-5"],
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(
+            policy["known_listing_evidence"]["older_unfiltered_archive"]
+            ["indexed_subject_group_count"],
+            301,
+        )
+        retained = policy["retained_local_state"]
+        self.assertEqual(retained["normalized_records"], 370)
+        self.assertEqual(
+            retained["source_only_events"],
+            [
+                ["taipower-recruit-107-12", 2018],
+                ["taipower-recruit-107-5", 2018],
+            ],
+        )
+        self.assertEqual(policy["stale_mirror_files"]["count"], 8)
+        self.assertEqual(policy["stale_mirror_files"]["bytes"], 3_570_035)
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
         with self.assertRaisesRegex(ValueError, "complete source discovery remains unresolved") as context:

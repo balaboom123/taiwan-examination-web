@@ -1076,13 +1076,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "ROC 90 onward / AD 2001 through recent administrations",
+        "note": "23 official event tabs across 22 years: ROC 90, 92, 94–97, 99, 101–106, 107 May and December, and 108–115 / AD 2001–2026 with gaps",
         "start_ad": 2001
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/taipower_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1118,14 +1118,17 @@
         2026
       ],
       "official_source_urls": [
-        "https://www.taipower.com.tw/2289/2544/2554/2557/simpleList"
+        "https://www.taipower.com.tw/2289/2544/2554/2557/"
       ],
       "provider_id": "taipower_recruit",
       "restrictions": [
-        "Exact checksum duplicate of all `moea_recruit` paper records; multiple sessions can occur in a year."
+        "The latest indexed official HTML exposes 23 event tabs, but current direct listing and asset requests receive a zero-byte AWS WAF challenge; the hc1/hc2 delivery hosts time out from this environment.",
+        "The old client fetched only the default first 10 subject groups per event and did not recognize the ROC 107 May/December tabs; official filtered listings prove at least four modern events are truncated and both 2018 sessions are absent locally.",
+        "All 370 retained records have unique official Taipower media URLs discovered under the /2557 archive and unique checksums, but the incorrect MOEA sibling state duplicates them exactly; eight additional unreferenced mirror PDFs (3,570,035 bytes) are MOEA new-staff material and remain undeleted pending migration approval.",
+        "Taipower's open-data declaration permits attributed reuse within Taipower-owned rights with exclusions; it does not independently prove ownership of every exam item."
       ],
       "status": "partial",
-      "status_reason": "Partial / ownership review; source availability: ROC 90 onward / AD 2001 through recent administrations; local coverage: 2001–2026, 21 buckets; 21 → 370"
+      "status_reason": "Partial: the official event set is represented by a 23-event manifest, but retained state has 21 events/370 records, omits both ROC 107 sessions, and is demonstrably first-page-truncated for modern years; live full-asset enumeration is currently WAF-blocked."
     },
     {
       "available_years": {

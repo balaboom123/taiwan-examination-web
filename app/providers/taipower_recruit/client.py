@@ -5,14 +5,27 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
+from urllib.parse import (
+    parse_qs,
+    parse_qsl,
+    quote,
+    unquote,
+    urlencode,
+    urljoin,
+    urlparse,
+    urlsplit,
+    urlunsplit,
+)
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
 from app.providers.base import DownloadedFile, ResponseMetadata
 
 BASE_URL = "https://www.taipower.com.tw/"
-DOWNLOAD_URL = "https://www.taipower.com.tw/tc/download.aspx?mid=262"
+DOWNLOAD_URL = "https://www.taipower.com.tw/2289/2544/2554/2557/"
+LISTING_PATH = "/2289/2544/2554/2557/"
+DISCOVERY_PAGE_SIZE = 60
+MAX_DISCOVERY_EVENTS = 100
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 REQUEST_HEADERS = {
     "User-Agent": USER_AGENT,
@@ -142,9 +155,11 @@ class _HiringPageParser(HTMLParser):
 
 
 _YEAR_TAB_RE = re.compile(
-    r'<a\s+href="(/\d+/\d+/\d+/\d+/\?[^"]+q_attribute=\d+)"[^>]*>'
-    r"(\d{2,3})年度?</a>"
+    r'<a\s+href=["\'](/\d+/\d+/\d+/\d+/\?[^"\']+q_attribute=\d+)["\'][^>]*>\s*'
+    r"(\d{2,3})\s*年(?:(\d{1,2})\s*月|度)\s*</a>",
+    re.IGNORECASE,
 )
+_HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.IGNORECASE)
 
 
 def parse_hiring_page(html: str) -> list[TaipowerRecruitEntry]:
@@ -155,14 +170,46 @@ def parse_hiring_page(html: str) -> list[TaipowerRecruitEntry]:
     return parser.entries
 
 
-def parse_year_tabs(html: str) -> list[tuple[int, str]]:
-    """Extract (year_roc, relative_url) pairs from year navigation tabs."""
-    results: list[tuple[int, str]] = []
+def parse_year_tabs(html: str) -> list[tuple[int, int | None, str]]:
+    """Extract (year_roc, month, relative_url) from official event tabs."""
+    results: list[tuple[int, int | None, str]] = []
     for m in _YEAR_TAB_RE.finditer(html):
         href = unescape(m.group(1))
         year_roc = int(m.group(2))
-        results.append((year_roc, href))
+        month = int(m.group(3)) if m.group(3) is not None else None
+        results.append((year_roc, month, href))
     return results
+
+
+def _full_event_listing_url(relative_url: str) -> str:
+    parts = urlsplit(urljoin(BASE_URL, relative_url))
+    if parts.netloc != urlsplit(BASE_URL).netloc or parts.path != LISTING_PATH:
+        raise ValueError(f"Unexpected Taipower archive event-tab URL: {relative_url}")
+    query = [
+        (key, value)
+        for key, value in parse_qsl(parts.query, keep_blank_values=True)
+        if key not in {"Page", "PageSize"}
+    ]
+    query[:0] = [("Page", "1"), ("PageSize", str(DISCOVERY_PAGE_SIZE))]
+    return urlunsplit(
+        (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
+    )
+
+
+def parse_listing_page_numbers(html: str, listing_url: str) -> set[int]:
+    """Return pagination links for the same official listing route."""
+    expected = urlsplit(listing_url)
+    pages: set[int] = set()
+    for raw_href in _HREF_RE.findall(html):
+        candidate = urlsplit(urljoin(listing_url, unescape(raw_href)))
+        if candidate.netloc != expected.netloc or candidate.path != expected.path:
+            continue
+        for raw_page in parse_qs(candidate.query).get("Page", []):
+            try:
+                pages.add(int(raw_page))
+            except ValueError:
+                continue
+    return pages
 
 
 def _exam_code(entry: TaipowerRecruitEntry) -> str:
@@ -170,6 +217,12 @@ def _exam_code(entry: TaipowerRecruitEntry) -> str:
     if entry.month is not None:
         return f"taipower-recruit-{entry.year_roc}-{entry.month}"
     return f"taipower-recruit-{entry.year_roc}"
+
+
+def _exam_label(entry: TaipowerRecruitEntry) -> str:
+    if entry.month is not None:
+        return f"{entry.year_roc}年{entry.month}月台電新進僱用人員甄試"
+    return f"{entry.year_roc}年度台電新進僱用人員甄試"
 
 
 def _quote_url_for_request(url: str) -> str:
@@ -190,6 +243,7 @@ class TaipowerRecruitClient:
 
     def __init__(self) -> None:
         self._cached_entries: list[TaipowerRecruitEntry] | None = None
+        self._event_urls: dict[tuple[str, int], str] = {}
 
     def _fetch_text(self, url: str) -> str:
         request = Request(_quote_url_for_request(url), headers=REQUEST_HEADERS)
@@ -228,17 +282,81 @@ class TaipowerRecruitClient:
         if self._cached_entries is not None:
             return self._cached_entries
         main_html = self._fetch_text(DOWNLOAD_URL)
-        entries = parse_hiring_page(main_html)
-        seen_years = {e.year_roc for e in entries}
-        for year_roc, rel_url in parse_year_tabs(main_html):
-            if year_roc in seen_years:
-                continue
-            seen_years.add(year_roc)
-            page_url = urljoin(BASE_URL, rel_url)
+        event_tabs = parse_year_tabs(main_html)
+        if not event_tabs:
+            raise ValueError("Taipower archive exposes no official event tabs")
+        if len(event_tabs) > MAX_DISCOVERY_EVENTS:
+            raise ValueError(
+                f"Taipower archive exceeds {MAX_DISCOVERY_EVENTS} discovery events"
+            )
+        event_keys = [(year_roc, month) for year_roc, month, _ in event_tabs]
+        if len(set(event_keys)) != len(event_keys):
+            raise ValueError("Taipower archive exposes duplicate event tabs")
+
+        entries: list[TaipowerRecruitEntry] = []
+        seen_download_urls: set[str] = set()
+        for year_roc, month, rel_url in event_tabs:
+            page_url = _full_event_listing_url(rel_url)
             page_html = self._fetch_text(page_url)
-            entries.extend(parse_hiring_page(page_html))
+            page_entries = parse_hiring_page(page_html)
+            if not page_entries:
+                raise ValueError(
+                    f"Taipower archive event {year_roc}/{month} contains no paper entries"
+                )
+            wrong_events = {
+                (entry.year_roc, entry.month)
+                for entry in page_entries
+                if (entry.year_roc, entry.month) != (year_roc, month)
+            }
+            if wrong_events:
+                labels = sorted(
+                    f"{year}/{event_month or '-'}"
+                    for year, event_month in wrong_events
+                )
+                raise ValueError(
+                    f"Taipower archive event {year_roc}/{month} contains "
+                    f"cross-event entries: {labels}"
+                )
+            remaining_pages = {
+                page
+                for page in parse_listing_page_numbers(page_html, page_url)
+                if page > 1
+            }
+            if remaining_pages:
+                raise ValueError(
+                    f"Taipower archive event {year_roc}/{month} still paginates at "
+                    f"PageSize={DISCOVERY_PAGE_SIZE}: {sorted(remaining_pages)}"
+                )
+            for entry in page_entries:
+                for download in entry.downloads:
+                    if download.url in seen_download_urls:
+                        raise ValueError(
+                            f"Taipower archive repeats download URL: {download.url}"
+                        )
+                    seen_download_urls.add(download.url)
+            entries.extend(page_entries)
+            code = _exam_code(page_entries[0])
+            self._event_urls[(code, year_roc + 1911)] = page_url
         self._cached_entries = entries
         return entries
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        self._iter_entries()
+        if not any(event_year == year_ad for _, event_year in self._event_urls):
+            raise ValueError(
+                f"Unknown Taipower recruitment discovery year: {year_ad}"
+            )
+        return DOWNLOAD_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        self._iter_entries()
+        try:
+            return self._event_urls[(exam_code, year_ad)]
+        except KeyError as exc:
+            raise ValueError(
+                f"Unknown Taipower recruitment discovery exam: "
+                f"{exam_code} ({year_ad})"
+            ) from exc
 
     def discover_available_years(self) -> list[int]:
         return sorted({entry.year_ad for entry in self._iter_entries()}, reverse=True)
@@ -258,7 +376,7 @@ class TaipowerRecruitClient:
                     code=code,
                     year_ad=entry.year_ad,
                     year_roc=entry.year_roc,
-                    label=entry.title,
+                    label=_exam_label(entry),
                 )
             )
         return result
@@ -292,7 +410,7 @@ class TaipowerRecruitClient:
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=first.year_roc,
-            exam_name_raw=first.title,
+            exam_name_raw=_exam_label(first),
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,
