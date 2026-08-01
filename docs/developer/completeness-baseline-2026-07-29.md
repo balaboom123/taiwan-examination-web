@@ -60,9 +60,9 @@ Remote metadata was fetched with `git fetch --all --prune`; no reset, rebase, ov
 | Taipower recruitment scope checkpoint | `4ca1ceb` (`audit: reconcile Taipower recruitment source scope`); canonical bounded discovery is corrected, retained publication and orphan mirrors are intentionally unchanged |
 | Taiwan Sugar recruitment scope checkpoint | `96632e2` (`audit: reconcile Taiwan Sugar recruitment source scope`); ASP.NET discovery and 49-file source evidence are corrected, retained/public state is intentionally unchanged |
 | Taiwan Water recruitment scope checkpoint | `9a7e329` (`audit: reconcile Taiwan Water recruitment source scope`); canonical discovery, source-integrity evidence, and fail-closed URL validation are corrected, retained/public state is intentionally unchanged |
-| Branch-consolidation checkpoint | This merge commit (`merge: consolidate completeness audit onto latest main`); local `main` was fast-forwarded and the audit history was merged normally |
-| Latest fetched `origin/main` | `1970a70` (`chore: refresh Hakka cert provider data`, 2026-07-29) |
-| Divergence from `origin/main` after consolidation | 0 behind / 86 ahead; all integration commits remain local and unpushed |
+| Branch-consolidation checkpoints | `50f62ef` (`merge: consolidate completeness audit onto latest main`) merged the complete audit history; `1ebc417` (`merge: integrate latest upstream provider refresh`) incorporated the subsequent RCPET refresh without rewriting either history |
+| Latest fetched `origin/main` | `a94e822` (`chore: refresh RCPET CAP provider data`, 2026-08-01) |
+| Divergence from `origin/main` after consolidation | 0 behind / 87 ahead; all integration commits remain local and unpushed |
 | Upstream tracking | Integration branch intentionally has no push upstream; local `main` exactly matches fetched `origin/main` |
 | Tracked uncommitted files after consolidation | None |
 | Untracked user work after consolidation | `PLAN.md` only; SHA-256 `f9592188a8a0f6973b47a22588817c30ebc301599779af08bd7eec7bcee084b8`; preserved and excluded from all checkpoints |
@@ -340,7 +340,7 @@ Completion requires all of the following for an explicitly approved scope:
 
 ## Safest branch/release strategy
 
-1. Continue completeness work only on `agent/completeness-integration`, whose first parent is fetched `origin/main` at `1970a70` and whose second parent preserves the full audited history through `9a7e329`. Do not rebase or squash it.
+1. Continue completeness work only on `agent/completeness-integration`. Merge `50f62ef` preserves fetched `origin/main` at `1970a70` and the full audited history through `9a7e329`; follow-up merge `1ebc417` incorporates fetched `origin/main` at `a94e822`. Do not rebase or squash either history.
 2. Keep local `main` as a clean, exact pointer to fetched `origin/main`. Delete the superseded local `agent/exam-coverage-and-mirror-dedup` ref only after proving it is an ancestor of the consolidation merge; retain the remote-tracking ref as read-only evidence because no push is authorized.
 3. Review provider checkpoints separately. CPC, MOEA, Taipower, Taiwan Sugar, and Taiwan Water remain audit-only until their retained-data migrations, source-integrity decisions, and access limitations are approved. `PLAN.md` remains excluded.
 4. Implement one provider/source family at a time. Keep source-scope decisions, manifests, retained-data migrations, generated mirrors, publication changes, and frontend changes reviewable separately.
