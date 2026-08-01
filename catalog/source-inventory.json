@@ -211,7 +211,7 @@
       "status_reason": "Intentionally out of scope as a source; available range: Not an official source; local coverage: None"
     }
   ],
-  "captured_at": "2026-07-31",
+  "captured_at": "2026-08-01",
   "inventory_version": "source-scope-v1",
   "providers": [
     {
@@ -486,19 +486,20 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2018–2026 observed across paginated official downloads",
+        "note": "2018–2026 annual basic/elementary question banks plus a ROC 107 intermediate sample event and undated advanced samples observed across nine primary pages; the separate download center exposes ROC 113–115 packages",
         "start_ad": 2018
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/hakka_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
+        "data/providers/hakka_cert/source-manifest.json",
         "docs/developer/completeness-baseline-2026-07-29.md",
         "docs/developer/providers/hakka_cert-spec.md"
       ],
-      "exam_category": "Hakka certification vocabulary/question-bank and audio materials",
+      "exam_category": "Hakka certification question banks, sample tests, answers, and paired question audio",
       "local_state": {
         "normalized_paper_records": 156,
         "raw_event_pages": 11,
@@ -516,14 +517,19 @@
         2026
       ],
       "official_source_urls": [
-        "https://elearning.hakka.gov.tw/hakka/download-files"
+        "https://elearning.hakka.gov.tw/hakka/download-files",
+        "https://elearning.hakka.gov.tw/mooc/download.php"
       ],
       "provider_id": "hakka_cert",
       "restrictions": [
-        "PDFs and listening ZIPs are mirrored. Eight historical events remain normalized-but-not-published. A 2,094,415,387-byte official audio ZIP exceeds the 1.9 GB multipart target, so the current GitHub-release projection cannot publish the complete bundle without a scope or storage decision."
+        "The primary surface has 607 unique links across nine pages: 140 accepted by the current parser, five in-scope intermediate sample ZIPs missed by the parser, 455 vocabulary links intentionally outside exam scope, and seven other supporting-material links.",
+        "The unimplemented download center has 50 unique ROC 113–115 packages, including 15 in-scope question-audio packages; ten ROC 114–115 declared sizes differ from retained mirrors.",
+        "Retained intermediate and advanced events use synthetic 2026 identity for undated material, and five advanced ZIPs are misclassified as listening audio.",
+        "Eight historical events remain normalized but unpublished; a 2,094,415,387-byte retained asset exceeds the 1.9 GB multipart target.",
+        "Taiwan Government Data Open License 1.0 requires attribution and excludes specially marked audiovisual or third-party works; academy terms also restrict unauthorized commercial use, so audio republication requires review."
       ],
       "status": "partial",
-      "status_reason": "Partial / release-capacity blocker; source availability: 2018–2026 observed across paginated official downloads; local coverage: 2018–2026, 9 buckets; 11 → 156"
+      "status_reason": "Partial / source, identity, licensing, and release blockers: an evidence manifest now bounds both official surfaces, but one source event and 40 current/alternate source files are unintegrated, two retained event identities are synthetic, and eight historical events are absent from publication"
     },
     {
       "available_years": {

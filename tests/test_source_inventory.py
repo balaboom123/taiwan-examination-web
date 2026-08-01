@@ -17,12 +17,12 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 24)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 10)
+        self.assertEqual(report["discovery_manifests_present"], 25)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 9)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
-            ["cpc_recruit", "moea_recruit", "taipower_recruit", "taisugar_recruit"],
+            ["cpc_recruit", "moea_recruit", "taipower_recruit", "taisugar_recruit", "hakka_cert"],
         )
         self.assertEqual(
             report["manifest_event_gaps"],
@@ -51,6 +51,13 @@ class SourceInventoryTests(unittest.TestCase):
                         ["moea-recruit-92", 2003],
                         ["moea-recruit-94", 2005],
                         ["moea-recruit-99", 2010],
+                    ],
+                },
+                {
+                    "provider_id": "hakka_cert",
+                    "enforced": False,
+                    "missing_events": [
+                        ["hakka-cert-intermediate-high-intermediate-2026", 2026],
                     ],
                 },
             ],
@@ -85,6 +92,12 @@ class SourceInventoryTests(unittest.TestCase):
                         ["taisugar-recruit-110", 2021],
                         ["taisugar-recruit-111", 2022],
                         ["taisugar-recruit-112", 2023],
+                    ],
+                },
+                {
+                    "provider_id": "hakka_cert",
+                    "events": [
+                        ["hakka-cert-intermediate-high-intermediate-2018", 2018],
                     ],
                 },
             ],
@@ -225,6 +238,50 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(len(policy["excluded_paper_rows"]), 2)
         self.assertTrue(
             policy["retained_local_state"]["retained_asset_matches_live_sha256"]
+        )
+
+    def test_hakka_manifest_exposes_both_official_surfaces_and_identity_gaps(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/hakka_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(len(manifest["years"]), 9)
+        self.assertEqual(len(manifest["exams"]), 11)
+        self.assertEqual(len(manifest["files"]), 40)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["primary_listing"]["page_count"], 9)
+        self.assertEqual(policy["primary_listing"]["unique_download_count"], 607)
+        self.assertEqual(policy["primary_listing"]["adapter_accepted_count"], 140)
+        self.assertEqual(
+            policy["primary_listing"]["additional_in_scope_sample_bundle_count"],
+            5,
+        )
+        self.assertEqual(
+            policy["secondary_download_center"]["unique_package_count"],
+            50,
+        )
+        self.assertEqual(
+            policy["secondary_download_center"]["in_scope_question_audio_package_count"],
+            15,
+        )
+        self.assertEqual(
+            policy["source_gaps"],
+            {
+                "primary_current_urls_not_retained": 20,
+                "primary_sample_bundles_missing_locally": 5,
+                "secondary_question_audio_declared_size_differs_from_retained": 10,
+                "secondary_question_audio_declared_size_matches_retained": 5,
+                "secondary_question_audio_packages_unintegrated": 15,
+            },
+        )
+        self.assertTrue(
+            policy["identity_risks"]["undated_advanced_material_forced_to_2026"]
+        )
+        self.assertTrue(
+            policy["identity_risks"]["zip_suffix_is_currently_misclassified_as_listening_audio"]
         )
 
     def test_twc_manifest_records_exact_archive_and_source_defects(self) -> None:

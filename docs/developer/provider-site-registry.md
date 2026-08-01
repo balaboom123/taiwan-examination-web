@@ -104,7 +104,7 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | status | active |
 | source name | 客語能力認證 official materials (客家委員會) |
 | source type | public web source |
-| current implementation scope | official Hakka certification vocabulary PDFs and question bank PDFs across official level categories and paginated years; audio ZIPs excluded until language bundles can be sharded |
+| current implementation scope | question banks, sample tests, answers, and paired question audio across bounded primary pages; vocabulary-only materials are intentionally excluded, while the separate official download center remains unintegrated |
 | current raw data ownership | `data/providers/hakka_cert/` |
 | current mirror ownership | `mirror/providers/hakka_cert/` |
 | current sync workflows | `sync-hakka-cert.yml` |
