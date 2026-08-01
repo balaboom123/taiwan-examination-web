@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 28)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 6)
+        self.assertEqual(report["discovery_manifests_present"], 29)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 5)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
@@ -30,13 +30,14 @@ class SourceInventoryTests(unittest.TestCase):
                 "sfi_cert",
                 "tabf_cert",
                 "tii_cert",
+                "gept_cert",
                 "hakka_cert",
             ],
         )
         self.assertEqual(
             [
                 item for item in report["manifest_event_gaps"]
-                if item["provider_id"] != "tabf_cert"
+                if item["provider_id"] not in {"tabf_cert", "gept_cert"}
             ],
             [
                 {
@@ -97,11 +98,20 @@ class SourceInventoryTests(unittest.TestCase):
             tabf_event_gap["missing_events"][-1],
             ["tabf-cert-trust-business-2026-phid-458", 2026],
         )
+        gept_event_gap = next(
+            item for item in report["manifest_event_gaps"]
+            if item["provider_id"] == "gept_cert"
+        )
+        self.assertFalse(gept_event_gap["enforced"])
+        self.assertEqual(
+            gept_event_gap["missing_events"],
+            [["gept-cert-materials", 2026]],
+        )
 
         self.assertEqual(
             [
                 item for item in report["manifest_unrepresented_events"]
-                if item["provider_id"] not in {"tabf_cert", "tii_cert"}
+                if item["provider_id"] not in {"tabf_cert", "tii_cert", "gept_cert"}
             ],
             [
                 {
@@ -186,6 +196,20 @@ class SourceInventoryTests(unittest.TestCase):
                 ["tii-cert-sustainability-2025-02-22", 2025],
                 ["tii-cert-sustainability-2025-06-07", 2025],
                 ["tii-cert-sustainability-2026-1", 2026],
+            ],
+        )
+        gept_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "gept_cert"
+        )
+        self.assertEqual(
+            gept_unrepresented["events"],
+            [
+                ["gept-cert-advanced-2022", 2022],
+                ["gept-cert-elementary-2022", 2022],
+                ["gept-cert-high-intermediate-2022", 2022],
+                ["gept-cert-intermediate-2022", 2022],
+                ["gept-cert-superior-2022", 2022],
             ],
         )
         self.assertEqual(report["local_state_drift"], [])
@@ -566,6 +590,55 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             policy["publication_risk"]["published_non_paper_files_as_question"],
             1,
+        )
+
+    def test_gept_manifest_exposes_identity_payload_and_history_gaps(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/gept_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(sorted(map(int, manifest["years"])), [2022])
+        self.assertEqual(len(manifest["exams"]), 5)
+        self.assertEqual(len(manifest["files"]), 34)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["official_event_count"], 5)
+        self.assertEqual(policy["official_listed_file_count"], 34)
+        self.assertEqual(policy["official_unique_url_count"], 32)
+        self.assertEqual(policy["official_unique_url_bytes"], 183_174_255)
+        self.assertEqual(
+            policy["removed_historical_archive"]["listed_entry_count"],
+            108,
+        )
+        self.assertEqual(
+            policy["removed_historical_archive"]["status"],
+            "blocked_removed_listing",
+        )
+        retained = policy["retained_local_state"]
+        self.assertEqual(retained["mirror_files"], 68)
+        self.assertEqual(retained["unreferenced_mirror_files"], 37)
+        self.assertEqual(
+            policy["publication_risk"]["wrong_event_or_year_records"],
+            34,
+        )
+        self.assertEqual(policy["publication_risk"]["wrong_payload_records"], 3)
+        self.assertEqual(
+            {
+                status: sum(
+                    item["local_status"] == status
+                    for item in manifest["files"].values()
+                )
+                for status in {
+                    "retained_under_wrong_identity",
+                    "retained_under_wrong_identity_with_wrong_bytes",
+                }
+            },
+            {
+                "retained_under_wrong_identity": 31,
+                "retained_under_wrong_identity_with_wrong_bytes": 3,
+            },
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:

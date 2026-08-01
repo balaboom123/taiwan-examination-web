@@ -69,16 +69,16 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | Field | Value |
 | --- | --- |
 | provider_id | `gept_cert` |
-| status | active |
+| status | implemented; source audit partial and retained/public identity migration required |
 | source name | GEPT 全民英檢 official practice materials (LTTC) |
-| source type | public web source |
-| current implementation scope | official GEPT practice PDFs, ZIPs, and listening MP3s, split by proficiency level and source year where available |
+| source type | five current public level pages plus a removed historical pretest listing |
+| current implementation scope | five source-year 2022 level events with 34 listed records/32 unique URLs; the removed July 2009 pretest index separately listed 108 entries |
 | current raw data ownership | `data/providers/gept_cert/` |
 | current mirror ownership | `mirror/providers/gept_cert/` |
-| current sync workflows | `sync-gept-cert.yml` |
+| current sync workflows | `sync-gept-cert.yml` exists but must stay off releasable branches pending identity, payload, historical-scope, and legal decisions |
 | current CLI entrypoints | `sync-full --provider gept_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle per GEPT level (`gept-cert-elementary`, `gept-cert-intermediate`, `gept-cert-high-intermediate`, `gept-cert-advanced`, `gept-cert-superior`); public publication remains site-owned |
+| operator docs | `docs/developer/providers/gept_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | all 34 current public records use a synthetic 2026 event/year, three point at wrong bytes after label collisions, the historical listing is removed, and LTTC redistribution authority is unresolved |
 
 ### Provider: `tocfl_cert`
 

@@ -449,15 +449,15 @@
     },
     {
       "available_years": {
-        "end_ad": 2026,
-        "mode": "current_scope",
-        "note": "Current-year material scope; current state 2026",
-        "start_ad": 2026
+        "end_ad": 2022,
+        "mode": "observed_range",
+        "note": "Five current level pages expose 34 material records rooted in 2022. A separate July 2009 pretest index listed 108 entries but its index and five level pages are now removed.",
+        "start_ad": 2022
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/gept_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -473,14 +473,21 @@
         2026
       ],
       "official_source_urls": [
-        "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp"
+        "https://www.gept.org.tw/Exam_Intro/t01_introduction.asp",
+        "https://www.gept.org.tw/Exam_Intro/t02_introduction.asp",
+        "https://www.gept.org.tw/Exam_Intro/t03_introduction.asp",
+        "https://www.gept.org.tw/Exam_Intro/t04_introduction.asp",
+        "https://www.gept.org.tw/Exam_Intro/t05_introduction.asp",
+        "https://www.gept.org.tw/Exam_Intro/download.asp"
       ],
       "provider_id": "gept_cert",
       "restrictions": [
-        "Practice materials, PDFs/ZIPs, and MP3s, not a full historical exam archive. Public source; reuse license not established."
+        "Current pages are practice/sample materials, software, and audio rather than a complete administered-exam archive.",
+        "The historical 108-entry listing is removed and cannot currently be enumerated from a live official page.",
+        "Current LTTC terms prohibit republication without authorization; the old non-profit download statement does not clearly grant redistribution."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: Current-year material scope; current state 2026; local coverage: 2026; 1 → 34"
+      "status": "partial",
+      "status_reason": "Partial; current source has 5 level events and 34 records in 2022, while local/public state has one synthetic 2026 event with all 34 records under wrong identity and 3 wrong payloads; the 108-entry historical listing is removed"
     },
     {
       "available_years": {
