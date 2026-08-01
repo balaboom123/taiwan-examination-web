@@ -11,7 +11,8 @@
 ## Source Overview
 
 - source domain: `www.ceec.edu.tw`
-- source access: public web pages plus linked PDF files
+- source page: `https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634`
+- source access: public web pages plus linked PDF, DOC, and ZIP files
 - source cadence: yearly archive updates with occasional late-file corrections
 - authentication: none
 - rate-limit posture: keep scheduled sync conservative and prefer the weekly workflow unless a repair run is needed
@@ -19,6 +20,12 @@
 ## Discovery Model
 
 The provider crawls the GSAT archive listing, groups entries by Gregorian year, and turns each archive row into one source exam page.
+
+The 2026-07-29 official snapshot contains 179 event rows across AD 1994–2026. All 179 events are represented locally as 648 normalized records with zero sync failures and zero normalization-review records. The parser accepts both two- and three-digit ROC years because the oldest rows use titles such as `86學年度`.
+
+Listing rows do not expose stable detail-page URLs, so year and event evidence in `data/providers/ceec_gsat/source-manifest.json` points to the official paginated listing. This manifest is a reproducible discovery snapshot, not independent proof that CEEC exposes every historical administration.
+
+One AD 2003 mathematics scoring-principle asset is an official legacy OLE Word document. The shared downloader accepts it only after the `.doc` role and OLE signature both validate; HTML placeholders remain rejected.
 
 Provider-owned outputs live under:
 

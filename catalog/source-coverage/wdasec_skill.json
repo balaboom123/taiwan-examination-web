@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "provider_id": "wdasec_skill",
+  "exceptions": [
+    {
+      "scope": "event",
+      "provider_id": "wdasec_skill",
+      "source_exam_id": "201309140001",
+      "year_ad": 2002,
+      "status": "blocked",
+      "reason_code": "official_empty_result",
+      "reason": "The official listing row is present, but the current detail page returns no data and exposes no downloadable records.",
+      "source_url": "https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 9402,
+        "response_sha256": "66ea45bb8e00d0be4e780796adcce473e6515ce2498cbf6ee4cfba0a43ef6dc0",
+        "observation": "查無資料，請確定輸入資料並重新查詢",
+        "parser_rows": 0,
+        "listing_page": 9,
+        "listing_row": 10,
+        "rechecked_at": "2026-07-30",
+        "stable_detail_url": "https://owinform.wdasec.gov.tw/ExamNet/owInform/PastQuestions.aspx?yserno=201309140001",
+        "recheck_http_status": 200,
+        "recheck_response_bytes": 9402,
+        "recheck_response_sha256": "6f875fffe9b5bc249e3083c66ae1a5932863a75e522c3df0e735dab38259b5ca",
+        "response_fingerprint_note": "The full response includes dynamic ASP.NET hidden fields, so each SHA-256 is capture-specific; the stable evidence is the exact detail URL, 200 status, zero parsed rows, and no-data marker."
+      }
+    }
+  ]
+}

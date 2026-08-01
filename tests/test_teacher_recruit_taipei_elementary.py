@@ -5,6 +5,7 @@ import unittest
 from urllib.parse import quote
 
 from app.providers.teacher_recruit_taipei_elementary.client import (
+    ARTICLE_URLS_BY_YEAR,
     TaipeiElementaryRecruitClient,
     parse_downloads,
 )
@@ -119,6 +120,13 @@ class TaipeiElementaryRecruitClientTests(unittest.TestCase):
 
         self.assertEqual(client.discover_available_years(), [2025])
         self.assertEqual(client.discover_exams(2025)[0].code, "teacher-recruit-taipei-elementary-114")
+        self.assertEqual(client.build_discovery_year_url(2025), ARTICLE_URLS_BY_YEAR[2025])
+        self.assertEqual(
+            client.build_discovery_exam_url("teacher-recruit-taipei-elementary-114", 2025),
+            ARTICLE_URLS_BY_YEAR[2025],
+        )
+        with self.assertRaisesRegex(ValueError, "Unexpected Taipei elementary discovery exam code"):
+            client.build_discovery_exam_url("teacher-recruit-taipei-elementary-113", 2025)
 
 
 if __name__ == "__main__":

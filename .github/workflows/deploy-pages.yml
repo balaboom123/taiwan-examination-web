@@ -5,7 +5,13 @@ on:
     branches: [main]
     paths:
       - frontend/**
-      - data/sites/default/bundles.json
+      - app/**
+      - catalog/**
+      - data/providers/**
+      - data/sites/default/**
+      - schemas/**
+      - scripts/validate_publication.py
+      - scripts/validate_source_inventory.py
       - .github/workflows/deploy-pages.yml
   workflow_dispatch:
 
@@ -27,6 +33,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install Python test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Run Python and catalog gates
+        run: |
+          python -m pytest -q
+          python -m app audit-catalog --repo-root . --site-id default --strict --output .tmp/catalog-audit.json
+          python scripts/validate_publication.py
+          python scripts/validate_source_inventory.py
+          python -m app history-audit --repo-root . --site-id default --strict --output .tmp/history-audit.json
+          python -m app plan-release --repo-root . --site-id default --output .tmp/release-plan.json
+      - name: Validate shell scripts and whitespace
+        run: |
+          bash -n .github/scripts/*.sh
+          git diff --check
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -36,7 +61,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
         working-directory: frontend
-      - name: Build
+      - name: Run frontend tests
+        run: npm test
+        working-directory: frontend
+      - name: Lint frontend
+        run: npm run lint
+        working-directory: frontend
+      - name: Build frontend
         run: npm run build
         working-directory: frontend
         env:

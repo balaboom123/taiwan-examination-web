@@ -4,14 +4,14 @@
 
 This spec records the next implementable city/county teacher-recruitment paper sources after Taipei, Tainan, and New Taipei.
 
-Implemented provider candidates:
+Current and blocked provider candidates:
 
 | provider_id | status | source family | source URL |
 |---|---|---|---|
 | `teacher_recruit_taipei_elementary` | implemented | Taipei city elementary teacher joint recruitment | `https://www.gov.taipei/News_Content.aspx?n=D0042A87C2F0270A&sms=78D644F2755ACCAA&s=0E5FFDCD602F05C2` |
 | `teacher_recruit_taoyuan_elementary` | implemented | Taoyuan elementary teacher joint recruitment | `https://elementary.tyc.edu.tw/web/answer.aspx?openExternalBrowser=1` |
-| `teacher_recruit_kaohsiung` | implemented | Kaohsiung elementary and special-education teacher recruitment | `https://exam.kh.edu.tw/teaexam/` and `https://exam.kh.edu.tw/special/index.jsp` |
-| `teacher_recruit_central_alliance` | implemented | 115 Central Alliance teacher-selection questions and answers | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` and `https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php` |
+| `teacher_recruit_kaohsiung` | implemented; current endpoint blocker | Kaohsiung elementary and special-education teacher recruitment | `https://exam.kh.edu.tw/teaexam/` and `https://exam.kh.edu.tw/special/index.jsp` |
+| `teacher_recruit_central_alliance` | implemented; source currently expired | 115 Central Alliance teacher-selection questions and answers | `https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php` and `https://qa115-tse-cl.twrecruit.com.tw/Ans2/news.php` |
 
 Watch/provenance sources:
 
@@ -48,6 +48,15 @@ The stable paper surface is the article's direct `Download.ashx` links on `www-w
 
 Treat the source as current-year scoped. The city-wide Taipei news listing is not a stable teacher-paper archive.
 
+The read-only discovery command records the reviewed official article as both year and event evidence. On 2026-07-29 it exposed 12 combined question/answer PDFs, all exactly matching retained normalized state. Refresh the snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_taipei_elementary --years 2025 \
+  --manifest data/providers/teacher_recruit_taipei_elementary/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the single reviewed article. It is not evidence of an exhaustive Taipei archive and does not enable automatic future-year or HEAD-based `probe-latest` discovery.
+
 ### Taoyuan Elementary
 
 The source is the official 桃園市115年度國民小學教師聯合甄選 site. The stable paper surface is:
@@ -64,6 +73,15 @@ The page exposes direct `download_file.aspx?ids=<hash>` links for:
 - appeal/clarification material, which should be skipped unless a future product explicitly needs it
 
 Use the anchor text as the official filename because the download URL uses opaque IDs.
+
+The read-only discovery command records this official answer page as both year and event evidence. The 2026-07-29 snapshot contains one ROC 115 / AD 2026 event and 21 files: seven subjects with question, suggested-answer, and corrected-answer roles. All 21 URLs exactly match retained normalized state. Refresh it with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_taoyuan_elementary --years 2026 \
+  --manifest data/providers/teacher_recruit_taoyuan_elementary/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the declared current-year source scope. Discovery returns no years when the page has no recognizable official year marker; it does not invent a fallback year or enable HEAD-based `probe-latest` support.
 
 ### Kaohsiung
 
@@ -98,6 +116,8 @@ Current paper downloads are direct PDFs under `/special/upload/`, including:
 
 Skip admission lists, venue maps, duplicate URL-encoded copies, teaching-demo topics, and brochure files.
 
+Bounded live evidence refreshed 2026-07-29: the regular URL returned HTTP 404 with 993 bytes and SHA-256 `25d3409669519deee0adb32c70906510d0d85f8174025bb6b6a0ab1954bb0621`; the special URL returned HTTP 404 with 146 bytes and SHA-256 `55f7d9e99b8e2d4e0e193b2f0275501e6d9c1ebd29cadbea6a0da48a8587e3e0`. Preserve the last known local state and do not generate a discovery manifest from hard-coded event IDs while both source boards are unavailable. The inventory records an evidence-backed blocked discovery state until an official replacement or restored page is reviewed.
+
 ### Central Alliance
 
 The source is the current-year 115中區策略聯盟甄選試題疑義網站.
@@ -122,6 +142,8 @@ The subject page groups downloads by category:
 | `B` | 國小 |
 | `C` | 國中 |
 
+The pages are expected to expose paper links when the annual source is active. A bounded live probe on 2026-07-26 returned HTTP 200, but every paper row on all three categories was marked `已截止`; no question, reference-answer, or final-answer file link was present. The empty current raw events therefore record source expiry, not a parser success claim.
+
 Question/reference downloads use:
 
 ```text
@@ -136,6 +158,15 @@ Ans2/download.php?seq=<opaque>&type=finalanswer
 ```
 
 This is a vendor domain, so the provider must preserve official provenance in docs and metadata. The source is accepted because official Taichung, Keelung, and Hsinchu County selection pages point candidates to it for papers or answer appeals. The `qa115-*` host is annual; do not assume `qa114-*` or older hosts exist.
+
+The 2026-07-29 read-only snapshot records three declared official categories with exact mapping: kindergarten `cate=A`, elementary `cate=B`, and junior high `cate=C`. All six subject/final pages still return HTTP 200 but are marked `已截止` and expose zero files. Generate or refresh the event snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_central_alliance --years 2026 \
+  --manifest data/providers/teacher_recruit_central_alliance/source-manifest.json --write-manifest
+```
+
+The manifest proves only that all three declared current-year events are represented locally. File coverage remains blocked by the exact evidence ledger; the snapshot does not turn those empty events into covered data or imply historical host availability.
 
 ## Output Model
 

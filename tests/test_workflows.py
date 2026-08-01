@@ -133,13 +133,33 @@ class WorkflowTests(unittest.TestCase):
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
         push_paths = _workflow_push_paths(workflow)
 
-        self.assertIn("data/sites/default/bundles.json", push_paths)
+        for expected_path in (
+            "data/providers/**",
+            "data/sites/default/**",
+            "app/**",
+            "scripts/validate_publication.py",
+        ):
+            self.assertIn(expected_path, push_paths)
 
-    def test_pages_deploy_builds_frontend_without_python_pre_step(self) -> None:
+    def test_pages_deploy_runs_catalog_and_frontend_gates_before_upload(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
 
-        self.assertNotIn("actions/setup-python@v5", workflow)
-        self.assertLess(workflow.index("actions/setup-node@v6"), workflow.index("npm run build"))
+        for required in (
+            "actions/setup-python@v5",
+            "python -m pytest -q",
+            "python -m app audit-catalog",
+            "python -m app history-audit",
+            "python scripts/validate_publication.py",
+            "python scripts/validate_source_inventory.py",
+            "python -m app plan-release",
+            "npm test",
+            "npm run lint",
+            "npm run build",
+        ):
+            self.assertIn(required, workflow)
+        self.assertLess(workflow.index("python scripts/validate_publication.py"), workflow.index("npm ci"))
+        self.assertLess(workflow.index("npm run lint"), workflow.index("npm run build"))
+        self.assertLess(workflow.index("npm run build"), workflow.index("actions/upload-pages-artifact@v5"))
 
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
@@ -573,6 +593,7 @@ class LaunchCITest(unittest.TestCase):
             "python -m pytest -q",
             "tests/test_workflows.py",
             "python -m app audit-catalog",
+            "python -m app history-audit",
             "python scripts/validate_publication.py",
             "python -m app plan-release",
             "npm ci",

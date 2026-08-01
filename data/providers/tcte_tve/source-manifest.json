@@ -1,0 +1,481 @@
+{
+  "exams": {
+    "tcte-tve-100": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "100學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/100_4y/",
+      "source_exam_id": "tcte-tve-100",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "tcte-tve-101": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "101學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/101_4y/",
+      "source_exam_id": "tcte-tve-101",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "tcte-tve-102": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "102學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/102_4y/",
+      "source_exam_id": "tcte-tve-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "tcte-tve-103": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "103學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/103_4y/",
+      "source_exam_id": "tcte-tve-103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "tcte-tve-104": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "104學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/104_4y/",
+      "source_exam_id": "tcte-tve-104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "tcte-tve-105": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "105學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/105_4y/",
+      "source_exam_id": "tcte-tve-105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "tcte-tve-106": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "106學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/106_4y/",
+      "source_exam_id": "tcte-tve-106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "tcte-tve-107": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "107學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/107_4y/",
+      "source_exam_id": "tcte-tve-107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "tcte-tve-108": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "108學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/108_4y/",
+      "source_exam_id": "tcte-tve-108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "tcte-tve-109": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "109學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/109_4y/",
+      "source_exam_id": "tcte-tve-109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "tcte-tve-110": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "110學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/110_4y/",
+      "source_exam_id": "tcte-tve-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "tcte-tve-111": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "111學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/111_4y/",
+      "source_exam_id": "tcte-tve-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "tcte-tve-112": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "112學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/112_4y/",
+      "source_exam_id": "tcte-tve-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "tcte-tve-113": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "113學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/113_4y/",
+      "source_exam_id": "tcte-tve-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "tcte-tve-114": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "114學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/114_4y/",
+      "source_exam_id": "tcte-tve-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "tcte-tve-115": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "115學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/115_4y/",
+      "source_exam_id": "tcte-tve-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "tcte-tve-90": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "90學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/090_4y/",
+      "source_exam_id": "tcte-tve-90",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "tcte-tve-91": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "91學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/091_4y/",
+      "source_exam_id": "tcte-tve-91",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "tcte-tve-92": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "92學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/092_4y/",
+      "source_exam_id": "tcte-tve-92",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "tcte-tve-93": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "93學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/093_4y/",
+      "source_exam_id": "tcte-tve-93",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "tcte-tve-94": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "94學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/094_4y/",
+      "source_exam_id": "tcte-tve-94",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "tcte-tve-95": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "95學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/095_4y/",
+      "source_exam_id": "tcte-tve-95",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "tcte-tve-96": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "96學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/096_4y/",
+      "source_exam_id": "tcte-tve-96",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "tcte-tve-97": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "97學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/097_4y/",
+      "source_exam_id": "tcte-tve-97",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "tcte-tve-98": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "98學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/098_4y/",
+      "source_exam_id": "tcte-tve-98",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "tcte-tve-99": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_label": "99學年度四技二專統一入學測驗",
+      "result_url": "https://web1.tcte.edu.tw/EXAM/099_4y/",
+      "source_exam_id": "tcte-tve-99",
+      "year_ad": 2010,
+      "year_roc": 99
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-30T19:00:44.118410+08:00"
+  },
+  "provider_id": "tcte_tve",
+  "schema_version": 1,
+  "years": {
+    "2001": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-90"
+      ],
+      "exam_codes_hash": "sha256:4224be1ab4190fab4e6442aa831c8b4fe62a673f938774dd59dfea7ad5f4eff3",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2001,
+      "year_roc": 90
+    },
+    "2002": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-91"
+      ],
+      "exam_codes_hash": "sha256:bb70d60b3a6a0b883d064b0666955ce1efa2f1c06de8016bcaf215aff803d800",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "2003": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-92"
+      ],
+      "exam_codes_hash": "sha256:2bd81569c68a85f9f121ce9b570c9030cb8feae3ae61117f4a619fe6562b2fa4",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2003,
+      "year_roc": 92
+    },
+    "2004": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-93"
+      ],
+      "exam_codes_hash": "sha256:a95d7905fc304f7b7eb8599b19e1fbeb9ca68a20056509d7ecc2ec9e61eefa18",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "2005": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-94"
+      ],
+      "exam_codes_hash": "sha256:44f98cac2bd9d234b1767feea652b8654075333d39d5083bca7cd7076208be1f",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2005,
+      "year_roc": 94
+    },
+    "2006": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-95"
+      ],
+      "exam_codes_hash": "sha256:48e98aa36622d3d3e591481aea1441aa4b47d34334b854d5e76d50be8809e2d8",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "2007": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-96"
+      ],
+      "exam_codes_hash": "sha256:6efa731a67e4fb935b1762f0c12229534d98863257f51f981919b541d58fa459",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "2008": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-97"
+      ],
+      "exam_codes_hash": "sha256:40fe7af448889fe6f4347920f35a943e109fa24c73a34f986868d1f414d40cf5",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "2009": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-98"
+      ],
+      "exam_codes_hash": "sha256:cb7ff4e588c9f3b2f3f6c5c5fcd5770a02ff3d2a0f107bec6d2b9748fbba6b64",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "2010": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-99"
+      ],
+      "exam_codes_hash": "sha256:6258fbb49a2cc363dc1a62761a7a9e6fedf7de2c723d1006bc377c2e657e1244",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2010,
+      "year_roc": 99
+    },
+    "2011": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-100"
+      ],
+      "exam_codes_hash": "sha256:a268ba9732fa77852c25bd92f21c893ced238fb584a99eebc8d2b626e50a0d31",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "2012": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-101"
+      ],
+      "exam_codes_hash": "sha256:4092e6fbbe329b972130bb9b332015870def374ac73ea8fc64a04e71956e0055",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "2013": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-102"
+      ],
+      "exam_codes_hash": "sha256:eb9f7b785d38967f22bbc1343d613e190367f73fc7e834d1f3618240bb02b816",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-103"
+      ],
+      "exam_codes_hash": "sha256:6ed47d4974b044904fcc079be6204ba580eb2339d4b10cc8d166f3d3cbbb650d",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-104"
+      ],
+      "exam_codes_hash": "sha256:a31812f9a5af54eda1c36f0bd45b295a31bc10a4d174ca19e017be2115b27c78",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-105"
+      ],
+      "exam_codes_hash": "sha256:7a814ec7ed91004cde3b88995635896204cc2ccc7ee05b2cdceb9d4a7dad781d",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-106"
+      ],
+      "exam_codes_hash": "sha256:8b3e07d7e90fa05c67a7c160a43fee60ba9954c7f939fb86a872a7d3017c67fd",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-107"
+      ],
+      "exam_codes_hash": "sha256:53b05983db361cbbfe0154d04356502223faa33240683ca69402d0ee887f5f67",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-108"
+      ],
+      "exam_codes_hash": "sha256:d59dc645e919b298c6de3cf7aa44a62445a22311bb8c90e388e46e1956208ceb",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-109"
+      ],
+      "exam_codes_hash": "sha256:b85c1aade012f4291ead5affb1909a4793ebc520c270646f7d0b94aa9646965f",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-110"
+      ],
+      "exam_codes_hash": "sha256:a7de01c63f47bdff1b3ae57a409e13a18d22f18f60d61801fbc13bc04356dc09",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-111"
+      ],
+      "exam_codes_hash": "sha256:4695181fc4833b5da537bb9f6e42a32740763b1b1d516d99ed6fe1319384dd7b",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-112"
+      ],
+      "exam_codes_hash": "sha256:7c55d41d84ffccea05da78c8986ecb86be7e30f7eab40b62a4b63508d6eb1c20",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-113"
+      ],
+      "exam_codes_hash": "sha256:3f41063c010bb50a408b83fc2829b0f983c019d1025fdb1d1a6219a44bff8af5",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-114"
+      ],
+      "exam_codes_hash": "sha256:6e34b514b65a33508aadc8b7ff3a23ac6fd3946d1935acc7bb01e0caf905787f",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "discovered_at": "2026-07-30T19:00:44.118410+08:00",
+      "exam_codes": [
+        "tcte-tve-115"
+      ],
+      "exam_codes_hash": "sha256:6dc7b7286447ecc13d528e8af9349fc222fe7c27283b476eb62894519876c2d2",
+      "search_url": "https://www.tcte.edu.tw/index.php?mod=TVETest%2Fdown_exam4y",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

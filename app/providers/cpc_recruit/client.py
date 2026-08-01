@@ -1,8 +1,10 @@
 """CPC Corporation (中油) recruitment exam provider — client and HTML parser.
 
-Two source pages are merged:
+The accepted source is CPC's doctoral exam-paper archive:
   - PhD exam papers:   https://www.cpc.com.tw/News_Content.aspx?n=32&s=826
-  - Hiring outlines:   https://www.cpc.com.tw/News_Content.aspx?n=32&s=824
+
+The neighboring hiring page at ``s=824`` contains recruitment brochures, not
+exam papers. It is retained as scope evidence but is not provider input.
 
 Both pages use an ASP.NET CMS that renders the inner content inside a div
 (``ContentPlaceHolder1_contentText`` or ``mcnTextContent``).  Anchors point
@@ -31,7 +33,7 @@ DOWNLOAD_BASE_URL = "https://ws.cpc.com.tw/"
 PHD_PAGE_URL = "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826"
 HIRING_PAGE_URL = "https://www.cpc.com.tw/News_Content.aspx?n=32&s=824"
 USER_AGENT = "Mozilla/5.0 (compatible; cpc-recruit-mirror/1.0)"
-CANONICAL_CATEGORY = "中油新進人員甄試"
+CANONICAL_CATEGORY = "中油新進博士級人員甄試"
 
 _YEAR_RE = re.compile(r"(\d{2,3})\s*年")
 
@@ -187,12 +189,19 @@ class CpcRecruitClient:
             )
 
     def _iter_entries(self) -> list[CpcRecruitEntry]:
-        """Fetch both pages and return a combined, de-duplicated entry list."""
+        """Fetch the accepted doctoral exam-paper archive."""
         phd_html = self._fetch_text(PHD_PAGE_URL)
-        hiring_html = self._fetch_text(HIRING_PAGE_URL)
-        phd_entries = parse_employment_page(phd_html, source="phd")
-        hiring_entries = parse_employment_page(hiring_html, source="hiring")
-        return phd_entries + hiring_entries
+        entries = parse_employment_page(phd_html, source="phd")
+        return [
+            entry for entry in entries
+            if "博士" in entry.label and "試題" in entry.label
+        ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return PHD_PAGE_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        return PHD_PAGE_URL
 
     def discover_available_years(self) -> list[int]:
         return sorted(
@@ -202,7 +211,7 @@ class CpcRecruitClient:
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
         year_roc = year_ad - 1911
-        # Each ROC year may appear in both sources; emit one option per year.
+        # The archive exposes one doctoral paper package per represented year.
         seen: set[int] = set()
         options: list[ExamOption] = []
         for entry in self._iter_entries():
@@ -216,7 +225,7 @@ class CpcRecruitClient:
                     code=f"cpc-recruit-{entry.year_roc}",
                     year_ad=entry.year_ad,
                     year_roc=entry.year_roc,
-                    label=f"{entry.year_roc}年中油公司新進人員甄試",
+                    label=f"{entry.year_roc}年中油公司新進博士級人員甄試",
                 )
             )
         return options
@@ -258,7 +267,7 @@ class CpcRecruitClient:
                 )
             )
 
-        exam_name_raw = f"{year_roc}年中油公司新進人員甄試"
+        exam_name_raw = f"{year_roc}年中油公司新進博士級人員甄試"
         return SourceExamPage(
             source_exam_id=exam_code,
             year_ad=year_ad,

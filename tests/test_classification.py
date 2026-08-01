@@ -48,6 +48,18 @@ class ExamIdentityClassificationTests(unittest.TestCase):
         self.assertIn("cross-strait-group-2", group_two.variant_ids)
         self.assertNotEqual(group_one.bundle_id, group_two.bundle_id)
 
+    def test_source_event_marker_resolves_worker_promotion_level(self) -> None:
+        worker_promotion = classify(
+            "常務工",
+            "082年交通事業鐵路人員差工晉升士級考試",
+            source="082040",
+        )
+
+        self.assertEqual(worker_promotion.exam_series_id, "civil-promotion")
+        self.assertEqual(worker_promotion.level_id, "promotion-worker-rank")
+        self.assertEqual(worker_promotion.confidence, "medium")
+        self.assertIn("source event marker", worker_promotion.reason)
+
     def test_non_moex_levels_use_provider_specific_hierarchy(self) -> None:
         gept = classify("中高級", "全民英檢", provider="gept_cert", canonical="gept-cert", subject="中高級")
         jlpt = classify("N2", "日本語能力試驗", provider="jlpt_cert", canonical="jlpt-cert", subject="N2")
@@ -59,6 +71,49 @@ class ExamIdentityClassificationTests(unittest.TestCase):
         self.assertEqual(jlpt.exam_series_id, "language-jlpt")
         self.assertEqual(skill.level_id, "class-a")
         self.assertEqual(skill.exam_series_id, "skill-certification")
+
+    def test_historical_tcte_classes_are_professional_tracks(self) -> None:
+        identity = classify(
+            "四技二專統一入學測驗",
+            "90學年度四技二專統一入學測驗",
+            source="tcte-tve-90",
+            provider="tcte_tve",
+            canonical="tcte-tve",
+            subject="01機械類 專業科目(一)",
+        )
+
+        self.assertEqual(identity.exam_series_id, "admission-tcte")
+        self.assertEqual(identity.track_id, "tcte-group-01")
+        self.assertEqual(identity.track_label, "01機械類")
+
+    def test_ast_multi_subject_notices_reuse_historical_subject_tracks(self) -> None:
+        historical = classify(
+            "分科測驗",
+            "114學年度分科測驗－物理",
+            source="ceec-ast-114-physics",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理 試題內容",
+        )
+        confirmed = classify(
+            "分科測驗",
+            "115學年度分科測驗各考科選擇(填)題答案確定",
+            source="ceec-ast-confirmed-115",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理",
+        )
+        guidelines = classify(
+            "分科測驗",
+            "115學年度分科測驗各考科非選擇題評分原則",
+            source="ceec-ast-guidelines-115",
+            provider="ceec_ast",
+            canonical="ceec-ast",
+            subject="物理",
+        )
+
+        self.assertEqual(confirmed.track_id, historical.track_id)
+        self.assertEqual(guidelines.bundle_id, historical.bundle_id)
 
     def test_ambiguous_level_is_review_isolated_per_source_event(self) -> None:
         first = classify("一般行政", "其他特種考試", source="unknown-1")

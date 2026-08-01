@@ -3,6 +3,7 @@
 import unittest
 
 from app.providers.teacher_qual.client import (
+    LISTING_URL,
     TeacherQualClient,
     parse_available_years,
     parse_downloads,
@@ -91,6 +92,18 @@ class TeacherQualParserTests(unittest.TestCase):
 
 
 class TeacherQualClientTests(unittest.TestCase):
+    def test_discovery_urls_preserve_selector_and_order_semantics(self) -> None:
+        client = TeacherQualClient()
+
+        self.assertEqual(client.build_discovery_year_url(2026), LISTING_URL)
+        self.assertEqual(client.build_discovery_exam_url("teacher-qual-115", 2026), LISTING_URL)
+        self.assertEqual(client.build_discovery_exam_url("teacher-qual-108-1", 2019), LISTING_URL)
+        self.assertEqual(client.build_discovery_exam_url("teacher-qual-108-2", 2019), LISTING_URL)
+        with self.assertRaisesRegex(ValueError, "Unexpected teacher qualification discovery order"):
+            client.build_discovery_exam_url("teacher-qual-108", 2019)
+        with self.assertRaisesRegex(ValueError, "Unexpected teacher qualification discovery order"):
+            client.build_discovery_exam_url("teacher-qual-115-1", 2026)
+
     def test_fetch_exam_page_builds_single_bundle_paper(self) -> None:
         client = TeacherQualClient()
         client._listing_for_year = lambda year_roc, order_code="": TEACHER_LISTING_HTML  # type: ignore[method-assign]

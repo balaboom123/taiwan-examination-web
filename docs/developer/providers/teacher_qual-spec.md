@@ -21,6 +21,19 @@ ROC 108 / AD 2019 is a format transition year. It exposes `ctl00$ContentPlaceHol
 
 The provider parses `ShowPicOut2.aspx` direct download links under the selected year section and mirrors the all-category paper/reference-answer bundle.
 
+## Discovery Snapshot
+
+The 2026-07-29 official selector snapshot contains AD 2005–2026 (22 year buckets) and 23 events. AD 2019 has the source-declared first/second order split; every other year has one event. All 23 event IDs exactly match retained raw state, with no sync failures or review entries.
+
+Generate or refresh the snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_qual \
+  --manifest data/providers/teacher_qual/source-manifest.json --write-manifest
+```
+
+The selector page is recorded as year and event evidence because WebForms postback state has no stable deep-link URL. The snapshot preserves 2018 sample-only and 2019 order-split semantics; it does not redefine those rows as ordinary annual administrations.
+
 ## Output Model
 
 - one exam per ROC year: `teacher-qual-<roc_year>`

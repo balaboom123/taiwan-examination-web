@@ -12,19 +12,22 @@
 
 ## Source Rule
 
-The accepted source must be an official China Medical University page or an official admission system named by the university. Public direct downloads are required. Private mirrors and practice sites are rejected.
+The accepted provenance page is the official China Medical University program page at `https://spbcm.cmu.edu.tw/page/384`; its `考古題下載` link names the official archive at `https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm`. Public exam-file links are required. Private mirrors and practice sites are rejected.
+
+The archive's `robots.txt` specifies `Crawl-delay: 10`, which the shared client honors. Default CA verification for `adm21.cmu.edu.tw` fails in this environment; the existing shared client uses an unverified TLS context only for `adm21.cmu.edu.tw`. That is a documented transport-authenticity limitation requiring remediation or explicit risk acceptance. No explicit redistribution license or copyright terms were linked from the archive pages.
 
 ## Implementation Status
 
-- accepted source: `https://spbcm.cmu.edu.tw/page/384`, which links `考古題下載` to `https://adm21.cmu.edu.tw/?q=news_spbcm`
+- accepted source: official CMU provenance page plus the linked `adm21.cmu.edu.tw` archive
 - implemented provider: `app/providers/hce_cmu/`
 - parser/shared client: `app/providers/hce_archive.py`
-- current synced coverage: ROC 115 / AD 2026, 8 files, 0 failures
+- source manifest: 6/6 official events for ROC 110–115 / AD 2021–2026, captured 2026-07-30
+- asset reconciliation: all 30 live question/answer URLs match local state; all six events are published-complete
 - public bundle: `hce-cmu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-cmu.zip`
 
 ## Discovery Model
 
-If accepted, the provider mirrors official paper assets by year and subject into:
+The provider follows all four bounded archive pages, deduplicates fragment-only pagination variants, and mirrors official paper assets by year and subject into:
 
 - `data/providers/hce_cmu/`
 - `mirror/providers/hce_cmu/`
@@ -44,6 +47,7 @@ python -m app sync-full --provider hce_cmu --site-id default
 ## Non-Goals
 
 - no third-party mirrors
-- no broad crawling of university news pages
+- no pages outside the dedicated four-page archive
+- no certificate-verification bypass beyond the documented `adm21.cmu.edu.tw` exception without explicit review
 - no provider that would publish zero files
 - no Shuati crawling

@@ -55,6 +55,20 @@ def load_site_bundles(site) -> list[BundleAsset]:
     return [BundleAsset(**bundle) for bundle in bundles]
 
 
+def _paper_publication_key(paper: NormalizedPaper) -> str:
+    """Return the key used to select a paper's publication group.
+
+    Legacy records use canonical_id as their bundle key. Versioned
+    records retain that field for URL/migration compatibility, but their
+    publication grouping is the identity-derived bundle_id.
+    """
+    return paper.bundle_id or paper.canonical_id
+
+
+def _bundle_key(bundle: BundleAsset) -> str:
+    return bundle.bundle_id or bundle.canonical_id
+
+
 def _merge_state(
     existing_raw_pages: list[SourceExamPage],
     existing_catalog: NormalizedCatalog,
@@ -72,15 +86,29 @@ def _merge_state(
         migrations,
     )
 
-    affected_canonical_ids = {paper.canonical_id for paper in existing_catalog.papers if paper.source_exam_id in replaced_exam_ids}
-    affected_canonical_ids.update(paper.canonical_id for paper in refreshed_catalog.papers)
-    affected_canonical_ids.update(migrations)
-    affected_canonical_ids.update(migration[0] for migration in migrations.values())
+    affected_canonical_ids = {
+        _paper_publication_key(paper)
+        for paper in existing_catalog.papers
+        if paper.source_exam_id in replaced_exam_ids
+    }
+    affected_canonical_ids.update(_paper_publication_key(paper) for paper in refreshed_catalog.papers)
+    # v1 state has no identity-derived publication key, so canonical
+    # migrations must still invalidate both sides of the legacy group. In
+    # v2, canonical_id is deliberately not a publication key: the same
+    # legacy subject can appear in several independent exam identities.
+    if not any(paper.bundle_id for paper in merged_catalog.papers):
+        affected_canonical_ids.update(migrations)
+        affected_canonical_ids.update(migration[0] for migration in migrations.values())
     active_canonical_ids = {paper.canonical_id for paper in merged_catalog.papers}
+    active_publication_keys = {_paper_publication_key(paper) for paper in merged_catalog.papers}
     preserved_bundles = [
         bundle
         for bundle in existing_bundles
-        if bundle.canonical_id in active_canonical_ids and bundle.canonical_id not in affected_canonical_ids
+        if (
+            (_bundle_key(bundle) in active_publication_keys or bundle.canonical_id in active_canonical_ids)
+            and _bundle_key(bundle) not in affected_canonical_ids
+            and bundle.canonical_id not in affected_canonical_ids
+        )
     ]
     return (
         merged_raw_pages,

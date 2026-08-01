@@ -6,7 +6,14 @@ from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
-from app.providers.rcpet_cap.client import RcpetCapClient, _resolve_gdrive_confirm_url, _resolve_gdrive_url, parse_dropdown, parse_year_page
+from app.providers.rcpet_cap.client import (
+    MAIN_PAGE_URL,
+    RcpetCapClient,
+    _resolve_gdrive_confirm_url,
+    _resolve_gdrive_url,
+    parse_dropdown,
+    parse_year_page,
+)
 
 
 MAIN_PAGE_HTML = """
@@ -296,11 +303,26 @@ class RcpetCapClientTests(unittest.TestCase):
             ]
 
             exams = client.discover_exams(year_ad=2022)
+            year_url = client.build_discovery_year_url(2022)
+            exam_url = client.build_discovery_exam_url("cap-111c", 2022)
 
         codes = [e.code for e in exams]
         self.assertEqual(len(codes), 2)
         self.assertIn("cap-111", codes)
         self.assertIn("cap-111c", codes)
+        self.assertEqual(year_url, MAIN_PAGE_URL)
+        self.assertEqual(
+            exam_url,
+            "https://cap.rcpet.edu.tw/exam/111c/111practice.html",
+        )
+
+    def test_dropdown_discovery_is_cached_within_one_client(self) -> None:
+        client = RcpetCapClient()
+        with patch.object(client, "_fetch_text", return_value=MAIN_PAGE_HTML) as fetch:
+            self.assertIn(2026, client.discover_available_years())
+            self.assertEqual([exam.code for exam in client.discover_exams(2026)], ["cap-115"])
+
+        fetch.assert_called_once_with(MAIN_PAGE_URL)
 
 
 class RegistryTests(unittest.TestCase):

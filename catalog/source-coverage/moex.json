@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "provider_id": "moex",
+  "exceptions": [
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "094030",
+      "year_ad": 2005,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=094030&y=2005",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33936,
+        "response_sha256": "51d84c46254ded4c367543c823b4f0546167f8cbc549e2ca30f25eeca7d77517",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "094100",
+      "year_ad": 2005,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=094100&y=2005",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33936,
+        "response_sha256": "cd1baa3712060b7dd433fed70a4c4b14b4dfbbd2d01c8639fd83ec92e997540d",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "094200",
+      "year_ad": 2005,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=094200&y=2005",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33936,
+        "response_sha256": "00b49af032ebeef555cdc1070846937f7b26838dff160c1ecb04820bb49ead9d",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "094250",
+      "year_ad": 2005,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=094250&y=2005",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33936,
+        "response_sha256": "e93be932f844ec489c258513f0f22cbf4cae654cb4b9c5be739b13c385b39221",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "093040",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=093040&y=2004",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33641,
+        "response_sha256": "86ca6a519dd456d2240f6c8c78d70604e1a8e867af8616254198b82f0409d308",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "093090",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=093090&y=2004",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33641,
+        "response_sha256": "64e13eea041fe1132965253e79f7a789767f9fbb1e72c50b72e8eacea7f09573",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "093180",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=093180&y=2004",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33641,
+        "response_sha256": "74b7c027a73e55cd6e8ddca6ee5579f1c73264378d59f5bbc449b95bc8535cda",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "event",
+      "provider_id": "moex",
+      "source_exam_id": "093240",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_no_result",
+      "reason": "The official historical search page returned no result rows or downloadable records.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?e=093240&y=2004",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 33641,
+        "response_sha256": "4eb0982cfab57a02ec3c62bce149c97f8a7b8eb4996c9ff4b465d8d87b8bbe98",
+        "observation": "查無結果",
+        "parser_rows": 0,
+        "parser_attachments": 0
+      }
+    },
+    {
+      "scope": "file",
+      "provider_id": "moex",
+      "source_exam_id": "093170",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_placeholder_response",
+      "reason": "The official file endpoint returned an HTML placeholder instead of the advertised downloadable file.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=M&code=093170&c=104&s=5011&q=1",
+      "paper_code": "104-5011-corrected_answer",
+      "file_type": "corrected_answer",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 1984,
+        "response_sha256": "700bb370024ff776517cafc26daa5fda693445084acddddb5268ff8abf10139c",
+        "observation": "Official endpoint returned XHTML/HTML placeholder content instead of a downloadable file.",
+        "content_type": "text/html"
+      }
+    },
+    {
+      "scope": "file",
+      "provider_id": "moex",
+      "source_exam_id": "093170",
+      "year_ad": 2004,
+      "status": "blocked",
+      "reason_code": "official_placeholder_response",
+      "reason": "The official file endpoint returned an HTML placeholder instead of the advertised downloadable file.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=M&code=093170&c=107&s=5011&q=1",
+      "paper_code": "107-5011-corrected_answer",
+      "file_type": "corrected_answer",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 1984,
+        "response_sha256": "700bb370024ff776517cafc26daa5fda693445084acddddb5268ff8abf10139c",
+        "observation": "Official endpoint returned XHTML/HTML placeholder content instead of a downloadable file.",
+        "content_type": "text/html"
+      }
+    },
+    {
+      "scope": "file",
+      "provider_id": "moex",
+      "source_exam_id": "090270",
+      "year_ad": 2001,
+      "status": "blocked",
+      "reason_code": "official_placeholder_response",
+      "reason": "The official file endpoint returned an HTML placeholder instead of the advertised downloadable file.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=S&code=090270&c=001&s=c012&q=1",
+      "paper_code": "001-c012-answer",
+      "file_type": "answer",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 1984,
+        "response_sha256": "700bb370024ff776517cafc26daa5fda693445084acddddb5268ff8abf10139c",
+        "observation": "Official endpoint returned XHTML/HTML placeholder content instead of a downloadable file.",
+        "content_type": "text/html"
+      }
+    },
+    {
+      "scope": "file",
+      "provider_id": "moex",
+      "source_exam_id": "090270",
+      "year_ad": 2001,
+      "status": "blocked",
+      "reason_code": "official_placeholder_response",
+      "reason": "The official file endpoint returned an HTML placeholder instead of the advertised downloadable file.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=S&code=090270&c=001&s=c064&q=1",
+      "paper_code": "001-c064-answer",
+      "file_type": "answer",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 1984,
+        "response_sha256": "700bb370024ff776517cafc26daa5fda693445084acddddb5268ff8abf10139c",
+        "observation": "Official endpoint returned XHTML/HTML placeholder content instead of a downloadable file.",
+        "content_type": "text/html"
+      }
+    },
+    {
+      "scope": "file",
+      "provider_id": "moex",
+      "source_exam_id": "085210",
+      "year_ad": 1996,
+      "status": "blocked",
+      "reason_code": "official_placeholder_response",
+      "reason": "The official file endpoint returned an HTML placeholder instead of the advertised downloadable file.",
+      "source_url": "https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=Q&code=085210&c=109&s=c041&q=1",
+      "paper_code": "109-c041-question",
+      "file_type": "question",
+      "evidence": {
+        "captured_at": "2026-07-29",
+        "http_status": 200,
+        "response_bytes": 1984,
+        "response_sha256": "700bb370024ff776517cafc26daa5fda693445084acddddb5268ff8abf10139c",
+        "observation": "Official endpoint returned XHTML/HTML placeholder content instead of a downloadable file.",
+        "content_type": "text/html"
+      }
+    }
+  ]
+}

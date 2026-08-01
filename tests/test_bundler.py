@@ -5,7 +5,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from app.bundler import build_bundles
+from app.bundler import build_bundles, public_bundle_ids
 from app.models import NormalizedCatalog, NormalizedPaper
 
 
@@ -395,6 +395,14 @@ class BundlerTests(unittest.TestCase):
             )
 
             self.assertEqual([bundle.canonical_id for bundle in result.bundles], ["tii-aml"])
+            self.assertEqual(
+                public_bundle_ids(
+                    NormalizedCatalog(papers=[tii_paper, ceec_paper], review_queue=[]),
+                    min_years=2,
+                    min_years_by_canonical_prefix={"tii-": 1},
+                ),
+                {"tii-aml"},
+            )
             self.assertTrue((bundles_dir / "tii-aml.zip").exists())
             self.assertFalse((bundles_dir / "ceec-gsat.zip").exists())
             self.assertEqual(result.failures, [])
@@ -443,6 +451,41 @@ class BundlerTests(unittest.TestCase):
                     self.assertEqual(manifest["part_index"], bundle.part_index)
                     self.assertEqual(manifest["file_count"], 1)
             self.assertEqual(result.failures, [])
+
+    def test_oversized_entry_preserves_existing_assets_before_failing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            bundles_dir = root / "bundles"
+            bundles_dir.mkdir()
+            existing_bundle = bundles_dir / "large.zip"
+            existing_bundle.write_bytes(b"existing-bundle")
+            stale_part = bundles_dir / "large--part-01-of-02.zip"
+            stale_part.write_bytes(b"existing-part")
+
+            paper = make_paper(
+                canonical_id="large",
+                canonical_name="Large",
+                year_roc=115,
+                source_exam_id="exam-oversized",
+                subject_code="0100",
+                storage_key="115/exam-oversized/101/0100/question.bin",
+            )
+            source = mirror_dir / paper.storage_key
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_bytes(b"oversized-entry")
+
+            with self.assertRaisesRegex(ValueError, "exceeds the 10-byte multipart target"):
+                build_bundles(
+                    bundle_dir=bundles_dir,
+                    mirror_dir=mirror_dir,
+                    normalized=NormalizedCatalog(papers=[paper], review_queue=[]),
+                    bundle_base_url="",
+                    max_bundle_bytes=10,
+                )
+
+            self.assertEqual(existing_bundle.read_bytes(), b"existing-bundle")
+            self.assertEqual(stale_part.read_bytes(), b"existing-part")
 
     def test_structured_asset_names_remain_unique_after_readable_prefix_truncation(self) -> None:
         from app.bundler import _bundle_asset_name

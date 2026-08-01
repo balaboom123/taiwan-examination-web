@@ -1,10 +1,68 @@
 import unittest
 
-from app.models import AliasRule, ParsedPaper, NormalizedPaper
-from app.normalizer import normalize_papers
+from app.models import AliasRule, NormalizedCatalog, NormalizedPaper, ParsedPaper, ReviewItem
+from app.normalizer import normalize_papers, renormalize_catalog
 
 
 class NormalizePapersTests(unittest.TestCase):
+    def test_renormalization_rebuilds_review_queue_from_current_papers(self) -> None:
+        resolved = NormalizedPaper(
+            canonical_id="general-administration",
+            canonical_name="一般行政",
+            year_roc=115,
+            exam_name_raw="115年公務人員高等考試三級考試",
+            category_raw="三等_一般行政類科",
+            subject_name_raw="行政學",
+            paper_code="301-0608-question",
+            file_type="question",
+            download_url_source="https://example.test/resolved.pdf",
+            category_code="301",
+            source_exam_id="115010",
+            subject_code="0608",
+            provider_id="moex",
+        )
+        still_review = NormalizedPaper(
+            canonical_id="司法官",
+            canonical_name="司法官",
+            year_roc=115,
+            exam_name_raw="115年司法官考試",
+            category_raw="司法官",
+            subject_name_raw="刑法",
+            paper_code="401-0101-question",
+            file_type="question",
+            download_url_source="https://example.test/review.pdf",
+            category_code="401",
+            source_exam_id="115020",
+            subject_code="0101",
+            provider_id="moex",
+        )
+        stale = ReviewItem(
+            raw_category=resolved.category_raw,
+            normalized_candidate=resolved.canonical_name,
+            source_exam_id=resolved.source_exam_id,
+            year_roc=resolved.year_roc,
+            provider_id="moex",
+            reason="stale review row",
+        )
+
+        rebuilt = renormalize_catalog(
+            NormalizedCatalog(papers=[resolved, still_review], review_queue=[stale]),
+            alias_rules=[],
+        )
+
+        self.assertEqual(len(rebuilt.review_queue), 1)
+        self.assertEqual(rebuilt.review_queue[0].source_exam_id, "115020")
+        self.assertEqual(rebuilt.review_queue[0].raw_category, "司法官")
+        self.assertNotIn("stale review row", {item.reason for item in rebuilt.review_queue})
+
+        preserved = renormalize_catalog(
+            NormalizedCatalog(papers=[resolved, still_review], review_queue=[stale]),
+            alias_rules=[],
+            collect_reviews=False,
+        )
+        self.assertEqual(len(preserved.review_queue), 1)
+        self.assertEqual(preserved.review_queue[0].reason, "stale review row")
+
     def test_alias_rules_override_general_canonicalization(self) -> None:
         papers = [
             ParsedPaper(

@@ -28,14 +28,16 @@ Symptoms:
 
 Meaning:
 
-- targeted sync is intentionally strict because partial writes for probe-identified changed exams are not safe
+- targeted sync is intentionally strict by default because partial writes for probe-identified changed exams are not safe
+- when an official page has a mix of valid files and source-side placeholders, the explicit `--allow-partial` mode can retain the valid subset while recording every failed file; it still exits non-zero
 
 Recovery:
 
 1. inspect `.tmp/source-probe.json`
 2. inspect the failing entries in logs
 3. rerun targeted sync if the failure was transient
-4. if failures persist across multiple exams or categories, run `sync-incremental` or `sync-full` depending on scope
+4. if the source is persistently partial and the valid subset is useful, rerun with `--allow-partial`, then run `history-audit` and `publish-site` from the generated publish plan
+5. if failures persist across multiple exams or categories, run `sync-incremental` or `sync-full` depending on scope
 
 ## Scenario 2: Incremental Or Full Sync Completes With Failures
 
@@ -57,7 +59,24 @@ Recovery:
 4. rerun full sync for the affected provider if state trust is broadly reduced
 5. if the source format changed, fix code before rerunning
 
-## Scenario 3: Release Coverage Mismatch
+## Scenario 3: A Source Is Officially Blocked or Expired
+
+Symptoms:
+
+- a source page is retained with no papers, or a valid event has one or more exact download failures
+- the response is an official 404, empty-result page, expired/closed listing, or reproducible placeholder
+
+Recovery:
+
+1. capture the official URL, status, byte count, SHA-256, parser observation, and capture date
+2. add or update `catalog/source-coverage/<provider_id>.json` with the narrowest event/file exception; do not mark a whole event blocked when valid records remain
+3. run `python3 -m app history-audit --strict` and inspect `.tmp/history-audit.json`
+4. for file-level blockers, run `python3 scripts/validate_publication.py`; the validator accepts only exact current download failures represented by the ledger
+5. re-probe after the source changes. A repaired file becomes an orphan exception, and new material creates a conflict; both intentionally fail strict audit until reviewed
+
+Do not delete the raw page, mirror, failure record, or evidence ledger entry merely to make a gate pass.
+
+## Scenario 4: Release Coverage Mismatch
 
 Symptoms:
 
@@ -77,7 +96,7 @@ Recovery:
 5. run `python .github/scripts/release_assets.py prune`
 6. verify each site-owned release tag after upload and prune complete
 
-## Scenario 4: Social-Gated Downloads Look Wrong
+## Scenario 5: Social-Gated Downloads Look Wrong
 
 Symptoms:
 
@@ -97,7 +116,7 @@ Important:
 - there is no generated gating manifest
 - the social gate is client-side; it cannot verify LINE membership
 
-## Scenario 5: Frontend Deploy Fails
+## Scenario 6: Frontend Deploy Fails
 
 Symptoms:
 

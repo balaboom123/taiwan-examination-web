@@ -17,6 +17,19 @@ The provider is intentionally current-year scoped. Historical Tainan URLs were n
 - `公告甄選試題及參考答案`
 - `公告甄選試題正確答案`
 
+## Discovery Snapshot
+
+The read-only discovery command records the official landing page as both year and event evidence. The 2026-07-29 snapshot contains one in-scope ROC 115 / AD 2026 event. Its question, reference-answer, and corrected-answer URLs exactly match the three retained normalized records.
+
+Generate or refresh the snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_tainan --years 2026 \
+  --manifest data/providers/teacher_recruit_tainan/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the declared current-year source scope. It does not imply that the host exposes a historical archive, and it does not enable HEAD-based `probe-latest` support.
+
 ## Output Model
 
 - one exam per active school year: `teacher-recruit-tainan-<roc_year>`

@@ -282,6 +282,19 @@ class TeacherQualClient:
             )
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return LISTING_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        year_roc = year_ad - 1911
+        match = re.fullmatch(r"teacher-qual-(\d+)(?:-(1|2))?", exam_code)
+        if match is None or int(match.group(1)) != year_roc:
+            raise ValueError(f"Unexpected teacher qualification discovery exam for {year_ad}: {exam_code}")
+        order_code = match.group(2)
+        if (year_ad == 2019 and order_code not in ORDER_LABELS) or (year_ad != 2019 and order_code is not None):
+            raise ValueError(f"Unexpected teacher qualification discovery order for {year_ad}: {exam_code}")
+        return LISTING_URL
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
         match = re.fullmatch(r"teacher-qual-\d+(?:-(\d+))?", exam_code)

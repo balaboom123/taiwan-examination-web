@@ -3,6 +3,8 @@
 import unittest
 
 from app.providers.teacher_recruit_newtaipei.client import (
+    DETAIL_API_URL,
+    LIST_API_URL,
     NewTaipeiTeacherRecruitClient,
     detail_matches_notice,
     parse_candidate_notices,
@@ -66,6 +68,20 @@ class NewTaipeiTeacherRecruitParserTests(unittest.TestCase):
 
 
 class NewTaipeiTeacherRecruitClientTests(unittest.TestCase):
+    def test_discovery_urls_preserve_official_list_and_detail_evidence(self) -> None:
+        client = NewTaipeiTeacherRecruitClient()
+        client._fetch_json = lambda url: LIST_ROWS  # type: ignore[method-assign]
+
+        exam = client.discover_exams(2026)[0]
+
+        self.assertEqual(client.build_discovery_year_url(2026), LIST_API_URL)
+        self.assertEqual(
+            client.build_discovery_exam_url(exam.code, 2026),
+            DETAIL_API_URL.format(uuid="notice-uuid"),
+        )
+        with self.assertRaisesRegex(ValueError, "discovery year mismatch"):
+            client.build_discovery_exam_url(exam.code, 2025)
+
     def test_fetch_exam_page_builds_notice_paper(self) -> None:
         client = NewTaipeiTeacherRecruitClient()
         client._fetch_json = lambda url: LIST_ROWS if url.endswith("temopn_newtea_list") else [DETAIL_ROW]  # type: ignore[method-assign]

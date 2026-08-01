@@ -151,6 +151,7 @@ _LEVEL_LABELS = {
     "grade-b": "乙等",
     "grade-c": "丙等",
     "promotion-worker-to-associate": "士級晉佐級",
+    "promotion-worker-rank": "士級",
     "promotion-associate-to-employee": "佐級晉員級",
     "promotion-employee-to-senior": "員級晉高員級",
     "promotion-official-rank": "升等／職等",
@@ -290,7 +291,7 @@ def _track_details(
         value = re.sub(r"\s*(?:甲級|乙級|丙級|單一級|學科|術科)\s*$", "", value)
         return _slug(value, prefix="skill"), value
     if provider_id == "tcte_tve":
-        match = re.search(r"(\d{2}[^ ]*群)", normalize_text(subject_name))
+        match = re.search(r"(\d{2}[^ ]*(?:群|類))", normalize_text(subject_name))
         if match:
             value = match.group(1)
             group_code = value[:2]
@@ -299,6 +300,10 @@ def _track_details(
     if provider_id in {"ceec_gsat", "ceec_ast"}:
         value = normalize_text(exam_name).split("－", 1)[-1]
         value = re.sub(r"^\d+(?:學年度|年度)?\s*", "", value)
+        if provider_id == "ceec_ast" and not re.search(r"分科測驗\s*[-－]", normalize_text(exam_name)):
+            subject = normalize_text(subject_name)
+            if subject:
+                value = f"分科測驗-{subject}"
         value = value or normalize_text(subject_name)
         return _slug(value, prefix="subject"), value
     if provider_id == "rcpet_cap":
@@ -392,6 +397,7 @@ def _moex_level(category: str, exam_name: str, canonical_name: str) -> tuple[str
         if re.search(pattern, cat):
             return level_id, label, "high", f"explicit professional category marker: {cat}"
     event_patterns = (
+        (r"晉升士級", "promotion-worker-rank", "士級"),
         (r"專技(?:人員)?檢覈|檢覈筆試|檢覈", "professional-screening", "專技檢覈"),
         (r"專門職業及技術人員.*特種考試|特種考試.*(?:中醫師|心理師|營養師|護理師|驗船師|引水人|技師|建築師|醫事|牙體|聽力師|語言治療師|消防設備|土地登記專業代理人|不動產經紀人|專責報關|保險)|專責報關.*特考|保險從業.*特考|航海人員.*驗船師|驗船師.*考試", "professional-special", "專技特考"),
         (r"專門職業及技術人員高等(?:考試|技師考試)|專技高考", "professional-high", "專技高考"),
@@ -476,7 +482,7 @@ def _moex_series(category: str, exam_name: str, level_id: str, canonical_id: str
     for marker, series_id, label in category_first:
         if marker in cat:
             return "civil-service", "civil-service-exam", series_id, label
-    if "升官等" in cat or "升等" in cat or "升資" in cat or "升官等" in event or "升等" in event or "升資" in event:
+    if "升官等" in cat or "升等" in cat or "升資" in cat or "升官等" in event or "升等" in event or "升資" in event or "晉升士級" in event:
         return "civil-service", "civil-promotion", "civil-promotion", _SERIES_LABELS["civil-promotion"]
     event_rules = (
         ("原住民族", "special-indigenous", "原住民族特考"),

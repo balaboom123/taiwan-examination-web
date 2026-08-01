@@ -27,6 +27,14 @@ HISTORY_HTML = """
 </body></html>
 """
 
+PRIOR_YEAR_HTML = """
+<html><body>
+<h2>考古題年度選取</h2>
+<a href="/114post01/Paper/History?EPID=10274">113年</a>
+<a href="/114post01/Paper/History?EPID=10272">111年</a>
+</body></html>
+"""
+
 
 class PostRecruitParserTests(unittest.TestCase):
     def test_parse_year_page_extracts_history_links(self) -> None:
@@ -35,6 +43,34 @@ class PostRecruitParserTests(unittest.TestCase):
         self.assertEqual(len(years), 2)
         self.assertEqual(years[0].year_ad, 2025)
         self.assertEqual(years[0].url, "https://svc.tabf.org.tw/115post02/Paper/History?EPID=10315")
+        self.assertEqual(years[0].listing_url, "https://svc.tabf.org.tw/115post02//Paper/Year")
+
+    def test_discovery_merges_live_windows_with_newest_host_precedence(self) -> None:
+        def fetch(url: str) -> str:
+            return PRIOR_YEAR_HTML if "114post01" in url else YEAR_HTML
+
+        with patch.object(PostRecruitClient, "_fetch_text", side_effect=fetch):
+            client = PostRecruitClient()
+            years = client._years()
+
+        self.assertEqual([year.year_ad for year in years], [2025, 2024, 2022])
+        self.assertEqual(years[1].url, "https://svc.tabf.org.tw/115post02/Paper/History?EPID=10316")
+        self.assertEqual(years[2].url, "https://svc.tabf.org.tw/114post01/Paper/History?EPID=10272")
+
+    def test_discovery_manifest_urls_preserve_listing_and_event_provenance(self) -> None:
+        def fetch(url: str) -> str:
+            return PRIOR_YEAR_HTML if "114post01" in url else YEAR_HTML
+
+        with patch.object(PostRecruitClient, "_fetch_text", side_effect=fetch):
+            client = PostRecruitClient()
+            self.assertEqual(
+                client.build_discovery_year_url(2022),
+                "https://svc.tabf.org.tw/114post01//Paper/Year",
+            )
+            self.assertEqual(
+                client.build_discovery_exam_url("post-recruit-111", 2022),
+                "https://svc.tabf.org.tw/114post01/Paper/History?EPID=10272",
+            )
 
     def test_parse_history_page_extracts_official_pdf_links(self) -> None:
         papers = parse_history_page(HISTORY_HTML, "https://svc.tabf.org.tw/115post02/Paper/History?EPID=10315")

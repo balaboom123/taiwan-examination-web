@@ -8,6 +8,17 @@ from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from app.bundler import public_bundle_ids
+from app.coverage_exceptions import failure_exception_for, load_coverage_exceptions
+from app.paths import provider_paths
+from app.publisher import load_site_catalog
+from app.site_registry import get_site_config
+from app.source_inventory import validate_source_inventory
+from app.state import load_provider_state
+
 SITE_DIR = ROOT / "data" / "sites" / "default"
 GENERIC_SUBJECT_PREFIXES = ("wdasec-skill-", "ceec-gsat-", "ceec-ast-", "tcte-tve-")
 
@@ -21,6 +32,48 @@ def load_json(path: Path):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid JSON {path.relative_to(ROOT)}: {exc}")
+
+
+def validate_provider_site_coverage(site_bundle_ids: set[str]) -> None:
+    site_config = get_site_config("default")
+    normalized, _all_failures = load_site_catalog(ROOT, site_id=site_config.site_id)
+    unresolved_failures = []
+    for provider_id in site_config.provider_ids:
+        provider = provider_paths(ROOT, provider_id)
+        if not provider.data_dir.exists():
+            continue
+        _raw_pages, _provider_catalog, provider_failures = load_provider_state(provider)
+        exceptions = load_coverage_exceptions(ROOT, provider_id)
+        unresolved_failures.extend(
+            (provider_id, failure)
+            for failure in provider_failures
+            if failure_exception_for(provider_id, failure, exceptions) is None
+        )
+    if unresolved_failures:
+        details = ", ".join(
+            f"{provider_id}:{failure.stage}:{failure.source_exam_id}"
+            for provider_id, failure in unresolved_failures[:5]
+        )
+        suffix = " ..." if len(unresolved_failures) > 5 else ""
+        fail(
+            f"provider state contains {len(unresolved_failures)} unresolved sync failures "
+            f"({details}{suffix})"
+        )
+
+    expected_ids = public_bundle_ids(
+        normalized,
+        min_years=site_config.public_min_years,
+        min_years_by_canonical_prefix=site_config.public_min_years_by_canonical_prefix,
+    )
+    missing = sorted(expected_ids - site_bundle_ids)
+    extra = sorted(site_bundle_ids - expected_ids)
+    if missing or extra:
+        samples = []
+        if missing:
+            samples.append(f"missing={len(missing)} ({', '.join(missing[:5])})")
+        if extra:
+            samples.append(f"extra={len(extra)} ({', '.join(extra[:5])})")
+        fail("normalized catalog and public site eligibility differ: " + "; ".join(samples))
 
 
 def validate_publication() -> tuple[int, int, int]:
@@ -59,7 +112,7 @@ def validate_publication() -> tuple[int, int, int]:
         if not isinstance(row["file_count"], int) or row["file_count"] < 1:
             fail(f"{prefix} has an invalid file_count")
         if row["classification_confidence"] not in {"high", "medium"}:
-            fail(f"{prefix} is not launch-safe: confidence={row["classification_confidence"]}")
+            fail(f"{prefix} is not launch-safe: confidence={row['classification_confidence']}")
         for field in ("search_aliases", "subject_labels"):
             values = row.get(field, [])
             if not isinstance(values, list) or any(not isinstance(value, str) or "\n" in value or len(value) > 120 for value in values):
@@ -93,6 +146,9 @@ def validate_publication() -> tuple[int, int, int]:
         fail("release inventory contains duplicate asset names")
     if any(not tag or count > 900 for tag, count in release_counts.items()):
         fail(f"release shard safety target exceeded: {dict(release_counts)}")
+
+    validate_provider_site_coverage(site_bundle_ids)
+    validate_source_inventory(ROOT, site_id="default")
 
     feed_ids = []
     for index, row in enumerate(feed_rows):

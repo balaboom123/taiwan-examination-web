@@ -149,6 +149,15 @@ class TaipeiJuniorRecruitClient:
             )
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return self.article_urls_by_year[year_ad]
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"teacher-recruit-taipei-junior-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(f"Unexpected Taipei junior discovery exam code for {year_ad}: {exam_code}")
+        return self.article_urls_by_year[year_ad]
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
         papers_by_subject: dict[tuple[str, str], dict[str, str]] = {}

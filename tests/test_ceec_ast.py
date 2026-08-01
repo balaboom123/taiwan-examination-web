@@ -6,7 +6,15 @@ from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
-from app.providers.ceec_ast.client import AST_NOTICE_URL, CeecAstClient, parse_listing_page, parse_notice_listing, parse_notice_papers
+from app.providers.ceec_ast.client import (
+    AST_NOTICE_URL,
+    LISTING_URL,
+    CeecAstClient,
+    parse_guideline_papers,
+    parse_listing_page,
+    parse_notice_listing,
+    parse_notice_papers,
+)
 
 
 LISTING_HTML = """
@@ -48,6 +56,21 @@ AST_NOTICE_PAGE_HTML = """
   <tr><td>地理</td><td><a href="/files/geography-question.pdf">試題</a></td><td><a href="/files/geography-sheet.pdf">答題卷</a></td><td><a href="/files/geography-answer.pdf">答案</a></td></tr>
   <tr><td>數學B</td><td><a href="/files/math-b-question.pdf">試題</a></td><td><a href="/files/math-b-sheet.pdf">答題卷</a></td><td><a href="/files/math-b-answer.pdf">答案</a></td></tr>
   <tr><td>公民與社會</td><td><a href="/files/civics-question.pdf">試題</a></td><td><a href="/files/civics-sheet.pdf">答題卷</a></td><td><a href="/files/civics-answer.pdf">答案</a></td></tr>
+</table>
+"""
+
+AST_CURRENT_NOTICE_LISTING_HTML = """
+<html><body>
+  <a href="/xmdoc?xsmsid=exam&amp;sid=confirmed">115學年度分科測驗各考科選擇(填)題答案確定</a>
+  <a href="/xmdoc?xsmsid=exam&amp;sid=guidelines">115學年度分科測驗各考科非選擇題評分原則</a>
+</body></html>
+"""
+
+AST_GUIDELINE_PAGE_HTML = """
+<table>
+  <tr><th>科目</th><th>評分原則</th></tr>
+  <tr><td>物理</td><td><a href="/files/physics-guideline.pdf">物理</a></td></tr>
+  <tr><td>化學</td><td><a href="/files/chemistry-guideline.pdf">化學</a></td></tr>
 </table>
 """
 
@@ -94,6 +117,41 @@ class CeecAstParserTests(unittest.TestCase):
 
         self.assertEqual(page.exam_name_raw, "115學年度分科測驗試題/答題卷/參考答案")
         self.assertEqual(len(page.papers), 8)
+
+    def test_client_discovers_current_confirmed_answers_and_scoring_principles(self) -> None:
+        confirmed_url = "https://www.ceec.edu.tw/xmdoc/cont?sid=confirmed&xsmsid=exam"
+        guidelines_url = "https://www.ceec.edu.tw/xmdoc/cont?sid=guidelines&xsmsid=exam"
+
+        def fake_fetch(url: str) -> str:
+            if url == AST_NOTICE_URL:
+                return AST_CURRENT_NOTICE_LISTING_HTML
+            if url == confirmed_url:
+                return AST_NOTICE_PAGE_HTML
+            if url == guidelines_url:
+                return AST_GUIDELINE_PAGE_HTML
+            return LISTING_HTML
+
+        client = CeecAstClient()
+        client._fetch_text = fake_fetch  # type: ignore[method-assign]
+
+        self.assertEqual(
+            [exam.code for exam in client.discover_exams(2026)],
+            ["ceec-ast-confirmed-115", "ceec-ast-guidelines-115"],
+        )
+        self.assertEqual(client.build_discovery_year_url(2026), AST_NOTICE_URL)
+        self.assertEqual(client.build_discovery_year_url(2025), LISTING_URL)
+        self.assertEqual(client.build_discovery_exam_url("ceec-ast-confirmed-115", 2026), confirmed_url)
+        self.assertEqual(client.build_discovery_exam_url("ceec-ast-114-math-a", 2025), LISTING_URL)
+        page = client.fetch_exam_page("ceec-ast-guidelines-115", 2026)
+
+        self.assertEqual(len(page.papers), 2)
+        self.assertEqual({file_type for paper in page.papers for file_type in paper.files}, {"corrected_answer"})
+
+    def test_parse_guideline_papers_requires_and_extracts_scoring_principles(self) -> None:
+        papers = parse_guideline_papers(AST_GUIDELINE_PAGE_HTML, base_url=AST_NOTICE_URL, year_ad=2026)
+
+        self.assertEqual([paper.subject_code for paper in papers], ["physics", "chemistry"])
+        self.assertEqual({file_type for paper in papers for file_type in paper.files}, {"corrected_answer"})
 
     def test_fetch_exam_page_turns_one_listing_row_into_many_single_file_papers(self) -> None:
         with patch.object(CeecAstClient, "_fetch_text", return_value=LISTING_HTML):
