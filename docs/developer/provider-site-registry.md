@@ -153,16 +153,16 @@ Add planned providers here before implementation starts.
 | Field | Value |
 | --- | --- |
 | provider_id | `sfi_cert` |
-| status | planned |
+| status | implemented; source audit partial and retained/public identity migration required |
 | source name | Securities & Futures Institute certification exam archive |
-| source type | public web source |
-| current implementation scope | planned multi-bundle provider for securities and futures certifications |
+| source type | public rolling web source |
+| current implementation scope | all question/selected-answer rows on the rolling official page; row labels and PDF headings define category/year/round |
 | target scoped ownership | `data/providers/sfi_cert/` |
 | target mirror ownership | `mirror/providers/sfi_cert/` |
-| planned sync workflows | `sync-sfi-cert.yml` |
+| planned sync workflows | `sync-sfi-cert.yml` exists but must stay off releasable branches until identity migration and aggregate gates pass |
 | planned CLI entrypoints | `sync-full --provider sfi_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes ~10 canonical bundle assets (one per certification type); public publication remains site-owned |
+| operator docs | `docs/developer/providers/sfi_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | exact current source is 25 events/50 PDFs; all 30 retained/public files match source bytes but are attached to wrong identities, 20 URLs are not retained, and redistribution authority is unresolved |
 
 ### Provider: `tabf_cert`
 

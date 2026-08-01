@@ -925,19 +925,21 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2025–2026 observed",
-        "start_ad": 2025
+        "note": "The rolling official page currently exposes PDF-derived events from 2024–2026; it is not a historical archive.",
+        "start_ad": 2024
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/sfi_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
+        "data/providers/sfi_cert/source-manifest.json",
+        "docs/developer/providers/sfi_cert-spec.md",
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md"
+        "https://www.sfi.org.tw/Node?id=73"
       ],
-      "exam_category": "Securities and Futures Institute certification materials",
+      "exam_category": "SFI rolling written-test questions and selected answers across every current official row",
       "local_state": {
         "normalized_paper_records": 30,
         "raw_event_pages": 15,
@@ -952,10 +954,12 @@
       ],
       "provider_id": "sfi_cert",
       "restrictions": [
-        "Certification exam PDFs; scope and redistribution permissions remain provider-specific."
+        "Download/01 and Download/02 are mutable slots; the row label and PDF heading are required for event identity.",
+        "All 30 retained/public files are currently attached to the wrong official certification or event identity; 20 additional official URLs are not retained.",
+        "SFI or other rights holders claim intellectual-property rights in site files/content; no exam-PDF republication license was found."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 15 → 30"
+      "status": "partial",
+      "status_reason": "Partial and release-blocking: the exact 25-event/50-file rolling snapshot has 13 source-only events, 3 local-only synthetic events, and all 30 retained/public files under wrong identity."
     },
     {
       "available_years": {

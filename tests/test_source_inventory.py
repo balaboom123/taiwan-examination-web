@@ -17,12 +17,19 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 25)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 9)
+        self.assertEqual(report["discovery_manifests_present"], 26)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 8)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
-            ["cpc_recruit", "moea_recruit", "taipower_recruit", "taisugar_recruit", "hakka_cert"],
+            [
+                "cpc_recruit",
+                "moea_recruit",
+                "taipower_recruit",
+                "taisugar_recruit",
+                "sfi_cert",
+                "hakka_cert",
+            ],
         )
         self.assertEqual(
             report["manifest_event_gaps"],
@@ -51,6 +58,15 @@ class SourceInventoryTests(unittest.TestCase):
                         ["moea-recruit-92", 2003],
                         ["moea-recruit-94", 2005],
                         ["moea-recruit-99", 2010],
+                    ],
+                },
+                {
+                    "provider_id": "sfi_cert",
+                    "enforced": False,
+                    "missing_events": [
+                        ["sfi-cert-aml-2025-3", 2025],
+                        ["sfi-cert-aml-2026-1", 2026],
+                        ["sfi-cert-sustainability-2026-1", 2026],
                     ],
                 },
                 {
@@ -92,6 +108,24 @@ class SourceInventoryTests(unittest.TestCase):
                         ["taisugar-recruit-110", 2021],
                         ["taisugar-recruit-111", 2022],
                         ["taisugar-recruit-112", 2023],
+                    ],
+                },
+                {
+                    "provider_id": "sfi_cert",
+                    "events": [
+                        ["sfi-cert-aml-2024-4", 2024],
+                        ["sfi-cert-aml-2025-4", 2025],
+                        ["sfi-cert-futures-analyst-2025-3", 2025],
+                        ["sfi-cert-futures-analyst-2026-1", 2026],
+                        ["sfi-cert-futures-trust-sales-2025-3", 2025],
+                        ["sfi-cert-futures-trust-sales-2026-1", 2026],
+                        ["sfi-cert-securities-law-practice-2025-3", 2025],
+                        ["sfi-cert-securities-law-practice-2026-1", 2026],
+                        ["sfi-cert-sitca-law-2025-3", 2025],
+                        ["sfi-cert-sitca-law-2026-1", 2026],
+                        ["sfi-cert-sustainability-2025-2", 2025],
+                        ["sfi-cert-sustainability-2025-4", 2025],
+                        ["sfi-cert-sustainability-2025-4-kaohsiung", 2025],
                     ],
                 },
                 {
@@ -282,6 +316,61 @@ class SourceInventoryTests(unittest.TestCase):
         )
         self.assertTrue(
             policy["identity_risks"]["zip_suffix_is_currently_misclassified_as_listening_audio"]
+        )
+
+    def test_sfi_manifest_exposes_wrong_identity_publication(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/sfi_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(sorted(map(int, manifest["years"])), [2024, 2025, 2026])
+        self.assertEqual(len(manifest["exams"]), 25)
+        self.assertEqual(len(manifest["files"]), 50)
+        self.assertEqual(
+            sum(item["bytes"] for item in manifest["files"].values()),
+            11_406_623,
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["official_row_count"], 13)
+        self.assertEqual(policy["official_event_count"], 25)
+        self.assertEqual(policy["official_file_count"], 50)
+        self.assertEqual(
+            policy["adapter_gap"]["unrecognized_official_codes"],
+            ["04", "34", "36", "53", "99"],
+        )
+        retained = policy["retained_local_state"]
+        self.assertEqual(retained["mirrors_present_and_checksum_valid"], 30)
+        self.assertEqual(retained["retained_files_under_wrong_identity"], 30)
+        self.assertEqual(retained["retained_files_under_correct_identity"], 0)
+        self.assertEqual(len(retained["source_only_events"]), 13)
+        self.assertEqual(
+            retained["local_only_events"],
+            [
+                ["sfi-cert-aml-2025-3", 2025],
+                ["sfi-cert-aml-2026-1", 2026],
+                ["sfi-cert-sustainability-2026-1", 2026],
+            ],
+        )
+        self.assertEqual(
+            sum(
+                item["status"] == "retained_under_wrong_identity"
+                for item in manifest["files"].values()
+            ),
+            30,
+        )
+        self.assertEqual(
+            sum(
+                item["status"] == "source_only"
+                for item in manifest["files"].values()
+            ),
+            20,
+        )
+        self.assertEqual(
+            policy["publication_risk"]["published_files_under_wrong_identity"],
+            30,
         )
 
     def test_twc_manifest_records_exact_archive_and_source_defects(self) -> None:
