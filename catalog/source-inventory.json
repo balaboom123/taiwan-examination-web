@@ -1015,17 +1015,19 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2025–2026 observed",
-        "start_ad": 2025
+        "note": "The current rolling page exposes events from 2023–2026 plus the explicit FIT editions 1–2 reference exception from 2020; the range is not continuous.",
+        "start_ad": 2020
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/tabf_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md"
+        "docs/developer/provider-site-registry.md",
+        "docs/developer/providers/tabf_cert-spec.md",
+        "data/providers/tabf_cert/source-manifest.json"
       ],
       "exam_category": "TABF banking/finance certification sample and historical materials",
       "local_state": {
@@ -1042,10 +1044,12 @@
       ],
       "provider_id": "tabf_cert",
       "restrictions": [
-        "Paginated official source; source taxonomy is certification material, not a universal exam archive."
+        "The official rolling page currently exposes 19 category rows, 50 PHID events, and 127 public PDFs; FIT editions 1–2 are an explicit retained-reference exception, not current-year events.",
+        "Current state duplicates 47 PHIDs across 2025 and 2026, flattens 13 of 19 official category rows, omits current PHID 431, retains stale PHIDs 449 and 456, and projects 211 wrong or stale records into eight public bundles.",
+        "The asset host robots policy disallows /BEExam, and no exam-PDF republication license was found; automated mirroring and republication require an approved policy/legal decision."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 99 → 252"
+      "status": "partial",
+      "status_reason": "Partial / identity-contaminated publication: exact current discovery covers 50 events and 127 files, but only 16 corrected event IDs overlap local state and 211 normalized/public records are wrong or stale."
     },
     {
       "available_years": {

@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 26)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 8)
+        self.assertEqual(report["discovery_manifests_present"], 27)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 7)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
@@ -28,11 +28,15 @@ class SourceInventoryTests(unittest.TestCase):
                 "taipower_recruit",
                 "taisugar_recruit",
                 "sfi_cert",
+                "tabf_cert",
                 "hakka_cert",
             ],
         )
         self.assertEqual(
-            report["manifest_event_gaps"],
+            [
+                item for item in report["manifest_event_gaps"]
+                if item["provider_id"] != "tabf_cert"
+            ],
             [
                 {
                     "provider_id": "cpc_recruit",
@@ -78,8 +82,26 @@ class SourceInventoryTests(unittest.TestCase):
                 },
             ],
         )
+        tabf_event_gap = next(
+            item for item in report["manifest_event_gaps"]
+            if item["provider_id"] == "tabf_cert"
+        )
+        self.assertFalse(tabf_event_gap["enforced"])
+        self.assertEqual(len(tabf_event_gap["missing_events"]), 82)
         self.assertEqual(
-            report["manifest_unrepresented_events"],
+            tabf_event_gap["missing_events"][0],
+            ["tabf-cert-aml-2026-phid-449", 2026],
+        )
+        self.assertEqual(
+            tabf_event_gap["missing_events"][-1],
+            ["tabf-cert-trust-business-2026-phid-458", 2026],
+        )
+
+        self.assertEqual(
+            [
+                item for item in report["manifest_unrepresented_events"]
+                if item["provider_id"] != "tabf_cert"
+            ],
             [
                 {
                     "provider_id": "moea_recruit",
@@ -135,6 +157,19 @@ class SourceInventoryTests(unittest.TestCase):
                     ],
                 },
             ],
+        )
+        tabf_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "tabf_cert"
+        )
+        self.assertEqual(len(tabf_unrepresented["events"]), 34)
+        self.assertEqual(
+            tabf_unrepresented["events"][0],
+            ["tabf-cert-bank-internal-control-consumer-2025-phid-422", 2025],
+        )
+        self.assertEqual(
+            tabf_unrepresented["events"][-1],
+            ["tabf-cert-trust-law-single-subject-2026-phid-458", 2026],
         )
         self.assertEqual(report["local_state_drift"], [])
 
@@ -407,6 +442,68 @@ class SourceInventoryTests(unittest.TestCase):
             policy["retained_local_state"][
                 "all_retained_assets_match_live_sha256"
             ]
+        )
+
+    def test_tabf_manifest_exposes_year_and_taxonomy_contamination(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/tabf_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(sorted(map(int, manifest["years"])), [2020, 2023, 2024, 2025, 2026])
+        self.assertEqual(len(manifest["exams"]), 50)
+        self.assertEqual(len(manifest["files"]), 127)
+        self.assertEqual(
+            sum(item["bytes"] for item in manifest["files"].values()),
+            58_493_699,
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["official_row_count"], 19)
+        self.assertEqual(policy["official_event_count"], 50)
+        self.assertEqual(policy["official_file_count"], 127)
+        adapter_gap = policy["adapter_gap"]
+        self.assertEqual(adapter_gap["rows_exactly_preserved_by_current_subject_classifier"], 6)
+        self.assertEqual(adapter_gap["current_phids_duplicated_across_2025_and_2026"], 47)
+        self.assertEqual(adapter_gap["source_only_phids"], ["431"])
+        self.assertEqual(adapter_gap["local_only_phids"], ["449", "456"])
+        retained = policy["retained_local_state"]
+        self.assertEqual(retained["mirrors_present_and_checksum_valid"], 252)
+        self.assertEqual(retained["current_records_under_correct_identity"], 41)
+        self.assertEqual(retained["current_records_under_wrong_identity"], 205)
+        self.assertEqual(retained["stale_local_only_records"], 6)
+        self.assertEqual(len(retained["source_only_events"]), 34)
+        self.assertEqual(len(retained["local_only_events"]), 82)
+        statuses = {
+            status: sum(item["status"] == status for item in manifest["files"].values())
+            for status in {
+                "source_only",
+                "retained_under_correct_identity",
+                "retained_under_correct_identity_with_duplicate_wrong_identity",
+                "retained_under_wrong_identity",
+            }
+        }
+        self.assertEqual(
+            statuses,
+            {
+                "source_only": 2,
+                "retained_under_correct_identity": 2,
+                "retained_under_correct_identity_with_duplicate_wrong_identity": 39,
+                "retained_under_wrong_identity": 84,
+            },
+        )
+        self.assertEqual(
+            policy["publication_risk"]["published_current_records_under_wrong_identity"],
+            205,
+        )
+        self.assertEqual(
+            policy["publication_risk"]["published_stale_local_only_records"],
+            6,
+        )
+        self.assertEqual(
+            policy["legal_and_technical"]["automated_mirroring_status"],
+            "blocked_pending_robots_policy_decision_or_written_permission",
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:

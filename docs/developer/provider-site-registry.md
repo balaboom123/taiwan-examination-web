@@ -169,16 +169,16 @@ Add planned providers here before implementation starts.
 | Field | Value |
 | --- | --- |
 | provider_id | `tabf_cert` |
-| status | planned |
+| status | implemented; source audit partial and retained/public identity migration required |
 | source name | Taiwan Academy of Banking and Finance certification exam archive |
-| source type | public web source |
-| current implementation scope | planned multi-bundle provider for banking and finance certifications |
+| source type | public rolling web source with an explicit FIT reference exception |
+| current implementation scope | all 19 PHID category rows and 127 PDFs on the current official page; containing row and date evidence define category/year |
 | target scoped ownership | `data/providers/tabf_cert/` |
 | target mirror ownership | `mirror/providers/tabf_cert/` |
-| planned sync workflows | `sync-tabf-cert.yml` |
+| planned sync workflows | `sync-tabf-cert.yml` exists but must stay off releasable branches pending identity, robots-policy, and legal decisions |
 | planned CLI entrypoints | `sync-full --provider tabf_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes ~12 canonical bundle assets (one per certification type); public publication remains site-owned |
+| operator docs | `docs/developer/providers/tabf_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | exact source is 50 events/127 PDFs; 47 PHIDs are duplicated across local years, 211 public records are wrong or stale, PHID 431 is missing, PHIDs 449/456 are stale, and the asset robots policy disallows `/BEExam` |
 
 ### Provider: `tii_cert`
 
