@@ -1555,19 +1555,21 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2025–2026 observed",
-        "start_ad": 2025
+        "note": "Current official message-page paper listings span 2024–2026; the separate AML history ZIP has unresolved historical breadth",
+        "start_ad": 2024
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/tii_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
+        "data/providers/tii_cert/source-manifest.json",
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md"
+        "docs/developer/provider-site-registry.md",
+        "docs/developer/providers/tii_cert-spec.md"
       ],
-      "exam_category": "Taiwan Insurance Institute certification materials",
+      "exam_category": "Taiwan Insurance Institute certification papers and reviewed exam-family boundaries",
       "local_state": {
         "normalized_paper_records": 5,
         "raw_event_pages": 3,
@@ -1578,14 +1580,22 @@
         2026
       ],
       "official_source_urls": [
-        "https://edu.tii.org.tw/exam/users/exam_intro/1"
+        "https://edu.tii.org.tw/exam/users/apply_exam/0",
+        "https://edu.tii.org.tw/exam/users/exam_message/1",
+        "https://edu.tii.org.tw/exam/users/exam_message/58785",
+        "https://edu.tii.org.tw/exam/users/exam_message/58786",
+        "https://edu.tii.org.tw/home/mpage/downloadfiles"
       ],
       "provider_id": "tii_cert",
       "restrictions": [
-        "Multiple official exam-intro pages; historical breadth not established."
+        "The three official message pages currently list 10 dated events and 24 question/answer entries across 2024–2026; only four listed papers are retained under correct identity and 20 are source-only.",
+        "The fifth retained/public file is a ROC 115 investment-insurance annual brochure misclassified as a question.",
+        "The AML page links a separate historical ZIP whose contents and year range remain unenumerated.",
+        "Normal HTTPS verification fails with an incomplete issuer chain; no trust bypass was used, so live byte/URL/robots verification remains blocked.",
+        "TII displays a copyright notice and no exam-PDF republication grant was found; redistribution requires operator/legal review."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: 2025–2026 observed; local coverage: 2025–2026; 3 → 5"
+      "status": "partial",
+      "status_reason": "Partial; current listing evidence covers 10 events and 24 entries across 2024–2026, but 20 files are absent, one brochure is publicly misclassified, normal TLS verification fails, and the AML history ZIP denominator is unresolved"
     },
     {
       "available_years": {

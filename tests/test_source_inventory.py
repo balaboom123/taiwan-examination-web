@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 27)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 7)
+        self.assertEqual(report["discovery_manifests_present"], 28)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 6)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
@@ -29,6 +29,7 @@ class SourceInventoryTests(unittest.TestCase):
                 "taisugar_recruit",
                 "sfi_cert",
                 "tabf_cert",
+                "tii_cert",
                 "hakka_cert",
             ],
         )
@@ -100,7 +101,7 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             [
                 item for item in report["manifest_unrepresented_events"]
-                if item["provider_id"] != "tabf_cert"
+                if item["provider_id"] not in {"tabf_cert", "tii_cert"}
             ],
             [
                 {
@@ -170,6 +171,22 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             tabf_unrepresented["events"][-1],
             ["tabf-cert-trust-law-single-subject-2026-phid-458", 2026],
+        )
+        tii_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "tii_cert"
+        )
+        self.assertEqual(
+            tii_unrepresented["events"],
+            [
+                ["tii-cert-aml-2026-2", 2026],
+                ["tii-cert-investment-insurance-2025-09-14", 2025],
+                ["tii-cert-sustainability-2024-06-22", 2024],
+                ["tii-cert-sustainability-2024-08-17", 2024],
+                ["tii-cert-sustainability-2025-02-22", 2025],
+                ["tii-cert-sustainability-2025-06-07", 2025],
+                ["tii-cert-sustainability-2026-1", 2026],
+            ],
         )
         self.assertEqual(report["local_state_drift"], [])
 
@@ -504,6 +521,51 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             policy["legal_and_technical"]["automated_mirroring_status"],
             "blocked_pending_robots_policy_decision_or_written_permission",
+        )
+
+    def test_tii_manifest_exposes_listing_transport_and_content_gaps(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/tii_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(sorted(map(int, manifest["years"])), [2024, 2025, 2026])
+        self.assertEqual(len(manifest["exams"]), 10)
+        self.assertEqual(len(manifest["files"]), 24)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["coverage_status"], "partial")
+        self.assertEqual(policy["official_paper_family_count"], 3)
+        self.assertEqual(policy["official_event_count"], 10)
+        self.assertEqual(policy["official_listed_file_count"], 24)
+        self.assertEqual(policy["direct_urls_not_enumerated"], 16)
+        self.assertEqual(
+            policy["historical_archive_blocker"]["status"],
+            "blocked_by_tls_chain",
+        )
+        self.assertEqual(
+            policy["legal_and_technical"]["tls_status"],
+            "blocked_no_verification_bypass",
+        )
+        retained = policy["retained_local_state"]
+        self.assertEqual(retained["mirrors_present_and_checksum_valid"], 5)
+        self.assertEqual(retained["current_listed_files_under_correct_identity"], 4)
+        self.assertEqual(retained["current_local_files_not_in_paper_listing"], 1)
+        self.assertEqual(retained["official_listed_files_source_only"], 20)
+        self.assertEqual(len(retained["source_only_events"]), 7)
+        self.assertEqual(retained["local_only_events"], [])
+        self.assertEqual(
+            {
+                status: sum(
+                    item["status"] == status for item in manifest["files"].values()
+                )
+                for status in {"source_only", "retained_under_correct_identity"}
+            },
+            {"source_only": 20, "retained_under_correct_identity": 4},
+        )
+        self.assertEqual(
+            policy["publication_risk"]["published_non_paper_files_as_question"],
+            1,
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:

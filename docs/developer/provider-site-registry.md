@@ -185,16 +185,16 @@ Add planned providers here before implementation starts.
 | Field | Value |
 | --- | --- |
 | provider_id | `tii_cert` |
-| status | planned |
+| status | implemented; source audit partial, transport blocked, and retained/public content migration required |
 | source name | Taiwan Insurance Institute certification exam archive |
-| source type | public web source |
-| current implementation scope | planned multi-bundle provider for insurance certifications |
+| source type | public message-page listings plus a separate AML download-center history ZIP |
+| current implementation scope | three paper-listing families with 10 current events/24 listed files across 2024–2026; all other official exam families require explicit source dispositions |
 | target scoped ownership | `data/providers/tii_cert/` |
 | target mirror ownership | `mirror/providers/tii_cert/` |
-| planned sync workflows | `sync-tii-cert.yml` |
+| planned sync workflows | `sync-tii-cert.yml` exists but must stay off releasable branches pending certificate-valid discovery, content migration, and legal decisions |
 | planned CLI entrypoints | `sync-full --provider tii_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes ~4 canonical bundle assets (one per certification type); public publication remains site-owned |
+| operator docs | `docs/developer/providers/tii_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | four listed papers are retained correctly, 20 are absent, one brochure is published as a question, the AML history ZIP is unresolved, and normal TLS verification fails without an issuer certificate |
 
 Recommended entry format:
 
