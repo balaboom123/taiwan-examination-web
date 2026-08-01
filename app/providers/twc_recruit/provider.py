@@ -20,6 +20,12 @@ class TwcRecruitProvider(SourceProvider):
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         return self.client.fetch_exam_page(exam_code, year_ad)
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return self.client.build_discovery_year_url(year_ad)
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        return self.client.build_discovery_exam_url(exam_code, year_ad)
+
     def head(self, url: str) -> ResponseMetadata:
         return self.client.head(url)
 

@@ -1657,17 +1657,18 @@
     },
     {
       "available_years": {
-        "end_ad": 2025,
+        "end_ad": 2026,
         "mode": "observed_range",
-        "note": "ROC 103–114 / AD 2014–2025, with source-list gaps documented",
+        "note": "Canonical public archive ROC 103–108, 110–112, and 114 / AD 2014–2019, 2021–2023, and 2025; ROC 115 / AD 2026 contractor papers are login-gated",
         "start_ad": 2014
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/twc_recruit/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
+        "data/providers/twc_recruit/source-manifest.json",
         "docs/developer/completeness-baseline-2026-07-29.md",
         "docs/developer/providers/twc_recruit-spec.md"
       ],
@@ -1690,14 +1691,18 @@
         2025
       ],
       "official_source_urls": [
-        "https://www.water.gov.tw/ch/Subject/Detail/59619?nodeId=715"
+        "https://www.water.gov.tw/ch/Subject/Detail/59619?nodeId=715",
+        "https://water115-re.twrecruit.com.tw/news/?c=news&id=4"
       ],
       "provider_id": "twc_recruit",
       "restrictions": [
-        "Provider documents missing listing years as source sparsity, not automatically as parser failures. Current-year availability needs re-probe."
+        "The canonical archive omits ROC 109 and 113 and exposes no enumerable official pre-ROC-103 namespace; third-party copies are not accepted as sources.",
+        "All ten live ZIPs match retained mirrors, but official SHA pages disagree with actual bytes for ROC 107, 110, and 114; the ROC 107 ZIP has one corrupt member.",
+        "The ROC 115 contractor paper route redirects to applicant login even though a public news item announces the papers.",
+        "Taiwan Water's open-data declaration uses Taiwan Government Data Open License 1.0 with attribution and stated caveats; robots.txt contains contradictory wildcard Allow and Disallow groups."
       ],
       "status": "partial",
-      "status_reason": "Partial / sparse official archive; source availability: ROC 103–114 / AD 2014–2025, with source-list gaps documented; local coverage: 2014–2025, 10 buckets; 10 → 10"
+      "status_reason": "Complete bounded discovery of the current canonical archive and current contractor evidence, but partial usability/access: 10/10 public ZIPs are retained and published, ROC 107 is internally corrupt, three official SHA records disagree, and ROC 115 papers are login-gated"
     },
     {
       "available_years": {

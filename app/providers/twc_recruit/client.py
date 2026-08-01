@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import parse_qs, unquote, urljoin, urlparse, urlsplit
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -19,8 +19,17 @@ CANONICAL_CATEGORY = "台水評價職位人員甄試"
 # Matches ROC year in anchor text: "114年試題(解答).zip" -> 114
 _YEAR_RE = re.compile(r"(\d{2,3})\s*年")
 
-# Only ZIP download links (not SHA256 verification links)
-_ZIP_HREF_RE = re.compile(r"/ch/ServerFile/Get/[^?]+\?nodeId=\d+")
+MAX_DISCOVERY_ENTRIES = 100
+_DOWNLOAD_HREF_RE = re.compile(r"/ch/ServerFile/Get/")
+_DOWNLOAD_ANCHOR_RE = re.compile(
+    r"<a\b[^>]*\bhref\s*=\s*[\"'][^\"']*/ch/ServerFile/Get/[^\"']*[\"']",
+    re.IGNORECASE,
+)
+_DOWNLOAD_PATH_RE = re.compile(
+    r"^/ch/ServerFile/Get/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-"
+    r"[0-9a-f]{4}-[0-9a-f]{12}$",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -82,7 +91,7 @@ class _DetailPageParser(HTMLParser):
         if self._in_file_div and tag == "a":
             href = attrs_dict.get("href") or ""
             title = attrs_dict.get("title") or ""
-            if _ZIP_HREF_RE.search(href):
+            if _DOWNLOAD_HREF_RE.search(href):
                 self._in_anchor = True
                 self._current_href = href
                 self._current_title = title
@@ -132,12 +141,30 @@ def parse_employment_detail(html: str) -> list[TwcRecruitEntry]:
 class TwcRecruitClient:
     provider_id = "twc_recruit"
 
+    def __init__(self) -> None:
+        self._cached_entries: list[TwcRecruitEntry] | None = None
+
+    @staticmethod
+    def _validate_download_url(url: str) -> None:
+        parts = urlsplit(url)
+        query = parse_qs(parts.query)
+        if (
+            parts.scheme != "https"
+            or parts.netloc != "www.water.gov.tw"
+            or _DOWNLOAD_PATH_RE.fullmatch(parts.path) is None
+            or parts.fragment
+            or set(query) != {"nodeId"}
+            or query["nodeId"] != ["715"]
+        ):
+            raise ValueError(f"Unexpected Taiwan Water paper URL: {url}")
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
             return response.read().decode("utf-8", "replace")
 
     def head(self, url: str) -> ResponseMetadata:
+        self._validate_download_url(url)
         request = Request(url, headers={"User-Agent": USER_AGENT}, method="HEAD")
         with urlopen(request, timeout=60) as response:
             content_length = response.headers.get("Content-Length")
@@ -151,6 +178,7 @@ class TwcRecruitClient:
             )
 
     def download_file(self, url: str) -> DownloadedFile:
+        self._validate_download_url(url)
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=120) as response:
             return DownloadedFile(
@@ -160,8 +188,52 @@ class TwcRecruitClient:
             )
 
     def _iter_entries(self) -> list[TwcRecruitEntry]:
+        if self._cached_entries is not None:
+            return self._cached_entries
         html = self._fetch_text(DOWNLOAD_PAGE_URL)
-        return parse_employment_detail(html)
+        entries = parse_employment_detail(html)
+        candidate_count = len(_DOWNLOAD_ANCHOR_RE.findall(html))
+        if len(entries) != candidate_count:
+            raise ValueError(
+                "Taiwan Water archive candidate/parsed download mismatch: "
+                f"{candidate_count} != {len(entries)}"
+            )
+        if not entries:
+            raise ValueError("Taiwan Water archive contains no paper downloads")
+        if len(entries) > MAX_DISCOVERY_ENTRIES:
+            raise ValueError(
+                f"Taiwan Water archive exceeds {MAX_DISCOVERY_ENTRIES} paper downloads"
+            )
+        years: set[int] = set()
+        urls: set[str] = set()
+        for entry in entries:
+            self._validate_download_url(entry.url)
+            if entry.year_roc in years:
+                raise ValueError(
+                    f"Taiwan Water archive repeats ROC year: {entry.year_roc}"
+                )
+            if entry.url in urls:
+                raise ValueError(f"Taiwan Water archive repeats paper URL: {entry.url}")
+            years.add(entry.year_roc)
+            urls.add(entry.url)
+        self._cached_entries = entries
+        return entries
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if not any(entry.year_ad == year_ad for entry in self._iter_entries()):
+            raise ValueError(f"Unknown Taiwan Water recruitment year: {year_ad}")
+        return DOWNLOAD_PAGE_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        if not any(
+            f"twc-recruit-{entry.year_roc}" == exam_code
+            and entry.year_ad == year_ad
+            for entry in self._iter_entries()
+        ):
+            raise ValueError(
+                f"Unknown Taiwan Water recruitment exam: {exam_code} ({year_ad})"
+            )
+        return DOWNLOAD_PAGE_URL
 
     def discover_available_years(self) -> list[int]:
         return sorted({entry.year_ad for entry in self._iter_entries()}, reverse=True)
@@ -180,9 +252,18 @@ class TwcRecruitClient:
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         entry = next(
-            item for item in self._iter_entries()
-            if f"twc-recruit-{item.year_roc}" == exam_code and item.year_ad == year_ad
+            (
+                item
+                for item in self._iter_entries()
+                if f"twc-recruit-{item.year_roc}" == exam_code
+                and item.year_ad == year_ad
+            ),
+            None,
         )
+        if entry is None:
+            raise ValueError(
+                f"No Taiwan Water recruitment event for {exam_code} ({year_ad})"
+            )
         paper = ParsedPaper(
             category_raw=CANONICAL_CATEGORY,
             category_code=str(entry.year_roc),

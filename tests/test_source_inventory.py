@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 23)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 11)
+        self.assertEqual(report["discovery_manifests_present"], 24)
+        self.assertEqual(len(report["discovery_manifests_missing"]), 10)
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
@@ -225,6 +225,42 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(len(policy["excluded_paper_rows"]), 2)
         self.assertTrue(
             policy["retained_local_state"]["retained_asset_matches_live_sha256"]
+        )
+
+    def test_twc_manifest_records_exact_archive_and_source_defects(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/twc_recruit/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(
+            sorted(map(int, manifest["years"])),
+            [2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2025],
+        )
+        self.assertEqual(len(manifest["exams"]), 10)
+        self.assertEqual(len(manifest["files"]), 10)
+        self.assertEqual(
+            sum(item["bytes"] for item in manifest["files"].values()),
+            75_196_680,
+        )
+        policy = manifest["probe_policy"]
+        self.assertEqual(
+            policy["coverage_status"], "complete_declared_scope_with_blockers"
+        )
+        self.assertEqual(
+            policy["current_cycle_blocker"]["status"], "login_required"
+        )
+        self.assertEqual(
+            policy["source_integrity"]["official_sha256_mismatch_count"], 3
+        )
+        self.assertEqual(
+            policy["source_integrity"]["asset_zip_integrity_failure_count"], 1
+        )
+        self.assertTrue(
+            policy["retained_local_state"][
+                "all_retained_assets_match_live_sha256"
+            ]
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
