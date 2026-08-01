@@ -17,8 +17,8 @@ class SourceInventoryTests(unittest.TestCase):
 
         self.assertEqual(report["provider_count"], 35)
         self.assertEqual(report["candidate_count"], 10)
-        self.assertEqual(report["discovery_manifests_present"], 29)
-        self.assertEqual(len(report["discovery_manifests_missing"]), 5)
+        self.assertEqual(report["discovery_manifests_present"], 34)
+        self.assertEqual(report["discovery_manifests_missing"], [])
         self.assertEqual(report["discovery_manifests_blocked"], ["teacher_recruit_kaohsiung"])
         self.assertEqual(
             report["discovery_manifests_incomplete"],
@@ -31,13 +31,17 @@ class SourceInventoryTests(unittest.TestCase):
                 "tabf_cert",
                 "tii_cert",
                 "gept_cert",
+                "tocfl_cert",
                 "hakka_cert",
+                "taigi_cert",
+                "tqc_cert",
+                "ipas_cert",
             ],
         )
         self.assertEqual(
             [
                 item for item in report["manifest_event_gaps"]
-                if item["provider_id"] not in {"tabf_cert", "gept_cert"}
+                if item["provider_id"] not in {"tabf_cert", "gept_cert", "tocfl_cert"}
             ],
             [
                 {
@@ -107,11 +111,22 @@ class SourceInventoryTests(unittest.TestCase):
             gept_event_gap["missing_events"],
             [["gept-cert-materials", 2026]],
         )
+        tocfl_event_gap = next(
+            item for item in report["manifest_event_gaps"]
+            if item["provider_id"] == "tocfl_cert"
+        )
+        self.assertFalse(tocfl_event_gap["enforced"])
+        self.assertEqual(
+            tocfl_event_gap["missing_events"],
+            [["tocfl-cert-2026", 2026]],
+        )
 
         self.assertEqual(
             [
                 item for item in report["manifest_unrepresented_events"]
-                if item["provider_id"] not in {"tabf_cert", "tii_cert", "gept_cert"}
+                if item["provider_id"] not in {
+                    "tabf_cert", "tii_cert", "gept_cert", "tocfl_cert", "ipas_cert"
+                }
             ],
             [
                 {
@@ -212,6 +227,21 @@ class SourceInventoryTests(unittest.TestCase):
                 ["gept-cert-superior-2022", 2022],
             ],
         )
+        tocfl_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "tocfl_cert"
+        )
+        self.assertEqual(
+            tocfl_unrepresented["events"],
+            [["tocfl-cert-mock-current", 2025]],
+        )
+        ipas_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "ipas_cert"
+        )
+        self.assertEqual(len(ipas_unrepresented["events"]), 12)
+        self.assertEqual(ipas_unrepresented["events"][0], ["ipas-cert-3dp-2026", 2026])
+        self.assertEqual(ipas_unrepresented["events"][-1], ["ipas-cert-spe-2026", 2026])
         self.assertEqual(report["local_state_drift"], [])
 
     def test_cpc_manifest_records_verified_scope_and_contamination(self) -> None:
@@ -639,6 +669,91 @@ class SourceInventoryTests(unittest.TestCase):
                 "retained_under_wrong_identity": 31,
                 "retained_under_wrong_identity_with_wrong_bytes": 3,
             },
+        )
+
+    def test_jlpt_manifest_bounds_exact_workbook_scope_and_rights_blocker(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/jlpt_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(sorted(map(int, manifest["years"])), [2012, 2018])
+        self.assertEqual(len(manifest["exams"]), 2)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["official_listed_file_count"], 116)
+        self.assertEqual(policy["official_unique_url_count"], 116)
+        self.assertEqual(policy["retained_local_state"]["unreferenced_mirror_files"], 116)
+        self.assertEqual(
+            policy["legal_and_technical"]["redistribution_status"],
+            "operator_or_legal_review_required",
+        )
+
+    def test_tocfl_manifest_exposes_runtime_year_identity(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/tocfl_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(sorted(map(int, manifest["years"])), [2022, 2024, 2025])
+        self.assertEqual(len(manifest["exams"]), 3)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["official_unique_url_count"], 95)
+        self.assertEqual(policy["adapter_gap"]["wrong_event_or_year_records"], 92)
+        self.assertEqual(
+            policy["retained_local_state"]["source_only_events"],
+            [["tocfl-cert-mock-current", 2025]],
+        )
+
+    def test_taigi_manifest_exposes_undated_identity_and_robots_blocker(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/taigi_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(len(manifest["exams"]), 3)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["official_listed_resource_count"], 37)
+        self.assertEqual(policy["accepted_exam_resource_count"], 35)
+        self.assertEqual(len(policy["excluded_non_exam_resources"]), 2)
+        self.assertEqual(policy["adapter_gap"]["source_year_status"], "undated")
+        self.assertEqual(
+            policy["legal_and_technical"]["automated_mirroring_status"],
+            "blocked_pending_written_permission_or_policy_change",
+        )
+
+    def test_tqc_manifest_exposes_nine_collision_payloads(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/tqc_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(len(manifest["years"]), 11)
+        self.assertEqual(len(manifest["exams"]), 11)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["official_listed_file_count"], 44)
+        reconciliation = policy["live_payload_reconciliation"]
+        self.assertEqual(reconciliation["matching_retained_payloads"], 35)
+        self.assertEqual(reconciliation["wrong_retained_payloads"], 9)
+        self.assertEqual(len(reconciliation["mismatches"]), 9)
+
+    def test_ipas_manifest_exposes_family_and_document_role_gaps(self) -> None:
+        manifest = json.loads(
+            (ROOT / "data/providers/ipas_cert/source-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(len(manifest["exams"]), 16)
+        policy = manifest["probe_policy"]
+        self.assertEqual(policy["official_pdf_count"], 182)
+        self.assertEqual(policy["adapter_pdf_count"], 62)
+        self.assertEqual(policy["omitted_pdf_count"], 120)
+        self.assertEqual(
+            policy["paper_classification"]["paper_like_pdf_count_in_omitted_families"],
+            34,
+        )
+        self.assertEqual(
+            policy["paper_classification"]["non_paper_pdfs_published_as_question"],
+            46,
         )
 
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:

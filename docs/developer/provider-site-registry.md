@@ -80,21 +80,37 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | operator docs | `docs/developer/providers/gept_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
 | notes | all 34 current public records use a synthetic 2026 event/year, three point at wrong bytes after label collisions, the historical listing is removed, and LTTC redistribution authority is unresolved |
 
+### Provider: `jlpt_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `jlpt_cert` |
+| status | implemented; declared 2012/2018 workbook scope complete, release blocked |
+| source name | JLPT Official Practice Workbook materials |
+| source type | official two-section sample-workbook page |
+| current implementation scope | 2012 and 2018 workbook PDFs/MP3s; 2 events, 116 unique URLs |
+| current raw data ownership | `data/providers/jlpt_cert/` |
+| current mirror ownership | `mirror/providers/jlpt_cert/` |
+| current sync workflows | `sync-jlpt-cert.yml` must remain off releasable branches pending rights review |
+| current CLI entrypoints | `sync-full --provider jlpt_cert --site-id default` |
+| operator docs | `docs/developer/providers/jlpt_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | exact URL agreement is limited to the official workbook denominator; third-party N1/N2 text and all listening audio have separate restrictions, and no blanket republication grant is recorded |
+
 ### Provider: `tocfl_cert`
 
 | Field | Value |
 | --- | --- |
 | provider_id | `tocfl_cert` |
-| status | active |
-| source name | TOCFL 華語文能力測驗 official reference downloads |
-| source type | public web source |
-| current implementation scope | official TOCFL downloadable reference materials from tocfl.edu.tw, split by resource year parsed from filenames where available |
+| status | implemented; source audit partial and identity migration required |
+| source name | TOCFL 華語文能力測驗 official reference and rolling mock-bank downloads |
+| source type | official reference page plus rolling 2,138-question mock-bank page |
+| current implementation scope | 3 filename-dated reference assets and 92 rolling-bank assets; all 95 URLs retained |
 | current raw data ownership | `data/providers/tocfl_cert/` |
 | current mirror ownership | `mirror/providers/tocfl_cert/` |
-| current sync workflows | `sync-tocfl-cert.yml` |
+| current sync workflows | `sync-tocfl-cert.yml` must remain off releasable branches pending identity and rights decisions |
 | current CLI entrypoints | `sync-full --provider tocfl_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes canonical bundle `tocfl-cert` with source years parsed from official filenames; public publication remains site-owned |
+| operator docs | `docs/developer/providers/tocfl_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | the adapter assigns synthetic AD 2026 identity to 92 assets from a rolling bank last declared updated in October 2025; copyright permits learning/non-commercial use but no blanket GitHub republication grant is recorded |
 
 ### Provider: `hakka_cert`
 
@@ -117,16 +133,48 @@ Update this file whenever a provider or site is added, renamed, deprecated, or m
 | Field | Value |
 | --- | --- |
 | provider_id | `taigi_cert` |
-| status | active |
+| status | implemented; source audit partial, refresh policy-blocked, identity migration required |
 | source name | 臺灣台語語言能力認證 official materials (教育部) |
-| source type | public web source |
-| current implementation scope | official Taiwan Taiwanese certification sample exam PDFs, MP3s, and ZIPs split by A/B/C卷 form |
+| source type | official undated self-learning resource page with restrictive robots policy |
+| current implementation scope | 35 A/B/C sample assets; 2 general learning PDFs explicitly excluded as non-exam resources |
 | current raw data ownership | `data/providers/taigi_cert/` |
 | current mirror ownership | `mirror/providers/taigi_cert/` |
-| current sync workflows | `sync-taigi-cert.yml` |
+| current sync workflows | `sync-taigi-cert.yml` must remain disabled pending written permission or robots-policy change |
 | current CLI entrypoints | `sync-full --provider taigi_cert --site-id default` |
-| operator docs | `docs/operator/runbook.md`, `docs/operator/recovery.md` after onboarding |
-| notes | contributes one canonical bundle per form (`taigi-cert-a`, `taigi-cert-b`, `taigi-cert-c`); public publication remains site-owned |
+| operator docs | `docs/developer/providers/taigi_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | all 35 records use unsupported synthetic 2026 identity, and the public A-form bundle merges A/B/C taxonomy; `/tmt/src/` mirroring and redistribution require approval |
+
+### Provider: `tqc_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `tqc_cert` |
+| status | implemented; source audit partial and payload migration required |
+| source name | TQC official sample-paper listing |
+| source type | four-page official ASP.NET listing |
+| current implementation scope | 44 sample PDFs across 11 publication years; TQC+ remains a separate unapproved family |
+| current raw data ownership | `data/providers/tqc_cert/` |
+| current mirror ownership | `mirror/providers/tqc_cert/` |
+| current sync workflows | `sync-tqc-cert.yml` must remain off releasable branches pending payload and rights decisions |
+| current CLI entrypoints | `sync-full --provider tqc_cert --site-id default` |
+| operator docs | `docs/developer/providers/tqc_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | all 44 URLs are represented, but nine public records point at wrong bytes after generic-label storage collisions; no sample-paper republication grant is recorded |
+
+### Provider: `ipas_cert`
+
+| Field | Value |
+| --- | --- |
+| provider_id | `ipas_cert` |
+| status | implemented; source audit partial and scope/role migration required |
+| source name | iPAS official certification-family downloads |
+| source type | current official home page and 16 certification-family sections |
+| current implementation scope | only AIAP, AIOT, ISE, and OIA; 62 PDFs under synthetic current-year events |
+| current raw data ownership | `data/providers/ipas_cert/` |
+| current mirror ownership | `mirror/providers/ipas_cert/` |
+| current sync workflows | `sync-ipas-cert.yml` must remain off releasable branches pending scope, role, identity, and rights decisions |
+| current CLI entrypoints | `sync-full --provider ipas_cert --site-id default` |
+| operator docs | `docs/developer/providers/ipas_cert-spec.md`, `docs/operator/runbook.md`, `docs/operator/recovery.md` |
+| notes | 12 of 16 official families and 34 paper-like PDFs are omitted, while 46 retained non-paper PDFs are labeled as questions; no blanket republication grant is recorded |
 
 ## Planned Providers
 

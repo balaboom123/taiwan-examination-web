@@ -706,13 +706,13 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "current_scope",
-        "note": "Current-year scope; 2026 observed",
-        "start_ad": 2026
+        "note": "Current certification pages contain mixed 2025–2026 and undated resources; no complete historical range is claimed",
+        "start_ad": 2025
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/ipas_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -732,10 +732,12 @@
       ],
       "provider_id": "ipas_cert",
       "restrictions": [
-        "ISE/AIAP/OIA/AIOT source resources; some codes expose learning guides rather than past questions."
+        "The official home page links 16 certification families, but the adapter covers only ISE/OIA/AIAP/AIOT and omits 120 PDFs, including 34 paper-like files.",
+        "Forty-six of the 62 retained PDFs are briefs, rules, forms, study guides, or scope references published as questions; event years are process-date identities.",
+        "No blanket redistribution license was established, and the robots endpoint disconnected during audit."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: Current-year scope; 2026 observed; local coverage: 2026; 4 → 62"
+      "status": "partial",
+      "status_reason": "Partial / 12 of 16 official families omitted, 34 paper-like PDFs absent, 46 non-paper PDFs misclassified, and source identity/licensing unresolved; local coverage: synthetic 2026; 4 → 62"
     },
     {
       "available_years": {
@@ -745,9 +747,9 @@
         "start_ad": 2012
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "complete",
         "manifest_path": "data/providers/jlpt_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -768,10 +770,11 @@
       ],
       "provider_id": "jlpt_cert",
       "restrictions": [
-        "Not a historical archive of every JLPT sitting; includes PDF/audio. Official source, no blanket redistribution license verified."
+        "The exact declared workbook scope is 2012 and 2018 only and is not an archive of every JLPT sitting.",
+        "The official copyright policy requires authorization for broader use and separately restricts third-party N1/N2 text and all N1–N5 listening audio; no blanket archive-republication grant was established."
       ],
-      "status": "covered",
-      "status_reason": "Covered, sample-materials scope; source availability: Official sample sections for 2012 and 2018 observed; local coverage: 2012 and 2018; 2 → 116"
+      "status": "partial",
+      "status_reason": "Source-complete for the exact 2012/2018 official-workbook scope (2 events, 116 URLs), but redistribution remains blocked pending legal/operator approval"
     },
     {
       "available_years": {
@@ -1060,19 +1063,20 @@
     },
     {
       "available_years": {
-        "end_ad": 2026,
-        "mode": "current_scope",
-        "note": "Current 2026 material scope",
-        "start_ad": 2026
+        "end_ad": null,
+        "mode": "unknown",
+        "note": "The official A/B/C sample-resource groups are undated; AD 2026 is only the adapter capture year",
+        "start_ad": null
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/taigi_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md"
+        "docs/developer/provider-site-registry.md",
+        "docs/developer/providers/taigi_cert-spec.md"
       ],
       "exam_category": "Ministry of Education Taiwanese-language certification sample papers/audio",
       "local_state": {
@@ -1088,10 +1092,12 @@
       ],
       "provider_id": "taigi_cert",
       "restrictions": [
-        "A/B/C forms, PDFs/MP3s/ZIPs; source scope is sample materials."
+        "All 35 retained A/B/C URLs are current, but the source is undated and all records use an unsupported synthetic 2026 year.",
+        "The public A-form bundle merges A, B, and C records, obscuring source taxonomy.",
+        "Official robots rules disallow generic crawling and the /tmt/src/ asset path; no explicit redistribution grant was found."
       ],
-      "status": "covered",
-      "status_reason": "Covered, current-materials scope; source availability: Current 2026 material scope; local coverage: 2026; 3 → 35"
+      "status": "partial",
+      "status_reason": "Partial / exact current A/B/C URLs retained, but source dates are unknown, public taxonomy is merged, and robots/licensing block refresh and release; local coverage: synthetic 2026; 3 → 35"
     },
     {
       "available_years": {
@@ -1606,15 +1612,15 @@
     },
     {
       "available_years": {
-        "end_ad": 2026,
+        "end_ad": 2025,
         "mode": "observed_range",
-        "note": "2022, 2024, and 2026 resource years observed",
+        "note": "Reference filenames identify 2022/2024; the rolling mock bank declares an October 2025 update, not an AD 2026 exam year",
         "start_ad": 2022
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/tocfl_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1632,14 +1638,17 @@
         2026
       ],
       "official_source_urls": [
-        "https://tocfl.edu.tw/tocfl/index.php/exam/download"
+        "https://tocfl.edu.tw/tocfl/index.php/exam/download",
+        "https://tocfl.edu.tw/tocfl/index.php/exam/test/page/1?pressBtn=%28%E9%A1%8C%E5%BA%AB%29"
       ],
       "provider_id": "tocfl_cert",
       "restrictions": [
-        "This is not a complete archive of every administered TOCFL exam; direct mock downloads are public."
+        "This is not a complete archive of every administered TOCFL exam; it is a reference and rolling mock-bank scope.",
+        "The official page dates the 2,138-question rolling bank to an October 2025 update, but the adapter assigns synthetic AD 2026 identity to all 92 mock assets.",
+        "TOCFL limits the mock materials to learning/non-commercial use and reserves copyright; no blanket GitHub redistribution grant was established."
       ],
-      "status": "covered",
-      "status_reason": "Covered, reference/mock scope; source availability: 2022, 2024, and 2026 resource years observed; local coverage: 2022–2026, 3 buckets; 3 → 95"
+      "status": "partial",
+      "status_reason": "Partial / all 95 current URLs retained, but 92 rolling-bank assets use unsupported synthetic 2026 identity and redistribution is unresolved"
     },
     {
       "available_years": {
@@ -1649,9 +1658,9 @@
         "start_ad": 2015
       },
       "discovery_snapshot": {
-        "coverage": "unknown",
+        "coverage": "partial",
         "manifest_path": "data/providers/tqc_cert/source-manifest.json",
-        "status": "missing"
+        "status": "present"
       },
       "evidence": [
         "docs/developer/completeness-baseline-2026-07-29.md",
@@ -1681,10 +1690,12 @@
       ],
       "provider_id": "tqc_cert",
       "restrictions": [
-        "Paginated public source; sample papers rather than a complete sitting archive."
+        "The four-page source is a sample-paper listing rather than a complete sitting archive; TQC+ remains a separate unapproved family.",
+        "Nine of 44 public records point to wrong bytes because five generic-label groups collide on storage keys.",
+        "No sample-paper republication grant was established; broader CSF pages prohibit reposting/excerpting without authorization."
       ],
-      "status": "covered",
-      "status_reason": "Covered in declared sample scope; source availability: 2015–2026 observed; local coverage: 2015–2026, 11 buckets; 11 → 44"
+      "status": "partial",
+      "status_reason": "Partial / exact 44-row listing retained but nine payloads are wrong after storage-key collisions and redistribution remains unresolved"
     },
     {
       "available_years": {
