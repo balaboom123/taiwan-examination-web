@@ -1,5 +1,14 @@
 # Completeness Baseline — 2026-07-29
 
+> **Publication figures below are superseded as of 2026-08-02.** This document remains
+> accurate as a source-discovery and defect record, and its per-provider findings are
+> still the evidence base. But it describes a projection in which twelve defective
+> providers were still published. They are now withheld under
+> `catalog/mappings/publication-quarantine.json`, so the current projection is 3,593
+> bundles rather than 3,633, and `history-audit --strict` passes with 194
+> `withheld_by_quarantine` events and zero unexplained gaps. See
+> `../operator/clean-core-release-runbook.md` for current state.
+
 This is the current baseline for the long-running completeness goal. It records the official-source inventory, the source-to-frontend flow, current generated-state reconciliation, validation gaps, and the decisions still required. It does not claim that generated manifests prove archive completeness. No source was fabricated, no credentials were exposed, no history was rewritten, and no release or deployment was performed.
 
 ## Executive result
