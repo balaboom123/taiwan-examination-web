@@ -753,16 +753,30 @@ def command_plan_release(args: argparse.Namespace) -> int:
     return 0
 
 def command_audit_history(args: argparse.Namespace) -> int:
+    check_mirror = not args.skip_mirror_check
+    if check_mirror and not (args.repo_root / "mirror").exists():
+        # Fail loudly rather than reporting every retained paper as a download
+        # gap.  The mirror is gitignored operational state, so a checkout
+        # without it must opt out explicitly instead of silently producing a
+        # report that looks like catastrophic data loss.
+        print(
+            f"Mirror tree not found at {args.repo_root / 'mirror'}. "
+            "Pass --skip-mirror-check to audit the checked-in dimensions only.",
+            flush=True,
+        )
+        return 1
     report = build_history_coverage_audit(
         args.repo_root,
         site_id=args.site_id,
         provider_ids=args.provider,
         probe_sources=args.probe_sources,
+        check_mirror=check_mirror,
     )
     write_history_coverage_audit(report, args.output)
+    scope = "" if check_mirror else " (mirror check skipped)"
     print(
         f"Audited {report['provider_count']} provider(s); "
-        f"{report['summary'].get('parser_gap', 0)} source-only event(s). Report: {args.output}",
+        f"{report['summary'].get('parser_gap', 0)} source-only event(s){scope}. Report: {args.output}",
         flush=True,
     )
     return history_audit_exit_code(report, strict=args.strict)
@@ -979,6 +993,11 @@ def build_parser() -> argparse.ArgumentParser:
     history_audit_parser.add_argument("--provider", nargs="*", default=None)
     history_audit_parser.add_argument("--probe-sources", action="store_true")
     history_audit_parser.add_argument("--strict", action="store_true")
+    history_audit_parser.add_argument(
+        "--skip-mirror-check",
+        action="store_true",
+        help="Audit only the checked-in dimensions; use when the gitignored mirror tree is unavailable (e.g. CI).",
+    )
     history_audit_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "history-audit.json")
     history_audit_parser.set_defaults(handler=command_audit_history)
 

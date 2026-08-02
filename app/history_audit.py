@@ -110,12 +110,21 @@ def build_history_coverage_audit(
     provider_ids: Iterable[str] | None = None,
     probe_sources: bool = False,
     clients: dict[str, Any] | None = None,
+    check_mirror: bool = True,
 ) -> dict[str, Any]:
     """Build a read-only per-event coverage report.
 
     ``source_only_events`` are authoritative discovery gaps only when the
     optional source probe succeeds.  An upstream outage is reported as a
     probe error, never misclassified as missing historical material.
+
+    ``check_mirror`` distinguishes two conditions that must not be conflated: a
+    mirror that is missing a file it should hold is a ``download_gap``, whereas
+    an absent mirror tree means the download dimension is simply unverifiable.
+    The mirror is gitignored operational state, so a checkout without it cannot
+    make any claim about download completeness.  Callers that lack the tree pass
+    ``check_mirror=False``; the report then records ``mirror_checked: false`` so
+    a reduced-scope run can never be read as a full audit.
     """
     site_config = get_site_config(site_id)
     selected_provider_ids = tuple(provider_ids or site_config.provider_ids)
@@ -164,7 +173,7 @@ def build_history_coverage_audit(
                     for paper in papers
                     if _resolve_mirror_source_path(repo_root / "mirror", paper) is None
                 }
-            )
+            ) if check_mirror else []
             required_bundle_ids = {paper.bundle_id or paper.canonical_id for paper in papers}
             published_bundle_ids = sorted(
                 {
@@ -288,6 +297,7 @@ def build_history_coverage_audit(
         "schema_version": 1,
         "site_id": site_id,
         "probe_sources": probe_sources,
+        "mirror_checked": check_mirror,
         "provider_count": len(provider_reports),
         "summary": summary,
         "providers": provider_reports,

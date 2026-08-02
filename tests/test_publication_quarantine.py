@@ -241,6 +241,124 @@ class HistoryAuditQuarantineTests(unittest.TestCase):
         self.assertEqual(history_audit_exit_code(report, strict=True), 1)
 
 
+class MirrorCheckScopeTests(unittest.TestCase):
+    """An absent mirror tree is unverifiable, not a catastrophic download gap."""
+
+    def _seed(self, root: Path) -> None:
+        raw_page = SourceExamPage(
+            provider_id="moex",
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="MOEX 115030",
+            attachments=[],
+            papers=[],
+        )
+        paper = NormalizedPaper(
+            provider_id="moex",
+            canonical_id="nurse",
+            canonical_name="Nurse",
+            year_roc=115,
+            exam_name_raw="MOEX 115030",
+            category_raw="Nurse",
+            subject_name_raw="Subject",
+            paper_code="101-0101-question",
+            file_type="question",
+            download_url_source="https://example.test/question.pdf",
+            category_code="101",
+            source_exam_id="115030",
+            subject_code="0101",
+            storage_key="115/115030/101/0101/question.pdf",
+        )
+        write_provider_state(
+            provider_paths(root, "moex"),
+            raw_pages=[raw_page],
+            normalized=NormalizedCatalog(papers=[paper], review_queue=[]),
+            aliases=[],
+            failures=[],
+            manifest=None,
+        )
+        write_site_state(site_paths(root, "default"), [], [])
+
+    def test_absent_mirror_reports_download_gaps_when_checked(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            self._seed(root)
+
+            report = build_history_coverage_audit(root, provider_ids=["moex"], check_mirror=True)
+
+        self.assertEqual(report["summary"]["download_gap"], 1)
+        self.assertTrue(report["mirror_checked"])
+        self.assertEqual(history_audit_exit_code(report, strict=True), 1)
+
+    def test_skipping_the_mirror_check_drops_only_that_dimension(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            self._seed(root)
+
+            report = build_history_coverage_audit(root, provider_ids=["moex"], check_mirror=False)
+
+        self.assertEqual(report["summary"].get("download_gap", 0), 0)
+        self.assertFalse(report["mirror_checked"])
+        # The event is still accounted for, just under its non-mirror status.
+        self.assertEqual(report["summary"]["excluded_by_publication_policy"], 1)
+
+    def test_a_real_publication_gap_still_fails_without_the_mirror_check(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            # Two years makes the bundle publication-eligible, so leaving it
+            # unpublished is a genuine gap rather than a min-years exclusion.
+            raw_pages, papers = [], []
+            for year_roc in (114, 115):
+                source_exam_id = f"{year_roc}030"
+                raw_pages.append(
+                    SourceExamPage(
+                        provider_id="moex",
+                        source_exam_id=source_exam_id,
+                        year_ad=year_roc + 1911,
+                        year_roc=year_roc,
+                        exam_name_raw=f"MOEX {source_exam_id}",
+                        attachments=[],
+                        papers=[],
+                    )
+                )
+                papers.append(
+                    NormalizedPaper(
+                        provider_id="moex",
+                        canonical_id="nurse",
+                        canonical_name="Nurse",
+                        year_roc=year_roc,
+                        exam_name_raw=f"MOEX {source_exam_id}",
+                        category_raw="Nurse",
+                        subject_name_raw="Subject",
+                        paper_code="101-0101-question",
+                        file_type="question",
+                        download_url_source="https://example.test/question.pdf",
+                        category_code="101",
+                        source_exam_id=source_exam_id,
+                        subject_code="0101",
+                        storage_key=f"{year_roc}/{source_exam_id}/101/0101/question.pdf",
+                    )
+                )
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=raw_pages,
+                normalized=NormalizedCatalog(papers=papers, review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_site_state(site_paths(root, "default"), [], [])
+
+            report = build_history_coverage_audit(root, provider_ids=["moex"], check_mirror=False)
+
+        # Skipping the mirror dimension must not make unrelated gaps disappear.
+        self.assertEqual(report["summary"]["normalized_not_published"], 2)
+        self.assertEqual(report["summary"].get("download_gap", 0), 0)
+        self.assertFalse(report["mirror_checked"])
+        self.assertEqual(history_audit_exit_code(report, strict=True), 1)
+
+
 class RepositoryQuarantineTests(unittest.TestCase):
     """The checked-in quarantine must stay consistent with the site registry."""
 

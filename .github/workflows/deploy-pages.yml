@@ -46,7 +46,7 @@ jobs:
           python -m app audit-catalog --repo-root . --site-id default --strict --output .tmp/catalog-audit.json
           python scripts/validate_publication.py
           python scripts/validate_source_inventory.py
-          python -m app history-audit --repo-root . --site-id default --strict --output .tmp/history-audit.json
+          python -m app history-audit --repo-root . --site-id default --strict --skip-mirror-check --output .tmp/history-audit.json
           python -m app plan-release --repo-root . --site-id default --output .tmp/release-plan.json
       - name: Validate shell scripts and whitespace
         run: |

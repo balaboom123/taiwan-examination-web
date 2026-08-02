@@ -161,6 +161,18 @@ class WorkflowTests(unittest.TestCase):
         self.assertLess(workflow.index("npm run lint"), workflow.index("npm run build"))
         self.assertLess(workflow.index("npm run build"), workflow.index("actions/upload-pages-artifact@v5"))
 
+    def test_mirrorless_workflows_skip_the_mirror_dimension_of_history_audit(self) -> None:
+        # Both workflows check out without the gitignored mirror tree. Without
+        # the opt-out every retained paper reports a download gap, so the gate
+        # can never pass and the Pages deploy never runs.
+        for name in ("ci.yml", "deploy-pages.yml"):
+            workflow = (REPO_ROOT / ".github" / "workflows" / name).read_text(encoding="utf-8")
+            invocations = [line for line in workflow.splitlines() if "app history-audit" in line]
+            with self.subTest(workflow=name):
+                self.assertTrue(invocations, f"{name} no longer runs history-audit")
+                for line in invocations:
+                    self.assertIn("--skip-mirror-check", line)
+
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
         release_payload = json.dumps(
