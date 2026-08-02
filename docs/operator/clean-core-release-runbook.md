@@ -19,7 +19,7 @@ does. The site therefore goes live referencing whatever assets happen to exist a
 moment.
 
 The branch adds 1,327 assets that do not exist on any release yet. Pushing first would
-publish a catalog in which **1,327 of 3,596 rows (37%) return 404 on download**.
+publish a catalog in which **1,327 of 3,593 rows (37%) return 404 on download**.
 
 > Upload assets first. Push second. Never the reverse.
 
@@ -31,11 +31,11 @@ Measured on `agent/completeness-integration` at the quarantine checkpoint agains
 | Quantity | Value |
 | --- | --- |
 | Live assets (per `origin/main`) | 2,308 |
-| Branch projection | 3,598 |
+| Branch projection | 3,593 |
 | Assets to upload | 1,327 (7.28 GB) |
-| Stale assets to prune | 37 |
+| Stale assets to prune | 42 |
 | Releases to create | 5 (`default-bundles-v2-009` … `-013`) |
-| Frontend rows | 2,305 → 3,596 |
+| Frontend rows | 2,305 → 3,593 |
 
 Uploads by shard tag:
 
@@ -50,7 +50,7 @@ Uploads by shard tag:
 | `default-bundles-v2-012` | 303 | **no — created by `ensure`** |
 | `default-bundles-v2-013` | 4 | **no — created by `ensure`** |
 
-Prunes are 35 quarantined assets plus 2 superseded orphans, in tags `-001` (11),
+Prunes are 40 quarantined assets plus 2 superseded orphans, in tags `-001` (16),
 `-003` (2), and `-008` (24).
 
 Preconditions verified locally at this checkpoint:
@@ -80,7 +80,7 @@ unset RELEASE_TAG MOEX_RELEASE_TAG
    ```
 
    Expect `bootstrap_required: true` for the eight tags above and
-   `total expected zips: 3598`.
+   `total expected zips: 3593`.
 
 2. **Create the five missing releases.**
 
@@ -108,9 +108,9 @@ unset RELEASE_TAG MOEX_RELEASE_TAG
    ```
 
    Open a PR to `main` rather than pushing to `main` directly, so CI runs before the
-   deploy. See the CI blocker below.
+   deploy. See the Hakka disposition below.
 
-6. **Prune the 37 stale assets** after the deploy is confirmed serving the new catalog.
+6. **Prune the 42 stale assets** after the deploy is confirmed serving the new catalog.
    Pruning earlier would break the live site for the window between prune and deploy,
    because the current live frontend still links the quarantined bundles.
 
@@ -122,38 +122,49 @@ unset RELEASE_TAG MOEX_RELEASE_TAG
 
 The projection change is data-only and reversible:
 
-- `git revert` the quarantine checkpoint restores the 34 withheld bundles; their bytes
+- `git revert` the quarantine checkpoint restores the 39 withheld bundles; their bytes
   were never deleted from `bundles/` or `mirror/`.
 - Uploaded assets are additive. Leaving them in place while reverting the site data
   costs storage but breaks nothing.
 - Step 6 is the only destructive step, which is why it is last and gated on a confirmed
   deploy.
 
-## Known blocker before merge
+## Hakka disposition
 
-`ci.yml` runs `python -m app history-audit --strict` as a blocking gate with no
-`continue-on-error`. On this branch that gate **exits 1**, reporting 8 Hakka
-`normalized_not_published` events.
+`ci.yml` runs `history-audit --strict` as a blocking gate. It previously exited 1 on 8
+Hakka `normalized_not_published` events (AD 2018–2025 basic/elementary), which are now
+withheld with the rest of `hakka_cert`.
 
-This predates the quarantine work — it is the finding recorded by `e55261d`
-(`audit: expose Hakka source and publication gaps`) — and the quarantine change is
-exit-code neutral: the withheld providers are reported under the separate
-`withheld_by_quarantine` status (183 events) precisely so that a deliberate withholding
-can never be mistaken for, or silently absorb, an unexplained publication gap.
+State this plainly: quarantining `hakka_cert` is what turns that gate green. It is not a
+convenience. The provider was verified against its published data to carry the same
+defect classes as the other twelve entries, and the withheld events remain visible as
+`withheld_by_quarantine` rather than disappearing:
 
-The 8 Hakka events must be dispositioned before this branch can merge through CI. They
-are normalized but unpublished, so the options are to publish them, record them as
-publication-policy exclusions, or quarantine `hakka_cert` as well. That is an open
-decision, not something this runbook resolves.
+- both published non-basic bundles use a synthetic ROC 115 identity forced by
+  `MATERIALS_YEAR` onto undated material absent from the current exam scope
+  (`hakka-cert-advanced-2026`, `hakka-cert-intermediate-high-intermediate-2026`);
+- 11 ZIPs are published as `listening_audio` because every ZIP suffix is treated as
+  audio, including the 5 advanced writing-test ZIPs;
+- the 8 historical events were never a small gap: that group is 140 papers totalling
+  **30.02 GB**, with three single source files at 2.09 GB each. Publishing it means a
+  ~16-part multipart archive of paired audio.
+- the Hakka Affairs Council applies Open Government Data License 1.0 but expressly
+  carves out audiovisual works, so audio redistribution is unresolved regardless.
+
+Publishing was therefore the worst of the three options. The defects stay recorded in
+the provider spec and source manifest; lifting the quarantine is a revert plus a
+republish once identity, ZIP role classification, and audio rights are settled.
 
 ## Current strict-audit summary
 
+All six CI gates pass at this checkpoint.
+
 | Status | Count |
 | --- | --- |
-| `published_complete` | 978 |
+| `published_complete` | 975 |
 | `excluded_by_publication_policy` | 371 |
-| `withheld_by_quarantine` | 183 |
+| `withheld_by_quarantine` | 194 |
 | `blocked` | 13 |
-| `normalized_not_published` | 8 |
 | `partially_blocked` | 3 |
+| `normalized_not_published` | 0 |
 | `parser_gap` | 0 |

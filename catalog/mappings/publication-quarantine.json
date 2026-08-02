@@ -22,6 +22,14 @@
       "spec_path": "docs/developer/providers/gept_cert-spec.md"
     },
     {
+      "provider_id": "hakka_cert",
+      "site_id": "default",
+      "status": "wrong_identity",
+      "reason": "Both published non-basic bundles carry a synthetic ROC 115 identity forced by MATERIALS_YEAR onto undated material that is absent from the current exam scope, and 11 ZIPs are published as listening_audio because every ZIP suffix is treated as audio - including the five advanced writing-test ZIPs. The eight historical basic/elementary events are withheld with them: publishing that group would require a 30.02 GB archive of paired audio, and the Hakka Affairs Council's Open Government Data License expressly carves out audiovisual works, so redistribution is unresolved.",
+      "evidence_path": "data/providers/hakka_cert/source-manifest.json",
+      "spec_path": "docs/developer/providers/hakka_cert-spec.md"
+    },
+    {
       "provider_id": "ipas_cert",
       "site_id": "default",
       "status": "non_paper_role",
