@@ -10,6 +10,7 @@ The identity and release migration adds whole-catalog audit and v2 shard preflig
 2. runbook.md
 3. workflows.md
 4. recovery.md
+5. clean-core-release-runbook.md (current cycle; supplements release-checklist.md)
 
 ## Safety rules
 
@@ -19,6 +20,7 @@ The identity and release migration adds whole-catalog audit and v2 shard preflig
 - Maintain taxonomy and mappings under catalog/, not under generated data/.
 - Count physical release asset names, including compatibility aliases.
 - Do not upload, prune, or delete legacy assets without explicit authorization.
+- Upload release assets before pushing a site projection. `deploy-pages.yml` publishes the frontend without touching releases, so the reverse order ships dead download links.
 
 ## Current status
 

@@ -12,6 +12,7 @@ from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
+from app.publication_quarantine import quarantined_provider_ids
 from app.release_tags import (
     RELEASE_SAFETY_TARGET,
     assign_release_tags,
@@ -305,10 +306,20 @@ def load_site_catalog(
 ) -> tuple[NormalizedCatalog, list[SyncFailure]]:
     """Load and renormalize every provider included in a site projection."""
     site_config = get_site_config(site_id)
+    quarantined = quarantined_provider_ids(repo_root, site_id=site_id)
+    # Skipping a required provider would silently bypass the missing-state
+    # guard below and publish a site without its mandatory catalog.
+    quarantined_required = sorted(quarantined.intersection(site_config.required_provider_ids))
+    if quarantined_required:
+        raise ValueError(f"Required providers cannot be quarantined for site {site_id}: {', '.join(quarantined_required)}")
     aggregated_papers: list[NormalizedPaper] = []
     aggregated_review_queue: list = []
     failures: list[SyncFailure] = []
     for provider_id in site_config.provider_ids:
+        # Quarantined providers stay registered and audited; only their public
+        # projection is withheld.  See catalog/mappings/publication-quarantine.json.
+        if provider_id in quarantined:
+            continue
         provider = provider_paths(repo_root, provider_id)
         if not provider.data_dir.exists():
             if provider_id in site_config.required_provider_ids:

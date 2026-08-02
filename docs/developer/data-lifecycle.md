@@ -92,6 +92,22 @@ Manual source evidence belongs in `catalog/source-coverage/<provider_id>.json`, 
 
 A reviewed exception is therefore an evidence-backed denominator decision, not a generated-manifest shortcut. When the source changes or a file becomes available, the old entry becomes an orphan or conflict and must be removed or re-probed.
 
+## Publication Quarantine
+
+A source-coverage exception explains what the repository could not *acquire*. A quarantine entry explains what the repository must not *publish*. The two MUST NOT be conflated.
+
+Quarantine lives in `catalog/mappings/publication-quarantine.json` because it is publication policy rather than source evidence. Each entry records the provider, site, a status drawn from `wrong_identity`, `wrong_payload`, `corrupt_payload`, `non_paper_role`, or `duplicate_source_identity`, a reason, and pointers to the source manifest and provider spec that evidence the defect. Both pointers MUST resolve; a dangling pointer fails loading, so withheld data can never become unexplained.
+
+Rules:
+
+- A quarantined provider MUST remain registered in `app.site_registry`. Quarantine withholds publication only; dropping the provider from the registry instead would remove it from the source-inventory, catalog-audit, and history-audit denominators and would hide the defect rather than expose it.
+- `app.publisher.load_site_catalog` is the only consumer that skips quarantined providers. Discovery, sync, mirroring, normalization, and every audit continue to run.
+- A provider in `required_provider_ids` MUST NOT be quarantined. `load_site_catalog` fails closed rather than silently bypassing the missing-state guard.
+- `history-audit` reports quarantined events under the distinct `withheld_by_quarantine` status. It MUST NOT reuse `excluded_by_publication_policy`, which means the min-years rule, and it MUST NOT leave them as `normalized_not_published`, which means an unexplained gap. Keeping the status separate is what stops a deliberate withholding from turning a red gate green.
+- Quarantine MUST NOT delete provider state, mirrored bytes, or bundle archives. Lifting an entry is a revert plus a republish.
+
+Removing a provider from the projection also strands its already-uploaded release assets. They stay downloadable by direct URL until `release_assets.py prune` runs, so a quarantine is not fully effective until the release side is reconciled.
+
 ### 5. Normalize
 
 Current behavior:
@@ -189,6 +205,7 @@ Manual inputs today:
 - `data/providers/<provider_id>/aliases.json`
 - `catalog/source-coverage/<provider_id>.json` reviewed evidence for blocked or intentionally excluded official sources
 - `catalog/source-inventory.json` reviewed source scope/status/evidence and exact local-state observations
+- `catalog/mappings/publication-quarantine.json` reviewed decisions to withhold a registered provider from a site projection
 
 Generated outputs today:
 

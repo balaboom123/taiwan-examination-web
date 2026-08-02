@@ -22,6 +22,7 @@ from app.coverage_exceptions import (
 from app.models import NormalizedCatalog
 from app.paths import provider_paths, site_paths
 from app.providers.registry import get_provider
+from app.publication_quarantine import quarantined_provider_ids
 from app.site_registry import get_site_config
 from app.state import load_provider_state, load_site_bundles
 
@@ -257,9 +258,19 @@ def build_history_coverage_audit(
         min_years=site_config.public_min_years,
         min_years_by_canonical_prefix=site_config.public_min_years_by_canonical_prefix,
     )
+    quarantined = quarantined_provider_ids(repo_root, site_id=site_id)
     for provider_report in provider_reports:
         for event in provider_report["events"]:
             if event["status"] != "normalized_not_published":
+                continue
+            # A quarantined provider is withheld on purpose and with recorded
+            # evidence, so it is not an accidental publication gap. It keeps a
+            # status of its own rather than joining the min-years bucket, so
+            # the withheld volume stays visible in the summary.
+            if provider_report["provider_id"] in quarantined:
+                event["status"] = "withheld_by_quarantine"
+                status_counts["normalized_not_published"] -= 1
+                status_counts["withheld_by_quarantine"] += 1
                 continue
             unpublished_ids = set(event["unpublished_bundle_ids"])
             policy_eligible_ids = sorted(unpublished_ids & public_ids)
