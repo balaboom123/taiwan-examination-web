@@ -1,11 +1,19 @@
 # Clean-core release runbook — 2026-08-02
 
-Status: prepared, **not executed**
+Status: steps 1-4 executed 2026-08-02; steps 5-6 pending
 Owner: release and data operators
 
 This runbook ships the recovered MOEX/WDASEC/TCTE/CEEC catalog while withholding the
-providers whose published records are known to be wrong. Nothing in it has been run
-against the remote: no push, no release creation, no upload, no prune, no deployment.
+providers whose published records are known to be wrong.
+
+Execution state as of 2026-08-02:
+
+- **Steps 1–4 are done.** Shards `default-bundles-v2-009` … `-013` were created and all
+  1,327 new assets (7.28 GB) were uploaded; the verification preflight reports zero
+  missing assets. One asset was pulled back down and its SHA-256 matched the projection
+  byte for byte.
+- **Steps 5–6 are pending.** No push, no merge, no deployment, and no prune has run, so
+  the live site still serves the previous 2,305-bundle catalog.
 
 Read `release-checklist.md` first; this runbook is the current-cycle supplement, not a
 replacement.
@@ -18,8 +26,8 @@ and it **only builds the site**. It never touches GitHub Releases; only `sync-fu
 does. The site therefore goes live referencing whatever assets happen to exist at that
 moment.
 
-The branch adds 1,327 assets that do not exist on any release yet. Pushing first would
-publish a catalog in which **1,327 of 3,593 rows (37%) return 404 on download**.
+The branch added 1,327 assets that did not exist on any release. Pushing first would have
+published a catalog in which **1,327 of 3,593 rows (37%) returned 404 on download**.
 
 > Upload assets first. Push second. Never the reverse.
 
@@ -95,11 +103,18 @@ unset RELEASE_TAG MOEX_RELEASE_TAG
    python3 .github/scripts/release_assets.py upload
    ```
 
-4. **Re-run preflight.** Do not proceed unless `bootstrap_required: false`.
+4. **Re-run preflight.** The gate here is **zero `missing from release` lines**, not
+   `bootstrap_required: false`.
 
    ```bash
-   python3 .github/scripts/release_assets.py coverage
+   python3 .github/scripts/release_assets.py coverage 2>&1 | grep -c '^missing from'
    ```
+
+   `bootstrap_required` is raised by *either* a missing asset or an unexpected one, and
+   the 42 stale assets are deliberately still present until step 6. It therefore cannot
+   read `false` at this point in the sequence — expect `True` on tags `-001`, `-003`,
+   and `-008` with `expected < release`, which is the prune backlog and not an upload
+   failure. Only a non-zero `missing` count blocks the push.
 
 5. **Push.** Only now. This triggers `deploy-pages.yml`.
 
