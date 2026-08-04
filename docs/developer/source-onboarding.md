@@ -53,6 +53,7 @@ Before coding, the provider design SHOULD define:
 - provider-scoped source manifest
 - provider-scoped review queue
 - provider-scoped failure log
+- reviewed source-coverage ledger for blocked or intentionally excluded official sources, with reproducible response evidence
 - provider-scoped alias or canonicalization inputs if needed
 
 ### 4. Implement normalized output contract
@@ -82,7 +83,7 @@ Before coding, the provider design SHOULD define:
 - parser tests
 - manifest tests
 - publication or feed tests if outputs change
-- documented operator verification commands
+- documented operator verification commands, including strict history audit and exception-orphan checks
 
 ### 8. Update docs
 

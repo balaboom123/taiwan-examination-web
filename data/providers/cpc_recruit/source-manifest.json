@@ -1,0 +1,360 @@
+{
+  "exams": {
+    "cpc-recruit-100": {
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_label": "100年中油公司新進博士級人員甄試",
+      "result_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "source_exam_id": "cpc-recruit-100",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "cpc-recruit-101": {
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_label": "101年中油公司新進博士級人員甄試",
+      "result_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "source_exam_id": "cpc-recruit-101",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "cpc-recruit-102": {
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_label": "102年中油公司新進博士級人員甄試",
+      "result_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "source_exam_id": "cpc-recruit-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "cpc-recruit-108": {
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_label": "108年中油公司新進博士級人員甄試",
+      "result_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "source_exam_id": "cpc-recruit-108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "cpc-recruit-98": {
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_label": "98年中油公司新進博士級人員甄試",
+      "result_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "source_exam_id": "cpc-recruit-98",
+      "year_ad": 2009,
+      "year_roc": 98
+    }
+  },
+  "files": {
+    "providers/cpc_recruit/100/cpc-recruit-100/100/phd-01/question.zip": {
+      "asset_name": "providers__cpc_recruit__100__cpc-recruit-100__100__phd-01__question.zip",
+      "bytes": 1352522,
+      "category_code": "100",
+      "content_type": "application/x-zip-compressed",
+      "file_name": "201443013496_100年博士甄試試題.zip",
+      "file_type": "question",
+      "sha256": "59573915f772d39347f8bb837d81640b1c610f4f22408c7664ed7870c37ae5a7",
+      "source_exam_id": "cpc-recruit-100",
+      "source_url": "https://ws.cpc.com.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZS9GaWxlcy9OZXdzRmlsZS8yMDE0NDMwMTM0OTZfMTAw5bm05Y2a5aOr55SE6Kmm6Kmm6aGMLnppcA%3d%3d&n=MjAxNDQzMDEzNDk2XzEwMOW5tOWNmuWjq%2beUhOippuippumhjC56aXA%3d",
+      "storage_key": "providers/cpc_recruit/100/cpc-recruit-100/100/phd-01/question.zip",
+      "subject_code": "phd-01",
+      "verified_at": "2026-07-31T14:30:53.908399+08:00",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "providers/cpc_recruit/101/cpc-recruit-101/101/phd-01/question.rar": {
+      "asset_name": "providers__cpc_recruit__101__cpc-recruit-101__101__phd-01__question.rar",
+      "bytes": 1767077,
+      "category_code": "101",
+      "content_type": "application/octet-stream",
+      "file_name": "201443014312_101年博士甄試試題.rar",
+      "file_type": "question",
+      "sha256": "bda4b363e48d7faa3114027fe9addb6eba140e90fbdcd645a0b7dcee73ab193f",
+      "source_exam_id": "cpc-recruit-101",
+      "source_url": "https://ws.cpc.com.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZS9GaWxlcy9OZXdzRmlsZS8yMDE0NDMwMTQzMTJfMTAx5bm05Y2a5aOr55SE6Kmm6Kmm6aGMLnJhcg%3d%3d&n=MjAxNDQzMDE0MzEyXzEwMeW5tOWNmuWjq%2beUhOippuippumhjC5yYXI%3d",
+      "storage_key": "providers/cpc_recruit/101/cpc-recruit-101/101/phd-01/question.rar",
+      "subject_code": "phd-01",
+      "verified_at": "2026-07-31T14:30:53.908399+08:00",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "providers/cpc_recruit/102/cpc-recruit-102/102/phd-01/question.rar": {
+      "asset_name": "providers__cpc_recruit__102__cpc-recruit-102__102__phd-01__question.rar",
+      "bytes": 3586393,
+      "category_code": "102",
+      "content_type": "application/octet-stream",
+      "file_name": "201443014959_102年博士甄試試題.rar",
+      "file_type": "question",
+      "sha256": "3418c2cbeb085fb5e4e1b734daaf2c6692fb4a36fd68988a12aaef4af8ac9912",
+      "source_exam_id": "cpc-recruit-102",
+      "source_url": "https://ws.cpc.com.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZS9GaWxlcy9OZXdzRmlsZS8yMDE0NDMwMTQ5NTlfMTAy5bm05Y2a5aOr55SE6Kmm6Kmm6aGMLnJhcg%3d%3d&n=MjAxNDQzMDE0OTU5XzEwMuW5tOWNmuWjq%2beUhOippuippumhjC5yYXI%3d",
+      "storage_key": "providers/cpc_recruit/102/cpc-recruit-102/102/phd-01/question.rar",
+      "subject_code": "phd-01",
+      "verified_at": "2026-07-31T14:30:53.908399+08:00",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "providers/cpc_recruit/108/cpc-recruit-108/108/phd-01/question.rar": {
+      "asset_name": "providers__cpc_recruit__108__cpc-recruit-108__108__phd-01__question.rar",
+      "bytes": 2965120,
+      "category_code": "108",
+      "content_type": "application/octet-stream",
+      "file_name": "108年新進博士級人員甄試試題.rar",
+      "file_type": "question",
+      "sha256": "8704223da20b6fdcf1a1985acf3beab36c31ceaf7854e3122c04405db4e17ad8",
+      "source_exam_id": "cpc-recruit-108",
+      "source_url": "https://ws.cpc.com.tw/Download.ashx?u=LzAwMS9VcGxvYWQvMS9yZWxmaWxlLzg5NjkvODI2LzQyOGZmMzE0LTZkNDQtNDhjYy04YWUxLTMyMmUzN2Y5YWJiYS5yYXI%3d&n=MTA45bm05paw6YCy5Y2a5aOr57Sa5Lq65ZOh55SE6Kmm6Kmm6aGMLnJhcg%3d%3d",
+      "storage_key": "providers/cpc_recruit/108/cpc-recruit-108/108/phd-01/question.rar",
+      "subject_code": "phd-01",
+      "verified_at": "2026-07-31T14:30:53.908399+08:00",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "providers/cpc_recruit/98/cpc-recruit-98/98/phd-01/question.rar": {
+      "asset_name": "providers__cpc_recruit__98__cpc-recruit-98__98__phd-01__question.rar",
+      "bytes": 4400180,
+      "category_code": "98",
+      "content_type": "application/octet-stream",
+      "file_name": "2014430134514_98年博士甄試試題.rar",
+      "file_type": "question",
+      "sha256": "d405a14d684b5886990a1631bc77c2336445fa84e4914328577aec04ccb7bb92",
+      "source_exam_id": "cpc-recruit-98",
+      "source_url": "https://ws.cpc.com.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZS9GaWxlcy9OZXdzRmlsZS8yMDE0NDMwMTM0NTE0Xzk45bm05Y2a5aOr55SE6Kmm6Kmm6aGMLnJhcg%3d%3d&n=MjAxNDQzMDEzNDUxNF85OOW5tOWNmuWjq%2beUhOippuippumhjC5yYXI%3d",
+      "storage_key": "providers/cpc_recruit/98/cpc-recruit-98/98/phd-01/question.rar",
+      "subject_code": "phd-01",
+      "verified_at": "2026-07-31T14:30:53.908399+08:00",
+      "year_ad": 2009,
+      "year_roc": 98
+    }
+  },
+  "probe_policy": {
+    "accepted_asset_bytes": 14071292,
+    "accepted_asset_count": 5,
+    "accepted_scope": "all doctoral recruitment exam-paper packages listed on CPC News_Content.aspx?n=32&s=826",
+    "asset_reconciliation_at": "2026-07-31T14:30:53.908399+08:00",
+    "contracted_source_blockers": [
+      {
+        "contractor_url": "https://cpc114.twrecruit.com.tw/news/",
+        "current_paper_route": "https://cpc114.twrecruit.com.tw/bulletin/?c=examBulletin",
+        "cycle": "ROC 114 / AD 2025 operational recruitment",
+        "evidence": "both paper routes redirect to contractor login URLs; no access control was bypassed",
+        "official_provenance_url": "https://www.moea.gov.tw/MNS/Populace/news/News.aspx?kind=5&menu_id=44&news_id=120632",
+        "past_paper_route": "https://cpc114.twrecruit.com.tw/bulletin/?c=itemBulletin",
+        "status": "login_required"
+      },
+      {
+        "contractor_url": "https://cpcdr113.twrecruit.com.tw/",
+        "cycle": "ROC 113 / AD 2024 doctoral recruitment",
+        "evidence": "the historical contractor hostname fails default TLS validation with a certificate hostname mismatch and no current public paper listing is available",
+        "official_provenance_url": "https://www.moea.gov.tw/MNS/populace/news/News.aspx?kind=5&menu_id=44&news_id=115818",
+        "status": "not_currently_enumerable"
+      }
+    ],
+    "delegated_source": {
+      "owner_provider": "moea_recruit",
+      "reason": "the CPC page delegates the MOEA joint recruitment paper archive to Taipower and must not be duplicated",
+      "url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=844"
+    },
+    "discovery_mode": "official-single-page-paper-archive",
+    "discovery_scope_note": "complete for the five-package static CPC doctoral-paper page; incomplete for the broader company-specific recruitment source family because contracted paper routes are access-gated or no longer enumerable",
+    "employment_hub_url": "https://www.cpc.com.tw/News.aspx?n=32&sms=8969",
+    "excluded_brochure_archive": {
+      "asset_count": 15,
+      "reason": "the 15 PDFs are operational recruitment brochures or outlines, not examination papers",
+      "url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=824",
+      "years_ad": [
+        2009,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025
+      ]
+    },
+    "html_fingerprint_scope": "capture evidence only; the five live file SHA-256 records and exact static archive year set are the accepted-scope drift keys",
+    "last_discovery_at": "2026-07-31T14:27:30.561400+08:00",
+    "license_status": "CPC's government-site open-data declaration grants broad reuse for site material within CPC's copyright, with attribution and explicit exclusions; it does not establish ownership of third-party rights in every archived examination item",
+    "license_url": "https://www.cpc.com.tw/cp.aspx?n=2559",
+    "listing_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+    "page_evidence": {
+      "contractor_2025_current_papers": {
+        "bytes": 9724,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://cpc114.twrecruit.com.tw/news/?login=Y&url=L2J1bGxldGluLz9jPWV4YW1CdWxsZXRpbg",
+        "sha256": "b16d03e8948546af66073ddf4fdde907dc730d2fec4690357d034e349f85bcbb",
+        "status": 200,
+        "url": "https://cpc114.twrecruit.com.tw/bulletin/?c=examBulletin"
+      },
+      "contractor_2025_past_papers": {
+        "bytes": 9724,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://cpc114.twrecruit.com.tw/news/?login=Y&url=L2J1bGxldGluLz9jPWl0ZW1CdWxsZXRpbg",
+        "sha256": "0637edc9fc64c6a903ef0be3d7d1c2a11ce3934d441d3414fd7da4a5c7b79e5e",
+        "status": 200,
+        "url": "https://cpc114.twrecruit.com.tw/bulletin/?c=itemBulletin"
+      },
+      "contractor_2025_root": {
+        "bytes": 9656,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://cpc114.twrecruit.com.tw/news/",
+        "sha256": "601e825b910dcfcc0679f11dc345c5842cc9bb54f66d2fa10217617a2391ff4f",
+        "status": 200,
+        "url": "https://cpc114.twrecruit.com.tw/news/"
+      },
+      "doctoral_paper_archive": {
+        "bytes": 129872,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+        "sha256": "0900a8265229dde95db959d7381869f8ca5fb056da875ccef0c7385783217673",
+        "status": 200,
+        "url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826"
+      },
+      "employment_hub": {
+        "bytes": 139116,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.cpc.com.tw/News.aspx?n=32&sms=8969",
+        "sha256": "cb06e108f88fd8eb3d90108f73ab739df7f74fee6a62e5f714658e7f64b1587b",
+        "status": 200,
+        "url": "https://www.cpc.com.tw/News.aspx?n=32&sms=8969"
+      },
+      "excluded_operational_brochures": {
+        "bytes": 138101,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=824",
+        "sha256": "95d08e3243e888416d3121c2db58ac90e55187b4557227988c435be7bf1b9ceb",
+        "status": 200,
+        "url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=824"
+      },
+      "open_data_declaration": {
+        "bytes": 124456,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.cpc.com.tw/cp.aspx?n=2559",
+        "sha256": "65e7469afa2c6dc3fb7f452fbcccb7166a5455aaf92f0838c0954712309cd2c7",
+        "status": 200,
+        "url": "https://www.cpc.com.tw/cp.aspx?n=2559"
+      },
+      "robots_path": {
+        "bytes": 198182,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.cpc.com.tw/",
+        "sha256": "4dd17a1f50ce67f339fe3b2108bb8918b38710d339f74fa81e9402297dd3a318",
+        "status": 200,
+        "url": "https://www.cpc.com.tw/robots.txt"
+      }
+    },
+    "retained_local_contamination": {
+      "brochure_only_event_years_ad": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025
+      ],
+      "mixed_event_years_ad": [
+        2009,
+        2012,
+        2019
+      ],
+      "normalized_brochure_records": 12,
+      "publication_status": "the current generated bundle still contains all 12 brochures; removal or reclassification is deferred to a separate reviewed data migration"
+    },
+    "robots_policy": "no machine-readable policy was found: /robots.txt resolves to the CPC HTML homepage",
+    "static_archive_event_count": 5,
+    "static_archive_years_ad": [
+      2009,
+      2011,
+      2012,
+      2013,
+      2019
+    ],
+    "transport_security": "default TLS verification succeeds for CPC and ws.cpc.com.tw; the retired 2024 doctoral contractor hostname currently has a certificate hostname mismatch"
+  },
+  "provider_id": "cpc_recruit",
+  "schema_version": 1,
+  "years": {
+    "2009": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "sha256:15fd47801cae2f5f4195350011d75903724aed8dc085daf78ec0d3810d8636d2",
+      "asset_bytes": 4400180,
+      "asset_reconciled_at": "2026-07-31T14:30:53.908399+08:00",
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_codes": [
+        "cpc-recruit-98"
+      ],
+      "exam_codes_hash": "sha256:8504776e78fe9c0ee1cec12e7862f1588a8b595cd8066bd895902016385aa2eb",
+      "file_sha256": "d405a14d684b5886990a1631bc77c2336445fa84e4914328577aec04ccb7bb92",
+      "search_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "2011": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "sha256:c9a049735bb12c2d2bffb5fdc24ebc9130570e02cbb39ca4a3439e0055406b0e",
+      "asset_bytes": 1352522,
+      "asset_reconciled_at": "2026-07-31T14:30:53.908399+08:00",
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_codes": [
+        "cpc-recruit-100"
+      ],
+      "exam_codes_hash": "sha256:77f330fdf3ae5ee7bdff4e6030135d04366b426fcfe18abf7372669e6c85a004",
+      "file_sha256": "59573915f772d39347f8bb837d81640b1c610f4f22408c7664ed7870c37ae5a7",
+      "search_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "2012": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "sha256:324acab1e6687be766b0e4d56f20e31b4b3f05ea6e2208ef9221090329ace191",
+      "asset_bytes": 1767077,
+      "asset_reconciled_at": "2026-07-31T14:30:53.908399+08:00",
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_codes": [
+        "cpc-recruit-101"
+      ],
+      "exam_codes_hash": "sha256:c182b0e43d94d1eeafd5476759f8c7e116de631c8bc532b643387156fde6522c",
+      "file_sha256": "bda4b363e48d7faa3114027fe9addb6eba140e90fbdcd645a0b7dcee73ab193f",
+      "search_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "2013": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "sha256:8c22a365c3d5834b635ff1faf4d627e0fd607977afd37af8f19bc1021c0523f3",
+      "asset_bytes": 3586393,
+      "asset_reconciled_at": "2026-07-31T14:30:53.908399+08:00",
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_codes": [
+        "cpc-recruit-102"
+      ],
+      "exam_codes_hash": "sha256:de4d93929ee7a5d61035fe5e18d0394b63984972adec8a2ac320edecf08fb4f9",
+      "file_sha256": "3418c2cbeb085fb5e4e1b734daaf2c6692fb4a36fd68988a12aaef4af8ac9912",
+      "search_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2019": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "sha256:443233bc281ce1bb5e1c6bd756323beb0cdbf50f5e86f30c50b8f29455582bc4",
+      "asset_bytes": 2965120,
+      "asset_reconciled_at": "2026-07-31T14:30:53.908399+08:00",
+      "discovered_at": "2026-07-31T14:27:30.561400+08:00",
+      "exam_codes": [
+        "cpc-recruit-108"
+      ],
+      "exam_codes_hash": "sha256:360be670148b16bbd19a6afc017da98e978774c886491236fe2528712e788c0b",
+      "file_sha256": "8704223da20b6fdcf1a1985acf3beab36c31ceaf7854e3122c04405db4e17ad8",
+      "search_url": "https://www.cpc.com.tw/News_Content.aspx?n=32&s=826",
+      "year_ad": 2019,
+      "year_roc": 108
+    }
+  }
+}

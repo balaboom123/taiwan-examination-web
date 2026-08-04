@@ -1,0 +1,49 @@
+{
+  "exams": {
+    "teacher-recruit-central-alliance-115-elementary": {
+      "discovered_at": "2026-07-29T21:17:59.667261+08:00",
+      "exam_label": "115學年度中區策略聯盟教師甄試_國小",
+      "result_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=B",
+      "source_exam_id": "teacher-recruit-central-alliance-115-elementary",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-recruit-central-alliance-115-junior": {
+      "discovered_at": "2026-07-29T21:17:59.667261+08:00",
+      "exam_label": "115學年度中區策略聯盟教師甄試_國中",
+      "result_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=C",
+      "source_exam_id": "teacher-recruit-central-alliance-115-junior",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "teacher-recruit-central-alliance-115-kindergarten": {
+      "discovered_at": "2026-07-29T21:17:59.667261+08:00",
+      "exam_label": "115學年度中區策略聯盟教師甄試_幼兒園",
+      "result_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php?cate=A",
+      "source_exam_id": "teacher-recruit-central-alliance-115-kindergarten",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:17:59.667261+08:00"
+  },
+  "provider_id": "teacher_recruit_central_alliance",
+  "schema_version": 1,
+  "years": {
+    "2026": {
+      "discovered_at": "2026-07-29T21:17:59.667261+08:00",
+      "exam_codes": [
+        "teacher-recruit-central-alliance-115-kindergarten",
+        "teacher-recruit-central-alliance-115-elementary",
+        "teacher-recruit-central-alliance-115-junior"
+      ],
+      "exam_codes_hash": "sha256:9e4f20cca0b4bff13f5f6931cf5d862d86619d915e2dbdf03742dac083e7a726",
+      "search_url": "https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

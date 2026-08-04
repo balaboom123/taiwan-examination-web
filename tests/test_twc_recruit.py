@@ -16,6 +16,7 @@ import unittest
 from unittest.mock import patch
 
 from app.providers.twc_recruit.client import (
+    DOWNLOAD_PAGE_URL,
     TwcRecruitClient,
     TwcRecruitEntry,
     parse_employment_detail,
@@ -320,6 +321,79 @@ class TwcRecruitClientTests(unittest.TestCase):
         # 114→2025, 112→2023, 111→2022, 110→2021, sorted descending
         self.assertEqual(years, [2025, 2023, 2022, 2021])
 
+    def test_discovery_caches_the_bounded_archive(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=DETAIL_PAGE_HTML) as fetch:
+            client.discover_available_years()
+            client.discover_exams(2025)
+            client.fetch_exam_page("twc-recruit-114", 2025)
+
+        fetch.assert_called_once_with(DOWNLOAD_PAGE_URL)
+
+    def test_discovery_urls_are_stable_and_source_owned(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=DETAIL_PAGE_HTML):
+            self.assertEqual(client.build_discovery_year_url(2025), DOWNLOAD_PAGE_URL)
+            self.assertEqual(
+                client.build_discovery_exam_url("twc-recruit-114", 2025),
+                DOWNLOAD_PAGE_URL,
+            )
+
+    def test_discovery_urls_reject_unknown_event(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=DETAIL_PAGE_HTML):
+            with self.assertRaisesRegex(ValueError, "Unknown Taiwan Water"):
+                client.build_discovery_exam_url("twc-recruit-115", 2026)
+
+    def test_discovery_rejects_candidate_parse_mismatch(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=NO_YEAR_PAGE_HTML):
+            with self.assertRaisesRegex(
+                ValueError, "candidate/parsed download mismatch"
+            ):
+                client.discover_available_years()
+
+    def test_discovery_rejects_empty_archive(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=EMPTY_PAGE_HTML):
+            with self.assertRaisesRegex(ValueError, "contains no paper downloads"):
+                client.discover_available_years()
+
+    def test_discovery_rejects_duplicate_year(self) -> None:
+        html = DETAIL_PAGE_HTML.replace('title="112年', 'title="114年')
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=html):
+            with self.assertRaisesRegex(ValueError, "repeats ROC year"):
+                client.discover_available_years()
+
+    def test_discovery_rejects_duplicate_url(self) -> None:
+        html = DETAIL_PAGE_HTML.replace(
+            "df60fb7a-cf5f-4045-b07e-84110d74a288",
+            "f21b4843-4257-4f5b-ac85-f7463e03d250",
+        )
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=html):
+            with self.assertRaisesRegex(ValueError, "repeats paper URL"):
+                client.discover_available_years()
+
+    def test_discovery_rejects_external_download_host(self) -> None:
+        html = DETAIL_PAGE_HTML.replace(
+            'href="/ch/ServerFile/Get/f21b4843',
+            'href="https://example.test/ch/ServerFile/Get/f21b4843',
+        )
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=html):
+            with self.assertRaisesRegex(
+                ValueError, "Unexpected Taiwan Water paper URL"
+            ):
+                client.discover_available_years()
+
+    def test_discovery_rejects_unbounded_archive_growth(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=DETAIL_PAGE_HTML * 26):
+            with self.assertRaisesRegex(ValueError, "exceeds 100 paper downloads"):
+                client.discover_available_years()
+
     def test_discover_exams_returns_exam_options_for_year(self) -> None:
         with patch.object(TwcRecruitClient, "_fetch_text", return_value=DETAIL_PAGE_HTML):
             client = TwcRecruitClient()
@@ -388,6 +462,20 @@ class TwcRecruitClientTests(unittest.TestCase):
             page = client.fetch_exam_page("twc-recruit-114", 2025)
 
         self.assertIn("114", page.exam_name_raw)
+
+    def test_fetch_exam_page_rejects_unknown_event(self) -> None:
+        client = TwcRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=DETAIL_PAGE_HTML):
+            with self.assertRaisesRegex(
+                ValueError, "No Taiwan Water recruitment event"
+            ):
+                client.fetch_exam_page("twc-recruit-115", 2026)
+
+    def test_download_rejects_unapproved_url_before_network(self) -> None:
+        client = TwcRecruitClient()
+
+        with self.assertRaisesRegex(ValueError, "Unexpected Taiwan Water paper URL"):
+            client.download_file("https://example.test/paper.zip")
 
 
 # ---------------------------------------------------------------------------

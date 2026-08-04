@@ -9,6 +9,8 @@ Schemas here validate persisted v2 boundaries. They are separate from taxonomy d
 - frontend-bundle-feed-v2.schema.json: public structured feed consumed by the frontend.
 - release-plan-v2.schema.json: dry-run shard assignments and physical asset counts.
 - classification-audit.schema.json: whole-catalog audit output.
+- source-coverage-exceptions.schema.json: reviewed event/file exceptions for official sources that are blocked or intentionally out of scope.
+- source-inventory.schema.json: reviewed official-source scope, status, evidence, and local-state observations for the default site.
 
 A v2 payload must declare schema_version 2 and catalog_version exam-identity-v2 where required. Consumers should reject unsupported versions instead of guessing.
 

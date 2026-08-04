@@ -13,16 +13,21 @@
 
 - source domain: `www.ceec.edu.tw`
 - source page: `https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650`
+- current-notice index: `https://www.ceec.edu.tw/xmdoc?xsmsid=0I363338985390931117`
 - source access: public web pages plus linked PDF files
 - source cadence: yearly archive updates with occasional late-file corrections
 - authentication: none
 - rate-limit posture: conservative scheduled sync; fetch static pages and direct downloads only
 
-CEEC lists 分科測驗 under "分科測驗(110前指考)" and exposes "歷年試題及答題卷" with general, special, and special-answer-sheet pages. The first provider should mirror the general-paper archive only.
+CEEC lists 分科測驗 under "分科測驗(110前指考)" and exposes "歷年試題及答題卷" with general, special, and special-answer-sheet pages. This provider mirrors the general-paper archive plus current official confirmed-answer and scoring-principle notices.
 
 ## Discovery Model
 
 The provider crawls the general-paper listing, groups rows by academic year and subject, and mirrors linked PDF assets for question papers, answer sheets, answers, and scoring principles.
+
+The shared listing selector includes predecessor 指定科目考試 years, but AST began in AD 2022. Discovery therefore reports only years with actual AST rows or notices. The 2026-07-29 snapshot contains 31 event identities across AD 2022–2026: 29 subject rows plus the AD 2026 confirmed-materials and scoring-principles pages.
+
+CEEC listing links for current notices are normalized to their canonical `/xmdoc/cont` detail routes before parsing. The two AD 2026 pages use distinct event identities so confirmed files cannot silently reuse preliminary-answer mirror paths. Their per-subject records normalize into the same established subject bundles as AD 2022–2025.
 
 Provider-owned outputs live under:
 
@@ -44,7 +49,9 @@ python -m app sync-full --provider ceec_ast --site-id default
 - provider package: `app/providers/ceec_ast/`
 - focused tests: `tests/test_ceec_ast.py`
 - published bundle: `ceec-ast`
-- local synced coverage: 111-114學年度 / 2022-2025, 145 files
+- local synced coverage: 111–115學年度 / AD 2022–2026, 31 events and 177 files
+- discovery evidence: `data/providers/ceec_ast/source-manifest.json`, 31/31 local event representation
+- current reconciliation: zero sync failures, zero normalization-review records, and 31/31 events published-complete
 
 ## Normalization Rules
 
@@ -71,4 +78,5 @@ Do not split public bundles by subject until generated bundle size or UX feedbac
 - no paid CEEC publications
 - no browser automation
 - no special-paper or special-answer-sheet pages in the first provider
+- no predecessor 指定科目考試 archive in the AST provider
 - no Shuati crawling

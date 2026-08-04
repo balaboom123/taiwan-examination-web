@@ -23,8 +23,9 @@ The current and future lifecycle is:
 
 Current behavior:
 
-- `discover` asks MOEX for available years and exam codes.
-- discovery is read-only and produces JSON output for inspection.
+- `discover` asks the selected provider (MOEX by default) for available years and exam codes.
+- discovery is read-only by default and produces JSON output for inspection.
+- `discover --write-manifest` persists the official year/exam listing into the provider-scoped source manifest; operators should use a positive `--delay-seconds` value for broad source captures.
 
 Future rule:
 
@@ -35,7 +36,7 @@ Future rule:
 
 Current behavior:
 
-- `probe-latest` uses `data/source-manifest.json`
+- `probe-latest` uses `data/providers/<provider_id>/source-manifest.json` for providers that implement the probe URL model
 - it compares current year or exam HEAD responses to prior manifest entries
 - it fetches full exam pages only when a HEAD comparison indicates change
 
@@ -83,13 +84,37 @@ Why this matters:
 - source systems sometimes return an HTML page or placeholder instead of the file
 - bundle generation MUST NOT consume invalid mirrored content
 
+## Reviewed Source-Coverage Exceptions
+
+Manual source evidence belongs in `catalog/source-coverage/<provider_id>.json`, not in generated provider state. An entry may be event-scoped (`blocked` or `intentionally_out_of_scope`) or file-scoped (`blocked`). Each entry records the official URL, capture date, response fingerprint, observation, and reason.
+
+`history-audit` matches event entries to the current raw event and file entries to the exact current download failure: provider, exam ID, AD year, paper code, file type, download URL, and `download` stage must all agree. An event exception conflicts if the current raw page has papers or attachments, normalized records exist, or any failure is recorded. An unmatched exception is an orphan. Both conditions fail strict audit. The publication validator ignores only exact file exceptions; all other provider failures remain blocking.
+
+A reviewed exception is therefore an evidence-backed denominator decision, not a generated-manifest shortcut. When the source changes or a file becomes available, the old entry becomes an orphan or conflict and must be removed or re-probed.
+
+## Publication Quarantine
+
+A source-coverage exception explains what the repository could not *acquire*. A quarantine entry explains what the repository must not *publish*. The two MUST NOT be conflated.
+
+Quarantine lives in `catalog/mappings/publication-quarantine.json` because it is publication policy rather than source evidence. Each entry records the provider, site, a status drawn from `wrong_identity`, `wrong_payload`, `corrupt_payload`, `non_paper_role`, or `duplicate_source_identity`, a reason, and pointers to the source manifest and provider spec that evidence the defect. Both pointers MUST resolve; a dangling pointer fails loading, so withheld data can never become unexplained.
+
+Rules:
+
+- A quarantined provider MUST remain registered in `app.site_registry`. Quarantine withholds publication only; dropping the provider from the registry instead would remove it from the source-inventory, catalog-audit, and history-audit denominators and would hide the defect rather than expose it.
+- `app.publisher.load_site_catalog` is the only consumer that skips quarantined providers. Discovery, sync, mirroring, normalization, and every audit continue to run.
+- A provider in `required_provider_ids` MUST NOT be quarantined. `load_site_catalog` fails closed rather than silently bypassing the missing-state guard.
+- `history-audit` reports quarantined events under the distinct `withheld_by_quarantine` status. It MUST NOT reuse `excluded_by_publication_policy`, which means the min-years rule, and it MUST NOT leave them as `normalized_not_published`, which means an unexplained gap. Keeping the status separate is what stops a deliberate withholding from turning a red gate green.
+- Quarantine MUST NOT delete provider state, mirrored bytes, or bundle archives. Lifting an entry is a revert plus a republish.
+
+Removing a provider from the projection also strands its already-uploaded release assets. They stay downloadable by direct URL until `release_assets.py prune` runs, so a quarantine is not fully effective until the release side is reconciled.
+
 ### 5. Normalize
 
 Current behavior:
 
 - provider raw pages become `NormalizedPaper` records
-- `data/aliases.json` is applied during normalization
-- unresolved naming cases are emitted to `data/review-queue.json`
+- provider-scoped alias rules under `data/providers/<provider_id>/aliases.json` are applied during normalization
+- unresolved naming cases are emitted to `data/providers/<provider_id>/review-queue.json`
 
 Future rule:
 
@@ -116,8 +141,8 @@ Why this matters:
 Current behavior:
 
 - bundle generation reads normalized papers and mirrored files
-- generated bundle metadata is written to `data/bundles.json`
-- release asset inventory is written to `data/release-assets.json`
+- generated site bundle metadata is written to `data/sites/<site_id>/bundles.json`
+- release asset inventory is written to `data/sites/<site_id>/release-assets.json`
 - legacy alias asset names may be preserved for compatibility
 
 Future rule:
@@ -168,7 +193,7 @@ Future rule:
 | --- | --- | --- | --- |
 | `discover` | no | n/a | read-only |
 | `probe-latest` | yes, only output file and optional manifest | yes | returns a probe result even when no sync is needed |
-| `sync-targeted` | yes, if successful | no for provider refresh failures | aborts on any download or bundle failure for targeted exams |
+| `sync-targeted` | yes, if successful; `--allow-partial` may commit the valid subset | no by default; explicit partial mode is opt-in | default aborts on any failure; partial mode retains successful records and failure rows, returns non-zero, and requires follow-up audit/publication |
 | `sync-incremental` | yes | yes, safe subset only | preserves existing state for failed exam IDs and returns non-zero if failures remain |
 | `sync-full` | yes | yes | writes full regenerated outputs and returns non-zero if failures remain |
 | `build-bundles` | yes | no | local rebuild path; returns non-zero if failures exist |
@@ -177,22 +202,26 @@ Future rule:
 
 Manual inputs today:
 
-- `data/aliases.json`
+- `data/providers/<provider_id>/aliases.json`
+- `catalog/source-coverage/<provider_id>.json` reviewed evidence for blocked or intentionally excluded official sources
+- `catalog/source-inventory.json` reviewed source scope/status/evidence and exact local-state observations
+- `catalog/mappings/publication-quarantine.json` reviewed decisions to withhold a registered provider from a site projection
 
 Generated outputs today:
 
-- `data/exams/**`
-- `data/papers/**`
-- `data/bundles.json`
-- `data/review-queue.json`
-- `data/sync-failures.json`
-- `data/source-manifest.json`
-- `data/release-assets.json`
+- `data/providers/<provider_id>/exams/**`
+- `data/providers/<provider_id>/papers/**`
+- `data/providers/<provider_id>/review-queue.json`
+- `data/providers/<provider_id>/sync-failures.json`
+- `data/providers/<provider_id>/source-manifest.json` when supported
+- `data/sites/<site_id>/bundles.json`
+- `data/sites/<site_id>/release-assets.json`
+- `data/sites/<site_id>/*` publication indexes
 
 Operators and developers MUST treat generated outputs as derived state. Manual edits to generated files are temporary recovery actions only and MUST be followed by a rebuilding command or code fix.
 
 ## Expansion Rules
 
-- New providers MUST own their own manifests, review queues, and failure logs.
+- New providers MUST own their own manifests, review queues, failure logs, and source-coverage evidence where an official source is blocked or intentionally excluded. The reviewed source inventory must also gain a provider row before the provider is treated as in scope.
 - New sites MUST own their own bundle metadata and release asset inventory.
 - Shared schemas MAY evolve, but provider-specific fields MUST NOT leak into site-facing bundle feeds without an explicit contract update.

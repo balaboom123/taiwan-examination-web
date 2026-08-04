@@ -1,0 +1,31 @@
+{
+  "exams": {
+    "teacher-recruit-tainan-115": {
+      "discovered_at": "2026-07-29T21:00:07.774157+08:00",
+      "exam_label": "115學年度臺南市國小教師甄試",
+      "result_url": "https://qualify.tn.edu.tw/trexamps/",
+      "source_exam_id": "teacher-recruit-tainan-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "discovery_mode": "official-year-exam-listing",
+    "last_discovery_at": "2026-07-29T21:00:07.774157+08:00"
+  },
+  "provider_id": "teacher_recruit_tainan",
+  "schema_version": 1,
+  "years": {
+    "2026": {
+      "discovered_at": "2026-07-29T21:00:07.774157+08:00",
+      "exam_codes": [
+        "teacher-recruit-tainan-115"
+      ],
+      "exam_codes_hash": "sha256:6254219d34a258c37577382c0aac4d9db383cff16bf20fc6b6e446d912f508a0",
+      "search_url": "https://qualify.tn.edu.tw/trexamps/",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

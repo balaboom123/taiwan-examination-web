@@ -1,0 +1,145 @@
+{
+  "exams": {
+    "hce-nsysu-111": {
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_label": "111學年度國立中山大學學士後醫學系",
+      "result_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_111.pdf",
+      "source_exam_id": "hce-nsysu-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "hce-nsysu-112": {
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_label": "112學年度國立中山大學學士後醫學系",
+      "result_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_112.pdf",
+      "source_exam_id": "hce-nsysu-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "hce-nsysu-113": {
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_label": "113學年度國立中山大學學士後醫學系",
+      "result_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_113.pdf",
+      "source_exam_id": "hce-nsysu-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "hce-nsysu-114": {
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_label": "114學年度國立中山大學學士後醫學系",
+      "result_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_114.pdf",
+      "source_exam_id": "hce-nsysu-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "hce-nsysu-115": {
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_label": "115學年度國立中山大學學士後醫學系",
+      "result_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf",
+      "source_exam_id": "hce-nsysu-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "accepted_asset_count": 5,
+    "accepted_scope": "one official combined question-and-answer PDF for each discovered NSYSU post-baccalaureate medicine year",
+    "asset_reconciliation_at": "2026-07-30T20:15:28.875332+08:00",
+    "combined_pdf_bytes": 35509877,
+    "discovery_mode": "official-year-exam-listing",
+    "html_fingerprint_scope": "capture evidence only; accepted_asset_urls_hash and file_sha256 are drift keys",
+    "last_discovery_at": "2026-07-30T20:15:01.686306+08:00",
+    "license_status": "no explicit redistribution license or copyright terms linked from the archive pages",
+    "listing_bytes": 35007,
+    "listing_sha256": "011e0aa94e7202c3613bdfe7f28cbc72170c1a99f9f8a113e39276955ea4e5e5",
+    "listing_url": "https://lis.nsysu.edu.tw/p/412-1001-23442.php?Lang=zh-tw",
+    "provenance_url": "https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw",
+    "robots_policy": "Allow: /",
+    "transport_security": "default TLS verification succeeds"
+  },
+  "provider_id": "hce_nsysu",
+  "schema_version": 1,
+  "years": {
+    "2022": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "c2faa5ea8d15f6e1dfc937a5b536d9ba398e75c49cd6ea88fb76146542617e2f",
+      "asset_reconciled_at": "2026-07-30T20:15:28.875332+08:00",
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_codes": [
+        "hce-nsysu-111"
+      ],
+      "exam_codes_hash": "sha256:97a55553361461afe0b1c186a965ad3585328c413d068a7b5659bb7f405477c8",
+      "file_bytes": 20798630,
+      "file_content_type": "application/pdf",
+      "file_sha256": "117a4d6ca14744f0b435659d3ee4af5de37c9e3666e4a64389c65638a63e12e8",
+      "search_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_111.pdf",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "90d12d89434d3a430886fc5b3cd8c5bee30f2432eb8c635397dc45b266607072",
+      "asset_reconciled_at": "2026-07-30T20:15:28.875332+08:00",
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_codes": [
+        "hce-nsysu-112"
+      ],
+      "exam_codes_hash": "sha256:ba8c42c34da4e5c68431af73fcc2d279cf41782dd2a8141fbdac6d7318e1cf4d",
+      "file_bytes": 5928134,
+      "file_content_type": "application/pdf",
+      "file_sha256": "dc5667fec8812947faf563e4818f0cd4e35cbc4a78e7b0aabe0dbcd29a1f265f",
+      "search_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_112.pdf",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "2760c426843cac0d3c0f78767b8282cf67a58543565f24fca361dd136095bef6",
+      "asset_reconciled_at": "2026-07-30T20:15:28.875332+08:00",
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_codes": [
+        "hce-nsysu-113"
+      ],
+      "exam_codes_hash": "sha256:84ff6eb659a79d3c0e3c2664c8b7a1355e5f41ac303174d03cb1298259853ea1",
+      "file_bytes": 2159511,
+      "file_content_type": "application/pdf",
+      "file_sha256": "ccf5d2b9d45c2fa9a2ed2f53051894ff5bf13382d07e538d4c11d133a13f0c0f",
+      "search_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_113.pdf",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "5dd62bd8b5aab2e7b10a0d0d616f330cd5f42abd84e22f4e8c8f956dcf6bba46",
+      "asset_reconciled_at": "2026-07-30T20:15:28.875332+08:00",
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_codes": [
+        "hce-nsysu-114"
+      ],
+      "exam_codes_hash": "sha256:527bc3ad60337d79a6f4020f6614a35d78075ab07d84669dbb2d2422ba3fe5b0",
+      "file_bytes": 3500228,
+      "file_content_type": "application/pdf",
+      "file_sha256": "d56a9597841918ee7920399613c414af313ee3fc149b4578d3452f9655a8cf27",
+      "search_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_114.pdf",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "accepted_asset_count": 1,
+      "accepted_asset_urls_hash": "22abee46ceabeaaaffc9a38b5796a662782692333ff659b138dfb92f5515aa37",
+      "asset_reconciled_at": "2026-07-30T20:15:28.875332+08:00",
+      "discovered_at": "2026-07-30T20:15:01.686306+08:00",
+      "exam_codes": [
+        "hce-nsysu-115"
+      ],
+      "exam_codes_hash": "sha256:0f05a1ae1a67978b6e4e44b48370e2da53ba1cbb4456fa97744499c4ff6945d3",
+      "file_bytes": 3123374,
+      "file_content_type": "application/pdf",
+      "file_sha256": "76bedaac7bbb58172e7f82ef55099772a44a5267014a6873c07e52ca75d0d8b2",
+      "search_url": "https://www3.nsysu.edu.tw/exam/bachelor/med/pbm/pbm_115.pdf",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

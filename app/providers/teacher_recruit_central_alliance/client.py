@@ -166,6 +166,20 @@ class CentralAllianceRecruitClient:
             for level_code, (level_name, _cate) in LEVELS.items()
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if year_ad != 2026:
+            raise ValueError(f"Unexpected Central Alliance discovery year: {year_ad}")
+        return f"{BASE_URL}/Subject/news.php"
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_prefix = f"teacher-recruit-central-alliance-{year_ad - 1911}-"
+        if year_ad != 2026 or not exam_code.startswith(expected_prefix):
+            raise ValueError(f"Unexpected Central Alliance discovery exam for {year_ad}: {exam_code}")
+        level_code = exam_code.removeprefix(expected_prefix)
+        if level_code not in LEVELS:
+            raise ValueError(f"Unexpected Central Alliance discovery level: {level_code}")
+        return self._subject_url(level_code)
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911
         level_code = exam_code.rsplit("-", 1)[-1]

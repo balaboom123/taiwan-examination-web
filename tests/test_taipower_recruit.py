@@ -1,7 +1,14 @@
 import unittest
 from unittest.mock import patch
 
-from app.providers.taipower_recruit.client import TaipowerRecruitClient, _quote_url_for_request, parse_hiring_page
+from app.providers.taipower_recruit.client import (
+    DISCOVERY_PAGE_SIZE,
+    DOWNLOAD_URL,
+    TaipowerRecruitClient,
+    _quote_url_for_request,
+    parse_hiring_page,
+    parse_year_tabs,
+)
 
 
 HIRING_PAGE_HTML = """
@@ -201,6 +208,62 @@ HIRING_PAGE_HTML_MULTI_SUBJECT = """
 """
 
 
+EVENT_TABS_HTML = """
+<html><body>
+<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=4256">113年度</a>
+<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=2659">107年12月</a>
+<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=1611">107年5月</a>
+</body></html>
+"""
+
+
+def _event_page_html(
+    year_roc: int,
+    month: int | None = None,
+    *,
+    next_page: bool = False,
+) -> str:
+    prefix = f"{year_roc}年{month}月" if month is not None else f"{year_roc}年度"
+    suffix = f"-{month}" if month is not None else ""
+    pagination = (
+        f'<a href="?Page=2&amp;PageSize={DISCOVERY_PAGE_SIZE}&amp;q_attribute=4256">2</a>'
+        if next_page
+        else ""
+    )
+    return f"""
+<html><body>
+<ul><li>
+  <p class="title">{prefix}共同科目</p>
+  <div class="drawerBox"><ul class="fileDownload">
+    <li><span class="name">{prefix}新進僱用人員甄試試題_共同科目</span>
+      <ul class="downloadFiles"><li><a download href="/media/{year_roc}{suffix}/question.pdf">下載</a></li></ul>
+    </li>
+    <li><span class="name">{prefix}新進僱用人員甄試答案_共同科目</span>
+      <ul class="downloadFiles"><li><a download href="/media/{year_roc}{suffix}/answer.pdf">下載</a></li></ul>
+    </li>
+  </ul></div>
+</li></ul>
+{pagination}
+</body></html>
+"""
+
+
+def _fake_archive_fetch(url: str) -> str:
+    if url == DOWNLOAD_URL:
+        return EVENT_TABS_HTML
+    event_by_attribute = {
+        "4256": (113, None),
+        "2659": (107, 12),
+        "1611": (107, 5),
+    }
+    for attribute, (year_roc, month) in event_by_attribute.items():
+        if f"q_attribute={attribute}" in url:
+            if f"PageSize={DISCOVERY_PAGE_SIZE}" not in url:
+                raise AssertionError(f"unbounded event URL: {url}")
+            return _event_page_html(year_roc, month)
+    raise AssertionError(f"unexpected URL: {url}")
+
+
 class TaipowerRecruitParserTests(unittest.TestCase):
     def test_quote_url_for_request_percent_encodes_non_ascii_path_and_preserves_query(self) -> None:
         url = "https://www.taipower.com.tw/media/demo/115年度新進僱用人員甄試試題.pdf?mediaDL=true"
@@ -301,7 +364,7 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(entries, [])
 
     def test_fetch_exam_page_builds_source_exam_page(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             page = client.fetch_exam_page("taipower-recruit-113", 2024)
 
@@ -309,12 +372,12 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(page.source_exam_id, "taipower-recruit-113")
         self.assertEqual(page.year_ad, 2024)
         self.assertEqual(page.year_roc, 113)
-        self.assertEqual(page.exam_name_raw, "113年新進僱用人員甄試試題解答")
+        self.assertEqual(page.exam_name_raw, "113年度台電新進僱用人員甄試")
         self.assertEqual(len(page.papers), 2)
         self.assertEqual({paper.category_raw for paper in page.papers}, {"台電新進僱用人員甄試"})
 
     def test_fetch_exam_page_multi_session_year(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             page = client.fetch_exam_page("taipower-recruit-107-12", 2018)
 
@@ -322,7 +385,7 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(page.year_roc, 107)
 
     def test_fetch_exam_page_assigns_question_and_answer_file_types(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             page = client.fetch_exam_page("taipower-recruit-113", 2024)
 
@@ -331,14 +394,14 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertIn("answer", file_types)
 
     def test_discover_available_years_returns_sorted_descending(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             years = client.discover_available_years()
 
         self.assertEqual(years, [2024, 2023, 2018, 2017])
 
     def test_discover_exams_returns_exam_options_for_single_session_year(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             exams = client.discover_exams(2024)
 
@@ -346,9 +409,10 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(exams[0].code, "taipower-recruit-113")
         self.assertEqual(exams[0].year_ad, 2024)
         self.assertEqual(exams[0].year_roc, 113)
+        self.assertEqual(exams[0].label, "113年度台電新進僱用人員甄試")
 
     def test_discover_exams_returns_two_options_for_multi_session_year(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML)):
             client = TaipowerRecruitClient()
             exams = client.discover_exams(2018)
 
@@ -358,7 +422,7 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertIn("taipower-recruit-107-5", codes)
 
     def test_discover_exams_deduplicates_multi_subject_entries(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML_MULTI_SUBJECT):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML_MULTI_SUBJECT)):
             client = TaipowerRecruitClient()
             exams = client.discover_exams(2023)
 
@@ -366,7 +430,7 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(exams[0].code, "taipower-recruit-112")
 
     def test_fetch_exam_page_aggregates_multi_subject_entries(self) -> None:
-        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value=HIRING_PAGE_HTML_MULTI_SUBJECT):
+        with patch.object(TaipowerRecruitClient, "_iter_entries", return_value=parse_hiring_page(HIRING_PAGE_HTML_MULTI_SUBJECT)):
             client = TaipowerRecruitClient()
             page = client.fetch_exam_page("taipower-recruit-112", 2023)
 
@@ -377,6 +441,137 @@ class TaipowerRecruitParserTests(unittest.TestCase):
         self.assertEqual(codes, ["hiring-01", "hiring-02", "hiring-03", "hiring-04"])
         file_types = [ft for paper in page.papers for ft in paper.files]
         self.assertEqual(file_types, ["question", "answer", "question", "answer"])
+
+
+    def test_parse_event_tabs_preserves_two_sessions_in_one_year(self) -> None:
+        tabs = parse_year_tabs(EVENT_TABS_HTML)
+
+        self.assertEqual(
+            tabs,
+            [
+                (113, None, "/2289/2544/2554/2557/?Page=1&PageSize=10&q_attribute=4256"),
+                (107, 12, "/2289/2544/2554/2557/?Page=1&PageSize=10&q_attribute=2659"),
+                (107, 5, "/2289/2544/2554/2557/?Page=1&PageSize=10&q_attribute=1611"),
+            ],
+        )
+
+    def test_archive_discovery_fetches_every_event_at_bounded_page_size(self) -> None:
+        with patch.object(
+            TaipowerRecruitClient,
+            "_fetch_text",
+            side_effect=_fake_archive_fetch,
+        ) as fetch:
+            client = TaipowerRecruitClient()
+            years = client.discover_available_years()
+            year_url = client.build_discovery_year_url(2018)
+            event_url = client.build_discovery_exam_url(
+                "taipower-recruit-107-12",
+                2018,
+            )
+            exams = client.discover_exams(2018)
+
+        self.assertEqual(years, [2024, 2018])
+        self.assertEqual(year_url, DOWNLOAD_URL)
+        self.assertEqual(
+            event_url,
+            "https://www.taipower.com.tw/2289/2544/2554/2557/"
+            "?Page=1&PageSize=60&q_attribute=2659",
+        )
+        self.assertEqual(
+            [exam.code for exam in exams],
+            ["taipower-recruit-107-12", "taipower-recruit-107-5"],
+        )
+        self.assertEqual(fetch.call_count, 4)
+
+    def test_archive_discovery_rejects_missing_event_tabs(self) -> None:
+        with patch.object(TaipowerRecruitClient, "_fetch_text", return_value="<html></html>"):
+            with self.assertRaisesRegex(ValueError, "no official event tabs"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_archive_discovery_rejects_residual_pagination(self) -> None:
+        one_tab = EVENT_TABS_HTML.replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=2659">107年12月</a>',
+            "",
+        ).replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=1611">107年5月</a>',
+            "",
+        )
+
+        def fake_fetch(url: str) -> str:
+            return one_tab if url == DOWNLOAD_URL else _event_page_html(113, next_page=True)
+
+        with patch.object(TaipowerRecruitClient, "_fetch_text", side_effect=fake_fetch):
+            with self.assertRaisesRegex(ValueError, "still paginates"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_archive_discovery_rejects_duplicate_asset_urls(self) -> None:
+        one_tab = EVENT_TABS_HTML.replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=2659">107年12月</a>',
+            "",
+        ).replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=1611">107年5月</a>',
+            "",
+        )
+
+        def fake_fetch(url: str) -> str:
+            if url == DOWNLOAD_URL:
+                return one_tab
+            return _event_page_html(113).replace("/answer.pdf", "/question.pdf")
+
+        with patch.object(TaipowerRecruitClient, "_fetch_text", side_effect=fake_fetch):
+            with self.assertRaisesRegex(ValueError, "repeats download URL"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_archive_discovery_rejects_cross_event_entries(self) -> None:
+        one_tab = EVENT_TABS_HTML.replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=2659">107年12月</a>',
+            "",
+        ).replace(
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=1611">107年5月</a>',
+            "",
+        )
+
+        def fake_fetch(url: str) -> str:
+            return one_tab if url == DOWNLOAD_URL else _event_page_html(112)
+
+        with patch.object(TaipowerRecruitClient, "_fetch_text", side_effect=fake_fetch):
+            with self.assertRaisesRegex(ValueError, "cross-event entries"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_archive_discovery_rejects_duplicate_event_tabs(self) -> None:
+        duplicate_tabs = EVENT_TABS_HTML.replace(
+            "</body>",
+            '<a href="/2289/2544/2554/2557/?Page=1&amp;PageSize=10&amp;q_attribute=9999">113年度</a></body>',
+        )
+        with patch.object(
+            TaipowerRecruitClient,
+            "_fetch_text",
+            return_value=duplicate_tabs,
+        ):
+            with self.assertRaisesRegex(ValueError, "duplicate event tabs"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_archive_discovery_rejects_wrong_listing_route(self) -> None:
+        wrong_route = EVENT_TABS_HTML.replace("/2557/", "/2556/", 1)
+        with patch.object(
+            TaipowerRecruitClient,
+            "_fetch_text",
+            return_value=wrong_route,
+        ):
+            with self.assertRaisesRegex(ValueError, "Unexpected Taipower archive"):
+                TaipowerRecruitClient().discover_available_years()
+
+    def test_discovery_urls_reject_unknown_year_and_exam(self) -> None:
+        with patch.object(
+            TaipowerRecruitClient,
+            "_fetch_text",
+            side_effect=_fake_archive_fetch,
+        ):
+            client = TaipowerRecruitClient()
+            with self.assertRaisesRegex(ValueError, "Unknown Taipower recruitment discovery year"):
+                client.build_discovery_year_url(2025)
+            with self.assertRaisesRegex(ValueError, "Unknown Taipower recruitment discovery exam"):
+                client.build_discovery_exam_url("taipower-recruit-107", 2018)
 
     def test_registry_returns_taipower_recruit_provider(self) -> None:
         from app.providers.registry import get_provider

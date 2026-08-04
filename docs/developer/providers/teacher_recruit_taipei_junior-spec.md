@@ -16,6 +16,19 @@ The source is official Taipei City Department of Education server-rendered HTML.
 
 The provider intentionally uses a fixed official article map instead of a brittle site search crawler. Add future years by adding a reviewed official DOE article URL.
 
+## Discovery Snapshot
+
+The read-only discovery command records each reviewed official article as both year and event evidence. On 2026-07-29, the AD 2024 article exposed 28 PDFs (14 question/answer pairs) and AD 2025 exposed 40 PDFs (20 pairs). All 68 URLs exactly matched retained normalized state.
+
+Generate or refresh the reviewed-scope snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_taipei_junior --years 2024 2025 \
+  --manifest data/providers/teacher_recruit_taipei_junior/source-manifest.json --write-manifest
+```
+
+This snapshot is complete only for the two-year reviewed article map. It is not evidence of an exhaustive Taipei DOE archive and does not enable automatic future-year or HEAD-based `probe-latest` discovery.
+
 ## Output Model
 
 - one exam per school year: `teacher-recruit-taipei-junior-<roc_year>`

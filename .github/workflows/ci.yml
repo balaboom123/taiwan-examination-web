@@ -38,10 +38,20 @@ jobs:
         run: python -m pytest -q tests/test_workflows.py
 
       - name: Audit public catalog
-        run: python -m app audit-catalog --repo-root . --site-id default --output .tmp/catalog-audit.json
+        run: python -m app audit-catalog --repo-root . --site-id default --strict --output .tmp/catalog-audit.json
 
       - name: Validate publication and schemas
         run: python scripts/validate_publication.py
+
+      - name: Validate source scope inventory
+        run: python scripts/validate_source_inventory.py
+
+      - name: Audit event-level coverage
+        # CI checks out without the gitignored mirror tree, so the download
+        # dimension is unverifiable here and is audited by operators instead.
+        # Every other dimension - identity, publication, coverage exceptions,
+        # and quarantine - is enforced.
+        run: python -m app history-audit --repo-root . --site-id default --strict --skip-mirror-check --output .tmp/history-audit.json
 
       - name: Plan release shards
         run: python -m app plan-release --repo-root . --site-id default --output .tmp/release-plan.json

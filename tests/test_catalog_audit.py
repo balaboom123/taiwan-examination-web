@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app.audit import build_catalog_audit
-from app.models import NormalizedCatalog, NormalizedPaper
+from app.audit import audit_exit_code, build_catalog_audit
+from app.models import NormalizedCatalog, NormalizedPaper, ReviewItem
 from app.paths import provider_paths
 from app.publisher import write_provider_state
 
@@ -29,6 +29,37 @@ def paper(category: str, event: str, year: int, source: str) -> NormalizedPaper:
 
 
 class CatalogAuditTests(unittest.TestCase):
+    def test_audit_detects_review_queue_rows_not_present_in_current_papers(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            current_paper = paper("一般行政", "公務人員高等考試三級", 115, "high-115")
+            write_provider_state(
+                provider_paths(root, "moex"),
+                raw_pages=[],
+                normalized=NormalizedCatalog(
+                    papers=[current_paper],
+                    review_queue=[
+                        ReviewItem(
+                            raw_category=current_paper.category_raw,
+                            normalized_candidate=current_paper.canonical_name,
+                            source_exam_id=current_paper.source_exam_id,
+                            year_roc=current_paper.year_roc,
+                            provider_id="moex",
+                            reason="stale",
+                        )
+                    ],
+                ),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            report = build_catalog_audit(root)
+
+            self.assertEqual(report["review_queue_stale_entries"], 1)
+            self.assertEqual(report["review_queue_missing_entries"], 0)
+            self.assertEqual(audit_exit_code(report, strict=True), 1)
+
     def test_audit_scans_all_registered_provider_slots_and_reports_projected_split(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)

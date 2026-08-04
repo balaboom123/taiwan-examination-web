@@ -1,0 +1,732 @@
+{
+  "exams": {
+    "moea-recruit-100": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "100年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=556",
+      "source_exam_id": "moea-recruit-100",
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "moea-recruit-101": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "101年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=557",
+      "source_exam_id": "moea-recruit-101",
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "moea-recruit-102": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "102年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=558",
+      "source_exam_id": "moea-recruit-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "moea-recruit-103": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "103年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=559",
+      "source_exam_id": "moea-recruit-103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "moea-recruit-104": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "104年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=355",
+      "source_exam_id": "moea-recruit-104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "moea-recruit-105": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "105年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=354",
+      "source_exam_id": "moea-recruit-105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "moea-recruit-106": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "106年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=353",
+      "source_exam_id": "moea-recruit-106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "moea-recruit-107": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "107年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=2656",
+      "source_exam_id": "moea-recruit-107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "moea-recruit-108": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "108年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=2714",
+      "source_exam_id": "moea-recruit-108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "moea-recruit-109": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "109年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=3032",
+      "source_exam_id": "moea-recruit-109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "moea-recruit-110": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "110年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4119",
+      "source_exam_id": "moea-recruit-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "moea-recruit-111": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "111年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4224",
+      "source_exam_id": "moea-recruit-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "moea-recruit-112": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "112年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4296",
+      "source_exam_id": "moea-recruit-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "moea-recruit-113": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "113年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4298",
+      "source_exam_id": "moea-recruit-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "moea-recruit-114": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "114年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4300",
+      "source_exam_id": "moea-recruit-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "moea-recruit-91": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "91年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=356",
+      "source_exam_id": "moea-recruit-91",
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "moea-recruit-93": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "93年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=359",
+      "source_exam_id": "moea-recruit-93",
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "moea-recruit-95": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "95年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=360",
+      "source_exam_id": "moea-recruit-95",
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "moea-recruit-96": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "96年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=450",
+      "source_exam_id": "moea-recruit-96",
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "moea-recruit-97": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "97年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=451",
+      "source_exam_id": "moea-recruit-97",
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "moea-recruit-98": {
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_label": "98年度經濟部所屬事業機構新進職員甄試",
+      "result_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=452",
+      "source_exam_id": "moea-recruit-98",
+      "year_ad": 2009,
+      "year_roc": 98
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "archive_entrypoint_url": "https://www.taipower.com.tw/tc/download.aspx?mid=261",
+    "archive_listing_url": "https://www.taipower.com.tw/2289/2544/2554/2556/",
+    "asset_reconciliation_status": "listing-only; 1,486 official URLs are enumerated but have not yet been downloaded or byte-reconciled into retained MOEA state",
+    "discovery_mode": "official-year-tab-and-bounded-listing",
+    "html_fingerprint_scope": "capture evidence only; exact year set, per-year subject/file counts, and URL-set hashes are the stable drift keys",
+    "last_discovery_at": "2026-07-31T15:13:56.464510+08:00",
+    "last_listing_audit_at": "2026-07-31T15:19:11.270710+08:00",
+    "license_status": "Taipower permits broad attributed reuse for material within its copyright, subject to stated exclusions and third-party rights; this does not independently establish ownership of every exam item",
+    "license_url": "https://www.taipower.com.tw/26275/26692/26698/normalPost",
+    "listed_asset_count": 1486,
+    "listed_asset_urls_hash": "sha256:5329e336a6e5230bf842a3a6449059cd33f94612a7b96d5c34d090f2934db483",
+    "official_exam_portal_url": "https://service.taipower.com.tw/exam/info.aspx",
+    "official_year_tab_count": 21,
+    "official_years_ad": [
+      2002,
+      2004,
+      2006,
+      2007,
+      2008,
+      2009,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "page_evidence": {
+      "archive_entrypoint": {
+        "bytes": 137046,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.taipower.com.tw/2289/2544/2554/2556/",
+        "sha256": "b37a2b17f73860b0c20d35329e515b46e5ac0101f8da2e3d80777278ece29045",
+        "status": 200,
+        "url": "https://www.taipower.com.tw/tc/download.aspx?mid=261"
+      },
+      "official_exam_portal": {
+        "bytes": 14431,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://service.taipower.com.tw/exam/info.aspx",
+        "note": "successful independent capture on 2026-07-31; later TLS handshakes intermittently timed out",
+        "sha256": "64a54a8b58a5b16ad8457c3655d5c7356b562ac8c60f58ae6627555ff77a1294",
+        "status": 200,
+        "url": "https://service.taipower.com.tw/exam/info.aspx"
+      },
+      "open_data_declaration": {
+        "bytes": 101725,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.taipower.com.tw/26275/26692/26698/normalPost",
+        "sha256": "54350895c735058aff6728bc5e0f44e060679e6115238caa64474896c6c46904",
+        "status": 200,
+        "url": "https://www.taipower.com.tw/26275/26692/26698/normalPost"
+      },
+      "robots_path": {
+        "bytes": 99704,
+        "content_type": "text/html; charset=utf-8",
+        "final_url": "https://www.taipower.com.tw/robots.txt",
+        "note": "HTML error page whose title and metadata identify the requested resource as not found",
+        "sha256": "0da4b1f537d99818a423392585a09bb12f4e7c39d551de8911107107c051f2a5",
+        "status": 200,
+        "url": "https://www.taipower.com.tw/robots.txt"
+      }
+    },
+    "pagination_policy": "each official year tab is requested at Page=1 and PageSize=200; discovery fails if any same-route Page>1 link remains",
+    "retained_local_contamination": {
+      "all_records_are_taipower_hiring_material": true,
+      "duplicated_mirror_bytes": 194695148,
+      "exact_taipower_checksum_set_duplicate": true,
+      "exact_taipower_source_url_set_duplicate": true,
+      "local_only_events": [
+        [
+          "moea-recruit-115",
+          2026
+        ],
+        [
+          "moea-recruit-90",
+          2001
+        ],
+        [
+          "moea-recruit-92",
+          2003
+        ],
+        [
+          "moea-recruit-94",
+          2005
+        ],
+        [
+          "moea-recruit-99",
+          2010
+        ]
+      ],
+      "local_years_ad": [
+        2001,
+        2003,
+        2005,
+        2006,
+        2007,
+        2008,
+        2010,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "normalized_records": 370,
+      "publication_status": "the generated MOEA bundle still publishes all 370 misclassified Taipower hiring files; replacement or quarantine is deferred to a reviewed destructive data migration",
+      "published_bundle_bytes": 138667426,
+      "published_bundle_file_count": 370,
+      "raw_event_pages": 21,
+      "source_only_events": [
+        [
+          "moea-recruit-100",
+          2011
+        ],
+        [
+          "moea-recruit-107",
+          2018
+        ],
+        [
+          "moea-recruit-91",
+          2002
+        ],
+        [
+          "moea-recruit-93",
+          2004
+        ],
+        [
+          "moea-recruit-98",
+          2009
+        ]
+      ]
+    },
+    "robots_policy": "/robots.txt returns a 200 HTML error page identifying the requested resource as not found; no machine-readable robots policy was found",
+    "subject_group_count": 515,
+    "unique_listed_asset_count": 1486
+  },
+  "provider_id": "moea_recruit",
+  "schema_version": 1,
+  "years": {
+    "2002": {
+      "asset_count": 21,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:f533be97a9bef7fb2b6601e2081fdc786b2f745f5da4667e3414a66584a4730d",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-91"
+      ],
+      "exam_codes_hash": "sha256:ed7499af1f92abc032b3c19026f802d373f821d875c760b9686417f4b021a52f",
+      "listing_html_bytes": 127740,
+      "listing_html_sha256": "6edf954c70d4993889f62c8970f23ac77693e602073937abbfd5dbf85f440563",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=356",
+      "subject_group_count": 11,
+      "unique_asset_count": 21,
+      "year_ad": 2002,
+      "year_roc": 91
+    },
+    "2004": {
+      "asset_count": 37,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:fd6fde99fda28cb21926a3b8a497b0f6e98dcf02de5aae6efd518b505d350afa",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-93"
+      ],
+      "exam_codes_hash": "sha256:d542b35c14ead01eacf428640dd25fe24563c6472c55dabbff6008981ebe8a87",
+      "listing_html_bytes": 142509,
+      "listing_html_sha256": "c1d6536a470839a12ea780cf2100318ef90e42434d2b6d833e7394b5dcabee92",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=359",
+      "subject_group_count": 19,
+      "unique_asset_count": 37,
+      "year_ad": 2004,
+      "year_roc": 93
+    },
+    "2006": {
+      "asset_count": 66,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:8b58d5a12d5eed9afe505f190f2ad8dc161c78ee5ac5bb6cf082194fd136cace",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-95"
+      ],
+      "exam_codes_hash": "sha256:86aa7bc60df44b1171768c22009bb754ea7d314c9c7e877b5b9ce0b3b4b25b4d",
+      "listing_html_bytes": 165199,
+      "listing_html_sha256": "4a0a9327ec0d247aee25830edf9eba57a01b8875479aa668c5d666c7eaeda5b5",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=360",
+      "subject_group_count": 19,
+      "unique_asset_count": 66,
+      "year_ad": 2006,
+      "year_roc": 95
+    },
+    "2007": {
+      "asset_count": 68,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:636b57603f23c53072c0264932adb9ac2205ec47f41ac3b8046e77b6b085d50e",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-96"
+      ],
+      "exam_codes_hash": "sha256:09e4768b24e74b5dcc1ffb0f20304ccf6d6fd210cd35ba4da1d86b3dac2a948e",
+      "listing_html_bytes": 168139,
+      "listing_html_sha256": "fc274d905ff7e563c7939e0155b28f227b211027f7a48ae2379a99a4c2bbadf2",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=450",
+      "subject_group_count": 23,
+      "unique_asset_count": 68,
+      "year_ad": 2007,
+      "year_roc": 96
+    },
+    "2008": {
+      "asset_count": 66,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:3a40e383def826071df4713ee024217325a0e542358767c14825be4c57792e57",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-97"
+      ],
+      "exam_codes_hash": "sha256:9b234bed1f8ff902bcfb93a70b5e7ae36712fc48217e2157a8689c5f863379b5",
+      "listing_html_bytes": 166865,
+      "listing_html_sha256": "f0fe1c40c7b97787079f9e8174e0d56d586a90bdc6b6400df820eb0159b31446",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=451",
+      "subject_group_count": 23,
+      "unique_asset_count": 66,
+      "year_ad": 2008,
+      "year_roc": 97
+    },
+    "2009": {
+      "asset_count": 45,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:cf1955cf369b03469fc66f29e7802e81f4f11ea427a29c73173b88071ee23472",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-98"
+      ],
+      "exam_codes_hash": "sha256:f6025e3a317f1d6e5d92e6b2d3e92de2acbdc848c1bc83592e1ecd9ef1987fd1",
+      "listing_html_bytes": 150145,
+      "listing_html_sha256": "0a6a9fe32c895eceb1e5343cd6574360eae68d9ee5599dfc50a908726e37948d",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=452",
+      "subject_group_count": 16,
+      "unique_asset_count": 45,
+      "year_ad": 2009,
+      "year_roc": 98
+    },
+    "2011": {
+      "asset_count": 73,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:5b4cf8f845c365fa43f7a7ab6a5daef5db52e9e7d8e257c03efa43ce9b217fc8",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-100"
+      ],
+      "exam_codes_hash": "sha256:501e959b9ddffea64c05bf3bfe4ae4dc941edfbb84025ddad570c98215fde69a",
+      "listing_html_bytes": 174594,
+      "listing_html_sha256": "a19d1314d0875b41a9060abc260680e57f0826179e382378bf42730cbdbef9ff",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=556",
+      "subject_group_count": 25,
+      "unique_asset_count": 73,
+      "year_ad": 2011,
+      "year_roc": 100
+    },
+    "2012": {
+      "asset_count": 109,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:a2073e3cc07e761a5d94c4b49718dd721f2c0b0ebaa385be922f98402aa7c3ed",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-101"
+      ],
+      "exam_codes_hash": "sha256:ebed46d128513e4c8a84ecacbd1f98d36345747d85b0349d4d1002a37442584c",
+      "listing_html_bytes": 207549,
+      "listing_html_sha256": "6d537c540df263c260615751a97dc6e333b00a65a78cbbcc1f29d7a93bd256fa",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=557",
+      "subject_group_count": 37,
+      "unique_asset_count": 109,
+      "year_ad": 2012,
+      "year_roc": 101
+    },
+    "2013": {
+      "asset_count": 112,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:d5fde74c26be1080ecf1779e8a81c3d3f997f8a8f8b9a6caf871618225f07a66",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-102"
+      ],
+      "exam_codes_hash": "sha256:a0a97d8a8e1200a3a3e8805fdd8398beb872f3319c9453f8d447af5f8ecbb966",
+      "listing_html_bytes": 212088,
+      "listing_html_sha256": "e4a7357d4b1ceec12fdbe2fabbd6572850c239d218106f2543fc90e63fd476cd",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=558",
+      "subject_group_count": 38,
+      "unique_asset_count": 112,
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "asset_count": 73,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:28b6daf83a4ebc0b3e8f0ba854efea098a5e23b900bbef9f56a1d9745c7848d8",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-103"
+      ],
+      "exam_codes_hash": "sha256:7fce568a592005b09bed9f9579827bd71a650965cfe445d06a0131031710f98c",
+      "listing_html_bytes": 175396,
+      "listing_html_sha256": "e01d8f6ea115c11230031ebcaae6f1dd672c3ae4eb7ac30ce59349d0f33538f2",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=559",
+      "subject_group_count": 25,
+      "unique_asset_count": 73,
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "asset_count": 76,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:8e0e4a0438a1ea72e1a4460069474dc6486cf3856fe0ed28f51beeb7be0601e5",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-104"
+      ],
+      "exam_codes_hash": "sha256:30df939f638788902cdbf22650f8fda315c597d1ce0180b1932c7936360d17ce",
+      "listing_html_bytes": 178428,
+      "listing_html_sha256": "a998b35c13ab4197ce2539aa0913d774cc201e7d1b5dcbec80cd0a8f6bad5c05",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=355",
+      "subject_group_count": 26,
+      "unique_asset_count": 76,
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "asset_count": 76,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:1e71a6c41106a21607ea3a9abfb001235a85f0c0b833ca94c6cd66cf9b935395",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-105"
+      ],
+      "exam_codes_hash": "sha256:3b3cfa6aa924d96cdeffe67d0a8fc5d64e3441b4409e9fb13c594590e31d3f74",
+      "listing_html_bytes": 178529,
+      "listing_html_sha256": "1f98c7c1360cd13751fcb1ee717421e04c830c4ecd2854a5056f9953c1a5b10b",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=354",
+      "subject_group_count": 26,
+      "unique_asset_count": 76,
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "asset_count": 85,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:ca0fd8b89ed5aaa0d8b8af8bfc87ae9c7c7bb83015d0fa67c1252401b0ca04c1",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-106"
+      ],
+      "exam_codes_hash": "sha256:0269ff32ba8ec6aa3abffe85a4e957609de09df1cda72b3f24801856469e502b",
+      "listing_html_bytes": 186348,
+      "listing_html_sha256": "6b957df35adbef12d1e8e7187117fc2f9031aa7223c0c69249f958323f527027",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=353",
+      "subject_group_count": 29,
+      "unique_asset_count": 85,
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "asset_count": 85,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:79d8d00d26c2fb8d17bf3f8e81f1fb46b53bcc5ac2c1892bba3553a5e2c886e2",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-107"
+      ],
+      "exam_codes_hash": "sha256:2008072c0254ff3df0dd08b672a57b486dd03a97d3a7f94d89585b5288d8eeb1",
+      "listing_html_bytes": 186990,
+      "listing_html_sha256": "ce756752d7c9ec71e6fc28dbd53398bcd2ef589e94dc1651df4004b9fd964263",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=2656",
+      "subject_group_count": 29,
+      "unique_asset_count": 85,
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "asset_count": 79,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:1d30001821b61818623d9cb737a7bbd2ee4f0f6a9fe39b5fafe6b61978bb9d6d",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-108"
+      ],
+      "exam_codes_hash": "sha256:5ada52dc3e8ee3ced0d70af45f55003da35c9f6d1a72cfc56c53c9eade5bbf33",
+      "listing_html_bytes": 181424,
+      "listing_html_sha256": "bbee9d9b95a1c3f85f103a184e9b46acb5972688d197978c82c1ef391b6419f3",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=2714",
+      "subject_group_count": 27,
+      "unique_asset_count": 79,
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "asset_count": 76,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:a5dc5a52627976e632f5f603494dfcf313518d2ab43f7d89f3f4ede898b76b26",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-109"
+      ],
+      "exam_codes_hash": "sha256:e11eef9e9c4c6b7833020f9bc64d106ca7015beaed2c6d3743d49ba4ef84113f",
+      "listing_html_bytes": 178688,
+      "listing_html_sha256": "2eb8eac54aae2b4b5c0b1f4ed00758272cb994ea0346bb874be9a0ea20f8c99f",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=3032",
+      "subject_group_count": 26,
+      "unique_asset_count": 76,
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "asset_count": 64,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:cce27dfb4575994ed3cb47235341fdb9ab2fa14dcdc6dc4c6614c1a2293d8782",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-110"
+      ],
+      "exam_codes_hash": "sha256:d127f09c9faa2c22bf170ea6bf3205cc56d1a5cbf90939069ce2ada1c858f56e",
+      "listing_html_bytes": 167720,
+      "listing_html_sha256": "01d0fd11b8a088ae49c4358ccb502a5cae4ed2509a82b68b3ac206d05f045802",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4119",
+      "subject_group_count": 22,
+      "unique_asset_count": 64,
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "asset_count": 67,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:1aa7dc0ce5ced36a5f185e95244afc56d66d9ae073f99e27e0e11b3a655d4022",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-111"
+      ],
+      "exam_codes_hash": "sha256:1ab79cd3d88f86cf7bda79cef250f76f2c179efdf1350bf2ed4e57966ce4a38d",
+      "listing_html_bytes": 170275,
+      "listing_html_sha256": "e85b0858b6fc57c35cc0b7e9a386b839923420c89b2a2dc0a7bc1ca3753f1115",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4224",
+      "subject_group_count": 23,
+      "unique_asset_count": 67,
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "asset_count": 70,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:761f1d4c4955966a2a281a8bac8083b9e763ae277474c0b38a60c095628d2982",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-112"
+      ],
+      "exam_codes_hash": "sha256:9c51cb8f612c33414912c26385b25f84bbf6201df16bb5210b7edfd3d814cb0c",
+      "listing_html_bytes": 173271,
+      "listing_html_sha256": "4e17d76932d014ef6ca7c18fd2c13e2d36f0c22fb9816ae0121b4805801c2e48",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4296",
+      "subject_group_count": 24,
+      "unique_asset_count": 70,
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "asset_count": 70,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:181ed661781205747fc1d9776ab602f36ba05a56b8563ad5d7d6fe40e4c875a9",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-113"
+      ],
+      "exam_codes_hash": "sha256:505241ec8fd5bf7458dd5ab53587afeee1d7bbe477331161bd687909eee5f037",
+      "listing_html_bytes": 177440,
+      "listing_html_sha256": "4ce17ed71b2c759f9a5ff8c5a01b35c6c4c4b267f09d0b31beb7e758aaad99ca",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4298",
+      "subject_group_count": 24,
+      "unique_asset_count": 70,
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "asset_count": 68,
+      "asset_listing_captured_at": "2026-07-31T15:19:11.270710+08:00",
+      "asset_urls_hash": "sha256:8f2e771d2434bbd52f57e31014a8138a8b31fd3f730f806dee7cef1aec2a6ded",
+      "discovered_at": "2026-07-31T15:13:56.464510+08:00",
+      "exam_codes": [
+        "moea-recruit-114"
+      ],
+      "exam_codes_hash": "sha256:345a48447f4de6f12e505fec52527cd86e7090d9f76ce26231f6c4ef890da4bf",
+      "listing_html_bytes": 175256,
+      "listing_html_sha256": "ba351ad7561f6aa5d8b717e1567a0c0b6d8ec22ca7030033480e86d388471e6e",
+      "pagination_page_size": 200,
+      "residual_page_links": [],
+      "search_url": "https://www.taipower.com.tw/2289/2544/2554/2556/?Page=1&PageSize=200&q_attribute=4300",
+      "subject_group_count": 23,
+      "unique_asset_count": 68,
+      "year_ad": 2025,
+      "year_roc": 114
+    }
+  }
+}

@@ -408,7 +408,14 @@ def renormalize_catalog(
     explicit catalog migration command enables it.
     """
     papers: list[NormalizedPaper] = []
-    review_queue = _deduplicate_review_queue(list(catalog.review_queue))
+    # A full renormalization is also the authoritative review-state rebuild.
+    # Keeping the old queue here would preserve rows whose current papers no
+    # longer need review (for example after a classifier or canonicalization
+    # fix). The publication read path deliberately keeps the old queue because
+    # it passes ``collect_reviews=False`` and must not mutate review state.
+    review_queue: list[ReviewItem] = (
+        [] if collect_reviews else _deduplicate_review_queue(list(catalog.review_queue))
+    )
     for paper in catalog.papers:
         raw_category = paper.category_raw or paper.exam_name_raw
         provider_id = paper.provider_id

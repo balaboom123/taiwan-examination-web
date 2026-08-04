@@ -12,6 +12,7 @@ from app.manifest import SourceManifest, write_source_manifest
 from app.models import AliasRule, BundleAsset, NormalizedCatalog, NormalizedPaper, SourceExamPage, SyncFailure, to_plain_data
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
+from app.publication_quarantine import quarantined_provider_ids
 from app.release_tags import (
     RELEASE_SAFETY_TARGET,
     assign_release_tags,
@@ -298,6 +299,45 @@ def _site_scoped_bundles(site_id: str, bundles: list[BundleAsset]) -> list[Bundl
     return [replace(bundle, storage_key=_site_bundle_storage_key(site_id, bundle.asset_name)) for bundle in bundles]
 
 
+def load_site_catalog(
+    repo_root: Path,
+    *,
+    site_id: str,
+) -> tuple[NormalizedCatalog, list[SyncFailure]]:
+    """Load and renormalize every provider included in a site projection."""
+    site_config = get_site_config(site_id)
+    quarantined = quarantined_provider_ids(repo_root, site_id=site_id)
+    # Skipping a required provider would silently bypass the missing-state
+    # guard below and publish a site without its mandatory catalog.
+    quarantined_required = sorted(quarantined.intersection(site_config.required_provider_ids))
+    if quarantined_required:
+        raise ValueError(f"Required providers cannot be quarantined for site {site_id}: {', '.join(quarantined_required)}")
+    aggregated_papers: list[NormalizedPaper] = []
+    aggregated_review_queue: list = []
+    failures: list[SyncFailure] = []
+    for provider_id in site_config.provider_ids:
+        # Quarantined providers stay registered and audited; only their public
+        # projection is withheld.  See catalog/mappings/publication-quarantine.json.
+        if provider_id in quarantined:
+            continue
+        provider = provider_paths(repo_root, provider_id)
+        if not provider.data_dir.exists():
+            if provider_id in site_config.required_provider_ids:
+                raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
+            continue
+        _raw_pages, provider_catalog, provider_failures = load_provider_state(provider)
+        aliases = load_alias_rules(provider.aliases_path)
+        provider_catalog = renormalize_catalog(provider_catalog, aliases, collect_reviews=False)
+        aggregated_papers.extend(provider_catalog.papers)
+        aggregated_review_queue.extend(provider_catalog.review_queue)
+        failures.extend(provider_failures)
+
+    return (
+        NormalizedCatalog(papers=aggregated_papers, review_queue=aggregated_review_queue),
+        failures,
+    )
+
+
 def _format_bundle_failures(failures: list[SyncFailure]) -> str:
     details = []
     for failure in failures:
@@ -319,23 +359,7 @@ def publish_site(
     canonical_aliases: dict[str, list[str]] | None = None,
 ) -> tuple[NormalizedCatalog, list[BundleAsset]]:
     site_config = get_site_config(site_id)
-    aggregated_papers: list[NormalizedPaper] = []
-    aggregated_review_queue = []
-    for provider_id in site_config.provider_ids:
-        provider = provider_paths(repo_root, provider_id)
-        if not provider.data_dir.exists():
-            if provider_id in site_config.required_provider_ids:
-                raise ValueError(f"Missing provider state for {provider_id}: expected {provider.data_dir}")
-            continue
-        _raw_pages, provider_catalog, _failures = load_provider_state(provider)
-        aliases = load_alias_rules(provider.aliases_path)
-        # Existing generated records predate v2. Reclassify on load so a publish
-        # run cannot reproduce mixed-level bundles before a full sync is done.
-        provider_catalog = renormalize_catalog(provider_catalog, aliases, collect_reviews=False)
-        aggregated_papers.extend(provider_catalog.papers)
-        aggregated_review_queue.extend(provider_catalog.review_queue)
-
-    normalized = NormalizedCatalog(papers=aggregated_papers, review_queue=aggregated_review_queue)
+    normalized, _provider_failures = load_site_catalog(repo_root, site_id=site_id)
     site = site_paths(repo_root, site_id)
     if affected_canonical_ids is not None and not site.bundles_path.exists():
         raise ValueError(f"Partial publish requires existing site bundle metadata: expected {site.bundles_path}")

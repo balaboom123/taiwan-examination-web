@@ -274,6 +274,7 @@ class WdasecSkillClient:
         self._cookie_jar = CookieJar()
         self._opener = build_opener(HTTPCookieProcessor(self._cookie_jar))
         self._hidden_fields: dict[str, str] = {}
+        self._listing_rows_cache: tuple[ListingRow, ...] | None = None
 
     def _get(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
@@ -338,13 +339,16 @@ class WdasecSkillClient:
         })
 
     def discover_all_listing_rows(self) -> list[ListingRow]:
+        if self._listing_rows_cache is not None:
+            return list(self._listing_rows_cache)
         html = self.fetch_category_listing()
         all_rows = parse_listing_rows(html)
         total_pages = parse_page_count(html)
         for page in range(2, total_pages + 1):
             html = self.fetch_listing_page(page)
             all_rows.extend(parse_listing_rows(html))
-        return all_rows
+        self._listing_rows_cache = tuple(all_rows)
+        return list(self._listing_rows_cache)
 
     def discover_available_years(self) -> list[int]:
         rows = self.discover_all_listing_rows()
@@ -364,24 +368,33 @@ class WdasecSkillClient:
             if row.year_roc == year_roc
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if any(row.year_roc + 1911 == year_ad for row in self.discover_all_listing_rows()):
+            return PAGE_URL
+        raise ValueError(f"Unknown WDASEC discovery year: {year_ad}")
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        if any(
+            row.plaid == exam_code and row.year_roc + 1911 == year_ad
+            for row in self.discover_all_listing_rows()
+        ):
+            return f"{PAGE_URL}?{urlencode({'yserno': exam_code})}"
+        raise ValueError(f"Unknown WDASEC discovery exam: {exam_code} ({year_ad})")
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
-        html = self.fetch_category_listing()
-        all_rows = parse_listing_rows(html)
-        total_pages = parse_page_count(html)
-        target_row = next((r for r in all_rows if r.plaid == exam_code), None)
-        page_num = 1
-        while target_row is None and page_num < total_pages:
-            page_num += 1
-            html = self.fetch_listing_page(page_num)
-            page_rows = parse_listing_rows(html)
-            target_row = next((r for r in page_rows if r.plaid == exam_code), None)
-            if target_row is None:
-                all_rows.extend(page_rows)
+        target_row = next(
+            (
+                row
+                for row in self.discover_all_listing_rows()
+                if row.plaid == exam_code and row.year_roc + 1911 == year_ad
+            ),
+            None,
+        )
 
         if target_row is None:
             raise ValueError(f"Session not found: {exam_code}")
 
-        detail_html = self.fetch_detail(target_row.row_index)
+        detail_html = self._get(self.build_discovery_exam_url(exam_code, year_ad))
         detail_rows = parse_detail_rows(detail_html)
 
         year_roc = target_row.year_roc

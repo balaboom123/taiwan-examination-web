@@ -4,8 +4,8 @@ Taiwan Sugar Corporation (台糖公司) publishes recruitment exam papers on:
   https://www.taisugar.com.tw/chinese/News_Index.aspx?p=3&n=10080
 
 Two-phase scraping:
-  1. Parse the news listing page to find items with title containing "甄試試題".
-  2. Fetch each matching detail page to extract ZIP download links.
+  1. Traverse the ASP.NET pager and select new-worker 甄試試題/甄試考題 rows.
+  2. Fetch each matching detail page to extract PDF and ZIP download links.
 
 The listing uses a <div class="wucNews_index"> container with <li> items:
   <li>
@@ -17,7 +17,7 @@ The listing uses a <div class="wucNews_index"> container with <li> items:
     </a>
   </li>
 
-Detail pages contain ZIP download links under a "相關檔案：" heading:
+Detail pages contain PDF or ZIP links under a "相關檔案：" heading:
   <p>相關檔案：</p>
   <p>
     <a href="../upload/UserFiles/News/[ID]/[filename].zip" title="...">
@@ -26,7 +26,7 @@ Detail pages contain ZIP download links under a "相關檔案：" heading:
     </a>
   </p>
 
-Each year may have two ZIP files (新進工員 + 產學合作 tracks).
+An event may expose one combined ZIP or multiple PDF/ZIP subject assets.
 """
 import unittest
 from unittest.mock import MagicMock, patch
@@ -35,6 +35,7 @@ from app.providers.taisugar_recruit.client import (
     TaisugarRecruitClient,
     TaisugarDownload,
     TaisugarNewsItem,
+    parse_listing_metadata,
     parse_news_detail,
     parse_news_listing,
 )
@@ -131,6 +132,47 @@ LISTING_PAGE_EMPTY_HTML = """
 """
 
 
+def _with_pager(html: str, *, current: int, total: int, rows: int) -> str:
+    options: list[str] = []
+    for page in range(1, total + 1):
+        selected = ' selected="selected"' if page == current and current > 1 else ""
+        options.append(f'<option value="{page}"{selected}>{page}</option>')
+    pager = f"""
+<form id="newsForm">
+  <input type="hidden" name="__VIEWSTATE" value="state-{current}">
+  <input type="hidden" name="__EVENTVALIDATION" value="validation-{current}">
+  <span id="MainContent_wucNews_index_lbl10">頁數</span> {current} / {total}
+  <span id="MainContent_wucNews_index_lbl11">共有</span><span class="red">{rows}</span>
+  <select name="ctl00$MainContent$wucNews_index$ddlPager" id="MainContent_wucNews_index_ddlPager">
+    {''.join(options)}
+  </select>
+</form>
+"""
+    return html.replace("</body>", f"{pager}</body>")
+
+
+LISTING_PAGE_HTML = _with_pager(LISTING_PAGE_HTML, current=1, total=1, rows=4)
+
+PAGED_LISTING_PAGE_1 = _with_pager(
+    """<html><body><div class="wucNews_index"><ul><li>
+    <a href="News_detail.aspx?p=3&n=10080&s=14999" title="115年錄取公告"><h3>115年錄取公告</h3></a>
+    </li></ul></div></body></html>""",
+    current=1,
+    total=2,
+    rows=4,
+)
+PAGED_LISTING_PAGE_2 = _with_pager(
+    """<html><body><div class="wucNews_index"><ul>
+    <li><a href="News_detail.aspx?p=3&n=10080&s=9972" title="連結 109新進工員甄試考題"><h3>109新進工員甄試考題</h3></a></li>
+    <li><a href="News_detail.aspx?p=3&n=10080&s=10431" title="109年新進博士級職員甄試試題"><h3>109年新進博士級職員甄試試題</h3></a></li>
+    <li><a href="News_detail.aspx?p=3&n=10080&s=6900" title="106年新進工員甄試考題"><h3>106年新進工員甄試考題</h3></a></li>
+    </ul></div></body></html>""",
+    current=2,
+    total=2,
+    rows=4,
+)
+
+
 # ---------------------------------------------------------------------------
 # HTML fixtures — detail page
 # ---------------------------------------------------------------------------
@@ -190,7 +232,7 @@ DETAIL_PAGE_ONE_ZIP_HTML = """
 </html>
 """
 
-# Detail page with no ZIP downloads — should return empty list
+# Detail page with no supported PDF/ZIP downloads — should return empty list
 DETAIL_PAGE_NO_ZIP_HTML = """
 <!DOCTYPE html>
 <html>
@@ -199,7 +241,7 @@ DETAIL_PAGE_NO_ZIP_HTML = """
   <h2>報名表下載</h2>
   <p>相關檔案：</p>
   <p>
-    <a href="../upload/UserFiles/News/12345/form.pdf">報名表.pdf</a>
+    <a href="../upload/UserFiles/News/12345/form.docx">報名表.docx</a>
   </p>
 </div>
 </body>
@@ -347,14 +389,13 @@ class TaisugarNewsDetailParserTests(unittest.TestCase):
         self.assertIn("638889473019415029.zip", downloads[0].url)
         self.assertTrue(downloads[0].url.startswith("https://"))
 
-    def test_parse_detail_skips_non_zip_links(self) -> None:
-        """Non-ZIP links (e.g., .pdf) should not appear in results."""
+    def test_parse_detail_accepts_pdf_and_zip_files(self) -> None:
         downloads = parse_news_detail(DETAIL_PAGE_MIXED_HTML)
 
-        self.assertEqual(len(downloads), 1)
-        self.assertTrue(downloads[0].url.endswith(".zip"))
+        self.assertEqual(len(downloads), 2)
+        self.assertEqual({d.url.rsplit(".", 1)[-1] for d in downloads}, {"pdf", "zip"})
 
-    def test_parse_detail_no_zip_returns_empty(self) -> None:
+    def test_parse_detail_no_supported_file_returns_empty(self) -> None:
         downloads = parse_news_detail(DETAIL_PAGE_NO_ZIP_HTML)
 
         self.assertEqual(downloads, [])
@@ -405,12 +446,81 @@ class TaisugarDownloadTests(unittest.TestCase):
 
 class TaisugarRecruitClientTests(unittest.TestCase):
 
+    def test_listing_metadata_reads_bounded_aspnet_pager(self) -> None:
+        metadata = parse_listing_metadata(PAGED_LISTING_PAGE_2)
+
+        self.assertEqual(metadata.current_page, 2)
+        self.assertEqual(metadata.total_pages, 2)
+        self.assertEqual(metadata.total_rows, 4)
+        self.assertEqual(metadata.form_fields["__VIEWSTATE"], "state-2")
+
+    def test_listing_metadata_rejects_noncontiguous_pager(self) -> None:
+        malformed = _with_pager(
+            "<html><body></body></html>", current=1, total=3, rows=1
+        ).replace('<option value="2">2</option>', "")
+
+        with self.assertRaisesRegex(ValueError, "malformed pager"):
+            parse_listing_metadata(malformed)
+
+    def test_discovery_posts_every_page_and_excludes_doctoral_rows(self) -> None:
+        client = TaisugarRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=PAGED_LISTING_PAGE_1) as fetch:
+            with patch.object(
+                client,
+                "_post_listing_page",
+                return_value=PAGED_LISTING_PAGE_2,
+            ) as post:
+                years = client.discover_available_years()
+                event_url = client.build_discovery_exam_url(
+                    "taisugar-recruit-109",
+                    2020,
+                )
+
+        self.assertEqual(years, [2020, 2017])
+        self.assertEqual(
+            event_url,
+            "https://www.taisugar.com.tw/chinese/News_detail.aspx?"
+            "p=3&n=10080&s=9972",
+        )
+        fetch.assert_called_once()
+        self.assertEqual(post.call_args.args[1], 2)
+
+    def test_discovery_rejects_duplicate_rows_across_pages(self) -> None:
+        duplicate_page = PAGED_LISTING_PAGE_2.replace("s=6900", "s=14999")
+        client = TaisugarRecruitClient()
+        with patch.object(client, "_fetch_text", return_value=PAGED_LISTING_PAGE_1):
+            with patch.object(client, "_post_listing_page", return_value=duplicate_page):
+                with self.assertRaisesRegex(ValueError, "repeats detail URL"):
+                    client.discover_available_years()
+
+    def test_discovery_rejects_declared_row_count_mismatch(self) -> None:
+        client = TaisugarRecruitClient()
+        first_page = PAGED_LISTING_PAGE_1.replace('class="red">4', 'class="red">5')
+        second_page = PAGED_LISTING_PAGE_2.replace('class="red">4', 'class="red">5')
+        with patch.object(client, "_fetch_text", return_value=first_page):
+            with patch.object(client, "_post_listing_page", return_value=second_page):
+                with self.assertRaisesRegex(ValueError, "declared 5 rows"):
+                    client.discover_available_years()
+
+    def test_discovery_rejects_external_detail_url(self) -> None:
+        listing = PAGED_LISTING_PAGE_1.replace(
+            "News_detail.aspx?p=3&n=10080&s=14999",
+            "https://example.test/News_detail.aspx?p=3&n=10080&s=14999",
+        )
+        client = TaisugarRecruitClient()
+
+        with patch.object(client, "_fetch_text", return_value=listing):
+            with self.assertRaisesRegex(
+                ValueError, "Unexpected Taisugar paper detail URL"
+            ):
+                client.discover_available_years()
+
     def _make_client_with_listing_and_detail(
         self,
         listing_html: str,
         detail_html: str,
     ) -> TaisugarRecruitClient:
-        """Return a client that returns listing_html for listing URLs and detail_html for detail URLs."""
+        """Return a client with deterministic listing and detail responses."""
         client = TaisugarRecruitClient()
 
         def fake_fetch(url: str) -> str:
@@ -469,14 +579,14 @@ class TaisugarRecruitClientTests(unittest.TestCase):
 
         self.assertEqual(len(page.papers), 2)
 
-    def test_fetch_exam_page_paper_has_accessible_bundle_file_type(self) -> None:
+    def test_fetch_exam_page_combined_archives_have_question_answer_file_type(self) -> None:
         client = self._make_client_with_listing_and_detail(
             LISTING_PAGE_HTML, DETAIL_PAGE_TWO_ZIPS_HTML
         )
         page = client.fetch_exam_page("taisugar-recruit-111", 2022)
 
         for paper in page.papers:
-            self.assertIn("accessible_bundle", paper.files)
+            self.assertIn("question_answer", paper.files)
 
     def test_fetch_exam_page_paper_url_points_to_zip(self) -> None:
         client = self._make_client_with_listing_and_detail(
@@ -485,7 +595,7 @@ class TaisugarRecruitClientTests(unittest.TestCase):
         page = client.fetch_exam_page("taisugar-recruit-111", 2022)
 
         for paper in page.papers:
-            url = paper.files["accessible_bundle"]
+            url = paper.files["question_answer"]
             self.assertTrue(url.endswith(".zip"))
             self.assertIn("taisugar.com.tw", url)
 
@@ -505,6 +615,17 @@ class TaisugarRecruitClientTests(unittest.TestCase):
         page = client.fetch_exam_page("taisugar-recruit-114", 2025)
 
         self.assertEqual(len(page.papers), 1)
+
+    def test_fetch_exam_page_rejects_cross_detail_asset_path(self) -> None:
+        detail_html = DETAIL_PAGE_ONE_ZIP_HTML.replace(
+            "/News/14062/", "/News/99999/"
+        )
+        client = self._make_client_with_listing_and_detail(
+            LISTING_PAGE_HTML, detail_html
+        )
+
+        with self.assertRaisesRegex(ValueError, "Unexpected Taisugar paper file URL"):
+            client.fetch_exam_page("taisugar-recruit-114", 2025)
 
     def test_fetch_exam_page_exam_name_raw_contains_year(self) -> None:
         client = self._make_client_with_listing_and_detail(

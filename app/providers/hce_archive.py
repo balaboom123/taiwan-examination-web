@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import ssl
+import time
 from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
@@ -37,8 +38,10 @@ class HceArchiveConfig:
     listing_pattern: re.Pattern[str]
     combined_pdf_listing: bool = False
     pagination_param: str | None = None
+    embedded_pagination_placeholder: str | None = None
     max_listing_pages: int = 1
     historical_year_pages: tuple[HceYearPage, ...] = ()
+    crawl_delay_seconds: float = 0.0
 
     def parse_listing(self, html: str, base_url: str | None = None) -> list[HceYearPage]:
         resolved_base_url = base_url or self.listing_url
@@ -116,6 +119,30 @@ def parse_listing_page_urls(html: str, base_url: str, config: HceArchiveConfig) 
     crawl into a site crawl, so pagination is intentionally opt-in per
     provider configuration.
     """
+    if config.embedded_pagination_placeholder:
+        prefix_match = re.search(r"urlPrefix\s*:\s*['\"](?P<url>[^'\"]+)['\"]", html)
+        total_match = re.search(r"totalPage\s*:\s*(?P<total>\d+)", html)
+        if prefix_match is None or total_match is None:
+            raise ValueError("Missing embedded listing pagination metadata")
+        placeholder = config.embedded_pagination_placeholder
+        template = unescape(prefix_match.group("url"))
+        total_pages = int(total_match.group("total"))
+        if template.count(placeholder) != 1:
+            raise ValueError("Invalid embedded listing pagination template")
+        if total_pages > config.max_listing_pages:
+            raise ValueError(
+                f"Official listing pagination exceeds configured bound: {total_pages} > {config.max_listing_pages}"
+            )
+        base = urlparse(base_url)
+        urls = []
+        for page_number in range(2, total_pages + 1):
+            url = urljoin(base_url, template.replace(placeholder, str(page_number)))
+            candidate = urlparse(url)
+            if (candidate.scheme, candidate.netloc) != (base.scheme, base.netloc):
+                raise ValueError("Embedded listing pagination leaves the official host")
+            urls.append(url)
+        return urls
+
     if not config.pagination_param:
         return []
 
@@ -132,10 +159,13 @@ def parse_listing_page_urls(html: str, base_url: str, config: HceArchiveConfig) 
         page_values = candidate_query.pop(config.pagination_param, [])
         if not page_values or not all(value.isdigit() and int(value) >= 0 for value in page_values):
             continue
-        if candidate_query != base_query or link.url in seen:
+        candidate_url = urlunsplit(
+            (candidate.scheme, candidate.netloc, candidate.path, candidate.query, "")
+        )
+        if candidate_query != base_query or candidate_url in seen:
             continue
-        seen.add(link.url)
-        urls.append(link.url)
+        seen.add(candidate_url)
+        urls.append(candidate_url)
     return urls
 
 
@@ -232,7 +262,7 @@ def _combined_pdf_paper(config: HceArchiveConfig, url: str) -> ParsedPaper:
 
 def _ssl_context_for(url: str) -> ssl.SSLContext | None:
     host = urlparse(url).hostname or ""
-    if host.endswith("cmu.edu.tw"):
+    if host == "adm21.cmu.edu.tw":
         return ssl._create_unverified_context()
     return None
 
@@ -263,8 +293,20 @@ class HceArchiveClient:
         self.config = config
         self.provider_id = config.provider_id
         self._year_pages_cache: tuple[HceYearPage, ...] | None = None
+        self._last_request_at: float | None = None
+
+    def _wait_for_request_slot(self) -> None:
+        delay = self.config.crawl_delay_seconds
+        now = time.monotonic()
+        if self._last_request_at is not None:
+            remaining = self._last_request_at + delay - now
+            if remaining > 0:
+                time.sleep(remaining)
+                now += remaining
+        self._last_request_at = now
 
     def _open(self, url: str, *, method: str = "GET", timeout: int = 60):
+        self._wait_for_request_slot()
         request = Request(_request_url(url), headers={"User-Agent": USER_AGENT}, method=method)
         context = _ssl_context_for(url)
         if context is None:
@@ -312,6 +354,18 @@ class HceArchiveClient:
             for page in self._year_pages()
             if page.year_ad == year_ad
         ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        try:
+            return next(page.url for page in self._year_pages() if page.year_ad == year_ad)
+        except StopIteration as exc:
+            raise ValueError(f"Unknown {self.provider_id} discovery year: {year_ad}") from exc
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"{self.config.canonical_slug}-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(f"Unknown {self.provider_id} discovery exam: {exam_code} ({year_ad})")
+        return self.build_discovery_year_url(year_ad)
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_page = next(
@@ -368,11 +422,12 @@ HCE_CONFIGS = {
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後中醫學系.*試題及參考答案"),
         pagination_param="page",
         max_listing_pages=8,
+        crawl_delay_seconds=10.0,
     ),
     "hce_tcu": HceArchiveConfig(
         provider_id="hce_tcu",
         canonical_slug="hce-tcu",
-        listing_url="https://admissions.tcu.edu.tw/?page_id=62",
+        listing_url="https://admissions.tcu.edu.tw/?cat=23",
         exam_name="慈濟大學學士後中醫學系",
         category_code="post-bacc-chinese-medicine",
         category_name="慈濟大學學士後中醫學系",
@@ -405,23 +460,7 @@ HCE_CONFIGS = {
             "進階物理與線性代數": "advanced-physics-linear-algebra",
         },
         listing_pattern=re.compile(r"(?P<year>\d{3})學年度學士後醫學系.*各科試題及參考答案"),
-        historical_year_pages=(
-            HceYearPage(
-                year_ad=2025,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-286149%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2024,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-266837%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2023,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-246483%2Cr6125.php?Lang=zh-tw",
-            ),
-            HceYearPage(
-                year_ad=2022,
-                url="https://adms.site.nthu.edu.tw/p/406-1207-227566%2Cr6125.php?Lang=zh-tw",
-            ),
-        ),
+        embedded_pagination_placeholder="PAGE",
+        max_listing_pages=8,
     ),
 }

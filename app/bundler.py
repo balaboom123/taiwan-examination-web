@@ -9,7 +9,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 from app.normalizer import hashed_fallback_canonical_id, legacy_fallback_canonical_id
-from app.models import BundleAsset, BundleBuildResult, FILE_TYPE_LABELS, NormalizedCatalog, NormalizedPaper, SyncFailure, to_plain_data
+from app.models import BundleAsset, BundleBuildResult, NormalizedCatalog, NormalizedPaper, SyncFailure, file_type_label, to_plain_data
 from app.publication_metadata import derive_public_metadata
 
 WINDOWS_RESERVED_NAMES = {
@@ -49,7 +49,7 @@ def _bundle_arcname(paper: NormalizedPaper) -> str:
             _safe_segment(paper.category_code or "category", max_length=24),
             _safe_segment(paper.subject_code or "subject", max_length=24),
             _safe_segment(paper.subject_name_raw or "subject", max_length=60),
-            _safe_segment(FILE_TYPE_LABELS.get(paper.file_type, paper.file_type or "file"), max_length=20),
+            _safe_segment(file_type_label(paper.file_type), max_length=20),
         ]
     )
     return f"{paper.year_roc}/{file_name}{suffix}"
@@ -216,12 +216,11 @@ def _split_bundle_archive(
         (paper, bundle_entries_by_paper_key[_paper_bundle_key(paper)])
         for paper in included_papers
     ]
-    for stale_part in bundle_path.parent.glob(f"{bundle_path.stem}--part-*.zip"):
-        stale_part.unlink(missing_ok=True)
-
     with zipfile.ZipFile(bundle_path, "r") as source:
         groups = _partition_bundle_entries(source, entries, max_bytes=max_bytes)
         base_manifest = json.loads(source.read("bundle.json").decode("utf-8"))
+        for stale_part in bundle_path.parent.glob(f"{bundle_path.stem}--part-*.zip"):
+            stale_part.unlink(missing_ok=True)
         part_paths: list[tuple[Path, str, list[NormalizedPaper]]] = []
         part_count = len(groups)
         for part_index, group in enumerate(groups, 1):
@@ -282,6 +281,26 @@ def _resolve_mirror_source_path(mirror_dir: Path, paper: NormalizedPaper) -> Pat
             return provider_scoped_path
 
     return None
+
+
+def _validate_source_entry_sizes(
+    mirror_dir: Path,
+    papers: list[NormalizedPaper],
+    arcnames: list[str],
+    *,
+    max_bytes: int,
+) -> None:
+    """Reject mirror entries that cannot fit in a release part before writing."""
+    for paper, arcname in zip(papers, arcnames):
+        source_path = _resolve_mirror_source_path(mirror_dir, paper)
+        if source_path is None:
+            continue
+        size = source_path.stat().st_size
+        if size + BUNDLE_PART_OVERHEAD > max_bytes:
+            raise ValueError(
+                f"bundle entry {arcname} is {size} bytes and exceeds the "
+                f"{max_bytes}-byte multipart target"
+            )
 
 
 def _load_existing_entries_by_canonical(
@@ -347,6 +366,66 @@ def _preserve_rewrite_sources(
     )
 
 
+def _is_legacy_projection(papers: list[NormalizedPaper]) -> bool:
+    paper = papers[0]
+    return (
+        paper.schema_version != 2
+        and not paper.bundle_id
+        and not paper.domain_id
+        and not paper.exam_series_id
+        and bool(paper.canonical_name)
+        and paper.canonical_name.isascii()
+        and len({item.canonical_id for item in papers}) == 1
+    )
+
+
+def _required_years_for_group(
+    canonical_id: str,
+    papers: list[NormalizedPaper],
+    *,
+    min_years: int,
+    min_years_by_canonical_prefix: dict[str, int] | None,
+) -> int:
+    required_years = min_years
+    provider_hint = papers[0].provider_id
+    legacy_hint = papers[0].canonical_id
+    for prefix, prefix_min_years in (min_years_by_canonical_prefix or {}).items():
+        if canonical_id.startswith(prefix) or provider_hint.startswith(prefix) or legacy_hint.startswith(prefix):
+            required_years = prefix_min_years
+            break
+    return required_years
+
+
+def public_bundle_ids(
+    normalized: NormalizedCatalog,
+    *,
+    min_years: int = 1,
+    min_years_by_canonical_prefix: dict[str, int] | None = None,
+) -> set[str]:
+    """Return logical bundle IDs eligible for a public site projection.
+
+    This is intentionally the same grouping and year policy used by
+    build_bundles; publication validation can therefore detect stale
+    generated inventories without inventing a second eligibility rule.
+    """
+    grouped: dict[str, list[NormalizedPaper]] = {}
+    for paper in normalized.papers:
+        grouped.setdefault(paper.bundle_id or paper.canonical_id, []).append(paper)
+
+    public_ids: set[str] = set()
+    for canonical_id, papers in grouped.items():
+        required_years = _required_years_for_group(
+            canonical_id,
+            papers,
+            min_years=min_years,
+            min_years_by_canonical_prefix=min_years_by_canonical_prefix,
+        )
+        if len({paper.year_roc for paper in papers}) < required_years:
+            continue
+        public_ids.add(papers[0].canonical_id if _is_legacy_projection(papers) else canonical_id)
+    return public_ids
+
+
 def build_bundles(
     bundle_dir: Path,
     mirror_dir: Path,
@@ -377,23 +456,14 @@ def build_bundles(
         # Legacy fixtures and hand-authored v1 records often use an ASCII
         # display label with no official identity evidence. Keep their public
         # asset name stable; real catalog records use the structured ID.
-        legacy_projection = (
-            papers[0].schema_version != 2
-            and not papers[0].bundle_id
-            and not papers[0].domain_id
-            and not papers[0].exam_series_id
-            and bool(papers[0].canonical_name)
-            and papers[0].canonical_name.isascii()
-            and len({paper.canonical_id for paper in papers}) == 1
-        )
+        legacy_projection = _is_legacy_projection(papers)
         public_bundle_id = papers[0].canonical_id if legacy_projection else canonical_id
-        required_years = min_years
-        provider_hint = papers[0].provider_id
-        legacy_hint = papers[0].canonical_id
-        for prefix, prefix_min_years in (min_years_by_canonical_prefix or {}).items():
-            if canonical_id.startswith(prefix) or provider_hint.startswith(prefix) or legacy_hint.startswith(prefix):
-                required_years = prefix_min_years
-                break
+        required_years = _required_years_for_group(
+            canonical_id,
+            papers,
+            min_years=min_years,
+            min_years_by_canonical_prefix=min_years_by_canonical_prefix,
+        )
         if required_years > 1:
             distinct_years = {p.year_roc for p in papers}
             if len(distinct_years) < required_years:
@@ -425,6 +495,12 @@ def build_bundles(
             key=lambda item: (-item.year_roc, item.source_exam_id, item.category_code, item.subject_code, item.file_type),
         )
         resolved_names = _resolve_arcnames(ordered)
+        _validate_source_entry_sizes(
+            mirror_dir,
+            ordered,
+            resolved_names,
+            max_bytes=max_bundle_bytes,
+        )
         existing_entries, existing_entries_by_key, preserved_archive = _preserve_rewrite_sources(
             bundle_path,
             existing_entries,

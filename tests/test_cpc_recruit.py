@@ -1,16 +1,17 @@
 """Tests for the cpc_recruit provider.
 
-CPC Corporation (中油) publishes exam papers on two ASP.NET news-content pages:
-  - PhD exam papers:   https://www.cpc.com.tw/News_Content.aspx?n=32&s=826
-  - Hiring outlines:  https://www.cpc.com.tw/News_Content.aspx?n=32&s=824
+CPC Corporation (中油) publishes accepted exam papers on one ASP.NET
+news-content page:
+  - PhD exam papers:  https://www.cpc.com.tw/News_Content.aspx?n=32&s=826
 
-The pages render an inner content area (div.mcnTextContent or similar) that
-contains links pointing to the download handler:
+The neighboring ``s=824`` page contains recruitment brochures and is excluded
+from provider input. The pages render an inner content area
+(``div.mcnTextContent`` or similar) that contains links pointing to the
+download handler:
   https://ws.cpc.com.tw/Download.ashx?u=BASE64_PATH&n=BASE64_FILENAME
 
-Fixtures below replicate the ASP.NET CMS HTML structure observed on those pages.
-Since the live site was unreachable during implementation, the fixture is
-designed against the known URL scheme (Download.ashx with base64 params).
+Fixtures below replicate the ASP.NET CMS HTML structure observed on those pages
+and the known URL scheme (Download.ashx with base64 params).
 """
 import unittest
 from unittest.mock import patch
@@ -18,6 +19,7 @@ from unittest.mock import patch
 from app.providers.cpc_recruit.client import (
     CpcRecruitClient,
     CpcRecruitEntry,
+    PHD_PAGE_URL,
     parse_employment_page,
 )
 
@@ -70,6 +72,17 @@ PHD_PAGE_HTML = """
 </body>
 </html>
 """
+
+PHD_PAGE_WITH_UNRELATED_DOWNLOAD_HTML = PHD_PAGE_HTML.replace(
+    "</body>",
+    """
+<a href="https://ws.cpc.com.tw/Download.ashx?u=unrelated&n=unrelated.pdf">
+  115年組織系統圖
+</a>
+</body>
+""",
+)
+
 
 HIRING_PAGE_HTML = """
 <!DOCTYPE html>
@@ -270,18 +283,31 @@ class CpcRecruitClientTests(unittest.TestCase):
         return CpcRecruitClient()
 
     def test_discover_available_years_returns_sorted_descending(self) -> None:
-        def fake_fetch(url: str) -> str:
-            if "s=826" in url:
-                return PHD_PAGE_HTML
-            return HIRING_PAGE_HTML
-
-        with patch.object(CpcRecruitClient, "_fetch_text", side_effect=fake_fetch):
+        with patch.object(CpcRecruitClient, "_fetch_text", return_value=PHD_PAGE_HTML) as fetch:
             client = self._make_client()
             years = client.discover_available_years()
 
-        # PHD: 113,112,111 (2024,2023,2022) + Hiring: 113,112 (2024,2023)
-        # union, sorted descending
         self.assertEqual(years, [2024, 2023, 2022])
+        fetch.assert_called_once_with(PHD_PAGE_URL)
+
+    def test_provider_filters_unrelated_year_bearing_download_links(self) -> None:
+        with patch.object(
+            CpcRecruitClient,
+            "_fetch_text",
+            return_value=PHD_PAGE_WITH_UNRELATED_DOWNLOAD_HTML,
+        ):
+            years = self._make_client().discover_available_years()
+
+        self.assertEqual(years, [2024, 2023, 2022])
+
+    def test_discovery_urls_preserve_official_page_provenance(self) -> None:
+        client = self._make_client()
+
+        self.assertEqual(client.build_discovery_year_url(2024), PHD_PAGE_URL)
+        self.assertEqual(
+            client.build_discovery_exam_url("cpc-recruit-113", 2024),
+            PHD_PAGE_URL,
+        )
 
     def test_discover_exams_returns_options_for_year(self) -> None:
         def fake_fetch(url: str) -> str:
@@ -296,14 +322,10 @@ class CpcRecruitClientTests(unittest.TestCase):
         self.assertTrue(len(exams) >= 1)
         codes = [e.code for e in exams]
         self.assertIn("cpc-recruit-113", codes)
+        self.assertEqual(exams[0].label, "113年中油公司新進博士級人員甄試")
 
     def test_fetch_exam_page_builds_source_exam_page(self) -> None:
-        def fake_fetch(url: str) -> str:
-            if "s=826" in url:
-                return PHD_PAGE_HTML
-            return HIRING_PAGE_HTML
-
-        with patch.object(CpcRecruitClient, "_fetch_text", side_effect=fake_fetch):
+        with patch.object(CpcRecruitClient, "_fetch_text", return_value=PHD_PAGE_HTML) as fetch:
             client = self._make_client()
             page = client.fetch_exam_page("cpc-recruit-113", 2024)
 
@@ -311,7 +333,10 @@ class CpcRecruitClientTests(unittest.TestCase):
         self.assertEqual(page.source_exam_id, "cpc-recruit-113")
         self.assertEqual(page.year_ad, 2024)
         self.assertEqual(page.year_roc, 113)
-        self.assertTrue(len(page.papers) >= 1)
+        self.assertEqual(page.exam_name_raw, "113年中油公司新進博士級人員甄試")
+        self.assertEqual(len(page.papers), 1)
+        self.assertEqual(page.papers[0].category_raw, "中油新進博士級人員甄試")
+        fetch.assert_called_once_with(PHD_PAGE_URL)
 
     def test_fetch_exam_page_papers_have_question_file_type(self) -> None:
         def fake_fetch(url: str) -> str:

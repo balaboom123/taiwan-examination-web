@@ -7,8 +7,8 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from app.manifest import SourceManifest
-from app.cli import _download_affected_bundles, build_parser, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
+from app.manifest import SourceManifest, write_source_manifest
+from app.cli import _download_affected_bundles, build_parser, command_discover, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
 from app.models import AliasRule, BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage, SyncFailure
 from app.paths import provider_paths, site_paths
@@ -142,6 +142,118 @@ class CliCommandTests(unittest.TestCase):
         self.assertEqual(args.site_id, "default")
         self.assertEqual(args.repository, "example/repo")
         self.assertEqual(args.publish_plan, Path(".tmp/site-publish-plan.json"))
+
+    def test_discover_can_write_manifest_without_clobbering_probe_fields(self) -> None:
+        class DiscoveryClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2025, 2024]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                year_roc = year_ad - 1911
+                return [
+                    ExamOption(
+                        code=f"{year_roc}010",
+                        year_ad=year_ad,
+                        year_roc=year_roc,
+                        label=f"Official {year_ad}",
+                    )
+                ]
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            write_source_manifest(
+                path,
+                SourceManifest(
+                    provider_id="moex",
+                    years={
+                        "2025": {
+                            "head_content_length": 123,
+                            "exam_codes": ["114010", "old"],
+                        }
+                    },
+                    exams={"114010": {"paper_count": 7}, "old": {"paper_count": 1}},
+                ),
+            )
+            args = build_parser().parse_args(
+                [
+                    "discover",
+                    "--provider",
+                    "moex",
+                    "--years",
+                    "2025",
+                    "2024",
+                    "--manifest",
+                    str(path),
+                    "--write-manifest",
+                ]
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = command_discover(args, client=DiscoveryClient())
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(output.getvalue())
+            self.assertEqual([row["year_ad"] for row in payload], [2025, 2024])
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["years"]["2025"]["head_content_length"], 123)
+            self.assertEqual(manifest["years"]["2025"]["exam_codes"], ["114010"])
+            self.assertNotIn("old", manifest["exams"])
+            self.assertEqual(manifest["exams"]["114010"]["paper_count"], 7)
+            self.assertEqual(manifest["exams"]["113010"]["exam_label"], "Official 2024")
+            self.assertEqual(manifest["probe_policy"]["discovery_mode"], "official-year-exam-listing")
+
+    def test_discover_uses_discovery_only_url_model_for_non_probe_provider(self) -> None:
+        class DiscoveryOnlyClient:
+            provider_id = "teacher_recruit_newtaipei"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [
+                    ExamOption(
+                        code="teacher-recruit-newtaipei-115-junior",
+                        year_ad=year_ad,
+                        year_roc=115,
+                        label="115學年度新北市教師甄試_國中",
+                    )
+                ]
+
+            def build_discovery_year_url(self, year_ad: int) -> str:
+                return "https://official.example.test/notices"
+
+            def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+                return f"https://official.example.test/notices/{exam_code}"
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            args = build_parser().parse_args(
+                [
+                    "discover",
+                    "--provider",
+                    "teacher_recruit_newtaipei",
+                    "--years",
+                    "2026",
+                    "--manifest",
+                    str(path),
+                    "--write-manifest",
+                ]
+            )
+
+            with redirect_stdout(io.StringIO()):
+                exit_code = command_discover(args, client=DiscoveryOnlyClient())
+
+            self.assertEqual(exit_code, 0)
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["provider_id"], "teacher_recruit_newtaipei")
+            self.assertEqual(manifest["years"]["2026"]["search_url"], "https://official.example.test/notices")
+            self.assertEqual(
+                manifest["exams"]["teacher-recruit-newtaipei-115-junior"]["result_url"],
+                "https://official.example.test/notices/teacher-recruit-newtaipei-115-junior",
+            )
 
     def test_publish_site_command_aggregates_provider_outputs_for_default_site(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -857,9 +969,11 @@ class CliCommandTests(unittest.TestCase):
                         storage_key="bundles/sites/default/nurse.zip",
                         asset_name="nurse.zip",
                         legacy_asset_names=["nurse-display.zip"],
+                        bundle_id="bundle-nurse",
+                        schema_version=2,
                     )
                 ],
-                {"nurse"},
+                {"bundle-nurse"},
                 "default-bundles-001",
             )
 
@@ -1284,6 +1398,89 @@ class CliCommandTests(unittest.TestCase):
             self.assertIn("101-0101-answer", output.getvalue())
             self.assertIn("temporary download failure", output.getvalue())
             self.assertEqual((data_dir / "papers" / "2026.json").read_text(encoding="utf-8"), original_papers)
+
+    def test_run_sync_targeted_allow_partial_writes_valid_subset_and_failure_record(self) -> None:
+        class PartialTargetedClient:
+            provider_id = "moex"
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                return SourceExamPage(
+                    provider_id="moex",
+                    source_exam_id=exam_code,
+                    year_ad=year_ad,
+                    year_roc=year_ad - 1911,
+                    exam_name_raw="Exam 115030",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="nurse raw",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="Subject",
+                            files={
+                                "question": "https://example.test/question.pdf",
+                                "answer": "https://example.test/answer.pdf",
+                            },
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                if url.endswith("answer.pdf"):
+                    raise RuntimeError("official answer placeholder")
+                return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            aliases_path = root / "data" / "aliases.json"
+            aliases_path.parent.mkdir(parents=True, exist_ok=True)
+            aliases_path.write_text(json.dumps({"rules": []}), encoding="utf-8")
+            probe_path = root / ".tmp" / "source-probe.json"
+            probe_path.parent.mkdir(parents=True, exist_ok=True)
+            probe_path.write_text(
+                json.dumps(
+                    {
+                        "should_sync": True,
+                        "provider_id": "moex",
+                        "changed_exam_codes": ["115030"],
+                        "removed_exam_codes": [],
+                        "exam_years": {"115030": 2026},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-targeted",
+                    "--provider",
+                    "moex",
+                    "--probe",
+                    str(probe_path),
+                    "--data-dir",
+                    str(root / "data"),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--aliases",
+                    str(aliases_path),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--allow-partial",
+                ]
+            )
+            output = io.StringIO()
+            with redirect_stdout(output):
+                exit_code = run_sync_targeted(args, client=PartialTargetedClient())
+
+            provider = provider_paths(root, "moex")
+            raw_pages, catalog, failures = load_provider_state(provider)
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Committed partial targeted state", output.getvalue())
+        self.assertEqual([page.source_exam_id for page in raw_pages], ["115030"])
+        self.assertEqual([paper.file_type for paper in catalog.papers], ["question"])
+        self.assertEqual(len(failures), 1)
+        self.assertEqual(failures[0].source_exam_id, "115030")
+        self.assertEqual(failures[0].file_type, "answer")
 
     def test_run_sync_targeted_writes_probe_manifest_after_successful_sync(self) -> None:
         class SuccessfulTargetedClient:

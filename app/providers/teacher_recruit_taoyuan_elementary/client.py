@@ -122,7 +122,7 @@ class TaoyuanElementaryRecruitClient:
 
     def discover_available_years(self) -> list[int]:
         years = {int(match) + 1911 for match in re.findall(r"(\d{3})桃", self._answer_html())}
-        return sorted(years or {2026}, reverse=True)
+        return sorted(years, reverse=True)
 
     def discover_exams(self, year_ad: int) -> list[ExamOption]:
         if year_ad not in self.discover_available_years():
@@ -136,6 +136,15 @@ class TaoyuanElementaryRecruitClient:
                 label=f"{year_roc}學年度{CANONICAL_CATEGORY}",
             )
         ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return ANSWER_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"teacher-recruit-taoyuan-elementary-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(f"Unexpected Taoyuan discovery exam code for {year_ad}: {exam_code}")
+        return ANSWER_URL
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         year_roc = year_ad - 1911

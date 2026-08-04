@@ -16,6 +16,12 @@ class HceCmuProvider(SourceProvider):
     def discover_exams(self, year_ad: int):
         return self.client.discover_exams(year_ad)
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return self.client.build_discovery_year_url(year_ad)
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        return self.client.build_discovery_exam_url(exam_code, year_ad)
+
     def fetch_exam_page(self, exam_code: str, year_ad: int):
         return self.client.fetch_exam_page(exam_code, year_ad)
 

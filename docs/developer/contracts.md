@@ -66,6 +66,12 @@ Required fields:
 - `exams`: source exam-level probe state
 - `files`: optional file-level probe state if the provider needs it
 
+The reviewed source scope is separate from generated manifests:
+
+- `catalog/source-inventory.json` records every provider and candidate source in the documented scope, its official URL/status/evidence, and an exact observation of local provider state.
+- `scripts/validate_source_inventory.py` verifies provider registry coverage, local-state drift, and local evidence references. It reports missing, not-applicable, or partial live discovery manifests plus official events listed without local state, and only makes those discovery gaps fatal with `--require-discovery-manifests`.
+- The inventory must never be used to infer that a source was discovered merely because local manifests agree.
+
 Rules:
 
 - A manifest MUST belong to exactly one provider.

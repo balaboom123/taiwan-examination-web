@@ -1,0 +1,359 @@
+{
+  "exams": {
+    "special-admission-102": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "102學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=102",
+      "source_exam_id": "special-admission-102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "special-admission-103": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "103學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=103",
+      "source_exam_id": "special-admission-103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "special-admission-104": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "104學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=104",
+      "source_exam_id": "special-admission-104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "special-admission-105": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "105學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=105",
+      "source_exam_id": "special-admission-105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "special-admission-106": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "106學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=106",
+      "source_exam_id": "special-admission-106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "special-admission-107": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "107學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=107",
+      "source_exam_id": "special-admission-107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "special-admission-108": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "108學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=108",
+      "source_exam_id": "special-admission-108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "special-admission-109": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "109學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=109",
+      "source_exam_id": "special-admission-109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "special-admission-110": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "110學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=110",
+      "source_exam_id": "special-admission-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "special-admission-111": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "111學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=111",
+      "source_exam_id": "special-admission-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "special-admission-112": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "112學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=112",
+      "source_exam_id": "special-admission-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "special-admission-113": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "113學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=113",
+      "source_exam_id": "special-admission-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "special-admission-114": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "114學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=114",
+      "source_exam_id": "special-admission-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "special-admission-115": {
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_label": "115學年度身心障礙學生升學大專校院甄試",
+      "result_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=115",
+      "source_exam_id": "special-admission-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "accepted_asset_count": 216,
+    "accepted_scope": "大學組 / 共同; 國文、英文、數學A、數學B、歷史、地理、物理、化學、生物",
+    "asset_reconciliation_at": "2026-07-30T19:49:41.295658+08:00",
+    "discovery_mode": "official-year-exam-listing",
+    "excluded_scope": "二技組 and 四技二專組 rows require separate archive-family decisions",
+    "html_fingerprint_scope": "capture evidence only; dynamic markup can change, so accepted_asset_urls_hash is the drift key",
+    "last_discovery_at": "2026-07-30T19:37:24.163882+08:00",
+    "license_status": "no explicit redistribution license linked from the archive page",
+    "listing_bytes": 74986,
+    "listing_sha256": "9d0419262a5753c36222a5f6fa8fac1a907189971256b11942cf9164d59550e9",
+    "listing_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question",
+    "robots_policy": "/EnableSys/ explicitly allowed by https://cis.ncu.edu.tw/robots.txt"
+  },
+  "provider_id": "special_admission",
+  "schema_version": 1,
+  "years": {
+    "2013": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "7a18e2f760c79b87cc3f15baf17f2631c00314eb5f775bdd6c1010caa23b2a94",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-102"
+      ],
+      "exam_codes_hash": "sha256:2232b01d24b8dff81bc24b3f121a3effbdcddab6928bc2fa259e467ddde48a70",
+      "page_bytes": 81139,
+      "page_sha256": "897623228c32c0d4be74c8315d3274a9d49682ef0078f589341a31d0bffd028a",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=102",
+      "year_ad": 2013,
+      "year_roc": 102
+    },
+    "2014": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "1df08db0b90dd3e070f1f906653c3b10187a63f5ed5cf9bbf93b3bf1478a9bbd",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-103"
+      ],
+      "exam_codes_hash": "sha256:769fe1108f4afa5445e1fa65b1e23af1eba9611acdc6b80a7760c24d0d4e5b75",
+      "page_bytes": 86616,
+      "page_sha256": "f31382b8ea5ffc4eaca2f638b512fe5e0f50fac32a865ab6532a3f282640ab6b",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=103",
+      "year_ad": 2014,
+      "year_roc": 103
+    },
+    "2015": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "9777c99b1199ab822d4170c19f39a11d7f5d1091bff87d6d5620a686a82fa74f",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-104"
+      ],
+      "exam_codes_hash": "sha256:e52a3713c77b201cd3c3b5a86854fbd7cd2bc35cf654bf153d64e033a83eb0ed",
+      "page_bytes": 82964,
+      "page_sha256": "186502af8df5654976b74b112d85139ef1deaee8f942fb70eb1cec760e59e309",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=104",
+      "year_ad": 2015,
+      "year_roc": 104
+    },
+    "2016": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "406a3941e6be559f40af592a6d3b81f82dd22fe3a5695e0ac5280dea1a8babf7",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-105"
+      ],
+      "exam_codes_hash": "sha256:4f77ee66fae30040e462b644d1b5bab7e8bbcef6b913a5cebe6e7f37f635fa7d",
+      "page_bytes": 84792,
+      "page_sha256": "d7b55b7306c080bfc74a3d0222341a062f7c859e2adcfaab540d3ef1813d15b8",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=105",
+      "year_ad": 2016,
+      "year_roc": 105
+    },
+    "2017": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "46ce0f17d1a864b27d0a297ff3e3bb407421d84ceaba9e89bc1970dd5f730571",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-106"
+      ],
+      "exam_codes_hash": "sha256:bfd0a3e9df27462cefff6d061b1f37771183a40061b5525a3c7f6a33d23e7c41",
+      "page_bytes": 84816,
+      "page_sha256": "68bc0d316856aaa29fb1b2a08a3871e06814c9ada46583e1f0a7e04eca1b0224",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=106",
+      "year_ad": 2017,
+      "year_roc": 106
+    },
+    "2018": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "a7133027195df3faef704c64136895255b9507d64436405fa275ba3321a04c06",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-107"
+      ],
+      "exam_codes_hash": "sha256:47065449b66d95884dd38c412cfc5bd5331686c4ca90d57f07aef51d4bf49887",
+      "page_bytes": 84778,
+      "page_sha256": "483689ffd443b70bc93435369657d05a9d030a4ccca40d6664500c93b1f524d7",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=107",
+      "year_ad": 2018,
+      "year_roc": 107
+    },
+    "2019": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "41bbd69dec57fdb8e942c8e9948a056167ddf19da3bef38503162b7fe41ef771",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-108"
+      ],
+      "exam_codes_hash": "sha256:0f7a766d022777cbdaff972c04faac73442d5510cc3a9230900b461324d77308",
+      "page_bytes": 84715,
+      "page_sha256": "15196a171787e8121c014452de9bfef85ce3d4b3a84500c486ece2f455670b24",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=108",
+      "year_ad": 2019,
+      "year_roc": 108
+    },
+    "2020": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "6d300f497ea0ad436d035479f062eef17bb2c21247d93989f53eb718da83f806",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-109"
+      ],
+      "exam_codes_hash": "sha256:a6e2e2277098aad48393a5bbc8575a2dd105a9185dc1cc69fe53cc8520043506",
+      "page_bytes": 83951,
+      "page_sha256": "cf6581f98bd79dc5b742f41ba6ad0df14e978a7fd4ace2c041b0ed211868806f",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=109",
+      "year_ad": 2020,
+      "year_roc": 109
+    },
+    "2021": {
+      "accepted_asset_count": 14,
+      "accepted_asset_urls_hash": "4c018780df45f31a250ac436dc0e5a93fd056ef7b2b86034ca26e509dc1159b5",
+      "accepted_paper_group_count": 7,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-110"
+      ],
+      "exam_codes_hash": "sha256:a7c90843a3e113d75132af6712ddf209af859139a99c0ad2571ee2f9fd9b087d",
+      "page_bytes": 83522,
+      "page_sha256": "9d491bb4890187c2f63fdeb547a25d3c7d10d4273167ea6b1fd9b379211b7850",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "accepted_asset_count": 18,
+      "accepted_asset_urls_hash": "e88850547fc3478898bb28207d527314b5e75d651d68fab3c378552c28c4534a",
+      "accepted_paper_group_count": 9,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-111"
+      ],
+      "exam_codes_hash": "sha256:30bc97ac6472a3062be6dd6d0b71f2ac400027197d246a44bfe56f5de76e3f79",
+      "page_bytes": 78732,
+      "page_sha256": "750feaddd04fa40ffddc6868ed37b835ff207e6af1f408971f001c47e70044ad",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "accepted_asset_count": 18,
+      "accepted_asset_urls_hash": "d746a02fa387c61153c75d163d014df890e0c5ea8084d0b45dd36642b2d8fe60",
+      "accepted_paper_group_count": 9,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-112"
+      ],
+      "exam_codes_hash": "sha256:ebd513fea1eec48718c9b000d97766f096ca6242818cf085358284c545fc291a",
+      "page_bytes": 79549,
+      "page_sha256": "04cf44a0f82a64fee9a956054a3d18cbd37a6d9ca69da04c249a3db19c27f7b9",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "accepted_asset_count": 18,
+      "accepted_asset_urls_hash": "e47b17103616b5f9b2a7e85b8a91f34f9b6c6c8501e5310d7d5992d69b1611cf",
+      "accepted_paper_group_count": 9,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-113"
+      ],
+      "exam_codes_hash": "sha256:b2db241a4da9630b9e3a3b6bf43dc25d2a1211df8ff864fa335eec9512676ed7",
+      "page_bytes": 78275,
+      "page_sha256": "60a6eafb2c9d392b09db92e2366b4506386b5b7f45958416d03b0a237a63e4ff",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "accepted_asset_count": 18,
+      "accepted_asset_urls_hash": "0336d175f77294bd6f4f3501a5e46a5a69d43eb65e04ac75b0ab6ce029bf02d4",
+      "accepted_paper_group_count": 9,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-114"
+      ],
+      "exam_codes_hash": "sha256:65ba797db95087770ec631025ec6f9618f4808e0184994295af9ceaf2773707e",
+      "page_bytes": 74986,
+      "page_sha256": "9d0419262a5753c36222a5f6fa8fac1a907189971256b11942cf9164d59550e9",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "accepted_asset_count": 18,
+      "accepted_asset_urls_hash": "1add8583a3a05e421cf2e2747ac42c8ccb7ead4521d10bff683057a7a8698784",
+      "accepted_paper_group_count": 9,
+      "asset_reconciled_at": "2026-07-30T19:49:41.295658+08:00",
+      "discovered_at": "2026-07-30T19:37:24.163882+08:00",
+      "exam_codes": [
+        "special-admission-115"
+      ],
+      "exam_codes_hash": "sha256:f3748810be62dfd2c8f9bc503a610fbdade6196ed67fb95feaf1a18f0d8e15d2",
+      "page_bytes": 77611,
+      "page_sha256": "e19129b68f4e1494c1c6d832442eaf6cb09a7cfc09714a231050feb6af6bf94b",
+      "search_url": "https://cis.ncu.edu.tw/EnableSys/admissionInfo/examInfo/question?year=115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

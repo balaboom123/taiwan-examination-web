@@ -1,0 +1,168 @@
+{
+  "exams": {
+    "hce-cmu-110": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "110學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/146",
+      "source_exam_id": "hce-cmu-110",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "hce-cmu-111": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "111學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/225",
+      "source_exam_id": "hce-cmu-111",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "hce-cmu-112": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "112學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/325",
+      "source_exam_id": "hce-cmu-112",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "hce-cmu-113": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "113學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/448",
+      "source_exam_id": "hce-cmu-113",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "hce-cmu-114": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "114學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/540",
+      "source_exam_id": "hce-cmu-114",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "hce-cmu-115": {
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_label": "115學年度中國醫藥大學學士後中醫學系",
+      "result_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/641",
+      "source_exam_id": "hce-cmu-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  },
+  "files": {},
+  "probe_policy": {
+    "accepted_asset_count": 30,
+    "accepted_scope": "all linked exam questions and reference answers on the six discovered CMU post-baccalaureate Chinese-medicine event pages",
+    "asset_reconciliation_at": "2026-07-30T19:58:39.384776+08:00",
+    "crawl_delay_seconds": 10,
+    "discovery_mode": "official-year-exam-listing",
+    "html_fingerprint_scope": "capture evidence only; accepted_asset_urls_hash is the drift key",
+    "last_discovery_at": "2026-07-30T19:57:52.234244+08:00",
+    "license_status": "no explicit redistribution license or copyright terms linked from the archive pages",
+    "listing_page_count": 4,
+    "listing_url": "https://adm21.cmu.edu.tw/?q=zh-hant/news_spbcm",
+    "provenance_url": "https://spbcm.cmu.edu.tw/page/384",
+    "robots_policy": "Crawl-delay: 10; archive paths are not disallowed",
+    "transport_security": "default CA verification fails; the existing adapter uses an unverified TLS context only for adm21.cmu.edu.tw"
+  },
+  "provider_id": "hce_cmu",
+  "schema_version": 1,
+  "years": {
+    "2021": {
+      "accepted_asset_count": 5,
+      "accepted_asset_urls_hash": "50414a2c32978794547c95ea97ffb98b358dc329b8735a79341b76749cdd0bff",
+      "accepted_paper_group_count": 5,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-110"
+      ],
+      "exam_codes_hash": "sha256:ce1a210467199179a7cb57c649eb70dd9a56c5e4bc3adf1f3256224d55161bfd",
+      "page_bytes": 66135,
+      "page_sha256": "763ca92604991943455aa01e6cdd71e270b7c1b073c0314797868760f51a6902",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/146",
+      "year_ad": 2021,
+      "year_roc": 110
+    },
+    "2022": {
+      "accepted_asset_count": 4,
+      "accepted_asset_urls_hash": "16b8a21c41d197e27a5c6020ef6e5245b85dab9dfc62de8e1d6b19dd57e3baa4",
+      "accepted_paper_group_count": 4,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-111"
+      ],
+      "exam_codes_hash": "sha256:6be36e68097059606db66a93df3b6915bb0828656876aa8070738fddd1b29cc0",
+      "page_bytes": 66267,
+      "page_sha256": "e08d7c9a8d2237cb540dfb59795e4eaabb3895538d285e9e7ffa8e256249986f",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/225",
+      "year_ad": 2022,
+      "year_roc": 111
+    },
+    "2023": {
+      "accepted_asset_count": 4,
+      "accepted_asset_urls_hash": "36278bf550ea0abe56d19180d82e8a5fef6134072ec7f63905607211f37239fc",
+      "accepted_paper_group_count": 4,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-112"
+      ],
+      "exam_codes_hash": "sha256:06976052398a0ed9daf25fb7096fbd7be305596be36469a890943148b0a61713",
+      "page_bytes": 66065,
+      "page_sha256": "768ee9fa56c4f6fcafab3feb93260b11e87e860a6d70a8cb5d4b97f756b6aae4",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/325",
+      "year_ad": 2023,
+      "year_roc": 112
+    },
+    "2024": {
+      "accepted_asset_count": 4,
+      "accepted_asset_urls_hash": "e79600d431086972d574836f2fff42f6c2e7459a6abc710a66834626d5cc8621",
+      "accepted_paper_group_count": 4,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-113"
+      ],
+      "exam_codes_hash": "sha256:ab7e20af44ea7c6f586ad9418f7c4934f2b7b4c9c2c0dc3bbf5e378842326a22",
+      "page_bytes": 66123,
+      "page_sha256": "554a301d03ba0db0801d50214408e1fc8ad24630e3f9fe97b2b2edb446e880b2",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/448",
+      "year_ad": 2024,
+      "year_roc": 113
+    },
+    "2025": {
+      "accepted_asset_count": 5,
+      "accepted_asset_urls_hash": "aa422422a8569d7301b7e72e5adc5742ed9639282dd63441d80581ab53307982",
+      "accepted_paper_group_count": 5,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-114"
+      ],
+      "exam_codes_hash": "sha256:c764e749352b587bbf2d30d34a00fedc0d407f6fbddb4cb2829017c571a023fd",
+      "page_bytes": 66136,
+      "page_sha256": "1da59ab1bfaf0e87636fd10d6858c512132baf09261645b18ab32b7af47e10c0",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/540",
+      "year_ad": 2025,
+      "year_roc": 114
+    },
+    "2026": {
+      "accepted_asset_count": 8,
+      "accepted_asset_urls_hash": "4c14f18aa152472b2019e26bf37597bc3e4dd287c32d1716879b6aedb0697d8a",
+      "accepted_paper_group_count": 4,
+      "asset_reconciled_at": "2026-07-30T19:58:39.384776+08:00",
+      "discovered_at": "2026-07-30T19:57:52.234244+08:00",
+      "exam_codes": [
+        "hce-cmu-115"
+      ],
+      "exam_codes_hash": "sha256:e143a5c466375d248a1ee860de04ec57500d6c14f4abe9462817b1ed81ec699f",
+      "page_bytes": 67209,
+      "page_sha256": "339ecf0ef448abf9643def2c743d0c61d5059d9e724d51eb03b35bc7325b308a",
+      "search_url": "https://adm21.cmu.edu.tw/?q=zh-hant/node/641",
+      "year_ad": 2026,
+      "year_roc": 115
+    }
+  }
+}

@@ -26,6 +26,7 @@ from pathlib import Path
 report = json.loads(Path(".tmp/catalog-audit.json").read_text())
 for key in (
     "paper_records_scanned", "provider_count", "records_needing_review",
+    "review_queue_entries", "review_queue_stale_entries", "review_queue_missing_entries",
     "current_bundle_disposition_counts", "current_release_asset_counts",
     "current_release_capacity_ok", "planned_bundle_count", "planned_release_shards",
 ):
@@ -33,13 +34,24 @@ for key in (
 PY
 ~~~
 
+## Event coverage audit
+
+Run the event-level audit separately from the identity audit:
+
+~~~bash
+python3 -m app history-audit --site-id default --output .tmp/history-audit.json
+python3 -m app history-audit --site-id default --strict --output .tmp/history-audit-strict.json
+~~~
+
+The report distinguishes download gaps, normalization gaps, normalized-but-not-published events, source-only parser gaps, and excluded-by-publication-policy events. The strict form fails on unresolved gaps and passes only when every excluded event has an explicit site-policy disposition.
+
 The strict form is a gate:
 
 ~~~bash
 python3 -m app audit-catalog --strict --output .tmp/catalog-audit-strict.json
 ~~~
 
-It returns non-zero while any public record lacks an approved identity disposition or coverage fails. A review-confidence record is acceptable only when it has an event-specific review bundle and a matching evidence-queue signature; the report exposes these as `approved_review_isolated_records`. Resolve or explicitly document any `unapproved_review_records`; do not add a fallback merely to make the command green.
+It returns non-zero while any public record lacks an approved identity disposition, review evidence is stale or missing, or coverage fails. The audit rebuilds the generated review queue from current papers and exposes `review_queue_stale_entries` and `review_queue_missing_entries`; strict mode requires both to be zero. A review-confidence record is acceptable only when it has an event-specific review bundle and a matching evidence-queue signature; the report exposes these as `approved_review_isolated_records`. Resolve or explicitly document any `unapproved_review_records`; do not add a fallback merely to make the command green.
 
 ## Migration
 

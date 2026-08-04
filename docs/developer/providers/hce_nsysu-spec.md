@@ -12,7 +12,9 @@
 
 ## Source Rule
 
-The accepted source must be an official National Sun Yat-sen University page or an official admission system named by the university. Public direct downloads are required. Private mirrors and practice sites are rejected.
+The accepted provenance page is the official National Sun Yat-sen University admissions page at `https://www.nsysu.edu.tw/p/412-1000-94.php?Lang=zh-tw`; it links the official library archive at `https://lis.nsysu.edu.tw/p/412-1001-23442.php?Lang=zh-tw`. Public direct downloads are required. Private mirrors and practice sites are rejected.
+
+The archive's `robots.txt` allows all paths and default TLS verification succeeds. No explicit redistribution license or copyright terms were linked from the archive pages.
 
 ## Implementation Status
 
@@ -20,12 +22,14 @@ The accepted source must be an official National Sun Yat-sen University page or 
 - accepted paper archive: `https://lis.nsysu.edu.tw/p/412-1001-23442.php?Lang=zh-tw`
 - implemented provider: `app/providers/hce_nsysu/`
 - parser/shared client: `app/providers/hce_archive.py`
-- current synced coverage: ROC 111-115 / AD 2022-2026, 5 combined PDFs, 0 failures
+- source manifest: 5/5 official events for ROC 111–115 / AD 2022–2026, captured 2026-07-30
+- asset reconciliation: all five live combined PDFs match retained SHA-256 checksums byte for byte (35,509,877 bytes total)
+- all five events are published-complete with zero failures
 - public bundle: `hce-nsysu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip`
 
 ## Discovery Model
 
-If accepted, the provider mirrors official paper assets by year and subject into:
+The provider reads the bounded library listing and mirrors its one official combined question-and-answer PDF per year into:
 
 - `data/providers/hce_nsysu/`
 - `mirror/providers/hce_nsysu/`
@@ -45,6 +49,7 @@ python -m app sync-full --provider hce_nsysu --site-id default
 ## Non-Goals
 
 - no third-party mirrors
+- no attempt to split official combined PDFs into inferred subject files
 - no broad crawling of university news pages
 - no provider that would publish zero files
 - no Shuati crawling

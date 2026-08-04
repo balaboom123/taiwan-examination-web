@@ -4,7 +4,7 @@
 
 **Goal:** Decide whether `hce_nthu` can be implemented from an official National Tsing Hua University source.
 
-**Status:** Implemented from the official NTHU admissions archive. Current local sync: ROC 115 / AD 2026, 4 files, 0 failures. Public bundle: `hce-nthu`.
+**Status:** Implemented from the official NTHU admissions archive. Current local sync: ROC 111–115 / AD 2022–2026, 5 events, 24 files, 0 failures. The four-page archive and every live asset were rechecked on 2026-07-30; remote release-asset existence was not verified by this audit.
 
 **Architecture:** Source-proof first, then add one provider only if public direct downloads exist.
 

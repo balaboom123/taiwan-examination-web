@@ -6,7 +6,7 @@ from app.normalizer import normalize_papers
 from app.providers.base import SourceProvider
 from app.providers.registry import get_provider
 
-from app.providers.ceec_gsat.client import CeecGsatClient, parse_listing_page
+from app.providers.ceec_gsat.client import LISTING_URL, CeecGsatClient, parse_listing_page
 
 
 LISTING_HTML = """
@@ -39,6 +39,23 @@ LISTING_HTML_SPLIT_ROW = """
       <a href="/files/a-sheet.pdf">\u7b54\u984c\u5377</a>
       <a href="/files/a-answer.pdf">\u9078\u64c7\u984c\u7b54\u6848</a>
       <a href="/files/a-guideline.pdf">\u975e\u9078\u64c7\u984c\u8a55\u5206\u539f\u5247</a>
+    </td>
+  </tr>
+</table>
+</body></html>
+"""
+
+LISTING_HTML_TWO_DIGIT_ROC_YEAR = """
+<html><body>
+<div>共 19 頁 / 189 筆</div>
+<table>
+  <tr><th>發佈日期</th><th>標題</th><th>下載</th></tr>
+  <tr>
+    <td>086-02-24</td>
+    <td>86學年度學科能力測驗－英文</td>
+    <td>
+      <a href="/files/86-english-question.pdf">試題內容</a>
+      <a href="/files/86-english-answer.pdf">選擇題答案</a>
     </td>
   </tr>
 </table>
@@ -84,6 +101,14 @@ class CeecParserTests(unittest.TestCase):
             ],
         )
 
+    def test_parse_listing_page_keeps_two_digit_roc_year_titles(self) -> None:
+        page = parse_listing_page(LISTING_HTML_TWO_DIGIT_ROC_YEAR)
+
+        self.assertEqual(len(page.entries), 1)
+        self.assertEqual(page.entries[0].year_ad, 1997)
+        self.assertEqual(page.entries[0].source_exam_id, "gsat-86-english")
+        self.assertEqual([item.label for item in page.entries[0].downloads], ["試題內容", "選擇題答案"])
+
     def test_fetch_exam_page_turns_one_listing_row_into_many_single_file_papers(self) -> None:
         with patch.object(CeecGsatClient, "_fetch_text", return_value=LISTING_HTML):
             client = CeecGsatClient()
@@ -96,6 +121,8 @@ class CeecParserTests(unittest.TestCase):
             {file_type for paper in page.papers for file_type in paper.files},
             {"question", "question_alt", "answer_sheet", "answer", "corrected_answer"},
         )
+        self.assertEqual(client.build_discovery_year_url(2026), LISTING_URL)
+        self.assertEqual(client.build_discovery_exam_url("gsat-115-guozong", 2026), LISTING_URL)
 
     def test_registry_returns_ceec_provider(self) -> None:
         provider = get_provider("ceec_gsat")

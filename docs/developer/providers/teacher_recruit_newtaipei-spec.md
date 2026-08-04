@@ -30,6 +30,19 @@ Detail records expose `attachment2` entries with `fileName`, `fileSize`, and `fi
 
 One sampled list UUID for the elementary/kindergarten notice returned a mismatched detail record. The provider must therefore validate that detail `opn_title` or `opn_tag` still matches the list record before accepting attachments.
 
+## Discovery Snapshot
+
+The read-only discovery command records the official list API as the year URL and each accepted notice's official detail API URL as event evidence. The 2026-07-29 snapshot contains four in-scope ROC 115 / AD 2026 notices—senior high, junior high, elementary/kindergarten, and preschool—and all four source event IDs match retained local state.
+
+Generate or refresh the snapshot with:
+
+```bash
+python3 -m app discover --provider teacher_recruit_newtaipei --years 2026 \
+  --manifest data/providers/teacher_recruit_newtaipei/source-manifest.json --write-manifest
+```
+
+This is complete only for the declared current-year source scope. It does not imply that the public bulletin API exposes a historical archive, and it does not enable HEAD-based `probe-latest` support.
+
 ## Output Model
 
 - one exam per source tag and school year: `teacher-recruit-newtaipei-<roc_year>-<scope>`

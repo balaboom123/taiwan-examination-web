@@ -16,10 +16,10 @@ LISTING_URL = "https://www.ceec.edu.tw/xmfile?xsmsid=0J052424829869345634"
 USER_AGENT = "Mozilla/5.0 (compatible; ceec-gsat-mirror/1.0)"
 _TOTAL_PAGES_RE = re.compile("\u5171\\s*(\\d+)\\s*\u9801")
 _ENTRY_HEADER_RE = re.compile(
-    "(?P<roc_year>\\d{3})-\\d{2}-\\d{2}\\s+(?P<title>\\d{3}\\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)"
+    "(?P<roc_year>\\d{2,3})-\\d{2}-\\d{2}\\s+(?P<title>\\d{2,3}\\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)"
 )
-_ENTRY_DATE_RE = re.compile(r"(?P<roc_year>\d{3})-\d{2}-\d{2}$")
-_ENTRY_TITLE_RE = re.compile(r"(?P<title>(?P<roc_year>\d{3})\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)$")
+_ENTRY_DATE_RE = re.compile(r"(?P<roc_year>\d{2,3})-\d{2}-\d{2}$")
+_ENTRY_TITLE_RE = re.compile(r"(?P<title>(?P<roc_year>\d{2,3})\s*\u5b78\u5e74\u5ea6\u5b78\u79d1\u80fd\u529b\u6e2c\u9a57[\uFF0D-].+)$")
 _YEAR_BLOCK_RE = re.compile(
     "\u9078\u64c7\u5e74\u5ea6(?P<body>.*?)(?:\u203b\u672c\u8a66\u984c\u70baPDF|\u767c\u4f48\u65e5\u671f)",
     re.S,
@@ -189,6 +189,9 @@ def parse_listing_page(html: str) -> CeecListingPage:
 class CeecGsatClient:
     provider_id = "ceec_gsat"
 
+    def __init__(self) -> None:
+        self._entries_cache: tuple[CeecEntry, ...] | None = None
+
     def _fetch_text(self, url: str) -> str:
         request = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=60) as response:
@@ -217,6 +220,8 @@ class CeecGsatClient:
             )
 
     def _iter_entries(self) -> list[CeecEntry]:
+        if self._entries_cache is not None:
+            return list(self._entries_cache)
         first_page_html = self._fetch_text(LISTING_URL)
         first_page = parse_listing_page(first_page_html)
         entries = list(first_page.entries)
@@ -232,7 +237,8 @@ class CeecGsatClient:
                 continue
             seen.add(key)
             deduped.append(entry)
-        return deduped
+        self._entries_cache = tuple(deduped)
+        return list(self._entries_cache)
 
     def discover_available_years(self) -> list[int]:
         first_page_html = self._fetch_text(LISTING_URL)
@@ -247,6 +253,16 @@ class CeecGsatClient:
             for entry in self._iter_entries()
             if entry.year_ad == year_ad
         ]
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        if any(entry.year_ad == year_ad for entry in self._iter_entries()):
+            return LISTING_URL
+        raise ValueError(f"Unknown CEEC GSAT discovery year: {year_ad}")
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        if any(entry.source_exam_id == exam_code and entry.year_ad == year_ad for entry in self._iter_entries()):
+            return LISTING_URL
+        raise ValueError(f"Unknown CEEC GSAT discovery exam: {exam_code} ({year_ad})")
 
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         entry = next(item for item in self._iter_entries() if item.source_exam_id == exam_code and item.year_ad == year_ad)

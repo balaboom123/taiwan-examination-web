@@ -210,6 +210,17 @@ class NewTaipeiTeacherRecruitClient:
             if notice.year_ad == year_ad
         ]
 
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        return LIST_API_URL
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        notice = self._exam_notice_map()[exam_code]
+        if notice.year_ad != year_ad:
+            raise ValueError(
+                f"New Taipei discovery year mismatch for {exam_code}: expected {notice.year_ad}, got {year_ad}"
+            )
+        return DETAIL_API_URL.format(uuid=notice.uuid)
+
     def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
         notice = self._exam_notice_map()[exam_code]
         detail_payload = self._fetch_json(DETAIL_API_URL.format(uuid=notice.uuid))

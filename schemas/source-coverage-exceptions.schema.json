@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reviewed source coverage exceptions",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "provider_id",
+    "exceptions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/exception"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": [
+        "captured_at",
+        "http_status",
+        "response_bytes",
+        "response_sha256",
+        "observation"
+      ],
+      "properties": {
+        "captured_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "http_status": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 599
+        },
+        "response_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "response_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "exception": {
+      "type": "object",
+      "required": [
+        "scope",
+        "provider_id",
+        "source_exam_id",
+        "year_ad",
+        "status",
+        "reason_code",
+        "reason",
+        "source_url",
+        "evidence"
+      ],
+      "properties": {
+        "scope": {
+          "enum": [
+            "event",
+            "file"
+          ]
+        },
+        "provider_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_exam_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "year_ad": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "blocked",
+            "intentionally_out_of_scope"
+          ]
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paper_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "file"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "paper_code",
+              "file_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "event"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "paper_code"
+                  ]
+                },
+                {
+                  "required": [
+                    "file_type"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -5,7 +5,17 @@ from dataclasses import dataclass
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
+from urllib.parse import (
+    parse_qs,
+    parse_qsl,
+    quote,
+    unquote,
+    urlencode,
+    urljoin,
+    urlparse,
+    urlsplit,
+    urlunsplit,
+)
 from urllib.request import Request, urlopen
 
 from app.models import ExamOption, ParsedPaper, SourceExamPage
@@ -13,6 +23,9 @@ from app.providers.base import DownloadedFile, ResponseMetadata
 
 BASE_URL = "https://www.taipower.com.tw/"
 DOWNLOAD_URL = "https://www.taipower.com.tw/tc/download.aspx?mid=261"
+LISTING_PATH = "/2289/2544/2554/2556/"
+DISCOVERY_PAGE_SIZE = 200
+MAX_DISCOVERY_YEARS = 100
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 REQUEST_HEADERS = {
     "User-Agent": USER_AGENT,
@@ -138,6 +151,7 @@ _YEAR_TAB_RE = re.compile(
     r'<a\s+href="(/\d+/\d+/\d+/\d+/\?[^"]+q_attribute=\d+)"[^>]*>'
     r"(\d{2,3})年度?</a>"
 )
+_HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.IGNORECASE)
 
 
 def parse_download_page(html: str) -> list[MoeaRecruitEntry]:
@@ -158,6 +172,37 @@ def parse_year_tabs(html: str) -> list[tuple[int, str]]:
     return results
 
 
+def _full_year_listing_url(relative_url: str) -> str:
+    parts = urlsplit(urljoin(BASE_URL, relative_url))
+    if parts.netloc != urlsplit(BASE_URL).netloc or parts.path != LISTING_PATH:
+        raise ValueError(f"Unexpected MOEA archive year-tab URL: {relative_url}")
+    query = [
+        (key, value)
+        for key, value in parse_qsl(parts.query, keep_blank_values=True)
+        if key not in {"Page", "PageSize"}
+    ]
+    query[:0] = [("Page", "1"), ("PageSize", str(DISCOVERY_PAGE_SIZE))]
+    return urlunsplit(
+        (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
+    )
+
+
+def parse_listing_page_numbers(html: str, listing_url: str) -> set[int]:
+    """Return pagination links for the same official listing route."""
+    expected = urlsplit(listing_url)
+    pages: set[int] = set()
+    for raw_href in _HREF_RE.findall(html):
+        candidate = urlsplit(urljoin(listing_url, unescape(raw_href)))
+        if candidate.netloc != expected.netloc or candidate.path != expected.path:
+            continue
+        for raw_page in parse_qs(candidate.query).get("Page", []):
+            try:
+                pages.add(int(raw_page))
+            except ValueError:
+                continue
+    return pages
+
+
 def _quote_url_for_request(url: str) -> str:
     parts = urlsplit(url)
     return urlunsplit(
@@ -176,6 +221,7 @@ class MoeaRecruitClient:
 
     def __init__(self) -> None:
         self._cached_entries: list[MoeaRecruitEntry] | None = None
+        self._year_urls: dict[int, str] = {}
 
     def _fetch_text(self, url: str) -> str:
         request = Request(_quote_url_for_request(url), headers=REQUEST_HEADERS)
@@ -214,17 +260,65 @@ class MoeaRecruitClient:
         if self._cached_entries is not None:
             return self._cached_entries
         main_html = self._fetch_text(DOWNLOAD_URL)
-        entries = parse_download_page(main_html)
-        seen_years = {e.year_roc for e in entries}
-        for year_roc, rel_url in parse_year_tabs(main_html):
-            if year_roc in seen_years:
-                continue
-            seen_years.add(year_roc)
-            page_url = urljoin(BASE_URL, rel_url)
+        year_tabs = parse_year_tabs(main_html)
+        if not year_tabs:
+            raise ValueError("MOEA archive exposes no official year tabs")
+        if len(year_tabs) > MAX_DISCOVERY_YEARS:
+            raise ValueError(f"MOEA archive exceeds {MAX_DISCOVERY_YEARS} discovery years")
+        if len({year for year, _ in year_tabs}) != len(year_tabs):
+            raise ValueError("MOEA archive exposes duplicate year tabs")
+
+        entries: list[MoeaRecruitEntry] = []
+        seen_download_urls: set[str] = set()
+        for year_roc, rel_url in year_tabs:
+            page_url = _full_year_listing_url(rel_url)
             page_html = self._fetch_text(page_url)
-            entries.extend(parse_download_page(page_html))
+            page_entries = parse_download_page(page_html)
+            if not page_entries:
+                raise ValueError(f"MOEA archive year {year_roc} contains no paper entries")
+            wrong_years = sorted(
+                {entry.year_roc for entry in page_entries if entry.year_roc != year_roc}
+            )
+            if wrong_years:
+                raise ValueError(
+                    f"MOEA archive year {year_roc} contains cross-year entries: {wrong_years}"
+                )
+            remaining_pages = {
+                page
+                for page in parse_listing_page_numbers(page_html, page_url)
+                if page > 1
+            }
+            if remaining_pages:
+                raise ValueError(
+                    f"MOEA archive year {year_roc} still paginates at "
+                    f"PageSize={DISCOVERY_PAGE_SIZE}: {sorted(remaining_pages)}"
+                )
+            for entry in page_entries:
+                for download in entry.downloads:
+                    if download.url in seen_download_urls:
+                        raise ValueError(f"MOEA archive repeats download URL: {download.url}")
+                    seen_download_urls.add(download.url)
+            entries.extend(page_entries)
+            self._year_urls[year_roc + 1911] = page_url
         self._cached_entries = entries
         return entries
+
+    def build_discovery_year_url(self, year_ad: int) -> str:
+        self._iter_entries()
+        try:
+            return self._year_urls[year_ad]
+        except KeyError as exc:
+            raise ValueError(
+                f"Unknown MOEA recruitment discovery year: {year_ad}"
+            ) from exc
+
+    def build_discovery_exam_url(self, exam_code: str, year_ad: int) -> str:
+        expected_code = f"moea-recruit-{year_ad - 1911}"
+        if exam_code != expected_code:
+            raise ValueError(
+                f"Unknown MOEA recruitment discovery exam: {exam_code} ({year_ad})"
+            )
+        return self.build_discovery_year_url(year_ad)
 
     def discover_available_years(self) -> list[int]:
         return sorted({entry.year_ad for entry in self._iter_entries()}, reverse=True)
@@ -244,7 +338,7 @@ class MoeaRecruitClient:
                     code=code,
                     year_ad=entry.year_ad,
                     year_roc=entry.year_roc,
-                    label=entry.title,
+                    label=f"{entry.year_roc}年度經濟部所屬事業機構新進職員甄試",
                 )
             )
         return result
@@ -278,7 +372,7 @@ class MoeaRecruitClient:
             source_exam_id=exam_code,
             year_ad=year_ad,
             year_roc=first.year_roc,
-            exam_name_raw=first.title,
+            exam_name_raw=f"{first.year_roc}年度經濟部所屬事業機構新進職員甄試",
             attachments=[],
             papers=papers,
             provider_id=self.provider_id,
