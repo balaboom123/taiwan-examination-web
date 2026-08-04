@@ -72,8 +72,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py ensure
 
+      # Also runs with no source change to repair assets whose published bytes
+      # no longer hash to the checksum the site catalog serves.
       - name: Upload downloadable bundles
-        if: steps.probe.outputs.should_sync == 'true'
+        if: steps.probe.outputs.should_sync == 'true' || steps.release_state.outputs.stale_required == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python .github/scripts/release_assets.py upload

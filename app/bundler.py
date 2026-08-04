@@ -26,6 +26,34 @@ WINDOWS_RESERVED_NAMES = {
 MAX_BUNDLE_BYTES = 1_900_000_000
 BUNDLE_PART_OVERHEAD = 4096
 
+# Bundle archives are content-addressed by the publication pipeline: the
+# checksum recorded in the site catalog is what users verify a download
+# against, and the release upload compares it to decide what to re-publish.
+# ZIP entries default to the wall-clock time of the build and to the source
+# file's permission bits, so an unchanged bundle used to hash differently on
+# every rebuild and to differ between a workstation (umask 002) and CI
+# (umask 022). Pin both so archive bytes depend only on entry names, order,
+# and content.
+BUNDLE_ENTRY_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
+BUNDLE_ENTRY_EXTERNAL_ATTR = 0o644 << 16
+
+
+def _bundle_entry_info(arcname: str, *, compress_type: int) -> zipfile.ZipInfo:
+    info = zipfile.ZipInfo(arcname, date_time=BUNDLE_ENTRY_TIMESTAMP)
+    info.compress_type = compress_type
+    info.external_attr = BUNDLE_ENTRY_EXTERNAL_ATTR
+    return info
+
+
+def _bundle_source_entry_info(source_path: Path, arcname: str, *, compress_type: int) -> zipfile.ZipInfo:
+    # Carry the source size so ZipFile.open picks the same ZIP64 framing that
+    # ZipFile.write would. ZipInfo.from_file is deliberately avoided: it reads
+    # the mtime this function exists to discard, and rejects any mirrored file
+    # stamped before 1980.
+    info = _bundle_entry_info(arcname, compress_type=compress_type)
+    info.file_size = source_path.stat().st_size
+    return info
+
 
 def _safe_segment(value: str, max_length: int | None = None) -> str:
     cleaned = (value or "").strip()
@@ -228,8 +256,9 @@ def _split_bundle_archive(
             part_path = bundle_path.with_name(part_name)
             with zipfile.ZipFile(part_path, "w", compression=zipfile.ZIP_STORED, allowZip64=True) as destination:
                 for _paper, arcname in group:
+                    entry_info = _bundle_entry_info(arcname, compress_type=zipfile.ZIP_STORED)
                     with source.open(arcname, "r") as source_entry, destination.open(
-                        arcname, "w", force_zip64=True
+                        entry_info, "w", force_zip64=True
                     ) as destination_entry:
                         shutil.copyfileobj(source_entry, destination_entry, length=1024 * 1024)
                 part_manifest = dict(base_manifest)
@@ -243,7 +272,7 @@ def _split_bundle_archive(
                     for paper, arcname in group
                 ]
                 destination.writestr(
-                    "bundle.json",
+                    _bundle_entry_info("bundle.json", compress_type=zipfile.ZIP_STORED),
                     json.dumps(part_manifest, ensure_ascii=False, indent=2),
                 )
             if part_path.stat().st_size >= 2_147_483_648:
@@ -511,7 +540,13 @@ def build_bundles(
                 for paper, arcname in zip(ordered, resolved_names):
                     source_path = _resolve_mirror_source_path(mirror_dir, paper)
                     if source_path is not None:
-                        archive.write(source_path, arcname=arcname)
+                        entry_info = _bundle_source_entry_info(
+                            source_path, arcname, compress_type=zipfile.ZIP_DEFLATED
+                        )
+                        with open(source_path, "rb") as source_file, archive.open(
+                            entry_info, "w"
+                        ) as archive_entry:
+                            shutil.copyfileobj(source_file, archive_entry, 1024 * 1024)
                         included_papers.append(paper)
                         bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
                         included_years.add(paper.year_roc)
@@ -531,7 +566,10 @@ def build_bundles(
                         existing_ref = existing_entries_by_key.get(_paper_bundle_key(paper))
                     existing_bytes = _resolve_entry_ref(existing_ref) if existing_ref is not None else None
                     if existing_bytes is not None:
-                        archive.writestr(arcname, existing_bytes)
+                        archive.writestr(
+                            _bundle_entry_info(arcname, compress_type=zipfile.ZIP_DEFLATED),
+                            existing_bytes,
+                        )
                         included_papers.append(paper)
                         bundle_entries_by_paper_key[_paper_bundle_key(paper)] = arcname
                         included_years.add(paper.year_roc)
@@ -551,7 +589,7 @@ def build_bundles(
 
                 if not included_papers:
                     archive.writestr(
-                        "bundle.json",
+                        _bundle_entry_info("bundle.json", compress_type=zipfile.ZIP_DEFLATED),
                         json.dumps(
                             {
                                 "schema_version": 2,
@@ -594,7 +632,10 @@ def build_bundles(
                         "file_count": file_count,
                         "papers": manifest_papers,
                     }
-                    archive.writestr("bundle.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+                    archive.writestr(
+                        _bundle_entry_info("bundle.json", compress_type=zipfile.ZIP_DEFLATED),
+                        json.dumps(manifest, ensure_ascii=False, indent=2),
+                    )
         finally:
             if preserved_archive is not None:
                 preserved_archive.unlink(missing_ok=True)

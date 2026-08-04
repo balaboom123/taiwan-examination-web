@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import tempfile
@@ -563,6 +564,73 @@ class BundlerTests(unittest.TestCase):
                     self.assertEqual(manifest["bundle_id"], bundle.bundle_id)
                     self.assertEqual(manifest["exam_series_id"], bundle.exam_series_id)
                     self.assertEqual(manifest["level_id"], bundle.level_id)
+
+    def test_rebuilding_unchanged_sources_reproduces_identical_archive_bytes(self) -> None:
+        # The recorded checksum is the download contract published to users and
+        # the signal the release upload uses to decide what to re-publish, so a
+        # rebuild that changes nothing must not change the archive bytes - not
+        # across time, and not between a workstation and CI.
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            mirror_dir = root / "mirror"
+            (mirror_dir / "115/115030/101/0101").mkdir(parents=True)
+            (mirror_dir / "114/114030/101/0101").mkdir(parents=True)
+            source_paths = [
+                mirror_dir / "115/115030/101/0101/question.pdf",
+                mirror_dir / "114/114030/101/0101/question.pdf",
+            ]
+            source_paths[0].write_bytes(b"%PDF-1.7 latest")
+            source_paths[1].write_bytes(b"%PDF-1.7 prior")
+
+            catalog = NormalizedCatalog(
+                papers=[
+                    make_paper(
+                        canonical_id="nurse",
+                        canonical_name="Nurse",
+                        year_roc=115,
+                        source_exam_id="115030",
+                        subject_code="0101",
+                        storage_key="115/115030/101/0101/question.pdf",
+                    ),
+                    make_paper(
+                        canonical_id="nurse",
+                        canonical_name="Nurse",
+                        year_roc=114,
+                        source_exam_id="114030",
+                        subject_code="0101",
+                        storage_key="114/114030/101/0101/question.pdf",
+                    ),
+                ],
+                review_queue=[],
+            )
+
+            def build(bundle_dir: Path) -> dict[str, str]:
+                result = build_bundles(
+                    bundle_dir=bundle_dir,
+                    mirror_dir=mirror_dir,
+                    normalized=catalog,
+                    bundle_base_url="",
+                )
+                self.assertEqual(result.failures, [])
+                return {bundle.asset_name: bundle.checksum for bundle in result.bundles}
+
+            first = build(root / "bundles-first")
+            self.assertTrue(first)
+
+            # A re-mirrored file keeps its bytes but gets a fresh mtime, and a
+            # different umask gives it different permission bits.
+            for source_path in source_paths:
+                os.utime(source_path, (1_609_459_200, 1_609_459_200))
+                source_path.chmod(0o600)
+
+            second = build(root / "bundles-second")
+            self.assertEqual(first, second)
+
+            for asset_name, checksum in first.items():
+                first_bytes = (root / "bundles-first" / asset_name).read_bytes()
+                second_bytes = (root / "bundles-second" / asset_name).read_bytes()
+                self.assertEqual(first_bytes, second_bytes)
+                self.assertEqual(hashlib.sha256(second_bytes).hexdigest(), checksum)
 
 
 if __name__ == "__main__":
