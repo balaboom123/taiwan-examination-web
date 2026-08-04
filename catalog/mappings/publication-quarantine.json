@@ -57,7 +57,7 @@
       "provider_id": "tabf_cert",
       "site_id": "default",
       "status": "wrong_identity",
-      "reason": "211 of 252 published records are wrong or stale: 47 PHIDs are duplicated across 2025 and 2026, 13 of 19 official category rows are flattened, and PHIDs 449 and 456 no longer exist upstream.",
+      "reason": "242 of 252 published records sit on the 47 PHIDs duplicated across 2025 and 2026, and only 6 of the 19 official category rows survive classification intact. Re-verified against the 2026-08-03 upstream refresh, which restored PHIDs 449 and 456 and so retired the stale-PHID finding of the 2026-08-01 capture.",
       "evidence_path": "data/providers/tabf_cert/source-manifest.json",
       "spec_path": "docs/developer/providers/tabf_cert-spec.md"
     },

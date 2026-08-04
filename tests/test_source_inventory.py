@@ -93,7 +93,7 @@ class SourceInventoryTests(unittest.TestCase):
             if item["provider_id"] == "tabf_cert"
         )
         self.assertFalse(tabf_event_gap["enforced"])
-        self.assertEqual(len(tabf_event_gap["missing_events"]), 82)
+        self.assertEqual(len(tabf_event_gap["missing_events"]), 83)
         self.assertEqual(
             tabf_event_gap["missing_events"][0],
             ["tabf-cert-aml-2026-phid-449", 2026],
@@ -101,6 +101,23 @@ class SourceInventoryTests(unittest.TestCase):
         self.assertEqual(
             tabf_event_gap["missing_events"][-1],
             ["tabf-cert-trust-business-2026-phid-458", 2026],
+        )
+        # The 2026-08-03 upstream refresh restored PHID 431, but the adapter
+        # filed it under a flattened category.  The manifest capture records
+        # the same PHID as a sustainability event, so the restored record
+        # lands as one more local-only identity while the manifest event stays
+        # unrepresented - the category defect that quarantines this provider.
+        self.assertIn(
+            ["tabf-cert-bank-internal-control-2025-phid-431", 2025],
+            tabf_event_gap["missing_events"],
+        )
+        tabf_unrepresented = next(
+            item for item in report["manifest_unrepresented_events"]
+            if item["provider_id"] == "tabf_cert"
+        )
+        self.assertIn(
+            ["tabf-cert-sustainability-2025-phid-431", 2025],
+            tabf_unrepresented["events"],
         )
         gept_event_gap = next(
             item for item in report["manifest_event_gaps"]
