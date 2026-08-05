@@ -181,14 +181,14 @@ class SourceInventoryTests(unittest.TestCase):
                         ["sfi-cert-sustainability-2026-1", 2026],
                     ],
                 },
-                {
-                    "provider_id": "hakka_cert",
-                    "enforced": False,
-                    "missing_events": [
-                        ["hakka-cert-intermediate-high-intermediate-2026", 2026],
-                    ],
-                },
             ],
+        )
+        # hakka_cert no longer appears: the synthetic 2026 intermediate event
+        # that the manifest never covered is gone from local state entirely
+        # after the source de-listed the level.
+        self.assertNotIn(
+            "hakka_cert",
+            [item["provider_id"] for item in report["manifest_event_gaps"]],
         )
         tabf_event_gap = next(
             item for item in report["manifest_event_gaps"]
@@ -293,6 +293,15 @@ class SourceInventoryTests(unittest.TestCase):
                         ["sfi-cert-sustainability-2025-2", 2025],
                         ["sfi-cert-sustainability-2025-4", 2025],
                         ["sfi-cert-sustainability-2025-4-kaohsiung", 2025],
+                    ],
+                },
+                {
+                    # De-listed upstream on 2026-08-05; the 2026-07-29 manifest
+                    # snapshot still records both notices.
+                    "provider_id": "teacher_recruit_newtaipei",
+                    "events": [
+                        ["teacher-recruit-newtaipei-115-elementary-kindergarten", 2026],
+                        ["teacher-recruit-newtaipei-115-senior", 2026],
                     ],
                 },
                 {
