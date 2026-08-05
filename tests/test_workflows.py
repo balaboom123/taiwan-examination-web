@@ -1,6 +1,7 @@
 import hashlib
 import importlib.util
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -196,7 +197,7 @@ class WorkflowTests(unittest.TestCase):
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
 
         for required in (
-            "actions/setup-python@v5",
+            "uses: actions/setup-python@",
             "python -m pytest -q",
             "python -m app audit-catalog",
             "python -m app history-audit",
@@ -210,7 +211,24 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn(required, workflow)
         self.assertLess(workflow.index("python scripts/validate_publication.py"), workflow.index("npm ci"))
         self.assertLess(workflow.index("npm run lint"), workflow.index("npm run build"))
-        self.assertLess(workflow.index("npm run build"), workflow.index("actions/upload-pages-artifact@v5"))
+        self.assertLess(workflow.index("npm run build"), workflow.index("uses: actions/upload-pages-artifact@"))
+
+    def test_every_action_is_pinned_to_one_version_across_all_workflows(self) -> None:
+        # checkout drifted to v4 in forty workflows while deploy-pages moved on
+        # to v6, so most of CI kept running the Node 20 runtime GitHub has
+        # deprecated. Splitting an action across majors is how that goes
+        # unnoticed; requiring one version per action makes an upgrade
+        # all-or-nothing.
+        versions: dict[str, set[str]] = {}
+        for path in sorted((REPO_ROOT / ".github" / "workflows").glob("*.yml")):
+            for match in re.finditer(
+                r"uses: ([\w.-]+/[\w.-]+)@(v[\d.]+)", path.read_text(encoding="utf-8")
+            ):
+                versions.setdefault(match.group(1), set()).add(match.group(2))
+
+        self.assertTrue(versions)
+        split = {action: sorted(seen) for action, seen in versions.items() if len(seen) > 1}
+        self.assertEqual(split, {})
 
     def test_mirrorless_workflows_skip_the_mirror_dimension_of_history_audit(self) -> None:
         # Both workflows check out without the gitignored mirror tree. Without

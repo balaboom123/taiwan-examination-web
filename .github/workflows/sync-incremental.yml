@@ -18,16 +18,16 @@ jobs:
     # A cold MOEX mirror may need several hours to refresh affected bundles.
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
       - name: Cache mirror directory
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: mirror
           key: moex-mirror-${{ hashFiles('data/providers/moex/source-manifest.json') }}
