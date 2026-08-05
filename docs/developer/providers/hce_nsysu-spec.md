@@ -25,7 +25,7 @@ The archive's `robots.txt` allows all paths and default TLS verification succeed
 - source manifest: 5/5 official events for ROC 111–115 / AD 2022–2026, captured 2026-07-30
 - asset reconciliation: all five live combined PDFs match retained SHA-256 checksums byte for byte (35,509,877 bytes total)
 - all five events are published-complete with zero failures
-- public bundle: `hce-nsysu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-nsysu.zip`
+- public bundle: `hce-nsysu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-nsysu-post-baccalaureate-medical-not-applicable-hce-nsysu--1a601723a824.zip`
 
 ## Discovery Model
 

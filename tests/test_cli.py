@@ -893,6 +893,38 @@ class CliCommandTests(unittest.TestCase):
         self.assertFalse((root / ".tmp" / "source-probe.json").exists())
         self.assertFalse((root / "source-manifest.json").exists())
 
+    def test_sync_parsers_do_not_default_to_a_retired_release_tag(self) -> None:
+        # The default used to be moex-bundles, retired at the v2 sharding on
+        # 2026-06-19, and no workflow passes --release-tag. A bundle carrying
+        # no tag of its own would therefore be fetched from a release that
+        # cannot hold it, turning a benign rebuild into a hard sync failure.
+        parser = build_parser()
+
+        for argv in (
+            ["sync-targeted", "--probe", ".tmp/source-probe.json"],
+            ["sync-full"],
+            ["sync-incremental"],
+        ):
+            with self.subTest(command=argv[0]):
+                self.assertEqual(parser.parse_args(argv).release_tag, "")
+
+    def test_untagged_bundle_is_rebuilt_rather_than_fetched_from_a_guessed_release(self) -> None:
+        bundle = BundleAsset(
+            canonical_id="canonical-1",
+            canonical_name="護理師",
+            years=[115],
+            file_count=1,
+            storage_key="bundles/nurse.zip",
+            asset_name="nurse.zip",
+            release_tag="",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            with patch("app.cli.subprocess.run") as runner:
+                _download_affected_bundles(Path(tmp_dir), [bundle], {"canonical-1"}, "")
+
+        runner.assert_not_called()
+
     def test_sync_targeted_parser_accepts_probe_path(self) -> None:
         parser = build_parser()
         args = parser.parse_args(

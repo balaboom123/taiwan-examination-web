@@ -271,20 +271,17 @@ Recommended entry format:
 | site_id | `default` |
 | status | active |
 | purpose | current public exam bundle catalog |
-| current input providers | `moex` |
-| target input providers | `moex`, `ceec_gsat`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_taipei_junior`, `teacher_recruit_tainan`, `gept_cert`, `tocfl_cert`, `hakka_cert`, `taigi_cert`, `tqc_cert`, `ipas_cert` |
-| current publication ownership | root-level `data/bundles.json`, `data/release-assets.json` |
-| target scoped ownership | `data/sites/default/` |
-| current bundle storage | `bundles/` |
-| target bundle storage | `bundles/sites/default/` |
-| current release tag | `moex-bundles` |
-| target release strategy | site-owned publication; one or more release tags; shard before 900 assets |
-| current deploy workflows | `deploy-pages.yml` |
-| current publish ownership | sync workflows plus `.github/scripts/release_assets.py` |
-| current frontend surface | `frontend/` |
+| input providers | all 35 in `app/site_registry.py`: `moex`, `ceec_gsat`, `ceec_ast`, `tcte_tve`, `special_admission`, `post_recruit`, `hce_cmu`, `hce_tcu`, `hce_nsysu`, `hce_nthu`, `cpc_recruit`, `moea_recruit`, `taipower_recruit`, `taisugar_recruit`, `twc_recruit`, `rcpet_cap`, `wdasec_skill`, `sfi_cert`, `tabf_cert`, `tii_cert`, `teacher_qual`, `teacher_recruit_newtaipei`, `teacher_recruit_taoyuan_elementary`, `teacher_recruit_kaohsiung`, `teacher_recruit_central_alliance`, `teacher_recruit_taipei_junior`, `teacher_recruit_taipei_elementary`, `teacher_recruit_tainan`, `gept_cert`, `jlpt_cert`, `tocfl_cert`, `hakka_cert`, `taigi_cert`, `tqc_cert`, `ipas_cert` |
+| publication ownership | `data/sites/default/` (`bundles.json`, `frontend-bundles.json`, `release-assets.json`) |
+| bundle storage | `bundles/sites/default/` |
+| release tags | `default-bundles-v2-001` … `default-bundles-v2-013`, sharded at 900 assets against GitHub's 1,000-asset ceiling |
+| retired release tags | `moex-bundles`, `default-bundles-001`, `default-bundles-002` — no longer referenced by any site catalog; their assets remain published for older links |
+| deploy workflows | `deploy-pages.yml`, triggered by a push, by any data-writing workflow completing, and by a daily backstop schedule |
+| publish ownership | sync workflows plus `.github/scripts/release_assets.py` |
+| frontend surface | `frontend/` |
 | legacy output surface | none |
 | download gate | frontend LINE social gate |
-| notes | current site still uses MOEX-shaped naming, needs site-scoped cutover, and will eventually absorb one CEEC bundle asset without splitting the public site |
+| notes | the site-scoped cutover and the v2 identity renaming are both complete; asset names are derived from bundle identity and are stable across rebuilds, so publication compares checksums rather than names |
 
 ## Planned Sites
 

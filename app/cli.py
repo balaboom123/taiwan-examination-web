@@ -289,6 +289,13 @@ def run_probe_latest(args: argparse.Namespace, client: SourceProvider | None = N
     return 0
 
 
+_RELEASE_TAG_FALLBACK_HELP = (
+    "Release tag to pull a preserved bundle from when the bundle record itself "
+    "carries none. Bundles have owned their tag since the v2 sharding, so this "
+    "is a fallback only; leaving it empty rebuilds such a bundle from the mirror."
+)
+
+
 def _download_affected_bundles(
     bundle_dir: Path,
     existing_bundles: list[BundleAsset],
@@ -891,7 +898,7 @@ def build_parser() -> argparse.ArgumentParser:
     targeted.add_argument("--publish-plan-output", type=Path, default=None)
     targeted.add_argument("--provider", default=None)
     targeted.add_argument("--site-id", default="default")
-    targeted.add_argument("--release-tag", default="moex-bundles")
+    targeted.add_argument("--release-tag", default="", help=_RELEASE_TAG_FALLBACK_HELP)
     targeted.set_defaults(handler=run_sync_targeted)
 
     repair = subparsers.add_parser(
@@ -946,7 +953,7 @@ def build_parser() -> argparse.ArgumentParser:
             default=[],
             help="Restrict the sync to one or more source exam IDs (repeatable).",
         )
-        sync.add_argument("--release-tag", default="moex-bundles")
+        sync.add_argument("--release-tag", default="", help=_RELEASE_TAG_FALLBACK_HELP)
         sync.add_argument("--write-manifest", action="store_true", default=False)
         sync.add_argument("--prune-orphaned-mirror", action="store_true", default=False)
         if name == "sync-full":

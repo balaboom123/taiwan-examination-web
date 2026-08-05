@@ -23,7 +23,7 @@ The archive's `robots.txt` specifies `Crawl-delay: 10`, which the shared client 
 - parser/shared client: `app/providers/hce_archive.py`
 - source manifest: 6/6 official events for ROC 110–115 / AD 2021–2026, captured 2026-07-30
 - asset reconciliation: all 30 live question/answer URLs match local state; all six events are published-complete
-- public bundle: `hce-cmu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-001/hce-cmu.zip`
+- public bundle: `hce-cmu` at `https://github.com/balaboom123/taiwan-examination-web/releases/download/default-bundles-v2-001/hce-cmu-post-baccalaureate-medical-not-applicable-hce-cmu--ab6c4df6cc4d.zip`
 
 ## Discovery Model
 
