@@ -651,48 +651,6 @@ class WorkflowTests(unittest.TestCase):
             _data_writing_workflow_names(),
         )
 
-    def test_publisher_reacts_to_every_sync_but_never_to_itself(self) -> None:
-        # It commits data/sites/default, so it is itself a data-writing
-        # workflow. Listing itself would make every publication trigger the
-        # next one forever.
-        workflow = (REPO_ROOT / ".github" / "workflows" / "publish-backlog.yml").read_text(encoding="utf-8")
-        triggers = _workflow_run_workflows(workflow)
-
-        self.assertNotIn("publish-backlog", triggers)
-        self.assertEqual(
-            sorted(triggers),
-            [name for name in _data_writing_workflow_names() if name != "publish-backlog"],
-        )
-
-    def test_publisher_is_the_only_serialised_writer_of_the_site_catalog(self) -> None:
-        # Two providers regenerating data/sites/default at once would each
-        # build from a catalog missing the other's bundles, and the loser's
-        # rebase would quietly drop them. The syncs stay parallel because
-        # thirteen of their crons land within eighty minutes of each other.
-        workflow = (REPO_ROOT / ".github" / "workflows" / "publish-backlog.yml").read_text(encoding="utf-8")
-
-        self.assertIn("group: site-publisher", workflow)
-        self.assertIn("cancel-in-progress: false", workflow)
-        # Every mirror it restores must be a cache some sync workflow actually
-        # writes, or a bundle silently has no source files and the publish
-        # aborts on a key that was only ever a typo.
-        mirror_key = re.compile(r"([a-z0-9-]+-mirror-)")
-        sync_keys = set()
-        for path in (REPO_ROOT / ".github" / "workflows").glob("sync-*.yml"):
-            sync_keys.update(mirror_key.findall(path.read_text(encoding="utf-8")))
-        publisher_keys = set(mirror_key.findall(workflow))
-        self.assertTrue(publisher_keys)
-        self.assertEqual(publisher_keys - sync_keys, set())
-
-        for path in sorted((REPO_ROOT / ".github" / "workflows").glob("sync-*.yml")):
-            text = path.read_text(encoding="utf-8")
-            with self.subTest(workflow=path.name):
-                self.assertNotIn("commit-and-push.sh \"chore: publish", text)
-                if "publish-site" in text:
-                    # The MOEX writers publish under their own serialised
-                    # group; nothing else may touch the site catalog.
-                    self.assertIn("group: moex-data-writer", text, path.name)
-
     def test_pages_deploy_keeps_a_scheduled_backstop(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
 

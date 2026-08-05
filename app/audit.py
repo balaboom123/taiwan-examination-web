@@ -17,6 +17,7 @@ from app.classification import classify_normalized_paper, identity_fields
 from app.models import BundleAsset, NormalizedCatalog
 from app.normalizer import load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
+from app.publisher import load_site_catalog
 from app.release_tags import GITHUB_RELEASE_ASSET_LIMIT, RELEASE_SAFETY_TARGET, assign_release_tags, physical_asset_names, strip_ambiguous_legacy_assets, validate_release_capacity
 from app.site_registry import get_site_config
 from app.state import load_provider_state, load_site_bundles
@@ -308,30 +309,31 @@ def audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
 
 
 def build_publication_backlog(repo_root: Path, *, site_id: str = "default") -> dict[str, Any]:
-    """Return the bundles the providers hold that the site has never published.
+    """Return the bundles the site projection implies but has not published.
 
-    Only the site catalog is downloadable, so a bundle the providers imply but
-    the catalog omits is a paper nobody can reach. Publication runs in one
-    MOEX-scoped workflow, so anything owned by the other providers waits for a
-    MOEX change that may never come; this reports exactly what is outstanding
-    and, as a publish plan, scopes a rebuild to it and nothing else.
+    This must read exactly the population publish-site reads, which means the
+    renormalized site catalog rather than raw provider records. Two things
+    stand between the two, and skipping either invents a backlog that is not
+    there: alias rules rewrite identities, so a raw record can classify into a
+    bundle_id no publication would ever produce, and quarantined providers are
+    withheld from the public projection on purpose - counting them reports a
+    dozen providers as unpublished when the catalog is behaving as designed.
     """
+    # load_site_catalog applies both, and raises if a required provider is
+    # quarantined, so this cannot silently under-report either.
+    normalized, _failures = load_site_catalog(repo_root, site_id=site_id)
     site_config = get_site_config(site_id)
     groups: dict[str, dict[str, Any]] = {}
-    for provider_id in site_config.provider_ids:
-        _raw_pages, catalog, _failures = load_provider_state(provider_paths(repo_root, provider_id))
-        for paper in catalog.papers:
-            if not paper.provider_id:
-                paper.provider_id = provider_id
-            identity = classify_normalized_paper(paper)
-            group = groups.setdefault(
-                identity.bundle_id,
-                {"years": set(), "canonical_ids": set(), "provider_ids": set(), "record_count": 0},
-            )
-            group["years"].add(paper.year_roc)
-            group["canonical_ids"].add(paper.canonical_id)
-            group["provider_ids"].add(paper.provider_id)
-            group["record_count"] += 1
+    for paper in normalized.papers:
+        identity = classify_normalized_paper(paper)
+        group = groups.setdefault(
+            identity.bundle_id,
+            {"years": set(), "canonical_ids": set(), "provider_ids": set(), "record_count": 0},
+        )
+        group["years"].add(paper.year_roc)
+        group["canonical_ids"].add(paper.canonical_id)
+        group["provider_ids"].add(paper.provider_id)
+        group["record_count"] += 1
 
     def required_years(group: dict[str, Any]) -> int:
         minimum = site_config.public_min_years

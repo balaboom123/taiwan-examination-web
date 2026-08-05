@@ -3,10 +3,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app.audit import audit_exit_code, build_catalog_audit
+from app.audit import audit_exit_code, build_catalog_audit, build_publication_backlog
 from app.models import NormalizedCatalog, NormalizedPaper, ReviewItem
 from app.paths import provider_paths
-from app.publisher import write_provider_state
+from app.publication_quarantine import quarantined_provider_ids
+from app.publisher import load_site_catalog, write_provider_state
+from app.state import filter_catalog_by_canonical_ids
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def paper(category: str, event: str, year: int, source: str) -> NormalizedPaper:
@@ -123,6 +127,32 @@ class CatalogAuditTests(unittest.TestCase):
             self.assertEqual(plan["shards"][0]["release_tag"], "default-bundles-v2-001")
             self.assertEqual(plan["shards"][0]["asset_count"], 2)
             self.assertEqual(plan["bundles"][0]["bundle_id"], "一般行政")
+
+
+class PublicationBacklogTests(unittest.TestCase):
+    def test_quarantined_providers_are_not_reported_as_a_backlog(self) -> None:
+        # A quarantined provider is registered and audited but deliberately
+        # withheld from the public projection. Counting raw provider records
+        # against the published catalog therefore reports every quarantined
+        # provider as unpublished - the repository's twelve quarantined
+        # providers once read as a 36-bundle backlog that did not exist.
+        backlog = build_publication_backlog(REPO_ROOT, site_id="default")
+        quarantined = quarantined_provider_ids(REPO_ROOT, site_id="default")
+
+        self.assertTrue(quarantined, "fixture assumes the repository quarantines something")
+        self.assertEqual(set(backlog["provider_ids"]) & quarantined, set())
+
+    def test_backlog_matches_what_publish_site_would_actually_build(self) -> None:
+        # The plan is fed to publish-site as --publish-plan, so the ids have to
+        # select papers from the renormalized catalog publish-site loads. Ids
+        # classified from raw records select nothing, and the publish silently
+        # becomes a no-op.
+        backlog = build_publication_backlog(REPO_ROOT, site_id="default")
+        normalized, _failures = load_site_catalog(REPO_ROOT, site_id="default")
+        selected = filter_catalog_by_canonical_ids(normalized, set(backlog["affected_canonical_ids"]))
+
+        self.assertEqual(bool(backlog["affected_canonical_ids"]), bool(selected.papers))
+        self.assertEqual(len(selected.papers), backlog["unpublished_record_count"])
 
 
 if __name__ == "__main__":
