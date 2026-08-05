@@ -573,6 +573,35 @@ class WorkflowTests(unittest.TestCase):
             self.assertNotIn("git add data\n", workflow, workflow_path.name)
             self.assertNotIn("\n          git push\n", workflow, workflow_path.name)
 
+    def test_shared_publisher_gates_generated_data_on_the_source_inventory_floor(self) -> None:
+        # Scheduled jobs push to main with GITHUB_TOKEN, and GitHub starts no
+        # workflow for such a push, so neither CI nor the Pages deploy ever
+        # sees what they wrote. The gate has to run inside the job, and it
+        # lives in the shared publisher so a new sync workflow cannot omit it.
+        script = (REPO_ROOT / ".github" / "scripts" / "commit-and-push.sh").read_text(encoding="utf-8")
+
+        self.assertIn("scripts/check_sync_floor.py", script)
+        self.assertLess(
+            script.index("scripts/check_sync_floor.py"),
+            script.index('git commit -m "$commit_message"'),
+        )
+
+    def test_every_data_writing_workflow_routes_through_the_gated_publisher(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        writers = [
+            path
+            for path in sorted(workflows_dir.glob("*.yml"))
+            if "contents: write" in path.read_text(encoding="utf-8")
+        ]
+
+        self.assertTrue(writers)
+        for workflow_path in writers:
+            workflow = workflow_path.read_text(encoding="utf-8")
+            with self.subTest(workflow=workflow_path.name):
+                self.assertIn(".github/scripts/commit-and-push.sh", workflow)
+                for forbidden in ("git commit -m", "git push origin"):
+                    self.assertNotIn(forbidden, workflow)
+
     def test_workflows_describe_downloadable_bundle_release(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml"):

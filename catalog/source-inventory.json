@@ -493,7 +493,7 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "observed_range",
-        "note": "2018–2026 annual basic/elementary question banks plus a ROC 107 intermediate sample event and undated advanced samples observed across nine primary pages; the separate download center exposes ROC 113–115 packages",
+        "note": "2018–2026 annual basic/elementary question banks and undated advanced samples observed across nine primary pages; the intermediate/high-intermediate page now lists vocabulary material only; the separate download center exposes ROC 113–115 packages",
         "start_ad": 2018
       },
       "discovery_snapshot": {
@@ -508,8 +508,8 @@
       ],
       "exam_category": "Hakka certification question banks, sample tests, answers, and paired question audio",
       "local_state": {
-        "normalized_paper_records": 156,
-        "raw_event_pages": 11,
+        "normalized_paper_records": 140,
+        "raw_event_pages": 10,
         "sync_failures": 0
       },
       "local_years": [
@@ -533,10 +533,11 @@
         "The unimplemented download center has 50 unique ROC 113–115 packages, including 15 in-scope question-audio packages; ten ROC 114–115 declared sizes differ from retained mirrors.",
         "Retained intermediate and advanced events use synthetic 2026 identity for undated material, and five advanced ZIPs are misclassified as listening audio.",
         "Eight historical events remain normalized but unpublished; a 2,094,415,387-byte retained asset exceeds the 1.9 GB multipart target.",
-        "Taiwan Government Data Open License 1.0 requires attribution and excludes specially marked audiovisual or third-party works; academy terms also restrict unauthorized commercial use, so audio republication requires review."
+        "Taiwan Government Data Open License 1.0 requires attribution and excludes specially marked audiovisual or third-party works; academy terms also restrict unauthorized commercial use, so audio republication requires review.",
+        "Source de-listing confirmed 2026-08-05: upstream replaced the ROC 114–115 basic/elementary 題庫音檔 entries with 詞彙音檔 under new URLs, and the five intermediate 語料選粹 ZIPs and the 通過標準與題型說明 ZIP are absent from all 1,526 anchors across c=2, c=3, and c=5 although the files themselves still return HTTP 200. Sixteen retained records were dropped, leaving the intermediate/high-intermediate level with no published event."
       ],
       "status": "partial",
-      "status_reason": "Partial / source, identity, licensing, and release blockers: an evidence manifest now bounds both official surfaces, but one source event and 40 current/alternate source files are unintegrated, two retained event identities are synthetic, and eight historical events are absent from publication"
+      "status_reason": "Partial / source, identity, licensing, and release blockers: an evidence manifest now bounds both official surfaces, but one source event and 40 current/alternate source files are unintegrated, one retained event identity is synthetic, and eight historical events are absent from publication"
     },
     {
       "available_years": {
@@ -1404,8 +1405,8 @@
       ],
       "exam_category": "New Taipei education-personnel joint-selection written papers",
       "local_state": {
-        "normalized_paper_records": 5,
-        "raw_event_pages": 4,
+        "normalized_paper_records": 3,
+        "raw_event_pages": 2,
         "sync_failures": 0
       },
       "local_years": [
@@ -1416,10 +1417,10 @@
       ],
       "provider_id": "teacher_recruit_newtaipei",
       "restrictions": [
-        "Public list/detail/token API; the 2026-07-29 official discovery snapshot contains four in-scope notices and all four match retained local events. Teaching-demo, score, and list notices remain intentionally skipped."
+        "Public list/detail/token API. The 2026-07-29 discovery snapshot recorded four in-scope notices; as of 2026-08-05 the live temopn_newtea_list response carries 61 entries and no longer includes the elementary-kindergarten or senior notices, whose detail endpoints still resolve when requested directly. Two notices and three papers remain in scope. Teaching-demo, score, and list notices remain intentionally skipped."
       ],
       "status": "covered",
-      "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 4 → 5"
+      "status_reason": "Covered, current-year scope; source availability: Current 2026 scope; local coverage: 2026; 2 → 3"
     },
     {
       "available_years": {

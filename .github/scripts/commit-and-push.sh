@@ -18,6 +18,13 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
+# These jobs push to main with GITHUB_TOKEN, and such a push starts no
+# workflow, so no later gate ever inspects what they wrote. This is the only
+# place a source that briefly served a short listing can be stopped before it
+# deletes retained records for good.
+repo_root=$(git rev-parse --show-toplevel)
+python "${repo_root}/scripts/check_sync_floor.py" --repo-root "${repo_root}" -- "$@"
+
 git commit -m "$commit_message"
 
 # Scheduled provider jobs intentionally run in parallel. If another provider

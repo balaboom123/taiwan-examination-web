@@ -10,7 +10,8 @@ explicit strict option.
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from collections.abc import Iterable, Sequence
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from app.manifest import load_source_manifest
@@ -193,6 +194,72 @@ def _local_observation(repo_root: Path, provider_id: str) -> dict[str, Any]:
         "event_ids": {(page.source_exam_id, page.year_ad) for page in raw_pages}
         | {(paper.source_exam_id, paper.year_roc + 1911) for paper in catalog.papers},
     }
+
+
+def provider_ids_from_paths(paths: Iterable[str]) -> list[str]:
+    """Return the provider IDs owning the given repository paths, in order."""
+    provider_ids: list[str] = []
+    for raw_path in paths:
+        parts = PurePosixPath(raw_path.strip().strip("/")).parts
+        if len(parts) < 3 or parts[0] != "data" or parts[1] != "providers":
+            continue
+        if parts[2] not in provider_ids:
+            provider_ids.append(parts[2])
+    return provider_ids
+
+
+def check_sync_floor(repo_root: Path, provider_ids: Sequence[str]) -> dict[str, Any]:
+    """Refuse a sync result that retains fewer records than the reviewed inventory.
+
+    A scheduled sync commits whatever it scraped and pushes straight to main,
+    and pushes made with GITHUB_TOKEN start no workflow, so nothing downstream
+    ever inspects the result. A source that briefly serves a short listing
+    therefore deletes retained events permanently and silently.
+
+    The inventory is the reviewed floor. Growth is ordinary and passes
+    untouched; dropping below the recorded event count, paper count, or year
+    coverage has to be ratified by editing the inventory in a reviewed change
+    rather than by an unattended job.
+    """
+    inventory = load_source_inventory(repo_root)
+    entries = {entry["provider_id"]: entry for entry in inventory["providers"]}
+    regressions: list[dict[str, Any]] = []
+    checked: list[dict[str, Any]] = []
+    for provider_id in provider_ids:
+        entry = entries.get(provider_id)
+        if entry is None:
+            raise ValueError(f"source inventory has no entry for provider: {provider_id}")
+        observation = _local_observation(repo_root, provider_id)
+        losses: list[str] = []
+        for field in ("raw_event_pages", "normalized_paper_records"):
+            recorded = entry["local_state"][field]
+            if observation[field] < recorded:
+                losses.append(f"{field} {recorded} -> {observation[field]}")
+        dropped_years = sorted(set(entry["local_years"]) - set(observation["years"]))
+        if dropped_years:
+            losses.append("years dropped: " + ", ".join(str(year) for year in dropped_years))
+        record = {
+            "provider_id": provider_id,
+            "losses": losses,
+            "sync_failures": observation["sync_failures"],
+            "raw_event_pages": observation["raw_event_pages"],
+            "normalized_paper_records": observation["normalized_paper_records"],
+        }
+        checked.append(record)
+        if losses:
+            regressions.append(record)
+
+    if regressions:
+        details = "; ".join(
+            f"{item['provider_id']}: {', '.join(item['losses'])} "
+            f"(sync failures recorded: {item['sync_failures']})"
+            for item in regressions
+        )
+        raise ValueError(
+            "sync result drops below the reviewed source inventory floor for "
+            f"{len(regressions)} provider(s): {details}"
+        )
+    return {"providers": checked}
 
 
 def validate_source_inventory(
