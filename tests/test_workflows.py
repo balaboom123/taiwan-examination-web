@@ -19,6 +19,54 @@ def _load_release_script():
     return module
 
 
+def _workflow_run_workflows(workflow: str) -> list[str]:
+    names: list[str] = []
+    inside_trigger = False
+    inside_workflows = False
+
+    for line in workflow.splitlines():
+        stripped = line.lstrip()
+        indent = len(line) - len(stripped)
+
+        if stripped == "workflow_run:" and indent == 2:
+            inside_trigger = True
+            inside_workflows = False
+            continue
+
+        if inside_trigger and stripped and not stripped.startswith("#") and indent <= 2:
+            inside_trigger = False
+            inside_workflows = False
+
+        if not inside_trigger:
+            continue
+
+        if stripped == "workflows:" and indent == 4:
+            inside_workflows = True
+            continue
+
+        if inside_workflows and stripped.startswith("- ") and indent == 6:
+            names.append(stripped[2:])
+            continue
+
+        if inside_workflows and stripped and indent <= 4:
+            inside_workflows = False
+
+    return names
+
+
+def _data_writing_workflow_names() -> list[str]:
+    names: list[str] = []
+    for path in sorted((REPO_ROOT / ".github" / "workflows").glob("*.yml")):
+        text = path.read_text(encoding="utf-8")
+        if "commit-and-push.sh" not in text:
+            continue
+        for line in text.splitlines():
+            if line.startswith("name:"):
+                names.append(line.removeprefix("name:").strip())
+                break
+    return sorted(names)
+
+
 def _workflow_push_paths(workflow: str) -> list[str]:
     paths: list[str] = []
     inside_push = False
@@ -572,6 +620,24 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn(".github/scripts/commit-and-push.sh", workflow, workflow_path.name)
             self.assertNotIn("git add data\n", workflow, workflow_path.name)
             self.assertNotIn("\n          git push\n", workflow, workflow_path.name)
+
+    def test_pages_deploy_reacts_to_every_workflow_that_writes_catalog_data(self) -> None:
+        # A GITHUB_TOKEN push starts no workflow run, so deploy-pages' push
+        # trigger never fires for a scheduled sync. Reacting to the sync run
+        # is the only thing that republishes the site, and a sync missing
+        # from this list publishes data the site will never serve.
+        workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
+
+        self.assertEqual(
+            sorted(_workflow_run_workflows(workflow)),
+            _data_writing_workflow_names(),
+        )
+
+    def test_pages_deploy_keeps_a_scheduled_backstop(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
+
+        self.assertIn("schedule:", workflow)
+        self.assertIn("cron:", workflow)
 
     def test_shared_publisher_gates_generated_data_on_the_source_inventory_floor(self) -> None:
         # Scheduled jobs push to main with GITHUB_TOKEN, and GitHub starts no
