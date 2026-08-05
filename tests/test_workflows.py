@@ -1,3 +1,4 @@
+import hashlib
 import importlib.util
 import json
 import tempfile
@@ -7,6 +8,8 @@ from unittest import mock
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RELEASE_SCRIPT_PATH = REPO_ROOT / ".github" / "scripts" / "release_assets.py"
+_EMPTY_ZIP = b"PK\x05\x06"
+_EMPTY_ZIP_DIGEST = hashlib.sha256(_EMPTY_ZIP).hexdigest()
 
 
 def _load_release_script():
@@ -175,11 +178,9 @@ class WorkflowTests(unittest.TestCase):
 
     def test_release_script_only_deletes_stale_zip_assets(self) -> None:
         module = _load_release_script()
-        release_payload = json.dumps(
-            {"assets": [{"name": "keep.zip"}, {"name": "stale.zip"}, {"name": "notes.txt"}]}
-        )
+        release_digests = {"keep.zip": "keep-digest", "stale.zip": "stale-digest"}
         with mock.patch.object(module, "_local_assets", return_value=[{"asset_name": "keep.zip", "release_tag": "default-bundles-001"}]), \
-                mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
+                mock.patch.object(module, "_release_zip_digests", return_value=release_digests), \
                 mock.patch.object(module.subprocess, "run") as run_mock:
             exit_code = module.prune()
 
@@ -198,11 +199,11 @@ class WorkflowTests(unittest.TestCase):
                 "release_tag": "default-bundles-001",
             }
         ]
-        release_payload = json.dumps(
-            {"assets": [{"name": "nurse-id.zip"}, {"name": "nurse-display.zip"}, {"name": "nurse.zip"}, {"name": "stale.zip"}]}
-        )
+        release_digests = {
+            "nurse-id.zip": "a", "nurse-display.zip": "b", "nurse.zip": "c", "stale.zip": "d",
+        }
         with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                mock.patch.object(module.subprocess, "check_output", return_value=release_payload), \
+                mock.patch.object(module, "_release_zip_digests", return_value=release_digests), \
                 mock.patch.object(module.subprocess, "run") as run_mock:
             self.assertEqual(module.prune(), 0)
 
@@ -242,38 +243,83 @@ class WorkflowTests(unittest.TestCase):
 
     def test_release_script_coverage_compares_expected_and_current_zip_names(self) -> None:
         module = _load_release_script()
-        local_assets = [{"asset_name": "a.zip", "legacy_asset_names": ["a-alias.zip"], "release_tag": "default-bundles-001"}]
-        cases = [
-            ([], "bootstrap_required=true"),
-            (["a-alias.zip"], "bootstrap_required=true"),
-            (["a.zip"], "bootstrap_required=false"),
-            (["a-alias.zip", "a.zip"], "bootstrap_required=false"),
+        local_assets = [
+            {
+                "asset_name": "a.zip",
+                "legacy_asset_names": ["a-alias.zip"],
+                "release_tag": "default-bundles-001",
+                "checksum": "current-digest",
+            }
         ]
-        for release_names, expected_line in cases:
-            with self.subTest(release_names=release_names):
+        cases = [
+            ({}, "bootstrap_required=true"),
+            ({"a-alias.zip": "current-digest"}, "bootstrap_required=true"),
+            ({"a.zip": "current-digest"}, "bootstrap_required=false"),
+            ({"a-alias.zip": "current-digest", "a.zip": "current-digest"}, "bootstrap_required=false"),
+        ]
+        for release_digests, expected_line in cases:
+            with self.subTest(release_digests=release_digests):
                 with tempfile.TemporaryDirectory() as tmp:
                     output_path = Path(tmp) / "github-output"
                     with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                            mock.patch.object(module, "_release_zip_names", return_value=release_names), \
+                            mock.patch.object(module, "_release_zip_digests", return_value=release_digests), \
                             mock.patch.dict(module.os.environ, {"GITHUB_OUTPUT": str(output_path)}):
                         self.assertEqual(module.coverage(), 0)
                     self.assertIn(expected_line, output_path.read_text(encoding="utf-8"))
 
+    def test_release_script_coverage_reports_published_bytes_that_lost_their_checksum(self) -> None:
+        # The asset name is derived from bundle identity and stays put across a
+        # rebuild, so a name-only check reads a pre-recovery download as covered.
+        module = _load_release_script()
+        local_assets = [
+            {"asset_name": "a.zip", "release_tag": "default-bundles-001", "checksum": "rebuilt-digest"}
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            output_path = Path(tmp) / "github-output"
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={"a.zip": "pre-recovery-digest"}), \
+                    mock.patch.dict(module.os.environ, {"GITHUB_OUTPUT": str(output_path)}):
+                self.assertEqual(module.coverage(), 0)
+            recorded = output_path.read_text(encoding="utf-8")
+
+        self.assertIn("stale_required=true", recorded)
+        # Stale bytes are repaired by the upload step, so they must not be
+        # reported as a bootstrap the hosted runner has to refuse.
+        self.assertIn("bootstrap_required=false", recorded)
+
     def test_release_script_reads_release_metadata_as_utf8(self) -> None:
         module = _load_release_script()
-        payload = json.dumps({"assets": [{"name": "學科能力測驗__ceec-gsat.zip"}]}, ensure_ascii=False)
+        payloads = ["4242\n", "學科能力測驗__ceec-gsat.zip\tsha256:abc123\nnotes.txt\t\n"]
 
-        with mock.patch.object(module.subprocess, "check_output", return_value=payload) as check_output_mock:
-            self.assertEqual(module._release_zip_names("default-bundles-002"), ["學科能力測驗__ceec-gsat.zip"])
+        with mock.patch.object(module.subprocess, "check_output", side_effect=payloads) as check_output_mock, \
+                mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "owner/repo"}):
+            self.assertEqual(
+                module._release_zip_digests("default-bundles-002"),
+                {"學科能力測驗__ceec-gsat.zip": "abc123"},
+            )
 
         self.assertEqual(
-            check_output_mock.call_args,
-            mock.call(
-                ["gh", "release", "view", "default-bundles-002", "--json", "assets"],
-                text=True,
-                encoding="utf-8",
-            ),
+            [call.args[0] for call in check_output_mock.call_args_list],
+            [
+                ["gh", "api", "repos/owner/repo/releases/tags/default-bundles-002", "--jq", ".id"],
+                [
+                    "gh", "api", "--paginate",
+                    "repos/owner/repo/releases/4242/assets?per_page=100",
+                    "--jq", '.[] | [.name, (.digest // "")] | @tsv',
+                ],
+            ],
         )
+        for call in check_output_mock.call_args_list:
+            self.assertEqual(call.kwargs["encoding"], "utf-8")
+
+    def test_release_script_reports_undigested_release_asset_as_unverifiable(self) -> None:
+        # GitHub returns no digest for some older assets. Treating that as a
+        # match would make the byte-level check silently vacuous.
+        module = _load_release_script()
+        payloads = ["7\n", "nurse.zip\t\n"]
+
+        with mock.patch.object(module.subprocess, "check_output", side_effect=payloads):
+            self.assertEqual(module._release_zip_digests("default-bundles-001"), {"nurse.zip": ""})
 
     def test_release_script_uploads_primary_asset_name_only(self) -> None:
         module = _load_release_script()
@@ -289,7 +335,7 @@ class WorkflowTests(unittest.TestCase):
                 }
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
@@ -319,7 +365,7 @@ class WorkflowTests(unittest.TestCase):
             }]
             with mock.patch.object(module, "GITHUB_RELEASE_ASSET_BYTE_LIMIT", 1), \
                     mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 1)
         run_mock.assert_not_called()
@@ -338,7 +384,7 @@ class WorkflowTests(unittest.TestCase):
                 }
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=["nurse-id.zip"]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={"nurse-id.zip": _EMPTY_ZIP_DIGEST}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
@@ -356,7 +402,7 @@ class WorkflowTests(unittest.TestCase):
                 {"storage_key": str(second_path), "asset_name": "second.zip", "release_tag": "default-bundles-002"},
             ]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
@@ -374,7 +420,7 @@ class WorkflowTests(unittest.TestCase):
             absent = str(Path(tmp) / "absent.zip")
             local_assets = [{"storage_key": absent, "asset_name": "absent.zip", "release_tag": "default-bundles-001"}]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=[]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 1)
         run_mock.assert_not_called()
@@ -385,11 +431,94 @@ class WorkflowTests(unittest.TestCase):
             absent = str(Path(tmp) / "nurse.zip")
             local_assets = [{"storage_key": absent, "asset_name": "nurse.zip", "release_tag": "default-bundles-001"}]
             with mock.patch.object(module, "_local_assets", return_value=local_assets), \
-                    mock.patch.object(module, "_release_zip_names", return_value=["nurse.zip"]), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={"nurse.zip": _EMPTY_ZIP_DIGEST}), \
                     mock.patch.object(module.subprocess, "run") as run_mock:
                 self.assertEqual(module.upload(), 0)
 
         run_mock.assert_not_called()
+
+    def test_release_script_reuploads_when_published_bytes_are_stale(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(_EMPTY_ZIP)
+            local_assets = [
+                {
+                    "storage_key": str(bundle_path),
+                    "asset_name": "nurse-id.zip",
+                    "release_tag": "default-bundles-001",
+                    "checksum": _EMPTY_ZIP_DIGEST,
+                }
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(
+                        module, "_release_zip_digests", return_value={"nurse-id.zip": "pre-recovery-digest"}
+                    ), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
+        self.assertEqual(
+            [call.args[0] for call in run_mock.call_args_list],
+            [
+                [
+                    "gh", "release", "upload", "default-bundles-001",
+                    f"{bundle_path}#nurse-id.zip", "--clobber",
+                ],
+            ],
+        )
+
+    def test_release_script_upload_refuses_bundles_that_contradict_the_published_checksum(self) -> None:
+        # Uploading here would serve bytes that fail the checksum the site
+        # publishes for verification; the catalog has to be regenerated first.
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(_EMPTY_ZIP)
+            local_assets = [
+                {
+                    "storage_key": str(bundle_path),
+                    "asset_name": "nurse-id.zip",
+                    "release_tag": "default-bundles-001",
+                    "checksum": "checksum-from-an-older-build",
+                }
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(module, "_release_zip_digests", return_value={}), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 1)
+
+        run_mock.assert_not_called()
+
+    def test_release_script_upload_leaves_assets_whose_published_bytes_already_match(self) -> None:
+        module = _load_release_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "bundle.zip"
+            bundle_path.write_bytes(_EMPTY_ZIP)
+            local_assets = [
+                {
+                    "storage_key": str(bundle_path),
+                    "asset_name": "nurse-id.zip",
+                    "release_tag": "default-bundles-001",
+                    "checksum": _EMPTY_ZIP_DIGEST,
+                }
+            ]
+            with mock.patch.object(module, "_local_assets", return_value=local_assets), \
+                    mock.patch.object(
+                        module, "_release_zip_digests", return_value={"nurse-id.zip": _EMPTY_ZIP_DIGEST}
+                    ), \
+                    mock.patch.object(module.subprocess, "run") as run_mock:
+                self.assertEqual(module.upload(), 0)
+
+        run_mock.assert_not_called()
+
+    def test_incremental_sync_repairs_stale_release_bytes_without_a_source_change(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-incremental.yml").read_text(encoding="utf-8")
+        upload_condition = next(
+            line for line in workflow.splitlines()
+            if "if:" in line and "stale_required" in line
+        )
+        self.assertIn("steps.release_state.outputs.stale_required == 'true'", upload_condition)
+        self.assertIn("steps.probe.outputs.should_sync == 'true'", upload_condition)
 
     def test_workflows_no_longer_install_or_use_ghostscript(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
