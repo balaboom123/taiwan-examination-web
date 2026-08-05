@@ -660,11 +660,26 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         provider_failures.extend(sync_failures)
         failures = provider_failures
     else:
-        provider_raw_pages = refreshed_raw_pages
-        provider_normalized = refreshed_catalog
+        # A full sync used to overwrite provider state with whatever the source
+        # served that run, so an event the source stopped listing was deleted
+        # along with every paper under it - silently, because a source that no
+        # longer offers a page reports no failure. Merging on source_exam_id
+        # replaces only what this run actually saw and retains the rest, which
+        # is what an archive of past papers has to do. It also keeps the
+        # retained papers referenced, so --prune-orphaned-mirror leaves their
+        # mirrored files alone.
+        existing_provider_raw_pages, existing_provider_catalog, _ = load_provider_state(provider_state)
+        provider_raw_pages, provider_normalized, _, affected_canonical_ids, canonical_aliases = merge_incremental_state(
+            existing_raw_pages=existing_provider_raw_pages,
+            existing_catalog=existing_provider_catalog,
+            existing_bundles=[],
+            refreshed_raw_pages=refreshed_raw_pages,
+            refreshed_catalog=refreshed_catalog,
+        )
+        # Failures still describe this run alone: a retained event is one the
+        # source no longer reaches, so an old failure against it cannot be
+        # re-checked and must not be resurrected.
         provider_failures = sync_failures
-        affected_canonical_ids = {paper.canonical_id for paper in provider_normalized.papers}
-        canonical_aliases = {}
         failures = sync_failures
     if args.publish_plan_output is not None:
         _write_publish_plan(

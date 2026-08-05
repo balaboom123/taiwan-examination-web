@@ -728,6 +728,99 @@ class CliCommandTests(unittest.TestCase):
     @patch("app.cli.write_data_files")
     @patch("app.cli.build_bundles")
     @patch("app.cli.sync_exam_pages")
+    def test_full_sync_retains_an_event_the_source_stopped_listing(
+        self,
+        sync_exam_pages_mock,
+        build_bundles_mock,
+        write_data_files_mock,
+    ) -> None:
+        # New Taipei and Hakka both lost retained events this way: the source
+        # dropped a listing, the sync reported no failure because there was
+        # nothing to fail on, and a full sync overwrote state with the shorter
+        # answer. Nothing may disappear just because a source went quiet.
+        class ShrinkingClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [ExamOption(code="115030", year_ad=year_ad, year_roc=115, label="MOEX 115")]
+
+        still_listed = SourceExamPage(
+            provider_id="moex",
+            source_exam_id="115030",
+            year_ad=2026,
+            year_roc=115,
+            exam_name_raw="MOEX 115",
+            attachments=[],
+            papers=[],
+        )
+        sync_exam_pages_mock.return_value = (
+            [still_listed],
+            NormalizedCatalog(papers=[_paper("moex", "nurse", source_exam_id="115030")], review_queue=[]),
+            [],
+        )
+        build_bundles_mock.return_value = type("BuildResult", (), {"bundles": [], "failures": []})()
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "aliases.json").write_text('{"rules": []}', encoding="utf-8")
+            provider = provider_paths(root, "moex")
+            retired = SourceExamPage(
+                provider_id="moex",
+                source_exam_id="115040",
+                year_ad=2026,
+                year_roc=115,
+                exam_name_raw="MOEX 115 retired",
+                attachments=[],
+                papers=[],
+            )
+            write_provider_state(
+                provider,
+                raw_pages=[still_listed, retired],
+                normalized=NormalizedCatalog(
+                    papers=[
+                        _paper("moex", "nurse", source_exam_id="115030"),
+                        _paper("moex", "nurse", source_exam_id="115040"),
+                    ],
+                    review_queue=[],
+                ),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+
+            args = build_parser().parse_args(
+                [
+                    "sync-full",
+                    "--provider",
+                    "moex",
+                    "--data-dir",
+                    str(data_dir),
+                    "--mirror-dir",
+                    str(root / "mirror"),
+                    "--bundle-dir",
+                    str(root / "bundles"),
+                    "--aliases",
+                    str(data_dir / "aliases.json"),
+                ]
+            )
+
+            exit_code = command_sync(args, client=ShrinkingClient())
+
+            raw_pages, catalog, failures = load_provider_state(provider)
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual({page.source_exam_id for page in raw_pages}, {"115030", "115040"})
+        self.assertEqual({paper.source_exam_id for paper in catalog.papers}, {"115030", "115040"})
+        self.assertEqual(failures, [])
+
+    @patch("app.cli.write_data_files")
+    @patch("app.cli.build_bundles")
+    @patch("app.cli.sync_exam_pages")
     def test_command_sync_full_for_ceec_provider_does_not_write_legacy_publication_outputs(
         self,
         sync_exam_pages_mock,
