@@ -676,10 +676,11 @@ class WorkflowTests(unittest.TestCase):
         # Every mirror it restores must be a cache some sync workflow actually
         # writes, or a bundle silently has no source files and the publish
         # aborts on a key that was only ever a typo.
+        mirror_key = re.compile(r"([a-z0-9-]+-mirror-)")
         sync_keys = set()
         for path in (REPO_ROOT / ".github" / "workflows").glob("sync-*.yml"):
-            sync_keys.update(re.findall(r"^\s+([a-z0-9-]+-mirror-)$", path.read_text(encoding="utf-8"), re.M))
-        publisher_keys = set(re.findall(r"^\s+([a-z0-9-]+-mirror-)$", workflow, re.M))
+            sync_keys.update(mirror_key.findall(path.read_text(encoding="utf-8")))
+        publisher_keys = set(mirror_key.findall(workflow))
         self.assertTrue(publisher_keys)
         self.assertEqual(publisher_keys - sync_keys, set())
 

@@ -88,28 +88,61 @@ jobs:
           echo "providers=$(jq -r '.provider_ids | join(" ")' .tmp/publication-backlog.json)" >> "$GITHUB_OUTPUT"
 
       # Only the providers that own an unpublished bundle need a mirror, and
-      # each one's own sync workflow has already cached it. MOEX is never
-      # restored here: it is the 71 GB tree the hosted bootstrap guard exists
-      # to refuse, and its bundles are published by sync-incremental.
-      - name: Restore mirrors for the providers with outstanding bundles
+      # each one's own sync workflow has already cached it. Each provider's
+      # cache holds a disjoint mirror/<provider>/ subtree, so restoring them in
+      # turn onto the same path unions them. They are separate steps because a
+      # single restore accepts at most ten restore-keys.
+      #
+      # MOEX is never restored here: it is the 71 GB tree the hosted bootstrap
+      # guard exists to refuse, and sync-incremental publishes its bundles.
+      - name: Restore cpc_recruit mirror
         if: steps.backlog.outputs.count != '0'
         uses: actions/cache/restore@v6
-        with:
-          path: mirror
-          key: publish-backlog-mirror
-          restore-keys: |
-            cpc-recruit-mirror-
-            gept-cert-mirror-
-            hakka-cert-mirror-
-            ipas-cert-mirror-
-            moea-recruit-mirror-
-            sfi-cert-mirror-
-            tabf-cert-mirror-
-            taigi-cert-mirror-
-            tii-cert-mirror-
-            tocfl-cert-mirror-
-            tqc-cert-mirror-
-            twc-recruit-mirror-
+        with: {path: mirror, key: publish-backlog-cpc-recruit, restore-keys: "cpc-recruit-mirror-"}
+      - name: Restore gept_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-gept-cert, restore-keys: "gept-cert-mirror-"}
+      - name: Restore hakka_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-hakka-cert, restore-keys: "hakka-cert-mirror-"}
+      - name: Restore ipas_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-ipas-cert, restore-keys: "ipas-cert-mirror-"}
+      - name: Restore moea_recruit mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-moea-recruit, restore-keys: "moea-recruit-mirror-"}
+      - name: Restore sfi_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-sfi-cert, restore-keys: "sfi-cert-mirror-"}
+      - name: Restore tabf_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-tabf-cert, restore-keys: "tabf-cert-mirror-"}
+      - name: Restore taigi_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-taigi-cert, restore-keys: "taigi-cert-mirror-"}
+      - name: Restore tii_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-tii-cert, restore-keys: "tii-cert-mirror-"}
+      - name: Restore tocfl_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-tocfl-cert, restore-keys: "tocfl-cert-mirror-"}
+      - name: Restore tqc_cert mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-tqc-cert, restore-keys: "tqc-cert-mirror-"}
+      - name: Restore twc_recruit mirror
+        if: steps.backlog.outputs.count != '0'
+        uses: actions/cache/restore@v6
+        with: {path: mirror, key: publish-backlog-twc-recruit, restore-keys: "twc-recruit-mirror-"}
 
       # publish-site raises on any bundle failure, and a mirrored file that was
       # not restored is exactly that, so an incomplete mirror aborts the run
