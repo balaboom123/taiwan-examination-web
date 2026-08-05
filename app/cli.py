@@ -813,6 +813,18 @@ def command_audit_catalog(args: argparse.Namespace) -> int:
         f"{report['records_needing_review']} records require review. Report: {args.output}",
         flush=True,
     )
+    # Both counts were already in the report and neither was ever printed, so a
+    # publication backlog could sit in the JSON for a month without anyone
+    # reading it. Only the site catalog is downloadable; a catalogued bundle
+    # that never reached it is a paper nobody can get.
+    unpublished = report["planned_bundle_count"] - report["current_bundle_count"]
+    if unpublished > 0:
+        print(
+            f"WARNING: {unpublished} catalogued bundle(s) are absent from the published site "
+            f"({report['current_bundle_count']} published, {report['planned_bundle_count']} implied by provider records); "
+            "publish-site has not run for the providers that own them.",
+            flush=True,
+        )
     return audit_exit_code(report, strict=args.strict)
 
 
