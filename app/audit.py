@@ -307,6 +307,65 @@ def audit_exit_code(report: dict[str, Any], *, strict: bool) -> int:
     ) else 0
 
 
+def build_publication_backlog(repo_root: Path, *, site_id: str = "default") -> dict[str, Any]:
+    """Return the bundles the providers hold that the site has never published.
+
+    Only the site catalog is downloadable, so a bundle the providers imply but
+    the catalog omits is a paper nobody can reach. Publication runs in one
+    MOEX-scoped workflow, so anything owned by the other providers waits for a
+    MOEX change that may never come; this reports exactly what is outstanding
+    and, as a publish plan, scopes a rebuild to it and nothing else.
+    """
+    site_config = get_site_config(site_id)
+    groups: dict[str, dict[str, Any]] = {}
+    for provider_id in site_config.provider_ids:
+        _raw_pages, catalog, _failures = load_provider_state(provider_paths(repo_root, provider_id))
+        for paper in catalog.papers:
+            if not paper.provider_id:
+                paper.provider_id = provider_id
+            identity = classify_normalized_paper(paper)
+            group = groups.setdefault(
+                identity.bundle_id,
+                {"years": set(), "canonical_ids": set(), "provider_ids": set(), "record_count": 0},
+            )
+            group["years"].add(paper.year_roc)
+            group["canonical_ids"].add(paper.canonical_id)
+            group["provider_ids"].add(paper.provider_id)
+            group["record_count"] += 1
+
+    def required_years(group: dict[str, Any]) -> int:
+        minimum = site_config.public_min_years
+        for canonical_id in group["canonical_ids"]:
+            for prefix, prefix_minimum in (site_config.public_min_years_by_canonical_prefix or {}).items():
+                if canonical_id.startswith(prefix):
+                    minimum = min(minimum, prefix_minimum)
+        return minimum
+
+    published = {
+        bundle.bundle_id or bundle.canonical_id
+        for bundle in load_site_bundles(site_paths(repo_root, site_id))
+    }
+    outstanding = {
+        bundle_id: group
+        for bundle_id, group in groups.items()
+        if len(group["years"]) >= required_years(group) and bundle_id not in published
+    }
+    by_provider: Counter[str] = Counter()
+    for group in outstanding.values():
+        for provider_id in group["provider_ids"]:
+            by_provider[provider_id] += 1
+    return {
+        "site_id": site_id,
+        "published_bundle_count": len(published),
+        "unpublished_bundle_count": len(outstanding),
+        "unpublished_record_count": sum(group["record_count"] for group in outstanding.values()),
+        "provider_ids": sorted({p for group in outstanding.values() for p in group["provider_ids"]}),
+        "unpublished_by_provider": dict(sorted(by_provider.items())),
+        "affected_canonical_ids": sorted(outstanding),
+        "canonical_aliases": {},
+    }
+
+
 def build_release_plan(repo_root: Path, *, site_id: str = "default", release_tag_prefix: str | None = None) -> dict[str, Any]:
     """Build a read-only physical-asset release plan from current site state."""
     site_config = get_site_config(site_id)

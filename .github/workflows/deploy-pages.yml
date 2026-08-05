@@ -21,6 +21,7 @@ on:
     types: [completed]
     workflows:
       - audit-recent
+      - publish-backlog
       - sync-ceec-ast
       - sync-ceec-gsat
       - sync-cpc-recruit
