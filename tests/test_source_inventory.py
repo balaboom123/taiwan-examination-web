@@ -21,7 +21,13 @@ FLOOR_FIXTURE_PROVIDER = "teacher_recruit_tainan"
 
 @contextlib.contextmanager
 def _provider_sandbox(provider_id: str):
-    """Yield a repo root holding only the inventory and one provider's state."""
+    """Yield a repo root holding only the inventory and one provider's state.
+
+    The provider's reviewed floor comes back with the root. Pinning the
+    fixture's current counts into the assertions instead would break these
+    tests whenever that source legitimately publishes something new, which
+    says nothing about whether the gate works.
+    """
     with tempfile.TemporaryDirectory() as tmp_dir:
         root = Path(tmp_dir)
         shutil.copytree(ROOT / "catalog", root / "catalog")
@@ -29,7 +35,12 @@ def _provider_sandbox(provider_id: str):
             ROOT / "data" / "providers" / provider_id,
             root / "data" / "providers" / provider_id,
         )
-        yield root
+        entry = next(
+            item
+            for item in load_source_inventory(root)["providers"]
+            if item["provider_id"] == provider_id
+        )
+        yield root, entry
 
 
 class SyncFloorTests(unittest.TestCase):
@@ -49,7 +60,7 @@ class SyncFloorTests(unittest.TestCase):
         )
 
     def test_unchanged_provider_state_sits_at_the_reviewed_floor(self) -> None:
-        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as root:
+        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as (root, _entry):
             report = check_sync_floor(root, [FLOOR_FIXTURE_PROVIDER])
 
         self.assertEqual(
@@ -61,39 +72,48 @@ class SyncFloorTests(unittest.TestCase):
     def test_sync_that_drops_papers_is_refused_even_with_no_recorded_failure(self) -> None:
         # This is the shape of every silent loss on main: the sync writes a
         # shorter listing and reports no failure at all.
-        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as root:
-            papers_path = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER / "papers" / "2026.json"
+        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as (root, entry):
+            provider_dir = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER
+            papers_path = sorted((provider_dir / "papers").glob("*.json"))[-1]
             papers = json.loads(papers_path.read_text(encoding="utf-8"))
             papers_path.write_text(json.dumps(papers[:-1], ensure_ascii=False), encoding="utf-8")
-            failures_path = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER / "sync-failures.json"
+            failures_path = provider_dir / "sync-failures.json"
             self.assertEqual(json.loads(failures_path.read_text(encoding="utf-8")), [])
+            recorded = entry["local_state"]["normalized_paper_records"]
 
             with self.assertRaisesRegex(ValueError, "drops below the reviewed source inventory floor") as context:
                 check_sync_floor(root, [FLOOR_FIXTURE_PROVIDER])
 
         message = str(context.exception)
         self.assertIn(FLOOR_FIXTURE_PROVIDER, message)
-        self.assertIn("normalized_paper_records 3 -> 2", message)
+        self.assertIn(f"normalized_paper_records {recorded} -> {recorded - 1}", message)
         self.assertIn("sync failures recorded: 0", message)
 
-    def test_sync_that_drops_a_whole_event_reports_the_lost_year(self) -> None:
-        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as root:
+    def test_sync_that_drops_every_event_reports_the_lost_years(self) -> None:
+        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as (root, entry):
             provider_dir = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER
-            (provider_dir / "exams" / "2026.json").write_text("[]", encoding="utf-8")
-            (provider_dir / "papers" / "2026.json").write_text("[]", encoding="utf-8")
+            for year_file in provider_dir.glob("*/*.json"):
+                if year_file.parent.name in {"exams", "papers"}:
+                    year_file.write_text("[]", encoding="utf-8")
+            recorded_events = entry["local_state"]["raw_event_pages"]
+            recorded_years = entry["local_years"]
 
             with self.assertRaises(ValueError) as context:
                 check_sync_floor(root, [FLOOR_FIXTURE_PROVIDER])
 
         message = str(context.exception)
-        self.assertIn("raw_event_pages 1 -> 0", message)
-        self.assertIn("years dropped: 2026", message)
+        self.assertIn(f"raw_event_pages {recorded_events} -> 0", message)
+        self.assertIn(
+            "years dropped: " + ", ".join(str(year) for year in recorded_years),
+            message,
+        )
 
     def test_sync_that_gains_records_is_ordinary_and_passes(self) -> None:
         # The floor must not force an inventory edit for every source that
         # publishes something new, or operators will stop trusting it.
-        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as root:
-            papers_path = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER / "papers" / "2026.json"
+        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as (root, entry):
+            provider_dir = root / "data" / "providers" / FLOOR_FIXTURE_PROVIDER
+            papers_path = sorted((provider_dir / "papers").glob("*.json"))[-1]
             papers = json.loads(papers_path.read_text(encoding="utf-8"))
             extra = dict(papers[-1])
             extra["canonical_id"] = f"{extra['canonical_id']}-added"
@@ -102,13 +122,15 @@ class SyncFloorTests(unittest.TestCase):
                 json.dumps(papers + [extra], ensure_ascii=False),
                 encoding="utf-8",
             )
+            recorded = entry["local_state"]["normalized_paper_records"]
 
             report = check_sync_floor(root, [FLOOR_FIXTURE_PROVIDER])
 
-        self.assertEqual(report["providers"][0]["normalized_paper_records"], 4)
+        self.assertEqual(report["providers"][0]["normalized_paper_records"], recorded + 1)
+        self.assertEqual(report["providers"][0]["losses"], [])
 
     def test_floor_check_refuses_a_provider_the_inventory_never_reviewed(self) -> None:
-        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as root:
+        with _provider_sandbox(FLOOR_FIXTURE_PROVIDER) as (root, _entry):
             with self.assertRaisesRegex(ValueError, "no entry for provider: not_a_provider"):
                 check_sync_floor(root, ["not_a_provider"])
 
