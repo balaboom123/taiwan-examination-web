@@ -385,13 +385,6 @@ def _load_publish_plan(path: Path | None, site_id: str) -> tuple[set[str] | None
     return affected, canonical_aliases
 
 
-def _merge_bundle_lists(preserved: list[BundleAsset], rebuilt: list[BundleAsset]) -> list[BundleAsset]:
-    canonical_order = {bundle.canonical_id: bundle for bundle in preserved}
-    for bundle in rebuilt:
-        canonical_order[bundle.canonical_id] = bundle
-    return sorted(canonical_order.values(), key=lambda bundle: bundle.canonical_id)
-
-
 def _print_failures(failures: list) -> None:
     for failure in failures:
         parts = [failure.stage, failure.source_exam_id]
@@ -774,26 +767,6 @@ def command_plan_release(args: argparse.Namespace) -> int:
     )
     return 0
 
-def command_plan_publication_backlog(args: argparse.Namespace) -> int:
-    backlog = build_publication_backlog(args.repo_root, site_id=args.site_id)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(backlog, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    if not backlog["unpublished_bundle_count"]:
-        print(f"Every catalogued bundle is published ({backlog['published_bundle_count']}).", flush=True)
-        return 0
-    print(
-        f"{backlog['unpublished_bundle_count']} bundle(s) covering "
-        f"{backlog['unpublished_record_count']} paper record(s) are absent from the published site: "
-        + ", ".join(f"{provider} {count}" for provider, count in backlog["unpublished_by_provider"].items())
-        + f". Plan: {args.output}",
-        flush=True,
-    )
-    return 0
-
-
 def command_audit_history(args: argparse.Namespace) -> int:
     check_mirror = not args.skip_mirror_check
     if check_mirror and not (args.repo_root / "mirror").exists():
@@ -1028,15 +1001,6 @@ def build_parser() -> argparse.ArgumentParser:
     plan_release_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "release-plan.json")
     plan_release_parser.add_argument("--release-tag-prefix", default=None)
     plan_release_parser.set_defaults(handler=command_plan_release)
-
-    backlog_parser = subparsers.add_parser(
-        "plan-publication-backlog",
-        help="Emit a publish plan for bundles the providers hold that the site has never published.",
-    )
-    backlog_parser.add_argument("--repo-root", type=Path, default=repo_root)
-    backlog_parser.add_argument("--site-id", default="default")
-    backlog_parser.add_argument("--output", type=Path, default=repo_root / ".tmp" / "publication-backlog.json")
-    backlog_parser.set_defaults(handler=command_plan_publication_backlog)
 
     audit_parser = subparsers.add_parser(
         "audit-catalog",

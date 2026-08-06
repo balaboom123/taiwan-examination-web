@@ -572,10 +572,6 @@ def _provider_series(provider_id: str, canonical_id: str) -> tuple[str, str, str
     return "other", "provider-exam", _slug(canonical_id, prefix="series"), _display(canonical_id, "待審核考試")
 
 
-def _skill_level(category: str, subject_name: str) -> tuple[str, str, str, str]:
-    return _non_moex_level("wdasec_skill", category, "", subject_name)
-
-
 def classify_paper(
     *,
     provider_id: str,

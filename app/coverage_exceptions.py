@@ -9,7 +9,6 @@ source or a repaired failure.
 """
 
 from dataclasses import dataclass
-import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -189,10 +188,3 @@ def failure_exception_for(
             f"{(failure.source_exam_id, failure.year_roc + 1911, failure.paper_code, failure.file_type)!r}"
         )
     return matches[0] if matches else None
-
-
-def exception_fingerprint(exception: CoverageException) -> str:
-    """Stable digest useful for reports without trusting mutable labels."""
-    return hashlib.sha256(
-        json.dumps(exception.as_dict(), ensure_ascii=False, sort_keys=True).encode("utf-8")
-    ).hexdigest()
