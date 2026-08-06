@@ -19,6 +19,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 WORKFLOWS_DIR = Path(__file__).resolve().parents[1] / "workflows"
+SELF_WORKFLOW = "workflow-health.yml"
 HEALTH_LABEL = "workflow-health"
 # "cancelled" is deliberately absent: deploy-pages cancels its own in-flight
 # runs by design, so reporting it would bury the real failures. A workflow that
@@ -145,6 +146,13 @@ def _scheduled_workflow_paths() -> set[str]:
     # is the same source the workflow_run list is generated from.
     paths = set()
     for path in sorted(WORKFLOWS_DIR.glob("*.yml")):
+        # This workflow is excluded for the same reason it is absent from its
+        # own workflow_run list. Its staleness pass runs before that same run
+        # can succeed, so it would report itself as never having succeeded, and
+        # nothing would ever close the issue: recovery is only detected through
+        # workflow_run, which it does not receive for itself.
+        if path.name == SELF_WORKFLOW:
+            continue
         if "\n  schedule:\n" in path.read_text(encoding="utf-8"):
             paths.add(f".github/workflows/{path.name}")
     return paths

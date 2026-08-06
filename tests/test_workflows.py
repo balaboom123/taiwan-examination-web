@@ -1010,6 +1010,15 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertNotIn(".github/workflows/sync-full.yml", scheduled)
         self.assertNotIn(".github/workflows/ci.yml", scheduled)
 
+    def test_staleness_never_reports_the_health_workflow_against_itself(self) -> None:
+        # Its staleness pass runs before that same run can succeed, so it would
+        # report itself as never having succeeded; and nothing would close the
+        # issue, because recovery is only detected through workflow_run, which
+        # it deliberately does not receive for itself.
+        module = _load_health_script()
+
+        self.assertNotIn(".github/workflows/workflow-health.yml", module._scheduled_workflow_paths())
+
 
 if __name__ == "__main__":
     unittest.main()
