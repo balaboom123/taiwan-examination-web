@@ -859,5 +859,43 @@ class LaunchCITest(unittest.TestCase):
         self.assertIn('node-version: "22"', workflow)
 
 
+class PartialSyncRetentionTest(unittest.TestCase):
+    # A provider sync writes the papers it fetched and records the ones it
+    # could not, then exits non-zero. Gating the commit on step success threw
+    # that whole refresh away: teacher_qual (23 failures), moea_recruit (29),
+    # rcpet_cap (14), cpc_recruit (5), and others each lost a complete run,
+    # and every provider's sync-failures.json stayed empty because the only
+    # record of the failure lived in expiring Actions logs.
+    def _provider_sync_workflows(self) -> list[Path]:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        return [
+            path
+            for path in sorted(workflows_dir.glob("sync-*.yml"))
+            if path.name not in {"sync-incremental.yml", "sync-full.yml"}
+        ]
+
+    def test_provider_sync_workflows_commit_partial_results(self) -> None:
+        workflows = self._provider_sync_workflows()
+        self.assertTrue(workflows)
+
+        for path in workflows:
+            lines = path.read_text(encoding="utf-8").splitlines()
+            commit_indexes = [i for i, line in enumerate(lines) if "commit-and-push.sh" in line]
+            with self.subTest(workflow=path.name):
+                self.assertEqual(len(commit_indexes), 1)
+                preceding = lines[: commit_indexes[0]]
+                self.assertIn("        if: '!cancelled()'", preceding)
+
+    def test_provider_sync_workflows_still_route_partial_commits_through_the_floor_gate(self) -> None:
+        # Committing a partial result must not become a way to publish a
+        # truncated catalog; the floor check stays in front of every commit.
+        script = (REPO_ROOT / ".github" / "scripts" / "commit-and-push.sh").read_text(encoding="utf-8")
+        self.assertIn("scripts/check_sync_floor.py", script)
+
+        for path in self._provider_sync_workflows():
+            with self.subTest(workflow=path.name):
+                self.assertIn(".github/scripts/commit-and-push.sh", path.read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()
