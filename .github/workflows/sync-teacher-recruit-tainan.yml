@@ -36,5 +36,10 @@ jobs:
         run: python -m app sync-full --provider teacher_recruit_tainan --site-id default
 
       - name: Commit regenerated Tainan teacher recruitment provider data
+        # sync-full writes the papers it did fetch and records the ones it could
+        # not, then exits non-zero. Gating this step on success discarded the
+        # whole refresh whenever one upstream file was unavailable, and kept the
+        # failure record out of the repository where it could be acted on.
+        if: '!cancelled()'
         run: >-
           bash .github/scripts/commit-and-push.sh "chore: refresh Tainan teacher recruitment provider data" data/providers/teacher_recruit_tainan
