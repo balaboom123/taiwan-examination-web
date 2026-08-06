@@ -151,7 +151,8 @@ def _scheduled_workflow_paths() -> set[str]:
 
 
 def _scheduled_workflows(repository: str) -> list[dict]:
-    payload = _gh_api(f"repos/{repository}/actions/workflows", "-f", "per_page=100")
+    # -X GET is load-bearing: gh turns a bare -f into a request body and posts it.
+    payload = _gh_api(f"repos/{repository}/actions/workflows", "-X", "GET", "-f", "per_page=100")
     workflows = (payload or {}).get("workflows", [])
     scheduled = _scheduled_workflow_paths()
     return [w for w in workflows if w.get("state") == "active" and w.get("path") in scheduled]

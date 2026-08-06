@@ -982,6 +982,25 @@ class WorkflowHealthTest(unittest.TestCase):
 
         run_mock.assert_not_called()
 
+    def test_read_requests_force_the_get_method(self) -> None:
+        # gh turns a bare -f into a request body and posts it, so a read that
+        # carries query parameters without -X GET reaches the API as a POST and
+        # fails. Every other test here mocks _gh_api, so nothing else can catch
+        # this.
+        module = _load_health_script()
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            run_mock.return_value = mock.Mock(stdout='{"workflow_runs": []}')
+            module._last_success("o/r", 1)
+            module._scheduled_workflows("o/r")
+
+        for call in run_mock.call_args_list:
+            argv = call.args[0]
+            with self.subTest(argv=" ".join(argv)):
+                if any(arg == "-f" for arg in argv):
+                    self.assertIn("-X", argv)
+                    self.assertEqual(argv[argv.index("-X") + 1], "GET")
+
     def test_staleness_only_considers_workflows_that_actually_have_a_schedule(self) -> None:
         module = _load_health_script()
         scheduled = module._scheduled_workflow_paths()
