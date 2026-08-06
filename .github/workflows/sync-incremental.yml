@@ -60,6 +60,13 @@ jobs:
 
       - name: Run targeted sync
         if: steps.probe.outputs.should_sync == 'true'
+        # _download_affected_bundles shells out to `gh release download` to
+        # fetch each affected bundle's previous ZIP, so this python step needs
+        # the token as much as the explicit `gh` steps below do. Without it gh
+        # exits with "could not find any host configurations" on the first
+        # bundle, which is what failed the runs on 2026-07-20, 07-27 and 08-01.
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json --download-affected-bundles --publish-plan-output .tmp/site-publish-plan.json --bundle-dir bundles/sites/default
 
       - name: Publish default site

@@ -906,6 +906,32 @@ class PartialSyncRetentionTest(unittest.TestCase):
                 for index in commit_indexes:
                     self.assertNotIn("        if: '!cancelled()'", lines[max(0, index - 6):index])
 
+    def test_steps_that_download_affected_bundles_carry_a_github_token(self) -> None:
+        # --download-affected-bundles makes a python step shell out to
+        # `gh release download`, which is not obvious from reading the step.
+        # Without GH_TOKEN gh exits "could not find any host configurations" on
+        # the first bundle. That is what failed sync-incremental on 2026-07-20,
+        # 07-27 and 08-06 and audit-recent on 08-01 - each time after the MOEX
+        # sync itself had already succeeded, so a full hour of work was thrown
+        # away at the last moment.
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        checked = 0
+
+        for path in sorted(workflows_dir.glob("*.yml")):
+            lines = path.read_text(encoding="utf-8").splitlines()
+            for index, line in enumerate(lines):
+                if "--download-affected-bundles" not in line:
+                    continue
+                checked += 1
+                start = index
+                while start > 0 and not lines[start].lstrip().startswith("- name:"):
+                    start -= 1
+                step = "\n".join(lines[start:index + 1])
+                with self.subTest(workflow=path.name, step=lines[start].strip()):
+                    self.assertIn("GH_TOKEN", step)
+
+        self.assertGreaterEqual(checked, 2)
+
     def test_provider_sync_workflows_still_route_partial_commits_through_the_floor_gate(self) -> None:
         # Committing a partial result must not become a way to publish a
         # truncated catalog; the floor check stays in front of every commit.
