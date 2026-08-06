@@ -906,6 +906,51 @@ class SourceInventoryTests(unittest.TestCase):
             46,
         )
 
+    def test_growth_above_the_reviewed_floor_does_not_gate_the_site(self) -> None:
+        # check_sync_floor already treats a sync that adds records as ordinary.
+        # This validator demanded exact equality, so the first sync to succeed
+        # since 2026-06-29 added one event and 24 papers and failed the
+        # deploy-pages gate on 2026-08-06, leaving the published site behind
+        # data that had already been committed to main.
+        report = validate_source_inventory(ROOT)
+
+        self.assertEqual(report["local_state_drift"], [])
+        for item in report["local_state_growth"]:
+            with self.subTest(provider=item["provider_id"]):
+                self.assertTrue(item["gains"])
+                for field in ("raw_event_pages", "normalized_paper_records"):
+                    self.assertGreaterEqual(item["actual"][field], item["inventory"][field])
+
+    def test_local_state_below_the_reviewed_floor_still_fails(self) -> None:
+        # Relaxing growth must not relax loss. Raising one provider's recorded
+        # floor above what it actually holds is the same shape as a source that
+        # briefly served a short listing.
+        payload = json.loads((ROOT / "catalog/source-inventory.json").read_text(encoding="utf-8"))
+        entry = next(item for item in payload["providers"] if item["provider_id"] == FLOOR_FIXTURE_PROVIDER)
+        inflated = entry["local_state"]["normalized_paper_records"] + 500
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            shutil.copytree(ROOT / "catalog", root / "catalog")
+            # The validator only reads provider state and evidence paths, so
+            # linking them keeps this off the ~400 MB copy path.
+            (root / "data").symlink_to(ROOT / "data")
+            (root / "docs").symlink_to(ROOT / "docs")
+            inventory_path = root / "catalog" / "source-inventory.json"
+            mutated = json.loads(inventory_path.read_text(encoding="utf-8"))
+            target = next(
+                item for item in mutated["providers"] if item["provider_id"] == FLOOR_FIXTURE_PROVIDER
+            )
+            target["local_state"]["normalized_paper_records"] = inflated
+            inventory_path.write_text(json.dumps(mutated, ensure_ascii=False, indent=2), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "local state regressed") as context:
+                validate_source_inventory(root)
+
+        message = str(context.exception)
+        self.assertIn(FLOOR_FIXTURE_PROVIDER, message)
+        self.assertIn(f"normalized_paper_records {inflated} -> ", message)
+
     def test_strict_manifest_requirement_remains_red_until_snapshots_are_complete(self) -> None:
         with self.assertRaisesRegex(ValueError, "complete source discovery remains unresolved") as context:
             validate_source_inventory(ROOT, require_discovery_manifests=True)

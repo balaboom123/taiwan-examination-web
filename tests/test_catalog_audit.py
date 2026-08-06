@@ -5,6 +5,7 @@ from pathlib import Path
 
 from app.audit import audit_exit_code, build_catalog_audit, build_publication_backlog
 from app.models import NormalizedCatalog, NormalizedPaper, ReviewItem
+from app.normalizer import _derive_canonical
 from app.paths import provider_paths
 from app.publication_quarantine import quarantined_provider_ids
 from app.publisher import load_site_catalog, write_provider_state
@@ -30,6 +31,69 @@ def paper(category: str, event: str, year: int, source: str) -> NormalizedPaper:
         subject_code="0101",
         storage_key=f"115/{source}/101/0101/question.pdf",
     )
+
+
+class ReviewQueueStalenessTests(unittest.TestCase):
+    # renormalize_catalog only derives a canonical, and so only raises
+    # needs_review, for a paper that has none yet. A rebuild over persisted
+    # papers therefore reproduces the confidence=="review" rows but never the
+    # legacy-canonicalization rows a sync writes while the records are fresh.
+    # Treating the two as one population marked every such row stale the moment
+    # it was written, which failed audit-catalog --strict and blocked the
+    # deploy on 2026-08-06 after the first content-changing sync since 06-29.
+    # The real row was moex/115110/三等考試_司法官及律師, written by the sync that
+    # succeeded on 2026-08-06. deploy-pages already runs audit-catalog --strict
+    # over the whole catalog, so this reproduces the shape on a fixture instead
+    # of rebuilding 245k records per assertion.
+    REVIEW_CATEGORY = "三等考試_司法官及律師"
+
+    def _audit_with_queued_row(self, root: Path) -> dict:
+        queued = paper(self.REVIEW_CATEGORY, "115年公務人員特種考試司法官考試（第一試）", 115, "115110")
+        write_provider_state(
+            provider_paths(root, "moex"),
+            raw_pages=[],
+            normalized=NormalizedCatalog(
+                papers=[queued],
+                review_queue=[
+                    ReviewItem(
+                        raw_category=queued.category_raw,
+                        normalized_candidate=queued.canonical_name,
+                        source_exam_id=queued.source_exam_id,
+                        year_roc=queued.year_roc,
+                        provider_id="moex",
+                        reason="legacy canonicalization requires review; explicit category marker",
+                    )
+                ],
+            ),
+            aliases=[],
+            failures=[],
+            manifest=None,
+        )
+        return build_catalog_audit(root)
+
+    def test_the_category_actually_raises_needs_review(self) -> None:
+        # Guards the fixture: if this category ever stops being ambiguous the
+        # test below would pass for the wrong reason.
+        *_unused, needs_review = _derive_canonical("115110", self.REVIEW_CATEGORY, "", 2026, [])
+
+        self.assertTrue(needs_review)
+
+    def test_a_legacy_canonicalization_row_is_not_stale_while_its_papers_remain(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            report = self._audit_with_queued_row(Path(tmp_dir))
+
+        self.assertEqual(report["review_queue_stale_entries"], 0)
+        self.assertEqual(audit_exit_code(report, strict=True), 0)
+
+    def test_excusing_a_row_never_demands_new_rows(self) -> None:
+        # The derivation only runs for keys the queue already holds, so it can
+        # excuse an existing row but can never add one. Always deriving would
+        # raise 117 further keys across MOEX alone, which is a reviewed change
+        # and not something an audit should manufacture.
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            report = self._audit_with_queued_row(Path(tmp_dir))
+
+        self.assertEqual(report["review_queue_missing_entries"], 0)
 
 
 class CatalogAuditTests(unittest.TestCase):

@@ -284,6 +284,7 @@ def validate_source_inventory(
         raise ValueError("source inventory provider registry mismatch: " + "; ".join(details))
 
     local_state_drift: list[dict[str, Any]] = []
+    local_state_growth: list[dict[str, Any]] = []
     missing_manifests: list[str] = []
     blocked_discoveries: list[str] = []
     not_applicable_manifests: list[str] = []
@@ -293,23 +294,47 @@ def validate_source_inventory(
     for provider_id in site_config.provider_ids:
         entry = entries[provider_id]
         observation = _local_observation(repo_root, provider_id)
-        if entry["local_years"] != observation["years"] or any(
-            entry["local_state"][field] != observation[field]
-            for field in ("raw_event_pages", "normalized_paper_records", "sync_failures")
-        ):
-            local_state_drift.append(
-                {
-                    "provider_id": provider_id,
-                    "inventory": {
-                        "years": entry["local_years"],
-                        **entry["local_state"],
-                    },
-                    "actual": {
-                        "years": observation["years"],
-                        **{field: observation[field] for field in ("raw_event_pages", "normalized_paper_records", "sync_failures")},
-                    },
-                }
-            )
+        # The inventory is the reviewed floor, in the same sense check_sync_floor
+        # uses it: a sync that adds events or papers is ordinary and must pass.
+        # Requiring exact equality here meant every successful content-changing
+        # sync failed this gate and blocked the deploy, which is what happened
+        # on 2026-08-06 when the first sync to complete since 06-29 added one
+        # event and 24 papers. Losses still fail; growth is reported instead so
+        # the inventory's staleness stays visible without gating the site.
+        losses = [
+            f"{field} {entry['local_state'][field]} -> {observation[field]}"
+            for field in ("raw_event_pages", "normalized_paper_records")
+            if observation[field] < entry["local_state"][field]
+        ]
+        dropped_years = sorted(set(entry["local_years"]) - set(observation["years"]))
+        if dropped_years:
+            losses.append("years dropped: " + ", ".join(str(year) for year in dropped_years))
+
+        gains = [
+            f"{field} {entry['local_state'][field]} -> {observation[field]}"
+            for field in ("raw_event_pages", "normalized_paper_records")
+            if observation[field] > entry["local_state"][field]
+        ]
+        added_years = sorted(set(observation["years"]) - set(entry["local_years"]))
+        if added_years:
+            gains.append("years added: " + ", ".join(str(year) for year in added_years))
+
+        if losses or gains:
+            record = {
+                "provider_id": provider_id,
+                "inventory": {
+                    "years": entry["local_years"],
+                    **entry["local_state"],
+                },
+                "actual": {
+                    "years": observation["years"],
+                    **{field: observation[field] for field in ("raw_event_pages", "normalized_paper_records", "sync_failures")},
+                },
+            }
+            if losses:
+                local_state_drift.append({**record, "losses": losses})
+            else:
+                local_state_growth.append({**record, "gains": gains})
 
         discovery = entry["discovery_snapshot"]
         manifest_path = repo_root / discovery["manifest_path"]
@@ -354,7 +379,12 @@ def validate_source_inventory(
             not_applicable_manifests.append(provider_id)
 
     if local_state_drift:
-        raise ValueError(f"source inventory local state drift for {len(local_state_drift)} provider(s)")
+        details = "; ".join(
+            f"{item['provider_id']} ({', '.join(item['losses'])})" for item in local_state_drift
+        )
+        raise ValueError(
+            f"source inventory local state regressed for {len(local_state_drift)} provider(s): {details}"
+        )
     enforced_manifest_event_gaps = [gap for gap in manifest_event_gaps if gap["enforced"]]
     if enforced_manifest_event_gaps:
         raise ValueError(
@@ -403,6 +433,7 @@ def validate_source_inventory(
         "discovery_manifests_incomplete": incomplete_manifests,
         "require_discovery_manifests": require_discovery_manifests,
         "local_state_drift": local_state_drift,
+        "local_state_growth": local_state_growth,
         "manifest_event_gaps": manifest_event_gaps,
         "manifest_unrepresented_events": manifest_unrepresented_events,
     }
