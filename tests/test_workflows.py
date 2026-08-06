@@ -897,5 +897,100 @@ class PartialSyncRetentionTest(unittest.TestCase):
                 self.assertIn(".github/scripts/commit-and-push.sh", path.read_text(encoding="utf-8"))
 
 
+def _load_health_script():
+    spec = importlib.util.spec_from_file_location(
+        "workflow_health", REPO_ROOT / ".github" / "scripts" / "workflow_health.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class WorkflowHealthTest(unittest.TestCase):
+    # sync-incremental failed on 2026-07-13, 07-20, 07-27 and 08-03 without
+    # anything reacting, while 86% of the published catalog went stale.
+    def _scheduled_workflow_names(self) -> list[str]:
+        names = []
+        for path in sorted((REPO_ROOT / ".github" / "workflows").glob("*.yml")):
+            text = path.read_text(encoding="utf-8")
+            if "\n  schedule:\n" not in text or path.name == "workflow-health.yml":
+                continue
+            for line in text.splitlines():
+                if line.startswith("name:"):
+                    names.append(line.removeprefix("name:").strip())
+                    break
+        return sorted(names)
+
+    def test_health_workflow_reacts_to_every_scheduled_workflow(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertEqual(sorted(_workflow_run_workflows(workflow)), self._scheduled_workflow_names())
+
+    def test_health_workflow_does_not_react_to_itself(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertNotIn("workflow-health", _workflow_run_workflows(workflow))
+
+    def test_health_workflow_keeps_a_schedule_for_workflows_that_stop_running(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertIn("schedule:", workflow)
+        self.assertIn("issues: write", workflow)
+
+    def test_report_opens_one_issue_for_a_failing_workflow(self) -> None:
+        module = _load_health_script()
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_gh_api", return_value=[]), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            module.report("sync-incremental", "failure", "https://example/run/1")
+
+        created = [call for call in run_mock.call_args_list if "issues" in call.args[0][2]]
+        self.assertTrue(created)
+        payload = " ".join(created[-1].args[0])
+        self.assertIn("Workflow health: sync-incremental", payload)
+        self.assertIn("https://example/run/1", payload)
+
+    def test_report_comments_instead_of_opening_a_duplicate_issue(self) -> None:
+        module = _load_health_script()
+        existing = [{"title": "Workflow health: sync-incremental", "number": 42}]
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_gh_api", return_value=existing), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            module.report("sync-incremental", "failure", "https://example/run/2")
+
+        paths = [call.args[0][2] for call in run_mock.call_args_list]
+        self.assertIn("repos/o/r/issues/42/comments", paths)
+        self.assertNotIn("repos/o/r/issues", paths)
+
+    def test_report_closes_the_issue_when_the_workflow_recovers(self) -> None:
+        module = _load_health_script()
+        existing = [{"title": "Workflow health: sync-incremental", "number": 42}]
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_gh_api", return_value=existing), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            module.report("sync-incremental", "success", "https://example/run/3")
+
+        calls = [" ".join(call.args[0]) for call in run_mock.call_args_list]
+        self.assertTrue(any("state=closed" in call for call in calls))
+
+    def test_report_stays_quiet_when_a_healthy_workflow_succeeds(self) -> None:
+        module = _load_health_script()
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_gh_api", return_value=[]), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            module.report("sync-incremental", "success", "https://example/run/4")
+
+        run_mock.assert_not_called()
+
+    def test_staleness_only_considers_workflows_that_actually_have_a_schedule(self) -> None:
+        module = _load_health_script()
+        scheduled = module._scheduled_workflow_paths()
+
+        self.assertIn(".github/workflows/sync-incremental.yml", scheduled)
+        self.assertIn(".github/workflows/audit-recent.yml", scheduled)
+        self.assertNotIn(".github/workflows/sync-full.yml", scheduled)
+        self.assertNotIn(".github/workflows/ci.yml", scheduled)
+
+
 if __name__ == "__main__":
     unittest.main()

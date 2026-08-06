@@ -12,6 +12,7 @@ This document explains what the automated GitHub Actions workflows do, when oper
 | `discover.yml` | manual | discovery artifact generation |
 | `deploy-pages.yml` | push to `main` for selected paths and manual | frontend build and deploy |
 | `sync-<provider>.yml` | scheduled and manual | one provider's source refresh |
+| `workflow-health.yml` | completion of any scheduled workflow, daily, and manual | file and resolve health issues |
 
 ## Workflow Details
 
@@ -88,6 +89,20 @@ Operator expectations:
   `python -m app repair-failures --provider <provider>`, which re-fetches only
   the affected source exams
 
+### `workflow-health.yml`
+
+Use case:
+
+- notice that a scheduled workflow has stopped succeeding
+
+Operator expectations:
+
+- one open issue per unhealthy workflow, labelled `workflow-health`, closed
+  automatically as soon as that workflow succeeds again
+- the daily run additionally reports any scheduled workflow with no successful
+  scheduled run in 14 days, which is what a workflow that stops firing
+  altogether looks like
+
 ### `deploy-pages.yml`
 
 Use case:
@@ -111,6 +126,8 @@ For sync and publication workflows:
 1. Check workflow logs for non-zero Python command exits.
 2. Check whether `data/` commits were pushed.
 3. Check release asset coverage and uploaded ZIP names.
+4. Check open issues labelled `workflow-health`; each one names a workflow that
+   is failing or has stopped succeeding on its schedule.
 
 For deploy workflows:
 
