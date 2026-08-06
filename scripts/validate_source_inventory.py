@@ -33,6 +33,10 @@ def main() -> int:
         f"incomplete={len(report['discovery_manifests_incomplete'])} "
         f"unrepresented={sum(len(item['events']) for item in report['manifest_unrepresented_events'])}"
     )
+    # Growth does not gate the site, so name it here or the inventory silently
+    # falls behind the state it is supposed to record.
+    for item in report["local_state_growth"]:
+        print(f"  local state ahead of inventory: {item['provider_id']} ({', '.join(item['gains'])})")
     return 0
 
 

@@ -15,7 +15,7 @@ from typing import Any
 from app.bundler import _bundle_asset_name, _legacy_asset_names
 from app.classification import classify_normalized_paper, identity_fields
 from app.models import BundleAsset, NormalizedCatalog
-from app.normalizer import load_alias_rules, renormalize_catalog
+from app.normalizer import _derive_canonical, load_alias_rules, renormalize_catalog
 from app.paths import provider_paths, site_paths
 from app.publisher import load_site_catalog
 from app.release_tags import GITHUB_RELEASE_ASSET_LIMIT, RELEASE_SAFETY_TARGET, assign_release_tags, physical_asset_names, strip_ambiguous_legacy_assets, validate_release_capacity
@@ -80,6 +80,32 @@ def build_catalog_audit(repo_root: Path, *, site_id: str = "default") -> dict[st
         ).review_queue
         current_review_keys = {_review_key(item) for item in catalog.review_queue}
         rebuilt_review_keys = {_review_key(item) for item in rebuilt_queue}
+        # renormalize_catalog only derives a canonical - and so only raises
+        # needs_review - for a paper that has none yet. Every paper here has
+        # one, so the rebuild above can only ever reproduce the
+        # confidence=="review" rows, never the legacy-canonicalization ones a
+        # sync writes while the records are still fresh. Comparing the two
+        # populations directly marks each such row stale the moment it is
+        # written: that is what failed audit-catalog --strict, and with it the
+        # deploy, on 2026-08-06. Deriving the review need separately keeps a
+        # legitimately queued row from counting as stale without demanding new
+        # rows for the 117 keys this would otherwise raise across MOEX alone.
+        alias_rules = load_alias_rules(provider.aliases_path)
+        derivable_review_keys = set()
+        for paper in catalog.papers:
+            raw_category = paper.category_raw or paper.exam_name_raw
+            if (paper.provider_id, paper.source_exam_id, raw_category) not in current_review_keys:
+                continue
+            *_unused, needs_review = _derive_canonical(
+                paper.source_exam_id,
+                raw_category,
+                paper.exam_name_raw,
+                paper.year_roc + 1911,
+                alias_rules,
+            )
+            if needs_review:
+                derivable_review_keys.add((paper.provider_id, paper.source_exam_id, raw_category))
+        rebuilt_review_keys |= derivable_review_keys
         all_review_items.extend(catalog.review_queue)
         provider_reports.append(
             {
