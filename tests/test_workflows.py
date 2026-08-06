@@ -886,6 +886,26 @@ class PartialSyncRetentionTest(unittest.TestCase):
                 preceding = lines[: commit_indexes[0]]
                 self.assertIn("        if: '!cancelled()'", preceding)
 
+    def test_publishing_workflows_stay_fail_closed_on_a_partial_sync(self) -> None:
+        # The provider workflows can commit a partial result because they only
+        # write provider state. These three publish in the same job, and
+        # validate_publication.py fails when the normalized catalog and the
+        # public site disagree on bundle eligibility. Committing advanced
+        # provider data while the site projection and release assets stayed
+        # behind would therefore break the deploy gate on the next push, so
+        # they must keep discarding a partial run rather than half-publish it.
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+        validator = (REPO_ROOT / "scripts" / "validate_publication.py").read_text(encoding="utf-8")
+        self.assertIn("normalized catalog and public site eligibility differ", validator)
+
+        for name in ("sync-incremental.yml", "audit-recent.yml", "sync-full.yml"):
+            lines = (workflows_dir / name).read_text(encoding="utf-8").splitlines()
+            commit_indexes = [i for i, line in enumerate(lines) if "commit-and-push.sh" in line]
+            with self.subTest(workflow=name):
+                self.assertTrue(commit_indexes)
+                for index in commit_indexes:
+                    self.assertNotIn("        if: '!cancelled()'", lines[max(0, index - 6):index])
+
     def test_provider_sync_workflows_still_route_partial_commits_through_the_floor_gate(self) -> None:
         # Committing a partial result must not become a way to publish a
         # truncated catalog; the floor check stays in front of every commit.
