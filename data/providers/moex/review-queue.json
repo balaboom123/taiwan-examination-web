@@ -8437,6 +8437,17 @@
     "reason": "no authoritative level marker in category/event: 軍官轉任公務人員考試少將轉任_一般行政(轉任退輔會)類科"
   },
   {
+    "raw_category": "三等考試_司法官及律師",
+    "normalized_candidate": "司法官及律師",
+    "source_exam_id": "115110",
+    "year_roc": 115,
+    "provider_id": "moex",
+    "raw_exam_name": "115年公務人員特種考試司法官考試（第一試）、115年專門職業及技術人員高等考試律師考試（第一試）",
+    "classification_signature": "moex|civil-service|civil-service-exam|special-judicial|grade-3|track-a8efdc0e1bb3|not-applicable|stage-1",
+    "bundle_id": "moex-special-judicial-grade-3-track-a8efdc0e1bb3-stage-1",
+    "reason": "legacy canonicalization requires review; explicit category marker: 三等考試_司法官及律師"
+  },
+  {
     "raw_category": "軍官轉任公務人員考試上校轉任_一般行政",
     "normalized_candidate": "一般行政",
     "source_exam_id": "115040",
