@@ -651,7 +651,15 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
         provider_failures = [failure for failure in existing_provider_failures if failure.source_exam_id not in refreshed_exam_ids]
         provider_failures.extend(sync_failures)
-        failures = provider_failures
+        # Retained failures are kept on record but must not fail this run. They
+        # belong to events outside the year window, so this run never re-fetched
+        # them and has learned nothing new about them - the same reasoning the
+        # full-sync branch below states, and what sync-targeted already does.
+        # Counting them made audit-recent permanently red: MOEX has served an
+        # HTML placeholder for five ROC 85/90/93 files since before any of this
+        # automation existed, so a two-year audit that fetched 9,323 papers with
+        # zero failures still exited 1 and published nothing.
+        failures = sync_failures
     else:
         # A full sync used to overwrite provider state with whatever the source
         # served that run, so an event the source stopped listing was deleted
