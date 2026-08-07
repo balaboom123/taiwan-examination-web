@@ -660,6 +660,95 @@ class CliCommandTests(unittest.TestCase):
             self.assertFalse((data_dir / "bundles.json").exists())
             self.assertFalse((data_dir / "release-assets.json").exists())
 
+    def test_incremental_sync_is_not_failed_by_a_retained_failure_it_never_refetched(self) -> None:
+        # MOEX has served an HTML placeholder for five ROC 85/90/93 files since
+        # before this automation existed. Those events sit outside a two-year
+        # window, so an audit never re-fetches them and learns nothing new about
+        # them - but counting them made audit-recent permanently red: the run on
+        # 2026-08-07 fetched 9,323 papers with zero failures and still exited 1,
+        # publishing nothing. The record is kept; only the exit code changes.
+        class CleanClient:
+            provider_id = "moex"
+
+            def discover_available_years(self) -> list[int]:
+                return [2026]
+
+            def discover_exams(self, year_ad: int) -> list[ExamOption]:
+                return [ExamOption(code="115040", year_ad=year_ad, year_roc=115, label="Exam 115040")]
+
+            def fetch_exam_page(self, exam_code: str, year_ad: int) -> SourceExamPage:
+                return SourceExamPage(
+                    provider_id="moex",
+                    source_exam_id=exam_code,
+                    year_ad=year_ad,
+                    year_roc=115,
+                    exam_name_raw="Exam 115040",
+                    attachments=[],
+                    papers=[
+                        ParsedPaper(
+                            category_raw="nurse raw",
+                            category_code="101",
+                            subject_code="0101",
+                            subject_name_raw="Subject",
+                            files={"question": "https://example.test/question.pdf"},
+                        )
+                    ],
+                )
+
+            def download_file(self, url: str) -> DownloadedFile:
+                return DownloadedFile(data=b"%PDF-1.7 demo", content_type="application/pdf", file_name=Path(url).name)
+
+            def head(self, url: str) -> ResponseMetadata:
+                lengths = {
+                    "https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx?y=2026": 800,
+                    make_result_url("115040", 2026): 500,
+                }
+                return ResponseMetadata(url=url, status=200, content_length=lengths[url])
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            alias_rule = AliasRule(match_type="exact", raw_pattern="nurse raw", canonical_id="nurse", canonical_name="Nurse")
+            (data_dir / "aliases.json").write_text(
+                json.dumps({"rules": [alias_rule.__dict__]}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            provider = provider_paths(root, "moex")
+            stale_failure = SyncFailure(
+                stage="download",
+                source_exam_id="085210",
+                year_roc=85,
+                paper_code="c041",
+                file_type="question",
+                url="https://wwwq.moex.gov.tw/exam/wHandExamQandA_File.ashx?t=Q&code=085210",
+                message="Downloaded HTML placeholder instead of .pdf",
+            )
+            write_provider_state(
+                provider,
+                raw_pages=[],
+                normalized=NormalizedCatalog(papers=[_paper("moex", "nurse")], review_queue=[]),
+                aliases=[alias_rule],
+                failures=[stale_failure],
+                manifest=SourceManifest(provider_id="moex"),
+            )
+            args = build_parser().parse_args(
+                [
+                    "sync-incremental", "--years", "1", "--provider", "moex",
+                    "--data-dir", str(data_dir),
+                    "--mirror-dir", str(root / "mirror"),
+                    "--bundle-dir", str(root / "bundles"),
+                    "--aliases", str(data_dir / "aliases.json"),
+                    "--manifest", str(data_dir / "source-manifest.json"),
+                ]
+            )
+
+            exit_code = command_sync(args, client=CleanClient())
+
+            self.assertEqual(exit_code, 0)
+            _pages, _catalog, provider_failures = load_provider_state(provider)
+            self.assertEqual([failure.source_exam_id for failure in provider_failures], ["085210"])
+
     @patch("app.cli.write_data_files")
     @patch("app.cli.build_bundles")
     @patch("app.cli.sync_exam_pages")
