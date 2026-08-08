@@ -140,11 +140,34 @@ def report(workflow: str, conclusion: str, run_url: str) -> int:
     return 0
 
 
-def _scheduled_workflow_paths() -> set[str]:
+def _interval_days(text: str) -> int:
+    # A cron's cadence decides how long silence is allowed to mean nothing. The
+    # fields are `minute hour day-of-month month day-of-week`, so a restricted
+    # day-of-month runs monthly, a restricted day-of-week runs weekly, and
+    # anything else runs at least daily. A workflow with several crons is only
+    # as quiet as its most frequent one.
+    intervals = []
+    for line in text.splitlines():
+        _, _, expression = line.partition("cron:")
+        fields = expression.strip().strip("\"'").split()
+        if len(fields) != 5:
+            continue
+        day_of_month, day_of_week = fields[2], fields[4]
+        if day_of_month != "*":
+            intervals.append(31)
+        elif day_of_week != "*":
+            intervals.append(7)
+        else:
+            intervals.append(1)
+    return min(intervals, default=1)
+
+
+def _scheduled_workflow_paths() -> dict[str, int]:
     # Read the checked-out workflow files rather than guessing from the API:
     # only a `schedule:` trigger makes a staleness window meaningful, and this
-    # is the same source the workflow_run list is generated from.
-    paths = set()
+    # is the same source the workflow_run list is generated from. The value is
+    # the workflow's cadence in days, which sets its staleness window.
+    paths = {}
     for path in sorted(WORKFLOWS_DIR.glob("*.yml")):
         # This workflow is excluded for the same reason it is absent from its
         # own workflow_run list. Its staleness pass runs before that same run
@@ -153,8 +176,9 @@ def _scheduled_workflow_paths() -> set[str]:
         # workflow_run, which it does not receive for itself.
         if path.name == SELF_WORKFLOW:
             continue
-        if "\n  schedule:\n" in path.read_text(encoding="utf-8"):
-            paths.add(f".github/workflows/{path.name}")
+        text = path.read_text(encoding="utf-8")
+        if "\n  schedule:\n" in text:
+            paths[f".github/workflows/{path.name}"] = _interval_days(text)
     return paths
 
 
@@ -163,7 +187,11 @@ def _scheduled_workflows(repository: str) -> list[dict]:
     payload = _gh_api(f"repos/{repository}/actions/workflows", "-X", "GET", "-f", "per_page=100")
     workflows = (payload or {}).get("workflows", [])
     scheduled = _scheduled_workflow_paths()
-    return [w for w in workflows if w.get("state") == "active" and w.get("path") in scheduled]
+    return [
+        {**w, "interval_days": scheduled[w["path"]]}
+        for w in workflows
+        if w.get("state") == "active" and w.get("path") in scheduled
+    ]
 
 
 def _last_success(repository: str, workflow_id: int) -> datetime | None:
@@ -182,18 +210,27 @@ def _last_success(repository: str, workflow_id: int) -> datetime | None:
 
 def stale(max_age_days: int) -> int:
     repository = _repository()
-    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
+    now = datetime.now(timezone.utc)
     unhealthy = 0
 
     for workflow in _scheduled_workflows(repository):
         name = workflow["name"]
+        # A flat window cannot judge every cadence: audit-recent runs on the 1st
+        # of the month, so a fixed 14 days marked it stale from the 15th onwards
+        # every month no matter how healthy it was. Allow two missed runs, which
+        # is exactly what 14 days already meant for the weekly syncs that make up
+        # every other scheduled workflow here. Losing tightness on the monthly
+        # one costs nothing: an outright failure is reported the moment it
+        # happens by the workflow_run pass, and this pass only exists to catch a
+        # schedule that silently stopped firing at all.
+        window = max(max_age_days, 2 * workflow["interval_days"])
         last = _last_success(repository, workflow["id"])
-        if last is not None and last >= cutoff:
+        if last is not None and last >= now - timedelta(days=window):
             continue
 
-        age = "never" if last is None else f"{(datetime.now(timezone.utc) - last).days} days ago"
+        age = "never" if last is None else f"{(now - last).days} days ago"
         body = (
-            f"`{name}` has no successful scheduled run within the last {max_age_days} days "
+            f"`{name}` has no successful scheduled run within the last {window} days "
             f"(last success: {age}).\n\n"
             "A scheduled sync that stops succeeding silently leaves the published catalog stale."
         )

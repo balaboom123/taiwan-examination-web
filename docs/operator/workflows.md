@@ -99,9 +99,12 @@ Operator expectations:
 
 - one open issue per unhealthy workflow, labelled `workflow-health`, closed
   automatically as soon as that workflow succeeds again
-- the daily run additionally reports any scheduled workflow with no successful
-  scheduled run in 14 days, which is what a workflow that stops firing
-  altogether looks like
+- the daily run additionally reports any scheduled workflow that has missed two
+  consecutive runs, which is what a workflow that stops firing altogether looks
+  like. The window follows each workflow's own cron cadence, with a floor of 14
+  days: 14 for the weekly syncs, 62 for monthly `audit-recent`. Only a
+  `schedule` run clears it, because a manual dispatch proves nothing about
+  whether the schedule still fires.
 
 ### `deploy-pages.yml`
 
