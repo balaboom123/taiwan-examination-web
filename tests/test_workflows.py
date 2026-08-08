@@ -4,6 +4,7 @@ import json
 import re
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest import mock
 
@@ -1055,6 +1056,45 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertIn(".github/workflows/audit-recent.yml", scheduled)
         self.assertNotIn(".github/workflows/sync-full.yml", scheduled)
         self.assertNotIn(".github/workflows/ci.yml", scheduled)
+
+    def test_staleness_window_follows_each_workflow_cadence(self) -> None:
+        module = _load_health_script()
+
+        self.assertEqual(module._interval_days('    - cron: "15 3 * * 1"'), 7)
+        self.assertEqual(module._interval_days('    - cron: "45 3 1 * *"'), 31)
+        self.assertEqual(module._interval_days('    - cron: "20 3 * * *"'), 1)
+        # The most frequent cron is the one silence should be measured against.
+        self.assertEqual(
+            module._interval_days('- cron: "45 3 1 * *"\n- cron: "20 3 * * *"'), 1
+        )
+
+    def test_a_monthly_workflow_is_not_stale_three_weeks_after_it_ran(self) -> None:
+        # audit-recent runs on the 1st. A flat 14-day window reported it stale
+        # from the 15th of every month however healthy it was, which is noise
+        # that trains the operator to ignore the label.
+        module = _load_health_script()
+        workflows = [{"id": 1, "name": "audit-recent", "interval_days": 31}]
+        last = datetime.now(timezone.utc) - timedelta(days=21)
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_scheduled_workflows", return_value=workflows), \
+                mock.patch.object(module, "_last_success", return_value=last), \
+                mock.patch.object(module.subprocess, "run") as run_mock:
+            module.stale(14)
+
+        run_mock.assert_not_called()
+
+    def test_a_weekly_workflow_is_still_stale_after_two_missed_runs(self) -> None:
+        module = _load_health_script()
+        workflows = [{"id": 1, "name": "sync-incremental", "interval_days": 7}]
+        last = datetime.now(timezone.utc) - timedelta(days=21)
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_scheduled_workflows", return_value=workflows), \
+                mock.patch.object(module, "_last_success", return_value=last), \
+                mock.patch.object(module, "_open_health_issue", return_value=None), \
+                mock.patch.object(module, "_create_issue") as create_mock:
+            module.stale(14)
+
+        create_mock.assert_called_once()
 
     def test_staleness_never_reports_the_health_workflow_against_itself(self) -> None:
         # Its staleness pass runs before that same run can succeed, so it would
