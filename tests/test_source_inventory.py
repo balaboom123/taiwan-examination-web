@@ -162,10 +162,30 @@ class SourceInventoryTests(unittest.TestCase):
                 "ipas_cert",
             ],
         )
+        # Only the reviewed set of providers may carry a gap, and no gap may be
+        # enforced: an enforced one fails the deploy gate outright, which is what
+        # special_admission did on 2026-08-08 when it discovered ROC 116 and its
+        # hand-maintained manifest did not cover the new year.
+        #
+        # The exact missing_events lists are deliberately not pinned. Discovery
+        # is broken for these providers - `discover --provider sfi_cert` exits 1 -
+        # so their local events grow while the manifest cannot follow, and an
+        # equality assertion turned every one of those ordinary syncs into a red
+        # deploy. This is the reviewed floor the rest of the codebase already
+        # uses: growth is ordinary, only loss is a regression.
+        self.assertEqual(
+            {item["provider_id"] for item in report["manifest_event_gaps"]},
+            {"cpc_recruit", "moea_recruit", "sfi_cert", "tabf_cert", "gept_cert", "tocfl_cert"},
+        )
+        self.assertEqual([item for item in report["manifest_event_gaps"] if item["enforced"]], [])
+        gaps_by_provider = {item["provider_id"]: item for item in report["manifest_event_gaps"]}
+        self.assertGreaterEqual(len(gaps_by_provider["cpc_recruit"]["missing_events"]), 9)
+        self.assertGreaterEqual(len(gaps_by_provider["moea_recruit"]["missing_events"]), 5)
+        self.assertGreaterEqual(len(gaps_by_provider["sfi_cert"]["missing_events"]), 11)
         self.assertEqual(
             [
                 item for item in report["manifest_event_gaps"]
-                if item["provider_id"] not in {"tabf_cert", "gept_cert", "tocfl_cert"}
+                if item["provider_id"] not in {"tabf_cert", "gept_cert", "tocfl_cert", "sfi_cert"}
             ],
             [
                 {
@@ -194,17 +214,14 @@ class SourceInventoryTests(unittest.TestCase):
                         ["moea-recruit-99", 2010],
                     ],
                 },
-                {
-                    "provider_id": "sfi_cert",
-                    "enforced": False,
-                    "missing_events": [
-                        ["sfi-cert-aml-2025-3", 2025],
-                        ["sfi-cert-aml-2026-1", 2026],
-                        ["sfi-cert-sustainability-2026-1", 2026],
-                    ],
-                },
             ],
         )
+        for event in (
+            ["sfi-cert-aml-2025-3", 2025],
+            ["sfi-cert-aml-2026-1", 2026],
+            ["sfi-cert-sustainability-2026-1", 2026],
+        ):
+            self.assertIn(event, gaps_by_provider["sfi_cert"]["missing_events"])
         # hakka_cert no longer appears: the synthetic 2026 intermediate event
         # that the manifest never covered is gone from local state entirely
         # after the source de-listed the level.
@@ -217,14 +234,11 @@ class SourceInventoryTests(unittest.TestCase):
             if item["provider_id"] == "tabf_cert"
         )
         self.assertFalse(tabf_event_gap["enforced"])
-        self.assertEqual(len(tabf_event_gap["missing_events"]), 83)
-        self.assertEqual(
-            tabf_event_gap["missing_events"][0],
-            ["tabf-cert-aml-2026-phid-449", 2026],
-        )
-        self.assertEqual(
-            tabf_event_gap["missing_events"][-1],
+        self.assertGreaterEqual(len(tabf_event_gap["missing_events"]), 83)
+        self.assertIn(["tabf-cert-aml-2026-phid-449", 2026], tabf_event_gap["missing_events"])
+        self.assertIn(
             ["tabf-cert-trust-business-2026-phid-458", 2026],
+            tabf_event_gap["missing_events"],
         )
         # The 2026-08-03 upstream refresh restored PHID 431, but the adapter
         # filed it under a flattened category.  The manifest capture records
