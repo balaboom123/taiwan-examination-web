@@ -199,6 +199,50 @@ def _merge_discovery_manifest(
     return manifest
 
 
+def _discovery_coverage(manifest) -> dict[str, list[str]]:
+    return {year: sorted(entry.get("exam_codes", [])) for year, entry in manifest.years.items()}
+
+
+def _refresh_manifest_from_sync(args: argparse.Namespace, provider, provider_id: str, discoveries: list[tuple[int, list]]):
+    """Record the events this sync discovered in the provider's own manifest.
+
+    The deploy gate requires source-manifest.json to cover every local event, but
+    nothing in the automation ever refreshed it: discover.yml is dispatch-only
+    and does not even pass --write-manifest. So the first newly announced exam
+    year for any provider jammed publication until a human regenerated the
+    snapshot - special_admission discovered ROC 116 on 2026-08-08 and deploys
+    stayed red for a day.
+
+    The existing --write-manifest flag cannot do this. It goes through
+    probe_latest, which returns 1 for a provider with no probe URL model -
+    special_admission among them - and it is gated on the sync having no
+    failures at all.
+
+    Returns the manifest only when discovered coverage actually changed, so an
+    ordinary sync that finds nothing new leaves no diff behind, and None when
+    the provider cannot enumerate its own source. Those providers already carry
+    reviewed, non-enforced manifest gaps; failing their sync over it would be a
+    regression, not a fix.
+    """
+    if not discoveries:
+        return None
+    year_url_builder, exam_url_builder = _discovery_url_builders(provider, provider_id)
+    if year_url_builder is None or exam_url_builder is None:
+        return None
+    manifest = load_source_manifest(_resolve_sync_manifest_path(args, provider_id), provider_id=provider_id)
+    before = _discovery_coverage(manifest)
+    _merge_discovery_manifest(
+        manifest,
+        discoveries,
+        captured_at=datetime.now().astimezone().isoformat(),
+        year_url_builder=year_url_builder,
+        exam_url_builder=exam_url_builder,
+    )
+    if _discovery_coverage(manifest) == before:
+        return None
+    return manifest
+
+
 def command_discover(args: argparse.Namespace, client: SourceProvider | None = None) -> int:
     client = _provider_for_args(args, client)
     provider_id = _provider_id_for_args(args, client)
@@ -581,9 +625,13 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
     all_review_queue: list = []
     all_sync_failures: list = []
 
+    discoveries: list[tuple[int, list]] = []
+
     for year in years:
         try:
-            exam_codes = [(exam.code, exam.year_ad) for exam in provider.discover_exams(year)]
+            discovered_exams = provider.discover_exams(year)
+            discoveries.append((year, discovered_exams))
+            exam_codes = [(exam.code, exam.year_ad) for exam in discovered_exams]
         except Exception as exc:
             print(f"Year {year}: failed to discover exams: {exc}")
             all_sync_failures.append(
@@ -696,6 +744,11 @@ def command_sync(args: argparse.Namespace, client: SourceProvider | None = None)
         result = probe_latest(client=provider, manifest=manifest, year_window=len(years), now=datetime.now().astimezone().isoformat())
         provider_manifest = result.updated_manifest
         write_source_manifest(manifest_path, provider_manifest)
+    if provider_manifest is None:
+        # Keep the discovery snapshot in step with the events this sync just
+        # persisted, in the same commit, so a newly announced exam year cannot
+        # block the deploy gate. write_provider_state does the writing.
+        provider_manifest = _refresh_manifest_from_sync(args, provider, provider_id, discoveries)
     write_provider_state(
         provider_state,
         raw_pages=provider_raw_pages,
