@@ -69,6 +69,43 @@ def _bundle_key(bundle: BundleAsset) -> str:
     return bundle.bundle_id or bundle.canonical_id
 
 
+def _parsed_paper_key(paper: ParsedPaper) -> tuple[str, str]:
+    return paper.category_code, paper.subject_code
+
+
+def _normalized_paper_key(paper: NormalizedPaper) -> tuple[str, str, str]:
+    return paper.category_code, paper.subject_code, paper.file_type
+
+
+def _retain_delisted_papers(
+    existing_raw_pages: list[SourceExamPage],
+    refreshed_raw_pages: list[SourceExamPage],
+) -> list[SourceExamPage]:
+    """Carry forward papers a still-listed event has stopped offering.
+
+    daddce4 stopped a source dropping a whole event from deleting its papers,
+    but left the case where the event survives and only some of its papers
+    disappear. CPC re-scoped its 2009/2012/2019 archive pages to doctoral entries
+    on 2026-08-08 and the three delisted files still returned HTTP 200, so a
+    plain replace would have destroyed records whose bytes were still being
+    served. Only the source-floor guard caught it.
+
+    This runs solely over events this sync actually refreshed, so the explicit
+    removal path in merge_targeted_state keeps deleting what it is told to.
+    """
+    existing_by_exam = {page.source_exam_id: page for page in existing_raw_pages}
+    merged = []
+    for page in refreshed_raw_pages:
+        previous = existing_by_exam.get(page.source_exam_id)
+        if previous is None:
+            merged.append(page)
+            continue
+        refreshed_keys = {_parsed_paper_key(paper) for paper in page.papers}
+        delisted = [paper for paper in previous.papers if _parsed_paper_key(paper) not in refreshed_keys]
+        merged.append(replace(page, papers=[*page.papers, *delisted]) if delisted else page)
+    return merged
+
+
 def _merge_state(
     existing_raw_pages: list[SourceExamPage],
     existing_catalog: NormalizedCatalog,
@@ -77,8 +114,27 @@ def _merge_state(
     refreshed_catalog: NormalizedCatalog,
     replaced_exam_ids: set[str],
 ) -> tuple[list[SourceExamPage], NormalizedCatalog, list[BundleAsset], set[str], dict[str, list[str]]]:
-    merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in replaced_exam_ids] + refreshed_raw_pages
-    merged_papers = [paper for paper in existing_catalog.papers if paper.source_exam_id not in replaced_exam_ids] + refreshed_catalog.papers
+    merged_raw_pages = [page for page in existing_raw_pages if page.source_exam_id not in replaced_exam_ids] + _retain_delisted_papers(
+        existing_raw_pages, refreshed_raw_pages
+    )
+    # The normalized side has to retain exactly what the raw side did, or the
+    # catalog and the pages it is derived from disagree and the retained file
+    # loses the reference that keeps --prune-orphaned-mirror away from it.
+    refreshed_exam_ids = {page.source_exam_id for page in refreshed_raw_pages}
+    refreshed_paper_keys = {
+        (paper.source_exam_id, _normalized_paper_key(paper)) for paper in refreshed_catalog.papers
+    }
+    delisted_papers = [
+        paper
+        for paper in existing_catalog.papers
+        if paper.source_exam_id in refreshed_exam_ids
+        and (paper.source_exam_id, _normalized_paper_key(paper)) not in refreshed_paper_keys
+    ]
+    merged_papers = (
+        [paper for paper in existing_catalog.papers if paper.source_exam_id not in replaced_exam_ids]
+        + refreshed_catalog.papers
+        + delisted_papers
+    )
     merged_review_queue = [item for item in existing_catalog.review_queue if item.source_exam_id not in replaced_exam_ids] + refreshed_catalog.review_queue
     migrations = _derive_canonical_migrations(existing_catalog, refreshed_catalog, replaced_exam_ids)
     merged_catalog = _apply_canonical_migrations(
