@@ -1,3 +1,4 @@
+import argparse
 import io
 import json
 import subprocess
@@ -7,6 +8,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
+from app import cli
 from app.manifest import SourceManifest, write_source_manifest
 from app.cli import _download_affected_bundles, build_parser, command_discover, command_repair_failures, command_sync, main, run_probe_latest, run_sync_targeted
 from app.crawler import DownloadedFile, ResponseMetadata, make_result_url
@@ -2169,3 +2171,62 @@ class CliCommandTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SyncManifestRefreshTests(unittest.TestCase):
+    """special_admission discovered ROC 116 on 2026-08-08 and committed the
+    event, but source-manifest.json is a hand-maintained snapshot that nothing
+    in the automation refreshes, so the deploy gate rejected the repository for
+    a day. A sync now records what it discovered in the same commit.
+    """
+
+    class _Provider:
+        provider_id = "fake"
+
+        def build_discovery_year_url(self, year_ad):
+            return f"https://example.test/year/{year_ad}"
+
+        def build_discovery_exam_url(self, code, year_ad):
+            return f"https://example.test/exam/{code}"
+
+    class _NoBuilderProvider:
+        provider_id = "fake"
+
+    def _args(self, manifest_path):
+        return argparse.Namespace(manifest=manifest_path, data_dir=None, mirror_dir=None)
+
+    def _discovery(self, codes):
+        return [(2027, [ExamOption(code=code, year_ad=2027, year_roc=116, label=code) for code in codes])]
+
+    def test_a_newly_discovered_year_is_written_into_the_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            manifest = cli._refresh_manifest_from_sync(
+                self._args(path), self._Provider(), "fake", self._discovery(["special-admission-116"])
+            )
+
+        self.assertIsNotNone(manifest)
+        self.assertEqual(manifest.years["2027"]["exam_codes"], ["special-admission-116"])
+
+    def test_a_sync_that_discovers_nothing_new_leaves_no_diff(self) -> None:
+        # Otherwise every scheduled sync of all 34 providers rewrites a
+        # timestamp and commits a manifest nobody changed.
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            args = self._args(path)
+            first = cli._refresh_manifest_from_sync(args, self._Provider(), "fake", self._discovery(["exam-1"]))
+            write_source_manifest(path, first)
+            again = cli._refresh_manifest_from_sync(args, self._Provider(), "fake", self._discovery(["exam-1"]))
+
+        self.assertIsNone(again)
+
+    def test_a_provider_that_cannot_enumerate_its_source_is_left_alone(self) -> None:
+        # sfi_cert and friends already carry reviewed, non-enforced manifest
+        # gaps. Failing or rewriting their sync over this would be a regression.
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            manifest = cli._refresh_manifest_from_sync(
+                self._args(path), self._NoBuilderProvider(), "fake", self._discovery(["exam-1"])
+            )
+
+        self.assertIsNone(manifest)
