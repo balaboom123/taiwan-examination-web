@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from app.history_audit import build_history_coverage_audit, history_audit_exit_code
-from app.models import BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, SourceExamPage
+from app.models import BundleAsset, ExamOption, NormalizedCatalog, NormalizedPaper, ParsedPaper, SourceExamPage
 from app.paths import provider_paths, site_paths
 from app.publisher import write_provider_state, write_site_state
 
@@ -156,6 +156,64 @@ class HistoryAuditTests(unittest.TestCase):
 
         self.assertEqual(report["providers"][0]["source_probe"]["status"], "not_requested")
         self.assertEqual(report["summary"]["parser_gap"], 0)
+
+
+class AnnouncedEventTests(unittest.TestCase):
+    """special_admission discovered 116學年度身心障礙學生升學大專校院甄試 on
+    2026-08-08. The exam is announced but not yet held, so its page lists no
+    papers, and treating that as a normalization gap failed the strict audit and
+    blocked every deploy for a day.
+    """
+
+    def _audit(self, papers: list) -> dict:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            provider = provider_paths(root, "moex")
+            write_provider_state(
+                provider,
+                raw_pages=[
+                    SourceExamPage(
+                        provider_id="moex",
+                        source_exam_id="116010",
+                        year_ad=2027,
+                        year_roc=116,
+                        exam_name_raw="announced but not yet held",
+                        attachments=[],
+                        papers=papers,
+                    )
+                ],
+                normalized=NormalizedCatalog(papers=[], review_queue=[]),
+                aliases=[],
+                failures=[],
+                manifest=None,
+            )
+            write_site_state(site_paths(root, "default"), [], [])
+            return build_history_coverage_audit(root, provider_ids=["moex"])
+
+    def test_an_event_whose_source_lists_no_papers_does_not_fail_the_gate(self) -> None:
+        report = self._audit([])
+
+        self.assertEqual(report["providers"][0]["events"][0]["status"], "awaiting_papers")
+        self.assertEqual(report["summary"].get("normalization_gap", 0), 0)
+        self.assertEqual(history_audit_exit_code(report, strict=True), 0)
+
+    def test_a_page_that_lists_papers_but_normalizes_none_is_still_a_gap(self) -> None:
+        # The guard this check exists for must keep working: papers on the page
+        # and nothing in the catalog means normalization dropped them.
+        report = self._audit(
+            [
+                ParsedPaper(
+                    category_raw="category",
+                    category_code="101",
+                    subject_code="0101",
+                    subject_name_raw="subject",
+                    files={"question": "https://example.test/question.pdf"},
+                )
+            ]
+        )
+
+        self.assertEqual(report["providers"][0]["events"][0]["status"], "normalization_gap")
+        self.assertEqual(history_audit_exit_code(report, strict=True), 1)
 
 
 if __name__ == "__main__":

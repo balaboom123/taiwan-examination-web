@@ -207,7 +207,18 @@ def build_history_coverage_audit(
             elif failure_status is not None:
                 status = failure_status
             elif not papers and event_key in raw_by_event:
-                status = "normalization_gap"
+                # A source page that lists no papers has nothing to normalize, so
+                # calling that a normalization gap is a false positive. It failed
+                # the strict audit and blocked every deploy on 2026-08-09, when
+                # special_admission discovered 116學年度身心障礙學生升學大專校院甄試
+                # - announced, not yet held, no papers to publish.
+                #
+                # has_current_material is exactly the discriminator: at this
+                # branch there are no papers and no failures, so it is true only
+                # when the raw page itself carried papers or attachments. A page
+                # that did list papers and still normalized none is a real gap
+                # and stays one.
+                status = "normalization_gap" if has_current_material else "awaiting_papers"
             elif papers and unpublished_bundle_ids:
                 status = "normalized_not_published"
             elif papers:
