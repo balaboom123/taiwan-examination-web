@@ -1,7 +1,7 @@
 import unittest
 from urllib.parse import quote
 
-from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper, ReviewItem, SourceExamPage
+from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper, ParsedPaper, ReviewItem, SourceExamPage
 from app.state import merge_incremental_state, merge_targeted_state
 
 
@@ -361,6 +361,116 @@ class IncrementalStateTests(unittest.TestCase):
         self.assertEqual({bundle.canonical_id for bundle in preserved_bundles}, {"nurse"})
         self.assertEqual(affected_canonical_ids, {"doctor"})
         self.assertEqual(canonical_aliases, {})
+
+
+class DelistedPaperRetentionTests(unittest.TestCase):
+    """CPC re-scoped its archive pages on 2026-08-08 and delisted three papers
+    whose files still returned HTTP 200. The event itself survived, so the
+    event-level retention from daddce4 did not apply and a plain replace dropped
+    them; only the source floor caught it.
+    """
+
+    def _page(self, papers):
+        return SourceExamPage(
+            source_exam_id="cpc-recruit-98",
+            year_ad=2009,
+            year_roc=98,
+            exam_name_raw="98年中油公司新進人員甄試",
+            attachments=[],
+            papers=papers,
+        )
+
+    def _parsed(self, subject_code, name):
+        return ParsedPaper(
+            category_raw="中油新進人員甄試",
+            category_code="98",
+            subject_code=subject_code,
+            subject_name_raw=name,
+            files={"question": f"https://example/{subject_code}.pdf"},
+            mirror_files={"question": {"storage_key": f"providers/cpc_recruit/{subject_code}/question.pdf"}},
+        )
+
+    def _normalized(self, subject_code, name):
+        return NormalizedPaper(
+            canonical_id="cpc-recruit",
+            canonical_name="中油新進人員甄試",
+            year_roc=98,
+            exam_name_raw="98年中油公司新進人員甄試",
+            category_raw="中油新進人員甄試",
+            category_code="98",
+            source_exam_id="cpc-recruit-98",
+            subject_code=subject_code,
+            subject_name_raw=name,
+            paper_code=f"98-{subject_code}-question",
+            file_type="question",
+            download_url_source=f"https://example/{subject_code}.pdf",
+            storage_key=f"providers/cpc_recruit/{subject_code}/question.pdf",
+        )
+
+    def test_a_paper_the_event_stopped_listing_is_retained(self) -> None:
+        existing_pages = [self._page([self._parsed("phd-01", "博士甄試試題"), self._parsed("hire-02", "雇用人員")])]
+        existing_catalog = NormalizedCatalog(
+            papers=[self._normalized("phd-01", "博士甄試試題"), self._normalized("hire-02", "雇用人員")],
+            review_queue=[],
+        )
+        refreshed_pages = [self._page([self._parsed("phd-01", "博士甄試試題")])]
+        refreshed_catalog = NormalizedCatalog(papers=[self._normalized("phd-01", "博士甄試試題")], review_queue=[])
+
+        merged_raw_pages, merged_catalog, _bundles, _affected, _aliases = merge_incremental_state(
+            existing_raw_pages=existing_pages,
+            existing_catalog=existing_catalog,
+            existing_bundles=[],
+            refreshed_raw_pages=refreshed_pages,
+            refreshed_catalog=refreshed_catalog,
+        )
+
+        self.assertEqual(
+            sorted(paper.subject_code for paper in merged_raw_pages[0].papers),
+            ["hire-02", "phd-01"],
+        )
+        self.assertEqual(
+            sorted(paper.subject_code for paper in merged_catalog.papers),
+            ["hire-02", "phd-01"],
+        )
+        # The retained raw entry must keep its mirror reference, or
+        # --prune-orphaned-mirror deletes the file the record still points at.
+        retained = next(p for p in merged_raw_pages[0].papers if p.subject_code == "hire-02")
+        self.assertEqual(retained.mirror_files["question"]["storage_key"], "providers/cpc_recruit/hire-02/question.pdf")
+
+    def test_a_refreshed_paper_is_replaced_not_duplicated(self) -> None:
+        existing_pages = [self._page([self._parsed("phd-01", "old name")])]
+        existing_catalog = NormalizedCatalog(papers=[self._normalized("phd-01", "old name")], review_queue=[])
+        refreshed_pages = [self._page([self._parsed("phd-01", "new name")])]
+        refreshed_catalog = NormalizedCatalog(papers=[self._normalized("phd-01", "new name")], review_queue=[])
+
+        merged_raw_pages, merged_catalog, _bundles, _affected, _aliases = merge_incremental_state(
+            existing_raw_pages=existing_pages,
+            existing_catalog=existing_catalog,
+            existing_bundles=[],
+            refreshed_raw_pages=refreshed_pages,
+            refreshed_catalog=refreshed_catalog,
+        )
+
+        self.assertEqual([p.subject_name_raw for p in merged_raw_pages[0].papers], ["new name"])
+        self.assertEqual([p.subject_name_raw for p in merged_catalog.papers], ["new name"])
+
+    def test_targeted_removal_still_deletes_the_papers_it_was_told_to(self) -> None:
+        # Retention must not resurrect a deliberate removal: it only applies to
+        # events this run actually refreshed.
+        existing_pages = [self._page([self._parsed("phd-01", "博士甄試試題")])]
+        existing_catalog = NormalizedCatalog(papers=[self._normalized("phd-01", "博士甄試試題")], review_queue=[])
+
+        merged_raw_pages, merged_catalog, _bundles, _affected, _aliases = merge_targeted_state(
+            existing_raw_pages=existing_pages,
+            existing_catalog=existing_catalog,
+            existing_bundles=[],
+            refreshed_raw_pages=[],
+            refreshed_catalog=NormalizedCatalog(papers=[], review_queue=[]),
+            removed_exam_ids={"cpc-recruit-98"},
+        )
+
+        self.assertEqual(merged_raw_pages, [])
+        self.assertEqual(merged_catalog.papers, [])
 
 
 if __name__ == "__main__":
