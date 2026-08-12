@@ -118,6 +118,10 @@ def _close(repository: str, number: int, body: str) -> None:
     )
 
 
+def _is_staleness_issue(issue: dict) -> bool:
+    return "has no successful" in str(issue.get("body", ""))
+
+
 def report(workflow: str, conclusion: str, run_url: str) -> int:
     repository = _repository()
     existing = _open_health_issue(repository, workflow)
@@ -228,6 +232,14 @@ def stale(max_age_days: int) -> int:
         window = max(max_age_days, 2 * workflow["interval_days"])
         last = _last_success(repository, workflow["id"])
         if last is not None and last >= now - timedelta(days=window):
+            existing = _open_health_issue(repository, name)
+            if existing is not None and _is_staleness_issue(existing):
+                _close(
+                    repository,
+                    existing["number"],
+                    f"`{name}` has a recent successful run again.",
+                )
+                print(f"closed obsolete staleness issue #{existing['number']} for {name}")
             continue
 
         age = "never" if last is None else f"{(now - last).days} days ago"
