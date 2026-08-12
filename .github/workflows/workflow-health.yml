@@ -3,7 +3,8 @@ name: workflow-health
 # Nothing reacted to a failed scheduled run before this workflow existed, so
 # sync-incremental failed every week from 2026-07-13 to 2026-08-03 unnoticed
 # while 86% of the published catalog went stale. One open issue is kept per
-# unhealthy workflow and closed again as soon as that workflow succeeds.
+# unhealthy workflow and closed again as soon as that workflow succeeds. A
+# repeated failure leaves that issue open without adding notification comments.
 
 on:
   workflow_run:
@@ -56,10 +57,6 @@ permissions:
   contents: read
   issues: write
 
-concurrency:
-  group: workflow-health
-  cancel-in-progress: false
-
 jobs:
   report:
     if: github.event_name == 'workflow_run'
@@ -89,7 +86,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Report workflows without a recent successful scheduled run
+      - name: Report scheduled workflows without a recent successful run
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}

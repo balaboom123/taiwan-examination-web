@@ -984,6 +984,14 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("issues: write", workflow)
 
+    def test_health_workflow_does_not_drop_bursty_completion_events(self) -> None:
+        # GitHub keeps at most one pending run in a concurrency group, even when
+        # cancel-in-progress is false. Provider jobs often finish together, so
+        # one global group silently discarded the older pending health events.
+        workflow = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertNotIn("\nconcurrency:\n", workflow)
+
     def test_report_opens_one_issue_for_a_failing_workflow(self) -> None:
         module = _load_health_script()
         with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
@@ -997,7 +1005,7 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertIn("Workflow health: sync-incremental", payload)
         self.assertIn("https://example/run/1", payload)
 
-    def test_report_comments_instead_of_opening_a_duplicate_issue(self) -> None:
+    def test_report_does_not_repeat_notifications_for_an_open_issue(self) -> None:
         module = _load_health_script()
         existing = [{"title": "Workflow health: sync-incremental", "number": 42}]
         with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
@@ -1006,7 +1014,7 @@ class WorkflowHealthTest(unittest.TestCase):
             module.report("sync-incremental", "failure", "https://example/run/2")
 
         paths = [call.args[0][2] for call in run_mock.call_args_list]
-        self.assertIn("repos/o/r/issues/42/comments", paths)
+        self.assertNotIn("repos/o/r/issues/42/comments", paths)
         self.assertNotIn("repos/o/r/issues", paths)
 
     def test_report_closes_the_issue_when_the_workflow_recovers(self) -> None:
@@ -1047,6 +1055,19 @@ class WorkflowHealthTest(unittest.TestCase):
                 if any(arg == "-f" for arg in argv):
                     self.assertIn("-X", argv)
                     self.assertEqual(argv[argv.index("-X") + 1], "GET")
+
+    def test_manual_recovery_counts_as_a_recent_success(self) -> None:
+        module = _load_health_script()
+        recovered_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        with mock.patch.object(module.subprocess, "run") as run_mock:
+            run_mock.return_value = mock.Mock(
+                stdout=json.dumps({"workflow_runs": [{"created_at": recovered_at}]})
+            )
+            self.assertIsNotNone(module._last_success("o/r", 1))
+
+        argv = run_mock.call_args.args[0]
+        self.assertIn("status=success", argv)
+        self.assertNotIn("event=schedule", argv)
 
     def test_staleness_only_considers_workflows_that_actually_have_a_schedule(self) -> None:
         module = _load_health_script()
