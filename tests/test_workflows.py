@@ -611,6 +611,29 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn("concurrency:", workflow)
             self.assertIn("timeout-minutes:", workflow)
 
+    def test_every_workflow_job_has_an_explicit_timeout(self) -> None:
+        workflows_dir = REPO_ROOT / ".github" / "workflows"
+
+        for workflow_path in sorted(workflows_dir.glob("*.yml")):
+            workflow = workflow_path.read_text(encoding="utf-8")
+            with self.subTest(workflow=workflow_path.name):
+                self.assertEqual(
+                    workflow.count("runs-on:"),
+                    workflow.count("timeout-minutes:"),
+                    f"{workflow_path.name} has a job without an explicit timeout",
+                )
+
+    def test_manual_discovery_is_read_only_bounded_and_uploads_its_result(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "discover.yml").read_text(encoding="utf-8")
+
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("schedule:", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertIn("timeout-minutes: 60", workflow)
+        self.assertIn("python -m app discover > discover.json", workflow)
+        self.assertIn("uses: actions/upload-artifact@", workflow)
+        self.assertNotIn("commit-and-push.sh", workflow)
+
     def test_cold_cache_workflows_have_full_hosted_timeout_budget(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         for workflow_name in ("sync-full.yml", "sync-incremental.yml", "audit-recent.yml", "sync-hakka-cert.yml"):
@@ -984,6 +1007,14 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("issues: write", workflow)
 
+    def test_health_workflow_does_not_drop_bursty_completion_events(self) -> None:
+        # GitHub keeps at most one pending run in a concurrency group, even when
+        # cancel-in-progress is false. Provider jobs often finish together, so
+        # one global group silently discarded the older pending health events.
+        workflow = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertNotIn("\nconcurrency:\n", workflow)
+
     def test_report_opens_one_issue_for_a_failing_workflow(self) -> None:
         module = _load_health_script()
         with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
@@ -997,7 +1028,7 @@ class WorkflowHealthTest(unittest.TestCase):
         self.assertIn("Workflow health: sync-incremental", payload)
         self.assertIn("https://example/run/1", payload)
 
-    def test_report_comments_instead_of_opening_a_duplicate_issue(self) -> None:
+    def test_report_does_not_repeat_notifications_for_an_open_issue(self) -> None:
         module = _load_health_script()
         existing = [{"title": "Workflow health: sync-incremental", "number": 42}]
         with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
@@ -1006,7 +1037,7 @@ class WorkflowHealthTest(unittest.TestCase):
             module.report("sync-incremental", "failure", "https://example/run/2")
 
         paths = [call.args[0][2] for call in run_mock.call_args_list]
-        self.assertIn("repos/o/r/issues/42/comments", paths)
+        self.assertNotIn("repos/o/r/issues/42/comments", paths)
         self.assertNotIn("repos/o/r/issues", paths)
 
     def test_report_closes_the_issue_when_the_workflow_recovers(self) -> None:
@@ -1048,6 +1079,52 @@ class WorkflowHealthTest(unittest.TestCase):
                     self.assertIn("-X", argv)
                     self.assertEqual(argv[argv.index("-X") + 1], "GET")
 
+    def test_manual_recovery_counts_as_a_recent_success(self) -> None:
+        module = _load_health_script()
+        recovered_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        with mock.patch.object(module.subprocess, "run") as run_mock:
+            run_mock.return_value = mock.Mock(
+                stdout=json.dumps({"workflow_runs": [{"created_at": recovered_at}]})
+            )
+            self.assertIsNotNone(module._last_success("o/r", 1))
+
+        argv = run_mock.call_args.args[0]
+        self.assertIn("status=success", argv)
+        self.assertNotIn("event=schedule", argv)
+
+    def test_staleness_closes_an_obsolete_issue_after_manual_recovery(self) -> None:
+        module = _load_health_script()
+        workflows = [{"id": 1, "name": "audit-recent", "interval_days": 31}]
+        existing = {
+            "number": 42,
+            "body": "`audit-recent` has no successful scheduled run within the last 62 days.",
+        }
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_scheduled_workflows", return_value=workflows), \
+                mock.patch.object(module, "_last_success", return_value=datetime.now(timezone.utc)), \
+                mock.patch.object(module, "_open_health_issue", return_value=existing), \
+                mock.patch.object(module, "_close") as close_mock:
+            module.stale(14)
+
+        close_mock.assert_called_once()
+        self.assertEqual(close_mock.call_args.args[:2], ("o/r", 42))
+
+    def test_staleness_does_not_close_a_newer_failure_issue(self) -> None:
+        module = _load_health_script()
+        workflows = [{"id": 1, "name": "sync-incremental", "interval_days": 7}]
+        existing = {
+            "number": 42,
+            "body": "`sync-incremental` concluded **failure**.",
+        }
+        with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(module, "_scheduled_workflows", return_value=workflows), \
+                mock.patch.object(module, "_last_success", return_value=datetime.now(timezone.utc)), \
+                mock.patch.object(module, "_open_health_issue", return_value=existing), \
+                mock.patch.object(module, "_close") as close_mock:
+            module.stale(14)
+
+        close_mock.assert_not_called()
+
     def test_staleness_only_considers_workflows_that_actually_have_a_schedule(self) -> None:
         module = _load_health_script()
         scheduled = module._scheduled_workflow_paths()
@@ -1078,6 +1155,7 @@ class WorkflowHealthTest(unittest.TestCase):
         with mock.patch.dict(module.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
                 mock.patch.object(module, "_scheduled_workflows", return_value=workflows), \
                 mock.patch.object(module, "_last_success", return_value=last), \
+                mock.patch.object(module, "_open_health_issue", return_value=None), \
                 mock.patch.object(module.subprocess, "run") as run_mock:
             module.stale(14)
 

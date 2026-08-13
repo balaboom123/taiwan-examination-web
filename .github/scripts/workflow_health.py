@@ -4,7 +4,8 @@ Nothing in this repository used to react to a failed scheduled run, so
 sync-incremental failed every week from 2026-07-13 to 2026-08-03 without
 anyone learning of it while 86% of the published catalog went stale. This
 script is the reaction: one open issue per unhealthy workflow, closed again
-as soon as that workflow succeeds.
+as soon as that workflow succeeds. Repeated failures remain visible in Actions
+without generating a fresh issue notification for every identical outcome.
 
 Requires the gh CLI with GH_TOKEN set.
 """
@@ -117,6 +118,10 @@ def _close(repository: str, number: int, body: str) -> None:
     )
 
 
+def _is_staleness_issue(issue: dict) -> bool:
+    return "has no successful" in str(issue.get("body", ""))
+
+
 def report(workflow: str, conclusion: str, run_url: str) -> int:
     repository = _repository()
     existing = _open_health_issue(repository, workflow)
@@ -127,8 +132,10 @@ def report(workflow: str, conclusion: str, run_url: str) -> int:
             _create_issue(repository, workflow, body)
             print(f"opened health issue for {workflow}")
         else:
-            _comment(repository, existing["number"], body)
-            print(f"updated health issue #{existing['number']} for {workflow}")
+            print(
+                f"health issue #{existing['number']} already tracks {workflow}; "
+                "suppressed duplicate notification"
+            )
         return 0
 
     if conclusion == "success" and existing is not None:
@@ -199,7 +206,6 @@ def _last_success(repository: str, workflow_id: int) -> datetime | None:
         f"repos/{repository}/actions/workflows/{workflow_id}/runs",
         "-X", "GET",
         "-f", "status=success",
-        "-f", "event=schedule",
         "-f", "per_page=1",
     )
     runs = (payload or {}).get("workflow_runs", [])
@@ -226,11 +232,19 @@ def stale(max_age_days: int) -> int:
         window = max(max_age_days, 2 * workflow["interval_days"])
         last = _last_success(repository, workflow["id"])
         if last is not None and last >= now - timedelta(days=window):
+            existing = _open_health_issue(repository, name)
+            if existing is not None and _is_staleness_issue(existing):
+                _close(
+                    repository,
+                    existing["number"],
+                    f"`{name}` has a recent successful run again.",
+                )
+                print(f"closed obsolete staleness issue #{existing['number']} for {name}")
             continue
 
         age = "never" if last is None else f"{(now - last).days} days ago"
         body = (
-            f"`{name}` has no successful scheduled run within the last {window} days "
+            f"`{name}` has no successful run within the last {window} days "
             f"(last success: {age}).\n\n"
             "A scheduled sync that stops succeeding silently leaves the published catalog stale."
         )
@@ -255,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
     report_parser.add_argument("--conclusion", required=True)
     report_parser.add_argument("--run-url", required=True)
 
-    stale_parser = sub.add_parser("stale", help="Report workflows with no recent successful scheduled run")
+    stale_parser = sub.add_parser("stale", help="Report scheduled workflows with no recent successful run")
     stale_parser.add_argument("--max-age-days", type=int, default=14)
 
     args = parser.parse_args(argv)
