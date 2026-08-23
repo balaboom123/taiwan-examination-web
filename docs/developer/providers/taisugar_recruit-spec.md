@@ -87,7 +87,7 @@ Taiwan Sugar's government-data declaration publishes copyrightable website data 
 
 `robots.txt` does not disallow the recruitment archive or `/upload/` assets. The source validates with the default TLS trust chain.
 
-The scheduled workflow is `.github/workflows/sync-taisugar-recruit.yml`. It runs provider sync and commits provider data without the complete aggregate test, publication, strict-history, frontend, or data-integrity gates. It should remain off a releasable branch until the provider migration and current-cycle scope are approved.
+The workflow `.github/workflows/sync-taisugar-recruit.yml` is manual-only. It runs provider sync and commits provider data without the complete aggregate test, publication, strict-history, frontend, or data-integrity gates. Do not dispatch it until the provider migration and current-cycle scope are approved and the operator is prepared to rebuild the default-site metadata and publish the matching release asset in the same controlled change.
 
 ## Safe Migration Sequence
 

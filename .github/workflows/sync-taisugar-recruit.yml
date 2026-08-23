@@ -1,9 +1,10 @@
 name: sync-taisugar-recruit
 
 on:
+  # The corrected provider discovers seven additional historical events. Keep
+  # this manual until that reviewed migration can rebuild the default site and
+  # publish its release asset in the same operator-controlled change.
   workflow_dispatch:
-  schedule:
-    - cron: "10 4 * * 6"
 
 permissions:
   contents: write

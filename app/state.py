@@ -73,8 +73,12 @@ def _parsed_paper_key(paper: ParsedPaper) -> tuple[str, str]:
     return paper.category_code, paper.subject_code
 
 
-def _normalized_paper_key(paper: NormalizedPaper) -> tuple[str, str, str]:
-    return paper.category_code, paper.subject_code, paper.file_type
+def _normalized_paper_key(paper: NormalizedPaper) -> tuple[str, str]:
+    # ParsedPaper owns one source-paper identity per category/subject pair and
+    # carries its file roles inside ``files``. Match that same identity here:
+    # including file_type would resurrect an obsolete normalized role after a
+    # parser correction even though the refreshed raw page replaced it.
+    return paper.category_code, paper.subject_code
 
 
 def _retain_delisted_papers(
