@@ -32,7 +32,6 @@ on:
       - sync-tabf-cert
       - sync-taigi-cert
       - sync-taipower-recruit
-      - sync-taisugar-recruit
       - sync-tcte-tve
       - sync-teacher-qual
       - sync-teacher-recruit-central-alliance

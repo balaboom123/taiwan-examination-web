@@ -1,7 +1,7 @@
 {
   "exams": {
     "ceec-ast-111-biology": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－生物",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-biology",
@@ -9,7 +9,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-chemistry": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－化學",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-chemistry",
@@ -17,7 +17,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-civics-society": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－公民與社會",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-civics-society",
@@ -25,7 +25,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-geography": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－地理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-geography",
@@ -33,7 +33,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-history": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－歷史",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-history",
@@ -41,7 +41,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-math-a": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－數學甲",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-math-a",
@@ -49,7 +49,7 @@
       "year_roc": 111
     },
     "ceec-ast-111-physics": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "111學年度分科測驗－物理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-111-physics",
@@ -57,7 +57,7 @@
       "year_roc": 111
     },
     "ceec-ast-112-biology": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－生物",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-biology",
@@ -65,7 +65,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-chemistry": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－化學",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-chemistry",
@@ -73,7 +73,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-civics-society": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－公民與社會",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-civics-society",
@@ -81,7 +81,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-geography": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－地理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-geography",
@@ -89,7 +89,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-history": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－歷史",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-history",
@@ -97,7 +97,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-math-a": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－數學甲",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-math-a",
@@ -105,7 +105,7 @@
       "year_roc": 112
     },
     "ceec-ast-112-physics": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "112學年度分科測驗－物理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-112-physics",
@@ -113,7 +113,7 @@
       "year_roc": 112
     },
     "ceec-ast-113-biology": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－生物",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-biology",
@@ -121,7 +121,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-chemistry": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－化學",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-chemistry",
@@ -129,7 +129,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-civics-society": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－公民與社會",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-civics-society",
@@ -137,7 +137,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-geography": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－地理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-geography",
@@ -145,7 +145,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-history": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－歷史",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-history",
@@ -153,7 +153,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-math-a": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－數學甲",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-math-a",
@@ -161,7 +161,7 @@
       "year_roc": 113
     },
     "ceec-ast-113-physics": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "113學年度分科測驗－物理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-113-physics",
@@ -169,7 +169,7 @@
       "year_roc": 113
     },
     "ceec-ast-114-biology": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－生物",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-biology",
@@ -177,7 +177,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-chemistry": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－化學",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-chemistry",
@@ -185,7 +185,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-civics-society": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－公民與社會",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-civics-society",
@@ -193,7 +193,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-geography": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－地理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-geography",
@@ -201,7 +201,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-history": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－歷史",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-history",
@@ -209,7 +209,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-math-a": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－數學甲",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-math-a",
@@ -217,7 +217,7 @@
       "year_roc": 114
     },
     "ceec-ast-114-math-b": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－數學乙",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-math-b",
@@ -225,12 +225,76 @@
       "year_roc": 114
     },
     "ceec-ast-114-physics": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_label": "114學年度分科測驗－物理",
       "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "source_exam_id": "ceec-ast-114-physics",
       "year_ad": 2025,
       "year_roc": 114
+    },
+    "ceec-ast-115-biology": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－生物",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-biology",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-chemistry": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－化學",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-chemistry",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-civics-society": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－公民與社會",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-civics-society",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-geography": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－地理",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-geography",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-history": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－歷史",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-history",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-math-a": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－數學甲",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-math-a",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-math-b": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－數學乙",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-math-b",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-115-physics": {
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
+      "exam_label": "115學年度分科測驗－物理",
+      "result_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
+      "source_exam_id": "ceec-ast-115-physics",
+      "year_ad": 2026,
+      "year_roc": 115
     },
     "ceec-ast-confirmed-115": {
       "discovered_at": "2026-07-29T21:52:28.679211+08:00",
@@ -252,13 +316,17 @@
   "files": {},
   "probe_policy": {
     "discovery_mode": "official-year-exam-listing",
-    "last_discovery_at": "2026-07-29T21:52:28.679211+08:00"
+    "last_discovery_at": "2026-08-29T10:32:28.101659+00:00",
+    "retained_exam_codes": [
+      "ceec-ast-confirmed-115",
+      "ceec-ast-guidelines-115"
+    ]
   },
   "provider_id": "ceec_ast",
   "schema_version": 1,
   "years": {
     "2022": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_codes": [
         "ceec-ast-111-math-a",
         "ceec-ast-111-history",
@@ -274,7 +342,7 @@
       "year_roc": 111
     },
     "2023": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_codes": [
         "ceec-ast-112-math-a",
         "ceec-ast-112-history",
@@ -290,7 +358,7 @@
       "year_roc": 112
     },
     "2024": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_codes": [
         "ceec-ast-113-math-a",
         "ceec-ast-113-history",
@@ -306,7 +374,7 @@
       "year_roc": 113
     },
     "2025": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_codes": [
         "ceec-ast-114-math-a",
         "ceec-ast-114-math-b",
@@ -323,13 +391,19 @@
       "year_roc": 114
     },
     "2026": {
-      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "discovered_at": "2026-08-29T10:32:28.101659+00:00",
       "exam_codes": [
-        "ceec-ast-guidelines-115",
-        "ceec-ast-confirmed-115"
+        "ceec-ast-115-math-a",
+        "ceec-ast-115-math-b",
+        "ceec-ast-115-history",
+        "ceec-ast-115-geography",
+        "ceec-ast-115-civics-society",
+        "ceec-ast-115-physics",
+        "ceec-ast-115-chemistry",
+        "ceec-ast-115-biology"
       ],
-      "exam_codes_hash": "sha256:c25a01bc96858d6c41188288a9ff2661e857a697f532558fc00a08f20e1aa81e",
-      "search_url": "https://www.ceec.edu.tw/xmdoc?xsmsid=0I363338985390931117",
+      "exam_codes_hash": "sha256:8bec1903596138a354568cd3b252bd66555b7e2c1aca6753326dfce9bf323d91",
+      "search_url": "https://www.ceec.edu.tw/xmfile?xsmsid=0J052427633128416650",
       "year_ad": 2026,
       "year_roc": 115
     }

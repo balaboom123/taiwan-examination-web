@@ -29,6 +29,12 @@ The shared listing selector includes predecessor 指定科目考試 years, but A
 
 CEEC listing links for current notices are normalized to their canonical `/xmdoc/cont` detail routes before parsing. The two AD 2026 pages use distinct event identities so confirmed files cannot silently reuse preliminary-answer mirror paths. Their per-subject records normalize into the same established subject bundles as AD 2022–2025.
 
+The 2026-08-29 archive refresh replaced those two notice rows in the live
+listing with eight subject rows. Full sync retains the already downloaded
+notice events, so the manifest now separates 37 currently listed events in
+`years[].exam_codes` from two historical notice events recorded in
+`probe_policy.retained_exam_codes` and the `exams` evidence ledger.
+
 Provider-owned outputs live under:
 
 - `data/providers/ceec_ast/`
@@ -49,9 +55,9 @@ python -m app sync-full --provider ceec_ast --site-id default
 - provider package: `app/providers/ceec_ast/`
 - focused tests: `tests/test_ceec_ast.py`
 - published bundle: `ceec-ast`
-- local synced coverage: 111–115學年度 / AD 2022–2026, 31 events and 177 files
-- discovery evidence: `data/providers/ceec_ast/source-manifest.json`, 31/31 local event representation
-- current reconciliation: zero sync failures, zero normalization-review records, and 31/31 events published-complete
+- local synced coverage: 111–115學年度 / AD 2022–2026, 39 events and 217 files
+- discovery evidence: `data/providers/ceec_ast/source-manifest.json`, 39/39 local event representation
+- current reconciliation: zero sync failures, zero normalization-review records, and 39/39 retained events represented in discovery evidence
 
 ## Normalization Rules
 

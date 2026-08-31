@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 from urllib.parse import quote
 
 from app.models import BundleAsset, NormalizedCatalog, NormalizedPaper, ParsedPaper, ReviewItem, SourceExamPage
@@ -453,6 +454,42 @@ class DelistedPaperRetentionTests(unittest.TestCase):
 
         self.assertEqual([p.subject_name_raw for p in merged_raw_pages[0].papers], ["new name"])
         self.assertEqual([p.subject_name_raw for p in merged_catalog.papers], ["new name"])
+
+    def test_a_refreshed_file_role_replaces_the_obsolete_normalized_role(self) -> None:
+        source_url = "https://example/paper.zip"
+        existing_raw = replace(
+            self._parsed("worker-01", "試題及解答"),
+            files={"accessible_bundle": source_url},
+            mirror_files={"accessible_bundle": {"storage_key": "providers/test/paper.zip"}},
+        )
+        refreshed_raw = replace(
+            existing_raw,
+            files={"question_answer": source_url},
+            mirror_files={"question_answer": {"storage_key": "providers/test/paper.zip"}},
+        )
+        existing_normalized = replace(
+            self._normalized("worker-01", "試題及解答"),
+            paper_code="98-worker-01-accessible_bundle",
+            file_type="accessible_bundle",
+            download_url_source=source_url,
+            storage_key="providers/test/paper.zip",
+        )
+        refreshed_normalized = replace(
+            existing_normalized,
+            paper_code="98-worker-01-question_answer",
+            file_type="question_answer",
+        )
+
+        merged_raw_pages, merged_catalog, _bundles, _affected, _aliases = merge_incremental_state(
+            existing_raw_pages=[self._page([existing_raw])],
+            existing_catalog=NormalizedCatalog(papers=[existing_normalized], review_queue=[]),
+            existing_bundles=[],
+            refreshed_raw_pages=[self._page([refreshed_raw])],
+            refreshed_catalog=NormalizedCatalog(papers=[refreshed_normalized], review_queue=[]),
+        )
+
+        self.assertEqual(list(merged_raw_pages[0].papers[0].files), ["question_answer"])
+        self.assertEqual([paper.file_type for paper in merged_catalog.papers], ["question_answer"])
 
     def test_targeted_removal_still_deletes_the_papers_it_was_told_to(self) -> None:
         # Retention must not resurrect a deliberate removal: it only applies to

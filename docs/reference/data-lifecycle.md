@@ -128,6 +128,8 @@ Behavior:
 - full sync writes a complete regenerated state
 - incremental sync merges refreshed state into existing generated state
 - targeted sync merges only probe-identified exams
+- full and incremental syncs retain previously downloaded events that disappear
+  from the current listing; their source-manifest exam records are retained too
 - canonical ID migrations are derived when refreshed records rename a prior category family
 
 Why this matters:
