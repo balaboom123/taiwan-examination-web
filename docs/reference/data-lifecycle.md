@@ -4,7 +4,7 @@ This document defines the source-to-publication lifecycle, the integrity checks 
 
 ## Lifecycle Overview
 
-The current and future lifecycle is:
+The lifecycle is:
 
 1. discover source inventory
 2. probe for recent changes
@@ -21,20 +21,20 @@ The current and future lifecycle is:
 
 ### 1. Discovery
 
-Current behavior:
+Behavior:
 
 - `discover` asks the selected provider (MOEX by default) for available years and exam codes.
 - discovery is read-only by default and produces JSON output for inspection.
 - `discover --write-manifest` persists the official year/exam listing into the provider-scoped source manifest; operators should use a positive `--delay-seconds` value for broad source captures.
 
-Future rule:
+Invariant:
 
 - each provider MUST have a provider-scoped discovery entrypoint
 - discovery MUST NOT mutate publication state
 
 ### 2. Probe
 
-Current behavior:
+Behavior:
 
 - `probe-latest` uses `data/providers/<provider_id>/source-manifest.json` for providers that implement the probe URL model
 - it compares current year or exam HEAD responses to prior manifest entries
@@ -46,16 +46,16 @@ Integrity properties:
 - minimized download volume
 - explicit `should_sync` decision in `.tmp/source-probe.json`
 
-Future rule:
+Invariant:
 
 - each provider MUST own its own source manifest
 - probe manifests MUST be provider-scoped, not global
 
 ### 3. Fetch and mirror
 
-Current behavior:
+Behavior:
 
-- `sync-*` commands download source files into `mirror/`
+- `sync-*` commands download source files into `mirror/providers/<provider_id>/`
 - mirror paths are built from year, exam ID, category, subject, and file type
 - existing mirrored files are reused when valid
 
@@ -65,14 +65,14 @@ Integrity properties:
 - invalid payloads are redownloaded
 - stale sibling files with wrong extensions are removed after successful refresh
 
-Future rule:
+Invariant:
 
 - mirror roots MUST be provider-scoped
 - source download logic MUST remain separate from site publication logic
 
 ### 4. Payload validation
 
-Current behavior:
+Behavior:
 
 - PDF files are validated by signature
 - ZIP files are validated by signature
@@ -96,7 +96,7 @@ A reviewed exception is therefore an evidence-backed denominator decision, not a
 
 A source-coverage exception explains what the repository could not *acquire*. A quarantine entry explains what the repository must not *publish*. The two MUST NOT be conflated.
 
-Quarantine lives in `catalog/mappings/publication-quarantine.json` because it is publication policy rather than source evidence. Each entry records the provider, site, a status drawn from `wrong_identity`, `wrong_payload`, `corrupt_payload`, `non_paper_role`, or `duplicate_source_identity`, a reason, and pointers to the source manifest and provider spec that evidence the defect. Both pointers MUST resolve; a dangling pointer fails loading, so withheld data can never become unexplained.
+Quarantine lives in `catalog/mappings/publication-quarantine.json` because it is publication policy rather than source evidence. Each entry records the provider, site, a status drawn from `wrong_identity`, `wrong_payload`, `corrupt_payload`, `non_paper_role`, or `duplicate_source_identity`, a reason, and pointers to the source manifest and maintained provider page that evidence the defect. Both pointers MUST resolve; a dangling pointer fails loading, so withheld data can never become unexplained.
 
 Rules:
 
@@ -110,20 +110,20 @@ Removing a provider from the projection also strands its already-uploaded releas
 
 ### 5. Normalize
 
-Current behavior:
+Behavior:
 
 - provider raw pages become `NormalizedPaper` records
 - provider-scoped alias rules under `data/providers/<provider_id>/aliases.json` are applied during normalization
 - unresolved naming cases are emitted to `data/providers/<provider_id>/review-queue.json`
 
-Future rule:
+Invariant:
 
 - alias rules SHOULD be provider-scoped unless a site explicitly owns cross-provider canonicalization
 - normalized schema MUST remain source-agnostic
 
 ### 6. Merge refreshed state
 
-Current behavior:
+Behavior:
 
 - full sync writes a complete regenerated state
 - incremental sync merges refreshed state into existing generated state
@@ -140,21 +140,21 @@ Why this matters:
 
 ### 7. Build bundles
 
-Current behavior:
+Behavior:
 
 - bundle generation reads normalized papers and mirrored files
 - generated site bundle metadata is written to `data/sites/<site_id>/bundles.json`
 - release asset inventory is written to `data/sites/<site_id>/release-assets.json`
 - legacy alias asset names may be preserved for compatibility
 
-Future rule:
+Invariant:
 
 - bundle outputs MUST be site-scoped
 - release asset inventory MUST belong to the site that publishes those bundles
 
 ### 8. Release synchronization
 
-Current behavior:
+Behavior:
 
 - `.github/scripts/release_assets.py` ensures the GitHub release exists
 - coverage compares expected ZIP names to release ZIP names
@@ -168,28 +168,28 @@ Integrity properties:
 
 ### 9. Public output
 
-Current behavior:
+Behavior:
 
 - `app.publisher.publish_site` writes site-scoped publication metadata under `data/sites/<site_id>/`
 - the frontend build emits a frontend-specific `data/bundles.json` feed from publication data
 
-Future rule:
+Invariant:
 
 - public outputs MUST be site-scoped
 - frontend feed generation MUST consume publication outputs, never raw provider state
 
 ### 10. Frontend social gate
 
-Current behavior:
+Behavior:
 
 - generated bundle feeds keep direct ZIP URLs
 - the frontend download row opens a category-specific LINE channel before unlocking ZIP downloads locally
 
-Future rule:
+Invariant:
 
 - provider and publication commands MUST NOT depend on frontend download gating to complete ingestion or release publication
 
-## Current Write Behavior By Command
+## Command Write Behavior
 
 | Command | Writes generated data? | Partial writes allowed? | Failure semantics |
 | --- | --- | --- | --- |

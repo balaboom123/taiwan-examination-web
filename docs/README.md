@@ -1,72 +1,54 @@
-# Project documentation
+# Documentation router
 
-The repository has two documentation audiences:
+Use this page to find the current owner of a question. The repository-wide authority ladder and agent working rules are in [`AGENTS.md`](../AGENTS.md).
 
-- docs/developer/: contracts, architecture, taxonomy, decisions, and contributor workflows.
-- docs/operator/: repeatable audit, publication, release, and recovery procedures.
+## Choose by task
 
-Generated state under data/, bundles/, mirror/, and frontend build output is never a documentation source of truth.
-
-## Authority and precedence
-
-Use the smallest authoritative source for the question:
-
-1. catalog/ and schemas/ for executable taxonomy and data contracts;
-2. developer/exam-identity-v2.md for the current identity and bundle policy;
-3. developer/contracts.md for provider/site interface details;
-4. developer/decision-records/ for accepted architectural choices;
-5. operator/ for commands, release preflight, and recovery;
-6. developer/current-architecture.md and target-architecture.md for transition context;
-7. dated plans/specs under docs/superpowers/ for historical, non-normative context.
-
-If an older document conflicts with the catalog, schema, identity reference, or ADR, the older document is stale and must be corrected or marked historical.
-
-## Recommended reading order
-
-1. developer/README.md
-2. developer/exam-identity-v2.md
-3. developer/contracts.md
-4. developer/current-architecture.md
-5. operator/catalog-audit.md
-6. relevant provider/source and ADR documents
-
-## Project map
-
-~~~
-catalog/                         reviewed taxonomy and provider mappings
-schemas/                         versioned JSON contracts
-app/classification.py            deterministic identity resolver
-app/normalizer.py                provider normalization and v2 enrichment
-app/bundler.py                   pure bundle grouping and ZIP manifests
-app/publisher.py                 site projection and frontend facets
-app/release_tags.py              physical-asset shard assignment
-app/audit.py                     whole-catalog audit
-data/providers/<provider>/       generated provider-owned state
-data/sites/<site>/               generated site publication state
-bundles/sites/<site>/            generated ZIP assets
-frontend/                        presentation and compatibility feed code
-docs/developer/                  reference, decisions, architecture, onboarding
-docs/operator/                   runbooks, audits, release, recovery
-docs/superpowers/                historical plans/specifications
-PLAN.md                          temporary untracked execution brief
-~~~
-
-## Document map
-
-- developer/exam-identity-v2.md: normative identity dimensions, purity, versioning, and change workflow.
-- developer/contracts.md: provider, normalized paper, bundle, release, and frontend contracts.
-- developer/decision-records/: short ADRs for durable architectural decisions.
-- developer/current-architecture.md: current pipeline and transition assumptions.
-- developer/target-architecture.md: longer-term provider/site architecture.
-- developer/data-lifecycle.md: source-to-publication lifecycle.
-- developer/ci-cd-and-release.md: workflow and release integration.
-- developer/extension-rules.md: expansion governance.
-- developer/provider-site-registry.md: provider/site ownership.
-- developer/source-onboarding.md: provider onboarding checklist.
-- operator/catalog-audit.md: full-catalog identity audit, migration, release preflight, and recovery.
-- operator/runbook.md, workflows.md, recovery.md: established operational procedures.
-- superpowers/: historical proposals; not normative after implementation.
+| If you need to… | Start with… |
+| --- | --- |
+| understand provider, site, event, paper, bundle, shard, or identity terminology | [Concepts](concepts.md) |
+| understand the implemented pipeline and ownership boundaries | [Architecture](architecture.md) |
+| change exam identity, contracts, lifecycle, or extension policy | [Reference](reference/) |
+| add or investigate a provider | [Add a provider](contributing/add-a-provider.md) |
+| inspect provider status, scope, or source restrictions | [Provider index](providers/README.md) |
+| run, audit, publish, release, or recover the system | [Operations](operations/runbook.md) |
+| understand an accepted architectural choice | [Decisions](decisions/) |
+| inspect superseded plans, baselines, and migration notes | [Archive](archive/README.md) |
 
 ## Maintenance rule
 
-Every change to a catalog concept, mapping, schema, release policy, provider, or site must update the owning reference, relevant ADR/procedure, and automated tests. Add Status, Owner, and applicable version to maintained docs. Completed plans move to an archive or receive a clear historical banner; they do not remain competing specifications.
+Every fact has one owner. Generated blocks are projections of executable owners and must be regenerated, never hand-edited. Maintained prose should explain boundaries, judgment, procedures, and rationale without copying changing counts, URLs, statuses, provider sets, or CLI lists.
+
+Run the documentation gates after relevant changes:
+
+```bash
+uv run python scripts/render_docs.py
+uv run python scripts/validate_docs.py --check
+```
+
+## Maintained document index
+
+<!-- BEGIN GENERATED: document-index -->
+> Generated by `uv run python scripts/render_docs.py`; do not edit this block.
+
+| Document | Purpose |
+| --- | --- |
+| [`architecture.md`](architecture.md) | Architecture |
+| [`concepts.md`](concepts.md) | Concepts |
+| [`contributing/add-a-provider.md`](contributing/add-a-provider.md) | Add a provider |
+| [`decisions/ADR-2026-07-16-exam-identity-and-release-shards.md`](decisions/ADR-2026-07-16-exam-identity-and-release-shards.md) | ADR-2026-07-16: versioned identity, pure bundles, and release shards |
+| [`operations/catalog-audit.md`](operations/catalog-audit.md) | Catalog audit |
+| [`operations/ci-cd-and-release.md`](operations/ci-cd-and-release.md) | CI/CD and release |
+| [`operations/commands.md`](operations/commands.md) | Command reference |
+| [`operations/recovery.md`](operations/recovery.md) | Recovery guide |
+| [`operations/release-checklist.md`](operations/release-checklist.md) | Release checklist |
+| [`operations/runbook.md`](operations/runbook.md) | Operations runbook |
+| [`operations/workflows.md`](operations/workflows.md) | Workflow ownership |
+| [`providers/README.md`](providers/README.md) | Providers |
+| [`providers/rejected-sources.md`](providers/rejected-sources.md) | Rejected and deferred sources |
+| [`reference/contracts.md`](reference/contracts.md) | Contracts |
+| [`reference/data-lifecycle.md`](reference/data-lifecycle.md) | Data Lifecycle |
+| [`reference/exam-classification.md`](reference/exam-classification.md) | Frontend display classification |
+| [`reference/exam-identity.md`](reference/exam-identity.md) | Exam identity and bundle policy v2 |
+| [`reference/extension-rules.md`](reference/extension-rules.md) | Extension Rules |
+<!-- END GENERATED: document-index -->
