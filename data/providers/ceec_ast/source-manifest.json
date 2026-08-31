@@ -295,12 +295,32 @@
       "source_exam_id": "ceec-ast-115-physics",
       "year_ad": 2026,
       "year_roc": 115
+    },
+    "ceec-ast-confirmed-115": {
+      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "exam_label": "115學年度分科測驗各考科選擇(填)題答案確定",
+      "result_url": "https://www.ceec.edu.tw/xmdoc/cont?sid=0Q201545966326473357&xsmsid=0I363353018153514816",
+      "source_exam_id": "ceec-ast-confirmed-115",
+      "year_ad": 2026,
+      "year_roc": 115
+    },
+    "ceec-ast-guidelines-115": {
+      "discovered_at": "2026-07-29T21:52:28.679211+08:00",
+      "exam_label": "115學年度分科測驗各考科非選擇題評分原則",
+      "result_url": "https://www.ceec.edu.tw/xmdoc/cont?sid=0Q201557001081521982&xsmsid=0I363353018153514816",
+      "source_exam_id": "ceec-ast-guidelines-115",
+      "year_ad": 2026,
+      "year_roc": 115
     }
   },
   "files": {},
   "probe_policy": {
     "discovery_mode": "official-year-exam-listing",
-    "last_discovery_at": "2026-08-29T10:32:28.101659+00:00"
+    "last_discovery_at": "2026-08-29T10:32:28.101659+00:00",
+    "retained_exam_codes": [
+      "ceec-ast-confirmed-115",
+      "ceec-ast-guidelines-115"
+    ]
   },
   "provider_id": "ceec_ast",
   "schema_version": 1,

@@ -2220,6 +2220,27 @@ class SyncManifestRefreshTests(unittest.TestCase):
 
         self.assertIsNone(again)
 
+    def test_a_sync_manifest_retains_an_event_the_source_delisted(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = Path(tmp_dir) / "source-manifest.json"
+            write_source_manifest(
+                path,
+                SourceManifest(
+                    provider_id="fake",
+                    years={"2027": {"exam_codes": ["old-event"]}},
+                    exams={"old-event": {"source_exam_id": "old-event", "year_ad": 2027}},
+                ),
+            )
+
+            manifest = cli._refresh_manifest_from_sync(
+                self._args(path), self._Provider(), "fake", self._discovery(["new-event"])
+            )
+
+        self.assertIsNotNone(manifest)
+        self.assertEqual(manifest.years["2027"]["exam_codes"], ["new-event"])
+        self.assertEqual(set(manifest.exams), {"new-event", "old-event"})
+        self.assertEqual(manifest.probe_policy["retained_exam_codes"], ["old-event"])
+
     def test_a_provider_that_cannot_enumerate_its_source_is_left_alone(self) -> None:
         # sfi_cert and friends already carry reviewed, non-enforced manifest
         # gaps. Failing or rewriting their sync over this would be a regression.

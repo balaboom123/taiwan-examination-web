@@ -745,6 +745,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn("release_assets.py upload", workflow)
         self.assertNotIn("release_assets.py prune", workflow)
 
+    def test_taisugar_sync_is_manual_until_reviewed_migration_can_publish(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "sync-taisugar-recruit.yml").read_text(encoding="utf-8")
+        health = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
+
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("schedule:", workflow)
+        self.assertNotIn("sync-taisugar-recruit", _workflow_run_workflows(health))
+
     def test_readme_documents_human_friendly_bundle_assets(self) -> None:
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 

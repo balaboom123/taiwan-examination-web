@@ -88,6 +88,10 @@ Operator expectations:
 - clear a recorded failure with
   `python -m app repair-failures --provider <provider>`, which re-fetches only
   the affected source exams
+- `sync-taisugar-recruit.yml` is manual-only until its reviewed multi-year
+  migration can rebuild the default-site metadata and publish the matching
+  release asset in the same operator-controlled change. Do not dispatch it as
+  a routine provider refresh.
 
 ### `workflow-health.yml`
 
