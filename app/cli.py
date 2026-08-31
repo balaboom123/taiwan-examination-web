@@ -162,6 +162,7 @@ def _merge_discovery_manifest(
     captured_at: str,
     year_url_builder,
     exam_url_builder,
+    retain_removed_exams: bool = False,
 ):
     manifest.probe_policy["discovery_mode"] = "official-year-exam-listing"
     manifest.probe_policy["last_discovery_at"] = captured_at
@@ -181,7 +182,11 @@ def _merge_discovery_manifest(
             }
         )
         manifest.years[year_key] = existing_year
-        for removed_code in previous_codes - set(current_codes):
+        removed_codes = previous_codes - set(current_codes)
+        removed_exams = {
+            code: manifest.exams[code] for code in removed_codes if code in manifest.exams
+        }
+        for removed_code in removed_codes:
             manifest.exams.pop(removed_code, None)
         for exam in exams:
             existing_exam = dict(manifest.exams.get(exam.code, {}))
@@ -196,6 +201,20 @@ def _merge_discovery_manifest(
                 }
             )
             manifest.exams[exam.code] = existing_exam
+        retained_codes = set(manifest.probe_policy.get("retained_exam_codes", []))
+        if retain_removed_exams:
+            # Full and incremental syncs deliberately retain an event that the
+            # source stops listing. Keep the same event in the manifest's exam
+            # ledger while ``years[].exam_codes`` remains the current source
+            # snapshot; otherwise the next successful sync makes the strict
+            # source-inventory gate reject the retained provider state.
+            manifest.exams.update(removed_exams)
+            retained_codes.update(removed_exams)
+        retained_codes.difference_update(current_codes)
+        if retained_codes:
+            manifest.probe_policy["retained_exam_codes"] = sorted(retained_codes)
+        else:
+            manifest.probe_policy.pop("retained_exam_codes", None)
     return manifest
 
 
@@ -237,6 +256,7 @@ def _refresh_manifest_from_sync(args: argparse.Namespace, provider, provider_id:
         captured_at=datetime.now().astimezone().isoformat(),
         year_url_builder=year_url_builder,
         exam_url_builder=exam_url_builder,
+        retain_removed_exams=True,
     )
     if _discovery_coverage(manifest) == before:
         return None

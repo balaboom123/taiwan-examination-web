@@ -76,6 +76,10 @@ Rules:
 
 - A manifest MUST belong to exactly one provider.
 - A manifest MUST NOT describe release or site state.
+- `years[].exam_codes` records the current source listing. When a full or
+  incremental sync retains a previously discovered event that the source has
+  delisted, `exams` also retains that event and `probe_policy.retained_exam_codes`
+  identifies it so the manifest remains evidence for all retained provider state.
 
 ## Site Contract: Public Bundle Inventory
 
