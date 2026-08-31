@@ -1,6 +1,6 @@
 # Contracts
 
-Status: current field-level contract reference. For identity ownership and bundle purity, see exam-identity-v2.md. Older name-only grouping assumptions in this document are superseded by the v2 rules.
+Status: current field-level contract reference. For identity ownership and bundle purity, see exam-identity.md. Older name-only grouping assumptions in this document are superseded by the v2 rules.
 
 This document defines the concrete data and interface contracts that future providers and sites MUST follow.
 
@@ -16,17 +16,17 @@ The goal is to prevent the multi-source expansion from drifting into ad hoc JSON
 
 ## Contract Ownership
 
-| Contract | Owner | Current location | Target ownership |
-| --- | --- | --- | --- |
-| source manifest | provider | `data/source-manifest.json` | `data/providers/<provider_id>/source-manifest.json` |
-| raw exam pages | provider | `data/exams/*.json` | `data/providers/<provider_id>/exams/*.json` |
-| normalized papers | provider | `data/papers/*.json` | `data/providers/<provider_id>/papers/*.json` |
-| review queue | provider | `data/review-queue.json` | `data/providers/<provider_id>/review-queue.json` |
-| sync failures | provider | `data/sync-failures.json` | `data/providers/<provider_id>/sync-failures.json` |
-| alias rules | provider unless documented otherwise | `data/aliases.json` | `data/providers/<provider_id>/aliases.json` |
-| bundle metadata | site | `data/bundles.json` | `data/sites/<site_id>/bundles.json` |
-| release asset inventory | site | `data/release-assets.json` | `data/sites/<site_id>/release-assets.json` |
-| frontend bundle feed | site | emitted during frontend build | `data/sites/<site_id>/frontend-bundles.json` or build artifact equivalent |
+| Contract | Owner | Current location |
+| --- | --- | --- |
+| source manifest | provider | `data/providers/<provider_id>/source-manifest.json` |
+| raw exam pages | provider | `data/providers/<provider_id>/exams/*.json` |
+| normalized papers | provider | `data/providers/<provider_id>/papers/*.json` |
+| review queue | provider | `data/providers/<provider_id>/review-queue.json` |
+| sync failures | provider | `data/providers/<provider_id>/sync-failures.json` |
+| alias rules | provider | `data/providers/<provider_id>/aliases.json` |
+| bundle metadata | site | `data/sites/<site_id>/bundles.json` |
+| release asset inventory | site | `data/sites/<site_id>/release-assets.json` |
+| frontend bundle feed | site | `data/sites/<site_id>/frontend-bundles.json` |
 
 ## Versioning Rules
 
@@ -38,13 +38,13 @@ The goal is to prevent the multi-source expansion from drifting into ad hoc JSON
 
 ## Provider Contract: Source Manifest
 
-Current behavior:
+Implemented contract:
 
 - `app/manifest.py` defines `SourceManifest`
 - current schema version is `1`
 - sections include `probe_policy`, `years`, `exams`, and `files`
 
-Required target shape:
+Serialized shape:
 
 ```json
 {
@@ -159,7 +159,7 @@ Rules:
 - `download_url_bundle` is publication-derived and MUST remain optional at provider-normalization time.
 - Provider-specific parser fields MUST NOT leak into this contract without an explicit schema update.
 
-Recommended future wrapped shape:
+A future envelope change would require a schema version and migration; the current provider files remain year-scoped arrays. Illustrative envelope:
 
 ```json
 {
@@ -235,7 +235,7 @@ Rules:
 - A logical identity MAY have multiple physical records when its payload exceeds the byte ceiling. Multipart records MUST share `bundle_id`, carry `part_index`/`part_count`, and have distinct `asset_name` values.
 - Multipart projections MUST NOT publish a legacy alias as if it were a complete archive. Legacy aliases are retained only for unsplit assets; old v1 releases remain the compatibility source.
 
-Recommended future wrapped shape:
+A future envelope change would require a schema version and migration; the current provider files remain year-scoped arrays. Illustrative envelope:
 
 ```json
 {
@@ -269,37 +269,20 @@ Rules:
 
 ## Site Contract: Frontend Bundle Feed
 
-Current frontend feed shape:
-
-```json
-[
-  {
-    "id": "nurse",
-    "name": "Nurse",
-    "years": [115, 114],
-    "fileCount": 42,
-    "url": "https://..."
-  }
-]
-```
-
-Required future wrapped shape:
+Serialized feed shape:
 
 ```json
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "site_id": "default",
+  "catalog_version": "exam-identity-v2",
   "bundles": [
     {
       "id": "nurse",
       "name": "Nurse",
       "years": [115, 114],
       "fileCount": 42,
-      "url": "https://...",
-      "parts": [
-        {"label": "第 1/2 部分", "url": "https://...", "fileCount": 500},
-        {"label": "第 2/2 部分", "url": "https://...", "fileCount": 450}
-      ]
+      "url": "https://..."
     }
   ]
 }
@@ -316,17 +299,10 @@ Rules:
 
 ## Compatibility Policy
 
-- Current root-level files are legacy compatibility outputs.
-- New providers and sites MUST define scoped versions of their contracts first.
-- Legacy root-level compatibility files MAY continue to exist during migration, but they MUST NOT be the only persisted form of a new provider or site contract.
+- Scoped provider and site contracts are the only supported persisted ownership model.
+- A compatibility output requires an explicit consumer, owner, removal condition, and test.
+- New providers and sites MUST NOT introduce root-level equivalents of scoped state.
 
-## Required Contract Changes For Source #2
+## Contract Change Checklist
 
-Before adding the second provider, the repo SHOULD implement:
-
-1. `provider_id` support on provider-owned persisted contracts.
-2. `site_id` support on site-owned persisted contracts.
-3. Site-scoped frontend feed generation.
-4. Explicit schema wrappers for bundle metadata.
-5. Site-owned `release_tag` assignment on published bundle and release asset contracts.
-6. A deterministic multi-tag publication policy that avoids the GitHub per-release asset cap.
+A contract change MUST identify the owner, schema version impact, migration path, affected providers and sites, publication consequences, rollback path, tests, and operator procedure updates.

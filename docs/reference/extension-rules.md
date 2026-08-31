@@ -76,7 +76,7 @@ Every new provider or site change MUST add or update:
 
 At minimum, contributors SHOULD run:
 
-- `uv run python -m unittest discover -s tests -q`
+- `uv run python -m pytest -q`
 - `npm test` in `frontend/` when frontend feed behavior changes
 - `npm run build` in `frontend/` when deploy inputs change
 
@@ -84,18 +84,19 @@ At minimum, contributors SHOULD run:
 
 Every expansion PR MUST update:
 
-- the relevant developer doc
-- the relevant operator doc
-- onboarding instructions if a new provider is added
+- the owning catalog, schema, registry, or mapping
+- the maintained reference or ADR when rules or rationale change
+- the operator procedure when execution or recovery changes
+- the generated provider page and index through `scripts/render_docs.py`
 
-No provider or site is production-ready until the runbook and recovery docs describe how to operate it.
+No provider or site is production-ready until the runbook and recovery guide describe how to operate it. Changing status, URLs, years, counts, or restrictions starts in `catalog/source-inventory.json`, never in generated Markdown.
 
 ## 9. Migration Rules
 
-- The current root-level `data/` layout is legacy.
-- Legacy outputs MAY remain during transition, but they MUST NOT be the only scoped representation for a new provider or site.
-- Dual-write compatibility phases SHOULD be explicit and temporary.
-- Removing a legacy path requires updated operator docs and successful validation of the scoped replacement.
+- Provider and site state MUST remain in their scoped paths.
+- Legacy root-level outputs MUST NOT be revived.
+- Compatibility outputs require an explicit owner, consumer, removal condition, and test.
+- Removing a compatibility path requires updated procedures and successful validation of its scoped replacement.
 
 ## 10. Change Review Checklist
 

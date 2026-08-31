@@ -8,7 +8,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "ISU post-baccalaureate medicine entrance",
       "official_source_urls": [
@@ -29,7 +29,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "KMU post-baccalaureate medicine entrance",
       "official_source_urls": [
@@ -50,7 +50,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "NCHU post-baccalaureate medicine entrance",
       "official_source_urls": [
@@ -71,7 +71,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "Korean-language proficiency exam",
       "official_source_urls": [
@@ -92,7 +92,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "Competency standards and resource platform",
       "official_source_urls": [
@@ -113,7 +113,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "Military recruitment examinations",
       "official_source_urls": [],
@@ -132,7 +132,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "National teacher openings/announcements",
       "official_source_urls": [
@@ -153,7 +153,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "National teacher openings/search",
       "official_source_urls": [
@@ -174,7 +174,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "Teacher recruitment provenance/watch sources",
       "official_source_urls": [
@@ -197,7 +197,7 @@
         "start_ad": null
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md"
+        "docs/providers/rejected-sources.md"
       ],
       "exam_category": "Third-party coverage index",
       "official_source_urls": [
@@ -227,9 +227,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "catalog/source-coverage/moex.json"
+        "catalog/source-coverage/moex.json",
+        "docs/providers/moex.md"
       ],
       "exam_category": "Ministry of Examination civil, professional, judicial, police, law, medical, and related public examinations",
       "local_state": {
@@ -298,8 +297,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/ceec_gsat-spec.md"
+        "docs/providers/ceec_gsat.md"
       ],
       "exam_category": "CEEC 學科能力測驗 / GSAT archive",
       "local_state": {
@@ -365,8 +363,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/ceec_ast-spec.md"
+        "docs/providers/ceec_ast.md"
       ],
       "exam_category": "CEEC 分科測驗 general-paper archive",
       "local_state": {
@@ -405,9 +402,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/cpc_recruit-spec.md",
-        "data/providers/cpc_recruit/source-manifest.json"
+        "data/providers/cpc_recruit/source-manifest.json",
+        "docs/providers/cpc_recruit.md"
       ],
       "exam_category": "CPC doctoral and company-specific recruitment written papers",
       "local_state": {
@@ -460,8 +456,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/gept_cert-spec.md"
+        "docs/providers/gept_cert.md"
       ],
       "exam_category": "GEPT official practice and listening materials by proficiency level",
       "local_state": {
@@ -503,8 +498,7 @@
       },
       "evidence": [
         "data/providers/hakka_cert/source-manifest.json",
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/hakka_cert-spec.md"
+        "docs/providers/hakka_cert.md"
       ],
       "exam_category": "Hakka certification question banks, sample tests, answers, and paired question audio",
       "local_state": {
@@ -552,8 +546,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/hce_cmu-spec.md"
+        "docs/providers/hce_cmu.md"
       ],
       "exam_category": "CMU post-baccalaureate Chinese medicine entrance papers",
       "local_state": {
@@ -595,8 +588,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/hce_nsysu-spec.md"
+        "docs/providers/hce_nsysu.md"
       ],
       "exam_category": "NSYSU post-baccalaureate medicine entrance papers",
       "local_state": {
@@ -637,8 +629,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/hce_nthu-spec.md"
+        "docs/providers/hce_nthu.md"
       ],
       "exam_category": "NTHU post-baccalaureate medicine entrance papers",
       "local_state": {
@@ -678,8 +669,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/hce_tcu-spec.md"
+        "docs/providers/hce_tcu.md"
       ],
       "exam_category": "Tzu Chi University post-baccalaureate Chinese medicine entrance papers",
       "local_state": {
@@ -716,8 +706,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/ipas_cert-spec.md"
+        "docs/providers/ipas_cert.md"
       ],
       "exam_category": "iPAS professional certification learning/question materials",
       "local_state": {
@@ -753,8 +742,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/jlpt_cert-spec.md"
+        "docs/providers/jlpt_cert.md"
       ],
       "exam_category": "JLPT official sample workbook and listening materials",
       "local_state": {
@@ -790,9 +778,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/moea_recruit-spec.md",
-        "data/providers/moea_recruit/source-manifest.json"
+        "data/providers/moea_recruit/source-manifest.json",
+        "docs/providers/moea_recruit.md"
       ],
       "exam_category": "Ministry of Economic Affairs state-owned-enterprise joint recruitment papers",
       "local_state": {
@@ -851,9 +838,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/post_recruit-spec.md",
-        "data/providers/post_recruit/source-manifest.json"
+        "data/providers/post_recruit/source-manifest.json",
+        "docs/providers/post_recruit.md"
       ],
       "exam_category": "Chunghwa Post first-test recruitment papers on an explicitly commissioned TABF host",
       "local_state": {
@@ -895,8 +881,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/rcpet_cap-spec.md"
+        "docs/providers/rcpet_cap.md"
       ],
       "exam_category": "RCPET CAP / teacher-education screening exam papers",
       "local_state": {
@@ -946,9 +931,8 @@
       },
       "evidence": [
         "data/providers/sfi_cert/source-manifest.json",
-        "docs/developer/providers/sfi_cert-spec.md",
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "https://www.sfi.org.tw/Node?id=73"
+        "https://www.sfi.org.tw/Node?id=73",
+        "docs/providers/sfi_cert.md"
       ],
       "exam_category": "SFI rolling written-test questions and selected answers across every current official row",
       "local_state": {
@@ -985,8 +969,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/special_admission-spec.md"
+        "docs/providers/special_admission.md"
       ],
       "exam_category": "University special-admission / special-selection papers in the accepted 大學組 / 共同 scope",
       "local_state": {
@@ -1035,10 +1018,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "docs/developer/providers/tabf_cert-spec.md",
-        "data/providers/tabf_cert/source-manifest.json"
+        "data/providers/tabf_cert/source-manifest.json",
+        "docs/providers/tabf_cert.md"
       ],
       "exam_category": "TABF banking/finance certification sample and historical materials",
       "local_state": {
@@ -1075,9 +1056,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "docs/developer/providers/taigi_cert-spec.md"
+        "docs/providers/taigi_cert.md"
       ],
       "exam_category": "Ministry of Education Taiwanese-language certification sample papers/audio",
       "local_state": {
@@ -1113,8 +1092,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/taipower_recruit-spec.md"
+        "docs/providers/taipower_recruit.md"
       ],
       "exam_category": "Taipower recruitment written papers and answer keys",
       "local_state": {
@@ -1171,8 +1149,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/taisugar_recruit-spec.md"
+        "docs/providers/taisugar_recruit.md"
       ],
       "exam_category": "Taisugar recruitment paper announcements",
       "local_state": {
@@ -1209,9 +1186,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/tcte_tve-spec.md",
-        "catalog/source-coverage/tcte_tve.json"
+        "catalog/source-coverage/tcte_tve.json",
+        "docs/providers/tcte_tve.md"
       ],
       "exam_category": "TCTE 四技二專統一入學測驗 / TVE archive",
       "local_state": {
@@ -1271,8 +1247,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/teacher_qual-spec.md"
+        "docs/providers/teacher_qual.md"
       ],
       "exam_category": "National teacher qualification exam",
       "local_state": {
@@ -1327,9 +1302,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "catalog/source-coverage/teacher_recruit_central_alliance.json"
+        "catalog/source-coverage/teacher_recruit_central_alliance.json",
+        "docs/providers/teacher_recruit_central_alliance.md"
       ],
       "exam_category": "Central-region annual teacher-selection question/answer site",
       "local_state": {
@@ -1363,9 +1337,8 @@
         "status": "blocked"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "catalog/source-coverage/teacher_recruit_kaohsiung.json"
+        "catalog/source-coverage/teacher_recruit_kaohsiung.json",
+        "docs/providers/teacher_recruit_kaohsiung.md"
       ],
       "exam_category": "Kaohsiung city elementary and special-education teacher recruitment",
       "local_state": {
@@ -1400,8 +1373,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/teacher_recruit_newtaipei-spec.md"
+        "docs/providers/teacher_recruit_newtaipei.md"
       ],
       "exam_category": "New Taipei education-personnel joint-selection written papers",
       "local_state": {
@@ -1435,8 +1407,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/teacher_recruit_tainan-spec.md"
+        "docs/providers/teacher_recruit_tainan.md"
       ],
       "exam_category": "Tainan elementary and pre-K special-ed teacher recruitment",
       "local_state": {
@@ -1470,8 +1441,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/teacher_recruit_taipei_elementary-spec.md"
+        "docs/providers/teacher_recruit_taipei_elementary.md"
       ],
       "exam_category": "Taipei elementary teacher joint recruitment",
       "local_state": {
@@ -1505,8 +1475,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/teacher_recruit_taipei_junior-spec.md"
+        "docs/providers/teacher_recruit_taipei_junior.md"
       ],
       "exam_category": "Taipei junior-high formal teacher recruitment",
       "local_state": {
@@ -1542,9 +1511,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "docs/developer/providers/teacher_recruit_city_sources-spec.md"
+        "docs/providers/teacher_recruit_taoyuan_elementary.md"
       ],
       "exam_category": "Taoyuan elementary teacher joint recruitment",
       "local_state": {
@@ -1579,9 +1546,7 @@
       },
       "evidence": [
         "data/providers/tii_cert/source-manifest.json",
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/provider-site-registry.md",
-        "docs/developer/providers/tii_cert-spec.md"
+        "docs/providers/tii_cert.md"
       ],
       "exam_category": "Taiwan Insurance Institute certification papers and reviewed exam-family boundaries",
       "local_state": {
@@ -1624,8 +1589,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/tocfl_cert-spec.md"
+        "docs/providers/tocfl_cert.md"
       ],
       "exam_category": "TOCFL reference and official mock-test question/audio/answer/script materials",
       "local_state": {
@@ -1664,8 +1628,7 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/tqc_cert-spec.md"
+        "docs/providers/tqc_cert.md"
       ],
       "exam_category": "TQC certification sample-paper archive",
       "local_state": {
@@ -1712,8 +1675,7 @@
       },
       "evidence": [
         "data/providers/twc_recruit/source-manifest.json",
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/twc_recruit-spec.md"
+        "docs/providers/twc_recruit.md"
       ],
       "exam_category": "Taiwan Water Corporation recruitment papers",
       "local_state": {
@@ -1760,9 +1722,8 @@
         "status": "present"
       },
       "evidence": [
-        "docs/developer/completeness-baseline-2026-07-29.md",
-        "docs/developer/providers/wdasec_skill-spec.md",
-        "catalog/source-coverage/wdasec_skill.json"
+        "catalog/source-coverage/wdasec_skill.json",
+        "docs/providers/wdasec_skill.md"
       ],
       "exam_category": "Workforce Development Agency skills-evaluation past questions",
       "local_state": {

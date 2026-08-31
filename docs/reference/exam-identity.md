@@ -32,8 +32,8 @@ The v2 rule is catalog-wide:
 | Frontend feed contract | schemas/frontend-bundle-feed-v2.schema.json |
 | Release planning contract | schemas/release-plan-v2.schema.json |
 | Audit output contract | schemas/classification-audit.schema.json |
-| Operator procedure | docs/operator/catalog-audit.md |
-| Durable decisions | docs/developer/decision-records/ |
+| Operator procedure | docs/operations/catalog-audit.md |
+| Durable decisions | docs/decisions/ |
 
 data/ and bundles/ are generated state. They are not taxonomy sources and must not be hand-edited to fix classification.
 
@@ -97,8 +97,8 @@ A taxonomy or mapping change requires full historical reclassification, because 
 1. Add or amend the concept/mapping in catalog/ with evidence, effective dates, and an owner.
 2. Change app/classification.py only when the rule cannot be represented as data.
 3. Add golden fixtures for every affected provider, series, level, and historical spelling.
-4. Run: python3 -m app audit-catalog --output .tmp/catalog-audit.json
-5. Run: python3 -m app migrate-catalog for the complete retained provider set.
+4. Run: uv run python -m app audit-catalog --output .tmp/catalog-audit.json
+5. Run: uv run python -m app migrate-catalog for the complete retained provider set.
 6. Rebuild or shadow-build bundles and inspect purity/conservation output.
 7. Produce a release plan; count primary and compatibility ZIP names as physical assets.
 8. Update the relevant ADR and operator procedure.

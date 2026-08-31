@@ -46,6 +46,11 @@ jobs:
       - name: Validate source scope inventory
         run: python scripts/validate_source_inventory.py
 
+      - name: Validate documentation projections
+        run: |
+          python scripts/render_docs.py --check
+          python scripts/validate_docs.py --check
+
       - name: Audit event-level coverage
         # CI checks out without the gitignored mirror tree, so the download
         # dimension is unverifiable here and is audited by operators instead.

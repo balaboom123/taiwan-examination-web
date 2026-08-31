@@ -1,106 +1,46 @@
 # Taiwan Examination Web
 
-Mirror, normalize, and publish past exam papers into one public `default` site fed by provider-scoped sync pipelines.
+Mirror, normalize, audit, bundle, and publish Taiwan examination papers from provider-scoped official sources into a site-scoped public catalog.
 
-## What This Repo Produces
+Start with the [documentation router](docs/README.md). Repository authority and agent rules are in [`AGENTS.md`](AGENTS.md); the generated [provider index](docs/providers/README.md) reports current reviewed coverage.
 
-Provider-owned state:
+## Ownership at a glance
 
-- `data/providers/moex/`: parsed MOEX exams, normalized papers, failures, and manifest state
-- `data/providers/ceec_gsat/`: parsed CEEC GSAT exams, normalized papers, failures, and manifest state
-- `mirror/providers/<provider_id>/`: mirrored source files per provider
+- `catalog/` and `schemas/`: executable taxonomy, mappings, source scope, and serialized contracts
+- `app/providers/` and `data/providers/<provider_id>/`: source ingestion and retained provider state
+- `mirror/providers/<provider_id>/`: provider-owned downloaded payloads
+- `data/sites/default/` and `bundles/sites/default/`: site publication feeds, release assets, and bundles
+- `frontend/`: public presentation over site-generated data
 
-Site-owned publication state:
+Generated provider and site outputs are not documentation sources of truth and should not be edited to implement behavior.
 
-- `data/sites/default/bundles.json`: canonical bundle metadata for the public site after site publication policy filters (the default site currently publishes multi-year bundles only)
-- `data/sites/default/release-assets.json`: expected GitHub Release assets for that public bundle set, grouped by explicit site-owned release tag
-- `bundles/sites/default/*.zip`: human-friendly multi-year bundle archives
-
-Public deployment output:
-
-- `frontend/dist/` built from `frontend/` plus `data/sites/default/*`
-- Production host: GitHub Pages at `https://balaboom123.github.io/taiwan-examination-web/`; Netlify is preview-only.
-- Launch procedure: [`docs/operator/release-checklist.md`](docs/operator/release-checklist.md)
-
-Manual input:
-
-- `data/providers/<provider_id>/aliases.json`
-
-## Commands
+## Common commands
 
 ```bash
-python -m app discover --provider moex --manifest data/providers/moex/source-manifest.json --write-manifest --delay-seconds 1
-python -m app probe-latest --provider moex --years 2 --manifest data/providers/moex/source-manifest.json --output .tmp/source-probe.json --write-manifest
-python -m app sync-targeted --provider moex --probe .tmp/source-probe.json --manifest data/providers/moex/source-manifest.json
-python -m app sync-incremental --provider moex --years 2 --write-manifest --manifest data/providers/moex/source-manifest.json
-python -m app sync-full --provider moex --write-manifest --manifest data/providers/moex/source-manifest.json
-python -m app sync-full --provider ceec_gsat --site-id default
-python -m app dedupe-mirror --apply
-python -m app prune-orphaned-mirror --provider hakka_cert --apply
-python -m app publish-site --site-id default --repository <owner>/<repo>
+uv run python -m app discover --provider moex
+uv run python -m app sync-incremental --provider moex --site-id default
+uv run python -m app audit-catalog --repo-root . --site-id default --strict
+uv run python -m app history-audit --repo-root . --site-id default --strict
+uv run python -m app publish-site --site-id default --repository <owner>/<repo>
 ```
 
-## Workflow Strategy
+The full generated CLI list is in the [command reference](docs/operations/commands.md); task sequences and recovery guidance are in the [operations runbook](docs/operations/runbook.md).
 
-- Provider sync owns discovery, source parsing, mirrored files, normalized papers, manifests, and sync failures.
-- Site publication owns bundle ZIPs, release asset manifests, and frontend-consumable site data.
-- `probe-latest` checks the newest MOEX years first and updates the provider manifest only when `--write-manifest` is passed.
-- `sync-targeted` refreshes only exams reported by the MOEX probe result.
-- `sync-incremental` is the recent-year maintenance path used by the audit workflow.
-- `sync-full` is the recovery and bootstrap path for a selected provider.
-- `publish-site` aggregates all providers assigned to the `default` site and assigns deterministic site-owned release tags.
-- Mirror validation rejects HTML placeholder downloads and repairs stale `.ashx` siblings when a valid `.pdf` or `.zip` is fetched again.
-- Mirror storage persists a checksum index and hard-links byte-identical downloads, preserving each source path without consuming a second payload copy.
-- `dedupe-mirror --apply` compacts existing mirror files; `prune-orphaned-mirror --apply` is fail-closed and removes only files absent from complete provider state.
+## Bundle format
 
-The scheduled `sync-incremental` GitHub Actions workflow behaves in two modes:
-
-1. If the default site's assigned release tags already have the exact expected zip asset set, it runs probe-first targeted sync.
-2. If the assigned releases are empty or incomplete, it fails fast and requires manual recovery from a machine with persistent MOEX state.
-
-## Bundle Format
-
-- `mirror/` stays code-based so crawl outputs remain stable and easy to diff.
-- Bundle filenames use Chinese display names plus canonical IDs.
-- Release assets can include legacy compatibility alias names during migration.
-- Archive entry paths stay human-readable while retaining the original source codes.
-- Machine-readable metadata stays in `bundle.json` inside each zip.
-
-Example:
+Bundle filenames use Chinese display names plus canonical IDs. Release assets can include legacy compatibility alias names during migration. Archive entry paths remain human-readable while machine identity stays in bundle metadata.
 
 - Bundle asset: `護理師__nurse.zip`
-- Legacy alias asset: `nurse.zip`
 - Archive entry: `115/115030_護理師/101_0101_基礎醫學_試題.pdf`
-
-## Alias Rules
-
-Use `data/providers/<provider_id>/aliases.json` to merge cross-year naming variants into the same canonical bucket.
-
-Example:
-
-```json
-{
-  "rules": [
-    {
-      "match_type": "exact",
-      "raw_pattern": "some raw category",
-      "canonical_id": "nurse",
-      "canonical_name": "Nurse"
-    }
-  ]
-}
-```
 
 ## Verification
 
-Python:
-
 ```bash
-uv run pytest -q
+uv run python -m pytest -q
+uv run python scripts/validate_source_inventory.py
+uv run python scripts/validate_publication.py
+uv run python scripts/render_docs.py
+uv run python scripts/validate_docs.py --check
 ```
 
-Frontend bundle-data tests:
-
-```bash
-node --test frontend/build/bundles-data.test.mjs
-```
+Run frontend checks from `frontend/` with `npm test`, `npm run lint`, and `npm run build`.
