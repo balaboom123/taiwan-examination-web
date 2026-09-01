@@ -1,7 +1,7 @@
 {
   "exams": {
     "teacher-recruit-newtaipei-115-junior": {
-      "discovered_at": "2026-08-11T06:01:15.280500+00:00",
+      "discovered_at": "2026-09-01T09:59:23.835064+00:00",
       "exam_label": "115學年度新北市教師甄試_新北市立國民中學115學年度教師聯合甄選",
       "result_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_edu/uuid/32f7f6c59afa4f0f815f8bbe2d30a45d",
       "source_exam_id": "teacher-recruit-newtaipei-115-junior",
@@ -20,18 +20,20 @@
   "files": {},
   "probe_policy": {
     "discovery_mode": "official-year-exam-listing",
-    "last_discovery_at": "2026-08-11T06:01:15.280500+00:00"
+    "last_discovery_at": "2026-09-01T09:59:23.835064+00:00",
+    "retained_exam_codes": [
+      "teacher-recruit-newtaipei-115-preschool"
+    ]
   },
   "provider_id": "teacher_recruit_newtaipei",
   "schema_version": 1,
   "years": {
     "2026": {
-      "discovered_at": "2026-08-11T06:01:15.280500+00:00",
+      "discovered_at": "2026-09-01T09:59:23.835064+00:00",
       "exam_codes": [
-        "teacher-recruit-newtaipei-115-junior",
-        "teacher-recruit-newtaipei-115-preschool"
+        "teacher-recruit-newtaipei-115-junior"
       ],
-      "exam_codes_hash": "sha256:153a666a88483272eeb0bb168f2f2e5ff8ee031513edeb1b9fac77ee5450d5bd",
+      "exam_codes_hash": "sha256:52b1d6a7889bddd021b1eef9efe390ad34a50594dc84eee1c6b7ad0750263596",
       "search_url": "https://career.ntpc.edu.tw/web-elec-bulletin/open/oauth_data/op_api/temopn_newtea_list",
       "year_ad": 2026,
       "year_roc": 115
