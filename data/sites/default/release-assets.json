@@ -4001,7 +4001,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-general-administration--b12162bf3c9b.zip",
       "asset_name": "moex-civil-high-grade-3-general-administration--b12162bf3c9b.zip",
-      "checksum": "53c95fc0a907cb277f54b1afc74f0c8e6127a168ee1fd66fcfa73d08cb64acb9",
+      "checksum": "f9b988032926a224f8490d5e61663f268eef62de2084c1632de540edd1caed36",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜一般行政__moex-civil-high-grade-3-general-administration.zip",
         "moex-civil-high-grade-3-general-administration.zip"
@@ -4210,7 +4210,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-personnel-administration--347edcb35d43.zip",
       "asset_name": "moex-civil-high-grade-3-personnel-administration--347edcb35d43.zip",
-      "checksum": "f4e04270f52a3e65a600a167f3f3bd7b6f5eb857dbe872e3bc698c02ec074d33",
+      "checksum": "cd6a0db9d7bc75aeb72bbd42b382efa7366c86c0c4ad501fbbb181d72e717f9a",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜人事行政__moex-civil-high-grade-3-personnel-administration.zip",
         "moex-civil-high-grade-3-personnel-administration.zip"
@@ -4267,7 +4267,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-tax-administration--d82e5df34a60.zip",
       "asset_name": "moex-civil-high-grade-3-tax-administration--d82e5df34a60.zip",
-      "checksum": "faf420ce89f28a9f8669f0e1387fb65da31ea71721298f7f870164884ca7f796",
+      "checksum": "5b7b14cf7b722b5b2dadf5404429a64d81495ce6d5f027abf728ea3ae5a5d2cf",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜財稅行政__moex-civil-high-grade-3-tax-administration.zip",
         "moex-civil-high-grade-3-tax-administration.zip"
@@ -6203,7 +6203,7 @@
       "release_tag": "default-bundles-v2-001",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-52efc7f58601--3118c4805726.zip",
       "asset_name": "moex-civil-high-grade-3-track-52efc7f58601--3118c4805726.zip",
-      "checksum": "5875066a17d6233c1a39841354bec7673d865e034d74340103f73a809789520d",
+      "checksum": "54cbf43a07ec3e989f7a8ee844cc3e620f98da103d80555f7ebff7305d22bb9b",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜法律廉政__moex-civil-high-grade-3-track-52efc7f58601.zip",
         "moex-civil-high-grade-3-track-52efc7f58601.zip"
@@ -8189,7 +8189,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-b98cdeb86ca1--aa826d56a199.zip",
       "asset_name": "moex-civil-high-grade-3-track-b98cdeb86ca1--aa826d56a199.zip",
-      "checksum": "5a854c5bc051dba99e610f328758d5ee4e56e9ca2c119d6a36d0305ac604661a",
+      "checksum": "db54364d37816453392d5635326752d98b1eee41e793bfd65106414a746d915f",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜客家事務行政__moex-civil-high-grade-3-track-b98cdeb86ca1.zip",
         "moex-civil-high-grade-3-track-b98cdeb86ca1.zip"
@@ -8303,7 +8303,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-bfbba09f4bfb--46681f8057a2.zip",
       "asset_name": "moex-civil-high-grade-3-track-bfbba09f4bfb--46681f8057a2.zip",
-      "checksum": "bd1ea54dc30ded0133c07abf5a42fd5a61365a8356b700a3affd246b1b3b7e53",
+      "checksum": "ece9cdc206383046d6c82fd86b81c181b7cf33e5af41b04539f1ee01609e84f9",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜金融保險__moex-civil-high-grade-3-track-bfbba09f4bfb.zip",
         "moex-civil-high-grade-3-track-bfbba09f4bfb.zip"
@@ -8531,7 +8531,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-high-grade-3-track-c7fe95341c2d--1784f0cafa97.zip",
       "asset_name": "moex-civil-high-grade-3-track-c7fe95341c2d--1784f0cafa97.zip",
-      "checksum": "3088d60af413ae2862f8fdcfc34def319e9f0b708d88f2e828cac8e78936cdb5",
+      "checksum": "3907798114b6258618581c3d1609f55f4e661d33b79610e98bcc21107d21c874",
       "legacy_asset_names": [
         "高等考試｜三等／高考三級｜一般民政__moex-civil-high-grade-3-track-c7fe95341c2d.zip",
         "moex-civil-high-grade-3-track-c7fe95341c2d.zip"
@@ -10641,7 +10641,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-accounting--f8f28280bc21.zip",
       "asset_name": "moex-civil-ordinary-ordinary-accounting--f8f28280bc21.zip",
-      "checksum": "199cba8a4f6ad15fa03f3fdd63f8d54061dcfdb508517f3f60e355f7a4aa57af",
+      "checksum": "ba0194a8c1e4c5bc2d182bc81c850903df58ab7ed9014f549637be58504001cb",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜會計__moex-civil-ordinary-ordinary-accounting.zip",
         "moex-civil-ordinary-ordinary-accounting.zip"
@@ -10660,7 +10660,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-civil-engineering--37a675360c62.zip",
       "asset_name": "moex-civil-ordinary-ordinary-civil-engineering--37a675360c62.zip",
-      "checksum": "a3f7ddcc200523ba51a408affed0fd72dc76ed7a2ebbff483d5d36034c634d02",
+      "checksum": "35906db27e24ab3a922e812c28f73c0ae3f95249cb9b1031620b74100f14e444",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜土木工程__moex-civil-ordinary-ordinary-civil-engineering.zip",
         "moex-civil-ordinary-ordinary-civil-engineering.zip"
@@ -10717,7 +10717,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-cultural-administration--89434dcd15e6.zip",
       "asset_name": "moex-civil-ordinary-ordinary-cultural-administration--89434dcd15e6.zip",
-      "checksum": "a040ef45c88219ebabf409a9e279e92557cd6f923bd8eff49d4081b230ab8b3c",
+      "checksum": "614731c11651a05655b48daca20e6ba61538910186e7c3de2234aa086bd8ca0e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜文化行政__moex-civil-ordinary-ordinary-cultural-administration.zip",
         "moex-civil-ordinary-ordinary-cultural-administration.zip"
@@ -10774,7 +10774,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-education-administration--2063f04cf8b9.zip",
       "asset_name": "moex-civil-ordinary-ordinary-education-administration--2063f04cf8b9.zip",
-      "checksum": "f6dccd7004fbbb8b0f60306333c747137e76cec0dfa0a2d43e8ebd8c83ae66e2",
+      "checksum": "f26da752c8ccbb95504b0bbdbb71747ec712e667dfeb8bb9827d57145c4db27b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜教育行政__moex-civil-ordinary-ordinary-education-administration.zip",
         "moex-civil-ordinary-ordinary-education-administration.zip"
@@ -10831,7 +10831,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-electronic-engineering--00b4f666e912.zip",
       "asset_name": "moex-civil-ordinary-ordinary-electronic-engineering--00b4f666e912.zip",
-      "checksum": "2517f2849e4c0f9cf7c20393a5a1997459fd0c7ad8c7999a8ec0d48bfd203887",
+      "checksum": "ef3a167582cdc657f96f264a11e8f608f3b2567f5dd2a6787131aab760cd0943",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜電子工程__moex-civil-ordinary-ordinary-electronic-engineering.zip",
         "moex-civil-ordinary-ordinary-electronic-engineering.zip"
@@ -10888,7 +10888,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-general-administration--df9236986c56.zip",
       "asset_name": "moex-civil-ordinary-ordinary-general-administration--df9236986c56.zip",
-      "checksum": "dd8eb6c1e897f182c0f97df95bf7940d5c6feae119cbb5a4b5f72e6f308f53d5",
+      "checksum": "1a06bb4be480329a15ebd98f30afd2c680cee3608b2d1eb6aa0883ef87e41716",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜一般行政__moex-civil-ordinary-ordinary-general-administration.zip",
         "moex-civil-ordinary-ordinary-general-administration.zip"
@@ -10945,7 +10945,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-household-registration--3356c18b9b65.zip",
       "asset_name": "moex-civil-ordinary-ordinary-household-registration--3356c18b9b65.zip",
-      "checksum": "6379f93c627e7bd0fb7e200a0e9073d1ecad52efecbdfd921045b3c645ed5c25",
+      "checksum": "40a8cb03f171f221982e7f9b2e544f31d8dc4bd800c4554f7b30d63fb7ea1747",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜戶政__moex-civil-ordinary-ordinary-household-registration.zip",
         "moex-civil-ordinary-ordinary-household-registration.zip"
@@ -10964,7 +10964,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-information-processing--bb8115882d6c.zip",
       "asset_name": "moex-civil-ordinary-ordinary-information-processing--bb8115882d6c.zip",
-      "checksum": "936f201d4a60de75f7d550d75a9ffa7f07fefa4c4a4046ae22fdc61bf7129524",
+      "checksum": "9090a1fdb04772f865efeb646ce135911e37aa1eab927c07d844088bed14ff2b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜資訊處理__moex-civil-ordinary-ordinary-information-processing.zip",
         "moex-civil-ordinary-ordinary-information-processing.zip"
@@ -11021,7 +11021,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-land-administration--6179f062a8c7.zip",
       "asset_name": "moex-civil-ordinary-ordinary-land-administration--6179f062a8c7.zip",
-      "checksum": "c1ddbc6756ea2f745a4a555d9ccd1a01d93192ca98f5afd80ec4da7c3c80dfa8",
+      "checksum": "b8c41a3475cdb0fd4669ca69201d3016c8435771de1b65902159ee7f822e650a",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜地政__moex-civil-ordinary-ordinary-land-administration.zip",
         "moex-civil-ordinary-ordinary-land-administration.zip"
@@ -11078,7 +11078,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-mechanical-engineering--a6139a75c1a0.zip",
       "asset_name": "moex-civil-ordinary-ordinary-mechanical-engineering--a6139a75c1a0.zip",
-      "checksum": "4246c48fe87e6bb92ad04b0408df070f030ea3f4a09beb80ae1891aac4d061f6",
+      "checksum": "4f8c9efb931158ff200e2caef5546a325a20b30acfe2ad76081a32f3e40dd635",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜機械工程__moex-civil-ordinary-ordinary-mechanical-engineering.zip",
         "moex-civil-ordinary-ordinary-mechanical-engineering.zip"
@@ -11135,7 +11135,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-personnel-administration--a5a24f7ab75d.zip",
       "asset_name": "moex-civil-ordinary-ordinary-personnel-administration--a5a24f7ab75d.zip",
-      "checksum": "2c0bcc4683c884f5746998dba82714e4c3aedce7b950e1ade89eae32bfdf332f",
+      "checksum": "c0a36cb3e01acc404463894a39c3082e3ced9b6cf0ea6866adf97a76a02f90b7",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜人事行政__moex-civil-ordinary-ordinary-personnel-administration.zip",
         "moex-civil-ordinary-ordinary-personnel-administration.zip"
@@ -11192,7 +11192,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-tax-administration--b0d2df2118fa.zip",
       "asset_name": "moex-civil-ordinary-ordinary-tax-administration--b0d2df2118fa.zip",
-      "checksum": "ddc26a713d35bb5e9181546bb0e0f0e9904df6815a05e46c09ec28e7f924a754",
+      "checksum": "3c5ea0953c76dc82e69362fdc8d47d040f364a2aad2f148e84af4f86b9d4bee4",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜財稅行政__moex-civil-ordinary-ordinary-tax-administration.zip",
         "moex-civil-ordinary-ordinary-tax-administration.zip"
@@ -11249,7 +11249,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-05fcc5b4445b--b8443ca582f6.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-05fcc5b4445b--b8443ca582f6.zip",
-      "checksum": "b7ea9f1ad0773b0b6830f074b2a332f7134c9693a608d86b56823ff7c6814ff7",
+      "checksum": "bfbfba4451a90a5871126e23a38219b48eea5790814bcecad0b3f81f8d9a31c7",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜景觀__moex-civil-ordinary-ordinary-track-05fcc5b4445b.zip",
         "moex-civil-ordinary-ordinary-track-05fcc5b4445b.zip"
@@ -11325,7 +11325,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-08caf7ed1850--aa06b81f2455.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-08caf7ed1850--aa06b81f2455.zip",
-      "checksum": "0972c2c2a414b300843643129939ef5ec108be2c2a96f08aecb72e458d1ad16e",
+      "checksum": "3bd9f38ce7cd526d26552b8a9cc4bf02999ef8773442ce3188fdd48770103b38",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜電力工程__moex-civil-ordinary-ordinary-track-08caf7ed1850.zip",
         "moex-civil-ordinary-ordinary-track-08caf7ed1850.zip"
@@ -11477,7 +11477,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-12066cd9a599--cb8b15a697cc.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-12066cd9a599--cb8b15a697cc.zip",
-      "checksum": "2d84583e0a72b7157f6d04f8598779e43501e020ce8482c226b50758e27e3ee8",
+      "checksum": "3f14387b86186506b8d301d09c793efeec081098e4c93cf3439fb5c5a9c42adf",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜財經廉政__moex-civil-ordinary-ordinary-track-12066cd9a599.zip",
         "moex-civil-ordinary-ordinary-track-12066cd9a599.zip"
@@ -11515,7 +11515,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-193a0dc9f3ca--e782374b595b.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-193a0dc9f3ca--e782374b595b.zip",
-      "checksum": "7748069e4b5907060d75e840cd077162942d170ceecd7e1aeb11afd07736c7d9",
+      "checksum": "772b7c8c7eade60e9e63a76d94e341261b47e875b848b1c987b80244e947e8d5",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜水利工程__moex-civil-ordinary-ordinary-track-193a0dc9f3ca.zip",
         "moex-civil-ordinary-ordinary-track-193a0dc9f3ca.zip"
@@ -11572,7 +11572,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-1983957d8d0d--3c5082ad0ce8.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-1983957d8d0d--3c5082ad0ce8.zip",
-      "checksum": "314fa96ee2a188be7b74411058266d59060ad5c26d44314807bd442a8d378b47",
+      "checksum": "0f3988a8623da1c212db71612feaf9db05b79ea036bd16e6d7768a8bedbaaa5f",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜觀光行政__moex-civil-ordinary-ordinary-track-1983957d8d0d.zip",
         "moex-civil-ordinary-ordinary-track-1983957d8d0d.zip"
@@ -11724,7 +11724,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-283bff40068f--84022bc20424.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-283bff40068f--84022bc20424.zip",
-      "checksum": "43aa10641c1197ac21b16633b2889aa717b5b232f529070a32e626eef142ac7d",
+      "checksum": "43f5a99618601955ed43a75897307ad69d4cf85fbd471cb1089c555cf1646f51",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜輪機技術__moex-civil-ordinary-ordinary-track-283bff40068f.zip",
         "moex-civil-ordinary-ordinary-track-283bff40068f.zip"
@@ -11762,7 +11762,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-2e8f8af8776b--1c39ba614661.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-2e8f8af8776b--1c39ba614661.zip",
-      "checksum": "3d7bbfb8a2d3f75faf082cc1d8b029605d2af039875d64ed38614ce2bed4ab9a",
+      "checksum": "10584fe0adf47f15c98b8047a38d13269e1eec77b40e5c840085adbb3bb2617a",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜林業技術__moex-civil-ordinary-ordinary-track-2e8f8af8776b.zip",
         "moex-civil-ordinary-ordinary-track-2e8f8af8776b.zip"
@@ -11781,7 +11781,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-31992f60c272--ea8d681899ee.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-31992f60c272--ea8d681899ee.zip",
-      "checksum": "7b5db739d293758b1e46df1c0ade2a366fe9cfff42ad064a1c196abaec8c7cf3",
+      "checksum": "a39e16ec2963ee6b9dab3f68146a0a69026e3c7d8d5ce699a18bf6601e3d3d0e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜都市計畫技術__moex-civil-ordinary-ordinary-track-31992f60c272.zip",
         "moex-civil-ordinary-ordinary-track-31992f60c272.zip"
@@ -11838,7 +11838,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-330b5ead5ace--d2485572f01b.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-330b5ead5ace--d2485572f01b.zip",
-      "checksum": "46203476d87b1340c1b2948ff1f2cfd11552c7ca7613e9c960803d9627fedea4",
+      "checksum": "5616aa8e1b516ab7c2b9e3fb34a4d96d13ed7a5bb42aa9396d126bd88225d9e3",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜環境工程__moex-civil-ordinary-ordinary-track-330b5ead5ace.zip",
         "moex-civil-ordinary-ordinary-track-330b5ead5ace.zip"
@@ -12028,7 +12028,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-447b9c32f6d9--bda632dab28c.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-447b9c32f6d9--bda632dab28c.zip",
-      "checksum": "8e8c24bb3df09d3bce8fdaf6a3a05b171fbfdc59db521a98fced090b72d9ff47",
+      "checksum": "f0b5f96c3eda82361531c832bfa50d62d47b636400d0ed3c7a7f8727e2e6ed3e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜氣象__moex-civil-ordinary-ordinary-track-447b9c32f6d9.zip",
         "moex-civil-ordinary-ordinary-track-447b9c32f6d9.zip"
@@ -12085,7 +12085,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-4657d12695e7--077b66c58401.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-4657d12695e7--077b66c58401.zip",
-      "checksum": "c72aec5d9537d40075e624bb3142028f45daf0a3b70f54457f0988213a170353",
+      "checksum": "7ddcf61a2e3a2dcf426f2c35556544ae0c4152c827aec450dbe1a1e7c959c7cb",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜地震測報__moex-civil-ordinary-ordinary-track-4657d12695e7.zip",
         "moex-civil-ordinary-ordinary-track-4657d12695e7.zip"
@@ -12180,7 +12180,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-4ce28f2295c8--2f9db96a0d5c.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-4ce28f2295c8--2f9db96a0d5c.zip",
-      "checksum": "377dc4b866305bf93bce4fff49223d4f6d710c5f626aa7a25b1c9300ea45a540",
+      "checksum": "e8a5a113b7a236d68c9b378299791dbdd8685d34e38b7db2b04efb49e0f2b218",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜環境檢驗__moex-civil-ordinary-ordinary-track-4ce28f2295c8.zip",
         "moex-civil-ordinary-ordinary-track-4ce28f2295c8.zip"
@@ -12300,7 +12300,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-4fe3c4ad869f--e2e42dbc932d.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-4fe3c4ad869f--e2e42dbc932d.zip",
-      "checksum": "3ffee8fd40b50fd2be7d45fba5c6d8b1d6a88594152e75a2a4f142b8adf98be9",
+      "checksum": "8b95539420632e86bcb225d5fcfa0c100e8e3c99f7326b1c79ba0738bbf53aee",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜衛生技術__moex-civil-ordinary-ordinary-track-4fe3c4ad869f.zip",
         "moex-civil-ordinary-ordinary-track-4fe3c4ad869f.zip"
@@ -12338,7 +12338,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-52efc7f58601--8b1fa08b9897.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-52efc7f58601--8b1fa08b9897.zip",
-      "checksum": "3b107a0aa4ff82ee759b982359e95d6aa4aa1dd61fa3b04aead6689775ffaa5b",
+      "checksum": "88a4fac893c99cdbf459ae136281d9e414c369c8b756e24002ed712e6439dbac",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜法律廉政__moex-civil-ordinary-ordinary-track-52efc7f58601.zip",
         "moex-civil-ordinary-ordinary-track-52efc7f58601.zip"
@@ -12395,7 +12395,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-5be335e10758--75008c447529.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-5be335e10758--75008c447529.zip",
-      "checksum": "9366859078cf4a1ce0a5f92fbc2f3cae1cdff23905d90e8a3be6654484d0a12e",
+      "checksum": "4ef8b9a4c2e9605fa153a782069a57144965760f4adccb85a1fcdd62226a4234",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜航海技術__moex-civil-ordinary-ordinary-track-5be335e10758.zip",
         "moex-civil-ordinary-ordinary-track-5be335e10758.zip"
@@ -12490,7 +12490,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-63291eae7e2f--e689199a286f.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-63291eae7e2f--e689199a286f.zip",
-      "checksum": "0123a06f6d08ed2c674a1140880c065fd19d564d020daf994ad0eb6bb32936fa",
+      "checksum": "f7d75d36698c0eabc8d903e9d542d8297aab11821fb8be674a3a27e7e0f80e99",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜自然保育__moex-civil-ordinary-ordinary-track-63291eae7e2f.zip",
         "moex-civil-ordinary-ordinary-track-63291eae7e2f.zip"
@@ -12528,7 +12528,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-6610f2d4ac0c--dc6278433e31.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-6610f2d4ac0c--dc6278433e31.zip",
-      "checksum": "658a1277454c360bd9b0b93145278b93eaa1ce5b29125ce3d9d1c2a5c449f509",
+      "checksum": "b5e8ae6dab38c38448853a0bbdffc64b4394cbd13d4a8162e01cd2b5c68fd2a3",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜交通技術__moex-civil-ordinary-ordinary-track-6610f2d4ac0c.zip",
         "moex-civil-ordinary-ordinary-track-6610f2d4ac0c.zip"
@@ -12623,7 +12623,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-6c67b6e1c4ad--3b5126dce245.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-6c67b6e1c4ad--3b5126dce245.zip",
-      "checksum": "311fbb983b2774a970bae1d45a0e031a70af9c28364ccfc36964f0c61d3be53d",
+      "checksum": "f905558c126689b5b211eaeaadca21ff5667ca77535b218a2bb25c8377542562",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜動物技術__moex-civil-ordinary-ordinary-track-6c67b6e1c4ad.zip",
         "moex-civil-ordinary-ordinary-track-6c67b6e1c4ad.zip"
@@ -12642,7 +12642,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-6f03abc056fe--38728ee4b53b.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-6f03abc056fe--38728ee4b53b.zip",
-      "checksum": "85ebe32aeea2f0099d1b7d68c2ae2aec4de4ad02d7152e12ccb98fb003abc8b5",
+      "checksum": "89f933ff4ca5dda61ff747bb90f46ccd2a6cb5fb98db04b70e6aa7d48bda5176",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜檔案管理__moex-civil-ordinary-ordinary-track-6f03abc056fe.zip",
         "moex-civil-ordinary-ordinary-track-6f03abc056fe.zip"
@@ -12756,7 +12756,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-7d5792430a62--a7366e336729.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-7d5792430a62--a7366e336729.zip",
-      "checksum": "6da1aff2dfc6b143266e79694fd7e8654a1844668a9ddb5246dfaf69d140c7a1",
+      "checksum": "b1c01335781ee59d4e9616f386f9fc7b05843154df451bd1996f4c85c637d040",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜環保技術__moex-civil-ordinary-ordinary-track-7d5792430a62.zip",
         "moex-civil-ordinary-ordinary-track-7d5792430a62.zip"
@@ -12813,7 +12813,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-7eb6667edca9--aef9f8a7ad86.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-7eb6667edca9--aef9f8a7ad86.zip",
-      "checksum": "1bdf8f9628d8f711df7f4976358fe0842e0f73e66561bc7ebdac4c6aa6514c26",
+      "checksum": "a8e456fe34641a1f09f1829fa7e6b13d4f3181ec41130405773fac016fc8fd82",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜化學工程__moex-civil-ordinary-ordinary-track-7eb6667edca9.zip",
         "moex-civil-ordinary-ordinary-track-7eb6667edca9.zip"
@@ -12889,7 +12889,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-832457175658--4ed979abb49a.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-832457175658--4ed979abb49a.zip",
-      "checksum": "8d966c718ebd8725fc2f4064c2244a11a46dc37ba03d0f5e87d40c60c0027fec",
+      "checksum": "f4386384efa4e73a10ecce11f4e204a97b23613e94183deeb88a165c4f56c3b1",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜建築工程__moex-civil-ordinary-ordinary-track-832457175658.zip",
         "moex-civil-ordinary-ordinary-track-832457175658.zip"
@@ -13003,7 +13003,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-89a49042933b--e1dce1f47814.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-89a49042933b--e1dce1f47814.zip",
-      "checksum": "a9de184821423ed59dd59abb882d220bf92c25850f8aa60728910eaf8744162e",
+      "checksum": "37429b5f06d73aa7ab884584245ef1806fc9cbad4fe846be7ab44e47340dce14",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜衛生行政__moex-civil-ordinary-ordinary-track-89a49042933b.zip",
         "moex-civil-ordinary-ordinary-track-89a49042933b.zip"
@@ -13060,7 +13060,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-8bd4a5638f98--104b9dd507bd.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-8bd4a5638f98--104b9dd507bd.zip",
-      "checksum": "899c68e003dd5f848008a115c931cce241a9aa56c7e6ee2ca1d2e3e928a02ac3",
+      "checksum": "c746304373807e9502eb47bc8c4670bf942357f31ab60fb9e668989f63c4a581",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜航空器維修__moex-civil-ordinary-ordinary-track-8bd4a5638f98.zip",
         "moex-civil-ordinary-ordinary-track-8bd4a5638f98.zip"
@@ -13079,7 +13079,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-93d79eca1516--6e97c986036f.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-93d79eca1516--6e97c986036f.zip",
-      "checksum": "e761ef603c6b64795b34158d3f9282c2796014ba600b4c3c023b007964988a55",
+      "checksum": "44894a14ebc0505351bcc0142bdd1cdab55d100839f820cb6b0653182ef50ff5",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜社會行政__moex-civil-ordinary-ordinary-track-93d79eca1516.zip",
         "moex-civil-ordinary-ordinary-track-93d79eca1516.zip"
@@ -13193,7 +13193,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-348ea84c6046--c01d01412034.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-348ea84c6046--c01d01412034.zip",
-      "checksum": "c9f27582f7a1055f4bb78b5c1990e398930576ca4182bdb75a6f6d27c8e31422",
+      "checksum": "f18b9a1aab85002b93ec661ab4e25a754f524948c25e1e1f5bced0e736ca7ca1",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜新聞｜elective-language-348ea84c6046__moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-348ea84c6046.zip",
         "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-348ea84c6046.zip"
@@ -13214,7 +13214,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4--e45b1984d4d1.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4--e45b1984d4d1.zip",
-      "checksum": "b44954514f54cde47c6507788afd6e107ef00f642e74a717f8b3a400a7aee779",
+      "checksum": "688a44a1a6575eed0db6f75b66627b7c351aa76fff9cd89f78f262c30d7ee0ed",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜新聞｜elective-language-ffb5f47363d4__moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4.zip",
         "moex-civil-ordinary-ordinary-track-9c200fe1150d-elective-language-ffb5f47363d4.zip"
@@ -13406,7 +13406,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-a60c504085fe--cc65c5d59bcd.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-a60c504085fe--cc65c5d59bcd.zip",
-      "checksum": "03adcb5348e66820d7e245e78d4d6fa2ddbe8bccbca8d40901b88556de762c7f",
+      "checksum": "2dba7cfa0b295a706723025b77a4005a3a6c5fe8b0b2be2fc60af7b724affa79",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜航運行政__moex-civil-ordinary-ordinary-track-a60c504085fe.zip",
         "moex-civil-ordinary-ordinary-track-a60c504085fe.zip"
@@ -13482,7 +13482,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-af1dc8428728--bb67402e3d50.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-af1dc8428728--bb67402e3d50.zip",
-      "checksum": "1dfcd5670c5f64dc2c727f7ea2a172c992686b04f591afbaeac352e79cf21138",
+      "checksum": "94053f43e7652f4680680544812c5e36623e57f7e4eee0f01446326c44b72d2e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜電信工程__moex-civil-ordinary-ordinary-track-af1dc8428728.zip",
         "moex-civil-ordinary-ordinary-track-af1dc8428728.zip"
@@ -13501,7 +13501,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-af9fdd137dea--80a4ecb5600c.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-af9fdd137dea--80a4ecb5600c.zip",
-      "checksum": "432e88b291d22c76c7b6803d680c3d8bdd76c636f44975b2694dd52223797dfe",
+      "checksum": "f8599d95d856d05f9e664b7ade2eeba4798f278a132d2a155b142d0b9238556b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜食品衛生檢驗__moex-civil-ordinary-ordinary-track-af9fdd137dea.zip",
         "moex-civil-ordinary-ordinary-track-af9fdd137dea.zip"
@@ -13539,7 +13539,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-b16d7a61e802--08d44c2ddb8a.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-b16d7a61e802--08d44c2ddb8a.zip",
-      "checksum": "de34259e4a593862af631141b53a177af91657eceeb31d0db6db40fe0ec2de55",
+      "checksum": "0492ac1029fb2101b7b8c48feab6cd3b132522aa590929d6a19cdeb49fb04eb6",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜農業技術__moex-civil-ordinary-ordinary-track-b16d7a61e802.zip",
         "moex-civil-ordinary-ordinary-track-b16d7a61e802.zip"
@@ -13615,7 +13615,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-b98cdeb86ca1--3e85557c9f52.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-b98cdeb86ca1--3e85557c9f52.zip",
-      "checksum": "6bf32f64a3a8dbb1d5d5fc1a27344276b4acc2d1e350c8a4c1e5e36c40eb3e54",
+      "checksum": "4a146e3412f49760c508adf6a1ff17c88615e132256ce037b78683abf3f94731",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜客家事務行政__moex-civil-ordinary-ordinary-track-b98cdeb86ca1.zip",
         "moex-civil-ordinary-ordinary-track-b98cdeb86ca1.zip"
@@ -13710,7 +13710,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-bcce732c7e0f--0e4026efd1f2.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-bcce732c7e0f--0e4026efd1f2.zip",
-      "checksum": "7a2b48308be6454f0e8b63b11bd64a640a0bbb70dec3021c2525a974f010da7d",
+      "checksum": "c388906ff9624b44575a5bd6c0515510c69c709361c0b969c409c108116c3d28",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜養殖技術__moex-civil-ordinary-ordinary-track-bcce732c7e0f.zip",
         "moex-civil-ordinary-ordinary-track-bcce732c7e0f.zip"
@@ -13729,7 +13729,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-beb8f56ae090--b26a7c8fd923.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-beb8f56ae090--b26a7c8fd923.zip",
-      "checksum": "90273597e6ddf25fed80fd6088c0dd9b2668d0aa1ff8541ea0e9c1d186fefe96",
+      "checksum": "78bf35e7338a44395cea254e16cc903872a72e1085eb4a8021dc00b8ba34fd3b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜統計__moex-civil-ordinary-ordinary-track-beb8f56ae090.zip",
         "moex-civil-ordinary-ordinary-track-beb8f56ae090.zip"
@@ -13786,7 +13786,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-bfbba09f4bfb--84c1eb554ce2.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-bfbba09f4bfb--84c1eb554ce2.zip",
-      "checksum": "c65daec71ddbf497a3fe1cf7fcaa1db02fd848c743e13b6c2ccddfd3c0ac0acf",
+      "checksum": "518b87c794a60128b3c5cdf61d974dc96d98a0f4681594110be7bb4d715fae6b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜金融保險__moex-civil-ordinary-ordinary-track-bfbba09f4bfb.zip",
         "moex-civil-ordinary-ordinary-track-bfbba09f4bfb.zip"
@@ -13843,7 +13843,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-c0366d774728--2fe276f95581.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-c0366d774728--2fe276f95581.zip",
-      "checksum": "615349abfaf5415af436f904922b86bf59f748c3975fb01f0d949c16ff5f9515",
+      "checksum": "4c8c7760bef674da579ec21d1df2f109d75428f75174725d3fa2a9ca7f2c00b5",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜漁業技術__moex-civil-ordinary-ordinary-track-c0366d774728.zip",
         "moex-civil-ordinary-ordinary-track-c0366d774728.zip"
@@ -13881,7 +13881,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-c7fe95341c2d--d0e93a3e7d26.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-c7fe95341c2d--d0e93a3e7d26.zip",
-      "checksum": "bca835b2175b3d7aa2a6266219bfcfbefa7715a71bb0eb5979e87b8edbdf5d9d",
+      "checksum": "04a8e8cc35c6c7b3a35ff97bf45ac8d569bfb4a5896c8a7c69aa27cc752e6b60",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜一般民政__moex-civil-ordinary-ordinary-track-c7fe95341c2d.zip",
         "moex-civil-ordinary-ordinary-track-c7fe95341c2d.zip"
@@ -14014,7 +14014,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-d182d0d5da26--61f94b8df772.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-d182d0d5da26--61f94b8df772.zip",
-      "checksum": "21791ad7fd1024974bb18035fd732154b78943deae7b914d303ca476d5500d51",
+      "checksum": "85fc1104bcf1b2082cae4d7fad1edd5a3f0242ce15778b62fb979974c762576e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜技藝__moex-civil-ordinary-ordinary-track-d182d0d5da26.zip",
         "moex-civil-ordinary-ordinary-track-d182d0d5da26.zip"
@@ -14071,7 +14071,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-d44405cc7ae7--f9398abfeef3.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-d44405cc7ae7--f9398abfeef3.zip",
-      "checksum": "77f99514c396aa87344a749b612e86416a3a8747b530a9806f965990dbc11406",
+      "checksum": "04f65c98d50bbf0e62b177b2b3eccbf4d46cc546e6444d4c5ac877503a1d55eb",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜勞工行政__moex-civil-ordinary-ordinary-track-d44405cc7ae7.zip",
         "moex-civil-ordinary-ordinary-track-d44405cc7ae7.zip"
@@ -14090,7 +14090,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-d83fc6837c9b--46fc135908cd.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-d83fc6837c9b--46fc135908cd.zip",
-      "checksum": "6adb991dc95ed3dfec6785da9f2843ccc8452248bbff1c4f6b9fd048c094173c",
+      "checksum": "64020c2c2b3266072e6db52c72a3161b834ac4dd4c5b65c8d00752c9d8eb4243",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜水土保持工程__moex-civil-ordinary-ordinary-track-d83fc6837c9b.zip",
         "moex-civil-ordinary-ordinary-track-d83fc6837c9b.zip"
@@ -14109,7 +14109,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-d853e7a21e90--b34008f724cd.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-d853e7a21e90--b34008f724cd.zip",
-      "checksum": "9ea996dddf47a44a445e183887f632961d1271a508844d214e470e388aa5b1f1",
+      "checksum": "a24d3bcd7b70b4d1fa13efeec563f77ab84de14cc5a963ba5f8d093ffd99bcea",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜環保行政__moex-civil-ordinary-ordinary-track-d853e7a21e90.zip",
         "moex-civil-ordinary-ordinary-track-d853e7a21e90.zip"
@@ -14204,7 +14204,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-dfa306b8a5c2--b60b85fc689b.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-dfa306b8a5c2--b60b85fc689b.zip",
-      "checksum": "b5e568d589895c0a65054f60f9204a81538b6752307b310df47c980d46af7618",
+      "checksum": "e03b255384643751494b6b63d32a842bd8baa2f9db9c52e4f9f03ae0edf9e34b",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜園藝__moex-civil-ordinary-ordinary-track-dfa306b8a5c2.zip",
         "moex-civil-ordinary-ordinary-track-dfa306b8a5c2.zip"
@@ -14299,7 +14299,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-e191505babe5--9fbd32b3e4c0.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-e191505babe5--9fbd32b3e4c0.zip",
-      "checksum": "b24f4e457063bb1e48e9d1e94d1a9eabf4cc5000af785b5a7684364f857d282f",
+      "checksum": "e3ee7a2fd64fd62b21bbc6d172db54108626d3ee90e532377474e63f7f6405ba",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜經建行政__moex-civil-ordinary-ordinary-track-e191505babe5.zip",
         "moex-civil-ordinary-ordinary-track-e191505babe5.zip"
@@ -14451,7 +14451,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-e8446c8a3463--f9900d21475c.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-e8446c8a3463--f9900d21475c.zip",
-      "checksum": "38b5b85d5a5713d64791cd927c1a18356e0eab28b17a69e154ddd8ecca3838fd",
+      "checksum": "10f6a98ea893bc970326292b185fdce19c4268b0fa93bceaf770943cf4f63da2",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜交通行政__moex-civil-ordinary-ordinary-track-e8446c8a3463.zip",
         "moex-civil-ordinary-ordinary-track-e8446c8a3463.zip"
@@ -14508,7 +14508,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-ebed1da0b0b7--70466bd787c1.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-ebed1da0b0b7--70466bd787c1.zip",
-      "checksum": "0febbcdeff93d9fded415f3ab95010d8bb049519fbbbb9e650b46307b8f620d2",
+      "checksum": "a49a93a3c9292e35b29669b6aae43827bdb01fd6c757612fff1ae7be1262bffa",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜農業行政__moex-civil-ordinary-ordinary-track-ebed1da0b0b7.zip",
         "moex-civil-ordinary-ordinary-track-ebed1da0b0b7.zip"
@@ -14565,7 +14565,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-ed71756f98b5--17d5c96b7a0a.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-ed71756f98b5--17d5c96b7a0a.zip",
-      "checksum": "7a11c7067df22da3b464a421bec9414b212c140ff533b49726f6cc677b6a74f8",
+      "checksum": "eb9e4ede94ecaf52321566acdc5ee1d10ff3bf1831439c8ccab5aae61ccea520",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜圖書資訊管理__moex-civil-ordinary-ordinary-track-ed71756f98b5.zip",
         "moex-civil-ordinary-ordinary-track-ed71756f98b5.zip"
@@ -14736,7 +14736,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-f563d9ecee93--d6f0157f1c87.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-f563d9ecee93--d6f0157f1c87.zip",
-      "checksum": "b7ffa633ed6d3e3b197ec6c0ee1ce94fcf3bcae68b8c6f0be109c5856f8cc42b",
+      "checksum": "b2983073268541bb5b350d6c87fdc47389c3b8764101e244e83ca1f2b8785ccc",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜職業安全衛生__moex-civil-ordinary-ordinary-track-f563d9ecee93.zip",
         "moex-civil-ordinary-ordinary-track-f563d9ecee93.zip"
@@ -14795,7 +14795,7 @@
       "release_tag": "default-bundles-v2-002",
       "storage_key": "bundles/sites/default/moex-civil-ordinary-ordinary-track-fe760beea427--fb60d7756de9.zip",
       "asset_name": "moex-civil-ordinary-ordinary-track-fe760beea427--fb60d7756de9.zip",
-      "checksum": "e51e8e721b7cf3d22ef4f926451bdeb8fcd2150bcab640765f0526a4c695c062",
+      "checksum": "c25a667c5861b5bb45fd9d6a096f75dff3d858c764f6f8175c36293d7c6b129e",
       "legacy_asset_names": [
         "普通考試｜普通／普考｜測量製圖__moex-civil-ordinary-ordinary-track-fe760beea427.zip",
         "moex-civil-ordinary-ordinary-track-fe760beea427.zip"
@@ -34553,7 +34553,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-accountant--d15d00d649bf.zip",
       "asset_name": "moex-professional-high-professional-high-accountant--d15d00d649bf.zip",
-      "checksum": "f8a9b798f15875f0d4ce1273b3ce694f18c71018cfe22277a2ebbba62504c8b1",
+      "checksum": "453a7ae6da4fd540dd367f538960b93ae10960dac49fa6a984a0f5859366bdda",
       "legacy_asset_names": [
         "專技高考｜專技高考｜會計師__moex-professional-high-professional-high-accountant.zip",
         "moex-professional-high-professional-high-accountant.zip"
@@ -34732,7 +34732,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-nurse--3becf79dad64.zip",
       "asset_name": "moex-professional-high-professional-high-nurse--3becf79dad64.zip",
-      "checksum": "67443379c8a77339373a6bc331ed7499caaa404295aba804c65dd59aaa86ca53",
+      "checksum": "896c94ff21b5aea1d3032a07d6fbe5a1d42f4a1918901723afa0d635a60cd7ad",
       "legacy_asset_names": [
         "專技高考｜專技高考｜護理師__moex-professional-high-professional-high-nurse.zip",
         "moex-professional-high-professional-high-nurse.zip"
@@ -34751,7 +34751,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-40064aa74cef--47b2a13f87dc.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-40064aa74cef--47b2a13f87dc.zip",
-      "checksum": "38d6162c471d28eb93ebd2d65babca85c2da856b988b2acb4eb590102c430a67",
+      "checksum": "21f26bd2d2b997e659eeb5bdb7449cfd2750f5f013b4f548afd0a5d4430e6c3f",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-40064aa74cef__moex-professional-high-professional-high-patent-attorney-elective-language-40064.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-40064.zip"
@@ -34772,7 +34772,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-4bfc0fe9ae3d--c11fff473c11.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-4bfc0fe9ae3d--c11fff473c11.zip",
-      "checksum": "adcc67825ecf45b1f923bdeb5d3e71201d20cfbb1aa552c6fcda37ebdc82fa8d",
+      "checksum": "40bfb01959d80d280eae733f42b3499cf437abc5bb231fe94e1fce7a9f2e1960",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-4bfc0fe9ae3d__moex-professional-high-professional-high-patent-attorney-elective-language-4bfc0.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-4bfc0.zip"
@@ -34793,7 +34793,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-540e2cf9a014--c97adc0e4f3f.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-540e2cf9a014--c97adc0e4f3f.zip",
-      "checksum": "1bfea3fd365d4834315b7254a4b9ed9a660196144716599a1ade7668d0d7658e",
+      "checksum": "b9c43127b6a5684601e51afe584d0cb8459fd12c377b7c776c0556c0023ff381",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-540e2cf9a014__moex-professional-high-professional-high-patent-attorney-elective-language-540e2.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-540e2.zip"
@@ -34814,7 +34814,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-56c994dfc25d--8a642c0985ff.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-56c994dfc25d--8a642c0985ff.zip",
-      "checksum": "a4f90c78ba2f3177f3ec53066f4bd82a45828452d9033009522aa7eaad342279",
+      "checksum": "43810e974903ce3d8078c1acf6a77955cb1ad0b9db7a449695a4de8d900ca94a",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-56c994dfc25d__moex-professional-high-professional-high-patent-attorney-elective-language-56c99.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-56c99.zip"
@@ -34835,7 +34835,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-5bfb7d1fbfc8--a7c5cd5a69ba.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-5bfb7d1fbfc8--a7c5cd5a69ba.zip",
-      "checksum": "ec2c0de586cbfb9c91b049940ef0cafd5084b4ecc4566e6774eb6fb5bf91217c",
+      "checksum": "1a4870a634254dff7b76eb0ba45cb391244f0307d0f368c054fa1d07db9513ec",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-5bfb7d1fbfc8__moex-professional-high-professional-high-patent-attorney-elective-language-5bfb7.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-5bfb7.zip"
@@ -34856,7 +34856,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-683552bb7317--60267576386d.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-683552bb7317--60267576386d.zip",
-      "checksum": "8e544e004b60936bc5c03c14b104a1b3bd5792ad36b0e1b397e6ccd8553781ad",
+      "checksum": "6085017045b8d927a31148b7faaa17c7ac8fa76d11f6d4e77c27f0a2faf6b66a",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-683552bb7317__moex-professional-high-professional-high-patent-attorney-elective-language-68355.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-68355.zip"
@@ -34877,7 +34877,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-89569bb29706--aed02ac8b773.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-89569bb29706--aed02ac8b773.zip",
-      "checksum": "500c45c69c06d6f65b493a8b9337602dd67ded72ed6c1712d4a2497db28a03c0",
+      "checksum": "b52ce8cf06c5771f88c7c0684a6e4b832a9b4d36e5f36bcbf2e36edc02efa469",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-89569bb29706__moex-professional-high-professional-high-patent-attorney-elective-language-89569.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-89569.zip"
@@ -34898,7 +34898,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-8abf6b49368e--ca482228dd52.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-8abf6b49368e--ca482228dd52.zip",
-      "checksum": "f785952586214a8d7c1f5c247ce60daa164604e03313afcf3c78f822fcb2d533",
+      "checksum": "745fe9b230203b2eddeb3f2942907110433d4d365bc62bd78a4d4f043dae8be1",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-8abf6b49368e__moex-professional-high-professional-high-patent-attorney-elective-language-8abf6.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-8abf6.zip"
@@ -34961,7 +34961,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-d29b4d0be280--066a83f7e7ac.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-d29b4d0be280--066a83f7e7ac.zip",
-      "checksum": "1b45cb1d911cc2752c93e08cd6671b9d44f1b783793b757d3164f8085a8568e4",
+      "checksum": "32bffb9bfce615a78f16d26b0b9fdd7173d45dcb437c501c987a70538941f79d",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-d29b4d0be280__moex-professional-high-professional-high-patent-attorney-elective-language-d29b4.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-d29b4.zip"
@@ -34982,7 +34982,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-d2badaec0825--2bbc7b157652.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-d2badaec0825--2bbc7b157652.zip",
-      "checksum": "c0ba380973d621dd7498f24734efb070d8050d88a08d9a1900cf208109d2a8b6",
+      "checksum": "34baa619195c5141e64d5cc4fe4040f67b7875bb538e7f5865a11d1d47ae9c16",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-d2badaec0825__moex-professional-high-professional-high-patent-attorney-elective-language-d2bad.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-d2bad.zip"
@@ -35003,7 +35003,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-e63d629dce6a--492857eac17b.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-e63d629dce6a--492857eac17b.zip",
-      "checksum": "4ed86fdedc22f0130aa7fec29b2b47630928493adfe769742bf5f24c226642af",
+      "checksum": "6feae8f67ef31152d9e3416ddeb5cc835397f68f79d3c3b2f1513eafc9bdb182",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-e63d629dce6a__moex-professional-high-professional-high-patent-attorney-elective-language-e63d6.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-e63d6.zip"
@@ -35024,7 +35024,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-patent-attorney-elective-language-eeeead74b286--c92607408b2d.zip",
       "asset_name": "moex-professional-high-professional-high-patent-attorney-elective-language-eeeead74b286--c92607408b2d.zip",
-      "checksum": "c7a2f6d0a0d445b7bfe59f05e02cd7ff21d253e6cb880fc5f1fd2a6f17791fa6",
+      "checksum": "9ec6b44ee408ce0a3415c70d439f3fe127a0011aebfd7f7f2aecc1844b5f33d2",
       "legacy_asset_names": [
         "專技高考｜專技高考｜專利師｜elective-language-eeeead74b286__moex-professional-high-professional-high-patent-attorney-elective-language-eeeea.zip",
         "moex-professional-high-professional-high-patent-attorney-elective-language-eeeea.zip"
@@ -35216,7 +35216,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-21589f0d87b5--7443808b8e4d.zip",
       "asset_name": "moex-professional-high-professional-high-track-21589f0d87b5--7443808b8e4d.zip",
-      "checksum": "559dbdfa1213f80de72701e1397fabaafcb8db334f393d0b11c613d4b3700785",
+      "checksum": "3b916507c82881cc56ad5a49dc8c1756dbebef4244151dd1fbbfa1256c630360",
       "legacy_asset_names": [
         "專技高考｜專技高考｜語言治療師__moex-professional-high-professional-high-track-21589f0d87b5.zip",
         "moex-professional-high-professional-high-track-21589f0d87b5.zip"
@@ -35292,7 +35292,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-30f9d36613c1--102f4e2debac.zip",
       "asset_name": "moex-professional-high-professional-high-track-30f9d36613c1--102f4e2debac.zip",
-      "checksum": "c660252edfdf7725c2da59919ee0216444da9590ac720fd030f763ca479483bd",
+      "checksum": "550faae62f7f77d3f886d872c8d4a4fbe827c0b12564eb420ae38c21d1cd242d",
       "legacy_asset_names": [
         "專技高考｜專技高考｜民間之公證人__moex-professional-high-professional-high-track-30f9d36613c1.zip",
         "moex-professional-high-professional-high-track-30f9d36613c1.zip"
@@ -35387,7 +35387,7 @@
       "release_tag": "default-bundles-v2-004",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-3e7af1c8af08--6cdd10cfde06.zip",
       "asset_name": "moex-professional-high-professional-high-track-3e7af1c8af08--6cdd10cfde06.zip",
-      "checksum": "b675f3477a885c70944a1eb5f45a64b4a833f1c552104a599fc9f40d320c29ff",
+      "checksum": "1155083d7dc908b2a6f415e8be48b1865442c9092b251ef39694f5b0b74a0f39",
       "legacy_asset_names": [
         "專技高考｜專技高考｜不動產估價師__moex-professional-high-professional-high-track-3e7af1c8af08.zip",
         "moex-professional-high-professional-high-track-3e7af1c8af08.zip"
@@ -35664,6 +35664,25 @@
       "exam_series_id": "professional-high",
       "level_id": "professional-high",
       "track_id": "track-7661250cf31b",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-001",
+      "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-76c5e812caa2--1a9d337d8002.zip",
+      "asset_name": "moex-professional-high-professional-high-track-76c5e812caa2--1a9d337d8002.zip",
+      "checksum": "7acd83f870f74142ca1e1786cb0da02f5e3d760d811387923266e51646ecc8e7",
+      "legacy_asset_names": [
+        "專技高考｜專技高考｜植物診療師__moex-professional-high-professional-high-track-76c5e812caa2.zip",
+        "moex-professional-high-professional-high-track-76c5e812caa2.zip"
+      ],
+      "bundle_id": "moex-professional-high-professional-high-track-76c5e812caa2",
+      "domain_id": "professional",
+      "exam_family_id": "professional-exam",
+      "exam_series_id": "professional-high",
+      "level_id": "professional-high",
+      "track_id": "track-76c5e812caa2",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -36052,7 +36071,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-b02813f14327--59a928974a50.zip",
       "asset_name": "moex-professional-high-professional-high-track-b02813f14327--59a928974a50.zip",
-      "checksum": "8b6b389a1d7a1b931a41e109a143de5737210ed47ddfe0b68900cf33bd427a9f",
+      "checksum": "72c02df6bff26a36a831c56962ac981037ab046e271a2e53eb4960e4d127f31e",
       "legacy_asset_names": [
         "專技高考｜專技高考｜驗光師__moex-professional-high-professional-high-track-b02813f14327.zip",
         "moex-professional-high-professional-high-track-b02813f14327.zip"
@@ -36261,7 +36280,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-professional-high-professional-high-track-c7a1f89e2141--c246251751af.zip",
       "asset_name": "moex-professional-high-professional-high-track-c7a1f89e2141--c246251751af.zip",
-      "checksum": "4cbc21dcb2eded6bc59bc6acc29673c950fd0ad344cfb5c2d82285bf4de1ed11",
+      "checksum": "fc1ae3ae7b66f2a3464e89fe5b7368a360c58052d638d478d77af3398f468380",
       "legacy_asset_names": [
         "專技高考｜專技高考｜聽力師__moex-professional-high-professional-high-track-c7a1f89e2141.zip",
         "moex-professional-high-professional-high-track-c7a1f89e2141.zip"
@@ -40821,7 +40840,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-3-track-2558d547f4cb--180fb80384f1.zip",
       "asset_name": "moex-special-coast-guard-grade-3-track-2558d547f4cb--180fb80384f1.zip",
-      "checksum": "e234100c503df451dfdd8499fde9a6c534b8b7249d5f3c7472d0f20594664830",
+      "checksum": "78338d7bebe3675d7f648add737d25553ed96505b2e90733aaed9c07f8fed537",
       "legacy_asset_names": [
         "海巡特考｜三等／高考三級｜海巡行政科__moex-special-coast-guard-grade-3-track-2558d547f4cb.zip",
         "moex-special-coast-guard-grade-3-track-2558d547f4cb.zip"
@@ -40859,7 +40878,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-3-track-4b4b615469b7--632d6a6c029d.zip",
       "asset_name": "moex-special-coast-guard-grade-3-track-4b4b615469b7--632d6a6c029d.zip",
-      "checksum": "ff192df6f1ea07bcf46e9270387e9a6dd04d9f2b9783eea6143c48b4548def8f",
+      "checksum": "ee4c2288e056e75d9fa8d171c44944f97c4b410b25402c77bd2a47225ed4baf3",
       "legacy_asset_names": [
         "海巡特考｜三等／高考三級｜海洋巡護科輪機組__moex-special-coast-guard-grade-3-track-4b4b615469b7.zip",
         "moex-special-coast-guard-grade-3-track-4b4b615469b7.zip"
@@ -40878,7 +40897,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-3-track-91363ff5f8f7--44e06840cae4.zip",
       "asset_name": "moex-special-coast-guard-grade-3-track-91363ff5f8f7--44e06840cae4.zip",
-      "checksum": "b6f0bf8547c85d8ad6eb4914af006920a4f59f582c4fc955479117b7e14eef21",
+      "checksum": "4d86deb508003d832cabae831a937e920e5f054cbdd741eb85431ec090c216f9",
       "legacy_asset_names": [
         "海巡特考｜三等／高考三級｜海洋巡護科航海組__moex-special-coast-guard-grade-3-track-91363ff5f8f7.zip",
         "moex-special-coast-guard-grade-3-track-91363ff5f8f7.zip"
@@ -40916,7 +40935,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-4-track-4b4b615469b7--af900911029c.zip",
       "asset_name": "moex-special-coast-guard-grade-4-track-4b4b615469b7--af900911029c.zip",
-      "checksum": "091a64368926e2c8cd0b0654f67150384ad7789779b455c4046f71146773fbf7",
+      "checksum": "3e3708c9368338f7543e2999e57427934731b4ce7234cc6efec80354dbb9cd4a",
       "legacy_asset_names": [
         "海巡特考｜四等｜海洋巡護科輪機組__moex-special-coast-guard-grade-4-track-4b4b615469b7.zip",
         "moex-special-coast-guard-grade-4-track-4b4b615469b7.zip"
@@ -40935,7 +40954,7 @@
       "release_tag": "default-bundles-v2-005",
       "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-4-track-91363ff5f8f7--1c091be909c3.zip",
       "asset_name": "moex-special-coast-guard-grade-4-track-91363ff5f8f7--1c091be909c3.zip",
-      "checksum": "632d40b39f1c3f5981eb2688bc657d8ed36061694ebdda975b374bce30cc036a",
+      "checksum": "88a7ce1ee79f9aeea459c16418dd2662ee750c2a1e04e413c765bee1ccb71d47",
       "legacy_asset_names": [
         "海巡特考｜四等｜海洋巡護科航海組__moex-special-coast-guard-grade-4-track-91363ff5f8f7.zip",
         "moex-special-coast-guard-grade-4-track-91363ff5f8f7.zip"
@@ -40946,6 +40965,25 @@
       "exam_series_id": "special-coast-guard",
       "level_id": "grade-4",
       "track_id": "track-91363ff5f8f7",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-001",
+      "storage_key": "bundles/sites/default/moex-special-coast-guard-grade-5-track-abf734168756--741575901fce.zip",
+      "asset_name": "moex-special-coast-guard-grade-5-track-abf734168756--741575901fce.zip",
+      "checksum": "1ac120eb037cb6350198e427c52beaa91c79e0218d9306f2bff9a71fa2a87116",
+      "legacy_asset_names": [
+        "海巡特考｜五等｜海洋巡護科__moex-special-coast-guard-grade-5-track-abf734168756.zip",
+        "moex-special-coast-guard-grade-5-track-abf734168756.zip"
+      ],
+      "bundle_id": "moex-special-coast-guard-grade-5-track-abf734168756",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-coast-guard",
+      "level_id": "grade-5",
+      "track_id": "track-abf734168756",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -47021,7 +47059,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-indigenous-grade-3-track-aa00c94be34f--432ecb4a4c9b.zip",
       "asset_name": "moex-special-indigenous-grade-3-track-aa00c94be34f--432ecb4a4c9b.zip",
-      "checksum": "438d9742b2943ae203eb47f2c4fa1ab6f9f18eb831ed1848ebe0286e85229dff",
+      "checksum": "c9c8697ceaaad895848e8cfec2928f21185f8550f9b77f2390250b7a4a313d89",
       "legacy_asset_names": [
         "原住民族特考｜三等／高考三級｜原住民族行政__moex-special-indigenous-grade-3-track-aa00c94be34f.zip",
         "moex-special-indigenous-grade-3-track-aa00c94be34f.zip"
@@ -48337,7 +48375,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-indigenous-ordinary-track-aa00c94be34f--6bebf157e756.zip",
       "asset_name": "moex-special-indigenous-ordinary-track-aa00c94be34f--6bebf157e756.zip",
-      "checksum": "d9fde67211a5bd913dc0606136b708b45e35f714f4320f2b27ae1c66176405ba",
+      "checksum": "083ff6fcd14a26f16d96eac7858e8a3c45bf18504cfc52f44da85432f2e0e1c5",
       "legacy_asset_names": [
         "原住民族特考｜普通／普考｜原住民族行政__moex-special-indigenous-ordinary-track-aa00c94be34f.zip",
         "moex-special-indigenous-ordinary-track-aa00c94be34f.zip"
@@ -48945,7 +48983,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-0cc543c67005--4d548ce3394a.zip",
       "asset_name": "moex-special-judicial-grade-3-track-0cc543c67005--4d548ce3394a.zip",
-      "checksum": "cc30f76d34ca04b82a92addb92a6d8bac47bf6dff3d01f04822d892e2c1ec0d1",
+      "checksum": "f010e82ab237e576c2215fea2d7c8230c4e668d597fec00a2f938f12e7b13204",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜檢察事務官類科偵查實務組__moex-special-judicial-grade-3-track-0cc543c67005.zip",
         "moex-special-judicial-grade-3-track-0cc543c67005.zip"
@@ -49002,7 +49040,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-24744d32f458--c21b3c4e8285.zip",
       "asset_name": "moex-special-judicial-grade-3-track-24744d32f458--c21b3c4e8285.zip",
-      "checksum": "c244632cb311f2e9ab82e4e0d94a9adfd46d65a988da5a2a4f238c26e92356b8",
+      "checksum": "bbf96e6d30a5bda953312157b13d5af02fe95143b64fbcc33367861332c442b1",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜電子科學組__moex-special-judicial-grade-3-track-24744d32f458.zip",
         "moex-special-judicial-grade-3-track-24744d32f458.zip"
@@ -49021,7 +49059,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-286da123324e--703fad6c97bb.zip",
       "asset_name": "moex-special-judicial-grade-3-track-286da123324e--703fad6c97bb.zip",
-      "checksum": "5586cfcb4fceb0917727126ef5ec5271debd7b3b62d850d6b93d1c5d8f0568c9",
+      "checksum": "ce852d12b78b064323a763ce665070dac7961413e34a288ca2a3003e6c04b72a",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜心理測驗員__moex-special-judicial-grade-3-track-286da123324e.zip",
         "moex-special-judicial-grade-3-track-286da123324e.zip"
@@ -49040,7 +49078,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-30100290d4e0--776ba2352401.zip",
       "asset_name": "moex-special-judicial-grade-3-track-30100290d4e0--776ba2352401.zip",
-      "checksum": "a26c20599c4dc6aeeb05b1831137f2c3e6fb2ac68975c882da7a9d47ac23a27d",
+      "checksum": "50c90f8ac99581db194cb7c831a96dc9c8c5005dc0032a0eeb91e319ff3798f1",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜監獄官(女)__moex-special-judicial-grade-3-track-30100290d4e0.zip",
         "moex-special-judicial-grade-3-track-30100290d4e0.zip"
@@ -49059,7 +49097,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-3159a45d74ac--ad7613a8eab6.zip",
       "asset_name": "moex-special-judicial-grade-3-track-3159a45d74ac--ad7613a8eab6.zip",
-      "checksum": "1cc2029dae755f261f67ea623fc1503c58cfaf23b150928c094237da9dfa0725",
+      "checksum": "7402c9dcdec01aab2b02b4f971094fd783b84c4d5e8c708d1db2b30de536795b",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜醫學鑑識組__moex-special-judicial-grade-3-track-3159a45d74ac.zip",
         "moex-special-judicial-grade-3-track-3159a45d74ac.zip"
@@ -49078,7 +49116,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-3ba81e0e2cbc--83bfb4519b56.zip",
       "asset_name": "moex-special-judicial-grade-3-track-3ba81e0e2cbc--83bfb4519b56.zip",
-      "checksum": "17bed4b123706c3d787a1a440fdb0def116485043b4fdb2a2f657f5c87d1f677",
+      "checksum": "ad96d29d3129abc75206e810d76ed7e8865a1fbd2e0573ee16d2a0ec3f75062d",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜檢察事務官類科電子資訊組__moex-special-judicial-grade-3-track-3ba81e0e2cbc.zip",
         "moex-special-judicial-grade-3-track-3ba81e0e2cbc.zip"
@@ -49097,7 +49135,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-40b6bfcf899c--e6e1c2046113.zip",
       "asset_name": "moex-special-judicial-grade-3-track-40b6bfcf899c--e6e1c2046113.zip",
-      "checksum": "4c0d4215be26e8be5da5231d763b605777fbeef4cb28dbd8a364f02fb112569e",
+      "checksum": "2f642d4002e6b06cc6f7cbf847cb6203d0ef44f4510b1ee2ff68b2d3a60feddd",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜檢察事務官類科營繕工程組__moex-special-judicial-grade-3-track-40b6bfcf899c.zip",
         "moex-special-judicial-grade-3-track-40b6bfcf899c.zip"
@@ -49116,7 +49154,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-4a1d08ac767d--137e069b104c.zip",
       "asset_name": "moex-special-judicial-grade-3-track-4a1d08ac767d--137e069b104c.zip",
-      "checksum": "b82550649cf931f4de3bff1ca343e84840710623fc33de32e52831a6df2c1c90",
+      "checksum": "3f260d917e5d4707cbc5129e7d0a5f282a7da4fbb1cd33f58e8ccd020f03deb7",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜財經實務組__moex-special-judicial-grade-3-track-4a1d08ac767d.zip",
         "moex-special-judicial-grade-3-track-4a1d08ac767d.zip"
@@ -49192,7 +49230,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-5ed4b84b951b--bf1f4d275592.zip",
       "asset_name": "moex-special-judicial-grade-3-track-5ed4b84b951b--bf1f4d275592.zip",
-      "checksum": "25ef0a18a6e9833ecf2d0c457d09c766dabf0fb45869bb86ec5a3ad202de1145",
+      "checksum": "c0738278c5ea5d6e38a86b898066fd3ced437016bde39ea483c6e622c3b9f1f4",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜司法事務官類科法律事務組__moex-special-judicial-grade-3-track-5ed4b84b951b.zip",
         "moex-special-judicial-grade-3-track-5ed4b84b951b.zip"
@@ -49329,7 +49367,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-855d8de4f3d0--e5064b7e35b5.zip",
       "asset_name": "moex-special-judicial-grade-3-track-855d8de4f3d0--e5064b7e35b5.zip",
-      "checksum": "be28b293a6fcc68d168328cc39ebf21573e4815b144ae48d6843c47053073a25",
+      "checksum": "ef6002ce70d6a2522cc09bc9f0b66c4a3e98dc3525b1dafc7b892d8f86366f6f",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜心理輔導員__moex-special-judicial-grade-3-track-855d8de4f3d0.zip",
         "moex-special-judicial-grade-3-track-855d8de4f3d0.zip"
@@ -49348,7 +49386,7 @@
       "release_tag": "default-bundles-v2-008",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-85beb7580dee--93efa6977728.zip",
       "asset_name": "moex-special-judicial-grade-3-track-85beb7580dee--93efa6977728.zip",
-      "checksum": "c97352e2c84f96a812035123eb2e3eb76c25ac333c1e834ad12ef55693e2b248",
+      "checksum": "09ad21286c9ad9a1fdb82785f7bedc5246d1b6dd4e1785f3c3dcd7e1961c9169",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜檢察事務官類科財經實務組__moex-special-judicial-grade-3-track-85beb7580dee.zip",
         "moex-special-judicial-grade-3-track-85beb7580dee.zip"
@@ -49388,7 +49426,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-920f4046e138--bc537fa76502.zip",
       "asset_name": "moex-special-judicial-grade-3-track-920f4046e138--bc537fa76502.zip",
-      "checksum": "8d9a4eb3a983d43500bcfea38e0bb99bd73d3fe681b7e073323b97d8194e84b0",
+      "checksum": "de568ba868dc87debb4ec6e130ff0eb251a2674809fcbb1440823fd02d6d5852",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜行政執行官__moex-special-judicial-grade-3-track-920f4046e138.zip",
         "moex-special-judicial-grade-3-track-920f4046e138.zip"
@@ -49407,7 +49445,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a114353c051b--5ef52cfd630b.zip",
       "asset_name": "moex-special-judicial-grade-3-track-a114353c051b--5ef52cfd630b.zip",
-      "checksum": "6c7040389cd52d612d4ee9431aaac47c99313b8bad9cfff4b86597fe2255d6ec",
+      "checksum": "6cf371876a2b5a2ab31a0302548b8b44f89a2acaf800072f540786134ee29028",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜監獄官(男)__moex-special-judicial-grade-3-track-a114353c051b.zip",
         "moex-special-judicial-grade-3-track-a114353c051b.zip"
@@ -49445,7 +49483,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-a75ba3f43ea8--9dec41861238.zip",
       "asset_name": "moex-special-judicial-grade-3-track-a75ba3f43ea8--9dec41861238.zip",
-      "checksum": "c2d0a18c785f9a0083333607a75a17575cf66015296996b0ed81f82f33521295",
+      "checksum": "fe86738611e1691f02e5a2998ebf2534afe590774835cc2a7d9f7cbe082ffb7d",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜法律實務組__moex-special-judicial-grade-3-track-a75ba3f43ea8.zip",
         "moex-special-judicial-grade-3-track-a75ba3f43ea8.zip"
@@ -49567,7 +49605,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b29c6cc1e77d--34a4ea1394ea.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b29c6cc1e77d--34a4ea1394ea.zip",
-      "checksum": "aecdc779a46ebd94af7e3e4ad3591fcd9cf1f01d645c8d6c8c2cb3c20085afb7",
+      "checksum": "2a924afd53038c0857b09b3ac2017c19840706f6f2b81ccb0a8c3068a6e4666c",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜公證人__moex-special-judicial-grade-3-track-b29c6cc1e77d.zip",
         "moex-special-judicial-grade-3-track-b29c6cc1e77d.zip"
@@ -49607,7 +49645,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-056c69935025--75f7a4306290.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-056c69935025--75f7a4306290.zip",
-      "checksum": "e0855ad60eebf3550c3290fb624618bc099b45a5aa77d9b9081f86b417271bbc",
+      "checksum": "a88cf28211f625ea1a84568acf8766a7cda7e97c1927440a550365b05a9deaff",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-056c69935025__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-056c69935025.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-056c69935025.zip"
@@ -49628,7 +49666,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2dca33dc64da--78a22d957707.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2dca33dc64da--78a22d957707.zip",
-      "checksum": "0c3099ef18da1e5ed3d1f93262ece96dbbcf871fbb4a01579661ef4b456572ad",
+      "checksum": "902304a845efa745da42f1d717ed419200cb5a69c118c36ce5900523e2f1454f",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-2dca33dc64da__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2dca33dc64da.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2dca33dc64da.zip"
@@ -49649,7 +49687,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2f0ccdf33145--fff73468ad77.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2f0ccdf33145--fff73468ad77.zip",
-      "checksum": "18eaaec8ed00caea38d39a404e615d6dfefed73e6b076e25bddbd1bc61445ea8",
+      "checksum": "d57c36aaf7ae8eb69eef8c5e9fabaa833f34a75211016893443d8cc90125e2bb",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-2f0ccdf33145__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2f0ccdf33145.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-2f0ccdf33145.zip"
@@ -49670,7 +49708,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-348ea84c6046--c62c675c24ca.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-348ea84c6046--c62c675c24ca.zip",
-      "checksum": "27fbf86b1133d9a59f771caacc2dca09e869d29265924da23148ca7096de234c",
+      "checksum": "59e23d1a127e7e87846c4245c753827f32e0c9992c1e4e064c6408c9c54c8c11",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-348ea84c6046__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-348ea84c6046.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-348ea84c6046.zip"
@@ -49691,7 +49729,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-4ce5ef09ac88--20c98fa8bd87.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-4ce5ef09ac88--20c98fa8bd87.zip",
-      "checksum": "81fc4b09879ce2170965affcac6066bc6ea4c3167a79a0522c37f170b3fd2ffc",
+      "checksum": "8416ddd0e20c29d53cf6a17497f1d329943b2bb8f06722ed84c25865d65cc190",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-4ce5ef09ac88__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-4ce5ef09ac88.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-4ce5ef09ac88.zip"
@@ -49712,7 +49750,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-bad2ea77ca32--1245b7185e87.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-bad2ea77ca32--1245b7185e87.zip",
-      "checksum": "0d0436b1ca3d80ad80eebb70ea90585f5f25ee360280c842dab38e8f2d2b2bfe",
+      "checksum": "7ea059904e0b0281057212a8c007993b57bc67da3a243d1a721764ce5e9c622e",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-bad2ea77ca32__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-bad2ea77ca32.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-bad2ea77ca32.zip"
@@ -49733,7 +49771,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-cb25397603c9--05e55a8aca9f.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-cb25397603c9--05e55a8aca9f.zip",
-      "checksum": "88723352dce8f524e43e8411e45ff55456f7d39a4ae30c98c000b493209d1a23",
+      "checksum": "80ea5395d0f25abe9cc84fcaef88a9ffd629bc9a64eafafd20179feb78f6bb91",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-cb25397603c9__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-cb25397603c9.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-cb25397603c9.zip"
@@ -49754,7 +49792,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-ffb5f47363d4--62f7d93326d4.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-ffb5f47363d4--62f7d93326d4.zip",
-      "checksum": "f18d688cf21abaa4b666f8717963ac52a9f842373e8033c3a14f2a9b6e21ab89",
+      "checksum": "1123515c50a3e61744c2bf9b1bb58c052d5b82f842280bbf6f4c79194af84827",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜調查工作組｜elective-language-ffb5f47363d4__moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-ffb5f47363d4.zip",
         "moex-special-judicial-grade-3-track-b3029bde9a40-elective-language-ffb5f47363d4.zip"
@@ -49775,7 +49813,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-b86ee295ec4a--7845d45af5fa.zip",
       "asset_name": "moex-special-judicial-grade-3-track-b86ee295ec4a--7845d45af5fa.zip",
-      "checksum": "01be56cb10559b3f62d83ef5d2f5bd9b28897b4d2975da330e3edf95160857cd",
+      "checksum": "3fc81f9724270db96355805f1802380b777b781cd09f369d35294a9d06968235",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜家事調查官__moex-special-judicial-grade-3-track-b86ee295ec4a.zip",
         "moex-special-judicial-grade-3-track-b86ee295ec4a.zip"
@@ -49939,7 +49977,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-d6481d656f56--5a6363c94a6b.zip",
       "asset_name": "moex-special-judicial-grade-3-track-d6481d656f56--5a6363c94a6b.zip",
-      "checksum": "f294291bd376537e8af95666e604bfcc62ead4a30534c0a88879b3017f6b327a",
+      "checksum": "ea331d37addbbef84e2d14984e81b0529ee08f30768bde4d3ba3596a10693eca",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜化學鑑識組__moex-special-judicial-grade-3-track-d6481d656f56.zip",
         "moex-special-judicial-grade-3-track-d6481d656f56.zip"
@@ -49958,7 +49996,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-d685444c8d7d--b7c01133a8a2.zip",
       "asset_name": "moex-special-judicial-grade-3-track-d685444c8d7d--b7c01133a8a2.zip",
-      "checksum": "f2306069de9761d7a462382d996f0094554f626a4937fe3860281126f3949f1f",
+      "checksum": "68aab2ef1abc15123478f162a5f631f731975d597ba52457ba6beeae8b0525e7",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜法院書記官__moex-special-judicial-grade-3-track-d685444c8d7d.zip",
         "moex-special-judicial-grade-3-track-d685444c8d7d.zip"
@@ -49969,6 +50007,25 @@
       "exam_series_id": "special-judicial",
       "level_id": "grade-3",
       "track_id": "track-d685444c8d7d",
+      "variant_ids": [],
+      "stage_id": "not-applicable",
+      "bundle_policy_id": "default-bundle-policy-v2"
+    },
+    {
+      "release_tag": "default-bundles-v2-001",
+      "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-d8ae696690c3--3ac6fc37e380.zip",
+      "asset_name": "moex-special-judicial-grade-3-track-d8ae696690c3--3ac6fc37e380.zip",
+      "checksum": "784965035ec6a8ea8cb612dac27a5635c20dc69ec445a0ac1fe5493852fe3bc5",
+      "legacy_asset_names": [
+        "司法特考｜三等／高考三級｜司法事務官類科財經事務組__moex-special-judicial-grade-3-track-d8ae696690c3.zip",
+        "moex-special-judicial-grade-3-track-d8ae696690c3.zip"
+      ],
+      "bundle_id": "moex-special-judicial-grade-3-track-d8ae696690c3",
+      "domain_id": "civil-service",
+      "exam_family_id": "civil-service-exam",
+      "exam_series_id": "special-judicial",
+      "level_id": "grade-3",
+      "track_id": "track-d8ae696690c3",
       "variant_ids": [],
       "stage_id": "not-applicable",
       "bundle_policy_id": "default-bundle-policy-v2"
@@ -49996,7 +50053,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-c34235672009--90cee8d93787.zip",
       "asset_name": "moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-c34235672009--90cee8d93787.zip",
-      "checksum": "a0dfd0c6e27f657d1a2e6542b1e8e58755cf61063932b0d7e1c1ae5dab53bf98",
+      "checksum": "597143f944298086ba5b600b3aecdfd50d1024e617465467a65ec0b463ec3fc7",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜觀護人｜elective-language-c34235672009__moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-c34235672009.zip",
         "moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-c34235672009.zip"
@@ -50017,7 +50074,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-e63bcb35fcdc--8462f231b0ba.zip",
       "asset_name": "moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-e63bcb35fcdc--8462f231b0ba.zip",
-      "checksum": "1b01a73070a8eb0d48e9c0b82987e613b14c2b07fbadd88b3304d25409576255",
+      "checksum": "d449ca914a4dfe15860578c5562a66678d4482d933d581b7cd075b4c8d835d76",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜觀護人｜elective-language-e63bcb35fcdc__moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-e63bcb35fcdc.zip",
         "moex-special-judicial-grade-3-track-e05ac09dd8f3-elective-language-e63bcb35fcdc.zip"
@@ -50099,7 +50156,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-e999661885ff--c92a95fe9af2.zip",
       "asset_name": "moex-special-judicial-grade-3-track-e999661885ff--c92a95fe9af2.zip",
-      "checksum": "47e79928a104e88cb851ea71332f2f3841b7c8a71a5c75391ee935aaa2adb8b1",
+      "checksum": "99de8247cce60da9fa614d633a4489d3387787058cfc753df67b38c2568967ec",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜營繕工程組__moex-special-judicial-grade-3-track-e999661885ff.zip",
         "moex-special-judicial-grade-3-track-e999661885ff.zip"
@@ -50139,7 +50196,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-3-track-f2e9fc2d53d2--8604bd5d4065.zip",
       "asset_name": "moex-special-judicial-grade-3-track-f2e9fc2d53d2--8604bd5d4065.zip",
-      "checksum": "c54af27b9711b71385dd9618edbe089807532fad27056347db5971db16cc5527",
+      "checksum": "41a58178947becb11544ae8af8ccd08228b21b01d346e6b626a0083c0cd3b3af",
       "legacy_asset_names": [
         "司法特考｜三等／高考三級｜資訊科學組__moex-special-judicial-grade-3-track-f2e9fc2d53d2.zip",
         "moex-special-judicial-grade-3-track-f2e9fc2d53d2.zip"
@@ -50196,7 +50253,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-0990f3dde851--0fb144dac296.zip",
       "asset_name": "moex-special-judicial-grade-4-track-0990f3dde851--0fb144dac296.zip",
-      "checksum": "5057ab3824688e09550b076550100495d8235247434b5bf2884202fa183e1903",
+      "checksum": "8a8d44a990d89cbb6d39e9b12b6506a204266b233ed94b63a12c8696d4359fc4",
       "legacy_asset_names": [
         "司法特考｜四等｜執行員__moex-special-judicial-grade-4-track-0990f3dde851.zip",
         "moex-special-judicial-grade-4-track-0990f3dde851.zip"
@@ -50215,7 +50272,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-1c93d41e649e--5f803fcee0fb.zip",
       "asset_name": "moex-special-judicial-grade-4-track-1c93d41e649e--5f803fcee0fb.zip",
-      "checksum": "643984af61f74b0d47e377e73ab29d4fa2835fb0ea7689a08b8f530575d68a5a",
+      "checksum": "fa76ba26679c5256f399c3ed792361984aa2c9b25445a338a73af48e85ff970e",
       "legacy_asset_names": [
         "司法特考｜四等｜監所管理員(男)__moex-special-judicial-grade-4-track-1c93d41e649e.zip",
         "moex-special-judicial-grade-4-track-1c93d41e649e.zip"
@@ -50253,7 +50310,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-547ecbdc2daa--1bcecc825c9b.zip",
       "asset_name": "moex-special-judicial-grade-4-track-547ecbdc2daa--1bcecc825c9b.zip",
-      "checksum": "1b75627c04c5f7662385826f3b00523e3740b0771f9fb2d2757a28ee11408222",
+      "checksum": "6c54bc0265363ef6f8868ed9c081ea823dc7eb6cc3f05556b607594e575a16bc",
       "legacy_asset_names": [
         "司法特考｜四等｜執達員__moex-special-judicial-grade-4-track-547ecbdc2daa.zip",
         "moex-special-judicial-grade-4-track-547ecbdc2daa.zip"
@@ -50348,7 +50405,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-d685444c8d7d--277eb058eeb2.zip",
       "asset_name": "moex-special-judicial-grade-4-track-d685444c8d7d--277eb058eeb2.zip",
-      "checksum": "71598047f023b35fde12d04012435956d238c5a153ce9aa8fd693a2597daf753",
+      "checksum": "9c9b56a8eebad7e11f6d3704aa8963af9c0c934fb2d3b2e76f897972b36d9b8f",
       "legacy_asset_names": [
         "司法特考｜四等｜法院書記官__moex-special-judicial-grade-4-track-d685444c8d7d.zip",
         "moex-special-judicial-grade-4-track-d685444c8d7d.zip"
@@ -50367,7 +50424,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-e28b60c048aa--1c094d62512d.zip",
       "asset_name": "moex-special-judicial-grade-4-track-e28b60c048aa--1c094d62512d.zip",
-      "checksum": "5f01744794f873637034961c25bc8a361c6920eba2975f84fafb94dbf7f2de98",
+      "checksum": "349588be4d2cca23b843bc68727eb18fe46647d46ff3348087a804a15d84c862",
       "legacy_asset_names": [
         "司法特考｜四等｜監所管理員(女)__moex-special-judicial-grade-4-track-e28b60c048aa.zip",
         "moex-special-judicial-grade-4-track-e28b60c048aa.zip"
@@ -50405,7 +50462,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-4-track-f5625cba2342--c9ca5d898a86.zip",
       "asset_name": "moex-special-judicial-grade-4-track-f5625cba2342--c9ca5d898a86.zip",
-      "checksum": "2ea37a33a761f16719e9ed95b4c310bf7db56a0fe9e4b2e9effdf833ce8710c8",
+      "checksum": "4e6a9738b6ca62980562f473fdc51cedd1a0ac05d24e60da3ecca4fee71322f4",
       "legacy_asset_names": [
         "司法特考｜四等｜法警__moex-special-judicial-grade-4-track-f5625cba2342.zip",
         "moex-special-judicial-grade-4-track-f5625cba2342.zip"
@@ -50443,7 +50500,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-5-track-4868e8bd15b9--6d9edbf0695e.zip",
       "asset_name": "moex-special-judicial-grade-5-track-4868e8bd15b9--6d9edbf0695e.zip",
-      "checksum": "c9568cd2a35988c70d5d34593b93a3134c0fead5af2181ce6a11da9db7dc8a85",
+      "checksum": "1b461b3e5691dfb3676417c433319751f86722563fd896d615a926d13698c7d4",
       "legacy_asset_names": [
         "司法特考｜五等｜庭務員__moex-special-judicial-grade-5-track-4868e8bd15b9.zip",
         "moex-special-judicial-grade-5-track-4868e8bd15b9.zip"
@@ -50462,7 +50519,7 @@
       "release_tag": "default-bundles-v2-006",
       "storage_key": "bundles/sites/default/moex-special-judicial-grade-5-track-57fc47b2b289--cc04a5e08467.zip",
       "asset_name": "moex-special-judicial-grade-5-track-57fc47b2b289--cc04a5e08467.zip",
-      "checksum": "f2a6b8360a26ae5d9ae2e36a8554db4dc18849624245c92c663470ee9568d530",
+      "checksum": "9a4f5b7039215f7ae7ec1b5b5868ef8da837025086b6aa5dd284715dc189ff9f",
       "legacy_asset_names": [
         "司法特考｜五等｜錄事__moex-special-judicial-grade-5-track-57fc47b2b289.zip",
         "moex-special-judicial-grade-5-track-57fc47b2b289.zip"
