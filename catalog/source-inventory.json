@@ -1293,7 +1293,7 @@
       "available_years": {
         "end_ad": 2026,
         "mode": "current_scope",
-        "note": "Current 115 school year / AD 2026; three official categories rechecked 2026-07-29",
+        "note": "Closed 115 school year / AD 2026; all six subject/final endpoints returned HTTP 503 on 2026-09-02",
         "start_ad": 2026
       },
       "discovery_snapshot": {
@@ -1319,10 +1319,10 @@
       ],
       "provider_id": "teacher_recruit_central_alliance",
       "restrictions": [
-        "The 2026-07-29 snapshot represents all three declared events with corrected category mapping (kindergarten A, elementary B, junior C). All subject/final page pairs returned HTTP 200, `已截止`, and no links; exact fingerprints remain in `catalog/source-coverage/teacher_recruit_central_alliance.json`. Provenance remains official through Taichung, Keelung, and Hsinchu notices."
+        "The 2026-07-29 snapshot represents all three declared events with corrected category mapping (kindergarten A, elementary B, junior C). All subject/final page pairs returned HTTP 200, `已截止`, and no links; exact fingerprints remain in `catalog/source-coverage/teacher_recruit_central_alliance.json`. All six endpoints returned HTTP 503 when rechecked 2026-09-02, so the expired 2026 workflow is manual-only. Provenance remains official through Taichung, Keelung, and Hsinchu notices."
       ],
       "status": "blocked",
-      "status_reason": "Blocked / source expired; source availability: Current 115 school year / AD 2026; three official categories rechecked 2026-07-29; local coverage: 2026; 3 → 0"
+      "status_reason": "Blocked / source expired; source availability: Closed 115 school year / AD 2026; all six subject/final endpoints returned HTTP 503 on 2026-09-02; local coverage: 2026; 3 → 0"
     },
     {
       "available_years": {
