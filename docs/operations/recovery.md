@@ -8,7 +8,9 @@ Preserve retained provider state and evidence first. Use the smallest repair tha
 2. Distinguish a transient transport failure from schema drift, an invalid payload, or a reproducible official-source blocker.
 3. Retry `sync-targeted` for a known changed set or `repair-failures` for recorded failures.
 4. Use `sync-incremental` for a bounded recent window; reserve `sync-full` for broadly untrusted state.
-5. Do not hand-edit generated state to make publication pass.
+5. If non-deployable partial output already reached `main`, first record the reviewed source status in its authoritative inventory/evidence, then restore only the affected generated files from the last deployable commit in a repair change.
+6. Confirm the generated-state commit guard left `main` at its last deployable state; use the failed Actions run and workflow-health issue as the failure record.
+7. Do not hand-edit generated state to make publication pass.
 
 ## Scenario 2: an official source is blocked
 

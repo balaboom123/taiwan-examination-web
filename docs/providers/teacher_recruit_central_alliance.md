@@ -13,10 +13,10 @@ last_verified: 2026-08-01
 | Field | Inventory value |
 | --- | --- |
 | Status | blocked |
-| Status reason | Blocked / source expired; source availability: Current 115 school year / AD 2026; three official categories rechecked 2026-07-29; local coverage: 2026; 3 → 0 |
+| Status reason | Blocked / source expired; source availability: Closed 115 school year / AD 2026; all six subject/final endpoints returned HTTP 503 on 2026-09-02; local coverage: 2026; 3 → 0 |
 | Category | Central-region annual teacher-selection question/answer site |
 | Available years | 2026 |
-| Availability note | Current 115 school year / AD 2026; three official categories rechecked 2026-07-29 |
+| Availability note | Closed 115 school year / AD 2026; all six subject/final endpoints returned HTTP 503 on 2026-09-02 |
 | Local year buckets | 1 |
 | Raw event pages | 3 |
 | Normalized paper records | 0 |
@@ -28,7 +28,7 @@ Official sources:
 - [https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php](https://qa115-tse-cl.twrecruit.com.tw/Subject/news.php)
 
 Restrictions:
-- The 2026-07-29 snapshot represents all three declared events with corrected category mapping (kindergarten A, elementary B, junior C). All subject/final page pairs returned HTTP 200, `已截止`, and no links; exact fingerprints remain in `catalog/source-coverage/teacher_recruit_central_alliance.json`. Provenance remains official through Taichung, Keelung, and Hsinchu notices.
+- The 2026-07-29 snapshot represents all three declared events with corrected category mapping (kindergarten A, elementary B, junior C). All subject/final page pairs returned HTTP 200, `已截止`, and no links; exact fingerprints remain in `catalog/source-coverage/teacher_recruit_central_alliance.json`. All six endpoints returned HTTP 503 when rechecked 2026-09-02, so the expired 2026 workflow is manual-only. Provenance remains official through Taichung, Keelung, and Hsinchu notices.
 
 Inventory evidence:
 - [`catalog/source-coverage/teacher_recruit_central_alliance.json`](../../catalog/source-coverage/teacher_recruit_central_alliance.json)
@@ -48,6 +48,10 @@ Treat the generated status, restrictions, years, and counts as current state. Ke
 The provider owns `data/providers/teacher_recruit_central_alliance/` and `mirror/providers/teacher_recruit_central_alliance/`. Site membership, bundle selection, and release-shard ownership belong to `app/site_registry.py` and the publication contracts, not to the provider adapter.
 
 ## Operating it
+
+The 115-school-year host is expired and returned HTTP 503 for every subject and
+final-answer endpoint on 2026-09-02. Its workflow is manual-only until a new
+official cycle is identified and the adapter is reviewed for that cycle.
 
 ```bash
 uv run python -m app discover --provider teacher_recruit_central_alliance

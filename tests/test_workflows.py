@@ -681,11 +681,18 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("cron:", workflow)
 
-    def test_shared_publisher_gates_generated_data_on_the_source_inventory_floor(self) -> None:
-        # Scheduled jobs push to main with GITHUB_TOKEN, and GitHub starts no
-        # workflow for such a push, so neither CI nor the Pages deploy ever
-        # sees what they wrote. The gate has to run inside the job, and it
-        # lives in the shared publisher so a new sync workflow cannot omit it.
+    def test_pages_deploy_ignores_failed_upstream_syncs(self) -> None:
+        workflow = (REPO_ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(encoding="utf-8")
+
+        self.assertIn(
+            "if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}",
+            workflow,
+        )
+
+    def test_shared_publisher_gates_generated_data_before_commit(self) -> None:
+        # Bot-authored pushes do not start push CI, so every generated-data
+        # writer must enforce both the reviewed source floor and complete
+        # publication deployability before it can commit to main.
         script = (REPO_ROOT / ".github" / "scripts" / "commit-and-push.sh").read_text(encoding="utf-8")
 
         self.assertIn("scripts/check_sync_floor.py", script)
@@ -693,6 +700,20 @@ class WorkflowTests(unittest.TestCase):
             script.index("scripts/check_sync_floor.py"),
             script.index('git commit -m "$commit_message"'),
         )
+
+        self.assertIn("scripts/validate_publication.py", script)
+        self.assertLess(
+            script.index("scripts/validate_publication.py"),
+            script.index('git commit -m "$commit_message"'),
+        )
+
+    def test_shared_publisher_revalidates_after_rebase(self) -> None:
+        script = (REPO_ROOT / ".github" / "scripts" / "commit-and-push.sh").read_text(encoding="utf-8")
+        rebase_index = script.index("git rebase origin/main")
+
+        for gate in ("scripts/check_sync_floor.py", "scripts/validate_publication.py"):
+            with self.subTest(gate=gate):
+                self.assertGreater(script.rindex(gate), rebase_index)
 
     def test_every_data_writing_workflow_routes_through_the_gated_publisher(self) -> None:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
@@ -859,13 +880,14 @@ class RequestedTopicWorkflowTests(unittest.TestCase):
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertNotIn("release_assets.py", workflow)
 
-    def test_sync_central_alliance_teacher_recruit_workflow_is_provider_only(self) -> None:
+    def test_sync_central_alliance_is_manual_while_its_2026_source_is_expired(self) -> None:
         workflow = (REPO_ROOT / ".github" / "workflows" / "sync-teacher-recruit-central-alliance.yml").read_text(encoding="utf-8")
+        health = (REPO_ROOT / ".github" / "workflows" / "workflow-health.yml").read_text(encoding="utf-8")
 
-        self.assertIn('- cron: "45 6 * * 2"', workflow)
         self.assertIn("python -m app sync-full --provider teacher_recruit_central_alliance --site-id default", workflow)
-        self.assertIn("schedule:", workflow)
+        self.assertNotIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("sync-teacher-recruit-central-alliance", _workflow_run_workflows(health))
         self.assertNotIn('python -m app publish-site --site-id default --repository "${{ github.repository }}"', workflow)
         self.assertNotIn("release_assets.py", workflow)
 
@@ -891,13 +913,10 @@ class LaunchCITest(unittest.TestCase):
         self.assertIn('node-version: "22"', workflow)
 
 
-class PartialSyncRetentionTest(unittest.TestCase):
-    # A provider sync writes the papers it fetched and records the ones it
-    # could not, then exits non-zero. Gating the commit on step success threw
-    # that whole refresh away: teacher_qual (23 failures), moea_recruit (29),
-    # rcpet_cap (14), cpc_recruit (5), and others each lost a complete run,
-    # and every provider's sync-failures.json stayed empty because the only
-    # record of the failure lived in expiring Actions logs.
+class FailedSyncCommitGuardTest(unittest.TestCase):
+    # Provider sync commands can write partial output before exiting nonzero.
+    # Their commit step still runs so the shared publisher can inspect the
+    # staged tree, but its preflight must refuse non-deployable output.
     def _provider_sync_workflows(self) -> list[Path]:
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         return [
@@ -906,7 +925,7 @@ class PartialSyncRetentionTest(unittest.TestCase):
             if path.name not in {"sync-incremental.yml", "sync-full.yml"}
         ]
 
-    def test_provider_sync_workflows_commit_partial_results(self) -> None:
+    def test_provider_sync_workflows_route_partial_results_through_shared_guard(self) -> None:
         workflows = self._provider_sync_workflows()
         self.assertTrue(workflows)
 
@@ -919,13 +938,9 @@ class PartialSyncRetentionTest(unittest.TestCase):
                 self.assertIn("        if: '!cancelled()'", preceding)
 
     def test_publishing_workflows_stay_fail_closed_on_a_partial_sync(self) -> None:
-        # The provider workflows can commit a partial result because they only
-        # write provider state. These three publish in the same job, and
-        # validate_publication.py fails when the normalized catalog and the
-        # public site disagree on bundle eligibility. Committing advanced
-        # provider data while the site projection and release assets stayed
-        # behind would therefore break the deploy gate on the next push, so
-        # they must keep discarding a partial run rather than half-publish it.
+        # These three workflows synchronize and publish in one job. Their
+        # commit step stays success-gated so a failed sync cannot combine new
+        # provider state with a stale site projection or release plan.
         workflows_dir = REPO_ROOT / ".github" / "workflows"
         validator = (REPO_ROOT / "scripts" / "validate_publication.py").read_text(encoding="utf-8")
         self.assertIn("normalized catalog and public site eligibility differ", validator)
@@ -964,11 +979,13 @@ class PartialSyncRetentionTest(unittest.TestCase):
 
         self.assertGreaterEqual(checked, 2)
 
-    def test_provider_sync_workflows_still_route_partial_commits_through_the_floor_gate(self) -> None:
-        # Committing a partial result must not become a way to publish a
-        # truncated catalog; the floor check stays in front of every commit.
+    def test_provider_sync_workflows_route_partial_state_through_all_shared_gates(self) -> None:
+        # A failed provider step still reaches the shared publisher, whose
+        # complete preflight keeps both truncated and otherwise invalid state
+        # out of main.
         script = (REPO_ROOT / ".github" / "scripts" / "commit-and-push.sh").read_text(encoding="utf-8")
-        self.assertIn("scripts/check_sync_floor.py", script)
+        for gate in ("scripts/check_sync_floor.py", "scripts/validate_publication.py"):
+            self.assertIn(gate, script)
 
         for path in self._provider_sync_workflows():
             with self.subTest(workflow=path.name):

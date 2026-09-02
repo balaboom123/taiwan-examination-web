@@ -34,7 +34,6 @@ on:
       - sync-taipower-recruit
       - sync-tcte-tve
       - sync-teacher-qual
-      - sync-teacher-recruit-central-alliance
       - sync-teacher-recruit-kaohsiung
       - sync-teacher-recruit-newtaipei
       - sync-teacher-recruit-tainan

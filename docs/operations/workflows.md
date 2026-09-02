@@ -12,9 +12,25 @@ Workflow filenames are implementation details; ownership determines what they ma
 
 Provider workflows must not invent site release ownership. Site workflows must not parse official sources or mutate provider identity. Deploy workflows consume site feeds rather than raw provider crawl state.
 
-## Sync floor guard
+## Generated-state commit guard
 
-`.github/scripts/commit-and-push.sh` runs `scripts/check_sync_floor.py` before committing generated provider data. The guard resolves provider IDs from staged `data/providers/<provider_id>/` paths and refuses event or paper counts below the reviewed `local_state` floor in `catalog/source-inventory.json`. Source growth is allowed. A genuine reviewed removal requires updating the inventory floor; a transiently truncated sync must be rerun.
+`.github/scripts/commit-and-push.sh` runs `scripts/check_sync_floor.py` and
+`scripts/validate_publication.py` before committing generated data. The floor
+guard resolves provider IDs from staged `data/providers/<provider_id>/` paths
+and refuses event or paper counts below the reviewed `local_state` floor in
+`catalog/source-inventory.json`. The publication preflight rejects unresolved
+sync failures, discovery-manifest drift, and provider/site eligibility drift.
+This is required because pushes made with `GITHUB_TOKEN` do not start the
+normal push CI workflow. Source growth is allowed only while the resulting
+tree remains deployable. A genuine reviewed removal requires updating the
+inventory floor; a transiently incomplete sync must be rerun.
+
+A failed sync may write partial state inside its runner so the shared guard can
+diagnose it, but that state is not committed to `main`. The failed Actions run
+and, for scheduled workflows, its single workflow-health issue retain the
+operational evidence while the last deployable provider state stays checked in. Pages ignores failed upstream
+workflow runs; a successful sync or the daily Pages backstop still exercises
+the full deployment gates.
 
 ## Health reporting
 
